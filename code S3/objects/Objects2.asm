@@ -1,0 +1,8 @@
+	include "code S3/objects/LBZ/Spin Launcher.asm"
+	include "code S3/objects/LBZ/Lowering Grapple.asm"
+	include "code S3/objects/LBZ/Smashing Spikes.asm"
+	include "code S3/objects/LBZ/Gate Laser.asm"
+	include "code S3/objects/LBZ/Alarm.asm"
+	include "code S3/objects/LBZ/Unused Force Fall.asm"
+	include "code S3/objects/LBZ/Tunnels.asm"
+	include "code S3/objects/LBZ/Tube Elevator.asm"
