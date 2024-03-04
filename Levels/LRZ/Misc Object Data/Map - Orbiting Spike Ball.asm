@@ -1,10 +1,10 @@
 Map_LRZOrbitingSpikeBall_:
-		dc.w word_43D28-Map_LRZOrbitingSpikeBall_
-		dc.w word_43D36-Map_LRZOrbitingSpikeBall_
-word_43D28:	dc.w 2
+		dc.w .word_43D28-Map_LRZOrbitingSpikeBall_
+		dc.w .word_43D36-Map_LRZOrbitingSpikeBall_
+.word_43D28:	dc.w 2
 		dc.b  $F0,   7,   0, $10, $FF, $F0
 		dc.b  $F0,   7,   8, $10,   0,   0
-word_43D36:	dc.w 8
+.word_43D36:	dc.w 8
 		dc.b  $E8,  $A,   0, $10, $FF, $E8
 		dc.b  $E8,  $A,   8, $10,   0,   0
 		dc.b    0,  $A,   0, $19, $FF, $E8

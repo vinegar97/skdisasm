@@ -1,6 +1,6 @@
 Map_SKTitle_DeathEgg_:
-		dc.w word_CB926-Map_SKTitle_DeathEgg_
-word_CB926:	dc.w $12
+		dc.w .word_CB926-Map_SKTitle_DeathEgg_
+.word_CB926:	dc.w $12
 		dc.b  $C0,  $F,   0,   0, $FF, $E0
 		dc.b  $C0,  $F,   8,   0,   0,   0
 		dc.b  $C8,  $A,   0, $10, $FF, $C8

@@ -1,13 +1,13 @@
 Map_MHZPulleyLift_:
-		dc.w word_3E730-Map_MHZPulleyLift_
-		dc.w word_3E768-Map_MHZPulleyLift_
-		dc.w word_3E794-Map_MHZPulleyLift_
-		dc.w word_3E7A8-Map_MHZPulleyLift_
-		dc.w word_3E7B6-Map_MHZPulleyLift_
-		dc.w word_3E812-Map_MHZPulleyLift_
-		dc.w word_3E81A-Map_MHZPulleyLift_
-		dc.w word_3E822-Map_MHZPulleyLift_
-word_3E730:	dc.w 9
+		dc.w .word_3E730-Map_MHZPulleyLift_
+		dc.w .word_3E768-Map_MHZPulleyLift_
+		dc.w .word_3E794-Map_MHZPulleyLift_
+		dc.w .word_3E7A8-Map_MHZPulleyLift_
+		dc.w .word_3E7B6-Map_MHZPulleyLift_
+		dc.w .word_3E812-Map_MHZPulleyLift_
+		dc.w .word_3E81A-Map_MHZPulleyLift_
+		dc.w .word_3E822-Map_MHZPulleyLift_
+.word_3E730:	dc.w 9
 		dc.b  $D0,   3, $48,  $A, $FF, $F6
 		dc.b  $D0,   3, $40,  $A,   0,   2
 		dc.b  $F0,   3, $48,  $A, $FF, $F6
@@ -17,7 +17,7 @@ word_3E730:	dc.w 9
 		dc.b  $28,  $C, $20,  $E, $FF, $F0
 		dc.b  $28,   2, $20, $30, $FF, $E8
 		dc.b  $28,   2, $28, $30,   0, $10
-word_3E768:	dc.w 7
+.word_3E768:	dc.w 7
 		dc.b  $F0,   3, $48,  $A, $FF, $F6
 		dc.b  $F0,   3, $40,  $A,   0,   2
 		dc.b  $10,  $C, $20,  $E, $FF, $F0
@@ -25,14 +25,14 @@ word_3E768:	dc.w 7
 		dc.b  $28,  $C, $20,  $E, $FF, $F0
 		dc.b  $28,   2, $20, $30, $FF, $E8
 		dc.b  $28,   2, $28, $30,   0, $10
-word_3E794:	dc.w 3
+.word_3E794:	dc.w 3
 		dc.b  $E0,   2, $40,  $A, $FF, $FA
 		dc.b  $F8,   2, $40,  $A, $FF, $FA
 		dc.b  $10,  $B,   0, $1C, $FF, $F4
-word_3E7A8:	dc.w 2
+.word_3E7A8:	dc.w 2
 		dc.b  $F8,   2, $40,  $A, $FF, $FA
 		dc.b  $10,  $B,   0, $1C, $FF, $F4
-word_3E7B6:	dc.w $F
+.word_3E7B6:	dc.w $F
 		dc.b  $F0,  $C, $20,  $E, $FF, $F0
 		dc.b  $F8,  $D, $60, $12, $FF, $F0
 		dc.b    8,  $C, $20,  $E, $FF, $F0
@@ -48,11 +48,11 @@ word_3E7B6:	dc.w $F
 		dc.b  $E8,   5, $48,   2,   0, $24
 		dc.b  $F2,   2, $40,  $A, $FF, $C8
 		dc.b  $F2,   2, $48,  $A,   0, $30
-word_3E812:	dc.w 1
+.word_3E812:	dc.w 1
 		dc.b    0,   8, $20, $33, $FF, $F4
-word_3E81A:	dc.w 1
+.word_3E81A:	dc.w 1
 		dc.b    0,   8, $28, $33, $FF, $F4
-word_3E822:	dc.w 3
+.word_3E822:	dc.w 3
 		dc.b  $D0,   3, $40,  $A, $FF, $FA
 		dc.b  $F0,   3, $40,  $A, $FF, $FA
 		dc.b  $10,  $B,   0, $1C, $FF, $F4

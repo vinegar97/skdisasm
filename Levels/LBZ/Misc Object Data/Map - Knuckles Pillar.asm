@@ -1,9 +1,9 @@
 Map_LBZKnuxPillar_:
-		dc.w word_62B00-Map_LBZKnuxPillar_
-		dc.w word_62B08-Map_LBZKnuxPillar_
-word_62B00:	dc.w 1
+		dc.w .word_62B00-Map_LBZKnuxPillar_
+		dc.w .word_62B08-Map_LBZKnuxPillar_
+.word_62B00:	dc.w 1
 		dc.b  $F0,  $F,   0,   0, $FF, $F0
-word_62B08:	dc.w 8
+.word_62B08:	dc.w 8
 		dc.b  $80,  $F,   0,   0, $FF, $F0
 		dc.b  $A0,  $F,   0,   0, $FF, $F0
 		dc.b  $C0,  $F,   0,   0, $FF, $F0

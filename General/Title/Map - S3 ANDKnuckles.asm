@@ -1,6 +1,6 @@
 Map_TitleANDKnuckles_:
-		dc.w word_49B0-Map_TitleANDKnuckles_
-word_49B0:	dc.w 6
+		dc.w .word_49B0-Map_TitleANDKnuckles_
+.word_49B0:	dc.w 6
 		dc.b  $F4,  $E,   0,   0, $FF, $AC
 		dc.b  $F4,  $E,   0,  $C, $FF, $CC
 		dc.b  $F4,  $E,   0, $18, $FF, $EC

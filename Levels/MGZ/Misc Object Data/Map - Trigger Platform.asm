@@ -1,7 +1,7 @@
 Map_MGZTriggerPlatform_:
-		dc.w Frame_2339B6-Map_MGZTriggerPlatform_
-		dc.w Frame_233A18-Map_MGZTriggerPlatform_
-Frame_2339B6:	dc.w $10
+		dc.w .Frame_2339B6-Map_MGZTriggerPlatform_
+		dc.w .Frame_233A18-Map_MGZTriggerPlatform_
+.Frame_2339B6:	dc.w $10
 		dc.b  $DC,  $D,   0, $18, $FF, $C0
 		dc.b  $DC,  $D,   0, $18, $FF, $E0
 		dc.b  $DC,  $D,   0, $18,   0,   0
@@ -18,7 +18,7 @@ Frame_2339B6:	dc.w $10
 		dc.b   $C,  $D,   0, $28, $FF, $E0
 		dc.b   $C,  $D,   0, $28,   0,   0
 		dc.b   $C,  $D,   8, $10,   0, $20
-Frame_233A18:	dc.w $10
+.Frame_233A18:	dc.w $10
 		dc.b  $BC,  $D,   0, $18, $FF, $E0
 		dc.b  $BC,  $D,   0, $18,   0,   0
 		dc.b  $CC,  $D,   0, $20, $FF, $E0

@@ -1,7 +1,7 @@
 Map_S3TitleBanner_:
-		dc.w Frame_3501E4-Map_S3TitleBanner_
-		dc.w Frame_350264-Map_S3TitleBanner_
-Frame_3501E4:	dc.w $15
+		dc.w .Frame_3501E4-Map_S3TitleBanner_
+		dc.w .Frame_350264-Map_S3TitleBanner_
+.Frame_3501E4:	dc.w $15
 		dc.b  $10,  $F,   0,   0, $FF, $98
 		dc.b  $10,  $F,   0, $10, $FF, $B8
 		dc.b  $10,  $F,   0, $20, $FF, $D8
@@ -23,5 +23,5 @@ Frame_3501E4:	dc.w $15
 		dc.b  $50,   8,   0, $D0, $FF, $90
 		dc.b  $50,   8,   8, $D0,   0, $58
 		dc.b  $50,   5,   8, $CC,   0, $70
-Frame_350264:	dc.w 1
+.Frame_350264:	dc.w 1
 		dc.b  $FC,   8,   0, $D3, $FF, $F4

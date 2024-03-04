@@ -1,6 +1,6 @@
 Map_SKTitle_Banner_:
-		dc.w word_CB996-Map_SKTitle_Banner_
-word_CB996:	dc.w $1E
+		dc.w .word_CB996-Map_SKTitle_Banner_
+.word_CB996:	dc.w $1E
 		dc.b  $D8,  $F, $60,   0, $FF, $9C
 		dc.b  $D8,  $F, $60, $10, $FF, $BC
 		dc.b  $D8,  $F, $60, $20, $FF, $DC

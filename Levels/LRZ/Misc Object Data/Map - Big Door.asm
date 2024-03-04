@@ -1,6 +1,6 @@
 Map_LRZBigDoor_:
-		dc.w word_42B26-Map_LRZBigDoor_
-word_42B26:	dc.w $18
+		dc.w .word_42B26-Map_LRZBigDoor_
+.word_42B26:	dc.w $18
 		dc.b  $C0,  $D,   0, $7B, $FF, $D0
 		dc.b  $C0,  $D,   0, $7B, $FF, $F0
 		dc.b  $C0,  $D,   0, $7B,   0, $10

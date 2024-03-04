@@ -1,8 +1,8 @@
 Map_LBZCollapsingLedge_:
-		dc.w Frame_21E998-Map_LBZCollapsingLedge_
-		dc.w Frame_21E9C4-Map_LBZCollapsingLedge_
-		dc.w Frame_21E9C4-Map_LBZCollapsingLedge_
-Frame_21E998:	dc.w 7
+		dc.w .Frame_21E998-Map_LBZCollapsingLedge_
+		dc.w .Frame_21E9C4-Map_LBZCollapsingLedge_
+		dc.w .Frame_21E9C4-Map_LBZCollapsingLedge_
+.Frame_21E998:	dc.w 7
 		dc.b  $F0,  $D,   0,   0, $FF, $E0
 		dc.b  $F0,  $D,   0, $10,   0,   0
 		dc.b    0,  $D,   0, $18, $FF, $E0
@@ -10,7 +10,7 @@ Frame_21E998:	dc.w 7
 		dc.b  $10,  $D,   0, $28, $FF, $E0
 		dc.b  $10,  $D,   0, $30,   0,   0
 		dc.b  $20,  $D,   0, $30, $FF, $E0
-Frame_21E9C4:	dc.w $E
+.Frame_21E9C4:	dc.w $E
 		dc.b  $F0,   5,   0,   0, $FF, $E0
 		dc.b  $F0,   5,   0,   0, $FF, $F0
 		dc.b  $F0,   5,   0,   0,   0,   0
