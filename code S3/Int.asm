@@ -493,7 +493,7 @@ HInt3:
 		dbf	d0,*	; waste a few cycles here
 		move.w	(a2)+,d1
 		move.b	(H_int_counter).w,d0
-		subi.b	#200,d0	; is H-int occuring below line 200?
+		subi.b	#200,d0	; is H-int occurring below line 200?
 		bcs.s	$$transferColors	; if it is, branch
 		sub.b	d0,d1
 		bcs.s	$$skipTransfer
