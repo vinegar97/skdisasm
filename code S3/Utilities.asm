@@ -154,14 +154,14 @@ SndDrvInit:
 		; Load SMPS sound driver
 		lea	(Z80_SoundDriver).l,a0
 		lea	(Z80_RAM).l,a1
-		move.w	#$1C00-2,d0
+		move.w	#zDataStart-2,d0
 
 - ;loc_1584:
 		move.b	(a0)+,(a1)+
 		dbf	d0,- ;loc_1584
 		; Load default variables
 		lea	(Z80_DefaultVariables).l,a0
-		lea	(Z80_RAM+$1C00).l,a1
+		lea	(Z80_RAM+zDataStart).l,a1
 		move.w	#Z80_DefaultVariables.end-Z80_DefaultVariables-1,d0
 
 - ;loc_159A:

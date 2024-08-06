@@ -18,12 +18,12 @@
 		include "s3.constants.asm"		; RAM addresses moved around between S3 and S&K
 ; ---------------------------------------------------------------------------
 ; Include SMPS2ASM, for expressing SMPS bytecode in a portable and human-readable form.
+FixMusicAndSFXDataBugs = 0
 SonicDriverVer = 3 ; Tell SMPS2ASM that we are targeting Sonic 3's sound driver
 		include "Sound/_smps2asm_inc.asm"
 
-; TODO: Remove these when they're no longer needed.
-z80_UniVoiceBank = $17D8
-
+Size_of_Snd_driver_guess = $1300
+Size_of_Snd_driver2_guess = $843
 Size_of_Snd_Bank1 = $E60
 ; This particular bank has its contents aligned to the end
 ; ---------------------------------------------------------------------------
@@ -242,8 +242,7 @@ Character_Speeds:
 
 		align $1000
 
-Z80_SoundDriver:
-		binclude "Sound/Sonic 3 Z80 Sound Driver.bin"
+		include "Sound/Z80 Sound Driver.asm"
 
 		include "code S3/assets/Sound2.asm"
 
