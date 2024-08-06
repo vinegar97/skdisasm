@@ -8,7 +8,7 @@ Obj_LBZUnusedTiltingBridge:
 		move.b	#$80,$42(a0)
 		move.b	#1,mapping_frame(a0)
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_27190
+		bne.w	+ ;loc_27190
 		move.l	#loc_271E0,(a1)
 		move.l	#Map_LBZUnusedTiltingBridge,mappings(a1)
 		move.w	#make_art_tile($3C3,2,0),art_tile(a1)
@@ -23,46 +23,46 @@ Obj_LBZUnusedTiltingBridge:
 		move.w	#6,mainspr_childsprites(a1)
 		move.w	a0,$3C(a1)
 
-loc_27190:
++ ;loc_27190:
 		move.b	#$10,$42(a0)
 		move.l	#loc_2719C,(a0)
 
 loc_2719C:
 		btst	#button_B,(Ctrl_2_held).w
-		beq.s	loc_271AA
+		beq.s	+ ;loc_271AA
 		move.b	#0,$42(a0)
 
-loc_271AA:
++ ;loc_271AA:
 		btst	#button_C,(Ctrl_2_held).w
-		beq.s	loc_271B8
+		beq.s	+ ;loc_271B8
 		addi.b	#1,$42(a0)
 
-loc_271B8:
++ ;loc_271B8:
 		btst	#button_A,(Ctrl_2_held).w
-		beq.s	loc_271C6
+		beq.s	+ ;loc_271C6
 		subi.b	#1,$42(a0)
 
-loc_271C6:
++ ;loc_271C6:
 		moveq	#0,d1
 		move.b	width_pixels(a0),d1
 		moveq	#8,d2
 		move.w	d2,d3
 		addq.w	#1,d3
 		move.w	x_pos(a0),d4
-		bsr.w	sub_27270
+		bsr.w	++ ;sub_27270
 		jmp	(Sprite_OnScreen_Test).l
 ; ---------------------------------------------------------------------------
 
 loc_271E0:
 		movea.w	$3C(a0),a1
 		move.b	$42(a1),$42(a0)
-		bsr.w	sub_271F4
+		bsr.w	+ ;sub_271F4
 		jmp	(Sprite_OnScreen_Test).l
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_271F4:
++ ;sub_271F4:
 		move.b	$42(a0),d0
 		jsr	(GetSineCosine).l
 		move.w	y_pos(a0),d2
@@ -81,7 +81,7 @@ sub_271F4:
 		lea	sub2_x_pos(a0),a2
 		moveq	#3-1,d6
 
-loc_27224:
+- ;loc_27224:
 		movem.l	d4-d5,-(sp)
 		swap	d4
 		swap	d5
@@ -93,7 +93,7 @@ loc_27224:
 		add.l	d0,d4
 		add.l	d1,d5
 		addq.w	#2,a2
-		dbf	d6,loc_27224
+		dbf	d6,- ;loc_27224
 		movem.l	(sp)+,d0-d5
 		neg.l	d4
 		neg.l	d5
@@ -101,7 +101,7 @@ loc_27224:
 		sub.l	d1,d5
 		moveq	#3-1,d6
 
-loc_27250:
+- ;loc_27250:
 		movem.l	d4-d5,-(sp)
 		swap	d4
 		swap	d5
@@ -113,7 +113,7 @@ loc_27250:
 		sub.l	d0,d4
 		sub.l	d1,d5
 		addq.w	#2,a2
-		dbf	d6,loc_27250
+		dbf	d6,- ;loc_27250
 		rts
 ; End of function sub_271F4
 
@@ -121,13 +121,13 @@ loc_27250:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_27270:
++ ;sub_27270:
 		; Bug: probably meant to be $30(a0)
 		lea	$30,a2
 		lea	(Player_1).w,a1
 		moveq	#p1_standing_bit,d6
 		movem.l	d1-d3,-(sp)
-		bsr.s	sub_2728E
+		bsr.s	+ ;sub_2728E
 		movem.l	(sp)+,d1-d3
 		; Bug: probably meant to be $34(a0)
 		lea	$34,a2
@@ -139,36 +139,36 @@ sub_27270:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_2728E:
++ ;sub_2728E:
 		btst	d6,status(a0)
 		beq.w	loc_2734C
 		move.w	ground_vel(a1),d0
 		move.b	$42(a0),d4
 		addi.b	#$40,d4
-		bpl.s	loc_272A6
+		bpl.s	+ ;loc_272A6
 		neg.w	d0
 
-loc_272A6:
++ ;loc_272A6:
 		add.w	d0,(a2)
 		btst	#Status_InAir,status(a1)
-		bne.s	loc_272D4
+		bne.s	++ ;loc_272D4
 		move.b	$42(a0),d0
 		jsr	(GetSineCosine).l
 		tst.w	d1
-		bmi.s	loc_272C0
+		bmi.s	+ ;loc_272C0
 		neg.w	d1
 
-loc_272C0:
++ ;loc_272C0:
 		asr.w	#2,d1
 		move.w	x_pos(a1),d0
 		sub.w	x_pos(a0),d0
 		cmp.w	d1,d0
-		blt.s	loc_272D4
+		blt.s	+ ;loc_272D4
 		neg.w	d1
 		cmp.w	d1,d0
-		blt.s	loc_272E8
+		blt.s	++ ;loc_272E8
 
-loc_272D4:
++ ;loc_272D4:
 		bclr	#Status_OnObj,status(a1)
 		bset	#Status_InAir,status(a1)
 		bclr	d6,status(a0)
@@ -176,7 +176,7 @@ loc_272D4:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_272E8:
++ ;loc_272E8:
 		bsr.w	sub_272F0
 		moveq	#0,d4
 		rts
@@ -202,10 +202,10 @@ sub_272F0:
 		move.b	$42(a0),d0
 		move.b	d0,d1
 		addi.b	#$40,d1
-		bpl.s	loc_27322
+		bpl.s	+ ;loc_27322
 		addi.b	#$80,d0
 
-loc_27322:
++ ;loc_27322:
 		move.b	d0,angle(a1)
 		moveq	#0,d1
 		move.b	y_radius(a1),d1
@@ -233,10 +233,10 @@ loc_2734C:
 		move.w	d0,d4
 		move.w	d1,d2
 		tst.w	d1
-		bmi.s	loc_27368
+		bmi.s	+ ;loc_27368
 		neg.w	d1
 
-loc_27368:
++ ;loc_27368:
 		asr.w	#2,d1
 		move.w	x_pos(a1),d0
 		sub.w	x_pos(a0),d0
@@ -271,10 +271,10 @@ loc_27368:
 		move.b	$42(a0),d0
 		move.b	d0,d1
 		addi.b	#$40,d1
-		bpl.s	loc_273C8
+		bpl.s	+ ;loc_273C8
 		addi.b	#$80,d0
 
-loc_273C8:
++ ;loc_273C8:
 		jsr	(GetSineCosine).l
 		muls.w	#$1B00,d0
 		swap	d0

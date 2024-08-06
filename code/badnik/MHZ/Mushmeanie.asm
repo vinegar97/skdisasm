@@ -27,11 +27,11 @@ loc_8DB1E:
 loc_8DB3E:
 		jsr	(Find_SonicTails).l
 		cmpi.w	#$80,d2
-		blo.s	loc_8DB4C
+		blo.s	+ ;loc_8DB4C
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_8DB4C:
++ ;loc_8DB4C:
 		move.b	#4,routine(a0)
 		move.l	#byte_8DCE6,$30(a0)
 		move.l	#loc_8DB76,$34(a0)
@@ -43,11 +43,11 @@ locret_8DB62:
 loc_8DB64:
 		jsr	(Animate_RawMultiDelay).l
 		tst.w	d2
-		bne.s	loc_8DB70
+		bne.s	+ ;loc_8DB70
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_8DB70:
++ ;loc_8DB70:
 		subq.w	#3,y_pos(a0)
 		rts
 ; ---------------------------------------------------------------------------
@@ -63,24 +63,24 @@ loc_8DB76:
 loc_8DB94:
 		jsr	(MoveSprite_LightGravity).l
 		tst.w	x_vel(a0)
-		bmi.s	loc_8DBAC
+		bmi.s	+ ;loc_8DBAC
 		moveq	#8,d3
 		jsr	(ObjCheckRightWallDist).l
-		bra.w	loc_8DBB4
+		bra.w	++ ;loc_8DBB4
 ; ---------------------------------------------------------------------------
 
-loc_8DBAC:
++ ;loc_8DBAC:
 		moveq	#-8,d3
 		jsr	(ObjCheckLeftWallDist).l
 
-loc_8DBB4:
++ ;loc_8DBB4:
 		tst.w	d1
-		bpl.s	loc_8DBC6
+		bpl.s	+ ;loc_8DBC6
 		add.w	d1,x_pos(a0)
 		neg.w	x_vel(a0)
 		bchg	#0,render_flags(a0)
 
-loc_8DBC6:
++ ;loc_8DBC6:
 		tst.w	y_vel(a0)
 		bmi.w	locret_8DB62
 		jmp	(ObjHitFloor_DoRoutine).l
@@ -96,11 +96,11 @@ loc_8DBD4:
 loc_8DBEC:
 		jsr	(Animate_RawMultiDelay).l
 		tst.w	d2
-		bne.s	loc_8DBF8
+		bne.s	+ ;loc_8DBF8
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_8DBF8:
++ ;loc_8DBF8:
 		moveq	#0,d0
 		move.b	anim_frame(a0),d0
 		move.w	word_8DC08(pc,d0.w),d0
@@ -121,19 +121,19 @@ loc_8DC24:
 		move.w	x_pos(a1),x_pos(a0)
 		move.w	y_pos(a1),y_pos(a0)
 		btst	#6,status(a1)
-		bne.s	loc_8DC42
+		bne.s	+ ;loc_8DC42
 		jmp	(Child_Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_8DC42:
++ ;loc_8DC42:
 		move.l	#loc_8DC62,(a0)
 		movea.w	$44(a1),a2
 		move.w	#$200,d0
 		tst.w	x_vel(a2)
-		bmi.s	loc_8DC58
+		bmi.s	+ ;loc_8DC58
 		neg.w	d0
 
-loc_8DC58:
++ ;loc_8DC58:
 		move.w	d0,x_vel(a0)
 		move.w	#-$200,y_vel(a0)
 
@@ -146,24 +146,24 @@ loc_8DC62:
 
 sub_8DC6E:
 		tst.b	$20(a0)
-		beq.s	loc_8DC80
+		beq.s	+ ;loc_8DC80
 		subq.b	#1,$20(a0)
 		bne.s	locret_8DCC2
 		move.b	#$D7,collision_flags(a0)
 
-loc_8DC80:
++ ;loc_8DC80:
 		jsr	(Check_PlayerCollision).l
 		beq.s	locret_8DCC2
 		jsr	(Check_PlayerAttack).l
-		bne.s	loc_8DC9C
+		bne.s	+ ;loc_8DC9C
 		tst.b	invulnerability_timer(a1)
 		bne.s	locret_8DCC2
 		jmp	(HurtCharacter_Directly).l
 ; ---------------------------------------------------------------------------
 
-loc_8DC9C:
++ ;loc_8DC9C:
 		subq.b	#1,$39(a0)
-		beq.s	loc_8DCC4
+		beq.s	+ ;loc_8DCC4
 		clr.b	collision_flags(a0)
 		clr.b	collision_property(a0)
 		move.b	#$20,$20(a0)
@@ -176,7 +176,7 @@ locret_8DCC2:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_8DCC4:
++ ;loc_8DCC4:
 		jmp	(EnemyDefeated).l
 ; End of function sub_8DC6E
 

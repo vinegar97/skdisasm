@@ -8,14 +8,14 @@ Obj_LBZAlarm:
 
 loc_283DC:
 		tst.w	$30(a0)
-		beq.s	loc_283F0
+		beq.s	+ ;loc_283F0
 		subq.w	#1,$30(a0)
-		bne.s	loc_28448
+		bne.s	++ ;loc_28448
 		move.w	#0,(Anim_Counters+4).w
 		bra.s	loc_2846E
 ; ---------------------------------------------------------------------------
 
-loc_283F0:
++ ;loc_283F0:
 		tst.b	collision_property(a0)
 		beq.s	loc_2846E
 		clr.b	collision_property(a0)
@@ -49,14 +49,14 @@ locret_28446:
 
 ; ---------------------------------------------------------------------------
 
-loc_28448:
++ ;loc_28448:
 		btst	#0,subtype(a0)
-		beq.s	loc_2845A
+		beq.s	+ ;loc_2845A
 		cmpi.w	#$41,$30(a0)
-		bne.s	loc_2845A
+		bne.s	+ ;loc_2845A
 		bsr.s	sub_2840E
 
-loc_2845A:
++ ;loc_2845A:
 		move.w	$30(a0),d0
 		andi.b	#$1F,d0
 		bne.s	locret_2846C

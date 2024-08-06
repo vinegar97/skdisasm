@@ -21,32 +21,32 @@ loc_362CE:
 		moveq	#0,d3
 		move.b	status(a0),d0
 		andi.b	#standing_mask,d0
-		bne.s	loc_36310
+		bne.s	+ ;loc_36310
 		bclr	d3,(a3)
 		move.l	#$2E000A,(a2)
-		bra.s	loc_3634A
+		bra.s	+++ ;loc_3634A
 ; ---------------------------------------------------------------------------
 
-loc_36310:
++ ;loc_36310:
 		tst.b	(a3)
-		bne.s	loc_36322
+		bne.s	+ ;loc_36322
 		moveq	#signextendB(sfx_Switch),d0
 		jsr	(Play_SFX).l
 		move.b	#0,anim_frame_timer(a0)
 
-loc_36322:
++ ;loc_36322:
 		bset	d3,(a3)
 		move.b	#1,mapping_frame(a0)
 		subq.b	#1,anim_frame_timer(a0)
-		bpl.s	loc_3634A
+		bpl.s	+ ;loc_3634A
 		move.b	#3,anim_frame_timer(a0)
 		move.w	(a2),d0
 		move.l	#$2E000A,(a2)
 		cmpi.w	#$2E,d0
-		bne.s	loc_3634A
+		bne.s	+ ;loc_3634A
 		move.l	#$C2E0A0E,(a2)
 
-loc_3634A:
++ ;loc_3634A:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 Map_DPZButton:

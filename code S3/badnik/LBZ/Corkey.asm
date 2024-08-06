@@ -17,10 +17,10 @@ loc_59EC2:
 		jsr	(SetUp_ObjAttributes).l
 		moveq	#-1,d0
 		btst	#0,render_flags(a0)
-		beq.s	loc_59ED8
+		beq.s	+ ;loc_59ED8
 		neg.w	d0
 
-loc_59ED8:
++ ;loc_59ED8:
 		move.w	d0,$40(a0)
 		move.b	subtype(a0),d0
 		move.b	d0,$2F(a0)
@@ -35,23 +35,23 @@ loc_59EFC:
 		andi.w	#$3F,d0
 		move.w	d0,d1
 		andi.w	#$30,d1
-		bne.s	loc_59F12
+		bne.s	+ ;loc_59F12
 		ori.w	#$30,d0
 
-loc_59F12:
++ ;loc_59F12:
 		move.w	d0,$3A(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
 loc_59F18:
 		subq.w	#1,$3A(a0)
-		bmi.s	loc_59F2A
+		bmi.s	+ ;loc_59F2A
 		move.w	$40(a0),d0
 		add.w	d0,x_pos(a0)
 		jmp	Obj_Wait(pc)
 ; ---------------------------------------------------------------------------
 
-loc_59F2A:
++ ;loc_59F2A:
 		move.b	#4,routine(a0)
 		bset	#1,$38(a0)
 		rts
@@ -66,11 +66,11 @@ loc_59F38:
 
 loc_59F48:
 		btst	#1,$38(a0)
-		beq.s	loc_59F52
+		beq.s	+ ;loc_59F52
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_59F52:
++ ;loc_59F52:
 		move.b	#2,routine(a0)
 		bra.s	loc_59EFC
 ; ---------------------------------------------------------------------------
@@ -112,31 +112,31 @@ loc_59FA6:
 		tst.w	d2
 		bpl.s	locret_59FC6
 		cmpi.b	#4,$2F(a0)
-		beq.s	loc_59FC8
+		beq.s	+ ;loc_59FC8
 		cmpi.b	#5,$2F(a0)
-		beq.s	loc_59FDC
+		beq.s	++ ;loc_59FDC
 		cmpi.b	#6,$2F(a0)
-		beq.s	loc_59FF0
+		beq.s	+++ ;loc_59FF0
 
 locret_59FC6:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_59FC8:
++ ;loc_59FC8:
 		lea	ChildObjDat_5A08A(pc),a2
 		jsr	(CreateChild1_Normal).l
 		move.l	#byte_5A0A7,$30(a1)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_59FDC:
++ ;loc_59FDC:
 		lea	ChildObjDat_5A092(pc),a2
 		jsr	(CreateChild1_Normal).l
 		move.l	#byte_5A0B0,$30(a1)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_59FF0:
++ ;loc_59FF0:
 		lea	ChildObjDat_5A09A(pc),a2
 		jsr	(CreateChild1_Normal).l
 		move.l	#byte_5A0B9,$30(a1)

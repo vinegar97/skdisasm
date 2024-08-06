@@ -24,24 +24,24 @@ loc_56D9A:
 
 loc_56DAA:
 		btst	#0,$38(a0)
-		bne.s	loc_56DD2
+		bne.s	+++ ;loc_56DD2
 		jsr	Find_SonicTails(pc)
 		cmpi.w	#$60,d2
-		bhs.s	loc_56DCA
+		bhs.s	++ ;loc_56DCA
 		btst	#0,render_flags(a0)
-		beq.s	loc_56DC6
+		beq.s	+ ;loc_56DC6
 		subq.w	#2,d0
 
-loc_56DC6:
++ ;loc_56DC6:
 		tst.w	d0
-		beq.s	loc_56DF4
+		beq.s	+++ ;loc_56DF4
 
-loc_56DCA:
++ ;loc_56DCA:
 		lea	byte_56F24(pc),a1
 		jmp	Animate_RawNoSSTMultiDelay(pc)
 ; ---------------------------------------------------------------------------
 
-loc_56DD2:
++ ;loc_56DD2:
 		move.b	#4,routine(a0)
 		clr.b	collision_flags(a0)
 		bclr	#0,$38(a0)
@@ -51,7 +51,7 @@ loc_56DD2:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_56DF4:
++ ;loc_56DF4:
 		move.b	#6,routine(a0)
 		move.l	#loc_56E14,$34(a0)
 		clr.b	anim_frame(a0)
@@ -97,21 +97,21 @@ loc_56E4A:
 
 loc_56E68:
 		bsr.w	Check_PlayerCollision
-		beq.s	loc_56E78
+		beq.s	+ ;loc_56E78
 		move.l	#loc_56E7C,(a0)
 		bsr.w	sub_56E8C
 
-loc_56E78:
++ ;loc_56E78:
 		jmp	Child_DrawTouch_Sprite(pc)
 ; ---------------------------------------------------------------------------
 
 loc_56E7C:
 		subq.w	#1,$2E(a0)
-		bmi.s	loc_56E84
+		bmi.s	+ ;loc_56E84
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_56E84:
++ ;loc_56E84:
 		move.l	#loc_56E68,(a0)
 		rts
 
@@ -122,11 +122,11 @@ sub_56E8C:
 		move.w	#$800,d0
 		bclr	#Status_Facing,status(a1)
 		btst	#0,render_flags(a0)
-		beq.s	loc_56EA6
+		beq.s	+ ;loc_56EA6
 		neg.w	d0
 		bset	#Status_Facing,status(a1)
 
-loc_56EA6:
++ ;loc_56EA6:
 		move.w	d0,x_vel(a1)
 		move.w	d0,ground_vel(a1)
 		move.w	#-$800,y_vel(a1)

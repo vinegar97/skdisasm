@@ -23,18 +23,18 @@ loc_89C14:
 		move.l	#loc_89C54,(a0)
 		move.b	#1,mapping_frame(a0)
 		move.w	respawn_addr(a0),d0
-		beq.s	loc_89C34
+		beq.s	+ ;loc_89C34
 		movea.w	d0,a2
 		bset	#0,(a2)
 
-loc_89C34:
++ ;loc_89C34:
 		bsr.w	sub_89DAC
 		lea	(Child6_CreateBossExplosion).l,a2
 		jsr	(CreateChild6_Simple).l
-		bne.s	loc_89C4C
+		bne.s	+ ;loc_89C4C
 		move.b	#8,subtype(a1)
 
-loc_89C4C:
++ ;loc_89C4C:
 		lea	ChildObjDat_89EB0(pc),a2
 		jsr	CreateChild1_Normal(pc)
 
@@ -64,24 +64,24 @@ Obj_FBZSpringPlunger:
 		jsr	(sub_86A3E).l
 		move.b	status(a0),d0
 		andi.b	#standing_mask,d0
-		beq.s	loc_89CDE
+		beq.s	++ ;loc_89CDE
 		move.b	#6,mapping_frame(a0)
 		btst	#p1_standing_bit,d0
-		beq.s	loc_89CC4
+		beq.s	+ ;loc_89CC4
 		move.b	#$C,mapping_frame(a0)
 		lea	(Player_1).w,a1
 		move.w	#-$A00,d0
 		jsr	(sub_8635E).l
 
-loc_89CC4:
++ ;loc_89CC4:
 		btst	#p2_standing_bit,d0
-		beq.s	loc_89CDE
+		beq.s	+ ;loc_89CDE
 		move.b	#$C,mapping_frame(a0)
 		lea	(Player_2).w,a1
 		move.w	#-$A00,d0
 		jsr	(sub_8635E).l
 
-loc_89CDE:
++ ;loc_89CDE:
 		jmp	Sprite_CheckDelete(pc)
 ; ---------------------------------------------------------------------------
 
@@ -96,11 +96,11 @@ loc_89CE2:
 
 loc_89D02:
 		subq.w	#1,$2E(a0)
-		bpl.s	loc_89D14
+		bpl.s	+ ;loc_89D14
 		move.l	#loc_89D18,(a0)
 		move.w	#$80,priority(a0)
 
-loc_89D14:
++ ;loc_89D14:
 		jmp	Sprite_CheckDelete(pc)
 ; ---------------------------------------------------------------------------
 
@@ -108,17 +108,17 @@ loc_89D18:
 		jsr	MoveSprite_LightGravity(pc)
 		jsr	(ObjCheckFloorDist).l
 		tst.w	d1
-		bpl.s	loc_89D30
+		bpl.s	+ ;loc_89D30
 		add.w	d1,y_pos(a0)
 		move.w	$3E(a0),y_vel(a0)
 
-loc_89D30:
++ ;loc_89D30:
 		moveq	#0,d0
 		btst	#3,(V_int_run_count+3).w
-		bne.s	loc_89D3C
+		bne.s	+ ;loc_89D3C
 		moveq	#1,d0
 
-loc_89D3C:
++ ;loc_89D3C:
 		move.b	d0,mapping_frame(a0)
 		jmp	Sprite_CheckDelete(pc)
 ; ---------------------------------------------------------------------------
@@ -225,10 +225,10 @@ sub_89DEE:
 		move.w	x_pos(a0),d0
 		move.w	#$200,d1
 		cmp.w	x_pos(a1),d0
-		bhs.s	loc_89E54
+		bhs.s	+ ;loc_89E54
 		neg.w	d1
 
-loc_89E54:
++ ;loc_89E54:
 		move.w	d1,x_vel(a0)
 		bclr	#0,render_flags(a0)
 		tst.w	x_vel(a0)

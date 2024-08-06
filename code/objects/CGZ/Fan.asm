@@ -21,10 +21,10 @@ loc_30A10:
 		bsr.w	sub_30A38
 		addq.b	#1,mapping_frame(a0)
 		cmpi.b	#3,mapping_frame(a0)
-		blo.s	loc_30A32
+		blo.s	+ ;loc_30A32
 		move.b	#0,mapping_frame(a0)
 
-loc_30A32:
++ ;loc_30A32:
 		jmp	(Draw_Sprite).l
 
 ; =============== S U B R O U T I N E =======================================
@@ -49,11 +49,11 @@ sub_30A38:
 		cmp.w	$38(a0),d1
 		bhs.s	locret_30ACE
 		sub.w	$36(a0),d1
-		bcs.s	loc_30A80
+		bcs.s	+ ;loc_30A80
 		not.w	d1
 		add.w	d1,d1
 
-loc_30A80:
++ ;loc_30A80:
 		add.w	$36(a0),d1
 		neg.w	d1
 		asr.w	#6,d1

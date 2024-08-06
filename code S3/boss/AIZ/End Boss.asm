@@ -1,11 +1,11 @@
 Obj_AIZEndBoss:
 		move.w	#$4880,d0
 		cmp.w	(Camera_X_pos).w,d0
-		bls.s	loc_470BE			; Only branch if Sonic has reached the boss area
+		bls.s	+ ;loc_470BE			; Only branch if Sonic has reached the boss area
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_470BE:
++ ;loc_470BE:
 		move.w	d0,(Camera_min_X_pos).w
 		move.w	d0,(Camera_max_X_pos).w
 		move.l	#Obj_Wait,(a0)			; Set up object to wait $78 frames
@@ -58,10 +58,10 @@ Obj_AIZEndBossInit:
 		bset	#0,render_flags(a0)
 		lea	(Child1_MakeRoboShip).l,a2
 		jsr	(CreateChild1_Normal).l
-		bne.s	loc_47176
+		bne.s	+ ;loc_47176
 		move.b	#8,subtype(a1)
 
-loc_47176:
++ ;loc_47176:
 		lea	ChildObjDat_47B6E(pc),a2
 		jsr	(CreateChild1_Normal).l
 
@@ -75,10 +75,10 @@ loc_47180:
 		bsr.w	sub_47AEA
 		bclr	#0,render_flags(a0)
 		cmpi.w	#8,angle(a0)
-		bhs.s	loc_471B8
+		bhs.s	+ ;loc_471B8
 		bset	#0,render_flags(a0)
 
-loc_471B8:
++ ;loc_471B8:
 		lea	ChildObjDat_47B84(pc),a2
 		jmp	(CreateChild1_Normal).l
 ; ---------------------------------------------------------------------------
@@ -135,14 +135,14 @@ loc_47248:
 loc_4725E:
 		bset	#1,$38(a0)
 		btst	#7,$38(a0)
-		bne.s	loc_47282
+		bne.s	+ ;loc_47282
 		move.w	#4,angle(a0)
 		move.w	#$2F,$2E(a0)
 		move.l	#loc_472AE,$34(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_47282:
++ ;loc_47282:
 		move.w	#$BF,$2E(a0)
 		move.l	#loc_47292,$34(a0)
 		rts
@@ -184,10 +184,10 @@ loc_472CC:
 loc_472FC:
 		move.b	#$C,routine(a0)
 		bset	#7,$38(a0)
-		beq.s	loc_47310
+		beq.s	+ ;loc_47310
 		move.b	#$E,routine(a0)
 
-loc_47310:
++ ;loc_47310:
 		move.l	#loc_47354,$34(a0)
 		bclr	#7,art_tile(a0)
 		move.b	#0,mapping_frame(a0)
@@ -198,10 +198,10 @@ loc_47328:
 		move.w	(Camera_max_X_pos).w,d0
 		addq.w	#2,d0
 		cmpi.w	#$49A0,d0
-		bcc.s	loc_47338
+		bcc.s	+ ;loc_47338
 		move.w	d0,(Camera_max_X_pos).w
 
-loc_47338:
++ ;loc_47338:
 		move.w	(Camera_min_X_pos).w,d0
 		addq.w	#2,d0
 		cmpi.w	#$48E0,d0
@@ -265,12 +265,12 @@ loc_47402:
 		move.b	#5,(Flying_picking_Sonic_timer).w
 		lea	(Player_1).w,a1
 		cmpi.w	#$48E0+$1F8,x_pos(a1)
-		bcc.s	loc_4741C
+		bcc.s	+ ;loc_4741C
 		move.w	#(button_right_mask<<8)|button_right_mask,(Ctrl_1_logical).w
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4741C:
++ ;loc_4741C:
 		move.l	#loc_4744A,(a0)
 		clr.w	x_vel(a1)
 		clr.w	y_vel(a1)
@@ -285,12 +285,12 @@ loc_4741C:
 loc_4744A:
 		move.b	#5,(Flying_picking_Sonic_timer).w
 		tst.b	(Ctrl_1_locked).w
-		beq.s	loc_4745E
+		beq.s	+ ;loc_4745E
 		move.w	#(button_up_mask<<8)|button_up_mask,(Ctrl_1_logical).w
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4745E:
++ ;loc_4745E:
 		move.l	#loc_47466,(a0)
 		rts
 ; ---------------------------------------------------------------------------
@@ -298,11 +298,11 @@ loc_4745E:
 loc_47466:
 		move.b	#5,(Flying_picking_Sonic_timer).w
 		cmpi.w	#$15A+$1E6,(Player_1+y_pos).w
-		bcc.s	loc_47476
+		bcc.s	+ ;loc_47476
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_47476:
++ ;loc_47476:
 		move.w	#$100,d0
 		jsr	(StartNewLevel).l
 		jmp	(Delete_Current_Sprite).l
@@ -334,11 +334,11 @@ loc_474BE:
 		jsr	(SetUp_ObjAttributes3).l
 		moveq	#0,d0
 		tst.b	subtype(a0)
-		beq.s	loc_474DC
+		beq.s	+ ;loc_474DC
 		move.b	#$2A,mapping_frame(a0)
 		move.w	#$280,priority(a0)
 
-loc_474DC:
++ ;loc_474DC:
 		lea	ChildObjDat_47B7C(pc),a2
 		jmp	(CreateChild1_Normal).l
 ; ---------------------------------------------------------------------------
@@ -346,20 +346,20 @@ loc_474DC:
 loc_474E6:
 		movea.w	parent3(a0),a1
 		btst	#3,$38(a1)
-		bne.s	loc_474F4
+		bne.s	+ ;loc_474F4
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_474F4:
++ ;loc_474F4:
 		tst.b	subtype(a0)
-		bne.s	loc_47510
+		bne.s	+ ;loc_47510
 		move.b	#4,routine(a0)
 		move.w	#4,$2E(a0)
 		move.l	#loc_4751E,$34(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_47510:
++ ;loc_47510:
 		move.b	#8,routine(a0)
 		rts
 ; ---------------------------------------------------------------------------
@@ -388,11 +388,11 @@ loc_4753E:
 loc_47546:
 		movea.w	parent3(a0),a1
 		btst	#1,$38(a1)
-		bne.s	loc_47554
+		bne.s	+ ;loc_47554
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_47554:
++ ;loc_47554:
 		move.b	#$A,routine(a0)
 		bset	#1,$38(a0)
 		move.w	angle(a1),angle(a0)
@@ -402,11 +402,11 @@ loc_47554:
 loc_47568:
 		movea.w	parent3(a0),a1
 		btst	#1,$38(a1)
-		beq.s	loc_47576
+		beq.s	+ ;loc_47576
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_47576:
++ ;loc_47576:
 		move.b	#2,routine(a0)
 		bclr	#1,$38(a0)
 		rts
@@ -447,11 +447,11 @@ loc_475CC:
 loc_475D8:
 		movea.w	parent3(a0),a1
 		btst	#1,$38(a1)
-		bne.s	loc_475E6
+		bne.s	+ ;loc_475E6
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_475E6:
++ ;loc_475E6:
 		move.b	#4,routine(a0)
 		move.b	#1,anim_frame(a0)
 		bset	#1,$38(a0)
@@ -538,7 +538,7 @@ off_476D4:
 loc_476E4:
 		movea.w	$44(a0),a1
 		btst	#7,status(a1)
-		bne.s	loc_4770C
+		bne.s	+ ;loc_4770C
 		jsr	(Refresh_ChildPosition).l
 		jsr	(Animate_Raw).l
 		jmp	(Draw_And_Touch_Sprite).l
@@ -548,7 +548,7 @@ loc_47702:
 		lea	ChildObjDat_47BAC(pc),a2
 		jsr	(CreateChild1_Normal).l
 
-loc_4770C:
++ ;loc_4770C:
 		bset	#6,$38(a0)
 		jmp	(Go_Delete_Sprite).l
 ; ---------------------------------------------------------------------------
@@ -575,18 +575,18 @@ loc_4775A:
 		jsr	(Animate_Raw).l
 		jsr	(MoveSprite2).l
 		subq.w	#1,$2E(a0)
-		bmi.s	loc_47786
+		bmi.s	++ ;loc_47786
 		move.b	(V_int_run_count+3).w,d0
 		andi.b	#3,d0
-		bne.s	loc_47780
+		bne.s	+ ;loc_47780
 		lea	ChildObjDat_47BB4(pc),a2
 		jsr	(CreateChild1_Normal).l
 
-loc_47780:
++ ;loc_47780:
 		jmp	(Draw_And_Touch_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_47786:
++ ;loc_47786:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -635,12 +635,12 @@ loc_47806:
 		jsr	(SetUp_ObjAttributes2).l
 		move.l	#loc_47830,(a0)
 		tst.b	subtype(a0)
-		bne.s	loc_47826
+		bne.s	+ ;loc_47826
 		move.l	#Go_Delete_Sprite,$34(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_47826:
++ ;loc_47826:
 		move.l	#loc_4784A,$34(a0)
 		rts
 ; ---------------------------------------------------------------------------
@@ -728,12 +728,12 @@ sub_47916:
 		move.w	angle(a0),d0
 		moveq	#0,d1
 		eori.w	#$C,d0
-		beq.s	loc_4792C
+		beq.s	+ ;loc_4792C
 		cmpi.w	#$C,d0
-		beq.s	loc_4792C
+		beq.s	+ ;loc_4792C
 		addi.w	#$10,d1
 
-loc_4792C:
++ ;loc_4792C:
 		moveq	#0,d2
 		move.b	$39(a0),d2
 		add.w	d2,d1
@@ -771,7 +771,7 @@ byte_4794C:
 Child_SyncDraw:
 		movea.w	parent3(a0),a1
 		btst	#6,$38(a1)
-		bne.s	loc_47994
+		bne.s	+ ;loc_47994
 		bclr	#6,$38(a0)
 		bset	#7,art_tile(a0)
 		btst	#7,art_tile(a1)
@@ -782,7 +782,7 @@ locret_47992:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_47994:
++ ;loc_47994:
 		bset	#6,$38(a0)
 		rts
 ; End of function Child_SyncDraw
@@ -807,10 +807,10 @@ loc_479B8:
 		movea.w	parent3(a0),a1
 		move.w	angle(a1),d0
 		cmpi.w	#8,d0
-		bhs.s	loc_479CC
+		bhs.s	+ ;loc_479CC
 		bset	#0,render_flags(a0)
 
-loc_479CC:
++ ;loc_479CC:
 		move.l	off_479F0(pc,d0.w),$30(a0)
 		lea	word_47A00(pc,d0.w),a1
 		move.w	(a1)+,d1
@@ -845,21 +845,21 @@ sub_47A20:
 		tst.b	collision_flags(a0)
 		bne.s	locret_47A72
 		tst.b	collision_property(a0)
-		beq.s	loc_47A74
+		beq.s	+++ ;loc_47A74
 		tst.b	$20(a0)
-		bne.s	loc_47A40
+		bne.s	+ ;loc_47A40
 		move.b	#$20,$20(a0)
 		moveq	#signextendB(sfx_BossHit),d0
 		jsr	(Play_SFX).l
 
-loc_47A40:
++ ;loc_47A40:
 		bset	#6,status(a0)
 		moveq	#0,d0
 		btst	#0,$20(a0)
-		bne.s	loc_47A54
+		bne.s	+ ;loc_47A54
 		addi.w	#2*7,d0
 
-loc_47A54:
++ ;loc_47A54:
 		bsr.w	sub_47A9A
 		subq.b	#1,$20(a0)
 		bne.s	locret_47A72
@@ -872,7 +872,7 @@ locret_47A72:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_47A74:
++ ;loc_47A74:
 		move.l	#Wait_Draw,(a0)
 		bclr	#6,$38(a0)
 		bset	#7,art_tile(a0)
@@ -921,11 +921,11 @@ sub_47AEA:
 sub_47AFA:
 		movea.w	parent3(a0),a1
 		btst	#7,status(a1)
-		bne.s	loc_47B08
+		bne.s	+ ;loc_47B08
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_47B08:
++ ;loc_47B08:
 		move.l	#Wait_Draw,(a0)
 		bset	#7,status(a0)
 		move.b	#1,mapping_frame(a0)

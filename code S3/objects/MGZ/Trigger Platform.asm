@@ -24,12 +24,12 @@ Obj_MGZTriggerPlatform:
 		move.w	#$280,priority(a0)
 		move.w	x_pos(a0),$36(a0)
 		tst.w	d1
-		beq.s	loc_338CA
+		beq.s	+ ;loc_338CA
 		move.l	#loc_3393E,(a0)
 		bra.w	loc_3393E
 ; ---------------------------------------------------------------------------
 
-loc_338CA:
++ ;loc_338CA:
 		move.l	#loc_338D0,(a0)
 
 loc_338D0:
@@ -37,23 +37,23 @@ loc_338D0:
 		andi.w	#$F,d0
 		lea	(Level_trigger_array).w,a3
 		tst.b	(a3,d0.w)
-		beq.s	loc_33916
+		beq.s	++ ;loc_33916
 		moveq	#2,d0
 		btst	#0,status(a0)
-		beq.s	loc_338EE
+		beq.s	+ ;loc_338EE
 		neg.w	d0
 
-loc_338EE:
++ ;loc_338EE:
 		add.w	d0,x_pos(a0)
 		move.w	#-1,(Screen_shake_flag).w
 		subq.w	#1,$30(a0)
-		bne.s	loc_33916
+		bne.s	+ ;loc_33916
 		move.w	#$7F00,x_pos(a0)
 		move.w	#$7F00,$36(a0)
 		move.w	#0,respawn_addr(a0)
 		move.w	#0,(Screen_shake_flag).w
 
-loc_33916:
++ ;loc_33916:
 		moveq	#0,d1
 		move.b	width_pixels(a0),d1
 		addi.w	#$B,d1
@@ -72,29 +72,29 @@ loc_3393E:
 		andi.w	#$F,d0
 		lea	(Level_trigger_array).w,a3
 		tst.b	(a3,d0.w)
-		beq.s	loc_3395C
+		beq.s	+ ;loc_3395C
 		tst.b	$32(a0)
-		bmi.s	loc_3398E
+		bmi.s	+++ ;loc_3398E
 		move.b	#1,$32(a0)
 
-loc_3395C:
++ ;loc_3395C:
 		tst.b	$32(a0)
-		beq.s	loc_3398E
-		bmi.s	loc_3398E
+		beq.s	++ ;loc_3398E
+		bmi.s	++ ;loc_3398E
 		move.w	$34(a0),d0
 		btst	#0,status(a0)
-		beq.s	loc_33972
+		beq.s	+ ;loc_33972
 		neg.w	d0
 
-loc_33972:
++ ;loc_33972:
 		add.w	d0,y_pos(a0)
 		move.w	#-1,(Screen_shake_flag).w
 		subq.w	#1,$30(a0)
-		bne.s	loc_3398E
+		bne.s	+ ;loc_3398E
 		move.b	#-1,$32(a0)
 		move.w	#0,(Screen_shake_flag).w
 
-loc_3398E:
++ ;loc_3398E:
 		moveq	#0,d1
 		move.b	width_pixels(a0),d1
 		addi.w	#$B,d1

@@ -35,9 +35,9 @@ AfterBoss_AIZ1:
 		lea	(Normal_palette_line_2).w,a2
 		moveq	#bytesToLcnt($60),d0
 
-.loop:
+- ;.loop:
 		move.l	(a1)+,(a2)+
-		dbf	d0,.loop
+		dbf	d0,- ;.loop
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -271,10 +271,10 @@ Obj_BossExplosion:
 		lea	ObjDat_BossExplosion(pc),a1
 		jsr	SetUp_ObjAttributes(pc)
 		tst.b	(Current_zone).w
-		bne.s	loc_52954
+		bne.s	+ ;loc_52954
 		move.w	#make_art_tile($4D2,0,1),art_tile(a0)
 
-loc_52954:
++ ;loc_52954:
 		move.l	#Obj_BossExplosionAnim,(a0)
 		move.l	#AniRaw_BossExplosion,$30(a0)
 		move.l	#Go_Delete_Sprite,$34(a0)

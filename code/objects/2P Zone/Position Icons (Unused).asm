@@ -4,13 +4,13 @@
 		move.b	#4,width_pixels(a0)
 		move.b	#4,height_pixels(a0)
 		tst.b	subtype(a0)
-		beq.s	loc_38044
+		beq.s	++ ;loc_38044
 		tst.b	(Not_ghost_flag).w
-		bne.s	loc_3801E
+		bne.s	+ ;loc_3801E
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_3801E:
++ ;loc_3801E:
 		move.w	#$90,x_pos(a0)
 		move.w	#$84,y_pos(a0)
 		move.w	(Player_2+x_pos).w,$30(a0)
@@ -20,7 +20,7 @@ loc_3801E:
 		bra.s	loc_380BC
 ; ---------------------------------------------------------------------------
 
-loc_38044:
++ ;loc_38044:
 		move.w	#$90,x_pos(a0)
 		move.w	#$E8,y_pos(a0)
 		move.w	(Player_1+x_pos).w,$30(a0)
@@ -34,31 +34,31 @@ loc_38068:
 
 loc_38070:
 		tst.w	(Events_bg+$14).w
-		beq.s	loc_38080
+		beq.s	+ ;loc_38080
 		move.w	#0,$34(a0)
 		move.w	d1,$30(a0)
 
-loc_38080:
++ ;loc_38080:
 		move.w	d0,d1
 		sub.w	$30(a0),d0
-		beq.s	loc_380A8
-		bcc.s	loc_38096
+		beq.s	+++ ;loc_380A8
+		bcc.s	+ ;loc_38096
 		cmpi.w	#-$200,d0
-		bge.s	loc_380A0
+		bge.s	++ ;loc_380A0
 		addi.w	#$400,d0
-		bra.s	loc_380A0
+		bra.s	++ ;loc_380A0
 ; ---------------------------------------------------------------------------
 
-loc_38096:
++ ;loc_38096:
 		cmpi.w	#$200,d0
-		blt.s	loc_380A0
+		blt.s	+ ;loc_380A0
 		subi.w	#$400,d0
 
-loc_380A0:
++ ;loc_380A0:
 		add.w	d0,$34(a0)
 		move.w	d1,$30(a0)
 
-loc_380A8:
++ ;loc_380A8:
 		move.w	$34(a0),d0
 		asr.w	#6,d0
 		addi.w	#$90,d0

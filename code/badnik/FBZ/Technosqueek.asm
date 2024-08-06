@@ -20,16 +20,16 @@ loc_89842:
 		move.w	#$800,$2E(a0)
 		move.l	#loc_89926,$34(a0)
 		cmpi.b	#4,subtype(a0)
-		beq.s	loc_8989E
+		beq.s	++ ;loc_8989E
 		lea	ObjDat_89B06(pc),a1
 		jsr	SetUp_ObjAttributes(pc)
 		move.l	#byte_89B2C,$30(a0)
 		bset	#0,render_flags(a0)
 		cmpi.b	#2,subtype(a0)
-		bne.s	loc_8987C
+		bne.s	+ ;loc_8987C
 		bset	#1,render_flags(a0)
 
-loc_8987C:
++ ;loc_8987C:
 		lea	ChildObjDat_89B24(pc),a2
 		jsr	CreateChild1_Normal(pc)
 		move.w	#$400,d0
@@ -40,7 +40,7 @@ loc_8987C:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_8989E:
++ ;loc_8989E:
 		lea	ObjDat3_89B12(pc),a1
 		jsr	SetUp_ObjAttributes(pc)
 		move.b	#6,routine(a0)
@@ -59,20 +59,20 @@ loc_8989E:
 loc_898DC:
 		jsr	Animate_RawMultiDelayFlipX(pc)
 		tst.w	d2
-		beq.s	loc_898F2
+		beq.s	+ ;loc_898F2
 		cmpi.b	#6,anim_frame(a0)
-		bne.s	loc_898F2
+		bne.s	+ ;loc_898F2
 		bset	#1,$38(a0)
 
-loc_898F2:
++ ;loc_898F2:
 		jsr	Swing_LeftAndRight(pc)
 		tst.w	x_vel(a0)
-		beq.s	loc_89906
+		beq.s	+ ;loc_89906
 		jsr	(MoveSprite2).l
 		jmp	Obj_Wait(pc)
 ; ---------------------------------------------------------------------------
 
-loc_89906:
++ ;loc_89906:
 		move.b	#4,routine(a0)
 		move.l	#byte_89B42,$30(a0)
 		move.l	#loc_89932,$34(a0)
@@ -109,20 +109,20 @@ loc_89940:
 loc_8995C:
 		jsr	Animate_RawMultiDelayFlipY(pc)
 		tst.w	d2
-		beq.s	loc_89972
+		beq.s	+ ;loc_89972
 		cmpi.b	#6,anim_frame(a0)
-		bne.s	loc_89972
+		bne.s	+ ;loc_89972
 		bset	#1,$38(a0)
 
-loc_89972:
++ ;loc_89972:
 		jsr	Swing_UpAndDown(pc)
 		tst.w	y_vel(a0)
-		beq.s	loc_89986
+		beq.s	+ ;loc_89986
 		jsr	(MoveSprite2).l
 		jmp	Obj_Wait(pc)
 ; ---------------------------------------------------------------------------
 
-loc_89986:
++ ;loc_89986:
 		move.b	#8,routine(a0)
 		move.l	#byte_89B68,$30(a0)
 		move.l	#loc_899A4,$34(a0)
@@ -171,10 +171,10 @@ loc_899E8:
 		moveq	#0,d0
 		move.b	mapping_frame(a1),d0
 		btst	#1,$38(a1)
-		beq.s	loc_89A04
+		beq.s	+ ;loc_89A04
 		moveq	#2,d0
 
-loc_89A04:
++ ;loc_89A04:
 		add.w	d0,d0
 		move.w	byte_89A1A(pc,d0.w),child_dx(a0)	; and child_dy
 		btst	#5,$38(a1)
@@ -196,10 +196,10 @@ loc_89A20:
 		move.b	mapping_frame(a1),d0
 		subq.w	#5,d0
 		btst	#1,$38(a1)
-		beq.s	loc_89A3E
+		beq.s	+ ;loc_89A3E
 		moveq	#2,d0
 
-loc_89A3E:
++ ;loc_89A3E:
 		add.w	d0,d0
 		move.w	byte_89A54(pc,d0.w),child_dx(a0)	; and child_dy
 		btst	#5,$38(a1)
@@ -255,11 +255,11 @@ loc_89AB6:
 		move.w	d0,$3A(a0)
 		bclr	#3,$38(a0)
 		btst	#0,render_flags(a0)
-		bne.s	loc_89AF6
+		bne.s	+ ;loc_89AF6
 		neg.w	d0
 		bset	#3,$38(a0)
 
-loc_89AF6:
++ ;loc_89AF6:
 		move.w	d0,x_vel(a0)
 		move.w	#$20,$3C(a0)
 		clr.w	y_vel(a0)

@@ -21,12 +21,12 @@ loc_559D2:
 		lea	ObjDat_TurboSpiker(pc),a1
 		jsr	SetUp_ObjAttributes(pc)
 		bclr	#1,render_flags(a0)
-		beq.s	loc_559F0
+		beq.s	+ ;loc_559F0
 		move.b	#$A,routine(a0)
 		lea	ChildObjDat_55D04(pc),a2
 		jsr	CreateChild1_Normal(pc)
 
-loc_559F0:
++ ;loc_559F0:
 		move.b	#$10,x_radius(a0)
 		move.b	#$F,y_radius(a0)
 		move.l	#byte_55D0C,$30(a0)
@@ -46,16 +46,16 @@ loc_559F0:
 loc_55A2E:
 		jsr	Find_SonicTails(pc)
 		cmpi.w	#$60,d2
-		bhs.s	loc_55A46
+		bhs.s	++ ;loc_55A46
 		btst	#0,render_flags(a0)
-		beq.s	loc_55A42
+		beq.s	+ ;loc_55A42
 		subq.w	#2,d0
 
-loc_55A42:
++ ;loc_55A42:
 		tst.w	d0
-		beq.s	loc_55A74
+		beq.s	++ ;loc_55A74
 
-loc_55A46:
++ ;loc_55A46:
 		jsr	Animate_Raw(pc)
 		jsr	(MoveSprite2).l
 		jsr	Obj_Wait(pc)
@@ -74,26 +74,26 @@ locret_55A72:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_55A74:
++ ;loc_55A74:
 		move.b	#6,routine(a0)
 		move.w	#$F,$2E(a0)
 		move.w	#$200,d0
 		bchg	#0,render_flags(a0)
-		beq.s	loc_55A8E
+		beq.s	+ ;loc_55A8E
 		neg.w	d0
 
-loc_55A8E:
++ ;loc_55A8E:
 		move.w	d0,x_vel(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
 loc_55A94:
 		subq.w	#1,$2E(a0)
-		bmi.s	loc_55A9C
+		bmi.s	+ ;loc_55A9C
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_55A9C:
++ ;loc_55A9C:
 		move.b	$3A(a0),routine(a0)
 		neg.w	x_vel(a0)
 		bchg	#0,render_flags(a0)
@@ -103,11 +103,11 @@ loc_55A9C:
 
 loc_55AB4:
 		subq.w	#1,$2E(a0)
-		bmi.s	loc_55ABC
+		bmi.s	+ ;loc_55ABC
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_55ABC:
++ ;loc_55ABC:
 		move.b	#8,routine(a0)
 		bset	#1,$38(a0)
 		move.l	#byte_55D11,$30(a0)
@@ -123,11 +123,11 @@ loc_55AD2:
 loc_55AE0:
 		jsr	Find_SonicTails(pc)
 		cmpi.w	#$60,d2
-		blo.s	loc_55AEC
+		blo.s	+ ;loc_55AEC
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_55AEC:
++ ;loc_55AEC:
 		move.b	#$C,routine(a0)
 		bset	#0,$38(a0)
 		move.w	#3,$2E(a0)
@@ -137,11 +137,11 @@ loc_55AEC:
 
 loc_55B06:
 		subq.w	#1,$2E(a0)
-		bmi.s	loc_55B0E
+		bmi.s	+ ;loc_55B0E
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_55B0E:
++ ;loc_55B0E:
 		move.b	#$E,routine(a0)
 		move.w	#$180,priority(a0)
 		move.w	#$F,$2E(a0)
@@ -150,11 +150,11 @@ loc_55B0E:
 
 loc_55B22:
 		subq.w	#1,$2E(a0)
-		bmi.s	loc_55B2A
+		bmi.s	+ ;loc_55B2A
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_55B2A:
++ ;loc_55B2A:
 		move.b	#2,routine(a0)
 		rts
 ; ---------------------------------------------------------------------------
@@ -170,18 +170,18 @@ loc_55B44:
 		jsr	Refresh_ChildPositionAdjusted(pc)
 		movea.w	parent3(a0),a1
 		btst	#1,$38(a1)
-		bne.s	loc_55B58
+		bne.s	+ ;loc_55B58
 		jmp	Child_DrawTouch_Sprite(pc)
 ; ---------------------------------------------------------------------------
 
-loc_55B58:
++ ;loc_55B58:
 		move.l	#loc_55B8A,(a0)
 		move.w	#$100,d0
 		btst	#0,render_flags(a0)
-		beq.s	loc_55B6C
+		beq.s	+ ;loc_55B6C
 		neg.w	d0
 
-loc_55B6C:
++ ;loc_55B6C:
 		move.w	d0,x_vel(a0)
 		move.w	#-$400,y_vel(a0)
 		moveq	#signextendB(sfx_FloorLauncher),d0
@@ -207,14 +207,14 @@ loc_55BA6:
 		jsr	Refresh_ChildPositionAdjusted(pc)
 		movea.w	parent3(a0),a1
 		btst	#7,status(a1)
-		bne.s	loc_55BCA
+		bne.s	+ ;loc_55BCA
 		bsr.w	sub_55BCE
 		bchg	#0,$38(a0)
 		beq.w	locret_55A72
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_55BCA:
++ ;loc_55BCA:
 		jmp	Go_Delete_Sprite(pc)
 
 ; =============== S U B R O U T I N E =======================================
@@ -268,11 +268,11 @@ loc_55C2E:
 
 loc_55C4C:
 		subq.w	#1,$2E(a0)
-		bmi.s	loc_55C54
+		bmi.s	+ ;loc_55C54
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_55C54:
++ ;loc_55C54:
 		move.l	#loc_55C6C,(a0)
 		move.l	#byte_55D1D,$30(a0)
 		move.l	#Go_Delete_Sprite,$34(a0)
@@ -293,11 +293,11 @@ loc_55C76:
 loc_55C84:
 		movea.w	parent3(a0),a1
 		btst	#0,$38(a1)
-		bne.s	loc_55C94
+		bne.s	+ ;loc_55C94
 		jmp	Child_Draw_Sprite(pc)
 ; ---------------------------------------------------------------------------
 
-loc_55C94:
++ ;loc_55C94:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 ObjDat_TurboSpiker:

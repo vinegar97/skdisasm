@@ -1,6 +1,6 @@
 Obj_FBZChainLink:
 		move.b	subtype(a0),d0
-		bpl.s	loc_3A7E6
+		bpl.s	+ ;loc_3A7E6
 		andi.w	#$3F,d0
 		lsl.w	#4,d0
 		move.w	d0,$3E(a0)
@@ -8,7 +8,7 @@ Obj_FBZChainLink:
 		bra.w	loc_3AA5A
 ; ---------------------------------------------------------------------------
 
-loc_3A7E6:
++ ;loc_3A7E6:
 		move.b	#4,render_flags(a0)
 		move.b	#$10,width_pixels(a0)
 		move.w	#$80,priority(a0)
@@ -22,7 +22,7 @@ loc_3A7E6:
 		move.w	d0,$2E(a0)
 		move.w	#2,$3C(a0)
 		move.b	subtype(a0),d0
-		bpl.s	loc_3A846
+		bpl.s	+ ;loc_3A846
 		move.w	$2E(a0),d0
 		move.w	d0,$3A(a0)
 		move.b	#1,$38(a0)
@@ -31,62 +31,62 @@ loc_3A7E6:
 		addq.w	#1,d0
 		move.b	d0,mapping_frame(a0)
 
-loc_3A846:
++ ;loc_3A846:
 		move.l	#loc_3A84C,(a0)
 
 loc_3A84C:
 		tst.b	$38(a0)
-		beq.s	loc_3A85A
+		beq.s	+ ;loc_3A85A
 		tst.w	$30(a0)
-		bne.s	loc_3A870
-		bra.s	loc_3A860
+		bne.s	+++ ;loc_3A870
+		bra.s	++ ;loc_3A860
 ; ---------------------------------------------------------------------------
 
-loc_3A85A:
++ ;loc_3A85A:
 		tst.w	$30(a0)
-		beq.s	loc_3A870
+		beq.s	++ ;loc_3A870
 
-loc_3A860:
++ ;loc_3A860:
 		move.w	$3A(a0),d2
 		cmp.w	$2E(a0),d2
 		beq.s	loc_3A894
 		add.w	$3C(a0),d2
-		bra.s	loc_3A87A
+		bra.s	++ ;loc_3A87A
 ; ---------------------------------------------------------------------------
 
-loc_3A870:
++ ;loc_3A870:
 		move.w	$3A(a0),d2
 		beq.s	loc_3A894
 		sub.w	$3C(a0),d2
 
-loc_3A87A:
++ ;loc_3A87A:
 		move.w	d2,$3A(a0)
 		move.w	$46(a0),d0
 		add.w	d2,d0
 		move.w	d0,y_pos(a0)
 		move.w	d2,d0
-		beq.s	loc_3A890
+		beq.s	+ ;loc_3A890
 		lsr.w	#4,d0
 		addq.w	#1,d0
 
-loc_3A890:
++ ;loc_3A890:
 		move.b	d0,mapping_frame(a0)
 
 loc_3A894:
 		lea	$30(a0),a2
 		lea	(Player_1).w,a1
 		move.w	(Ctrl_1_logical).w,d0
-		bsr.w	sub_3A8B8
+		bsr.w	+ ;sub_3A8B8
 		lea	(Player_2).w,a1
 		addq.w	#1,a2
 		move.w	(Ctrl_2_logical).w,d0
-		bsr.w	sub_3A8B8
+		bsr.w	+ ;sub_3A8B8
 		jmp	(Sprite_OnScreen_Test).l
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_3A8B8:
++ ;sub_3A8B8:
 		tst.b	(a2)
 		beq.w	loc_3A9A6
 		tst.b	render_flags(a1)
@@ -101,20 +101,20 @@ sub_3A8B8:
 		clr.b	(a2)
 		move.b	#$12,2(a2)
 		andi.w	#(button_up_mask|button_down_mask|button_left_mask|button_right_mask)<<8,d0
-		beq.w	loc_3A8F8
+		beq.w	+ ;loc_3A8F8
 		move.b	#$3C,2(a2)
 
-loc_3A8F8:
++ ;loc_3A8F8:
 		btst	#button_left+8,d0
-		beq.s	loc_3A904
+		beq.s	+ ;loc_3A904
 		move.w	#-$200,x_vel(a1)
 
-loc_3A904:
++ ;loc_3A904:
 		btst	#button_right+8,d0
-		beq.s	loc_3A910
+		beq.s	+ ;loc_3A910
 		move.w	#$200,x_vel(a1)
 
-loc_3A910:
++ ;loc_3A910:
 		move.w	#-$380,y_vel(a1)
 		bset	#Status_InAir,status(a1)
 		move.b	#1,jumping(a1)
@@ -140,15 +140,15 @@ loc_3A954:
 
 loc_3A96E:
 		btst	#button_left+8,d0
-		beq.s	loc_3A97A
+		beq.s	+ ;loc_3A97A
 		bset	#0,status(a1)
 
-loc_3A97A:
++ ;loc_3A97A:
 		btst	#button_right+8,d0
-		beq.s	loc_3A986
+		beq.s	+ ;loc_3A986
 		bclr	#Status_Facing,status(a1)
 
-loc_3A986:
++ ;loc_3A986:
 		move.b	status(a1),d0
 		andi.b	#1,d0
 		andi.b	#$FE,render_flags(a1)
@@ -160,11 +160,11 @@ loc_3A986:
 
 loc_3A9A6:
 		tst.b	2(a2)
-		beq.s	loc_3A9B4
+		beq.s	+ ;loc_3A9B4
 		subq.b	#1,2(a2)
 		bne.w	locret_3AA58
 
-loc_3A9B4:
++ ;loc_3A9B4:
 		move.w	x_pos(a1),d0
 		sub.w	x_pos(a0),d0
 		addi.w	#$10,d0
@@ -182,10 +182,10 @@ loc_3A9B4:
 		tst.w	(Debug_placement_mode).w
 		bne.s	locret_3AA58
 		btst	#Status_OnObj,status(a1)
-		beq.s	loc_3AA18
+		beq.s	+ ;loc_3AA18
 		movea.w	interact(a1),a3
 		cmpi.l	#loc_3AA5A,(a3)
-		bne.s	loc_3AA18
+		bne.s	+ ;loc_3AA18
 		move.w	a2,d0
 		sub.w	a0,d0
 		adda.w	d0,a3
@@ -194,7 +194,7 @@ loc_3A9B4:
 		clr.b	(a3)
 		move.b	#$3C,2(a3)
 
-loc_3AA18:
++ ;loc_3AA18:
 		move.w	a0,interact(a1)
 		bset	#Status_OnObj,status(a1)
 		clr.w	x_vel(a1)
@@ -217,11 +217,11 @@ loc_3AA5A:
 		lea	$30(a0),a2
 		lea	(Player_1).w,a1
 		move.w	(Ctrl_1_logical).w,d0
-		bsr.w	sub_3AA7E
+		bsr.w	+ ;sub_3AA7E
 		lea	(Player_2).w,a1
 		addq.w	#1,a2
 		move.w	(Ctrl_2_logical).w,d0
-		bsr.w	sub_3AA7E
+		bsr.w	+ ;sub_3AA7E
 		jmp	(Delete_Sprite_If_Not_In_Range).l
 ; End of function sub_3A8B8
 
@@ -229,7 +229,7 @@ loc_3AA5A:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_3AA7E:
++ ;sub_3AA7E:
 		tst.b	(a2)
 		beq.w	loc_3AC86
 		tst.b	render_flags(a1)
@@ -244,20 +244,20 @@ sub_3AA7E:
 		clr.b	(a2)
 		move.b	#$12,2(a2)
 		andi.w	#(button_up_mask|button_down_mask|button_left_mask|button_right_mask)<<8,d0
-		beq.w	loc_3AAC0
+		beq.w	+ ;loc_3AAC0
 		move.b	#$3C,2(a2)
 
-loc_3AAC0:
++ ;loc_3AAC0:
 		btst	#button_left+8,d0
-		beq.s	loc_3AACC
+		beq.s	+ ;loc_3AACC
 		move.w	#-$200,x_vel(a1)
 
-loc_3AACC:
++ ;loc_3AACC:
 		btst	#button_right+8,d0
-		beq.s	loc_3AAD8
+		beq.s	+ ;loc_3AAD8
 		move.w	#$200,x_vel(a1)
 
-loc_3AAD8:
++ ;loc_3AAD8:
 		move.w	#-$380,y_vel(a1)
 		bset	#1,status(a1)
 		move.b	#1,jumping(a1)
@@ -284,35 +284,35 @@ loc_3AB24:
 
 loc_3AB3E:
 		tst.b	4(a2)
-		bne.s	loc_3ABBE
+		bne.s	+++ ;loc_3ABBE
 
 loc_3AB44:
 		move.w	$3E(a0),d2
 		subi.w	#$10,d2
 		btst	#button_left+8,d0
-		beq.s	loc_3AB70
+		beq.s	+ ;loc_3AB70
 		bset	#Status_Facing,status(a1)
 		move.w	x_pos(a1),d1
 		sub.w	x_pos(a0),d1
 		add.w	d2,d1
-		beq.s	loc_3AB70
+		beq.s	+ ;loc_3AB70
 		move.b	#4,4(a2)
 		move.b	#1,2(a2)
 
-loc_3AB70:
++ ;loc_3AB70:
 		btst	#button_right+8,d0
-		beq.s	loc_3AB9A
+		beq.s	+ ;loc_3AB9A
 		bclr	#Status_Facing,status(a1)
 		move.w	x_pos(a1),d1
 		sub.w	x_pos(a0),d1
 		add.w	d2,d1
 		add.w	d2,d2
 		cmp.w	d2,d1
-		beq.w	loc_3AB9A
+		beq.w	+ ;loc_3AB9A
 		move.b	#4,4(a2)
 		move.b	#0,2(a2)
 
-loc_3AB9A:
++ ;loc_3AB9A:
 		move.b	status(a1),d0
 		andi.b	#1,d0
 		andi.b	#$FC,render_flags(a1)
@@ -322,7 +322,7 @@ loc_3AB9A:
 		tst.b	4(a2)
 		beq.s	loc_3AC26
 
-loc_3ABBE:
++ ;loc_3ABBE:
 		subq.b	#1,6(a2)
 		bpl.s	loc_3AC26
 		move.b	#7,6(a2)
@@ -330,29 +330,29 @@ loc_3ABBE:
 		moveq	#0,d1
 		move.b	4(a2),d1
 		cmpi.b	#2,d1
-		bne.s	loc_3ABE4
+		bne.s	+ ;loc_3ABE4
 		moveq	#signextendB(sfx_Grab),d0
 		jsr	(Play_SFX).l
 
-loc_3ABE4:
++ ;loc_3ABE4:
 		subq.w	#1,d1
-		bne.s	loc_3ABEE
+		bne.s	+ ;loc_3ABEE
 		move.b	#$14,anim(a1)
 
-loc_3ABEE:
++ ;loc_3ABEE:
 		add.b	8(a2),d1
 		move.b	RawAni_3AC38(pc,d1.w),mapping_frame(a1)
 		move.b	byte_3AC40(pc,d1.w),d1
 		ext.w	d1
 		tst.b	2(a2)
-		beq.s	loc_3AC06
+		beq.s	+ ;loc_3AC06
 		neg.w	d1
 
-loc_3AC06:
++ ;loc_3AC06:
 		add.w	d1,x_pos(a1)
 		subq.b	#1,4(a2)
 		bne.s	loc_3AC26
-		bsr.s	sub_3AC48
+		bsr.s	+ ;sub_3AC48
 		move.b	#0,6(a2)
 		bchg	#2,8(a2)
 		andi.w	#(button_left_mask|button_right_mask)<<8,d0
@@ -377,13 +377,13 @@ byte_3AC40:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_3AC48:
++ ;sub_3AC48:
 		btst	#6,subtype(a0)
 		beq.s	locret_3AC84
 		move.w	$3E(a0),d2
 		subi.w	#$10,d2
 		btst	#0,status(a0)
-		beq.s	loc_3AC70
+		beq.s	+ ;loc_3AC70
 		move.w	x_pos(a1),d1
 		sub.w	x_pos(a0),d1
 		add.w	d2,d1
@@ -391,7 +391,7 @@ sub_3AC48:
 		bra.w	loc_3AB24
 ; ---------------------------------------------------------------------------
 
-loc_3AC70:
++ ;loc_3AC70:
 		move.w	x_pos(a1),d1
 		sub.w	x_pos(a0),d1
 		add.w	d2,d1
@@ -409,11 +409,11 @@ locret_3AC84:
 
 loc_3AC86:
 		tst.b	2(a2)
-		beq.s	loc_3AC94
+		beq.s	+ ;loc_3AC94
 		subq.b	#1,2(a2)
 		bne.w	locret_3AD88
 
-loc_3AC94:
++ ;loc_3AC94:
 		move.w	$3E(a0),d2
 		move.w	x_pos(a1),d0
 		sub.w	x_pos(a0),d0
@@ -432,28 +432,28 @@ loc_3AC94:
 		tst.w	(Debug_placement_mode).w
 		bne.w	locret_3AD88
 		btst	#Status_OnObj,status(a1)
-		beq.s	loc_3ACEA
+		beq.s	+ ;loc_3ACEA
 		movea.w	interact(a1),a3
 		cmpi.l	#loc_3A84C,(a3)
 		beq.w	locret_3AD88
 
-loc_3ACEA:
++ ;loc_3ACEA:
 		andi.w	#$FFE0,d0
 		btst	#6,subtype(a0)
-		beq.s	loc_3AD10
+		beq.s	++ ;loc_3AD10
 		btst	#0,status(a0)
-		beq.s	loc_3AD06
+		beq.s	+ ;loc_3AD06
 		tst.w	d0
 		beq.w	locret_3AD88
-		bra.s	loc_3AD10
+		bra.s	++ ;loc_3AD10
 ; ---------------------------------------------------------------------------
 
-loc_3AD06:
++ ;loc_3AD06:
 		subi.w	#$20,d2
 		cmp.w	d2,d0
 		beq.w	locret_3AD88
 
-loc_3AD10:
++ ;loc_3AD10:
 		addi.w	#$10,d0
 		sub.w	$3E(a0),d0
 		add.w	x_pos(a0),d0

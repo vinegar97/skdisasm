@@ -25,34 +25,34 @@ Obj_Door:
 		subi.w	#$200,d2
 		addi.w	#$18,d3
 		btst	#0,status(a0)
-		beq.s	loc_2FB0A
+		beq.s	+ ;loc_2FB0A
 		subi.w	#-$1E8,d2
 		addi.w	#$1E8,d3
 
-loc_2FB0A:
++ ;loc_2FB0A:
 		move.w	d2,$34(a0)
 		move.w	d3,$36(a0)
 		move.l	#loc_2FB18,(a0)
 
 loc_2FB18:
 		btst	#0,status(a0)
-		bne.s	loc_2FB34
+		bne.s	+ ;loc_2FB34
 		move.w	$34(a0),d2
 		move.w	x_pos(a0),d3
 		tst.b	$38(a0)
-		beq.s	loc_2FB46
+		beq.s	++ ;loc_2FB46
 		move.w	$36(a0),d3
-		bra.s	loc_2FB46
+		bra.s	++ ;loc_2FB46
 ; ---------------------------------------------------------------------------
 
-loc_2FB34:
++ ;loc_2FB34:
 		move.w	x_pos(a0),d2
 		move.w	$36(a0),d3
 		tst.b	$38(a0)
-		beq.s	loc_2FB46
+		beq.s	+ ;loc_2FB46
 		move.w	$34(a0),d2
 
-loc_2FB46:
++ ;loc_2FB46:
 		move.w	$32(a0),d4
 		move.w	d4,d5
 		subi.w	#$20,d4
@@ -63,31 +63,31 @@ loc_2FB46:
 		lea	(Player_2).w,a1
 		bsr.s	sub_2FBCE
 		tst.b	$38(a0)
-		beq.s	loc_2FB8A
+		beq.s	+ ;loc_2FB8A
 		cmpi.w	#$40,$30(a0)
-		beq.s	loc_2FBAA
+		beq.s	+++ ;loc_2FBAA
 		addq.w	#8,$30(a0)
 		cmpi.w	#$40,$30(a0)
-		bne.s	loc_2FB9E
+		bne.s	++ ;loc_2FB9E
 		moveq	#signextendB(sfx_FanLatch),d0
 		jsr	(Play_SFX).l
-		bra.s	loc_2FB9E
+		bra.s	++ ;loc_2FB9E
 ; ---------------------------------------------------------------------------
 
-loc_2FB8A:
++ ;loc_2FB8A:
 		tst.w	$30(a0)
-		beq.s	loc_2FBAA
+		beq.s	++ ;loc_2FBAA
 		subq.w	#8,$30(a0)
-		bne.s	loc_2FB9E
+		bne.s	+ ;loc_2FB9E
 		moveq	#signextendB(sfx_FanLatch),d0
 		jsr	(Play_SFX).l
 
-loc_2FB9E:
++ ;loc_2FB9E:
 		move.w	$32(a0),d0
 		sub.w	$30(a0),d0
 		move.w	d0,y_pos(a0)
 
-loc_2FBAA:
++ ;loc_2FBAA:
 		moveq	#0,d1
 		move.b	width_pixels(a0),d1
 		addi.w	#$B,d1
@@ -148,34 +148,34 @@ loc_2FC2C:
 		subi.w	#$100,d2
 		addi.w	#$18,d3
 		btst	#1,status(a0)
-		beq.s	loc_2FC80
+		beq.s	+ ;loc_2FC80
 		subi.w	#-$E8,d2
 		addi.w	#$E8,d3
 
-loc_2FC80:
++ ;loc_2FC80:
 		move.w	d2,$34(a0)
 		move.w	d3,$36(a0)
 		move.l	#loc_2FC8E,(a0)
 
 loc_2FC8E:
 		btst	#1,status(a0)
-		bne.s	loc_2FCAA
+		bne.s	+ ;loc_2FCAA
 		move.w	$34(a0),d2
 		move.w	y_pos(a0),d3
 		tst.b	$38(a0)
-		beq.s	loc_2FCBC
+		beq.s	++ ;loc_2FCBC
 		move.w	$36(a0),d3
-		bra.s	loc_2FCBC
+		bra.s	++ ;loc_2FCBC
 ; ---------------------------------------------------------------------------
 
-loc_2FCAA:
++ ;loc_2FCAA:
 		move.w	y_pos(a0),d2
 		move.w	$36(a0),d3
 		tst.b	$38(a0)
-		beq.s	loc_2FCBC
+		beq.s	+ ;loc_2FCBC
 		move.w	$34(a0),d2
 
-loc_2FCBC:
++ ;loc_2FCBC:
 		move.w	$32(a0),d4
 		move.w	d4,d5
 		subi.w	#$20,d4
@@ -186,25 +186,25 @@ loc_2FCBC:
 		lea	(Player_2).w,a1
 		bsr.s	sub_2FD34
 		tst.b	$38(a0)
-		beq.s	loc_2FCF0
+		beq.s	+ ;loc_2FCF0
 		cmpi.w	#$40,$30(a0)
 		beq.s	loc_2FD10
 		addq.w	#8,$30(a0)
-		bra.s	loc_2FCFA
+		bra.s	++ ;loc_2FCFA
 ; ---------------------------------------------------------------------------
 
-loc_2FCF0:
++ ;loc_2FCF0:
 		tst.w	$30(a0)
 		beq.s	loc_2FD10
 		subq.w	#8,$30(a0)
 
-loc_2FCFA:
++ ;loc_2FCFA:
 		move.w	$30(a0),d0
 		btst	#0,status(a0)
-		beq.s	loc_2FD08
+		beq.s	+ ;loc_2FD08
 		neg.w	d0
 
-loc_2FD08:
++ ;loc_2FD08:
 		add.w	$32(a0),d0
 		move.w	d0,x_pos(a0)
 

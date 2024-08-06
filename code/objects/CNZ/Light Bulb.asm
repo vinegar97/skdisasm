@@ -6,12 +6,12 @@ Obj_CNZLightBulb:
 		move.b	#$10,width_pixels(a0)
 		move.b	#$10,height_pixels(a0)
 		tst.b	(Water_flag).w
-		bne.s	loc_31D6E
+		bne.s	+ ;loc_31D6E
 		move.l	#loc_31D8A,(a0)
 		bra.s	loc_31D8A
 ; ---------------------------------------------------------------------------
 
-loc_31D6E:
++ ;loc_31D6E:
 		move.l	#loc_31D74,(a0)
 
 loc_31D74:

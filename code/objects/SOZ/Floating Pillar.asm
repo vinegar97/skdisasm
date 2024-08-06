@@ -44,7 +44,7 @@ loc_411D8:
 		jsr	(SolidObjectFull).l
 		swap	d6
 		and.b	$34(a0),d6
-		bne.s	loc_4121E
+		bne.s	+ ;loc_4121E
 
 loc_41206:
 		move.w	$44(a0),d0
@@ -60,39 +60,39 @@ off_41210:
 		dc.w loc_412C0-off_41210
 ; ---------------------------------------------------------------------------
 
-loc_4121E:
++ ;loc_4121E:
 		cmpi.b	#1,mapping_frame(a0)
-		bne.s	loc_4124A
+		bne.s	+++ ;loc_4124A
 		move.b	d6,d0
 		andi.b	#$10,d0
-		beq.s	loc_41238
+		beq.s	+ ;loc_41238
 		lea	(Player_1).w,a1
 		jsr	(sub_24280).l
 
-loc_41238:
++ ;loc_41238:
 		andi.b	#$20,d6
-		beq.s	loc_41248
+		beq.s	+ ;loc_41248
 		lea	(Player_2).w,a1
 		jsr	(sub_24280).l
 
-loc_41248:
++ ;loc_41248:
 		bra.s	loc_41206
 ; ---------------------------------------------------------------------------
 
-loc_4124A:
++ ;loc_4124A:
 		move.b	d6,d0
 		andi.b	#4,d0
-		beq.s	loc_4125C
+		beq.s	+ ;loc_4125C
 		lea	(Player_1).w,a1
 		jsr	(sub_24280).l
 
-loc_4125C:
++ ;loc_4125C:
 		andi.b	#8,d6
-		beq.s	loc_4126C
+		beq.s	+ ;loc_4126C
 		lea	(Player_2).w,a1
 		jsr	(sub_24280).l
 
-loc_4126C:
++ ;loc_4126C:
 		bra.s	loc_41206
 ; ---------------------------------------------------------------------------
 
@@ -104,14 +104,14 @@ loc_41270:
 		moveq	#0,d0
 		move.b	(Oscillating_table+$0A).w,d0
 		subi.w	#$20,d0
-		bra.s	loc_41294
+		bra.s	+ ;loc_41294
 ; ---------------------------------------------------------------------------
 
 loc_4127C:
 		moveq	#0,d0
 		move.b	(Oscillating_table+$1E).w,d0
 		subi.w	#$40,d0
-		bra.s	loc_41294
+		bra.s	+ ;loc_41294
 ; ---------------------------------------------------------------------------
 
 loc_41288:
@@ -120,12 +120,12 @@ loc_41288:
 		add.w	d0,d0
 		subi.w	#$80,d0
 
-loc_41294:
++ ;loc_41294:
 		btst	#0,status(a0)
-		beq.s	loc_4129E
+		beq.s	+ ;loc_4129E
 		neg.w	d0
 
-loc_4129E:
++ ;loc_4129E:
 		add.w	$44(a0),d0
 		move.w	d0,x_pos(a0)
 		rts
@@ -135,14 +135,14 @@ loc_412A8:
 		moveq	#0,d0
 		move.b	(Oscillating_table+$0A).w,d0
 		subi.w	#$20,d0
-		bra.s	loc_412CC
+		bra.s	+ ;loc_412CC
 ; ---------------------------------------------------------------------------
 
 loc_412B4:
 		moveq	#0,d0
 		move.b	(Oscillating_table+$1E).w,d0
 		subi.w	#$40,d0
-		bra.s	loc_412CC
+		bra.s	+ ;loc_412CC
 ; ---------------------------------------------------------------------------
 
 loc_412C0:
@@ -151,12 +151,12 @@ loc_412C0:
 		add.w	d0,d0
 		subi.w	#$80,d0
 
-loc_412CC:
++ ;loc_412CC:
 		btst	#0,status(a0)
-		beq.s	loc_412D6
+		beq.s	+ ;loc_412D6
 		neg.w	d0
 
-loc_412D6:
++ ;loc_412D6:
 		add.w	$46(a0),d0
 		move.w	d0,y_pos(a0)
 		rts

@@ -18,24 +18,24 @@ loc_92A20:
 		addq.b	#2,(Debug_placement_routine).w
 		move.l	mappings(a0),(Debug_saved_mappings).w
 		cmpi.b	#6,routine(a0)
-		bhs.s	loc_92A38
+		bhs.s	+ ;loc_92A38
 		move.w	art_tile(a0),(Debug_saved_art_tile).w
 
-loc_92A38:
++ ;loc_92A38:
 		move.w	(Screen_Y_wrap_value).w,d0
 		and.w	d0,(Player_1+y_pos).w
 		and.w	d0,(Camera_Y_pos).w
 		clr.b	(Scroll_lock).w
 		clr.w	(WindTunnel_flag).w
 		bclr	#Status_Underwater,status(a0)
-		beq.s	loc_92A6E
+		beq.s	+ ;loc_92A6E
 		movea.l	a0,a1
 		jsr	(Player_ResetAirTimer).l
 		move.w	#$600,(Max_speed).w
 		move.w	#$C,(Acceleration).w
 		move.w	#$80,(Deceleration).w
 
-loc_92A6E:
++ ;loc_92A6E:
 		move.b	#0,mapping_frame(a0)
 		move.b	#0,anim(a0)
 		moveq	#0,d0
@@ -47,10 +47,10 @@ loc_92A6E:
 		adda.w	(a2,d0.w),a2
 		move.w	(a2)+,d6
 		cmp.b	(Debug_object).w,d6
-		bhi.s	loc_92AA0
+		bhi.s	+ ;loc_92AA0
 		move.b	#0,(Debug_object).w
 
-loc_92AA0:
++ ;loc_92AA0:
 		bsr.w	sub_92C88
 		move.b	#$C,(Debug_camera_delay).w
 		move.b	#1,(Debug_camera_speed).w
@@ -64,38 +64,38 @@ loc_92AB0:
 		lea	(DebugOffs).l,a2
 		adda.w	(a2,d0.w),a2
 		move.w	(a2)+,d6
-		bsr.w	sub_92AD4
+		bsr.w	+ ;sub_92AD4
 		jmp	(Draw_Sprite).l
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_92AD4:
++ ;sub_92AD4:
 		moveq	#0,d4
 		move.w	#1,d1
 		move.b	(Ctrl_1_pressed).w,d4
 		andi.w	#button_up_mask|button_down_mask|button_left_mask|button_right_mask,d4
-		bne.s	loc_92B16
+		bne.s	++ ;loc_92B16
 		move.b	(Ctrl_1_held).w,d0
 		andi.w	#button_up_mask|button_down_mask|button_left_mask|button_right_mask,d0
-		bne.s	loc_92AFE
+		bne.s	+ ;loc_92AFE
 		move.b	#$C,(Debug_camera_delay).w
 		move.b	#$F,(Debug_camera_speed).w
 		bra.w	loc_92B7A
 ; ---------------------------------------------------------------------------
 
-loc_92AFE:
++ ;loc_92AFE:
 		subq.b	#1,(Debug_camera_delay).w
-		bne.s	loc_92B1A
+		bne.s	++ ;loc_92B1A
 		move.b	#1,(Debug_camera_delay).w
 		addq.b	#1,(Debug_camera_speed).w
-		bne.s	loc_92B16
+		bne.s	+ ;loc_92B16
 		move.b	#255,(Debug_camera_speed).w
 
-loc_92B16:
++ ;loc_92B16:
 		move.b	(Ctrl_1_held).w,d4
 
-loc_92B1A:
++ ;loc_92B1A:
 		moveq	#0,d1
 		move.b	(Debug_camera_speed).w,d1
 		addq.w	#1,d1
@@ -104,67 +104,67 @@ loc_92B1A:
 		move.l	y_pos(a0),d2
 		move.l	x_pos(a0),d3
 		btst	#button_up,d4
-		beq.s	loc_92B44
+		beq.s	+ ;loc_92B44
 		sub.l	d1,d2
 		moveq	#0,d0
 		move.w	(Camera_min_Y_pos).w,d0
 		swap	d0
 		cmp.l	d0,d2
-		bge.s	loc_92B44
+		bge.s	+ ;loc_92B44
 		move.l	d0,d2
 
-loc_92B44:
++ ;loc_92B44:
 		btst	#button_down,d4
-		beq.s	loc_92B5E
+		beq.s	+ ;loc_92B5E
 		add.l	d1,d2
 		moveq	#0,d0
 		move.w	(Camera_target_max_Y_pos).w,d0
 		addi.w	#$DF,d0
 		swap	d0
 		cmp.l	d0,d2
-		blt.s	loc_92B5E
+		blt.s	+ ;loc_92B5E
 		move.l	d0,d2
 
-loc_92B5E:
++ ;loc_92B5E:
 		btst	#button_left,d4
-		beq.s	loc_92B6A
+		beq.s	+ ;loc_92B6A
 		sub.l	d1,d3
-		bcc.s	loc_92B6A
+		bcc.s	+ ;loc_92B6A
 		moveq	#0,d3
 
-loc_92B6A:
++ ;loc_92B6A:
 		btst	#button_right,d4
-		beq.s	loc_92B72
+		beq.s	+ ;loc_92B72
 		add.l	d1,d3
 
-loc_92B72:
++ ;loc_92B72:
 		move.l	d2,y_pos(a0)
 		move.l	d3,x_pos(a0)
 
 loc_92B7A:
 		btst	#button_A,(Ctrl_1_held).w
-		beq.s	loc_92BB2
+		beq.s	+++ ;loc_92BB2
 		btst	#button_C,(Ctrl_1_pressed).w
-		beq.s	loc_92B96
+		beq.s	+ ;loc_92B96
 		subq.b	#1,(Debug_object).w
-		bcc.s	loc_92BAE
+		bcc.s	++ ;loc_92BAE
 		add.b	d6,(Debug_object).w
-		bra.s	loc_92BAE
+		bra.s	++ ;loc_92BAE
 ; ---------------------------------------------------------------------------
 
-loc_92B96:
++ ;loc_92B96:
 		btst	#button_A,(Ctrl_1_pressed).w
-		beq.s	loc_92BB2
+		beq.s	++ ;loc_92BB2
 		addq.b	#1,(Debug_object).w
 		cmp.b	(Debug_object).w,d6
-		bhi.s	loc_92BAE
+		bhi.s	+ ;loc_92BAE
 		move.b	#0,(Debug_object).w
 
-loc_92BAE:
++ ;loc_92BAE:
 		bra.w	sub_92C88
 ; ---------------------------------------------------------------------------
 
-loc_92BB2:
++ ;loc_92BB2:
 		btst	#button_C,(Ctrl_1_pressed).w
 		beq.s	loc_92C0C
 		jsr	(AllocateObject).l

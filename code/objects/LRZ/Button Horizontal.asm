@@ -6,11 +6,11 @@ Obj_LRZButtonHorizontal:
 		move.b	#$10,height_pixels(a0)
 		move.w	#$280,priority(a0)
 		tst.b	(Current_act).w
-		beq.s	loc_42D10
+		beq.s	+ ;loc_42D10
 		move.l	#Map_LRZButtonHorizontal2,mappings(a0)
 		move.w	#make_art_tile($40D,1,0),art_tile(a0)
 
-loc_42D10:
++ ;loc_42D10:
 		move.l	#loc_42D16,(a0)
 
 loc_42D16:
@@ -26,30 +26,30 @@ loc_42D16:
 		lea	(a3,d0.w),a3
 		moveq	#0,d3
 		btst	#6,subtype(a0)
-		beq.s	loc_42D4E
+		beq.s	+ ;loc_42D4E
 		moveq	#7,d3
 
-loc_42D4E:
++ ;loc_42D4E:
 		swap	d6
 		andi.w	#3,d6
-		bne.s	loc_42D62
+		bne.s	+ ;loc_42D62
 		btst	#4,subtype(a0)
-		bne.s	loc_42D76
+		bne.s	+++ ;loc_42D76
 		bclr	d3,(a3)
-		bra.s	loc_42D76
+		bra.s	+++ ;loc_42D76
 ; ---------------------------------------------------------------------------
 
-loc_42D62:
++ ;loc_42D62:
 		tst.b	(a3)
-		bne.s	loc_42D6E
+		bne.s	+ ;loc_42D6E
 		moveq	#signextendB(sfx_Switch),d0
 		jsr	(Play_SFX).l
 
-loc_42D6E:
++ ;loc_42D6E:
 		bset	d3,(a3)
 		move.b	#1,mapping_frame(a0)
 
-loc_42D76:
++ ;loc_42D76:
 		jmp	(Sprite_OnScreen_Test).l
 ; ---------------------------------------------------------------------------
 Map_LRZButtonHorizontal:

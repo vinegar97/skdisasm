@@ -10,34 +10,34 @@ loc_1D3D0:
 		tst.w	$38(a0)
 		beq.s	loc_1D430
 		subq.w	#1,$38(a0)
-		bne.s	loc_1D3F8
+		bne.s	+ ;loc_1D3F8
 		move.w	#$1300,(Camera_min_X_pos).w
 		move.w	#$4000,(Camera_max_X_pos).w
 		bra.s	loc_1D430
 ; ---------------------------------------------------------------------------
 
-loc_1D3F8:
++ ;loc_1D3F8:
 		cmpi.w	#$1300,(Camera_min_X_pos).w
-		beq.s	loc_1D414
+		beq.s	++ ;loc_1D414
 		cmpi.w	#$2D00,(Player_1+x_pos).w
-		blo.s	loc_1D410
+		blo.s	+ ;loc_1D410
 		move.w	#$1300,(Camera_min_X_pos).w
-		bra.s	loc_1D414
+		bra.s	++ ;loc_1D414
 ; ---------------------------------------------------------------------------
 
-loc_1D410:
++ ;loc_1D410:
 		subq.w	#4,(Camera_min_X_pos).w
 
-loc_1D414:
++ ;loc_1D414:
 		cmpi.w	#$4000,(Camera_max_X_pos).w
 		beq.s	loc_1D430
 		cmpi.w	#$2D00,(Player_1+x_pos).w
-		bhs.s	loc_1D42C
+		bhs.s	+ ;loc_1D42C
 		move.w	#$4000,(Camera_max_X_pos).w
 		bra.s	loc_1D430
 ; ---------------------------------------------------------------------------
 
-loc_1D42C:
++ ;loc_1D42C:
 		addq.w	#4,(Camera_max_X_pos).w
 
 loc_1D430:
@@ -64,7 +64,7 @@ sub_1D436:
 
 sub_1D44C:
 		btst	d6,status(a0)
-		bne.w	loc_1D4DA
+		bne.w	++ ;loc_1D4DA
 		btst	#Status_InAir,status(a1)
 		bne.w	locret_1D4D8
 		move.w	x_pos(a1),d0
@@ -91,10 +91,10 @@ sub_1D44C:
 		cmpa.w	#Player_1,a1
 		bne.s	locret_1D4D8
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_1D4C6
+		bne.w	+ ;loc_1D4C6
 		move.l	#Obj_AIZ1TreeRevealControl,(a1)
 
-loc_1D4C6:
++ ;loc_1D4C6:
 		move.w	#$2C60,(Camera_min_X_pos).w
 		move.w	#$2C60,(Camera_max_X_pos).w
 		move.w	#$3C,$38(a0)
@@ -103,12 +103,12 @@ locret_1D4D8:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_1D4DA:
++ ;loc_1D4DA:
 		move.w	ground_vel(a1),d0
-		bpl.s	loc_1D4E2
+		bpl.s	+ ;loc_1D4E2
 		neg.w	d0
 
-loc_1D4E2:
++ ;loc_1D4E2:
 		cmpi.w	#$600,d0
 		blo.w	loc_1D57C
 		btst	#Status_InAir,status(a1)
@@ -124,11 +124,11 @@ loc_1D4E2:
 
 loc_1D50A:
 		cmpi.w	#$2C99,x_pos(a1)
-		bhs.s	loc_1D51E
+		bhs.s	+ ;loc_1D51E
 		move.w	#$2C99,x_pos(a1)
 		move.w	#$400,x_vel(a1)
 
-loc_1D51E:
++ ;loc_1D51E:
 		cmpi.w	#$2D66,x_pos(a1)
 		blo.s	AIZTree_FallOff
 		move.w	#$2D66,x_pos(a1)
@@ -177,11 +177,11 @@ AIZTree_SetPlayerPos:
 		add.l	d0,(a2)
 		bmi.s	AIZTree_FallOff
 		cmpi.w	#$400,(a2)
-		blo.s	loc_1D5BA
+		blo.s	+ ;loc_1D5BA
 		move.w	#$1300,(Camera_min_X_pos).w
 		move.w	#$4000,(Camera_max_X_pos).w
 
-loc_1D5BA:
++ ;loc_1D5BA:
 		move.w	x_pos(a1),d2
 		move.w	(a2),d0
 		lsr.w	#1,d0

@@ -38,21 +38,21 @@ loc_592BC:
 		move.l	#loc_5938C,$34(a0)
 		moveq	#2,d0
 		btst	#0,render_flags(a0)
-		bne.s	loc_592FC
+		bne.s	+ ;loc_592FC
 		neg.w	d0
 
-loc_592FC:
++ ;loc_592FC:
 		move.w	d0,$40(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
 loc_59302:
 		jsr	Animate_RawGetFaster(pc)
-		beq.s	loc_59310
+		beq.s	+ ;loc_59310
 		cmpi.b	#2,$2E(a0)
-		bls.s	loc_59328
+		bls.s	++ ;loc_59328
 
-loc_59310:
++ ;loc_59310:
 		move.w	$40(a0),d0
 		move.w	x_vel(a0),d1
 		add.w	d0,d1
@@ -61,28 +61,28 @@ loc_59310:
 		jmp	ObjHitFloor2_DoRoutine(pc)
 ; ---------------------------------------------------------------------------
 
-loc_59328:
++ ;loc_59328:
 		jsr	(ObjCheckFloorDist).l
 		tst.b	d3
 		beq.s	loc_59344
 		btst	#0,render_flags(a0)
-		beq.s	loc_5933E
+		beq.s	+ ;loc_5933E
 		bchg	#6,d3
 
-loc_5933E:
++ ;loc_5933E:
 		btst	#6,d3
-		beq.s	loc_59378
+		beq.s	++ ;loc_59378
 
 loc_59344:
 		move.b	#4,routine(a0)
 		move.w	#-$200,d0
 		move.w	#$40,d1
 		btst	#0,render_flags(a0)
-		beq.s	loc_5935E
+		beq.s	+ ;loc_5935E
 		neg.w	d0
 		neg.w	d1
 
-loc_5935E:
++ ;loc_5935E:
 		move.w	d0,x_vel(a0)
 		move.w	d1,$40(a0)
 		move.l	#byte_595A9,$30(a0)
@@ -90,7 +90,7 @@ loc_5935E:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_59378:
++ ;loc_59378:
 		move.b	#$E,routine(a0)
 		move.w	#$40,$2E(a0)
 		move.l	#loc_59344,$34(a0)
@@ -121,24 +121,24 @@ loc_593B6:
 loc_593BE:
 		tst.b	d3
 		move.b	d3,d4
-		bpl.s	loc_593C6
+		bpl.s	+ ;loc_593C6
 		neg.b	d4
 
-loc_593C6:
++ ;loc_593C6:
 		andi.b	#$F8,d4
-		beq.s	loc_593EA
+		beq.s	++ ;loc_593EA
 		tst.w	x_vel(a0)
-		bmi.s	loc_593D6
+		bmi.s	+ ;loc_593D6
 		bchg	#6,d3
 
-loc_593D6:
++ ;loc_593D6:
 		btst	#6,d3
-		bne.s	loc_593EA
+		bne.s	+ ;loc_593EA
 		neg.w	x_vel(a0)
 		neg.w	$40(a0)
 		bchg	#0,render_flags(a0)
 
-loc_593EA:
++ ;loc_593EA:
 		move.b	#8,routine(a0)
 		move.w	#$20,$2E(a0)
 		move.l	#loc_5942C,$34(a0)
@@ -193,17 +193,17 @@ loc_5948C:
 		move.w	x_vel(a0),d0
 		add.w	$40(a0),d0
 		move.w	d0,x_vel(a0)
-		beq.s	loc_594B4
+		beq.s	+ ;loc_594B4
 		bsr.w	sub_59520
 		cmpi.w	#-2,d1
-		blt.s	loc_594B4
+		blt.s	+ ;loc_594B4
 		cmpi.w	#$C,d1
-		bge.s	loc_594B4
+		bge.s	+ ;loc_594B4
 		add.w	d1,y_pos(a0)
 		jmp	(MoveSprite2).l
 ; ---------------------------------------------------------------------------
 
-loc_594B4:
++ ;loc_594B4:
 		move.b	#$E,routine(a0)
 		moveq	#0,d0
 		move.b	subtype(a0),d0
@@ -262,12 +262,12 @@ sub_59520:
 sub_59534:
 		moveq	#4,d0
 		tst.b	d3
-		beq.s	loc_59544
+		beq.s	+ ;loc_59544
 		lsr.b	#3,d3
 		andi.w	#$F,d3
 		move.b	RawAni_5954A(pc,d3.w),d0
 
-loc_59544:
++ ;loc_59544:
 		move.b	d0,mapping_frame(a0)
 		rts
 ; End of function sub_59534

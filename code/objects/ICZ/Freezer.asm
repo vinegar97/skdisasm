@@ -9,7 +9,7 @@ Obj_ICZFreezer:
 loc_8A656:
 		jsr	Find_SonicTails(pc)
 		cmpi.w	#$40,d2
-		bhs.s	loc_8A67A
+		bhs.s	+ ;loc_8A67A
 		move.l	#loc_8A67E,(a0)
 		clr.w	$2E(a0)
 		clr.w	$30(a0)
@@ -17,16 +17,16 @@ loc_8A656:
 		moveq	#signextendB(sfx_FrostPuff),d0
 		jsr	(Play_SFX).l
 
-loc_8A67A:
++ ;loc_8A67A:
 		jmp	Sprite_CheckDeleteTouch(pc)
 ; ---------------------------------------------------------------------------
 
 loc_8A67E:
 		jsr	Find_SonicTails(pc)
 		cmpi.w	#$40,d2
-		bhs.s	loc_8A6C6
+		bhs.s	+++ ;loc_8A6C6
 		subq.w	#1,$30(a0)
-		bpl.s	loc_8A6AA
+		bpl.s	+ ;loc_8A6AA
 		moveq	#0,d0
 		move.b	$39(a0),d0
 		bchg	#1,d0
@@ -35,19 +35,19 @@ loc_8A67E:
 		move.w	off_8A6E2(pc,d0.w),d0
 		jsr	off_8A6E2(pc,d0.w)
 
-loc_8A6AA:
++ ;loc_8A6AA:
 		btst	#1,$38(a0)
-		beq.s	loc_8A6C2
+		beq.s	+ ;loc_8A6C2
 		subq.w	#1,$2E(a0)
-		bpl.s	loc_8A6C2
+		bpl.s	+ ;loc_8A6C2
 		move.w	#1,$2E(a0)
 		bsr.w	sub_8A708
 
-loc_8A6C2:
++ ;loc_8A6C2:
 		jmp	Sprite_CheckDeleteTouch(pc)
 ; ---------------------------------------------------------------------------
 
-loc_8A6C6:
++ ;loc_8A6C6:
 		move.l	#loc_8A656,(a0)
 		bclr	#1,$38(a0)
 		moveq	#signextendB(mus_StopSFX),d0
@@ -70,10 +70,10 @@ loc_8A6EE:
 		bset	#1,$38(a0)
 		lea	ChildObjDat_8AAD2(pc),a2
 		btst	#1,render_flags(a0)
-		beq.s	loc_8A704
+		beq.s	+ ;loc_8A704
 		lea	ChildObjDat_8AADA(pc),a2
 
-loc_8A704:
++ ;loc_8A704:
 		jmp	CreateChild1_Normal(pc)
 
 ; =============== S U B R O U T I N E =======================================
@@ -82,10 +82,10 @@ loc_8A704:
 sub_8A708:
 		lea	ChildObjDat_8AAC2(pc),a2
 		btst	#1,render_flags(a0)
-		beq.s	loc_8A718
+		beq.s	+ ;loc_8A718
 		lea	ChildObjDat_8AACA(pc),a2
 
-loc_8A718:
++ ;loc_8A718:
 		jmp	CreateChild1_Normal(pc)
 ; End of function sub_8A708
 
@@ -119,13 +119,13 @@ loc_8A748:
 loc_8A75C:
 		movea.w	parent3(a0),a1
 		btst	#1,$38(a1)
-		beq.s	loc_8A78C
+		beq.s	++ ;loc_8A78C
 		subq.w	#1,$2E(a0)
-		bmi.s	loc_8A770
+		bmi.s	+ ;loc_8A770
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_8A770:
++ ;loc_8A770:
 		move.l	#loc_8A778,(a0)
 		rts
 ; ---------------------------------------------------------------------------
@@ -133,12 +133,12 @@ loc_8A770:
 loc_8A778:
 		movea.w	parent3(a0),a1
 		btst	#1,$38(a1)
-		beq.s	loc_8A78C
+		beq.s	+ ;loc_8A78C
 		lea	word_8AA30(pc),a1
 		bra.w	sub_8A9C6
 ; ---------------------------------------------------------------------------
 
-loc_8A78C:
++ ;loc_8A78C:
 		move.l	#loc_8A7A2,(a0)
 		move.w	#$1F,$2E(a0)
 		move.l	#Go_Delete_Sprite,$34(a0)
@@ -161,17 +161,17 @@ loc_8A7AE:
 		move.w	d0,x_pos(a0)
 		move.w	y_pos(a1),y_pos(a0)
 		btst	#0,render_flags(a1)
-		beq.s	loc_8A7E2
+		beq.s	+ ;loc_8A7E2
 		bset	#0,render_flags(a0)
 
-loc_8A7E2:
++ ;loc_8A7E2:
 		movea.w	parent3(a0),a2
 		move.w	#$200,d1
 		cmp.w	x_pos(a2),d0
-		bhs.s	loc_8A7F2
+		bhs.s	+ ;loc_8A7F2
 		neg.w	d1
 
-loc_8A7F2:
++ ;loc_8A7F2:
 		move.w	d1,x_vel(a0)
 		move.w	#-$400,y_vel(a0)
 		move.w	#$7F,$2E(a0)
@@ -182,22 +182,22 @@ loc_8A7F2:
 loc_8A80C:
 		move.w	(Camera_X_pos).w,d0
 		tst.w	x_vel(a0)
-		bmi.s	loc_8A824
+		bmi.s	+ ;loc_8A824
 		addi.w	#$128,d0
 		cmp.w	x_pos(a0),d0
-		blo.s	loc_8A82E
-		bra.w	loc_8A832
+		blo.s	++ ;loc_8A82E
+		bra.w	+++ ;loc_8A832
 ; ---------------------------------------------------------------------------
 
-loc_8A824:
++ ;loc_8A824:
 		addi.w	#$20,d0
 		cmp.w	x_pos(a0),d0
-		blo.s	loc_8A832
+		blo.s	++ ;loc_8A832
 
-loc_8A82E:
++ ;loc_8A82E:
 		clr.w	x_vel(a0)
 
-loc_8A832:
++ ;loc_8A832:
 		jsr	(MoveSprite).l
 		jsr	(ObjCheckFloorDist).l
 		tst.w	d1
@@ -210,17 +210,17 @@ loc_8A84C:
 		move.w	x_pos(a0),d0
 		move.w	y_pos(a0),d1
 		cmpi.b	#2,character_id(a1)
-		bne.s	loc_8A870
+		bne.s	++ ;loc_8A870
 		moveq	#-4,d2
 		btst	#0,render_flags(a1)
-		beq.s	loc_8A86C
+		beq.s	+ ;loc_8A86C
 		neg.w	d2
 
-loc_8A86C:
++ ;loc_8A86C:
 		add.w	d2,d0
 		addq.w	#2,d1
 
-loc_8A870:
++ ;loc_8A870:
 		move.w	d0,x_pos(a1)
 		move.w	d1,y_pos(a1)
 		subq.w	#1,$2E(a0)
@@ -237,16 +237,16 @@ loc_8A88A:
 		movea.l	a1,a0
 		jsr	(HurtCharacter).l
 		cmpi.b	#$18,anim(a0)
-		beq.s	loc_8A8B8
+		beq.s	++ ;loc_8A8B8
 		move.w	#$200,d0
 		btst	#0,render_flags(a0)
-		bne.s	loc_8A8B4
+		bne.s	+ ;loc_8A8B4
 		neg.w	d0
 
-loc_8A8B4:
++ ;loc_8A8B4:
 		move.w	d0,x_vel(a0)
 
-loc_8A8B8:
++ ;loc_8A8B8:
 		movea.l	a2,a0
 
 loc_8A8BA:
@@ -286,7 +286,7 @@ sub_8A916:
 		move.b	$39(a0),d0
 		addq.b	#4,d0
 		cmpi.b	#$48,d0
-		bhs.s	loc_8A970
+		bhs.s	++ ;loc_8A970
 		move.b	d0,$39(a0)
 		lea	byte_8A97A(pc,d0.w),a1
 		move.b	(a1)+,child_dy(a0)
@@ -303,17 +303,17 @@ sub_8A916:
 		sub.b	d3,d0
 		movea.w	parent3(a0),a1
 		btst	#1,render_flags(a1)
-		beq.s	loc_8A96A
+		beq.s	+ ;loc_8A96A
 		neg.b	child_dy(a0)
 
-loc_8A96A:
++ ;loc_8A96A:
 		add.b	d0,child_dy(a0)
 
 locret_8A96E:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_8A970:
++ ;loc_8A970:
 		jsr	(Delete_Current_Sprite).l
 		addq.w	#4,sp
 		rts
@@ -368,11 +368,11 @@ sub_8A9C6:
 		tst.l	d0
 		beq.s	locret_8AA2E
 		tst.w	d0
-		beq.s	loc_8A9D8
+		beq.s	+ ;loc_8A9D8
 		movea.w	d0,a4
-		bsr.w	sub_8A9E0
+		bsr.w	++ ;sub_8A9E0
 
-loc_8A9D8:
++ ;loc_8A9D8:
 		swap	d0
 		tst.w	d0
 		beq.s	locret_8AA2E
@@ -383,7 +383,7 @@ loc_8A9D8:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_8A9E0:
++ ;sub_8A9E0:
 		tst.b	object_control(a4)
 		bne.s	locret_8AA2E
 		btst	#Status_Invincible,status_secondary(a4)
@@ -419,29 +419,29 @@ word_8AA30:
 sub_8AA38:
 		lea	(Player_1).w,a3
 		cmpa.w	$44(a0),a3
-		bne.s	loc_8AA46
+		bne.s	+ ;loc_8AA46
 		lea	(Player_2).w,a3
 
-loc_8AA46:
++ ;loc_8AA46:
 		tst.w	y_vel(a3)
 		bmi.s	loc_8AA8A
 		cmpi.b	#2,anim(a3)
-		beq.s	loc_8AA5C
+		beq.s	+ ;loc_8AA5C
 		cmpi.b	#9,anim(a3)
 		bne.s	loc_8AA8A
 
-loc_8AA5C:
++ ;loc_8AA5C:
 		lea	word_8AA8E(pc),a1
 		jsr	Check_PlayerInRange(pc)
 		tst.l	d0
 		beq.s	locret_8AA88
 		tst.w	d0
-		beq.s	loc_8AA74
+		beq.s	+ ;loc_8AA74
 		movea.w	d0,a4
 		tst.b	object_control(a4)
-		beq.s	loc_8AA82
+		beq.s	++ ;loc_8AA82
 
-loc_8AA74:
++ ;loc_8AA74:
 		swap	d0
 		tst.w	d0
 		beq.s	locret_8AA88
@@ -449,7 +449,7 @@ loc_8AA74:
 		tst.b	object_control(a4)
 		bne.s	loc_8AA8A
 
-loc_8AA82:
++ ;loc_8AA82:
 		neg.w	y_vel(a3)
 		moveq	#1,d0
 

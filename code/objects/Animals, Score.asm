@@ -121,7 +121,7 @@ word_2C8A2:
 
 loc_2C8B8:
 		tst.b	subtype(a0)
-		beq.w	loc_2C924
+		beq.w	+ ;loc_2C924
 		moveq	#0,d0
 		move.b	subtype(a0),d0
 		add.w	d0,d0
@@ -144,15 +144,15 @@ loc_2C8B8:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_2C924:
++ ;loc_2C924:
 		addq.b	#2,routine(a0)
 		jsr	(Random_Number).l
 		move.w	#make_art_tile($580,0,0),art_tile(a0)
 		andi.w	#1,d0
-		beq.s	loc_2C940
+		beq.s	+ ;loc_2C940
 		move.w	#make_art_tile($592,0,0),art_tile(a0)
 
-loc_2C940:
++ ;loc_2C940:
 		moveq	#0,d1
 		move.b	(Current_zone).w,d1
 		add.w	d1,d1
@@ -175,9 +175,9 @@ loc_2C940:
 		move.b	#2,mapping_frame(a0)
 		move.w	#-$400,y_vel(a0)
 		tst.b	$38(a0)
-		bne.s	loc_2C9CA
+		bne.s	++ ;loc_2C9CA
 		jsr	(AllocateObject).l
-		bne.s	loc_2C9C4
+		bne.s	+ ;loc_2C9C4
 		move.l	#Obj_EnemyScore,(a1)
 		move.w	x_pos(a0),x_pos(a1)
 		move.w	y_pos(a0),y_pos(a1)
@@ -185,29 +185,29 @@ loc_2C940:
 		lsr.w	#1,d0
 		move.b	d0,mapping_frame(a1)
 
-loc_2C9C4:
++ ;loc_2C9C4:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_2C9CA:
++ ;loc_2C9CA:
 		move.b	#$1C,routine(a0)
 		clr.w	x_vel(a0)
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_2C9DA:
+- ;loc_2C9DA:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
 loc_2C9E0:
 		tst.b	render_flags(a0)
-		bpl.s	loc_2C9DA
+		bpl.s	- ;loc_2C9DA
 		jsr	(MoveSprite).l
 		tst.w	y_vel(a0)
-		bmi.s	loc_2CA36
+		bmi.s	+ ;loc_2CA36
 		jsr	(ObjCheckFloorDist).l
 		tst.w	d1
-		bpl.s	loc_2CA36
+		bpl.s	+ ;loc_2CA36
 		add.w	d1,y_pos(a0)
 		move.w	$32(a0),x_vel(a0)
 		move.w	$34(a0),y_vel(a0)
@@ -217,13 +217,13 @@ loc_2C9E0:
 		addq.b	#4,d0
 		move.b	d0,routine(a0)
 		tst.b	$38(a0)
-		beq.s	loc_2CA36
+		beq.s	+ ;loc_2CA36
 		btst	#4,(V_int_run_count+3).w
-		beq.s	loc_2CA36
+		beq.s	+ ;loc_2CA36
 		neg.w	x_vel(a0)
 		bchg	#0,render_flags(a0)
 
-loc_2CA36:
++ ;loc_2CA36:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -231,19 +231,19 @@ loc_2CA3C:
 		jsr	(MoveSprite).l
 		move.b	#1,mapping_frame(a0)
 		tst.w	y_vel(a0)
-		bmi.s	loc_2CA68
+		bmi.s	+ ;loc_2CA68
 		move.b	#0,mapping_frame(a0)
 		jsr	(ObjCheckFloorDist).l
 		tst.w	d1
-		bpl.s	loc_2CA68
+		bpl.s	+ ;loc_2CA68
 		add.w	d1,y_pos(a0)
 		move.w	$34(a0),y_vel(a0)
 
-loc_2CA68:
++ ;loc_2CA68:
 		tst.b	subtype(a0)
 		bne.s	loc_2CAE4
 		tst.b	render_flags(a0)
-		bpl.w	loc_2C9DA
+		bpl.w	- ;loc_2C9DA
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -251,69 +251,69 @@ loc_2CA7C:
 		jsr	(MoveSprite2).l
 		addi.w	#$18,y_vel(a0)
 		tst.w	y_vel(a0)
-		bmi.s	loc_2CABA
+		bmi.s	+ ;loc_2CABA
 		jsr	(ObjCheckFloorDist).l
 		tst.w	d1
-		bpl.s	loc_2CABA
+		bpl.s	+ ;loc_2CABA
 		add.w	d1,y_pos(a0)
 		move.w	$34(a0),y_vel(a0)
 		tst.b	subtype(a0)
-		beq.s	loc_2CABA
+		beq.s	+ ;loc_2CABA
 		cmpi.b	#$A,subtype(a0)
-		beq.s	loc_2CABA
+		beq.s	+ ;loc_2CABA
 		neg.w	x_vel(a0)
 		bchg	#0,render_flags(a0)
 
-loc_2CABA:
++ ;loc_2CABA:
 		subq.b	#1,anim_frame_timer(a0)
-		bpl.s	loc_2CAD0
+		bpl.s	+ ;loc_2CAD0
 		move.b	#1,anim_frame_timer(a0)
 		addq.b	#1,mapping_frame(a0)
 		andi.b	#1,mapping_frame(a0)
 
-loc_2CAD0:
++ ;loc_2CAD0:
 		tst.b	subtype(a0)
 		bne.s	loc_2CAE4
 		tst.b	render_flags(a0)
-		bpl.w	loc_2C9DA
+		bpl.w	- ;loc_2C9DA
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
 loc_2CAE4:
 		move.w	x_pos(a0),d0
 		sub.w	(Player_1+x_pos).w,d0
-		bcs.s	loc_2CAFC
+		bcs.s	+ ;loc_2CAFC
 		subi.w	#$180,d0
-		bpl.s	loc_2CAFC
+		bpl.s	+ ;loc_2CAFC
 		tst.b	render_flags(a0)
-		bpl.w	loc_2C9DA
+		bpl.w	- ;loc_2C9DA
 
-loc_2CAFC:
++ ;loc_2CAFC:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
 loc_2CB02:
 		tst.b	render_flags(a0)
-		bpl.w	loc_2C9DA
+		bpl.w	- ;loc_2C9DA
 		subq.w	#1,$36(a0)
-		bne.w	loc_2CB1E
+		bne.w	+ ;loc_2CB1E
 		move.b	#2,routine(a0)
 		move.w	#$80,priority(a0)
 
-loc_2CB1E:
++ ;loc_2CB1E:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
 loc_2CB24:
 		bsr.w	sub_2CCD2
-		bcc.s	loc_2CB40
+		bcc.s	+ ;loc_2CB40
 		move.w	$32(a0),x_vel(a0)
 		move.w	$34(a0),y_vel(a0)
 		move.b	#$E,routine(a0)
 		bra.w	loc_2CA7C
 ; ---------------------------------------------------------------------------
 
-loc_2CB40:
++ ;loc_2CB40:
 		bra.w	loc_2CAE4
 ; ---------------------------------------------------------------------------
 
@@ -486,7 +486,7 @@ Obj_EnemyScore:
 
 loc_2CD0C:
 		tst.w	y_vel(a0)
-		bpl.w	loc_2C9DA
+		bpl.w	- ;loc_2C9DA
 		jsr	(MoveSprite2).l
 		addi.w	#$18,y_vel(a0)
 		jmp	(Draw_Sprite).l

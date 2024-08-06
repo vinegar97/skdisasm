@@ -23,13 +23,13 @@ loc_86E7E:
 		move.w	#-$10,d0
 		move.w	#-$300,d1
 		btst	#0,render_flags(a0)
-		beq.s	loc_86EB2
+		beq.s	+ ;loc_86EB2
 		neg.w	d0
 		neg.w	d1
 		bset	#3,$38(a0)
 		bset	#2,$38(a0)
 
-loc_86EB2:
++ ;loc_86EB2:
 		move.w	d0,$40(a0)
 		move.w	d1,$3E(a0)
 		move.l	#loc_86F40,$34(a0)
@@ -60,7 +60,7 @@ loc_86EEE:
 
 loc_86EFC:
 		cmpi.w	#1,(Current_zone_and_act).w
-		beq.s	loc_86F26
+		beq.s	+ ;loc_86F26
 		jsr	Refresh_ChildPositionAdjusted(pc)
 		moveq	#0,d0
 		move.b	routine(a0),d0
@@ -75,7 +75,7 @@ off_86F22:
 		dc.w loc_86F3C-off_86F22
 ; ---------------------------------------------------------------------------
 
-loc_86F26:
++ ;loc_86F26:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -107,10 +107,10 @@ loc_86F58:
 loc_86F74:
 		bclr	#2,$38(a0)
 		btst	#3,$38(a0)
-		bne.s	loc_86F88
+		bne.s	+ ;loc_86F88
 		bset	#2,$38(a0)
 
-loc_86F88:
++ ;loc_86F88:
 		clr.w	x_vel(a0)
 		clr.w	y_vel(a0)
 		bra.s	loc_86F58
@@ -137,10 +137,10 @@ loc_86FCE:
 		move.b	#6,routine(a0)
 		move.w	#$400,d0
 		btst	#3,$38(a0)
-		bne.s	loc_86FE2
+		bne.s	+ ;loc_86FE2
 		neg.w	d0
 
-loc_86FE2:
++ ;loc_86FE2:
 		move.w	d0,x_vel(a0)
 		rts
 ; ---------------------------------------------------------------------------
@@ -155,21 +155,21 @@ loc_86FE8:
 
 sub_86FF8:
 		move.w	x_vel(a0),d0
-		beq.s	loc_87016
+		beq.s	++ ;loc_87016
 		btst	#2,$38(a0)
-		beq.s	loc_8700E
+		beq.s	+ ;loc_8700E
 		cmp.w	$3E(a0),d0
-		bge.s	loc_87016
+		bge.s	++ ;loc_87016
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_8700E:
++ ;loc_8700E:
 		cmp.w	$3E(a0),d0
-		ble.s	loc_87016
+		ble.s	+ ;loc_87016
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_87016:
++ ;loc_87016:
 		movea.l	$34(a0),a1
 		jmp	(a1)
 ; End of function sub_86FF8
@@ -179,48 +179,48 @@ loc_87016:
 loc_8701C:
 		moveq	#0,d1
 		btst	#3,$38(a0)
-		beq.s	loc_87054
+		beq.s	++ ;loc_87054
 		btst	#2,$38(a0)
-		beq.s	loc_8703C
+		beq.s	+ ;loc_8703C
 		cmpi.w	#$80,x_vel(a0)
 		bgt.s	loc_8707E
 		moveq	#1,d1
 		bra.w	loc_8707E
 ; ---------------------------------------------------------------------------
 
-loc_8703C:
++ ;loc_8703C:
 		moveq	#1,d1
 		cmpi.w	#$280,x_vel(a0)
 		bgt.s	loc_8707E
 		moveq	#2,d1
 		bset	#1,$38(a0)
-		beq.s	loc_87084
+		beq.s	+++ ;loc_87084
 		bra.w	loc_8707E
 ; ---------------------------------------------------------------------------
 
-loc_87054:
++ ;loc_87054:
 		btst	#2,$38(a0)
-		bne.s	loc_8706A
+		bne.s	+ ;loc_8706A
 		cmpi.w	#-$80,x_vel(a0)
 		ble.s	loc_8707E
 		moveq	#1,d1
 		bra.w	loc_8707E
 ; ---------------------------------------------------------------------------
 
-loc_8706A:
++ ;loc_8706A:
 		moveq	#1,d1
 		cmpi.w	#-$280,x_vel(a0)
 		ble.s	loc_8707E
 		moveq	#2,d1
 		bset	#1,$38(a0)
-		beq.s	loc_87084
+		beq.s	+ ;loc_87084
 
 loc_8707E:
 		move.b	d1,mapping_frame(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_87084:
++ ;loc_87084:
 		move.b	d1,mapping_frame(a0)
 		moveq	#signextendB(sfx_Blast),d0
 		jsr	(Play_SFX).l
@@ -242,18 +242,18 @@ sub_870A4:
 		cmpi.w	#$60,d2
 		bhi.s	locret_870C2
 		btst	#3,$38(a0)
-		bne.s	loc_870BE
+		bne.s	+ ;loc_870BE
 		subq.w	#2,d0
 
-loc_870BE:
++ ;loc_870BE:
 		tst.w	d0
-		bne.s	loc_870C4
+		bne.s	+ ;loc_870C4
 
 locret_870C2:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_870C4:
++ ;loc_870C4:
 		jsr	(a3)
 		addq.w	#4,sp
 		rts
@@ -266,24 +266,24 @@ loc_870C4:
 sub_870CA:
 		moveq	#4,d0
 		btst	#3,$38(a0)
-		bne.s	loc_870D6
+		bne.s	+ ;loc_870D6
 		neg.w	d0
 
-loc_870D6:
++ ;loc_870D6:
 		move.w	x_pos(a0),d3
 		add.w	d0,d3
 		move.l	a3,-(sp)
 		jsr	(ObjCheckFloorDist2).l
 		movea.l	(sp)+,a3
 		cmpi.w	#-1,d1
-		blt.s	loc_870F8
+		blt.s	+ ;loc_870F8
 		cmpi.w	#$C,d1
-		bge.s	loc_870F8
+		bge.s	+ ;loc_870F8
 		add.w	d1,y_pos(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_870F8:
++ ;loc_870F8:
 		jsr	(a3)
 		addq.w	#4,sp
 		rts

@@ -21,30 +21,30 @@ loc_F604:
 		lea	(Ring_status_table).w,a2
 		move.w	(Camera_X_pos).w,d4
 		subq.w	#8,d4
-		bhi.s	loc_F624
+		bhi.s	+ ;loc_F624
 		moveq	#1,d4
-		bra.s	loc_F624
+		bra.s	+ ;loc_F624
 ; ---------------------------------------------------------------------------
 
-loc_F620:
+- ;loc_F620:
 		addq.w	#4,a1
 		addq.w	#2,a2
 
-loc_F624:
++ ;loc_F624:
 		cmp.w	(a1),d4
-		bhi.s	loc_F620
+		bhi.s	- ;loc_F620
 		move.l	a1,(Ring_start_addr_ROM).w
 		move.w	a2,(Ring_start_addr_RAM).w
 		addi.w	#$150,d4
-		bra.s	loc_F638
+		bra.s	+ ;loc_F638
 ; ---------------------------------------------------------------------------
 
-loc_F636:
+- ;loc_F636:
 		addq.w	#4,a1
 
-loc_F638:
++ ;loc_F638:
 		cmp.w	(a1),d4
-		bhi.s	loc_F636
+		bhi.s	- ;loc_F636
 		move.l	a1,(Ring_end_addr_ROM).w
 		rts
 ; ---------------------------------------------------------------------------
@@ -53,74 +53,74 @@ loc_F642:
 		lea	(Ring_consumption_table).w,a2
 		move.w	(a2)+,d1
 		subq.w	#1,d1
-		bcs.s	loc_F676
+		bcs.s	++ ;loc_F676
 
-loc_F64C:
+- ;loc_F64C:
 		move.w	(a2)+,d0
-		beq.s	loc_F64C
+		beq.s	- ;loc_F64C
 		movea.w	d0,a1
 		subq.b	#1,(a1)
-		bne.s	loc_F672
+		bne.s	+ ;loc_F672
 		move.b	#6,(a1)
 		addq.b	#1,1(a1)
 		cmpi.b	#8,1(a1)
-		bne.s	loc_F672
+		bne.s	+ ;loc_F672
 		move.w	#-1,(a1)
 		clr.w	-2(a2)
 		subq.w	#1,(Ring_consumption_table).w
 
-loc_F672:
-		dbf	d1,loc_F64C
++ ;loc_F672:
+		dbf	d1,- ;loc_F64C
 
-loc_F676:
++ ;loc_F676:
 		movea.l	(Ring_start_addr_ROM).w,a1
 		movea.w	(Ring_start_addr_RAM).w,a2
 		move.w	(Camera_X_pos).w,d4
 		subq.w	#8,d4
-		bhi.s	loc_F68E
+		bhi.s	+ ;loc_F68E
 		moveq	#1,d4
-		bra.s	loc_F68E
+		bra.s	+ ;loc_F68E
 ; ---------------------------------------------------------------------------
 
-loc_F68A:
+- ;loc_F68A:
 		addq.w	#4,a1
 		addq.w	#2,a2
 
-loc_F68E:
++ ;loc_F68E:
 		cmp.w	(a1),d4
-		bhi.s	loc_F68A
-		bra.s	loc_F698
+		bhi.s	- ;loc_F68A
+		bra.s	+ ;loc_F698
 ; ---------------------------------------------------------------------------
 
-loc_F694:
+- ;loc_F694:
 		subq.w	#4,a1
 		subq.w	#2,a2
 
-loc_F698:
++ ;loc_F698:
 		cmp.w	-4(a1),d4
-		bls.s	loc_F694
+		bls.s	- ;loc_F694
 		move.l	a1,(Ring_start_addr_ROM).w
 		move.w	a2,(Ring_start_addr_RAM).w
 		movea.l	(Ring_end_addr_ROM).w,a2
 		addi.w	#$150,d4
-		bra.s	loc_F6B2
+		bra.s	+ ;loc_F6B2
 ; ---------------------------------------------------------------------------
 
-loc_F6B0:
+- ;loc_F6B0:
 		addq.w	#4,a2
 
-loc_F6B2:
++ ;loc_F6B2:
 		cmp.w	(a2),d4
-		bhi.s	loc_F6B0
-		bra.s	loc_F6BA
+		bhi.s	- ;loc_F6B0
+		bra.s	+ ;loc_F6BA
 ; ---------------------------------------------------------------------------
 
-loc_F6B8:
+- ;loc_F6B8:
 		subq.w	#4,a2
 
-loc_F6BA:
++ ;loc_F6BA:
 		cmp.w	-4(a2),d4
-		bls.s	loc_F6B8
+		bls.s	- ;loc_F6B8
 		move.l	a2,(Ring_end_addr_ROM).w
 		rts
 
@@ -167,31 +167,31 @@ Test_Ring_Collisions:
 		move.w	(a1),d0
 		sub.w	d1,d0
 		sub.w	d2,d0
-		bcc.s	loc_F746
+		bcc.s	+ ;loc_F746
 		add.w	d6,d0
-		bcs.s	loc_F74C
+		bcs.s	++ ;loc_F74C
 		bra.w	loc_F780
 ; ---------------------------------------------------------------------------
 
-loc_F746:
++ ;loc_F746:
 		cmp.w	d4,d0
 		bhi.w	loc_F780
 
-loc_F74C:
++ ;loc_F74C:
 		move.w	2(a1),d0
 		sub.w	d1,d0
 		sub.w	d3,d0
-		bcc.s	loc_F75E
+		bcc.s	+ ;loc_F75E
 		add.w	d6,d0
-		bcs.s	loc_F764
+		bcs.s	++ ;loc_F764
 		bra.w	loc_F780
 ; ---------------------------------------------------------------------------
 
-loc_F75E:
++ ;loc_F75E:
 		cmp.w	d5,d0
 		bhi.w	loc_F780
 
-loc_F764:
++ ;loc_F764:
 		btst	#Status_LtngShield,status_secondary(a0)	; does Sonic have a Lightning Shield?
 		bne.s	Test_Ring_Collisions.AttractRing
 
@@ -200,9 +200,9 @@ loc_F76C:
 		bsr.s	sub_F78C
 		lea	(Ring_consumption_table+2).w,a3
 
-loc_F776:
+- ;loc_F776:
 		tst.w	(a3)+
-		bne.s	loc_F776
+		bne.s	- ;loc_F776
 		move.w	a4,-(a3)
 		addq.w	#1,(Ring_consumption_table).w
 
@@ -230,7 +230,7 @@ sub_F78C:
 Test_Ring_Collisions.AttractRing:
 		movea.l	a1,a3
 		jsr	(AllocateObject).l
-		bne.w	loc_F7BC
+		bne.w	+ ;loc_F7BC
 		move.l	#Obj_Attracted_Ring,(a1)
 		move.w	(a3),x_pos(a1)
 		move.w	2(a3),y_pos(a1)
@@ -239,7 +239,7 @@ Test_Ring_Collisions.AttractRing:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_F7BC:
++ ;loc_F7BC:
 		movea.l	a3,a1
 		bra.s	loc_F76C
 
@@ -249,21 +249,21 @@ loc_F7BC:
 sub_F7C0:
 		moveq	#0,d0
 		tst.b	(Respawn_table_keep).w
-		bne.s	loc_F7D6
+		bne.s	+ ;loc_F7D6
 		lea	(Ring_status_table).w,a1
 		move.w	#bytesToLcnt($400),d1
 
-loc_F7D0:
+- ;loc_F7D0:
 		move.l	d0,(a1)+
-		dbf	d1,loc_F7D0
+		dbf	d1,- ;loc_F7D0
 
-loc_F7D6:
++ ;loc_F7D6:
 		lea	(Ring_consumption_table).w,a1
 		moveq	#bytesToLcnt($80),d1
 
-loc_F7DC:
+- ;loc_F7DC:
 		move.l	d0,(a1)+
-		dbf	d1,loc_F7DC
+		dbf	d1,- ;loc_F7DC
 		move.w	(Current_zone_and_act).w,d0
 		ror.b	#1,d0
 		lsr.w	#5,d0
@@ -274,13 +274,13 @@ loc_F7DC:
 		moveq	#0,d5
 		move.w	#$1FF-1,d0
 
-loc_F800:
+- ;loc_F800:
 		tst.l	(a1)+
-		bmi.s	loc_F80A
+		bmi.s	+ ;loc_F80A
 		addq.w	#1,d5
-		dbf	d0,loc_F800
+		dbf	d0,- ;loc_F800
 
-loc_F80A:
++ ;loc_F80A:
 		move.w	d5,(Perfect_rings_left).w
 		move.w	#0,(_unkFF06).w
 		rts
@@ -301,24 +301,24 @@ Render_Rings:
 		move.w	#$F0,d5
 		move.w	(Screen_Y_wrap_value).w,d3
 
-loc_F836:
+- ;loc_F836:
 		tst.w	(a4)+
-		bmi.s	loc_F876
+		bmi.s	++ ;loc_F876
 		move.w	2(a0),d1
 		sub.w	d4,d1
 		addq.w	#8,d1
 		and.w	d3,d1
 		cmp.w	d5,d1
-		bhs.s	loc_F876
+		bhs.s	++ ;loc_F876
 		addi.w	#$78,d1
 		move.w	(a0),d0
 		sub.w	(a3),d0
 		addi.w	#$80,d0
 		move.b	-1(a4),d6
-		bne.s	loc_F85E
+		bne.s	+ ;loc_F85E
 		move.b	(Rings_frame).w,d6
 
-loc_F85E:
++ ;loc_F85E:
 		lsl.w	#3,d6
 		lea	(a1,d6.w),a2
 		add.w	(a2)+,d1
@@ -331,10 +331,10 @@ loc_F85E:
 		move.w	d0,(a6)+
 		subq.w	#1,d7
 
-loc_F876:
++ ;loc_F876:
 		addq.w	#4,a0
 		subq.w	#4,d2
-		bne.s	loc_F836
+		bne.s	- ;loc_F836
 
 locret_F87C:
 		rts

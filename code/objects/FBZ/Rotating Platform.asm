@@ -7,7 +7,7 @@ Obj_FBZRotatingPlatform:
 		move.b	(a2)+,d1
 		move.b	(a2)+,d2
 		movea.l	a0,a1
-		bra.w	loc_3B802
+		bra.w	+ ;loc_3B802
 ; ---------------------------------------------------------------------------
 byte_3B780:
 		dc.b  6-1,   0, $5C, $44, $2C, $D4, $BC, $A4
@@ -28,11 +28,11 @@ byte_3B780:
 		even
 ; ---------------------------------------------------------------------------
 
-loc_3B7F8:
+- ;loc_3B7F8:
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_3B866
+		bne.w	++ ;loc_3B866
 
-loc_3B802:
++ ;loc_3B802:
 		move.l	#loc_3B86A,(a1)
 		move.l	#Map_FBZRotatingPlatform,mappings(a1)
 		move.w	#make_art_tile($46B,1,0),art_tile(a1)
@@ -46,14 +46,14 @@ loc_3B802:
 		move.w	y_pos(a0),$46(a1)
 		move.b	(a2)+,$30(a1)
 		lsr.b	#1,d2
-		bcc.s	loc_3B866
+		bcc.s	+ ;loc_3B866
 		move.l	#loc_3B8C2,(a1)
 		move.w	#make_art_tile($443,1,0),art_tile(a1)
 		move.b	#1,mapping_frame(a1)
 		move.b	#$86,collision_flags(a1)
 
-loc_3B866:
-		dbf	d1,loc_3B7F8
++ ;loc_3B866:
+		dbf	d1,- ;loc_3B7F8
 
 loc_3B86A:
 		move.w	x_pos(a0),-(sp)
@@ -75,10 +75,10 @@ loc_3B86A:
 		jsr	(SolidObjectFull).l
 		moveq	#1,d1
 		btst	#0,status(a0)
-		beq.s	loc_3B8B4
+		beq.s	+ ;loc_3B8B4
 		neg.w	d1
 
-loc_3B8B4:
++ ;loc_3B8B4:
 		add.b	d1,angle(a0)
 		move.w	$44(a0),d0
 		jmp	(Sprite_OnScreen_Test2).l
@@ -104,10 +104,10 @@ loc_3B8C2:
 		jsr	(SolidObjectFull).l
 		moveq	#1,d1
 		btst	#0,status(a0)
-		beq.s	loc_3B90C
+		beq.s	+ ;loc_3B90C
 		neg.w	d1
 
-loc_3B90C:
++ ;loc_3B90C:
 		add.b	d1,angle(a0)
 		move.w	$44(a0),d0
 		jmp	(loc_1B666).l

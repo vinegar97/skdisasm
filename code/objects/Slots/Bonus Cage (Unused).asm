@@ -36,7 +36,7 @@ loc_4BF9A:
 		move.w	d3,(Events_bg+$02).w
 		lea	$34(a0),a2
 		lea	(Player_1).w,a1
-		bsr.w	sub_4C014
+		bsr.w	+ ;sub_4C014
 		subq.b	#1,anim_frame_timer(a0)
 		bpl.s	locret_4C012
 		move.b	#1,anim_frame_timer(a0)
@@ -51,7 +51,7 @@ locret_4C012:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_4C014:
++ ;sub_4C014:
 		move.w	(a2),d0
 		move.w	off_4C01E(pc,d0.w),d0
 		jmp	off_4C01E(pc,d0.w)
@@ -105,18 +105,18 @@ loc_4C0AA:
 		move.w	(SStage_scalar_result_1+2).w,d0
 		bpl.w	loc_4C172
 		tst.w	$2E(a0)
-		bpl.s	loc_4C0BE
+		bpl.s	+ ;loc_4C0BE
 		move.w	#$64,$2E(a0)
 
-loc_4C0BE:
++ ;loc_4C0BE:
 		tst.w	$2E(a0)
-		beq.w	loc_4C164
+		beq.w	+ ;loc_4C164
 		btst	#0,(Level_frame_counter+1).w
-		beq.w	loc_4C16C
+		beq.w	++ ;loc_4C16C
 		cmpi.w	#$10,$30(a0)
-		bhs.w	loc_4C16C
+		bhs.w	++ ;loc_4C16C
 		jsr	(AllocateObject).l
-		bne.w	loc_4C16C
+		bne.w	++ ;loc_4C16C
 		move.l	#Obj_SlotSpike,(a1)
 		move.l	#Map_SlotSpike,mappings(a1)
 		move.w	#make_art_tile($490,1,0),art_tile(a1)
@@ -144,17 +144,17 @@ loc_4C0BE:
 		addq.w	#1,$30(a0)
 		subq.w	#1,$2E(a0)
 
-loc_4C164:
++ ;loc_4C164:
 		tst.w	$30(a0)
-		beq.w	loc_4C23E
+		beq.w	+++ ;loc_4C23E
 
-loc_4C16C:
++ ;loc_4C16C:
 		addq.w	#1,(SStage_scalar_index_2).w
 		rts
 ; ---------------------------------------------------------------------------
 
 loc_4C172:
-		beq.w	loc_4C214
+		beq.w	+ ;loc_4C214
 		btst	#0,(Level_frame_counter+1).w
 		beq.w	locret_4C21A
 		cmpi.w	#$10,$30(a0)
@@ -188,9 +188,9 @@ loc_4C172:
 		addq.w	#1,$30(a0)
 		subq.w	#1,(SStage_scalar_result_1+2).w
 
-loc_4C214:
++ ;loc_4C214:
 		tst.w	$30(a0)
-		beq.s	loc_4C23E
+		beq.s	+ ;loc_4C23E
 
 locret_4C21A:
 		rts
@@ -210,7 +210,7 @@ locret_4C23C:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4C23E:
++ ;loc_4C23E:
 		move.w	#0,$30(a0)
 		addq.w	#2,(a2)+
 		move.w	#8,(a2)

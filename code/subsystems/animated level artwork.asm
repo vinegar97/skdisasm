@@ -151,14 +151,14 @@ locret_2787E:
 
 AnimateTiles_HCZ1:
 		tst.b	(Events_bg+$16).w
-		beq.s	loc_27888
+		beq.s	+ ;loc_27888
 		rts
 ; ---------------------------------------------------------------------------
 ; This section determines which tiles to load at what position to simulate a
 ; waterline extending into the background
 ; ---------------------------------------------------------------------------
 
-loc_27888:
++ ;loc_27888:
 		lea	(Anim_Counters+4).w,a3
 
 loc_2788C:
@@ -169,7 +169,7 @@ loc_2788C:
 		move.w	d1,(a3)
 		tst.w	d1
 		beq.w	loc_2797E
-		bpl.w	loc_27912
+		bpl.w	++ ;loc_27912
 		addi.w	#$60,d1
 		bcc.w	loc_2797A
 		move.w	d1,d0
@@ -181,7 +181,7 @@ loc_2788C:
 		adda.w	d1,a5
 		move.w	#$60-1,d1
 
-loc_278C6:
+- ;loc_278C6:
 		moveq	#0,d0
 		move.b	(a5)+,d0
 		add.w	d0,d0
@@ -193,21 +193,21 @@ loc_278C6:
 		lea	$180(a4),a4
 		move.l	(a0),(a4)
 		lea	-$17C(a4),a4
-		dbf	d1,loc_278C6
+		dbf	d1,- ;loc_278C6
 		move.l	#Chunk_table+$7C00,d1
 		move.w	#tiles_to_bytes($2DC),d2
 		move.w	#$180,d3
 		jsr	(Add_To_DMA_Queue).l
 		tst.w	2(a3)
-		bmi.s	loc_2790E
+		bmi.s	+ ;loc_2790E
 		move.w	#-1,2(a3)
 		bsr.w	AniHCZ_FixLowerBG
 
-loc_2790E:
++ ;loc_2790E:
 		bra.w	loc_2797A
 ; ---------------------------------------------------------------------------
 
-loc_27912:
++ ;loc_27912:
 		neg.w	d1
 		addi.w	#$60,d1
 		bcc.s	loc_2797A
@@ -220,7 +220,7 @@ loc_27912:
 		adda.w	d1,a5
 		move.w	#$60-1,d1
 
-loc_27934:
+- ;loc_27934:
 		moveq	#0,d0
 		move.b	(a5)+,d0
 		add.w	d0,d0
@@ -232,7 +232,7 @@ loc_27934:
 		lea	$180(a4),a4
 		move.l	(a0),(a4)
 		lea	-$17C(a4),a4
-		dbf	d1,loc_27934
+		dbf	d1,- ;loc_27934
 		move.l	#Chunk_table+$7C00,d1
 		move.w	#tiles_to_bytes($2F4),d2
 		move.w	#$180,d3
@@ -297,14 +297,14 @@ sub_279D4:
 		lea	(Anim_Counters+4).w,a3
 		move.w	(Events_bg+$10).w,d1
 		beq.s	loc_2797E
-		bpl.s	loc_27A1C
+		bpl.s	++ ;loc_27A1C
 		addi.w	#$60,d1
-		bcc.s	loc_279F2
+		bcc.s	+ ;loc_279F2
 		bsr.s	AniHCZ_FixLowerBG
 		bra.w	loc_2788C
 ; ---------------------------------------------------------------------------
 
-loc_279F2:
++ ;loc_279F2:
 		bsr.s	AniHCZ_FixLowerBG
 		move.l	#ArtUnc_AniHCZ1_WaterlineBelow,d1
 		move.w	#tiles_to_bytes($2DC),d2
@@ -316,15 +316,15 @@ loc_279F2:
 		jmp	(Add_To_DMA_Queue).l
 ; ---------------------------------------------------------------------------
 
-loc_27A1C:
++ ;loc_27A1C:
 		neg.w	d1
 		addi.w	#$60,d1
-		bcc.s	loc_27A2C
+		bcc.s	+ ;loc_27A2C
 		bsr.w	AniHCZ_FixUpperBG
 		bra.w	loc_2788C
 ; ---------------------------------------------------------------------------
 
-loc_27A2C:
++ ;loc_27A2C:
 		bsr.w	AniHCZ_FixUpperBG
 		move.l	#ArtUnc_AniHCZ1_WaterlineAbove,d1
 		move.w	#tiles_to_bytes($2F4),d2
@@ -344,7 +344,7 @@ AnimateTiles_HCZ2:
 		move.w	(Events_bg+$12).w,d1
 		andi.w	#$1F,d1
 		cmp.b	1(a3),d1
-		beq.s	loc_27AB4
+		beq.s	+ ;loc_27AB4
 		move.b	d1,1(a3)
 		move.w	d1,d2
 		andi.w	#7,d1
@@ -368,12 +368,12 @@ AnimateTiles_HCZ2:
 		add.l	a0,d1
 		move.w	d4,d2
 		move.w	(a4)+,d3
-		beq.s	loc_27AB4
+		beq.s	+ ;loc_27AB4
 		jsr	(Add_To_DMA_Queue).l
 
-loc_27AB4:
++ ;loc_27AB4:
 		addq.w	#2,a3
-		bra.s	loc_27AC8
+		bra.s	+ ;loc_27AC8
 ; ---------------------------------------------------------------------------
 word_27AB8:
 		dc.w    $40
@@ -386,12 +386,12 @@ word_27AB8:
 		dc.w    $30
 ; ---------------------------------------------------------------------------
 
-loc_27AC8:
++ ;loc_27AC8:
 		moveq	#0,d1
 		move.w	(Events_bg+$12).w,d1
 		andi.w	#$1F,d1
 		cmp.b	1(a3),d1
-		beq.s	loc_27B20
+		beq.s	+ ;loc_27B20
 		move.b	d1,1(a3)
 		move.w	d1,d2
 		andi.w	#7,d1
@@ -415,12 +415,12 @@ loc_27AC8:
 		add.l	a0,d1
 		move.w	d4,d2
 		move.w	(a4)+,d3
-		beq.s	loc_27B20
+		beq.s	+ ;loc_27B20
 		jsr	(Add_To_DMA_Queue).l
 
-loc_27B20:
++ ;loc_27B20:
 		addq.w	#2,a3
-		bra.s	loc_27B34
+		bra.s	+ ;loc_27B34
 ; ---------------------------------------------------------------------------
 word_27B24:
 		dc.w    $80
@@ -433,12 +433,12 @@ word_27B24:
 		dc.w    $60
 ; ---------------------------------------------------------------------------
 
-loc_27B34:
++ ;loc_27B34:
 		moveq	#0,d1
 		move.w	(Events_bg+$14).w,d1
 		andi.w	#$1F,d1
 		cmp.b	1(a3),d1
-		beq.s	loc_27B8C
+		beq.s	+ ;loc_27B8C
 		move.b	d1,1(a3)
 		move.w	d1,d2
 		andi.w	#7,d1
@@ -462,12 +462,12 @@ loc_27B34:
 		add.l	a0,d1
 		move.w	d4,d2
 		move.w	(a4)+,d3
-		beq.s	loc_27B8C
+		beq.s	+ ;loc_27B8C
 		jsr	(Add_To_DMA_Queue).l
 
-loc_27B8C:
++ ;loc_27B8C:
 		addq.w	#2,a3
-		bra.s	loc_27BA0
+		bra.s	+ ;loc_27BA0
 ; ---------------------------------------------------------------------------
 word_27B90:
 		dc.w   $100
@@ -480,12 +480,12 @@ word_27B90:
 		dc.w    $C0
 ; ---------------------------------------------------------------------------
 
-loc_27BA0:
++ ;loc_27BA0:
 		moveq	#0,d1
 		move.w	(Events_bg+$14).w,d1
 		andi.w	#$3F,d1
 		cmp.b	1(a3),d1
-		beq.s	loc_27C06
+		beq.s	+ ;loc_27C06
 		move.b	d1,1(a3)
 		neg.w	d1
 		move.w	d1,d2
@@ -516,10 +516,10 @@ loc_27BA0:
 		add.l	a0,d1
 		move.w	d4,d2
 		move.w	(a4)+,d3
-		beq.s	loc_27C06
+		beq.s	+ ;loc_27C06
 		jsr	(Add_To_DMA_Queue).l
 
-loc_27C06:
++ ;loc_27C06:
 		addq.w	#2,a3
 		bra.w	loc_286E8
 ; ---------------------------------------------------------------------------
@@ -555,7 +555,7 @@ AnimateTiles_CNZ:
 		sub.w	(Camera_X_pos_BG_copy).w,d1
 		andi.w	#$3F,d1
 		cmp.b	1(a3),d1
-		beq.s	loc_27C96
+		beq.s	+ ;loc_27C96
 		move.b	d1,1(a3)
 		move.w	d1,d2
 		andi.w	#7,d1
@@ -579,10 +579,10 @@ AnimateTiles_CNZ:
 		add.l	a0,d1
 		move.w	d4,d2
 		move.w	(a4)+,d3
-		beq.s	loc_27C96
+		beq.s	+ ;loc_27C96
 		jsr	(Add_To_DMA_Queue).l
 
-loc_27C96:
++ ;loc_27C96:
 		addq.w	#2,a3
 		bra.w	loc_286E8
 ; ---------------------------------------------------------------------------
@@ -621,7 +621,7 @@ AnimateTiles_ICZ:
 		sub.w	(Camera_X_pos_BG_copy).w,d0
 		andi.w	#$1F,d0
 		cmp.b	1(a3),d0
-		beq.s	loc_27D32
+		beq.s	+ ;loc_27D32
 		move.b	d0,1(a3)
 		move.l	d0,d1
 		move.w	d0,d2
@@ -646,22 +646,22 @@ AnimateTiles_ICZ:
 		add.l	a0,d1
 		move.w	d4,d2
 		move.w	(a4)+,d3
-		beq.s	loc_27D32
+		beq.s	+ ;loc_27D32
 		add.w	d3,d4
 		add.w	d3,d4
 		jsr	(Add_To_DMA_Queue).l
 
-loc_27D32:
++ ;loc_27D32:
 		addq.w	#2,a3
 		tst.b	(Current_act).w
-		bne.w	loc_27DF8
+		bne.w	+ ;loc_27DF8
 		moveq	#0,d1
 		move.w	(Camera_Y_pos_BG_copy).w,d1
 		sub.w	(Events_bg+$12).w,d1
 		neg.w	d1
 		andi.w	#$3F,d1
 		cmp.b	1(a3),d1
-		beq.w	loc_27DF8
+		beq.w	+ ;loc_27DF8
 		move.b	d1,1(a3)
 		add.w	d1,d1
 		add.w	d1,d1
@@ -711,7 +711,7 @@ loc_27D32:
 		move.w	#$10,d3
 		jsr	(Add_To_DMA_Queue).l
 
-loc_27DF8:
++ ;loc_27DF8:
 		addq.w	#2,a3
 		bra.w	loc_286E8
 ; ---------------------------------------------------------------------------
@@ -721,7 +721,7 @@ loc_27DF8:
 AnimateTiles_LBZ1:
 		lea	(Anim_Counters).w,a3
 		subq.b	#1,(a3)
-		bcc.s	loc_27E34
+		bcc.s	+ ;loc_27E34
 		move.b	#3,(a3)
 		moveq	#0,d0
 		move.b	1(a3),d0
@@ -734,14 +734,14 @@ AnimateTiles_LBZ1:
 		move.w	#$100,d3
 		jsr	(Add_To_DMA_Queue).l
 
-loc_27E34:
++ ;loc_27E34:
 		addq.w	#2,a3
 		moveq	#0,d0
 		move.w	(Events_bg+$10).w,d0
 		sub.w	(Camera_X_pos_BG_copy).w,d0
 		andi.w	#$1F,d0
 		cmp.b	1(a3),d0
-		beq.s	loc_27EBC
+		beq.s	++ ;loc_27EBC
 		move.b	d0,1(a3)
 		moveq	#0,d1
 		move.w	d0,d2
@@ -772,12 +772,12 @@ loc_27E34:
 		add.l	a0,d1
 		move.w	d4,d2
 		move.w	(a4)+,d3
-		beq.s	loc_27EA4
+		beq.s	+ ;loc_27EA4
 		add.w	d3,d4
 		add.w	d3,d4
 		jsr	(Add_To_DMA_Queue).l
 
-loc_27EA4:
++ ;loc_27EA4:
 		move.l	d6,d1
 		lsl.w	#5,d1
 		lea	(ArtUnc_AniLBZ1_2).l,a0
@@ -786,18 +786,18 @@ loc_27EA4:
 		move.w	#$10,d3
 		jsr	(Add_To_DMA_Queue).l
 
-loc_27EBC:
++ ;loc_27EBC:
 		addq.w	#2,a3
 		tst.w	(a3)+
-		bne.s	loc_27ECE
+		bne.s	+ ;loc_27ECE
 		cmpi.b	#1,1(a3)
-		beq.s	loc_27ED2
+		beq.s	++ ;loc_27ED2
 		move.w	#0,(a3)
 
-loc_27ECE:
++ ;loc_27ECE:
 		bsr.w	loc_286E8
 
-loc_27ED2:
++ ;loc_27ED2:
 		lea	(Anim_Counters+$C).w,a3
 		lea	(AniPLC_LBZSpec).l,a2
 		bra.w	loc_286E8
@@ -816,9 +816,9 @@ word_27EE0:
 AnimateTiles_LBZ2:
 		lea	(Anim_Counters).w,a3
 		tst.b	$F(a3)
-		bne.s	loc_27F64
+		bne.s	+++ ;loc_27F64
 		subq.b	#1,(a3)
-		bcc.s	loc_27F2A
+		bcc.s	+ ;loc_27F2A
 		move.b	#3,(a3)
 		moveq	#0,d0
 		move.b	1(a3),d0
@@ -831,14 +831,14 @@ AnimateTiles_LBZ2:
 		move.w	#$100,d3
 		jsr	(Add_To_DMA_Queue).l
 
-loc_27F2A:
++ ;loc_27F2A:
 		addq.w	#2,a3
 		moveq	#0,d1
 		move.w	(Events_bg+$12).w,d1
 		sub.w	(Camera_X_pos_BG_copy).w,d1
 		andi.w	#$F,d1
 		cmp.b	1(a3),d1
-		beq.s	loc_27F5A
+		beq.s	+ ;loc_27F5A
 		move.b	d1,1(a3)
 		lsl.w	#6,d1
 		addi.l	#ArtUnc_AniLBZ2_2,d1
@@ -846,14 +846,14 @@ loc_27F2A:
 		move.w	#$20,d3
 		jsr	(Add_To_DMA_Queue).l
 
-loc_27F5A:
++ ;loc_27F5A:
 		addq.w	#2,a3
 		bsr.s	sub_27F66
 		addq.w	#4,a3
 		bra.w	loc_286E8
 ; ---------------------------------------------------------------------------
 
-loc_27F64:
++ ;loc_27F64:
 		addq.w	#4,a3
 
 ; =============== S U B R O U T I N E =======================================
@@ -876,7 +876,7 @@ sub_27F66:
 		adda.w	d1,a5
 		move.w	#$40-1,d1
 
-loc_27F9A:
+- ;loc_27F9A:
 		moveq	#0,d0
 		move.b	(a5)+,d0
 		add.w	d0,d0
@@ -888,7 +888,7 @@ loc_27F9A:
 		lea	$100(a4),a4
 		move.l	(a0),(a4)
 		lea	-$FC(a4),a4
-		dbf	d1,loc_27F9A
+		dbf	d1,- ;loc_27F9A
 		move.l	#Chunk_table+$7E00,d1
 		move.w	#tiles_to_bytes($2C3),d2
 		move.w	#$100,d3
@@ -912,7 +912,7 @@ loc_27FE4:
 		adda.w	d1,a5
 		move.w	#$40-1,d1
 
-loc_28000:
+- ;loc_28000:
 		moveq	#0,d0
 		move.b	(a5)+,d0
 		add.w	d0,d0
@@ -924,7 +924,7 @@ loc_28000:
 		lea	$100(a4),a4
 		move.l	(a0),(a4)
 		lea	-$FC(a4),a4
-		dbf	d1,loc_28000
+		dbf	d1,- ;loc_28000
 		move.l	#Chunk_table+$7E00,d1
 		move.w	#tiles_to_bytes($2D3),d2
 		move.w	#$100,d3
@@ -978,7 +978,7 @@ sub_2807A:
 		move.w	#1,2(a3)
 		move.w	(Events_bg+$10).w,d1
 		beq.s	loc_2804A
-		bpl.s	loc_280A6
+		bpl.s	+ ;loc_280A6
 		bsr.s	sub_28066
 		move.l	#ArtUnc_AniLBZ2_WaterlineBelow,d1
 		move.w	#tiles_to_bytes($2C3),d2
@@ -987,7 +987,7 @@ sub_2807A:
 		bra.w	sub_27F66
 ; ---------------------------------------------------------------------------
 
-loc_280A6:
++ ;loc_280A6:
 		bsr.s	sub_28052
 		bra.w	sub_27F66
 ; End of function sub_2807A
@@ -1001,7 +1001,7 @@ AnimateTiles_MHZ:
 		sub.w	(Camera_X_pos_BG_copy).w,d0
 		andi.w	#$1F,d0
 		cmp.b	1(a3),d0
-		beq.s	loc_28110
+		beq.s	+ ;loc_28110
 		move.b	d0,1(a3)
 		moveq	#0,d1
 		move.w	d0,d2
@@ -1027,10 +1027,10 @@ AnimateTiles_MHZ:
 		add.l	a0,d1
 		move.w	d4,d2
 		move.w	(a4)+,d3
-		beq.s	loc_28110
+		beq.s	+ ;loc_28110
 		jsr	(Add_To_DMA_Queue).l
 
-loc_28110:
++ ;loc_28110:
 		addq.w	#2,a3
 		bra.s	loc_28124
 ; ---------------------------------------------------------------------------
@@ -1051,7 +1051,7 @@ loc_28124:
 		sub.w	(Camera_X_pos_BG_copy).w,d1
 		andi.w	#$3F,d1
 		cmp.b	1(a3),d1
-		beq.s	loc_28180
+		beq.s	+ ;loc_28180
 		move.b	d1,1(a3)
 		move.w	d1,d2
 		andi.w	#7,d1
@@ -1075,18 +1075,18 @@ loc_28124:
 		add.l	a0,d1
 		move.w	d4,d2
 		move.w	(a4)+,d3
-		beq.s	loc_28180
+		beq.s	+ ;loc_28180
 		jsr	(Add_To_DMA_Queue).l
 
-loc_28180:
++ ;loc_28180:
 		addq.w	#2,a3
 		move.b	(Anim_Counters+$F).w,d0
 		addq.b	#2,d0
 		cmpi.b	#$58,d0
-		blo.s	loc_28190
+		blo.s	+ ;loc_28190
 		moveq	#0,d0
 
-loc_28190:
++ ;loc_28190:
 		move.b	d0,(Anim_Counters+$F).w
 		bra.w	loc_286E8
 ; ---------------------------------------------------------------------------
@@ -1156,10 +1156,10 @@ AnimateTiles_SOZ1:
 		add.l	a0,d1
 		move.w	d4,d2
 		move.w	(a4)+,d3
-		beq.s	loc_28236
+		beq.s	+ ;loc_28236
 		jsr	(Add_To_DMA_Queue).l
 
-loc_28236:
++ ;loc_28236:
 		moveq	#0,d1
 		move.b	1(a3),d1
 		lsl.w	#6,d1
@@ -1185,20 +1185,20 @@ AnimateTiles_SOZ2:
 		move.b	1(a3),d0
 		addq.b	#1,1(a3)
 		cmpi.b	#2,d0
-		blo.s	loc_2827E
+		blo.s	+ ;loc_2827E
 		move.b	#0,1(a3)
 
-loc_2827E:
++ ;loc_2827E:
 		move.w	(Palette_cycle_counters+$06).w,d1
 		andi.w	#6,d1
 		move.w	d1,d2
 		lsr.w	#1,d2
 		add.w	d2,d1
 		cmpi.w	#6,d1
-		beq.s	loc_28294
+		beq.s	+ ;loc_28294
 		add.w	d0,d1
 
-loc_28294:
++ ;loc_28294:
 		lsl.w	#6,d1
 		move.w	d1,d0
 		add.w	d1,d1
@@ -1216,20 +1216,20 @@ locret_282B2:
 AnimateTiles_LRZ3:
 		move.w	#tiles_to_bytes($170),d4
 		move.w	#tiles_to_bytes($194),d6
-		bra.s	loc_282D0
+		bra.s	+ ;loc_282D0
 ; ---------------------------------------------------------------------------
 
 AnimateTiles_LRZ1:
 		move.w	#tiles_to_bytes($320),d4
 		move.w	#tiles_to_bytes($344),d6
-		bra.s	loc_282D0
+		bra.s	+ ;loc_282D0
 ; ---------------------------------------------------------------------------
 
 AnimateTiles_LRZ2:
 		move.w	#tiles_to_bytes($320),d4
 		move.w	#tiles_to_bytes($344),d6
 
-loc_282D0:
++ ;loc_282D0:
 		lea	(Anim_Counters).w,a3
 		moveq	#0,d0
 		move.w	(Events_bg+$12).w,d0
@@ -1238,7 +1238,7 @@ loc_282D0:
 		divu.w	#$30,d0
 		swap	d0
 		cmp.b	1(a3),d0
-		beq.s	loc_2833C
+		beq.s	+ ;loc_2833C
 		move.b	d0,1(a3)
 		moveq	#0,d1
 		move.w	d0,d2
@@ -1267,14 +1267,14 @@ loc_282D0:
 		add.l	a0,d1
 		move.w	d4,d2
 		move.w	(a4)+,d3
-		beq.s	loc_2833C
+		beq.s	+ ;loc_2833C
 		jsr	(Add_To_DMA_Queue).l
 
-loc_2833C:
++ ;loc_2833C:
 		cmpi.b	#$16,(Current_zone).w
 		beq.s	locret_2834A
 		addq.w	#2,a3
-		bra.w	loc_28364
+		bra.w	+ ;loc_28364
 ; ---------------------------------------------------------------------------
 
 locret_2834A:
@@ -1295,13 +1295,13 @@ word_2834C:
 		dc.w   $1E0
 ; ---------------------------------------------------------------------------
 
-loc_28364:
++ ;loc_28364:
 		moveq	#0,d0
 		move.w	(Events_bg+$10).w,d0
 		sub.w	(Camera_X_pos_BG_copy).w,d0
 		andi.w	#$1F,d0
 		cmp.b	1(a3),d0
-		beq.s	loc_283CC
+		beq.s	+ ;loc_283CC
 		move.b	d0,1(a3)
 		moveq	#0,d1
 		move.w	d0,d2
@@ -1332,10 +1332,10 @@ loc_28364:
 		add.l	a0,d1
 		move.w	d4,d2
 		move.w	(a4)+,d3
-		beq.s	loc_283CC
+		beq.s	+ ;loc_283CC
 		jsr	(Add_To_DMA_Queue).l
 
-loc_283CC:
++ ;loc_283CC:
 		addq.w	#2,a3
 		bra.w	loc_286E8
 ; ---------------------------------------------------------------------------
@@ -1357,7 +1357,7 @@ AnimateTiles_DPZ:
 		sub.w	(Camera_X_pos_BG_copy).w,d1
 		andi.w	#$3F,d1
 		cmp.b	1(a3),d1
-		beq.s	loc_28442
+		beq.s	+ ;loc_28442
 		move.b	d1,1(a3)
 		move.w	d1,d2
 		andi.w	#7,d1
@@ -1381,12 +1381,12 @@ AnimateTiles_DPZ:
 		add.l	a0,d1
 		move.w	d4,d2
 		move.w	(a4)+,d3
-		beq.s	loc_28442
+		beq.s	+ ;loc_28442
 		jsr	(Add_To_DMA_Queue).l
 
-loc_28442:
++ ;loc_28442:
 		addq.w	#2,a3
-		bra.s	loc_28466
+		bra.s	+ ;loc_28466
 ; ---------------------------------------------------------------------------
 word_28446:
 		dc.w   $200
@@ -1407,13 +1407,13 @@ word_28446:
 		dc.w   $1C0
 ; ---------------------------------------------------------------------------
 
-loc_28466:
++ ;loc_28466:
 		moveq	#0,d1
 		move.w	(Events_bg+$12).w,d1
 		sub.w	(_unkEE70).w,d1
 		andi.w	#$3F,d1
 		cmp.b	1(a3),d1
-		beq.s	loc_284C2
+		beq.s	+ ;loc_284C2
 		move.b	d1,1(a3)
 		move.w	d1,d2
 		andi.w	#7,d1
@@ -1437,10 +1437,10 @@ loc_28466:
 		add.l	a0,d1
 		move.w	d4,d2
 		move.w	(a4)+,d3
-		beq.s	loc_284C2
+		beq.s	+ ;loc_284C2
 		jsr	(Add_To_DMA_Queue).l
 
-loc_284C2:
++ ;loc_284C2:
 		addq.w	#2,a3
 		bra.w	loc_286E8
 ; ---------------------------------------------------------------------------
@@ -1468,7 +1468,7 @@ locret_284FC:
 AnimateTiles_Pachinko:
 		lea	(Anim_Counters).w,a4
 		tst.b	2(a4)
-		bne.w	loc_285EE
+		bne.w	+ ;loc_285EE
 		move.w	4(a4),d0
 		subq.w	#4,4(a4)
 		andi.w	#$7F,4(a4)
@@ -1478,25 +1478,25 @@ AnimateTiles_Pachinko:
 		move.w	#$80,d2
 		moveq	#3-1,d1
 
-loc_2852E:
+- ;loc_2852E:
 		moveq	#4-1,d0
 
-loc_28530:
+- ;loc_28530:
 	rept 32
 		move.l	(a2)+,(a3)+
 	endm
 		lea	(a2,d2.w),a2
-		dbf	d0,loc_28530
+		dbf	d0,- ;loc_28530
 		lea	$80(a3),a3
-		dbf	d1,loc_2852E
+		dbf	d1,-- ;loc_2852E
 		lea	(Chunk_table+$7200).l,a3
 		moveq	#0,d7
 		moveq	#2,d6
 
-loc_2858A:
+- ;loc_2858A:
 		moveq	#3,d5
 
-loc_2858C:
+- ;loc_2858C:
 		lea	(Chunk_table+$7000).l,a1
 		movea.l	a1,a2
 		adda.w	word_285CE(pc,d7.w),a1
@@ -1505,7 +1505,7 @@ loc_2858C:
 		moveq	#0,d3
 		moveq	#8-1,d4
 
-loc_285A2:
+- ;loc_285A2:
 		move.l	(a1)+,d0
 		and.l	d2,d0
 		move.l	(a2)+,d1
@@ -1515,13 +1515,13 @@ loc_285A2:
 		asl.l	#4,d2
 		asl.l	#4,d3
 		ori.w	#$F,d3
-		dbf	d4,loc_285A2
+		dbf	d4,- ;loc_285A2
 		addq.w	#2,d7
-		dbf	d5,loc_2858C
+		dbf	d5,-- ;loc_2858C
 		lea	$200(a3),a3
-		dbf	d6,loc_2858A
+		dbf	d6,--- ;loc_2858A
 		addq.b	#1,2(a4)
-		bra.s	loc_28624
+		bra.s	+++ ;loc_28624
 ; ---------------------------------------------------------------------------
 word_285CE:
 		dc.w   $180
@@ -1543,24 +1543,24 @@ word_285D6:
 		dc.w    $60
 ; ---------------------------------------------------------------------------
 
-loc_285EE:
++ ;loc_285EE:
 		bsr.s	sub_2863E
 		addq.b	#1,2(a4)
 		cmpi.b	#4,2(a4)
-		blo.s	loc_28624
+		blo.s	++ ;loc_28624
 		move.b	#0,2(a4)
 		addi.w	#$280,(a4)
 		cmpi.w	#$5000,(a4)
-		blo.s	loc_28610
+		blo.s	+ ;loc_28610
 		move.w	#0,(a4)
 
-loc_28610:
++ ;loc_28610:
 		move.l	#Chunk_table+$7000,d1
 		move.w	#tiles_to_bytes($0E9),d2
 		move.w	#$3C0,d3
 		jsr	(Add_To_DMA_Queue).l
 
-loc_28624:
++ ;loc_28624:
 		lea	(AniPLC_Pachinko).l,a2
 		lea	(Anim_Counters+6).w,a3
 		bra.w	loc_286E8
@@ -1604,65 +1604,65 @@ sub_2863E:
 		adda.w	(a4),a1
 		move.w	#$200-1,d2
 
-loc_28672:
+- ;loc_28672:
 		move.b	(a1)+,d0
-		beq.s	loc_28694
+		beq.s	++ ;loc_28694
 		move.b	d0,d1
 		andi.b	#$F0,d0
-		beq.s	loc_28686
+		beq.s	+ ;loc_28686
 		andi.b	#$F,(a3)
 		add.b	d3,d0
 		or.b	d0,(a3)
 
-loc_28686:
++ ;loc_28686:
 		andi.b	#$F,d1
-		beq.s	loc_28694
+		beq.s	+ ;loc_28694
 		andi.b	#$F0,(a3)
 		add.b	d4,d1
 		or.b	d1,(a3)
 
-loc_28694:
++ ;loc_28694:
 		addq.w	#1,a3
-		dbf	d2,loc_28672
+		dbf	d2,- ;loc_28672
 		move.w	#$80-1,d2
 
-loc_2869E:
+- ;loc_2869E:
 		move.b	(a1)+,d0
 		beq.s	loc_286DC
 		move.b	d0,d1
 		andi.b	#$F0,d0
-		beq.s	loc_286BE
-		bmi.s	loc_286B6
+		beq.s	++ ;loc_286BE
+		bmi.s	+ ;loc_286B6
 		andi.b	#$F,(a3)
 		add.b	d3,d0
 		or.b	d0,(a3)
-		bra.s	loc_286BE
+		bra.s	++ ;loc_286BE
 ; ---------------------------------------------------------------------------
 
-loc_286B6:
++ ;loc_286B6:
 		andi.b	#$F,(a3)
 		sub.b	d5,d0
 		or.b	d0,(a3)
 
-loc_286BE:
++ ;loc_286BE:
 		andi.b	#$F,d1
 		beq.s	loc_286DC
 		btst	#3,d1
-		bne.s	loc_286D4
+		bne.s	+ ;loc_286D4
 		andi.b	#$F0,(a3)
 		add.b	d4,d1
 		or.b	d1,(a3)
 		bra.s	loc_286DC
 ; ---------------------------------------------------------------------------
 
-loc_286D4:
++ ;loc_286D4:
 		andi.b	#$F0,(a3)
 		sub.b	d6,d1
 		or.b	d1,(a3)
 
 loc_286DC:
 		addq.w	#1,a3
-		dbf	d2,loc_2869E
+		dbf	d2,- ;loc_2869E
 		rts
 ; End of function sub_2863E
 
@@ -2549,18 +2549,18 @@ AnimateTiles_NULL3:
 
 Animate_Init:
 		cmpi.w	#$100,(Current_zone_and_act).w
-		bne.s	loc_28C8C
+		bne.s	+ ;loc_28C8C
 		bsr.w	sub_279D4
 
-loc_28C8C:
++ ;loc_28C8C:
 		cmpi.w	#$101,(Current_zone_and_act).w
-		bne.s	loc_28CA0
+		bne.s	+ ;loc_28CA0
 		move.b	#$20,(Anim_Counters+1).w
 		move.b	#$40,(Anim_Counters+3).w
 
-loc_28CA0:
++ ;loc_28CA0:
 		cmpi.b	#3,(Current_zone).w
-		bne.s	loc_28CD8
+		bne.s	+ ;loc_28CD8
 		move.b	#$40,(Anim_Counters+1).w
 		move.b	#0,(Anim_Counters+2).w
 		move.b	#0,(Anim_Counters+4).w
@@ -2570,43 +2570,43 @@ loc_28CA0:
 		move.b	#2,(Anim_Counters+$C).w
 		move.b	#1,(Anim_Counters+$E).w
 
-loc_28CD8:
++ ;loc_28CD8:
 		cmpi.w	#$600,(Current_zone_and_act).w
-		bne.s	loc_28CE6
+		bne.s	+ ;loc_28CE6
 		move.b	#$20,(Anim_Counters+3).w
 
-loc_28CE6:
++ ;loc_28CE6:
 		cmpi.w	#$601,(Current_zone_and_act).w
-		bne.s	loc_28CF8
+		bne.s	+ ;loc_28CF8
 		bsr.w	sub_2807A
 		move.b	#$10,(Anim_Counters+1).w
 
-loc_28CF8:
++ ;loc_28CF8:
 		cmpi.b	#7,(Current_zone).w
-		bne.s	loc_28D0C
+		bne.s	+ ;loc_28D0C
 		move.b	#$20,(Anim_Counters+1).w
 		move.b	#$40,(Anim_Counters+3).w
 
-loc_28D0C:
++ ;loc_28D0C:
 		cmpi.b	#8,(Current_zone).w
-		bne.s	loc_28D1A
+		bne.s	+ ;loc_28D1A
 		move.b	#-1,(Anim_Counters+1).w
 
-loc_28D1A:
++ ;loc_28D1A:
 		cmpi.w	#$900,(Current_zone_and_act).w
-		bne.s	loc_28D2E
+		bne.s	+ ;loc_28D2E
 		move.b	#-1,(Anim_Counters+1).w
 		move.b	#-1,(Anim_Counters+3).w
 
-loc_28D2E:
++ ;loc_28D2E:
 		cmpi.w	#$1000,(Current_zone_and_act).w
-		bne.s	loc_28D42
+		bne.s	+ ;loc_28D42
 		move.b	#$40,(Anim_Counters+1).w
 		move.b	#$40,(Anim_Counters+3).w
 
-loc_28D42:
++ ;loc_28D42:
 		cmpi.b	#$14,(Current_zone).w
-		bne.s	loc_28DA2
+		bne.s	+ ;loc_28DA2
 		lea	(ArtKos_PachinkoBG1).l,a0
 		lea	(RAM_start+$1000).l,a1
 		jsr	(Kos_Decomp).l
@@ -2617,20 +2617,20 @@ loc_28D42:
 		lea	(Chunk_table+$7000).l,a2
 		moveq	#$C-1,d0
 
-loc_28D7C:
+- ;loc_28D7C:
 		moveq	#$20-1,d1
 
-loc_28D7E:
+- ;loc_28D7E:
 		move.l	(a2),$80(a1)
 		move.l	(a2)+,(a1)+
-		dbf	d1,loc_28D7E
+		dbf	d1,- ;loc_28D7E
 		lea	$80(a1),a1
-		dbf	d0,loc_28D7C
+		dbf	d0,-- ;loc_28D7C
 		lea	(PalKos_Pachinko).l,a0
 		lea	(Chunk_table+$7800).l,a1
 		jsr	(Kos_Decomp).l
 
-loc_28DA2:
++ ;loc_28DA2:
 		cmpi.w	#$1600,(Current_zone_and_act).w
 		bne.s	locret_28DB6
 		move.b	#-1,(Anim_Counters+1).w

@@ -14,7 +14,7 @@ Obj_FBZMagneticPlatform:
 		subi.w	#$20,d1
 		move.w	d1,$2E(a0)
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_3B3BA
+		bne.w	+ ;loc_3B3BA
 		move.l	#loc_3B482,(a1)
 		move.l	mappings(a0),mappings(a1)
 		move.w	art_tile(a0),art_tile(a1)
@@ -34,15 +34,15 @@ Obj_FBZMagneticPlatform:
 		move.w	mainspr_childsprites(a1),d0
 		subq.w	#1,d0
 
-loc_3B3A2:
+- ;loc_3B3A2:
 		move.w	x_pos(a0),(a2)+
 		move.w	d1,(a2)+
 		move.w	#1,(a2)+
-		dbf	d0,loc_3B3A2
+		dbf	d0,- ;loc_3B3A2
 		move.w	#3,$1C(a1)
 		move.w	a1,$3C(a0)
 
-loc_3B3BA:
++ ;loc_3B3BA:
 		move.l	#loc_3B3C0,(a0)
 
 loc_3B3C0:
@@ -58,11 +58,11 @@ loc_3B3C0:
 
 loc_3B3EC:
 		tst.b	(_unkF7C1).w
-		beq.s	loc_3B3F8
+		beq.s	+ ;loc_3B3F8
 		move.l	#loc_3B3FA,(a0)
 
-loc_3B3F8:
-		bra.s	loc_3B462
++ ;loc_3B3F8:
+		bra.s	++ ;loc_3B462
 ; ---------------------------------------------------------------------------
 
 loc_3B3FA:
@@ -71,7 +71,7 @@ loc_3B3FA:
 		move.w	$46(a0),d0
 		sub.w	y_pos(a0),d0
 		cmp.w	$2E(a0),d0
-		blo.s	loc_3B436
+		blo.s	+ ;loc_3B436
 		move.w	$46(a0),d0
 		sub.w	$2E(a0),d0
 		move.w	d0,y_pos(a0)
@@ -82,7 +82,7 @@ loc_3B3FA:
 		bra.s	loc_3B450
 ; ---------------------------------------------------------------------------
 
-loc_3B436:
++ ;loc_3B436:
 		jsr	(ObjCheckCeilingDist).l
 		tst.w	d1
 		bpl.s	loc_3B450
@@ -92,11 +92,11 @@ loc_3B436:
 
 loc_3B450:
 		tst.b	(_unkF7C1).w
-		bne.s	loc_3B462
+		bne.s	+ ;loc_3B462
 		move.b	#$F,y_radius(a0)
 		move.l	#loc_3B3C0,(a0)
 
-loc_3B462:
++ ;loc_3B462:
 		bsr.w	sub_3B488
 		move.w	#$23,d1
 		move.w	#8,d2
@@ -124,20 +124,20 @@ sub_3B488:
 		lsr.w	#5,d6
 		addq.w	#1,d6
 		cmpi.w	#8,d6
-		blo.s	loc_3B4B2
+		blo.s	+ ;loc_3B4B2
 		moveq	#8,d6
 
-loc_3B4B2:
++ ;loc_3B4B2:
 		move.w	d6,mainspr_childsprites(a1)
 		subq.w	#2,d6
 		bcs.s	locret_3B4DC
 
-loc_3B4BA:
+- ;loc_3B4BA:
 		move.w	d2,(a2)+
 		move.w	#2,(a2)+
 		addq.w	#2,a2
 		addi.w	#$20,d2
-		dbf	d6,loc_3B4BA
+		dbf	d6,- ;loc_3B4BA
 		subq.w	#8,d0
 		andi.w	#$1F,d0
 		cmpi.w	#$10,d0

@@ -27,13 +27,13 @@ loc_8E1BE:
 		cmpi.w	#$80,d2
 		bhs.s	locret_8E1D0
 		cmpi.w	#$40,d3
-		blo.s	loc_8E1D2
+		blo.s	+ ;loc_8E1D2
 
 locret_8E1D0:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_8E1D2:
++ ;loc_8E1D2:
 		move.b	#4,routine(a0)
 		move.l	#loc_8E20C,$34(a0)
 		rts
@@ -41,17 +41,17 @@ loc_8E1D2:
 
 loc_8E1E2:
 		cmpi.b	#7,mapping_frame(a0)
-		blo.s	loc_8E202
+		blo.s	++ ;loc_8E202
 		bset	#7,$38(a0)
-		bne.s	loc_8E1FA
+		bne.s	+ ;loc_8E1FA
 		moveq	#signextendB(sfx_EnemyBreath),d0
 		jsr	(Play_SFX).l
 
-loc_8E1FA:
++ ;loc_8E1FA:
 		bsr.w	sub_8E37C
 		bsr.w	sub_8E2D4
 
-loc_8E202:
++ ;loc_8E202:
 		lea	byte_8E418(pc),a1
 		jmp	(Animate_RawNoSSTMultiDelay).l
 ; ---------------------------------------------------------------------------
@@ -64,11 +64,11 @@ loc_8E20C:
 
 loc_8E21A:
 		subq.w	#1,$2E(a0)
-		bmi.s	loc_8E222
+		bmi.s	+ ;loc_8E222
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_8E222:
++ ;loc_8E222:
 		move.b	#2,routine(a0)
 		move.b	#0,mapping_frame(a0)
 		bclr	#7,$38(a0)
@@ -92,36 +92,36 @@ loc_8E250:
 		move.w	x_vel(a0),d0
 		add.w	$40(a0),d0
 		cmpi.w	#-$80,d0
-		blt.s	loc_8E274
+		blt.s	+ ;loc_8E274
 		cmpi.w	#$80,d0
-		bgt.s	loc_8E274
+		bgt.s	+ ;loc_8E274
 		bset	#0,d1
-		bra.w	loc_8E278
+		bra.w	++ ;loc_8E278
 ; ---------------------------------------------------------------------------
 
-loc_8E274:
++ ;loc_8E274:
 		move.w	d0,x_vel(a0)
 
-loc_8E278:
++ ;loc_8E278:
 		move.w	y_vel(a0),d0
 		addi.w	#8,d0
-		bmi.s	loc_8E290
+		bmi.s	+ ;loc_8E290
 		cmpi.w	#$80,d0
-		blt.s	loc_8E290
+		blt.s	+ ;loc_8E290
 		bset	#1,d1
-		bra.w	loc_8E294
+		bra.w	++ ;loc_8E294
 ; ---------------------------------------------------------------------------
 
-loc_8E290:
++ ;loc_8E290:
 		move.w	d0,y_vel(a0)
 
-loc_8E294:
++ ;loc_8E294:
 		cmpi.b	#3,d1
-		bne.s	loc_8E2A6
+		bne.s	+ ;loc_8E2A6
 		move.l	#loc_3DBE0,(a0)
 		move.w	#2,$34(a0)
 
-loc_8E2A6:
++ ;loc_8E2A6:
 		jsr	(sub_3DC3A).l
 		jsr	(MoveSprite2).l
 		jmp	(Draw_Sprite).l
@@ -167,18 +167,18 @@ sub_8E2EA:
 		adda.w	d1,a2
 		move.w	(a2)+,d2
 		move.w	(a2)+,d3
-		beq.s	loc_8E35C
+		beq.s	+++ ;loc_8E35C
 		andi.w	#6,d0
 		move.w	word_8E364(pc,d0.w),d0
 		move.w	#-$20,d4
 		btst	#0,render_flags(a1)
-		bne.s	loc_8E330
+		bne.s	+ ;loc_8E330
 		bset	#0,render_flags(a0)
 		neg.w	d0
 		neg.w	d2
 		neg.w	d4
 
-loc_8E330:
++ ;loc_8E330:
 		move.w	d0,x_vel(a0)
 		add.w	d2,x_pos(a0)
 		add.w	d3,y_pos(a0)
@@ -186,17 +186,17 @@ loc_8E330:
 		swap	d0
 		moveq	#0,d2
 		tst.w	d0
-		bpl.s	loc_8E34A
+		bpl.s	+ ;loc_8E34A
 		moveq	#4,d2
 
-loc_8E34A:
++ ;loc_8E34A:
 		andi.w	#6,d0
 		move.w	word_8E36C(pc,d0.w),y_vel(a0)
 		move.l	off_8E374(pc,d2.w),mappings(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_8E35C:
++ ;loc_8E35C:
 		addq.w	#4,sp
 		jmp	(Delete_Current_Sprite).l
 ; End of function sub_8E2EA
@@ -215,7 +215,7 @@ off_8E374:
 
 sub_8E37C:
 		lea	(Player_1).w,a1
-		bsr.w	sub_8E388
+		bsr.w	+ ;sub_8E388
 		lea	(Player_2).w,a1
 ; End of function sub_8E37C
 
@@ -223,7 +223,7 @@ sub_8E37C:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_8E388:
++ ;sub_8E388:
 		cmpi.b	#8,anim(a1)
 		beq.s	locret_8E3D6
 		tst.b	spin_dash_flag(a1)
@@ -237,10 +237,10 @@ sub_8E388:
 		bhs.s	locret_8E3D6
 		move.w	d0,d4
 		btst	#0,render_flags(a0)
-		bne.s	loc_8E3BA
+		bne.s	+ ;loc_8E3BA
 		subq.w	#2,d4
 
-loc_8E3BA:
++ ;loc_8E3BA:
 		tst.w	d4
 		beq.s	locret_8E3D6
 		lsr.w	#4,d2
@@ -249,10 +249,10 @@ loc_8E3BA:
 		neg.w	d2
 		addq.w	#1,d2
 		tst.w	d0
-		bne.s	loc_8E3D2
+		bne.s	+ ;loc_8E3D2
 		neg.w	d2
 
-loc_8E3D2:
++ ;loc_8E3D2:
 		add.w	d2,x_pos(a1)
 
 locret_8E3D6:

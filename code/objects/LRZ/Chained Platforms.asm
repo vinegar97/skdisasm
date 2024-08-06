@@ -1,6 +1,6 @@
 Obj_LRZChainedPlatforms:
 		move.b	subtype(a0),d0
-		bmi.w	loc_4A6F4
+		bmi.w	+++ ;loc_4A6F4
 		move.l	#Map_LRZChainedPlatforms,mappings(a0)
 		move.w	#make_art_tile($40D,1,0),art_tile(a0)
 		ori.b	#4,render_flags(a0)
@@ -21,24 +21,24 @@ Obj_LRZChainedPlatforms:
 		move.b	d1,$3C(a0)
 		move.b	#4,$3E(a0)
 		btst	#0,status(a0)
-		beq.s	loc_4A6CE
+		beq.s	++ ;loc_4A6CE
 		neg.b	$3E(a0)
 		moveq	#0,d1
 		move.b	$3C(a0),d1
 		add.b	$3E(a0),d1
 		cmp.b	$3D(a0),d1
-		blo.s	loc_4A6CA
+		blo.s	+ ;loc_4A6CA
 		move.b	d1,d0
 		moveq	#0,d1
 		tst.b	d0
-		bpl.s	loc_4A6CA
+		bpl.s	+ ;loc_4A6CA
 		move.b	$3D(a0),d1
 		subq.b	#4,d1
 
-loc_4A6CA:
++ ;loc_4A6CA:
 		move.b	d1,$3C(a0)
 
-loc_4A6CE:
++ ;loc_4A6CE:
 		move.w	(a2,d1.w),d0
 		add.w	$34(a0),d0
 		move.w	d0,$38(a0)
@@ -50,7 +50,7 @@ loc_4A6CE:
 		bra.w	loc_4A74A
 ; ---------------------------------------------------------------------------
 
-loc_4A6F4:
++ ;loc_4A6F4:
 		andi.w	#$7F,d0
 		add.w	d0,d0
 		lea	(off_4A914).l,a2
@@ -59,14 +59,14 @@ loc_4A6F4:
 		movea.l	a0,a1
 		move.w	x_pos(a0),d2
 		move.w	y_pos(a0),d3
-		bra.s	loc_4A71A
+		bra.s	+ ;loc_4A71A
 ; ---------------------------------------------------------------------------
 
-loc_4A712:
+- ;loc_4A712:
 		jsr	(AllocateObject).l
-		bne.s	loc_4A744
+		bne.s	++ ;loc_4A744
 
-loc_4A71A:
++ ;loc_4A71A:
 		move.l	#Obj_LRZChainedPlatforms,(a1)
 		move.w	(a2)+,d0
 		add.w	d2,d0
@@ -80,8 +80,8 @@ loc_4A71A:
 		move.b	d0,subtype(a1)
 		move.b	status(a0),status(a1)
 
-loc_4A744:
-		dbf	d1,loc_4A712
++ ;loc_4A744:
+		dbf	d1,- ;loc_4A712
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -99,29 +99,29 @@ loc_4A74A:
 		jsr	(SolidObjectFull).l
 		swap	d6
 		andi.w	#4|8,d6
-		beq.s	loc_4A798
+		beq.s	++ ;loc_4A798
 		move.b	d6,d0
 		andi.b	#4,d0
-		beq.s	loc_4A788
+		beq.s	+ ;loc_4A788
 		lea	(Player_1).w,a1
 		jsr	(sub_24280).l
 
-loc_4A788:
++ ;loc_4A788:
 		andi.b	#8,d6
-		beq.s	loc_4A798
+		beq.s	+ ;loc_4A798
 		lea	(Player_2).w,a1
 		jsr	(sub_24280).l
 
-loc_4A798:
++ ;loc_4A798:
 		tst.b	render_flags(a0)
-		bpl.s	loc_4A7B0
+		bpl.s	+ ;loc_4A7B0
 		move.b	(Level_frame_counter+1).w,d0
 		andi.b	#$F,d0
-		bne.s	loc_4A7B0
+		bne.s	+ ;loc_4A7B0
 		moveq	#signextendB(sfx_ChainTick),d0
 		jsr	(Play_SFX).l
 
-loc_4A7B0:
++ ;loc_4A7B0:
 		move.w	$34(a0),d0
 		jmp	(Sprite_OnScreen_Test2).l
 
@@ -131,23 +131,23 @@ loc_4A7B0:
 sub_4A7BA:
 		move.w	x_pos(a0),d0
 		cmp.w	$38(a0),d0
-		bne.s	loc_4A810
+		bne.s	++ ;loc_4A810
 		move.w	y_pos(a0),d0
 		cmp.w	$3A(a0),d0
-		bne.s	loc_4A810
+		bne.s	++ ;loc_4A810
 		moveq	#0,d1
 		move.b	$3C(a0),d1
 		add.b	$3E(a0),d1
 		cmp.b	$3D(a0),d1
-		blo.s	loc_4A7EC
+		blo.s	+ ;loc_4A7EC
 		move.b	d1,d0
 		moveq	#0,d1
 		tst.b	d0
-		bpl.s	loc_4A7EC
+		bpl.s	+ ;loc_4A7EC
 		move.b	$3D(a0),d1
 		subq.b	#4,d1
 
-loc_4A7EC:
++ ;loc_4A7EC:
 		move.b	d1,$3C(a0)
 		movea.l	$40(a0),a1
 		move.w	(a1,d1.w),d0
@@ -158,7 +158,7 @@ loc_4A7EC:
 		move.w	d0,$3A(a0)
 		bsr.w	sub_4A818
 
-loc_4A810:
++ ;loc_4A810:
 		jsr	(MoveSprite2).l
 		rts
 ; End of function sub_4A7BA
@@ -172,31 +172,31 @@ sub_4A818:
 		move.w	#-$100,d2
 		move.w	x_pos(a0),d0
 		sub.w	$38(a0),d0
-		bcc.s	loc_4A82C
+		bcc.s	+ ;loc_4A82C
 		neg.w	d0
 		neg.w	d2
 
-loc_4A82C:
++ ;loc_4A82C:
 		moveq	#0,d1
 		move.w	#-$100,d3
 		move.w	y_pos(a0),d1
 		sub.w	$3A(a0),d1
-		bcc.s	loc_4A840
+		bcc.s	+ ;loc_4A840
 		neg.w	d1
 		neg.w	d3
 
-loc_4A840:
++ ;loc_4A840:
 		cmp.w	d0,d1
-		blo.s	loc_4A86A
+		blo.s	++ ;loc_4A86A
 		move.w	x_pos(a0),d0
 		sub.w	$38(a0),d0
-		beq.s	loc_4A856
+		beq.s	+ ;loc_4A856
 		ext.l	d0
 		asl.l	#8,d0
 		divs.w	d1,d0
 		neg.w	d0
 
-loc_4A856:
++ ;loc_4A856:
 		move.w	d0,x_vel(a0)
 		move.w	d3,y_vel(a0)
 		swap	d0
@@ -205,16 +205,16 @@ loc_4A856:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4A86A:
++ ;loc_4A86A:
 		move.w	y_pos(a0),d1
 		sub.w	$3A(a0),d1
-		beq.s	loc_4A87C
+		beq.s	+ ;loc_4A87C
 		ext.l	d1
 		asl.l	#8,d1
 		divs.w	d0,d1
 		neg.w	d1
 
-loc_4A87C:
++ ;loc_4A87C:
 		move.w	d1,y_vel(a0)
 		move.w	d2,x_vel(a0)
 		swap	d1

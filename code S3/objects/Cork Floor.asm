@@ -7,23 +7,23 @@ Obj_CorkFloor:
 		move.b	#$28,height_pixels(a0)
 		move.l	#word_29AF0,$3C(a0)
 		cmpi.w	#1,(Current_zone_and_act).w
-		bne.s	loc_29684
+		bne.s	+ ;loc_29684
 		move.l	#Map_AIZCorkFloor2,mappings(a0)
 		move.w	#make_art_tile($001,2,0),art_tile(a0)
 		move.b	#$2C,height_pixels(a0)
 
-loc_29684:
++ ;loc_29684:
 		cmpi.b	#3,(Current_zone).w
-		bne.s	loc_296AE
+		bne.s	+ ;loc_296AE
 		move.l	#Map_CNZCorkFloor,mappings(a0)
 		move.w	#make_art_tile($430,2,0),art_tile(a0)
 		move.b	#$20,width_pixels(a0)
 		move.b	#$20,height_pixels(a0)
 		move.l	#word_29B20,$3C(a0)
 
-loc_296AE:
++ ;loc_296AE:
 		cmpi.b	#5,(Current_zone).w
-		bne.s	loc_29702
+		bne.s	++ ;loc_29702
 		move.l	#Map_ICZCorkFloor,mappings(a0)
 		move.w	#make_art_tile($001,2,0),art_tile(a0)
 		move.b	#$10,width_pixels(a0)
@@ -33,33 +33,33 @@ loc_296AE:
 		andi.b	#$F,d0
 		move.b	d0,mapping_frame(a0)
 		andi.b	#$10,d1
-		bne.s	loc_296EE
+		bne.s	+ ;loc_296EE
 		move.l	#loc_29914,(a0)
 		bra.w	loc_29914
 ; ---------------------------------------------------------------------------
 
-loc_296EE:
++ ;loc_296EE:
 		move.l	#word_29AC4,$3C(a0)
 		move.w	#make_art_tile($3B6,2,0),art_tile(a0)
 		move.b	#$10,height_pixels(a0)
 
-loc_29702:
++ ;loc_29702:
 		cmpi.b	#6,(Current_zone).w
-		bne.s	loc_2972C
+		bne.s	+ ;loc_2972C
 		move.l	#Map_LBZCorkFloor,mappings(a0)
 		move.w	#make_art_tile($001,2,0),art_tile(a0)
 		move.b	#$20,width_pixels(a0)
 		move.b	#$20,height_pixels(a0)
 		move.l	#word_29B20,$3C(a0)
 
-loc_2972C:
++ ;loc_2972C:
 		tst.b	subtype(a0)
-		bne.s	loc_2973C
+		bne.s	+ ;loc_2973C
 		move.l	#loc_29858,(a0)
 		bra.w	loc_29858
 ; ---------------------------------------------------------------------------
 
-loc_2973C:
++ ;loc_2973C:
 		move.l	#loc_29742,(a0)
 
 loc_29742:
@@ -77,31 +77,31 @@ loc_29742:
 		jsr	(SolidObjectFull).l
 		move.b	status(a0),d0
 		andi.w	#standing_mask,d0
-		bne.s	loc_29782
+		bne.s	+ ;loc_29782
 
 loc_2977C:
 		jmp	(Sprite_OnScreen_Test).l
 ; ---------------------------------------------------------------------------
 
-loc_29782:
++ ;loc_29782:
 		cmpi.b	#p1_standing|p2_standing,d0
-		bne.s	loc_297B0
+		bne.s	++ ;loc_297B0
 		cmpi.b	#2,$34(a0)
-		beq.s	loc_29798
+		beq.s	+ ;loc_29798
 		cmpi.b	#2,$36(a0)
 		bne.s	loc_2977C
 
-loc_29798:
++ ;loc_29798:
 		lea	(Player_1).w,a1
 		move.b	$34(a0),d0
-		bsr.s	sub_297C8
+		bsr.s	++ ;sub_297C8
 		lea	(Player_2).w,a1
 		move.b	$36(a0),d0
-		bsr.s	sub_297C8
+		bsr.s	++ ;sub_297C8
 		bra.w	loc_29818
 ; ---------------------------------------------------------------------------
 
-loc_297B0:
++ ;loc_297B0:
 		move.b	d0,d1
 		andi.b	#8,d1
 		beq.s	loc_29800
@@ -114,9 +114,9 @@ loc_297B0:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_297C8:
++ ;sub_297C8:
 		cmpi.b	#2,d0
-		bne.s	loc_297EC
+		bne.s	+ ;loc_297EC
 ; End of function sub_297C8
 
 
@@ -130,7 +130,7 @@ sub_297CE:
 		move.b	#2,anim(a1)
 		move.w	#-$300,y_vel(a1)
 
-loc_297EC:
++ ;loc_297EC:
 		bset	#Status_InAir,status(a1)
 		bclr	#Status_OnObj,status(a1)
 		move.b	#2,routine(a1)
@@ -159,11 +159,11 @@ loc_29838:
 		jsr	(MoveSprite2).l
 		addi.w	#$18,y_vel(a0)
 		tst.b	render_flags(a0)
-		bpl.w	loc_29852
+		bpl.w	+ ;loc_29852
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_29852:
++ ;loc_29852:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -181,50 +181,50 @@ loc_29858:
 		jsr	(SolidObjectFull).l
 		swap	d6
 		andi.w	#4|8,d6
-		bne.s	loc_29890
+		bne.s	+ ;loc_29890
 		jmp	(Sprite_OnScreen_Test).l
 ; ---------------------------------------------------------------------------
 
-loc_29890:
++ ;loc_29890:
 		move.b	d6,d0
 		andi.b	#4,d0
-		beq.s	loc_298B4
+		beq.s	+ ;loc_298B4
 		lea	(Player_1).w,a1
 		move.w	$30(a0),y_vel(a1)
 		andi.b	#8,d6
-		beq.s	loc_298CC
+		beq.s	+++ ;loc_298CC
 		lea	(Player_2).w,a1
 		move.w	$32(a0),y_vel(a1)
-		bra.s	loc_298CC
+		bra.s	+++ ;loc_298CC
 ; ---------------------------------------------------------------------------
 
-loc_298B4:
++ ;loc_298B4:
 		andi.b	#8,d6
-		beq.s	loc_298C6
+		beq.s	+ ;loc_298C6
 		lea	(Player_2).w,a1
 		move.w	$32(a0),y_vel(a1)
-		bra.s	loc_298CC
+		bra.s	++ ;loc_298CC
 ; ---------------------------------------------------------------------------
 
-loc_298C6:
++ ;loc_298C6:
 		jmp	(Sprite_OnScreen_Test).l
 ; ---------------------------------------------------------------------------
 
-loc_298CC:
++ ;loc_298CC:
 		btst	#p1_standing_bit,status(a0)
-		beq.s	loc_298E4
+		beq.s	+ ;loc_298E4
 		lea	(Player_1).w,a1
 		bset	#Status_InAir,status(a1)
 		bclr	#Status_OnObj,status(a1)
 
-loc_298E4:
++ ;loc_298E4:
 		btst	#p2_standing_bit,status(a0)
-		beq.s	loc_298FC
+		beq.s	+ ;loc_298FC
 		lea	(Player_2).w,a1
 		bset	#Status_InAir,status(a1)
 		bclr	#Status_OnObj,status(a1)
 
-loc_298FC:
++ ;loc_298FC:
 		movea.l	$3C(a0),a4
 		addq.b	#1,mapping_frame(a0)
 		move.l	#loc_29838,(a0)
@@ -246,39 +246,39 @@ loc_29914:
 		jsr	(sub_1BB7C).l
 		move.b	status(a0),d0
 		andi.b	#standing_mask,d0
-		bne.s	loc_29956
+		bne.s	+ ;loc_29956
 
 loc_29950:
 		jmp	(Sprite_OnScreen_Test).l
 ; ---------------------------------------------------------------------------
 
-loc_29956:
++ ;loc_29956:
 		cmpi.b	#p1_standing|p2_standing,d0
 		bne.s	loc_299BA
 		cmpi.b	#2,$34(a0)
-		bne.s	loc_29972
+		bne.s	+ ;loc_29972
 		tst.b	subtype(a0)
-		bmi.s	loc_299A2
+		bmi.s	+++ ;loc_299A2
 		cmpi.b	#$E,(Player_1+top_solid_bit).w
-		beq.s	loc_299A2
+		beq.s	+++ ;loc_299A2
 
-loc_29972:
++ ;loc_29972:
 		move.b	#$C,(Player_1+top_solid_bit).w
 		move.b	#$D,(Player_1+lrb_solid_bit).w
 		cmpi.b	#2,$36(a0)
-		bne.s	loc_29994
+		bne.s	+ ;loc_29994
 		tst.b	subtype(a0)
-		bmi.s	loc_299A2
+		bmi.s	++ ;loc_299A2
 		cmpi.b	#$E,(Player_2+top_solid_bit).w
-		beq.s	loc_299A2
+		beq.s	++ ;loc_299A2
 
-loc_29994:
++ ;loc_29994:
 		move.b	#$C,(Player_2+top_solid_bit).w
 		move.b	#$D,(Player_2+lrb_solid_bit).w
 		bra.s	loc_29950
 ; ---------------------------------------------------------------------------
 
-loc_299A2:
++ ;loc_299A2:
 		lea	(Player_1).w,a1
 		move.b	$34(a0),d0
 		bsr.s	sub_299F0
@@ -293,19 +293,19 @@ loc_299BA:
 		andi.b	#8,d1
 		beq.s	loc_29A22
 		cmpi.b	#2,$34(a0)
-		bne.s	loc_299D8
+		bne.s	+ ;loc_299D8
 		tst.b	subtype(a0)
-		bmi.s	loc_299E8
+		bmi.s	++ ;loc_299E8
 		cmpi.b	#$E,(Player_1+top_solid_bit).w
-		beq.s	loc_299E8
+		beq.s	++ ;loc_299E8
 
-loc_299D8:
++ ;loc_299D8:
 		move.b	#$C,(Player_1+top_solid_bit).w
 		move.b	#$D,(Player_1+lrb_solid_bit).w
 		bra.w	loc_29950
 ; ---------------------------------------------------------------------------
 
-loc_299E8:
++ ;loc_299E8:
 		lea	(Player_1).w,a1
 		bsr.s	sub_299F6
 		bra.s	loc_29A56
@@ -341,19 +341,19 @@ loc_29A22:
 		andi.b	#$10,d0
 		beq.w	loc_29950
 		cmpi.b	#2,$36(a0)
-		bne.s	loc_29A40
+		bne.s	+ ;loc_29A40
 		tst.b	subtype(a0)
-		bmi.s	loc_29A50
+		bmi.s	++ ;loc_29A50
 		cmpi.b	#$E,(Player_2+top_solid_bit).w
-		beq.s	loc_29A50
+		beq.s	++ ;loc_29A50
 
-loc_29A40:
++ ;loc_29A40:
 		move.b	#$C,(Player_2+top_solid_bit).w
 		move.b	#$D,(Player_2+lrb_solid_bit).w
 		bra.w	loc_29950
 ; ---------------------------------------------------------------------------
 
-loc_29A50:
++ ;loc_29A50:
 		lea	(Player_2).w,a1
 		bsr.s	sub_299F6
 

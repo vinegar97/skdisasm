@@ -9,7 +9,7 @@ Obj_CNZRisingPlatform:
 		move.l	#loc_30C0E,(a0)
 
 loc_30C0E:
-		bsr.s	sub_30C48
+		bsr.s	+ ;sub_30C48
 
 loc_30C10:
 		move.w	#$30,d1
@@ -26,16 +26,16 @@ Ani_CNZRisingPlatform:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_30C48:
++ ;sub_30C48:
 		move.b	$30(a0),d0
-		bne.s	loc_30C8A
+		bne.s	++ ;loc_30C8A
 		move.b	status(a0),d0
 		andi.b	#standing_mask,d0
-		beq.s	loc_30C64
+		beq.s	+ ;loc_30C64
 		move.b	#1,$30(a0)
 		move.w	#1<<8,anim(a0)	; and prev_anim
 
-loc_30C64:
++ ;loc_30C64:
 		tst.w	y_vel(a0)
 		beq.s	locret_30C88
 		jsr	(MoveSprite2).l
@@ -49,16 +49,16 @@ locret_30C88:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_30C8A:
++ ;loc_30C8A:
 		move.b	status(a0),d0
 		andi.b	#standing_mask,d0
-		beq.s	loc_30CC4
+		beq.s	++ ;loc_30CC4
 		jsr	(MoveSprite2).l
 		cmpi.w	#$200,y_vel(a0)
-		bge.s	loc_30CA8
+		bge.s	+ ;loc_30CA8
 		addi.w	#$18,y_vel(a0)
 
-loc_30CA8:
++ ;loc_30CA8:
 		jsr	(ObjCheckFloorDist).l
 		tst.w	d1
 		bpl.s	locret_30CC2
@@ -70,7 +70,7 @@ locret_30CC2:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_30CC4:
++ ;loc_30CC4:
 		neg.w	y_vel(a0)
 		subi.w	#$80,y_vel(a0)
 		move.b	#0,$30(a0)

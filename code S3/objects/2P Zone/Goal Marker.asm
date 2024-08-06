@@ -23,35 +23,35 @@ Obj_2PGoalMarker:
 		clr.w	(Ring_count_P2).w
 		jsr	sub_364EC(pc)
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_36276
+		bne.w	+ ;loc_36276
 		move.l	#loc_37454,(a1)
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_36276
+		bne.w	+ ;loc_36276
 		move.l	#loc_37454,(a1)
 		move.b	#1,subtype(a1)
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_36276
+		bne.w	+ ;loc_36276
 		move.l	#loc_365CC,(a1)
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_36276
+		bne.w	+ ;loc_36276
 		move.l	#loc_365CC,(a1)
 		move.b	#1,subtype(a1)
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_36276
+		bne.w	+ ;loc_36276
 		move.l	#loc_366CC,(a1)
 		move.w	#$120,x_pos(a1)
 		move.w	#$B8,y_pos(a1)
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_36276
+		bne.w	+ ;loc_36276
 		move.l	#loc_37220,(a1)
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_36276
+		bne.w	+ ;loc_36276
 		move.l	#loc_37292,(a1)
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_36276
+		bne.w	+ ;loc_36276
 		move.l	#locret_3780C,(a1)
 
-loc_36276:
++ ;loc_36276:
 		move.l	#loc_3627C,(a0)
 
 loc_3627C:
@@ -77,7 +77,7 @@ loc_3627C:
 
 loc_362D0:
 		subq.w	#1,$3C(a0)
-		bne.w	loc_3637C
+		bne.w	++ ;loc_3637C
 		lea	(Player_1).w,a1
 		move.w	(Saved_X_pos).w,x_pos(a1)
 		move.w	(Saved_Y_pos).w,y_pos(a1)
@@ -89,7 +89,7 @@ loc_362D0:
 		move.b	#1<<Status_InAir,status(a1)
 		move.w	#0,move_lock(a1)
 		tst.b	(Not_ghost_flag).w
-		beq.s	loc_36352
+		beq.s	+ ;loc_36352
 		lea	(Player_2).w,a1
 		move.w	(Saved2_X_pos).w,x_pos(a1)
 		move.w	(Saved2_Y_pos).w,y_pos(a1)
@@ -101,7 +101,7 @@ loc_362D0:
 		move.b	#1<<Status_InAir,status(a1)
 		move.w	#0,move_lock(a1)
 
-loc_36352:
++ ;loc_36352:
 		clr.w	(Competition_current_lap).w
 		clr.b	(Update_HUD_timer).w
 		clr.l	(Timer).w
@@ -113,7 +113,7 @@ loc_36352:
 		clr.w	(Events_bg+$14).w
 		move.l	#loc_3627C,(a0)
 
-loc_3637C:
++ ;loc_3637C:
 		lea	(Ani_2PGoalMarker).l,a1
 		jsr	(Animate_Sprite).l
 		jmp	(Draw_Sprite).l
@@ -140,23 +140,23 @@ sub_3638E:
 		bge.w	locret_364EA
 		move.w	x_pos(a1),d2
 		sub.w	d1,d2
-		bcc.s	loc_363D0
+		bcc.s	+ ;loc_363D0
 		neg.w	d2
 
-loc_363D0:
++ ;loc_363D0:
 		cmpi.w	#$20,d2
 		bhs.w	locret_364EA
 		cmpi.b	#$C,top_solid_bit(a1)
 		bne.s	locret_3642C
 		move.b	(a3),d0
-		beq.s	loc_3642E
+		beq.s	++ ;loc_3642E
 		cmp.b	1(a2),d0
 		bls.s	loc_3642A
 		move.b	d0,1(a2)
 		subq.b	#1,d0
-		bmi.s	loc_3640E
+		bmi.s	+ ;loc_3640E
 		cmpi.b	#5,d0
-		bhs.s	loc_3640E
+		bhs.s	+ ;loc_3640E
 		ext.w	d0
 		lsl.w	#2,d0
 		move.l	(a6,d0.w),d5
@@ -165,7 +165,7 @@ loc_363D0:
 		move.l	d6,$14(a6)
 		clr.l	(a5)
 
-loc_3640E:
++ ;loc_3640E:
 		sub.w	y_pos(a0),d4
 		neg.w	d4
 		cmpi.w	#$14,d4
@@ -182,7 +182,7 @@ locret_3642C:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_3642E:
++ ;loc_3642E:
 		tst.b	1(a2)
 		bne.s	loc_3642A
 		tst.b	(Update_HUD_timer).w
@@ -200,10 +200,10 @@ loc_3642E:
 		move.l	#loc_36A4A,(a1)
 		move.b	#8,render_flags(a1)
 		cmpa.w	#Player_1,a6
-		beq.s	loc_36484
+		beq.s	+ ;loc_36484
 		eori.b	#$18,render_flags(a1)
 
-loc_36484:
++ ;loc_36484:
 		moveq	#signextendB(sfx_Error),d0
 		jmp	(Play_SFX).l
 ; ---------------------------------------------------------------------------
@@ -238,10 +238,10 @@ loc_3649E:
 		bge.w	locret_364EA
 		move.w	x_pos(a1),d2
 		sub.w	d1,d2
-		bcc.s	loc_364D4
+		bcc.s	+ ;loc_364D4
 		neg.w	d2
 
-loc_364D4:
++ ;loc_364D4:
 		cmpi.w	#$20,d2
 		bhs.s	locret_364EA
 		cmpi.b	#$C,top_solid_bit(a1)
@@ -262,9 +262,9 @@ sub_364EC:
 		lea	($FF7828).l,a1
 		moveq	#$C-1,d0
 
-.loop:
+- ;.loop:
 		clr.l	(a1)+
-		dbf	d0,.loop
+		dbf	d0,- ;.loop
 		clr.l	(Competition_time_record).w
 		clr.l	(Competition_time_record_P2).w
 		st	(Competition_time_attack_new_top_record).w
@@ -279,22 +279,22 @@ sub_36508:
 		add.b	d5,d6
 		moveq	#0,d3
 		cmpi.b	#100,d6
-		blo.s	loc_36518
+		blo.s	+ ;loc_36518
 		subi.b	#100,d6
 		moveq	#1,d3
 
-loc_36518:
++ ;loc_36518:
 		ror.l	#8,d5
 		ror.l	#8,d6
 		add.b	d3,d6
 		add.b	d5,d6
 		moveq	#0,d3
 		cmpi.b	#60,d6
-		blo.s	loc_3652E
+		blo.s	+ ;loc_3652E
 		subi.b	#60,d6
 		moveq	#1,d3
 
-loc_3652E:
++ ;loc_3652E:
 		ror.l	#8,d5
 		ror.l	#8,d6
 		add.b	d3,d6
@@ -316,15 +316,15 @@ sub_3653C:
 		lea	(Dynamic_object_RAM).w,a1
 		moveq	#(Dynamic_object_RAM_end-Dynamic_object_RAM)/object_size-1,d0
 
-loc_36550:
+- ;loc_36550:
 		lea	next_object(a1),a1
 		cmpi.l	#loc_35962,(a1)
-		bne.s	loc_36566
+		bne.s	+ ;loc_36566
 		move.b	(a4)+,anim(a1)
 		move.b	#$C7,collision_flags(a1)
 
-loc_36566:
-		dbf	d0,loc_36550
++ ;loc_36566:
+		dbf	d0,- ;loc_36550
 
 locret_3656A:
 		rts

@@ -22,11 +22,11 @@ loc_56F6E:
 loc_56F76:
 		jsr	Find_SonicTails(pc)
 		cmpi.w	#$80,d2
-		blo.s	loc_56F82
+		blo.s	+ ;loc_56F82
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_56F82:
++ ;loc_56F82:
 		move.b	#4,routine(a0)
 		move.l	#byte_57116,$30(a0)
 		move.l	#loc_56FA6,$34(a0)
@@ -57,10 +57,10 @@ loc_56FC6:
 		move.b	#8,routine(a0)
 		moveq	#$68,d0
 		bchg	#1,render_flags(a0)
-		bne.s	loc_56FD8
+		bne.s	+ ;loc_56FD8
 		neg.w	d0
 
-loc_56FD8:
++ ;loc_56FD8:
 		add.w	d0,y_pos(a0)
 		move.w	#$20,$2E(a0)
 		move.l	#loc_57002,$34(a0)
@@ -97,10 +97,10 @@ loc_57020:
 		movea.w	parent3(a0),a1
 		moveq	#$34,d0
 		btst	#1,render_flags(a1)
-		bne.s	loc_57046
+		bne.s	+ ;loc_57046
 		neg.w	d0
 
-loc_57046:
++ ;loc_57046:
 		add.w	d0,y_pos(a0)
 		rts
 ; ---------------------------------------------------------------------------
@@ -130,17 +130,17 @@ loc_5706C:
 		movea.w	parent3(a0),a1
 		move.w	#$600,d0
 		btst	#1,render_flags(a1)
-		bne.s	loc_5708C
+		bne.s	+ ;loc_5708C
 		neg.w	d0
 
-loc_5708C:
++ ;loc_5708C:
 		move.w	d0,y_vel(a0)
 		move.w	#$600,d0
 		tst.b	subtype(a0)
-		bne.s	loc_5709C
+		bne.s	+ ;loc_5709C
 		neg.w	d0
 
-loc_5709C:
++ ;loc_5709C:
 		move.w	d0,x_vel(a0)
 		rts
 ; ---------------------------------------------------------------------------
@@ -150,30 +150,30 @@ loc_570A2:
 		jsr	Animate_RawNoSST(pc)
 		moveq	#$40,d0
 		move.w	x_vel(a0),d1
-		bmi.s	loc_570B4
+		bmi.s	+ ;loc_570B4
 		neg.w	d0
 
-loc_570B4:
++ ;loc_570B4:
 		add.w	d0,d1
 		cmpi.w	#-$100,d1
-		blt.s	loc_570C2
+		blt.s	+ ;loc_570C2
 		cmpi.w	#$100,d1
-		ble.s	loc_570DC
+		ble.s	+++ ;loc_570DC
 
-loc_570C2:
++ ;loc_570C2:
 		move.w	d1,x_vel(a0)
 		moveq	#$40,d0
 		move.w	y_vel(a0),d1
-		bmi.s	loc_570D0
+		bmi.s	+ ;loc_570D0
 		neg.w	d0
 
-loc_570D0:
++ ;loc_570D0:
 		add.w	d0,d1
 		move.w	d1,y_vel(a0)
 		jmp	(MoveSprite2).l
 ; ---------------------------------------------------------------------------
 
-loc_570DC:
++ ;loc_570DC:
 		move.b	#4,routine(a0)
 		jmp	(MoveSprite2).l
 ; ---------------------------------------------------------------------------

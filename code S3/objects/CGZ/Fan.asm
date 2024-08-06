@@ -21,10 +21,10 @@ loc_2F560:
 		bsr.w	sub_2F588
 		addq.b	#1,mapping_frame(a0)
 		cmpi.b	#3,mapping_frame(a0)
-		blo.s	loc_2F582
+		blo.s	+ ;loc_2F582
 		move.b	#0,mapping_frame(a0)
 
-loc_2F582:
++ ;loc_2F582:
 		jmp	(Draw_Sprite).l
 
 ; =============== S U B R O U T I N E =======================================
@@ -49,11 +49,11 @@ sub_2F588:
 		cmp.w	$38(a0),d1
 		bhs.s	locret_2F61E
 		sub.w	$36(a0),d1
-		bcs.s	loc_2F5D0
+		bcs.s	+ ;loc_2F5D0
 		not.w	d1
 		add.w	d1,d1
 
-loc_2F5D0:
++ ;loc_2F5D0:
 		add.w	$36(a0),d1
 		neg.w	d1
 		asr.w	#6,d1

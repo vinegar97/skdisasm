@@ -2,22 +2,22 @@ Obj_BubblesBadnik:
 		jsr	(Obj_WaitOffscreen).l
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	BubblesBadnik_Index(pc,d0.w),d1
-		jsr	BubblesBadnik_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		move.b	#$12,collision_flags(a0)
 		cmpi.b	#4,mapping_frame(a0)
-		bne.s	loc_5614A
+		bne.s	+ ;loc_5614A
 		move.b	#$86,collision_flags(a0)
 
-loc_5614A:
++ ;loc_5614A:
 		lea	PLCPtr_BubblesBadnik(pc),a2
 		jsr	Perform_DPLC(pc)
 		jmp	Sprite_CheckDeleteTouchSlotted(pc)
 ; ---------------------------------------------------------------------------
-BubblesBadnik_Index:
-		dc.w loc_5615C-BubblesBadnik_Index
-		dc.w loc_56198-BubblesBadnik_Index
-		dc.w loc_561D2-BubblesBadnik_Index
+.Index:
+		dc.w loc_5615C-.Index
+		dc.w loc_56198-.Index
+		dc.w loc_561D2-.Index
 ; ---------------------------------------------------------------------------
 
 loc_5615C:
@@ -25,10 +25,10 @@ loc_5615C:
 		jsr	SetUp_ObjAttributesSlotted(pc)
 		move.w	#-$80,x_vel(a0)
 		btst	#0,render_flags(a0)
-		beq.s	loc_56176
+		beq.s	+ ;loc_56176
 		neg.w	x_vel(a0)
 
-loc_56176:
++ ;loc_56176:
 		move.l	#byte_56239,$30(a0)
 		move.w	#$100,d0
 		move.w	d0,$3E(a0)
@@ -43,35 +43,35 @@ loc_56198:
 		move.w	y_vel(a0),d4
 		jsr	Swing_UpAndDown(pc)
 		tst.w	y_vel(a0)
-		bne.s	loc_561CC
+		bne.s	+ ;loc_561CC
 		tst.w	d4
-		bmi.s	loc_561CC
+		bmi.s	+ ;loc_561CC
 		move.b	#4,routine(a0)
 		move.l	#byte_5622A,$30(a0)
 		move.l	#loc_56200,$34(a0)
 		clr.b	anim_frame(a0)
 		clr.b	anim_frame_timer(a0)
 
-loc_561CC:
++ ;loc_561CC:
 		jmp	(MoveSprite2).l
 ; ---------------------------------------------------------------------------
 
 loc_561D2:
 		jsr	Animate_RawMultiDelay(pc)
-		beq.s	loc_561E8
+		beq.s	+ ;loc_561E8
 		cmpi.b	#4,anim_frame(a0)
-		bne.s	loc_561E8
+		bne.s	+ ;loc_561E8
 		moveq	#signextendB(sfx_ChainTick),d0
 		jsr	(Play_SFX).l
 
-loc_561E8:
++ ;loc_561E8:
 		jsr	Swing_UpAndDown(pc)
 		tst.w	d3
-		beq.s	loc_561FA
+		beq.s	+ ;loc_561FA
 		neg.w	x_vel(a0)
 		bchg	#0,render_flags(a0)
 
-loc_561FA:
++ ;loc_561FA:
 		jmp	(MoveSprite2).l
 ; ---------------------------------------------------------------------------
 

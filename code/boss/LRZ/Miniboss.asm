@@ -211,17 +211,17 @@ loc_7873A:
 loc_78768:
 		jsr	(Animate_RawMultiDelay).l
 		cmpi.b	#6,anim_frame(a0)
-		bhs.s	loc_78784
+		bhs.s	+ ;loc_78784
 		bsr.w	sub_78C14
 		jsr	(Add_SpriteToCollisionResponseList).l
-		bra.w	loc_7878C
+		bra.w	++ ;loc_7878C
 ; ---------------------------------------------------------------------------
 
-loc_78784:
++ ;loc_78784:
 		bsr.w	sub_78CCA
 		clr.b	collision_flags(a0)
 
-loc_7878C:
++ ;loc_7878C:
 		jsr	(MoveSprite2).l
 		jsr	(Obj_Wait).l
 		move.w	(_unkFAB2).w,d0
@@ -239,24 +239,24 @@ loc_787AE:
 		move.b	$38(a0),d0
 		andi.b	#-$40,d0
 		cmpi.b	#-$40,d0
-		beq.s	loc_787D8
+		beq.s	+ ;loc_787D8
 		move.w	#$15F,$2E(a0)
 		bset	#3,$38(a0)
 		bclr	#2,$38(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_787D8:
++ ;loc_787D8:
 		move.w	#$1F,$2E(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
 loc_787E0:
 		jsr	(AllocateObject).l
-		bne.s	loc_787EE
+		bne.s	+ ;loc_787EE
 		move.l	#loc_78AA8,(a1)
 
-loc_787EE:
++ ;loc_787EE:
 		lea	ChildObjDat_78D9E(pc),a2
 		jsr	(CreateChild1_Normal).l
 		jmp	(Obj_EndSignControl).l
@@ -272,10 +272,10 @@ loc_7880A:
 		move.b	subtype(a0),d1
 		beq.s	loc_7881E
 		cmpi.b	#$16,d1
-		bne.s	loc_7881C
+		bne.s	+ ;loc_7881C
 		addq.w	#4,d0
 
-loc_7881C:
++ ;loc_7881C:
 		addq.w	#4,d0
 
 loc_7881E:
@@ -367,14 +367,14 @@ loc_788F4:
 		move.b	$3C(a0),d0
 		add.b	$40(a0),d0
 		cmpi.b	#$70,d0
-		blo.s	loc_78908
+		blo.s	+ ;loc_78908
 		cmpi.b	#-$70,d0
-		bls.s	loc_7890C
+		bls.s	++ ;loc_7890C
 
-loc_78908:
++ ;loc_78908:
 		neg.b	$40(a0)
 
-loc_7890C:
++ ;loc_7890C:
 		move.b	d0,$3C(a0)
 		moveq	#4,d2
 		jsr	(MoveSprite_CircularSimple).l
@@ -395,29 +395,29 @@ loc_78922:
 loc_78946:
 		movea.w	$44(a0),a1
 		btst	#3,$38(a1)
-		beq.s	loc_78976
+		beq.s	++ ;loc_78976
 		move.l	#loc_7897A,(a0)
 		moveq	#$7F,d0
 		btst	#0,render_flags(a0)
-		beq.s	loc_78966
+		beq.s	+ ;loc_78966
 		move.w	#$DF,d0
 
-loc_78966:
++ ;loc_78966:
 		move.w	d0,$2E(a0)
 		move.l	#loc_789CA,$34(a0)
 		clr.b	$39(a0)
 
-loc_78976:
++ ;loc_78976:
 		bra.w	sub_78B46
 ; ---------------------------------------------------------------------------
 
 loc_7897A:
 		movea.w	$44(a0),a1
 		btst	#2,$38(a1)
-		beq.s	loc_7898C
+		beq.s	+ ;loc_7898C
 		move.l	#loc_78946,(a0)
 
-loc_7898C:
++ ;loc_7898C:
 		jsr	(Animate_Raw).l
 		lea	(AngleLookup_2).l,a2
 		jsr	(MoveSprite_AtAngleLookup).l
@@ -425,16 +425,16 @@ loc_7898C:
 		bsr.w	sub_78B46
 		bsr.w	sub_78CF4
 		move.b	$20(a0),d0
-		beq.s	loc_789BE
+		beq.s	+ ;loc_789BE
 		btst	#0,d0
 		bne.w	locret_78536
-		bra.w	loc_789C4
+		bra.w	++ ;loc_789C4
 ; ---------------------------------------------------------------------------
 
-loc_789BE:
++ ;loc_789BE:
 		jsr	(Add_SpriteToCollisionResponseList).l
 
-loc_789C4:
++ ;loc_789C4:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -444,10 +444,10 @@ loc_789CA:
 		move.b	d0,$39(a0)
 		move.w	#$13,$2E(a0)
 		cmpi.b	#3,d0
-		blo.s	loc_789E6
+		blo.s	+ ;loc_789E6
 		move.w	#$FFF,$2E(a0)
 
-loc_789E6:
++ ;loc_789E6:
 		moveq	#signextendB(sfx_BossProjectile),d0
 		jsr	(Play_SFX).l
 		lea	ChildObjDat_78D90(pc),a2
@@ -484,11 +484,11 @@ loc_78A46:
 		move.w	x_pos(a1),x_pos(a0)
 		move.w	y_pos(a1),y_pos(a0)
 		btst	#7,status(a1)
-		bne.s	loc_78A6A
+		bne.s	+ ;loc_78A6A
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_78A6A:
++ ;loc_78A6A:
 		jmp	(Go_Delete_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -548,9 +548,9 @@ loc_78B08:
 		lea	(Normal_palette_line_2).w,a2
 		moveq	#bytesToLcnt($20),d6
 
-loc_78B24:
+- ;loc_78B24:
 		move.l	(a1)+,(a2)+
-		dbf	d6,loc_78B24
+		dbf	d6,- ;loc_78B24
 		lea	Pal_LRZMiniboss3(pc),a1
 		bsr.w	sub_78B38
 		jmp	(Delete_Current_Sprite).l
@@ -562,9 +562,9 @@ sub_78B38:
 		lea	(Normal_palette_line_3).w,a2
 		moveq	#bytesToLcnt($40),d0
 
-loc_78B3E:
+- ;loc_78B3E:
 		move.l	(a1)+,(a2)+
-		dbf	d0,loc_78B3E
+		dbf	d0,- ;loc_78B3E
 		rts
 ; End of function sub_78B38
 
@@ -576,10 +576,10 @@ sub_78B46:
 		movea.w	$44(a0),a1
 		moveq	#6,d0
 		btst	#0,render_flags(a0)
-		beq.s	loc_78B56
+		beq.s	+ ;loc_78B56
 		moveq	#7,d0
 
-loc_78B56:
++ ;loc_78B56:
 		btst	d0,$38(a1)
 		beq.w	locret_78536
 		move.l	#Wait_Draw,(a0)
@@ -648,10 +648,10 @@ sub_78BD6:
 sub_78BEE:
 		move.w	#$20,d0
 		btst	#0,render_flags(a0)
-		beq.s	loc_78BFE
+		beq.s	+ ;loc_78BFE
 		move.w	#$120,d0
 
-loc_78BFE:
++ ;loc_78BFE:
 		add.w	(Camera_X_pos).w,d0
 		move.w	d0,x_pos(a0)
 		move.w	(Camera_Y_pos).w,d0
@@ -670,20 +670,20 @@ sub_78C14:
 		move.b	collision_property(a0),d0
 		beq.s	loc_78C60
 		tst.b	$20(a0)
-		bne.s	loc_78C3A
+		bne.s	+ ;loc_78C3A
 		move.b	#$20,$20(a0)
 		moveq	#signextendB(sfx_BossHit),d0
 		jsr	(Play_SFX).l
 		bset	#6,status(a0)
 
-loc_78C3A:
++ ;loc_78C3A:
 		moveq	#0,d0
 		btst	#0,$20(a0)
-		bne.s	loc_78C48
+		bne.s	+ ;loc_78C48
 		; Bug: this should be 2*6
 		addi.w	#2*2,d0
 
-loc_78C48:
++ ;loc_78C48:
 		bsr.w	sub_78C98
 		subq.b	#1,$20(a0)
 		bne.s	locret_78C5E
@@ -734,10 +734,10 @@ sub_78CCA:
 		beq.s	locret_78CF2
 		moveq	#0,d0
 		btst	#0,$20(a0)
-		bne.s	loc_78CE4
+		bne.s	+ ;loc_78CE4
 		addi.w	#4,d0
 
-loc_78CE4:
++ ;loc_78CE4:
 		bsr.s	sub_78C98
 		subq.b	#1,$20(a0)
 		bne.s	locret_78CF2
@@ -757,14 +757,14 @@ sub_78CF4:
 		move.b	collision_property(a0),d0
 		beq.s	loc_78D2C
 		tst.b	$20(a0)
-		bne.s	loc_78D1E
+		bne.s	+ ;loc_78D1E
 		move.b	#$20,$20(a0)
 		moveq	#signextendB(sfx_BossHit),d0
 		jsr	(Play_SFX).l
 		lea	ChildObjDat_78D98(pc),a2
 		jsr	(CreateChild6_Simple).l
 
-loc_78D1E:
++ ;loc_78D1E:
 		subq.b	#1,$20(a0)
 		bne.s	locret_78D2A
 		move.b	$25(a0),collision_flags(a0)
@@ -777,10 +777,10 @@ loc_78D2C:
 		movea.w	$44(a0),a1
 		move.w	#6,d0
 		btst	#0,render_flags(a0)
-		beq.s	loc_78D40
+		beq.s	+ ;loc_78D40
 		move.w	#7,d0
 
-loc_78D40:
++ ;loc_78D40:
 		bset	d0,$38(a1)
 		move.b	$38(a1),d0
 		andi.b	#$C0,d0

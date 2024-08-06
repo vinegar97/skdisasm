@@ -22,23 +22,23 @@ Obj_FBZScrewDoor:
 		lea	(Ani_FBZScrewDoor).l,a1
 		jsr	(Animate_Sprite).l
 		tst.b	subtype(a0)
-		bpl.s	loc_3BC6C
+		bpl.s	++ ;loc_3BC6C
 		move.w	respawn_addr(a0),d0
-		beq.s	loc_3BC62
+		beq.s	+ ;loc_3BC62
 		movea.w	d0,a2
 		btst	#0,(a2)
-		beq.s	loc_3BC62
+		beq.s	+ ;loc_3BC62
 		addi.w	#$40,y_pos(a0)
 		move.l	#loc_3BCF2,(a0)
 		bra.w	loc_3BCF2
 ; ---------------------------------------------------------------------------
 
-loc_3BC62:
++ ;loc_3BC62:
 		move.l	#loc_3BD1A,(a0)
 		bra.w	loc_3BD1A
 ; ---------------------------------------------------------------------------
 
-loc_3BC6C:
++ ;loc_3BC6C:
 		move.l	#loc_3BC72,(a0)
 
 loc_3BC72:
@@ -54,21 +54,21 @@ loc_3BC72:
 loc_3BC92:
 		addq.b	#1,$2E(a0)
 		cmpi.b	#$80,$2E(a0)
-		bne.s	loc_3BCA4
+		bne.s	+ ;loc_3BCA4
 		move.l	#loc_3BCF2,(a0)
 
-loc_3BCA4:
++ ;loc_3BCA4:
 		moveq	#0,d0
 		move.b	$2E(a0),d0
 		btst	#4,subtype(a0)
-		beq.s	loc_3BCB4
+		beq.s	+ ;loc_3BCB4
 		neg.w	d0
 
-loc_3BCB4:
++ ;loc_3BCB4:
 		btst	#5,subtype(a0)
-		bne.s	loc_3BCDC
+		bne.s	+ ;loc_3BCDC
 		btst	#6,subtype(a0)
-		bne.s	loc_3BCDE
+		bne.s	++ ;loc_3BCDE
 		asr.w	#1,d0
 		add.w	$46(a0),d0
 		move.w	d0,y_pos(a0)
@@ -77,10 +77,10 @@ loc_3BCB4:
 		bra.s	loc_3BCF2
 ; ---------------------------------------------------------------------------
 
-loc_3BCDC:
++ ;loc_3BCDC:
 		asr.w	#1,d0
 
-loc_3BCDE:
++ ;loc_3BCDE:
 		add.w	$44(a0),d0
 		move.w	d0,x_pos(a0)
 		lea	(Ani_FBZScrewDoor).l,a1
@@ -110,18 +110,18 @@ loc_3BD1A:
 		move.w	x_pos(a1),d0
 		sub.w	x_pos(a0),d0
 		btst	#0,status(a0)
-		beq.s	loc_3BD42
+		beq.s	+ ;loc_3BD42
 		neg.w	d0
 
-loc_3BD42:
++ ;loc_3BD42:
 		cmpi.w	#$40,d0
 		blt.s	loc_3BCF2
 		move.w	respawn_addr(a0),d0
-		beq.s	loc_3BD54
+		beq.s	+ ;loc_3BD54
 		movea.w	d0,a2
 		bset	#0,(a2)
 
-loc_3BD54:
++ ;loc_3BD54:
 		move.l	#loc_3BC92,(a0)
 		bra.w	loc_3BC92
 ; ---------------------------------------------------------------------------

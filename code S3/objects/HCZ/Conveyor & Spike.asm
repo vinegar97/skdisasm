@@ -22,17 +22,17 @@ Obj_HCZConveyorBelt:
 		moveq	#0,d0
 		move.b	subtype(a0),d0
 		tst.b	(a1,d0.w)
-		beq.s	loc_2FDE0
+		beq.s	++ ;loc_2FDE0
 		move.w	respawn_addr(a0),d0
-		beq.s	loc_2FDDA
+		beq.s	+ ;loc_2FDDA
 		movea.w	d0,a2
 		bclr	#7,(a2)
 
-loc_2FDDA:
++ ;loc_2FDDA:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_2FDE0:
++ ;loc_2FDE0:
 		move.b	#1,(a1,d0.w)
 		andi.w	#$F,d0
 		lsl.w	#2,d0
@@ -40,18 +40,18 @@ loc_2FDE0:
 		move.w	(a1)+,d0
 		move.w	d0,$3C(a0)
 		btst	#0,status(a0)
-		bne.s	loc_2FE00
+		bne.s	+ ;loc_2FE00
 		subq.w	#8,d0
 
-loc_2FE00:
++ ;loc_2FE00:
 		move.w	d0,$40(a0)
 		move.w	(a1)+,d0
 		move.w	d0,$3E(a0)
 		btst	#0,status(a0)
-		beq.s	loc_2FE14
+		beq.s	+ ;loc_2FE14
 		addq.w	#8,d0
 
-loc_2FE14:
++ ;loc_2FE14:
 		move.w	d0,$42(a0)
 		move.l	#loc_2FE1E,(a0)
 
@@ -60,42 +60,42 @@ loc_2FE1E:
 		lea	(Player_1).w,a1
 		move.w	(Ctrl_1_logical).w,d1
 		moveq	#0,d2
-		bsr.s	sub_2FE80
+		bsr.s	+++ ;sub_2FE80
 		addq.w	#1,a2
 		lea	(Player_2).w,a1
 		move.w	(Ctrl_2_logical).w,d1
 		moveq	#1,d2
-		bsr.s	sub_2FE80
+		bsr.s	+++ ;sub_2FE80
 		move.w	(Camera_X_pos_coarse_back).w,d1
 		move.w	$3C(a0),d0
 		andi.w	#$FF80,d0
 		subi.w	#$280,d0
 		cmp.w	d0,d1
-		blo.s	loc_2FE5E
+		blo.s	+ ;loc_2FE5E
 		move.w	$3E(a0),d0
 		andi.w	#$FF80,d0
 		cmp.w	d0,d1
-		bhi.s	loc_2FE5E
+		bhi.s	+ ;loc_2FE5E
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_2FE5E:
++ ;loc_2FE5E:
 		lea	(Conveyor_belt_load_array).w,a1
 		moveq	#0,d0
 		move.b	subtype(a0),d0
 		move.b	#0,(a1,d0.w)
 		move.w	respawn_addr(a0),d0
-		beq.s	loc_2FE7A
+		beq.s	+ ;loc_2FE7A
 		movea.w	d0,a2
 		bclr	#7,(a2)
 
-loc_2FE7A:
++ ;loc_2FE7A:
 		jmp	(Delete_Current_Sprite).l
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_2FE80:
++ ;sub_2FE80:
 		tst.b	(a2)
 		beq.w	loc_2FF7C
 		tst.w	(Debug_placement_mode).w
@@ -103,33 +103,33 @@ sub_2FE80:
 		cmpi.b	#4,routine(a1)
 		bhs.w	loc_2FF2E
 		btst	#button_left+8,d1
-		beq.s	loc_2FEBA
+		beq.s	+ ;loc_2FEBA
 		subq.w	#1,x_pos(a1)
 		subq.b	#1,6(a2)
-		bpl.s	loc_2FEBA
+		bpl.s	+ ;loc_2FEBA
 		move.b	#7,6(a2)
 		addi.b	#$10,8(a2)
 		andi.b	#$10,8(a2)
 
-loc_2FEBA:
++ ;loc_2FEBA:
 		btst	#button_right+8,d1
-		beq.s	loc_2FEDC
+		beq.s	+ ;loc_2FEDC
 		addq.w	#1,x_pos(a1)
 		subq.b	#1,6(a2)
-		bpl.s	loc_2FEDC
+		bpl.s	+ ;loc_2FEDC
 		move.b	#7,6(a2)
 		addi.b	#$10,8(a2)
 		andi.b	#$10,8(a2)
 
-loc_2FEDC:
++ ;loc_2FEDC:
 		andi.w	#button_A_mask|button_B_mask|button_C_mask,d1
-		bne.w	loc_2FF1A
+		bne.w	++ ;loc_2FF1A
 		moveq	#2,d0
 		btst	#0,status(a0)
-		beq.s	loc_2FEF0
+		beq.s	+ ;loc_2FEF0
 		neg.w	d0
 
-loc_2FEF0:
++ ;loc_2FEF0:
 		add.w	d0,x_pos(a1)
 		move.w	x_pos(a1),d0
 		cmp.w	$40(a0),d0
@@ -145,7 +145,7 @@ loc_2FEF0:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_2FF1A:
++ ;loc_2FF1A:
 		move.w	#-$500,y_vel(a1)
 		btst	#Status_Underwater,status(a1)
 		beq.s	loc_2FF2E
@@ -155,10 +155,10 @@ loc_2FF2E:
 		clr.b	(a2)
 		move.b	#60,2(a2)
 		btst	#Status_Underwater,status(a1)
-		beq.s	loc_2FF44
+		beq.s	+ ;loc_2FF44
 		move.b	#90,2(a2)
 
-loc_2FF44:
++ ;loc_2FF44:
 		andi.b	#$FC,object_control(a1)
 		bset	#Status_InAir,status(a1)
 		move.b	#1,jumping(a1)
@@ -173,19 +173,19 @@ loc_2FF44:
 
 loc_2FF7C:
 		tst.b	2(a2)
-		beq.s	loc_2FF88
+		beq.s	+ ;loc_2FF88
 		subq.b	#1,2(a2)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_2FF88:
++ ;loc_2FF88:
 		move.w	x_pos(a1),d0
 		cmp.w	$40(a0),d0
 		blo.w	locret_3002E
 		cmp.w	$42(a0),d0
 		bhs.w	locret_3002E
 		cmpi.w	#1,ground_vel(a1)
-		beq.w	loc_30030
+		beq.w	+ ;loc_30030
 		move.w	y_pos(a0),d0
 		addi.w	#$14,d0
 		cmp.w	y_pos(a1),d0
@@ -225,7 +225,7 @@ locret_3002E:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_30030:
++ ;loc_30030:
 		move.w	y_pos(a0),d0
 		subi.w	#$14,d0
 		cmp.w	y_pos(a1),d0
@@ -270,21 +270,21 @@ sub_300B4:
 		bne.s	loc_300DA
 		move.b	4(a2),d0
 		beq.s	loc_300D8
-		bpl.s	loc_300CC
+		bpl.s	++ ;loc_300CC
 		addi.b	#6,d0
-		bcc.s	loc_300CA
+		bcc.s	+ ;loc_300CA
 		moveq	#0,d0
 
-loc_300CA:
-		bra.s	loc_300D4
++ ;loc_300CA:
+		bra.s	++ ;loc_300D4
 ; ---------------------------------------------------------------------------
 
-loc_300CC:
++ ;loc_300CC:
 		subi.b	#6,d0
-		bcc.s	loc_300D4
+		bcc.s	+ ;loc_300D4
 		moveq	#0,d0
 
-loc_300D4:
++ ;loc_300D4:
 		move.b	d0,4(a2)
 
 loc_300D8:
@@ -296,21 +296,21 @@ loc_300DA:
 		move.b	4(a2),d0
 		subi.b	#$80,d0
 		beq.s	loc_30104
-		bpl.s	loc_300F4
+		bpl.s	++ ;loc_300F4
 		addi.b	#6,d0
-		bcc.s	loc_300F2
+		bcc.s	+ ;loc_300F2
 		moveq	#0,d0
 
-loc_300F2:
-		bra.s	loc_300FC
++ ;loc_300F2:
+		bra.s	++ ;loc_300FC
 ; ---------------------------------------------------------------------------
 
-loc_300F4:
++ ;loc_300F4:
 		subi.b	#6,d0
-		bcc.s	loc_300FC
+		bcc.s	+ ;loc_300FC
 		moveq	#0,d0
 
-loc_300FC:
++ ;loc_300FC:
 		addi.b	#$80,d0
 		move.b	d0,4(a2)
 
@@ -356,13 +356,13 @@ Obj_HCZConveryorSpike:
 		move.w	x_pos(a0),$30(a0)
 		move.w	y_pos(a0),$32(a0)
 		btst	#0,status(a0)
-		beq.s	loc_301C8
+		beq.s	+ ;loc_301C8
 		addi.w	#$18,y_pos(a0)
 		move.l	#loc_3022C,(a0)
 		bra.w	loc_3022C
 ; ---------------------------------------------------------------------------
 
-loc_301C8:
++ ;loc_301C8:
 		subi.w	#$18,y_pos(a0)
 		move.w	#$40,angle(a0)
 		move.l	#loc_301DA,(a0)
@@ -371,11 +371,11 @@ loc_301DA:
 		addq.w	#2,x_pos(a0)
 		move.w	x_pos(a0),d0
 		cmp.w	$3E(a0),d0
-		bne.s	loc_301F4
+		bne.s	+ ;loc_301F4
 		move.l	#loc_301F8,(a0)
 		move.w	x_pos(a0),$30(a0)
 
-loc_301F4:
++ ;loc_301F4:
 		bra.w	loc_30280
 ; ---------------------------------------------------------------------------
 
@@ -383,10 +383,10 @@ loc_301F8:
 		subq.w	#2,angle(a0)
 		andi.w	#$7E,angle(a0)
 		move.w	angle(a0),d0
-		bne.s	loc_3020E
+		bne.s	+ ;loc_3020E
 		move.l	#loc_3022C,(a0)
 
-loc_3020E:
++ ;loc_3020E:
 		lea	word_302BE(pc),a1
 		move.w	(a1,d0.w),d1
 		move.w	$20(a1,d0.w),d2
@@ -401,11 +401,11 @@ loc_3022C:
 		subq.w	#2,x_pos(a0)
 		move.w	x_pos(a0),d0
 		cmp.w	$3C(a0),d0
-		bne.s	loc_30246
+		bne.s	+ ;loc_30246
 		move.l	#loc_30248,(a0)
 		move.w	x_pos(a0),$30(a0)
 
-loc_30246:
++ ;loc_30246:
 		bra.s	loc_30280
 ; ---------------------------------------------------------------------------
 
@@ -414,10 +414,10 @@ loc_30248:
 		andi.w	#$7E,angle(a0)
 		move.w	angle(a0),d0
 		cmpi.w	#$40,angle(a0)
-		bne.s	loc_30264
+		bne.s	+ ;loc_30264
 		move.l	#loc_301DA,(a0)
 
-loc_30264:
++ ;loc_30264:
 		lea	word_302BE(pc),a1
 		move.w	(a1,d0.w),d1
 		move.w	2*$10(a1,d0.w),d2
@@ -432,22 +432,22 @@ loc_30280:
 		andi.w	#$FF80,d0
 		subi.w	#$280,d0
 		cmp.w	d0,d1
-		blo.s	loc_302AC
+		blo.s	+ ;loc_302AC
 		move.w	$3E(a0),d0
 		andi.w	#$FF80,d0
 		cmp.w	d0,d1
-		bhi.s	loc_302AC
+		bhi.s	+ ;loc_302AC
 		jsr	(Add_SpriteToCollisionResponseList).l
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_302AC:
++ ;loc_302AC:
 		move.w	respawn_addr(a0),d0
-		beq.s	loc_302B8
+		beq.s	+ ;loc_302B8
 		movea.w	d0,a2
 		bclr	#7,(a2)
 
-loc_302B8:
++ ;loc_302B8:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 word_302BE:

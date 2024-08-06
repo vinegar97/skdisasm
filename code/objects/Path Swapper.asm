@@ -7,7 +7,7 @@ Obj_PathSwap:
 		move.w	#$280,priority(a0)
 		move.b	subtype(a0),d0
 		btst	#2,d0
-		beq.s	loc_1CD3C
+		beq.s	+++ ;loc_1CD3C
 		andi.w	#7,d0
 		move.b	d0,mapping_frame(a0)
 		andi.w	#3,d0
@@ -16,16 +16,16 @@ Obj_PathSwap:
 		move.w	y_pos(a0),d1
 		lea	(Player_1).w,a1
 		cmp.w	y_pos(a1),d1
-		bhs.s	loc_1CD06
+		bhs.s	+ ;loc_1CD06
 		move.b	#1,$34(a0)
 
-loc_1CD06:
++ ;loc_1CD06:
 		lea	(Player_2).w,a1
 		cmp.w	y_pos(a1),d1
-		bhs.s	loc_1CD16
+		bhs.s	+ ;loc_1CD16
 		move.b	#1,$35(a0)
 
-loc_1CD16:
++ ;loc_1CD16:
 		move.l	#loc_1CEF2,(a0)
 		tst.w	(Competition_mode).w
 		beq.w	loc_1CEF2
@@ -37,7 +37,7 @@ word_1CD34:
 		dc.w    $20,   $40,   $80,  $100
 ; ---------------------------------------------------------------------------
 
-loc_1CD3C:
++ ;loc_1CD3C:
 		andi.w	#3,d0
 		move.b	d0,mapping_frame(a0)
 		add.w	d0,d0
@@ -45,16 +45,16 @@ loc_1CD3C:
 		move.w	x_pos(a0),d1
 		lea	(Player_1).w,a1
 		cmp.w	x_pos(a1),d1
-		bhs.s	loc_1CD60
+		bhs.s	+ ;loc_1CD60
 		move.b	#1,$34(a0)
 
-loc_1CD60:
++ ;loc_1CD60:
 		lea	(Player_2).w,a1
 		cmp.w	x_pos(a1),d1
-		bhs.s	loc_1CD70
+		bhs.s	+ ;loc_1CD70
 		move.b	#1,$35(a0)
 
-loc_1CD70:
++ ;loc_1CD70:
 		move.l	#loc_1CD8A,(a0)
 		tst.w	(Competition_mode).w
 		beq.s	loc_1CD8A
@@ -65,7 +65,7 @@ loc_1CD70:
 
 loc_1CD8A:
 		tst.w	(Debug_placement_mode).w
-		bne.w	loc_1CDAC
+		bne.w	+ ;loc_1CDAC
 		move.w	x_pos(a0),d1
 		lea	$34(a0),a2
 		lea	(Player_1).w,a1
@@ -75,7 +75,7 @@ loc_1CD8A:
 		jmp	(Delete_Sprite_If_Not_In_Range).l
 ; ---------------------------------------------------------------------------
 
-loc_1CDAC:
++ ;loc_1CDAC:
 		jmp	(Sprite_OnScreen_Test).l
 ; ---------------------------------------------------------------------------
 
@@ -112,29 +112,29 @@ sub_1CDDA:
 		cmp.w	d3,d4
 		bge.w	locret_1CEF0
 		move.b	subtype(a0),d0
-		bpl.s	loc_1CE1C
+		bpl.s	+ ;loc_1CE1C
 		btst	#Status_InAir,status(a1)
 		bne.w	locret_1CEF0
 
-loc_1CE1C:
++ ;loc_1CE1C:
 		move.w	x_pos(a1),d2
 		sub.w	d1,d2
-		bcc.s	loc_1CE26
+		bcc.s	+ ;loc_1CE26
 		neg.w	d2
 
-loc_1CE26:
++ ;loc_1CE26:
 		cmpi.w	#$40,d2
 		bhs.w	locret_1CEF0
 		btst	#0,render_flags(a0)
-		bne.s	loc_1CE54
+		bne.s	+ ;loc_1CE54
 		move.b	#$C,top_solid_bit(a1)
 		move.b	#$D,lrb_solid_bit(a1)
 		btst	#3,d0
-		beq.s	loc_1CE54
+		beq.s	+ ;loc_1CE54
 		move.b	#$E,top_solid_bit(a1)
 		move.b	#$F,lrb_solid_bit(a1)
 
-loc_1CE54:
++ ;loc_1CE54:
 		andi.w	#drawing_mask,art_tile(a1)
 		btst	#5,d0
 		beq.w	locret_1CEF0
@@ -157,29 +157,29 @@ loc_1CE6C:
 		cmp.w	d3,d4
 		bge.w	locret_1CEF0
 		move.b	subtype(a0),d0
-		bpl.s	loc_1CEA8
+		bpl.s	+ ;loc_1CEA8
 		btst	#Status_InAir,status(a1)
 		bne.w	locret_1CEF0
 
-loc_1CEA8:
++ ;loc_1CEA8:
 		move.w	x_pos(a1),d2
 		sub.w	d1,d2
-		bcc.s	loc_1CEB2
+		bcc.s	+ ;loc_1CEB2
 		neg.w	d2
 
-loc_1CEB2:
++ ;loc_1CEB2:
 		cmpi.w	#$40,d2
 		bhs.s	locret_1CEF0
 		btst	#0,render_flags(a0)
-		bne.s	loc_1CEDE
+		bne.s	+ ;loc_1CEDE
 		move.b	#$C,top_solid_bit(a1)
 		move.b	#$D,lrb_solid_bit(a1)
 		btst	#4,d0
-		beq.s	loc_1CEDE
+		beq.s	+ ;loc_1CEDE
 		move.b	#$E,top_solid_bit(a1)
 		move.b	#$F,lrb_solid_bit(a1)
 
-loc_1CEDE:
++ ;loc_1CEDE:
 		andi.w	#drawing_mask,art_tile(a1)
 		btst	#6,d0
 		beq.s	locret_1CEF0
@@ -193,7 +193,7 @@ locret_1CEF0:
 
 loc_1CEF2:
 		tst.w	(Debug_placement_mode).w
-		bne.w	loc_1CF14
+		bne.w	+ ;loc_1CF14
 		move.w	y_pos(a0),d1
 		lea	$34(a0),a2
 		lea	(Player_1).w,a1
@@ -203,7 +203,7 @@ loc_1CEF2:
 		jmp	(Delete_Sprite_If_Not_In_Range).l
 ; ---------------------------------------------------------------------------
 
-loc_1CF14:
++ ;loc_1CF14:
 		jmp	(Sprite_OnScreen_Test).l
 ; ---------------------------------------------------------------------------
 
@@ -240,29 +240,29 @@ sub_1CF42:
 		cmp.w	d3,d4
 		bge.w	locret_1D058
 		move.b	subtype(a0),d0
-		bpl.s	loc_1CF84
+		bpl.s	+ ;loc_1CF84
 		btst	#Status_InAir,status(a1)
 		bne.w	locret_1D058
 
-loc_1CF84:
++ ;loc_1CF84:
 		move.w	y_pos(a1),d2
 		sub.w	d1,d2
-		bcc.s	loc_1CF8E
+		bcc.s	+ ;loc_1CF8E
 		neg.w	d2
 
-loc_1CF8E:
++ ;loc_1CF8E:
 		cmpi.w	#$40,d2
 		bhs.w	locret_1D058
 		btst	#0,render_flags(a0)
-		bne.s	loc_1CFBC
+		bne.s	+ ;loc_1CFBC
 		move.b	#$C,top_solid_bit(a1)
 		move.b	#$D,lrb_solid_bit(a1)
 		btst	#3,d0
-		beq.s	loc_1CFBC
+		beq.s	+ ;loc_1CFBC
 		move.b	#$E,top_solid_bit(a1)
 		move.b	#$F,lrb_solid_bit(a1)
 
-loc_1CFBC:
++ ;loc_1CFBC:
 		andi.w	#drawing_mask,art_tile(a1)
 		btst	#5,d0
 		beq.w	locret_1D058
@@ -285,29 +285,29 @@ loc_1CFD4:
 		cmp.w	d3,d4
 		bge.w	locret_1D058
 		move.b	subtype(a0),d0
-		bpl.s	loc_1D010
+		bpl.s	+ ;loc_1D010
 		btst	#Status_InAir,status(a1)
 		bne.w	locret_1D058
 
-loc_1D010:
++ ;loc_1D010:
 		move.w	y_pos(a1),d2
 		sub.w	d1,d2
-		bcc.s	loc_1D01A
+		bcc.s	+ ;loc_1D01A
 		neg.w	d2
 
-loc_1D01A:
++ ;loc_1D01A:
 		cmpi.w	#$40,d2
 		bhs.s	locret_1D058
 		btst	#0,render_flags(a0)
-		bne.s	loc_1D046
+		bne.s	+ ;loc_1D046
 		move.b	#$C,top_solid_bit(a1)
 		move.b	#$D,lrb_solid_bit(a1)
 		btst	#4,d0
-		beq.s	loc_1D046
+		beq.s	+ ;loc_1D046
 		move.b	#$E,top_solid_bit(a1)
 		move.b	#$F,lrb_solid_bit(a1)
 
-loc_1D046:
++ ;loc_1D046:
 		andi.w	#drawing_mask,art_tile(a1)
 		btst	#6,d0
 		beq.s	locret_1D058
@@ -331,7 +331,7 @@ Obj_SOZPathSwap:
 		move.w	#$280,priority(a0)
 		move.b	subtype(a0),d0
 		btst	#2,d0
-		beq.s	loc_1D180
+		beq.s	+++ ;loc_1D180
 		andi.w	#7,d0
 		move.b	d0,mapping_frame(a0)
 		andi.w	#3,d0
@@ -340,16 +340,16 @@ Obj_SOZPathSwap:
 		move.w	y_pos(a0),d1
 		lea	(Player_1).w,a1
 		cmp.w	y_pos(a1),d1
-		bhs.s	loc_1D15E
+		bhs.s	+ ;loc_1D15E
 		move.b	#1,$34(a0)
 
-loc_1D15E:
++ ;loc_1D15E:
 		lea	(Player_2).w,a1
 		cmp.w	y_pos(a1),d1
-		bhs.s	loc_1D16E
+		bhs.s	+ ;loc_1D16E
 		move.b	#1,$35(a0)
 
-loc_1D16E:
++ ;loc_1D16E:
 		move.l	#loc_1D390,(a0)
 		bra.w	loc_1D390
 ; ---------------------------------------------------------------------------
@@ -357,7 +357,7 @@ word_1D178:
 		dc.w    $20,   $40,   $80,  $100
 ; ---------------------------------------------------------------------------
 
-loc_1D180:
++ ;loc_1D180:
 		andi.w	#3,d0
 		move.b	d0,mapping_frame(a0)
 		add.w	d0,d0
@@ -371,15 +371,15 @@ loc_1D180:
 loc_1D1A4:
 		lea	(Player_2).w,a1
 		cmp.w	x_pos(a1),d1
-		bhs.s	loc_1D1B4
+		bhs.s	+ ;loc_1D1B4
 		move.b	#1,$35(a0)
 
-loc_1D1B4:
++ ;loc_1D1B4:
 		move.l	#loc_1D1BA,(a0)
 
 loc_1D1BA:
 		tst.w	(Debug_placement_mode).w
-		bne.w	loc_1D1DC
+		bne.w	+ ;loc_1D1DC
 		move.w	x_pos(a0),d1
 		lea	$34(a0),a2
 		lea	(Player_1).w,a1
@@ -389,7 +389,7 @@ loc_1D1BA:
 		jmp	(Delete_Sprite_If_Not_In_Range).l
 ; ---------------------------------------------------------------------------
 
-loc_1D1DC:
++ ;loc_1D1DC:
 		jmp	(Sprite_OnScreen_Test).l
 
 ; =============== S U B R O U T I N E =======================================
@@ -412,59 +412,59 @@ sub_1D1E2:
 		cmp.w	d3,d4
 		bge.w	locret_1D38E
 		move.b	subtype(a0),d0
-		bpl.s	loc_1D224
+		bpl.s	+ ;loc_1D224
 		btst	#Status_InAir,status(a1)
 		bne.w	locret_1D38E
 
-loc_1D224:
++ ;loc_1D224:
 		move.w	x_pos(a1),d2
 		sub.w	d1,d2
-		bcc.s	loc_1D22E
+		bcc.s	+ ;loc_1D22E
 		neg.w	d2
 
-loc_1D22E:
++ ;loc_1D22E:
 		cmpi.w	#$40,d2
 		bhs.w	locret_1D38E
 		btst	#0,render_flags(a0)
 		bne.s	loc_1D2A6
 		btst	#3,d0
-		bne.s	loc_1D276
+		bne.s	+++ ;loc_1D276
 		cmpi.b	#$C,top_solid_bit(a1)
-		bne.s	loc_1D254
+		bne.s	+ ;loc_1D254
 		move.b	#0,1(a2)
-		bra.s	loc_1D268
+		bra.s	++ ;loc_1D268
 ; ---------------------------------------------------------------------------
 
-loc_1D254:
++ ;loc_1D254:
 		addq.b	#1,1(a2)
 		cmpi.b	#2,1(a2)
-		bne.s	loc_1D268
+		bne.s	+ ;loc_1D268
 		move.b	#0,1(a2)
 		bra.s	loc_1D2A6
 ; ---------------------------------------------------------------------------
 
-loc_1D268:
++ ;loc_1D268:
 		move.b	#$C,top_solid_bit(a1)
 		move.b	#$D,lrb_solid_bit(a1)
 		bra.s	loc_1D2A6
 ; ---------------------------------------------------------------------------
 
-loc_1D276:
++ ;loc_1D276:
 		cmpi.b	#$C,top_solid_bit(a1)
-		bne.s	loc_1D286
+		bne.s	+ ;loc_1D286
 		move.b	#0,1(a2)
 		bra.s	loc_1D2A6
 ; ---------------------------------------------------------------------------
 
-loc_1D286:
++ ;loc_1D286:
 		addq.b	#1,1(a2)
 		cmpi.b	#2,1(a2)
-		bne.s	loc_1D29A
+		bne.s	+ ;loc_1D29A
 		move.b	#0,1(a2)
 		bra.s	loc_1D2A6
 ; ---------------------------------------------------------------------------
 
-loc_1D29A:
++ ;loc_1D29A:
 		move.b	#$E,top_solid_bit(a1)
 		move.b	#$F,lrb_solid_bit(a1)
 
@@ -491,59 +491,59 @@ loc_1D2BE:
 		cmp.w	d3,d4
 		bge.w	locret_1D38E
 		move.b	subtype(a0),d0
-		bpl.s	loc_1D2FA
+		bpl.s	+ ;loc_1D2FA
 		btst	#Status_InAir,status(a1)
 		bne.w	locret_1D38E
 
-loc_1D2FA:
++ ;loc_1D2FA:
 		move.w	x_pos(a1),d2
 		sub.w	d1,d2
-		bcc.s	loc_1D304
+		bcc.s	+ ;loc_1D304
 		neg.w	d2
 
-loc_1D304:
++ ;loc_1D304:
 		cmpi.w	#$40,d2
 		bhs.w	locret_1D38E
 		btst	#0,render_flags(a0)
 		bne.s	loc_1D37C
 		btst	#4,d0
-		bne.s	loc_1D34C
+		bne.s	+++ ;loc_1D34C
 		cmpi.b	#$C,top_solid_bit(a1)
-		bne.s	loc_1D32A
+		bne.s	+ ;loc_1D32A
 		move.b	#0,1(a2)
-		bra.s	loc_1D33E
+		bra.s	++ ;loc_1D33E
 ; ---------------------------------------------------------------------------
 
-loc_1D32A:
++ ;loc_1D32A:
 		addq.b	#1,1(a2)
 		cmpi.b	#2,1(a2)
-		bne.s	loc_1D33E
+		bne.s	+ ;loc_1D33E
 		move.b	#0,1(a2)
 		bra.s	loc_1D37C
 ; ---------------------------------------------------------------------------
 
-loc_1D33E:
++ ;loc_1D33E:
 		move.b	#$C,top_solid_bit(a1)
 		move.b	#$D,lrb_solid_bit(a1)
 		bra.s	loc_1D37C
 ; ---------------------------------------------------------------------------
 
-loc_1D34C:
++ ;loc_1D34C:
 		cmpi.b	#$C,top_solid_bit(a1)
-		bne.s	loc_1D35C
+		bne.s	+ ;loc_1D35C
 		move.b	#0,1(a2)
 		bra.s	loc_1D37C
 ; ---------------------------------------------------------------------------
 
-loc_1D35C:
++ ;loc_1D35C:
 		addq.b	#1,1(a2)
 		cmpi.b	#2,1(a2)
-		bne.s	loc_1D370
+		bne.s	+ ;loc_1D370
 		move.b	#0,1(a2)
 		bra.s	loc_1D37C
 ; ---------------------------------------------------------------------------
 
-loc_1D370:
++ ;loc_1D370:
 		move.b	#$E,top_solid_bit(a1)
 		move.b	#$F,lrb_solid_bit(a1)
 
@@ -561,7 +561,7 @@ locret_1D38E:
 
 loc_1D390:
 		tst.w	(Debug_placement_mode).w
-		bne.w	loc_1D3B2
+		bne.w	+ ;loc_1D3B2
 		move.w	y_pos(a0),d1
 		lea	$34(a0),a2
 		lea	(Player_1).w,a1
@@ -571,7 +571,7 @@ loc_1D390:
 		jmp	(Delete_Sprite_If_Not_In_Range).l
 ; ---------------------------------------------------------------------------
 
-loc_1D3B2:
++ ;loc_1D3B2:
 		jmp	(Sprite_OnScreen_Test).l
 
 ; =============== S U B R O U T I N E =======================================
@@ -594,59 +594,59 @@ sub_1D3B8:
 		cmp.w	d3,d4
 		bge.w	locret_1D564
 		move.b	subtype(a0),d0
-		bpl.s	loc_1D3FA
+		bpl.s	+ ;loc_1D3FA
 		btst	#Status_InAir,status(a1)
 		bne.w	locret_1D564
 
-loc_1D3FA:
++ ;loc_1D3FA:
 		move.w	y_pos(a1),d2
 		sub.w	d1,d2
-		bcc.s	loc_1D404
+		bcc.s	+ ;loc_1D404
 		neg.w	d2
 
-loc_1D404:
++ ;loc_1D404:
 		cmpi.w	#$40,d2
 		bhs.w	locret_1D564
 		btst	#0,render_flags(a0)
 		bne.s	loc_1D47C
 		btst	#3,d0
-		bne.s	loc_1D44C
+		bne.s	+++ ;loc_1D44C
 		cmpi.b	#$C,top_solid_bit(a1)
-		bne.s	loc_1D42A
+		bne.s	+ ;loc_1D42A
 		move.b	#0,1(a2)
-		bra.s	loc_1D43E
+		bra.s	++ ;loc_1D43E
 ; ---------------------------------------------------------------------------
 
-loc_1D42A:
++ ;loc_1D42A:
 		addq.b	#1,1(a2)
 		cmpi.b	#2,1(a2)
-		bne.s	loc_1D43E
+		bne.s	+ ;loc_1D43E
 		move.b	#0,1(a2)
 		bra.s	loc_1D47C
 ; ---------------------------------------------------------------------------
 
-loc_1D43E:
++ ;loc_1D43E:
 		move.b	#$C,top_solid_bit(a1)
 		move.b	#$D,lrb_solid_bit(a1)
 		bra.s	loc_1D47C
 ; ---------------------------------------------------------------------------
 
-loc_1D44C:
++ ;loc_1D44C:
 		cmpi.b	#$C,top_solid_bit(a1)
-		bne.s	loc_1D45C
+		bne.s	+ ;loc_1D45C
 		move.b	#0,1(a2)
 		bra.s	loc_1D47C
 ; ---------------------------------------------------------------------------
 
-loc_1D45C:
++ ;loc_1D45C:
 		addq.b	#1,1(a2)
 		cmpi.b	#2,1(a2)
-		bne.s	loc_1D470
+		bne.s	+ ;loc_1D470
 		move.b	#0,1(a2)
 		bra.s	loc_1D47C
 ; ---------------------------------------------------------------------------
 
-loc_1D470:
++ ;loc_1D470:
 		move.b	#$E,top_solid_bit(a1)
 		move.b	#$F,lrb_solid_bit(a1)
 
@@ -673,17 +673,17 @@ loc_1D494:
 		cmp.w	d3,d4
 		bge.w	locret_1D564
 		move.b	subtype(a0),d0
-		bpl.s	loc_1D4D0
+		bpl.s	+ ;loc_1D4D0
 		btst	#Status_InAir,status(a1)
 		bne.w	locret_1D564
 
-loc_1D4D0:
++ ;loc_1D4D0:
 		move.w	y_pos(a1),d2
 		sub.w	d1,d2
-		bcc.s	loc_1D4DA
+		bcc.s	+ ;loc_1D4DA
 		neg.w	d2
 
-loc_1D4DA:
++ ;loc_1D4DA:
 		cmpi.w	#$40,d2
 		bhs.w	locret_1D564
 		btst	#0,render_flags(a0)
@@ -691,20 +691,20 @@ loc_1D4DA:
 		btst	#4,d0
 		bne.s	loc_1D522
 		cmpi.b	#$C,top_solid_bit(a1)
-		bne.s	loc_1D500
+		bne.s	+ ;loc_1D500
 		move.b	#0,1(a2)
-		bra.s	loc_1D514
+		bra.s	++ ;loc_1D514
 ; ---------------------------------------------------------------------------
 
-loc_1D500:
++ ;loc_1D500:
 		addq.b	#1,1(a2)
 		cmpi.b	#2,1(a2)
-		bne.s	loc_1D514
+		bne.s	+ ;loc_1D514
 		move.b	#0,1(a2)
 		bra.s	loc_1D552
 ; ---------------------------------------------------------------------------
 
-loc_1D514:
++ ;loc_1D514:
 		move.b	#$C,top_solid_bit(a1)
 		move.b	#$D,lrb_solid_bit(a1)
 		bra.s	loc_1D552
@@ -712,20 +712,20 @@ loc_1D514:
 
 loc_1D522:
 		cmpi.b	#$C,top_solid_bit(a1)
-		bne.s	loc_1D532
+		bne.s	+ ;loc_1D532
 		move.b	#0,1(a2)
 		bra.s	loc_1D552
 ; ---------------------------------------------------------------------------
 
-loc_1D532:
++ ;loc_1D532:
 		addq.b	#1,1(a2)
 		cmpi.b	#2,1(a2)
-		bne.s	loc_1D546
+		bne.s	+ ;loc_1D546
 		move.b	#0,1(a2)
 		bra.s	loc_1D552
 ; ---------------------------------------------------------------------------
 
-loc_1D546:
++ ;loc_1D546:
 		move.b	#$E,top_solid_bit(a1)
 		move.b	#$F,lrb_solid_bit(a1)
 

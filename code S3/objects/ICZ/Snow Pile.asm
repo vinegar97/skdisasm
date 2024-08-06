@@ -14,18 +14,18 @@ loc_58D06:
 		lea	word_58D28(pc),a1
 		jsr	Check_PlayerInRange(pc)
 		tst.l	d0
-		beq.s	loc_58D24
+		beq.s	++ ;loc_58D24
 		tst.w	d0
-		beq.s	loc_58D1A
+		beq.s	+ ;loc_58D1A
 		bsr.w	sub_58D30
 
-loc_58D1A:
++ ;loc_58D1A:
 		swap	d0
 		tst.w	d0
-		beq.s	loc_58D24
+		beq.s	+ ;loc_58D24
 		bsr.w	sub_58D30
 
-loc_58D24:
++ ;loc_58D24:
 		jmp	Sprite_CheckDeleteTouch(pc)
 ; ---------------------------------------------------------------------------
 word_58D28:
@@ -38,17 +38,17 @@ sub_58D30:
 		movea.w	d0,a3
 		move.w	d0,$44(a0)
 		cmpi.b	#9,anim(a3)
-		beq.s	loc_58D5E
+		beq.s	++ ;loc_58D5E
 		btst	#Status_InAir,status(a3)
 		bne.s	locret_58D5C
 		move.w	x_vel(a3),d2
 		move.w	d2,d3
-		bpl.s	loc_58D50
+		bpl.s	+ ;loc_58D50
 		neg.w	d2
 
-loc_58D50:
++ ;loc_58D50:
 		cmpi.w	#$600,d2
-		bhs.s	loc_58D5E
+		bhs.s	+ ;loc_58D5E
 		asr.w	#1,d3
 		move.w	d3,ground_vel(a3)
 
@@ -56,7 +56,7 @@ locret_58D5C:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_58D5E:
++ ;loc_58D5E:
 		move.w	a3,$44(a0)
 		lea	ChildObjDat_58FE4(pc),a2
 		jsr	CreateChild1_Normal(pc)
@@ -73,20 +73,20 @@ loc_58D74:
 		lea	word_58DA6(pc),a1
 		jsr	Check_PlayerInRange(pc)
 		tst.w	d0
-		bne.s	loc_58D84
+		bne.s	+ ;loc_58D84
 		jmp	Sprite_CheckDelete(pc)
 ; ---------------------------------------------------------------------------
 
-loc_58D84:
++ ;loc_58D84:
 		move.w	d0,$44(a0)
-		beq.s	loc_58DA0
+		beq.s	+ ;loc_58DA0
 		movea.w	d0,a1
 		move.w	#$800,x_vel(a1)
 		move.w	#$800,ground_vel(a1)
 		lea	ChildObjDat_5900A(pc),a2
 		jsr	CreateChild1_Normal(pc)
 
-loc_58DA0:
++ ;loc_58DA0:
 		jmp	(Go_Delete_Sprite).l
 ; ---------------------------------------------------------------------------
 word_58DA6:
@@ -97,24 +97,24 @@ loc_58DAE:
 		lea	word_58DF0(pc),a1
 		jsr	Check_PlayerInRange(pc)
 		tst.w	d0
-		bne.s	loc_58DBE
+		bne.s	+ ;loc_58DBE
 		jmp	Sprite_CheckDeleteTouch(pc)
 ; ---------------------------------------------------------------------------
 
-loc_58DBE:
++ ;loc_58DBE:
 		move.w	d0,$44(a0)
-		beq.s	loc_58DEA
+		beq.s	+ ;loc_58DEA
 		movea.w	d0,a1
 		move.w	#$800,x_vel(a1)
 		move.w	#$800,ground_vel(a1)
 		lea	ChildObjDat_59018(pc),a2
 		jsr	CreateChild1_Normal(pc)
 		btst	#7,subtype(a0)
-		beq.s	loc_58DEA
+		beq.s	+ ;loc_58DEA
 		move.w	#$600,d0
 		jsr	StartNewLevel(pc)
 
-loc_58DEA:
++ ;loc_58DEA:
 		jmp	(Go_Delete_Sprite).l
 ; ---------------------------------------------------------------------------
 word_58DF0:
@@ -124,7 +124,7 @@ word_58DF0:
 loc_58DF8:
 		move.w	a0,(_unkFAAE).w
 		btst	#5,$38(a0)
-		bne.s	loc_58E40
+		bne.s	+ ;loc_58E40
 		move.w	(Camera_X_pos_copy).w,x_pos(a0)
 		move.w	(Camera_Y_pos_copy).w,y_pos(a0)
 		subq.w	#8,y_pos(a0)
@@ -144,7 +144,7 @@ locret_58E3E:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_58E40:
++ ;loc_58E40:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -155,14 +155,14 @@ loc_58E46:
 		jsr	(Random_Number).l
 		andi.w	#$1FF,d0
 		cmpi.w	#$140,d0
-		blo.s	loc_58E6A
+		blo.s	+ ;loc_58E6A
 		andi.w	#$3F,d0
 		lsl.w	#2,d0
 
-loc_58E6A:
++ ;loc_58E6A:
 		add.w	(Camera_X_pos).w,d0
 		cmpi.w	#$380,d0
-		blo.s	loc_58EEE
+		blo.s	++ ;loc_58EEE
 		move.w	d0,x_pos(a0)
 		move.w	(Camera_Y_pos).w,d0
 		subq.w	#4,d0
@@ -192,11 +192,11 @@ word_58EB0:
 loc_58EB8:
 		jsr	(MoveSprite2).l
 		tst.b	render_flags(a0)
-		bmi.s	loc_58ECA
+		bmi.s	+ ;loc_58ECA
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_58ECA:
++ ;loc_58ECA:
 		move.l	#loc_58ED2,(a0)
 		rts
 ; ---------------------------------------------------------------------------
@@ -204,19 +204,19 @@ loc_58ECA:
 loc_58ED2:
 		jsr	(MoveSprite2).l
 		tst.b	render_flags(a0)
-		bpl.s	loc_58EEE
+		bpl.s	+ ;loc_58EEE
 		bchg	#0,$38(a0)
 		bne.w	locret_58D72
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_58EEE:
++ ;loc_58EEE:
 		move.b	(_unkFAAD).w,d0
 		subq.b	#1,d0
-		bmi.s	loc_58EFA
+		bmi.s	+ ;loc_58EFA
 		move.b	d0,(_unkFAAD).w
 
-loc_58EFA:
++ ;loc_58EFA:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -225,7 +225,7 @@ loc_58F00:
 		jsr	SetUp_ObjAttributes2(pc)
 		move.l	#loc_58F1E,(a0)
 		move.l	#loc_58F28,$34(a0)
-		bsr.w	sub_58F38
+		bsr.w	+ ;sub_58F38
 		jsr	Refresh_ChildPositionAdjusted(pc)
 
 loc_58F1E:
@@ -245,7 +245,7 @@ loc_58F30:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_58F38:
++ ;sub_58F38:
 		movea.w	parent3(a0),a1
 		move.w	$44(a1),d0
 		beq.s	locret_58F72

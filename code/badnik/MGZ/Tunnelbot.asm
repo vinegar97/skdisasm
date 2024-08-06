@@ -78,18 +78,18 @@ loc_8852E:
 		moveq	#-2,d0
 		move.b	(V_int_run_count+3).w,d1
 		btst	#0,d1
-		beq.s	loc_88540
+		beq.s	+ ;loc_88540
 		moveq	#1,d0
 
-loc_88540:
++ ;loc_88540:
 		add.w	d0,y_pos(a0)
 		andi.b	#7,d1
-		bne.s	loc_88556
+		bne.s	+ ;loc_88556
 		moveq	#signextendB(sfx_Rumble2),d0
 		jsr	(Play_SFX).l
 		bsr.w	sub_88A32
 
-loc_88556:
++ ;loc_88556:
 		jmp	Obj_Wait(pc)
 ; ---------------------------------------------------------------------------
 
@@ -138,11 +138,11 @@ loc_885A4:
 		lea	PLC_MGZMiniboss(pc),a1
 		jsr	(Load_PLC_Raw).l
 		jsr	(AllocateObject).l
-		bne.s	loc_885FC
+		bne.s	+ ;loc_885FC
 		move.l	#Obj_Song_Fade_Transition,(a1)
 		move.b	#mus_Miniboss,subtype(a1)
 
-loc_885FC:
++ ;loc_885FC:
 		lea	ChildObjDat_88B2C(pc),a2
 		jmp	CreateChild1_Normal(pc)
 ; ---------------------------------------------------------------------------
@@ -220,18 +220,18 @@ loc_886EA:
 		moveq	#2,d0
 		move.b	(V_int_run_count+3).w,d1
 		btst	#0,d1
-		beq.s	loc_886FC
+		beq.s	+ ;loc_886FC
 		moveq	#-1,d0
 
-loc_886FC:
++ ;loc_886FC:
 		add.w	d0,y_pos(a0)
 		andi.b	#7,d1
-		bne.s	loc_88712
+		bne.s	+ ;loc_88712
 		moveq	#signextendB(sfx_Rumble2),d0
 		jsr	(Play_SFX).l
 		bsr.w	sub_88A32
 
-loc_88712:
++ ;loc_88712:
 		jmp	Obj_Wait(pc)
 ; ---------------------------------------------------------------------------
 
@@ -239,13 +239,13 @@ loc_88716:
 		move.b	#$E,routine(a0)
 		clr.w	(Screen_shake_flag).w
 		cmpi.b	#2,(Player_1+character_id).w
-		beq.s	loc_88738
+		beq.s	+ ;loc_88738
 		move.w	#$2F,$2E(a0)
 		move.l	#loc_88754,$34(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_88738:
++ ;loc_88738:
 		move.w	#$17,$2E(a0)
 		move.l	#loc_88776,$34(a0)
 		rts
@@ -322,12 +322,12 @@ loc_887F6:
 loc_88804:
 		movea.w	parent3(a0),a1
 		btst	#7,status(a1)
-		bne.s	loc_8881A
+		bne.s	+ ;loc_8881A
 		jsr	Refresh_ChildPositionAdjusted(pc)
 		jmp	(Add_SpriteToCollisionResponseList).l
 ; ---------------------------------------------------------------------------
 
-loc_8881A:
++ ;loc_8881A:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -340,13 +340,13 @@ loc_88820:
 		move.b	d0,mapping_frame(a0)
 		movea.w	parent3(a0),a1
 		btst	#1,$38(a1)
-		beq.s	loc_88854
+		beq.s	+ ;loc_88854
 		tst.b	d0
-		bne.s	loc_88854
+		bne.s	+ ;loc_88854
 		lea	ObjDat3_88B0E(pc),a1
 		jsr	SetUp_ObjAttributes(pc)
 
-loc_88854:
++ ;loc_88854:
 		move.l	#MoveDraw_SpriteTimed2,(a0)
 		move.w	#$5F,$2E(a0)
 		jmp	Draw_And_Touch_Sprite(pc)
@@ -359,10 +359,10 @@ loc_88864:
 		move.w	(Camera_X_pos).w,d0
 		addi.w	#$30,d0
 		btst	#0,render_flags(a0)
-		beq.s	loc_88886
+		beq.s	+ ;loc_88886
 		addi.w	#$E0,d0
 
-loc_88886:
++ ;loc_88886:
 		move.w	d0,x_pos(a0)
 		move.w	(Camera_Y_pos).w,d0
 		addi.w	#$F0,d0
@@ -389,37 +389,37 @@ loc_888A6:
 		jsr	(SolidObjectFull).l
 		swap	d6
 		andi.w	#1|2,d6
-		beq.s	loc_88926
+		beq.s	++ ;loc_88926
 		move.b	d6,d0
 		andi.b	#1,d0
-		beq.s	loc_88902
+		beq.s	+ ;loc_88902
 		bclr	#5,status(a0)
 		lea	(Player_1).w,a1
 		move.w	y_pos(a1),d0
 		sub.w	y_pos(a0),d0
 		addi.w	#$28,d0
-		bmi.s	loc_88902
+		bmi.s	+ ;loc_88902
 		jsr	(sub_24280).l
 
-loc_88902:
++ ;loc_88902:
 		andi.b	#2,d6
-		beq.s	loc_88926
+		beq.s	+ ;loc_88926
 		bclr	#6,status(a0)
 		lea	(Player_2).w,a1
 		move.w	y_pos(a1),d0
 		sub.w	y_pos(a0),d0
 		addi.w	#$28,d0
-		bmi.s	loc_88926
+		bmi.s	+ ;loc_88926
 		jsr	(sub_24280).l
 
-loc_88926:
++ ;loc_88926:
 		subq.b	#1,anim_frame_timer(a0)
-		bpl.s	loc_8893C
+		bpl.s	+ ;loc_8893C
 		move.b	#7,anim_frame_timer(a0)
 		addq.b	#1,mapping_frame(a0)
 		andi.b	#3,mapping_frame(a0)
 
-loc_8893C:
++ ;loc_8893C:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -477,10 +477,10 @@ loc_889A8:
 		move.b	#4,routine(a0)
 		move.w	#$100,d0
 		btst	#0,render_flags(a0)
-		beq.s	loc_889C4
+		beq.s	+ ;loc_889C4
 		neg.w	d0
 
-loc_889C4:
++ ;loc_889C4:
 		add.w	d0,x_vel(a0)
 		move.w	#$DF,$2E(a0)
 		move.w	#$100,d0
@@ -546,21 +546,21 @@ sub_88A62:
 		tst.b	collision_flags(a0)
 		bne.s	locret_88AB2
 		tst.b	collision_property(a0)
-		beq.s	loc_88AB4
+		beq.s	+++ ;loc_88AB4
 		tst.b	$20(a0)
-		bne.s	loc_88A88
+		bne.s	+ ;loc_88A88
 		move.b	#$20,$20(a0)
 		moveq	#signextendB(sfx_BossHit),d0
 		jsr	(Play_SFX).l
 		bset	#6,status(a0)
 
-loc_88A88:
++ ;loc_88A88:
 		moveq	#0,d0
 		btst	#0,$20(a0)
-		bne.s	loc_88A94
+		bne.s	+ ;loc_88A94
 		addq.w	#2*3,d0
 
-loc_88A94:
++ ;loc_88A94:
 		lea	word_88AE4(pc),a1
 		lea	word_88AEA(pc,d0.w),a2
 		jsr	CopyWordData_3(pc)
@@ -573,15 +573,15 @@ locret_88AB2:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_88AB4:
++ ;loc_88AB4:
 		move.l	#Wait_FadeToLevelMusic,(a0)
 		clr.w	(Screen_shake_flag).w
 		move.l	#loc_887CA,$34(a0)
 		jsr	(AllocateObject).l
-		bne.s	loc_88AD4
+		bne.s	+ ;loc_88AD4
 		move.l	#loc_887DA,(a1)
 
-loc_88AD4:
++ ;loc_88AD4:
 		lea	(Child6_CreateBossExplosion).l,a2
 		jsr	(CreateChild1_Normal).l
 		jmp	BossDefeated_StopTimer(pc)

@@ -14,7 +14,7 @@ Obj_LRZSmashingSpikePlatform:
 
 loc_43128:
 		tst.b	$32(a0)
-		bne.s	loc_43178
+		bne.s	+ ;loc_43178
 		move.w	y_vel(a0),d0
 		addi.w	#$40,y_vel(a0)
 		ext.l	d0
@@ -35,9 +35,9 @@ loc_43128:
 		bra.s	loc_431E0
 ; ---------------------------------------------------------------------------
 
-loc_43178:
++ ;loc_43178:
 		tst.w	$3A(a0)
-		beq.s	loc_431AA
+		beq.s	+ ;loc_431AA
 		subq.w	#1,$3A(a0)
 		moveq	#0,d0
 		move.b	anim_frame(a0),d0
@@ -51,9 +51,9 @@ RawAni_43196:
 		even
 ; ---------------------------------------------------------------------------
 
-loc_431AA:
++ ;loc_431AA:
 		move.w	$34(a0),d2
-		beq.s	loc_431D4
+		beq.s	+ ;loc_431D4
 		subq.w	#1,d2
 		move.w	d2,$34(a0)
 		addq.b	#8,mapping_frame(a0)
@@ -66,7 +66,7 @@ loc_431AA:
 		bra.s	loc_431E0
 ; ---------------------------------------------------------------------------
 
-loc_431D4:
++ ;loc_431D4:
 		move.b	#0,$32(a0)
 		move.b	#0,mapping_frame(a0)
 
@@ -88,24 +88,24 @@ loc_431E0:
 		jsr	(SolidObjectFull).l
 		swap	d6
 		andi.w	#4|8,d6
-		bne.s	loc_43222
+		bne.s	+ ;loc_43222
 		jmp	(Sprite_OnScreen_Test).l
 ; ---------------------------------------------------------------------------
 
-loc_43222:
++ ;loc_43222:
 		move.b	d6,d0
 		andi.b	#4,d0
-		beq.s	loc_43234
+		beq.s	+ ;loc_43234
 		lea	(Player_1).w,a1
 		jsr	(sub_24280).l
 
-loc_43234:
++ ;loc_43234:
 		andi.b	#8,d6
-		beq.s	loc_43244
+		beq.s	+ ;loc_43244
 		lea	(Player_2).w,a1
 		jsr	(sub_24280).l
 
-loc_43244:
++ ;loc_43244:
 		jmp	(Sprite_OnScreen_Test).l
 ; ---------------------------------------------------------------------------
 Map_LRZSmashingSpikePlatform:

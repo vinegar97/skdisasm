@@ -7,10 +7,10 @@ Obj_SOZSandCork:
 		move.w	#$280,priority(a0)
 		move.b	#$C6,collision_flags(a0)
 		move.w	respawn_addr(a0),d0
-		beq.s	loc_41D2C
+		beq.s	+ ;loc_41D2C
 		movea.w	d0,a2
 		btst	#0,(a2)
-		beq.s	loc_41D2C
+		beq.s	+ ;loc_41D2C
 		move.b	subtype(a0),d5
 		andi.w	#$7F,d5
 		lsl.w	#4,d5
@@ -28,30 +28,30 @@ loc_41D12:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_41D2C:
++ ;loc_41D2C:
 		move.l	#loc_41D32,(a0)
 
 loc_41D32:
 		move.b	collision_property(a0),d0
-		beq.w	loc_41D56
+		beq.w	++ ;loc_41D56
 		lea	(Player_1).w,a1
 		bclr	#0,collision_property(a0)
-		beq.s	loc_41D48
-		bsr.s	sub_41D5C
+		beq.s	+ ;loc_41D48
+		bsr.s	+++ ;sub_41D5C
 
-loc_41D48:
++ ;loc_41D48:
 		lea	(Player_2).w,a1
 		bclr	#1,collision_property(a0)
-		beq.s	loc_41D56
-		bsr.s	sub_41D5C
+		beq.s	+ ;loc_41D56
+		bsr.s	++ ;sub_41D5C
 
-loc_41D56:
++ ;loc_41D56:
 		jmp	(Sprite_CheckDeleteTouch3).l
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_41D5C:
++ ;sub_41D5C:
 		cmpi.b	#2,anim(a1)
 		bne.w	locret_41DF2
 		neg.w	x_vel(a1)
@@ -79,21 +79,21 @@ loc_41D82:
 		jsr	(MoveSprite2).l
 		addi.w	#$18,y_vel(a0)
 		move.w	respawn_addr(a0),d0
-		beq.s	loc_41DD2
+		beq.s	+ ;loc_41DD2
 		movea.w	d0,a2
 		bset	#0,(a2)
 
-loc_41DD2:
++ ;loc_41DD2:
 		tst.b	subtype(a0)
-		bpl.s	loc_41DE0
+		bpl.s	+ ;loc_41DE0
 		move.w	#-1,(Events_fg_4).w
-		bra.s	loc_41DE6
+		bra.s	++ ;loc_41DE6
 ; ---------------------------------------------------------------------------
 
-loc_41DE0:
++ ;loc_41DE0:
 		move.w	#-1,(Events_fg_5).w
 
-loc_41DE6:
++ ;loc_41DE6:
 		move.b	#0,collision_flags(a0)
 		move.b	#0,collision_property(a0)
 
@@ -107,15 +107,15 @@ loc_41DF4:
 		jsr	(MoveSprite2).l
 		addi.w	#$18,y_vel(a0)
 		cmpi.w	#$400,y_vel(a0)
-		blt.s	loc_41E0E
+		blt.s	+ ;loc_41E0E
 		tst.b	render_flags(a0)
-		bpl.s	loc_41E14
+		bpl.s	++ ;loc_41E14
 
-loc_41E0E:
++ ;loc_41E0E:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_41E14:
++ ;loc_41E14:
 		jmp	(Delete_Current_Sprite).l
 
 ; =============== S U B R O U T I N E =======================================
@@ -145,20 +145,20 @@ locret_41E68:
 
 loc_41E6A:
 		tst.w	$30(a0)
-		beq.s	loc_41E78
+		beq.s	+ ;loc_41E78
 		addq.w	#4,y_pos(a0)
 		subq.w	#4,$30(a0)
 
-loc_41E78:
++ ;loc_41E78:
 		move.b	-$1FB(a0),d0
 		andi.b	#$F,d0
-		bne.s	loc_41E90
+		bne.s	+ ;loc_41E90
 		tst.b	render_flags(a0)
-		bpl.s	loc_41E90
+		bpl.s	+ ;loc_41E90
 		moveq	#signextendB(sfx_SlideSkidQuiet),d0
 		jsr	(Play_SFX).l
 
-loc_41E90:
++ ;loc_41E90:
 		jmp	(Sprite_OnScreen_Test).l
 ; ---------------------------------------------------------------------------
 word_41E96:

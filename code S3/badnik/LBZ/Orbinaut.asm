@@ -24,11 +24,11 @@ loc_59DE0:
 		bclr	#0,render_flags(a0)
 		move.w	#-$80,d1
 		tst.w	d0
-		beq.s	loc_59DFE
+		beq.s	+ ;loc_59DFE
 		bset	#0,render_flags(a0)
 		neg.w	d1
 
-loc_59DFE:
++ ;loc_59DFE:
 		move.w	d1,x_vel(a0)
 		bsr.w	sub_59E50
 		beq.w	locret_59E6C
@@ -48,16 +48,16 @@ loc_59E10:
 loc_59E2C:
 		movea.w	parent3(a0),a1
 		bsr.w	sub_59E50
-		beq.s	loc_59E46
+		beq.s	++ ;loc_59E46
 		moveq	#8,d0
 		btst	#0,render_flags(a1)
-		beq.s	loc_59E42
+		beq.s	+ ;loc_59E42
 		moveq	#-8,d0
 
-loc_59E42:
++ ;loc_59E42:
 		add.b	d0,$3C(a0)
 
-loc_59E46:
++ ;loc_59E46:
 		moveq	#4,d2
 		jsr	MoveSprite_CircularSimple(pc)
 		jmp	Child_DrawTouch_Sprite(pc)
@@ -68,13 +68,13 @@ loc_59E46:
 sub_59E50:
 		lea	(Player_1).w,a2
 		btst	#Status_InAir,status(a2)
-		bne.s	loc_59E68
+		bne.s	+ ;loc_59E68
 		tst.w	x_vel(a2)
 		bne.s	locret_59E6C
 		tst.w	y_vel(a2)
 		bne.s	locret_59E6C
 
-loc_59E68:
++ ;loc_59E68:
 		moveq	#0,d0
 		rts
 ; ---------------------------------------------------------------------------

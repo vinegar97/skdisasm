@@ -1,6 +1,6 @@
 Obj_AIZCollapsingLogBridge:
 		move.b	subtype(a0),d0
-		bmi.w	loc_2A470
+		bmi.w	++ ;loc_2A470
 		move.b	d0,$36(a0)
 		addi.b	#$30,d0
 		move.b	d0,$35(a0)
@@ -12,7 +12,7 @@ Obj_AIZCollapsingLogBridge:
 		move.b	#4,render_flags(a0)
 		move.w	#$200,priority(a0)
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_2A466
+		bne.w	+ ;loc_2A466
 		move.l	#loc_2A57C,(a1)
 		move.l	#Map_AIZCollapsingLogBridge,mappings(a1)
 		move.w	#make_art_tile($2E9,2,0),art_tile(a1)
@@ -32,21 +32,21 @@ Obj_AIZCollapsingLogBridge:
 		subq.w	#1,d6
 		move.w	#1,4(a2)
 
-loc_2A44E:
+- ;loc_2A44E:
 		move.w	d3,(a2)+
 		move.w	d2,(a2)+
 		addq.w	#2,a2
 		addi.w	#$1E,d3
-		dbf	d6,loc_2A44E
+		dbf	d6,- ;loc_2A44E
 		move.w	#2,-2(a2)
 		move.w	a1,$3C(a0)
 
-loc_2A466:
++ ;loc_2A466:
 		move.l	#loc_2A538,(a0)
 		bra.w	loc_2A538
 ; ---------------------------------------------------------------------------
 
-loc_2A470:
++ ;loc_2A470:
 		andi.b	#$7F,d0
 		move.b	d0,$36(a0)
 		addi.b	#$30,d0
@@ -59,7 +59,7 @@ loc_2A470:
 		move.b	#4,render_flags(a0)
 		move.w	#$200,priority(a0)
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_2A52E
+		bne.w	+ ;loc_2A52E
 		move.l	#loc_2A57C,(a1)
 		move.l	#Map_AIZDrawBridgeFire,mappings(a1)
 		move.w	#make_art_tile($2E9,2,1),art_tile(a1)
@@ -79,16 +79,16 @@ loc_2A470:
 		subq.w	#1,d6
 		move.w	#1,4(a2)
 
-loc_2A516:
+- ;loc_2A516:
 		move.w	d3,(a2)+
 		move.w	d2,(a2)+
 		addq.w	#2,a2
 		addi.w	#$20,d3
-		dbf	d6,loc_2A516
+		dbf	d6,- ;- ;loc_2A516
 		move.w	#2,-2(a2)
 		move.w	a1,$3C(a0)
 
-loc_2A52E:
++ ;loc_2A52E:
 		move.l	#loc_2A5AA,(a0)
 		bra.w	loc_2A5AA
 ; ---------------------------------------------------------------------------
@@ -96,7 +96,7 @@ loc_2A52E:
 loc_2A538:
 		move.b	status(a0),d0
 		andi.b	#standing_mask,d0
-		beq.s	loc_2A560
+		beq.s	+ ;loc_2A560
 		move.b	$35(a0),$34(a0)
 		move.b	$36(a0),d2
 		move.b	$37(a0),d3
@@ -104,7 +104,7 @@ loc_2A538:
 		move.l	#loc_2A582,d4
 		bsr.w	sub_2A6C6
 
-loc_2A560:
++ ;loc_2A560:
 		moveq	#0,d1
 		move.b	width_pixels(a0),d1
 		moveq	#0,d3
@@ -120,25 +120,25 @@ loc_2A57C:
 
 loc_2A582:
 		tst.b	$34(a0)
-		beq.s	loc_2A592
+		beq.s	+ ;loc_2A592
 		subq.b	#1,$34(a0)
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_2A592:
++ ;loc_2A592:
 		jsr	(MoveSprite).l
 		tst.b	render_flags(a0)
-		bpl.s	loc_2A5A4
+		bpl.s	+ ;loc_2A5A4
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_2A5A4:
++ ;loc_2A5A4:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
 loc_2A5AA:
 		tst.b	(_unkFAA2).w
-		beq.s	loc_2A5CE
+		beq.s	+ ;loc_2A5CE
 		move.b	$35(a0),$34(a0)
 		move.b	$36(a0),d2
 		move.b	$37(a0),d3
@@ -146,7 +146,7 @@ loc_2A5AA:
 		move.l	#loc_2A5EA,d4
 		bsr.w	sub_2A6C6
 
-loc_2A5CE:
++ ;loc_2A5CE:
 		moveq	#0,d1
 		move.b	width_pixels(a0),d1
 		moveq	#0,d3
@@ -158,41 +158,41 @@ loc_2A5CE:
 
 loc_2A5EA:
 		tst.b	$34(a0)
-		beq.s	loc_2A602
+		beq.s	++ ;loc_2A602
 		subq.b	#1,$34(a0)
-		bne.s	loc_2A5FC
+		bne.s	+ ;loc_2A5FC
 		move.b	#3,mapping_frame(a0)
 
-loc_2A5FC:
++ ;loc_2A5FC:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_2A602:
++ ;loc_2A602:
 		subq.b	#1,anim_frame_timer(a0)
-		bpl.s	loc_2A620
+		bpl.s	+ ;loc_2A620
 		move.b	#3,anim_frame_timer(a0)
 		addq.b	#1,mapping_frame(a0)
 		cmpi.b	#8,mapping_frame(a0)
-		blo.s	loc_2A620
+		blo.s	+ ;loc_2A620
 		move.b	#3,mapping_frame(a0)
 
-loc_2A620:
++ ;loc_2A620:
 		jsr	(MoveSprite).l
 		tst.b	render_flags(a0)
-		bpl.s	loc_2A632
+		bpl.s	+ ;loc_2A632
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_2A632:
++ ;loc_2A632:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
 loc_2A638:
 		subq.b	#1,$34(a0)
-		bne.s	loc_2A644
+		bne.s	+ ;loc_2A644
 		move.l	#loc_2AB1A,(a0)
 
-loc_2A644:
++ ;loc_2A644:
 		move.b	$34(a0),d3
 		moveq	#0,d1
 		move.b	width_pixels(a0),d1
@@ -213,19 +213,19 @@ sub_2A664:
 		move.w	d1,d2
 		add.w	d2,d2
 		btst	#Status_InAir,status(a1)
-		bne.s	loc_2A6A8
+		bne.s	++ ;loc_2A6A8
 		move.w	x_pos(a1),d0
 		sub.w	x_pos(a0),d0
 		add.w	d1,d0
-		bmi.s	loc_2A6A8
+		bmi.s	++ ;loc_2A6A8
 		cmp.w	d2,d0
-		bhs.s	loc_2A6A8
+		bhs.s	++ ;loc_2A6A8
 		btst	#0,status(a0)
-		beq.s	loc_2A692
+		beq.s	+ ;loc_2A692
 		neg.w	d0
 		add.w	d2,d0
 
-loc_2A692:
++ ;loc_2A692:
 		lsr.w	#5,d0
 		add.w	d0,d0
 		add.w	d0,d0
@@ -236,7 +236,7 @@ loc_2A692:
 		cmp.b	d2,d3
 		bhi.s	locret_2A6C4
 
-loc_2A6A8:
++ ;loc_2A6A8:
 		bclr	d6,status(a0)
 		bclr	#Status_OnObj,status(a1)
 		bclr	#Status_Push,status(a1)
@@ -258,14 +258,14 @@ sub_2A6C6:
 		subq.w	#1,d6
 		bclr	#6,render_flags(a3)
 		movea.l	a3,a1
-		bra.s	loc_2A6E6
+		bra.s	+ ;loc_2A6E6
 ; ---------------------------------------------------------------------------
 
-loc_2A6DE:
+- ;loc_2A6DE:
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.s	loc_2A724
+		bne.s	++ ;loc_2A724
 
-loc_2A6E6:
++ ;loc_2A6E6:
 		move.l	d4,(a1)
 		move.l	mappings(a3),mappings(a1)
 		move.b	render_flags(a3),render_flags(a1)
@@ -279,9 +279,9 @@ loc_2A6E6:
 		move.b	d0,mapping_frame(a1)
 		move.b	d2,$34(a1)
 		add.b	d3,d2
-		dbf	d6,loc_2A6DE
+		dbf	d6,- ;loc_2A6DE
 
-loc_2A724:
++ ;loc_2A724:
 		move.w	#0,sub2_x_pos(a3)
 		move.w	#0,sub2_y_pos(a3)
 		moveq	#signextendB(sfx_Collapse),d0

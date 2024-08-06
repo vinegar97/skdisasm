@@ -27,11 +27,11 @@ loc_46482:
 		move.w	(Camera_X_pos).w,d0
 		move.w	#$2F10,d5
 		cmp.w	d5,d0
-		bhs.s	loc_46490
+		bhs.s	+ ;loc_46490
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_46490:
++ ;loc_46490:
 		move.l	#loc_464D0,$34(a0)
 		lea	ChildObjDat_46F80(pc),a2
 		jsr	(CreateChild3_NormalRepeated).l
@@ -108,10 +108,10 @@ loc_4654C:
 		jmp	(MoveWaitTouch).l
 ; ---------------------------------------------------------------------------
 		subq.b	#1,$39(a0)
-		bpl.s	loc_46566
+		bpl.s	+ ;loc_46566
 		move.l	#loc_4657E,$34(a0)
 
-loc_46566:
++ ;loc_46566:
 		move.w	#$40,$2E(a0)
 		moveq	#signextendB(sfx_FlamethrowerQuiet),d0
 		jsr	(Play_SFX).l
@@ -137,10 +137,10 @@ loc_46596:
 		clr.w	y_vel(a0)
 		move.w	#$40,$2E(a0)
 		cmpi.w	#0,(Current_zone_and_act).w
-		bne.s	loc_465D2
+		bne.s	+ ;loc_465D2
 		move.w	#$120,$2E(a0)
 
-loc_465D2:
++ ;loc_465D2:
 		move.l	#Go_Delete_Sprite,$34(a0)
 		st	(Events_fg_5).w
 		rts
@@ -149,11 +149,11 @@ loc_465D2:
 loc_465E0:
 		jsr	(MoveSprite2).l
 		subq.w	#1,$2E(a0)
-		bmi.s	loc_465F2
+		bmi.s	+ ;loc_465F2
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_465F2:
++ ;loc_465F2:
 		clr.b	(Boss_flag).w
 		jsr	(Restore_LevelMusic).l
 		lea	(PLC_Monitors).l,a1
@@ -176,10 +176,10 @@ loc_46638:
 		jsr	(Animate_Raw).l
 		movea.w	parent3(a0),a1
 		btst	#7,status(a1)
-		beq.s	loc_46654
+		beq.s	+ ;loc_46654
 		clr.b	collision_flags(a0)
 
-loc_46654:
++ ;loc_46654:
 		jmp	(Child_DrawTouch_Sprite2).l
 ; ---------------------------------------------------------------------------
 
@@ -221,11 +221,11 @@ loc_466A4:
 loc_466AE:
 		movea.w	parent3(a0),a1
 		btst	#1,$38(a1)
-		bne.s	loc_466BC
+		bne.s	+ ;loc_466BC
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_466BC:
++ ;loc_466BC:
 		move.b	#4,routine(a0)
 		move.l	#loc_466D4,$34(a0)
 		bra.w	loc_46DDE
@@ -257,12 +257,12 @@ loc_46706:
 		move.w	#$1C,$2E(a0)
 		subq.b	#1,$39(a0)
 		cmpi.b	#1,$39(a0)
-		beq.s	loc_46722
+		beq.s	+ ;loc_46722
 		lea	ChildObjDat_46FB0(pc),a2
 		jmp	(CreateChild1_Normal).l
 ; ---------------------------------------------------------------------------
 
-loc_46722:
++ ;loc_46722:
 		lea	ChildObjDat_46FBE(pc),a2
 		jmp	(CreateChild1_Normal).l
 ; ---------------------------------------------------------------------------
@@ -270,11 +270,11 @@ loc_46722:
 loc_4672C:
 		jsr	(Obj_Wait).l
 		tst.b	$39(a0)
-		bmi.s	loc_4673A
+		bmi.s	+ ;loc_4673A
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4673A:
++ ;loc_4673A:
 		move.b	#$A,routine(a0)
 		move.l	#byte_4704C,$30(a0)
 		move.l	#loc_46752,$34(a0)
@@ -447,11 +447,11 @@ loc_468FC:
 		move.w	y_pos(a1),y_pos(a0)
 		move.w	#-$60,d0
 		btst	#0,render_flags(a1)
-		beq.s	loc_4693C
+		beq.s	+ ;loc_4693C
 		neg.w	d0
 		bset	#0,render_flags(a0)
 
-loc_4693C:
++ ;loc_4693C:
 		move.w	x_pos(a1),d1
 		add.w	d0,d1
 		move.w	d1,x_pos(a0)
@@ -465,10 +465,10 @@ loc_46948:
 		bmi.s	locret_46966
 		move.w	word_46968(pc,d0.w),d0
 		btst	#0,render_flags(a0)
-		bne.s	loc_46962
+		bne.s	+ ;loc_46962
 		neg.w	d0
 
-loc_46962:
++ ;loc_46962:
 		add.w	d0,x_pos(a0)
 
 locret_46966:
@@ -516,11 +516,11 @@ loc_469BE:
 		move.w	(Camera_X_pos).w,d0
 		move.w	#$10E0,d5
 		cmp.w	d5,d0
-		bhs.s	loc_469CC
+		bhs.s	+ ;loc_469CC
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_469CC:
++ ;loc_469CC:
 		move.l	#loc_469D8,$34(a0)
 		bra.w	loc_464AC
 ; ---------------------------------------------------------------------------
@@ -567,11 +567,11 @@ loc_46A40:
 
 loc_46A5E:
 		jsr	(Swing_UpAndDown_Count).l
-		beq.s	loc_46A6A
+		beq.s	+ ;loc_46A6A
 		tst.w	d1
 		bmi.s	loc_46A76
 
-loc_46A6A:
++ ;loc_46A6A:
 		jsr	(MoveSprite2).l
 		jmp	(Draw_And_Touch_Sprite).l
 ; ---------------------------------------------------------------------------
@@ -582,11 +582,11 @@ loc_46A76:
 		move.l	#loc_46AB6,$34(a0)
 		move.w	#-$100,d0
 		bchg	#2,$38(a0)
-		beq.s	loc_46AA0
+		beq.s	+ ;loc_46AA0
 		neg.w	d0
 		move.l	#loc_46A10,$34(a0)
 
-loc_46AA0:
++ ;loc_46AA0:
 		move.w	d0,y_vel(a0)
 		jmp	(Draw_And_Touch_Sprite).l
 ; ---------------------------------------------------------------------------
@@ -613,22 +613,22 @@ loc_46AD4:
 		move.l	#loc_46B1E,$34(a0)
 		move.w	#$100,d0
 		bchg	#3,$38(a0)
-		bne.s	loc_46AF6
+		bne.s	+ ;loc_46AF6
 		neg.w	d0
 
-loc_46AF6:
++ ;loc_46AF6:
 		move.w	d0,x_vel(a0)
 		bra.w	Swing_Setup1
 ; ---------------------------------------------------------------------------
 
 loc_46AFE:
 		jsr	(Swing_UpAndDown_Count).l
-		bne.s	loc_46B12
+		bne.s	+ ;loc_46B12
 		jsr	(MoveSprite2).l
 		jmp	(Draw_And_Touch_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_46B12:
++ ;loc_46B12:
 		movea.l	$34(a0),a1
 		jsr	(a1)
 		jmp	(Draw_And_Touch_Sprite).l
@@ -672,11 +672,11 @@ off_46B6E:
 loc_46B7A:
 		movea.w	parent3(a0),a1
 		btst	#1,$38(a1)
-		bne.s	loc_46B88
+		bne.s	+ ;loc_46B88
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_46B88:
++ ;loc_46B88:
 		move.b	#4,routine(a0)
 		move.l	#loc_46B9A,$34(a0)
 		bra.w	loc_46DDE
@@ -721,10 +721,10 @@ loc_46BF6:
 		bsr.w	sub_467AA
 		movea.w	parent3(a0),a1
 		cmpi.l	#loc_4667C,(a1)
-		bne.s	loc_46C0A
+		bne.s	+ ;loc_46C0A
 		clr.b	collision_flags(a0)
 
-loc_46C0A:
++ ;loc_46C0A:
 		move.l	#loc_46C2C,$34(a0)
 		move.b	#8,y_radius(a0)
 		rts
@@ -796,10 +796,10 @@ loc_46CC2:
 		jsr	(SetUp_ObjAttributes).l
 		movea.w	parent3(a0),a1
 		tst.b	collision_flags(a1)
-		bne.s	loc_46CDA
+		bne.s	+ ;loc_46CDA
 		clr.b	collision_flags(a0)
 
-loc_46CDA:
++ ;loc_46CDA:
 		move.l	#AniRaw_BossExplosion,$30(a0)
 		move.l	#loc_46CF0,$34(a0)
 		moveq	#$C,d1
@@ -815,11 +815,11 @@ loc_46CF0:
 loc_46D00:
 		jsr	(Animate_RawMultiDelay).l
 		tst.b	collision_flags(a0)
-		beq.s	loc_46D12
+		beq.s	+ ;loc_46D12
 		jmp	(Draw_And_Touch_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_46D12:
++ ;loc_46D12:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -937,11 +937,11 @@ loc_46E02:
 		lea	byte_46E4C(pc),a2
 		lea	word_46E6C(pc),a3
 		btst	#0,render_flags(a1)
-		beq.s	loc_46E2C
+		beq.s	+ ;loc_46E2C
 		lea	byte_46E5C(pc),a2
 		lea	word_46E76(pc),a3
 
-loc_46E2C:
++ ;loc_46E2C:
 		move.b	(a2,d0.w),d0
 		add.w	d0,d0
 		move.w	(a3,d0.w),d0
@@ -1009,21 +1009,21 @@ loc_46E80:
 		tst.b	collision_flags(a0)
 		bne.s	locret_46ED2
 		tst.b	collision_property(a0)
-		beq.s	loc_46ED4
+		beq.s	+++ ;loc_46ED4
 		tst.b	$20(a0)
-		bne.s	loc_46EA6
+		bne.s	+ ;loc_46EA6
 		move.b	#$20,$20(a0)
 		moveq	#signextendB(sfx_BossHit),d0
 		jsr	(Play_SFX).l
 		bset	#6,status(a0)
 
-loc_46EA6:
++ ;loc_46EA6:
 		moveq	#0,d0
 		btst	#0,$20(a0)
-		bne.s	loc_46EB2
+		bne.s	+ ;loc_46EB2
 		addq.w	#2*4,d0
 
-loc_46EB2:
++ ;loc_46EB2:
 		lea	word_46EFC(pc),a1
 		lea	word_46F04(pc,d0.w),a2
 		jsr	(CopyWordData_4).l
@@ -1036,7 +1036,7 @@ locret_46ED2:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_46ED4:
++ ;loc_46ED4:
 		move.l	#Wait_Draw,(a0)
 		move.l	#loc_46B44,$34(a0)
 		clr.w	x_vel(a0)

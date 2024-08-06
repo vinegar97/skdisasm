@@ -23,15 +23,15 @@ SolidObjectFull_1P:
 		move.w	d1,d2
 		add.w	d2,d2
 		btst	#Status_InAir,status(a1)
-		bne.s	loc_1DC98
+		bne.s	+ ;loc_1DC98
 		move.w	x_pos(a1),d0
 		sub.w	x_pos(a0),d0
 		add.w	d1,d0
-		bmi.s	loc_1DC98
+		bmi.s	+ ;loc_1DC98
 		cmp.w	d2,d0
-		blo.s	loc_1DCAC
+		blo.s	++ ;loc_1DCAC
 
-loc_1DC98:
++ ;loc_1DC98:
 		bclr	#Status_OnObj,status(a1)
 		bset	#Status_InAir,status(a1)
 		bclr	d6,status(a0)
@@ -39,7 +39,7 @@ loc_1DC98:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_1DCAC:
++ ;loc_1DCAC:
 		move.w	d4,d2
 		bsr.w	MvSonicOnPtfm
 		moveq	#0,d4
@@ -72,15 +72,15 @@ SolidObjectFull2_1P:
 		move.w	d1,d2
 		add.w	d2,d2
 		btst	#Status_InAir,status(a1)
-		bne.s	loc_1DCF0
+		bne.s	+ ;loc_1DCF0
 		move.w	x_pos(a1),d0
 		sub.w	x_pos(a0),d0
 		add.w	d1,d0
-		bmi.s	loc_1DCF0
+		bmi.s	+ ;loc_1DCF0
 		cmp.w	d2,d0
-		blo.s	loc_1DD04
+		blo.s	++ ;loc_1DD04
 
-loc_1DCF0:
++ ;loc_1DCF0:
 		bclr	#Status_OnObj,status(a1)
 		bset	#Status_InAir,status(a1)
 		bclr	d6,status(a0)
@@ -88,7 +88,7 @@ loc_1DCF0:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_1DD04:
++ ;loc_1DD04:
 		move.w	d4,d2
 		bsr.w	MvSonicOnPtfm
 		moveq	#0,d4
@@ -119,15 +119,15 @@ sub_1DD24:
 		move.w	d1,d2
 		add.w	d2,d2
 		btst	#Status_InAir,status(a1)
-		bne.s	loc_1DD48
+		bne.s	+ ;loc_1DD48
 		move.w	x_pos(a1),d0
 		sub.w	x_pos(a0),d0
 		add.w	d1,d0
-		bmi.s	loc_1DD48
+		bmi.s	+ ;loc_1DD48
 		cmp.w	d2,d0
-		blo.s	loc_1DD5C
+		blo.s	++ ;loc_1DD5C
 
-loc_1DD48:
++ ;loc_1DD48:
 		bclr	#Status_OnObj,status(a1)
 		bset	#Status_InAir,status(a1)
 		bclr	d6,status(a0)
@@ -135,7 +135,7 @@ loc_1DD48:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_1DD5C:
++ ;loc_1DD5C:
 		move.w	d4,d2
 		bsr.w	SolidObjSloped2
 		move.w	d6,d4
@@ -149,7 +149,7 @@ loc_1DD5C:
 		lea	(Player_1).w,a1
 		moveq	#p1_standing_bit,d6
 		movem.l	d1-d4,-(sp)
-		bsr.s	sub_1DD84
+		bsr.s	+ ;sub_1DD84
 		movem.l	(sp)+,d1-d4
 		lea	(Player_2).w,a1
 		addq.b	#p2_standing_bit-p1_standing_bit,d6
@@ -157,21 +157,21 @@ loc_1DD5C:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_1DD84:
++ ;sub_1DD84:
 		btst	d6,status(a0)
 		beq.w	loc_1DF28
 		move.w	d1,d2
 		add.w	d2,d2
 		btst	#Status_InAir,status(a1)
-		bne.s	loc_1DDA8
+		bne.s	+ ;loc_1DDA8
 		move.w	x_pos(a1),d0
 		sub.w	x_pos(a0),d0
 		add.w	d1,d0
-		bmi.s	loc_1DDA8
+		bmi.s	+ ;loc_1DDA8
 		cmp.w	d2,d0
-		blo.s	loc_1DDBC
+		blo.s	++ ;loc_1DDBC
 
-loc_1DDA8:
++ ;loc_1DDA8:
 		bclr	#Status_OnObj,status(a1)
 		bset	#Status_InAir,status(a1)
 		bclr	d6,status(a0)
@@ -179,7 +179,7 @@ loc_1DDA8:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_1DDBC:
++ ;loc_1DDBC:
 		move.w	d4,d2
 		bsr.w	SolidObjSloped4
 		moveq	#0,d4
@@ -194,7 +194,7 @@ sub_1DDC6:
 		lea	(Player_1).w,a1
 		moveq	#p1_standing_bit,d6
 		movem.l	d1-d4,-(sp)
-		bsr.s	sub_1DDDC
+		bsr.s	+ ;sub_1DDDC
 		movem.l	(sp)+,d1-d4
 		lea	(Player_2).w,a1
 		addq.b	#p2_standing_bit-p1_standing_bit,d6
@@ -204,28 +204,28 @@ sub_1DDC6:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_1DDDC:
++ ;sub_1DDDC:
 		btst	d6,status(a0)
 		beq.w	loc_1DECE
 		move.w	d1,d2
 		add.w	d2,d2
 		btst	#Status_InAir,status(a1)
-		bne.s	loc_1DE00
+		bne.s	+ ;loc_1DE00
 		move.w	x_pos(a1),d0
 		sub.w	x_pos(a0),d0
 		add.w	d1,d0
-		bmi.s	loc_1DE00
+		bmi.s	+ ;loc_1DE00
 		cmp.w	d2,d0
-		blo.s	loc_1DE0E
+		blo.s	++ ;loc_1DE0E
 
-loc_1DE00:
++ ;loc_1DE00:
 		bclr	#Status_OnObj,status(a1)
 		bclr	d6,status(a0)
 		moveq	#0,d4
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_1DE0E:
++ ;loc_1DE0E:
 		move.w	d4,d2
 		bsr.w	SolidObjSloped2
 		move.w	d6,d4
@@ -255,18 +255,18 @@ SolidObjectFull_Offset:
 
 SolidObjectFull_Offset_1P:
 		btst	d6,status(a0)
-		beq.w	loc_1DE8C
+		beq.w	+++ ;loc_1DE8C
 		btst	#Status_InAir,status(a1)
-		bne.s	loc_1DE58
+		bne.s	+ ;loc_1DE58
 		move.w	x_pos(a1),d0
 		sub.w	x_pos(a0),d0
 		add.w	d1,d0
-		bmi.s	loc_1DE58
+		bmi.s	+ ;loc_1DE58
 		add.w	d1,d1
 		cmp.w	d1,d0
-		blo.s	loc_1DE6C
+		blo.s	++ ;loc_1DE6C
 
-loc_1DE58:
++ ;loc_1DE58:
 		bclr	#Status_OnObj,status(a1)
 		bset	#Status_InAir,status(a1)
 		bclr	d6,status(a0)
@@ -274,7 +274,7 @@ loc_1DE58:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_1DE6C:
++ ;loc_1DE6C:
 		move.w	y_pos(a0),d0
 		sub.w	d2,d0
 		add.w	d3,d0
@@ -288,7 +288,7 @@ loc_1DE6C:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_1DE8C:
++ ;loc_1DE8C:
 		move.w	x_pos(a1),d0
 		sub.w	x_pos(a0),d0
 		add.w	d1,d0
@@ -325,11 +325,11 @@ loc_1DECE:
 		bhi.w	loc_1E0A2
 		move.w	d0,d5
 		btst	#0,render_flags(a0)
-		beq.s	loc_1DEF4
+		beq.s	+ ;loc_1DEF4
 		not.w	d5
 		add.w	d3,d5
 
-loc_1DEF4:
++ ;loc_1DEF4:
 		lsr.w	#1,d5
 		move.b	(a2,d5.w),d3
 		sub.b	(a2),d3
@@ -362,11 +362,11 @@ loc_1DF28:
 		bhi.w	loc_1E0A2
 		move.w	d0,d5
 		btst	#0,render_flags(a0)
-		beq.s	loc_1DF4E
+		beq.s	+ ;loc_1DF4E
 		not.w	d5
 		add.w	d3,d5
 
-loc_1DF4E:
++ ;loc_1DF4E:
 		andi.w	#$FFFE,d5
 		move.b	(a2,d5.w),d3
 		move.b	1(a2,d5.w),d2
@@ -402,7 +402,7 @@ SolidObject_cont:
 		cmp.w	d3,d0
 		bhi.w	loc_1E0A2
 		tst.b	(Reverse_gravity_flag).w
-		beq.s	loc_1DFD6
+		beq.s	+ ;loc_1DFD6
 		move.b	default_y_radius(a1),d4
 		ext.w	d4
 		add.w	d2,d4
@@ -421,7 +421,7 @@ SolidObject_cont:
 		bra.s	loc_1DFFE
 ; ---------------------------------------------------------------------------
 
-loc_1DFD6:
++ ;loc_1DFD6:
 		move.b	default_y_radius(a1),d4
 		ext.w	d4
 		add.w	d2,d4
@@ -446,22 +446,22 @@ loc_1DFFE:
 		bne.w	loc_1E0D0
 		move.w	d0,d5
 		cmp.w	d0,d1
-		bhs.s	loc_1E026
+		bhs.s	+ ;loc_1E026
 		add.w	d1,d1
 		sub.w	d1,d0
 		move.w	d0,d5
 		neg.w	d5
 
-loc_1E026:
++ ;loc_1E026:
 		move.w	d3,d1
 		cmp.w	d3,d2
-		bhs.s	loc_1E034
+		bhs.s	+ ;loc_1E034
 		subq.w	#4,d3
 		sub.w	d4,d3
 		move.w	d3,d1
 		neg.w	d1
 
-loc_1E034:
++ ;loc_1E034:
 		cmp.w	d1,d5
 		bhi.w	loc_1E0D4
 		cmpi.w	#4,d1
@@ -469,28 +469,28 @@ loc_1E034:
 
 loc_1E042:
 		tst.w	d0
-		beq.s	loc_1E06E
-		bmi.s	loc_1E050
+		beq.s	+++ ;loc_1E06E
+		bmi.s	+ ;loc_1E050
 		tst.w	x_vel(a1)
-		bmi.s	loc_1E06E
-		bra.s	loc_1E056
+		bmi.s	+++ ;loc_1E06E
+		bra.s	++ ;loc_1E056
 ; ---------------------------------------------------------------------------
 
-loc_1E050:
++ ;loc_1E050:
 		tst.w	x_vel(a1)
-		bpl.s	loc_1E06E
+		bpl.s	++ ;loc_1E06E
 
-loc_1E056:
++ ;loc_1E056:
 		move.w	#0,ground_vel(a1)
 		move.w	#0,x_vel(a1)
 		tst.b	status_tertiary(a1)
-		bpl.s	loc_1E06E
+		bpl.s	+ ;loc_1E06E
 		bset	#6,status_tertiary(a1)
 
-loc_1E06E:
++ ;loc_1E06E:
 		sub.w	d0,x_pos(a1)
 		btst	#Status_InAir,status(a1)
-		bne.s	loc_1E094
+		bne.s	+ ;loc_1E094
 		move.l	d6,d4
 		addq.b	#pushing_bit_delta,d4
 		bset	d4,status(a0)
@@ -502,7 +502,7 @@ loc_1E06E:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_1E094:
++ ;loc_1E094:
 		bsr.s	sub_1E0C2
 		move.w	d6,d4
 		addi.b	#$D,d4
@@ -542,41 +542,41 @@ loc_1E0D0:
 
 loc_1E0D4:
 		tst.w	d3
-		bmi.s	loc_1E0E0
+		bmi.s	+ ;loc_1E0E0
 		cmpi.w	#$10,d3
 		blo.s	loc_1E154
 		bra.s	loc_1E0A2
 ; ---------------------------------------------------------------------------
 
-loc_1E0E0:
++ ;loc_1E0E0:
 		btst	#Status_InAir,status(a1)
-		bne.s	loc_1E0F6
+		bne.s	+ ;loc_1E0F6
 		tst.w	y_vel(a1)
 		beq.s	loc_1E126
 		bpl.s	loc_1E10E
 		tst.w	d3
 		bpl.s	loc_1E10E
-		bra.s	loc_1E0FC
+		bra.s	++ ;loc_1E0FC
 ; ---------------------------------------------------------------------------
 
-loc_1E0F6:
++ ;loc_1E0F6:
 		move.w	#0,ground_vel(a1)
 
-loc_1E0FC:
++ ;loc_1E0FC:
 		tst.b	(Reverse_gravity_flag).w
-		beq.s	loc_1E104
+		beq.s	+ ;loc_1E104
 		neg.w	d3
 
-loc_1E104:
++ ;loc_1E104:
 		sub.w	d3,y_pos(a1)
 		move.w	#0,y_vel(a1)
 
 loc_1E10E:
 		tst.b	status_tertiary(a1)
-		bpl.s	loc_1E11A
+		bpl.s	+ ;loc_1E11A
 		bset	#5,status_tertiary(a1)
 
-loc_1E11A:
++ ;loc_1E11A:
 		move.w	d6,d4
 		addi.b	#$F,d4
 		bset	d4,d6
@@ -588,10 +588,10 @@ loc_1E126:
 		btst	#Status_InAir,status(a1)
 		bne.s	loc_1E10E
 		move.w	d0,d4
-		bpl.s	loc_1E134
+		bpl.s	+ ;loc_1E134
 		neg.w	d4
 
-loc_1E134:
++ ;loc_1E134:
 		cmpi.w	#$10,d4
 		blo.w	loc_1E042
 		move.l	a0,-(sp)
@@ -613,19 +613,19 @@ loc_1E154:
 		add.w	d2,d2
 		add.w	x_pos(a1),d1
 		sub.w	x_pos(a0),d1
-		bmi.s	loc_1E198
+		bmi.s	++ ;loc_1E198
 		cmp.w	d2,d1
-		bhs.s	loc_1E198
+		bhs.s	++ ;loc_1E198
 		subq.w	#1,y_pos(a1)
 		tst.b	(Reverse_gravity_flag).w
-		beq.s	loc_1E17E
+		beq.s	+ ;loc_1E17E
 		neg.w	d3
 		addq.w	#2,y_pos(a1)
 
-loc_1E17E:
++ ;loc_1E17E:
 		sub.w	d3,y_pos(a1)
 		tst.w	y_vel(a1)
-		bmi.s	loc_1E198
+		bmi.s	+ ;loc_1E198
 		bsr.w	RideObject_SetRide
 		move.w	d6,d4
 		addi.b	#$11,d4
@@ -634,7 +634,7 @@ loc_1E17E:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_1E198:
++ ;loc_1E198:
 		moveq	#0,d4
 		rts
 
@@ -643,30 +643,30 @@ loc_1E198:
 
 MvSonicOnPtfm:
 		tst.b	(Reverse_gravity_flag).w
-		bne.s	loc_1E1AA
+		bne.s	+ ;loc_1E1AA
 		move.w	y_pos(a0),d0
 		sub.w	d3,d0
-		bra.s	loc_1E1CA
+		bra.s	+++ ;loc_1E1CA
 ; ---------------------------------------------------------------------------
 
-loc_1E1AA:
++ ;loc_1E1AA:
 		move.w	y_pos(a0),d0
 		add.w	d3,d0
-		bra.s	loc_1E1F4
+		bra.s	+++ ;loc_1E1F4
 ; ---------------------------------------------------------------------------
 		; This is hilarious. The unused S1 code was upgraded with an S3K feature
 		tst.b	(Reverse_gravity_flag).w
-		beq.s	loc_1E1C2
+		beq.s	+ ;loc_1E1C2
 		move.w	y_pos(a0),d0
 		addi.w	#9,d0
-		bra.s	loc_1E1F4
+		bra.s	+++ ;loc_1E1F4
 ; ---------------------------------------------------------------------------
 
-loc_1E1C2:
++ ;loc_1E1C2:
 		move.w	y_pos(a0),d0
 		subi.w	#9,d0
 
-loc_1E1CA:
++ ;loc_1E1CA:
 		tst.b	object_control(a1)
 		bmi.s	locret_1E1F2
 		cmpi.b	#6,routine(a1)
@@ -684,7 +684,7 @@ locret_1E1F2:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_1E1F4:
++ ;loc_1E1F4:
 		tst.b	object_control(a1)
 		bmi.s	locret_1E21C
 		cmpi.b	#6,routine(a1)
@@ -713,12 +713,12 @@ SolidObjSloped:
 		sub.w	x_pos(a0),d0
 		add.w	d1,d0
 		btst	#0,render_flags(a0)
-		beq.s	loc_1E23E
+		beq.s	+ ;loc_1E23E
 		not.w	d0
 		add.w	d1,d0
 		add.w	d1,d0
 
-loc_1E23E:
++ ;loc_1E23E:
 		bra.s	loc_1E260
 ; End of function SolidObjSloped
 
@@ -765,11 +765,11 @@ SolidObjSloped4:
 		sub.w	x_pos(a0),d0
 		add.w	d1,d0
 		btst	#0,render_flags(a0)
-		beq.s	loc_1E2A0
+		beq.s	+ ;loc_1E2A0
 		not.w	d0
 		add.w	d1,d0
 
-loc_1E2A0:
++ ;loc_1E2A0:
 		andi.w	#$FFFE,d0
 		bra.s	loc_1E260
 ; End of function SolidObjSloped4
@@ -798,15 +798,15 @@ SolidObjectTop_1P:
 		move.w	d1,d2
 		add.w	d2,d2
 		btst	#Status_InAir,status(a1)
-		bne.s	loc_1E2E0
+		bne.s	+ ;loc_1E2E0
 		move.w	x_pos(a1),d0
 		sub.w	x_pos(a0),d0
 		add.w	d1,d0
-		bmi.s	loc_1E2E0
+		bmi.s	+ ;loc_1E2E0
 		cmp.w	d2,d0
-		blo.s	loc_1E2F4
+		blo.s	++ ;loc_1E2F4
 
-loc_1E2E0:
++ ;loc_1E2E0:
 		bclr	#Status_OnObj,status(a1)
 		bset	#Status_InAir,status(a1)
 		bclr	d6,status(a0)
@@ -814,7 +814,7 @@ loc_1E2E0:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_1E2F4:
++ ;loc_1E2F4:
 		move.w	d4,d2
 		bsr.w	MvSonicOnPtfm
 		moveq	#0,d4
@@ -845,15 +845,15 @@ SolidObjectTopSloped2_1P:
 		move.w	d1,d2
 		add.w	d2,d2
 		btst	#Status_InAir,status(a1)
-		bne.s	loc_1E338
+		bne.s	+ ;loc_1E338
 		move.w	x_pos(a1),d0
 		sub.w	x_pos(a0),d0
 		add.w	d1,d0
-		bmi.s	loc_1E338
+		bmi.s	+ ;loc_1E338
 		cmp.w	d2,d0
-		blo.s	loc_1E34C
+		blo.s	++ ;loc_1E34C
 
-loc_1E338:
++ ;loc_1E338:
 		bclr	#Status_OnObj,status(a1)
 		bset	#Status_InAir,status(a1)
 		bclr	d6,status(a0)
@@ -861,7 +861,7 @@ loc_1E338:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_1E34C:
++ ;loc_1E34C:
 		move.w	d4,d2
 		bsr.w	SolidObjSloped2
 		moveq	#0,d4
@@ -892,15 +892,15 @@ SolidObjectTopSloped_1P:
 		move.w	d1,d2
 		add.w	d2,d2
 		btst	#Status_InAir,status(a1)
-		bne.s	loc_1E390
+		bne.s	+ ;loc_1E390
 		move.w	x_pos(a1),d0
 		sub.w	x_pos(a0),d0
 		add.w	d1,d0
-		bmi.s	loc_1E390
+		bmi.s	+ ;loc_1E390
 		cmp.w	d2,d0
-		blo.s	loc_1E3A4
+		blo.s	++ ;loc_1E3A4
 
-loc_1E390:
++ ;loc_1E390:
 		bclr	#Status_OnObj,status(a1)
 		bset	#Status_InAir,status(a1)
 		bclr	d6,status(a0)
@@ -908,7 +908,7 @@ loc_1E390:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_1E3A4:
++ ;loc_1E3A4:
 		move.w	d4,d2
 		bsr.w	SolidObjSloped
 		moveq	#0,d4
@@ -929,35 +929,35 @@ loc_1E3A4:
 
 sub_1E3C4:
 		btst	d6,status(a0)
-		bne.s	loc_1E3D6
+		bne.s	+ ;loc_1E3D6
 		btst	#Status_OnObj,status(a1)
-		bne.s	loc_1E402
+		bne.s	+++ ;loc_1E402
 		bra.w	loc_1E42E
 ; ---------------------------------------------------------------------------
 
-loc_1E3D6:
++ ;loc_1E3D6:
 		move.w	d1,d2
 		add.w	d2,d2
 		btst	#Status_InAir,status(a1)
-		bne.s	loc_1E3F2
+		bne.s	+ ;loc_1E3F2
 		move.w	x_pos(a1),d0
 		sub.w	x_pos(a0),d0
 		add.w	d1,d0
-		bmi.s	loc_1E3F2
+		bmi.s	+ ;loc_1E3F2
 		cmp.w	d2,d0
-		blo.s	loc_1E406
+		blo.s	+++ ;loc_1E406
 
-loc_1E3F2:
++ ;loc_1E3F2:
 		bclr	#Status_OnObj,status(a1)
 		bset	#Status_InAir,status(a1)
 		bclr	d6,status(a0)
 
-loc_1E402:
++ ;loc_1E402:
 		moveq	#0,d4
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_1E406:
++ ;loc_1E406:
 		move.w	d4,d2
 		bsr.w	MvSonicOnPtfm
 		moveq	#0,d4
@@ -977,7 +977,7 @@ sub_1E410:
 		bmi.w	locret_1E4D4
 		cmp.w	d2,d0
 		bhs.w	locret_1E4D4
-		bra.s	loc_1E44C
+		bra.s	+ ;loc_1E44C
 ; ---------------------------------------------------------------------------
 
 loc_1E42E:
@@ -991,9 +991,9 @@ loc_1E42E:
 		cmp.w	d1,d0
 		bhs.w	locret_1E4D4
 
-loc_1E44C:
++ ;loc_1E44C:
 		tst.b	(Reverse_gravity_flag).w
-		bne.w	loc_1E4D6
+		bne.w	++ ;loc_1E4D6
 		move.w	y_pos(a0),d0
 		sub.w	d3,d0
 
@@ -1022,11 +1022,11 @@ loc_1E45A:
 
 RideObject_SetRide:
 		btst	#Status_OnObj,status(a1)
-		beq.s	loc_1E4A0
+		beq.s	+ ;loc_1E4A0
 		movea.w	interact(a1),a3
 		bclr	d6,status(a3)
 
-loc_1E4A0:
++ ;loc_1E4A0:
 		move.w	a0,interact(a1)
 		move.b	#0,angle(a1)
 		move.w	#0,y_vel(a1)
@@ -1046,7 +1046,7 @@ locret_1E4D4:
 
 ; ---------------------------------------------------------------------------
 
-loc_1E4D6:
++ ;loc_1E4D6:
 		move.w	y_pos(a0),d0
 		add.w	d3,d0
 		move.w	y_pos(a1),d2
@@ -1080,11 +1080,11 @@ SolidObjCheckSloped2:
 		cmp.w	d1,d0
 		bhs.s	locret_1E4D4
 		btst	#0,render_flags(a0)
-		beq.s	loc_1E534
+		beq.s	+ ;loc_1E534
 		not.w	d0
 		add.w	d1,d0
 
-loc_1E534:
++ ;loc_1E534:
 		lsr.w	#1,d0
 		move.b	(a2,d0.w),d3
 		ext.w	d3
@@ -1104,11 +1104,11 @@ SolidObjCheckSloped:
 		cmp.w	d1,d0
 		bhs.w	locret_1E4D4
 		btst	#0,render_flags(a0)
-		beq.s	loc_1E570
+		beq.s	+ ;loc_1E570
 		not.w	d0
 		add.w	d1,d0
 
-loc_1E570:
++ ;loc_1E570:
 		move.b	(a2,d0.w),d3
 		ext.w	d3
 		move.w	y_pos(a0),d0
@@ -1121,34 +1121,34 @@ loc_1E570:
 CheckPlayerReleaseFromObj:
 		lea	(Player_1).w,a1
 		btst	#p1_standing_bit,status(a0)
-		beq.s	loc_1E5AE
+		beq.s	++ ;loc_1E5AE
 		jsr	(SonicOnObjHitFloor).l
 		tst.w	d1
-		beq.s	loc_1E598
-		bpl.s	loc_1E5AE
+		beq.s	+ ;loc_1E598
+		bpl.s	++ ;loc_1E5AE
 
-loc_1E598:
++ ;loc_1E598:
 		lea	(Player_1).w,a1
 		bclr	#Status_OnObj,status(a1)
 		bset	#Status_InAir,status(a1)
 		bclr	#p1_standing_bit,status(a0)
 
-loc_1E5AE:
++ ;loc_1E5AE:
 		lea	(Player_2).w,a1
 		btst	#p2_standing_bit,status(a0)
-		beq.s	loc_1E5DC
+		beq.s	++ ;loc_1E5DC
 		jsr	(SonicOnObjHitFloor).l
 		tst.w	d1
-		beq.s	loc_1E5C6
-		bpl.s	loc_1E5DC
+		beq.s	+ ;loc_1E5C6
+		bpl.s	++ ;loc_1E5DC
 
-loc_1E5C6:
++ ;loc_1E5C6:
 		lea	(Player_2).w,a1
 		bclr	#Status_OnObj,status(a1)
 		bset	#Status_InAir,status(a1)
 		bclr	#p2_standing_bit,status(a0)
 
-loc_1E5DC:
++ ;loc_1E5DC:
 		moveq	#0,d4
 		rts
 ; End of function CheckPlayerReleaseFromObj

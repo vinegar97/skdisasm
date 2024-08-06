@@ -20,10 +20,10 @@ Competition_Menu:
 		move.l	#DMA_queue,(DMA_queue_slot).w
 		clr.w	(Level_frame_counter).w
 		cmpi.b	#3,(Competition_menu_selection).w
-		blo.s	loc_95AE
+		blo.s	+ ;loc_95AE
 		clr.b	(Competition_menu_selection).w
 
-loc_95AE:
++ ;loc_95AE:
 		lea	(MapEni_S3MenuBG).l,a0
 		lea	(RAM_start).l,a1
 		move.w	#make_art_tile($001,3,0),d0
@@ -53,20 +53,20 @@ loc_95AE:
 		lea	(Target_palette).w,a1
 		moveq	#bytesToLcnt($60),d0
 
-loc_963A:
+- ;loc_963A:
 		move.l	(a0)+,(a1)+
-		dbf	d0,loc_963A
+		dbf	d0,- ;loc_963A
 		lea	(Pal_CompetitionMenuBG).l,a0
 		moveq	#bytesToLcnt($20),d0
 
-loc_9648:
+- ;loc_9648:
 		move.l	(a0)+,(a1)+
-		dbf	d0,loc_9648
+		dbf	d0,- ;loc_9648
 		lea	(Object_RAM).w,a0
 		lea	ObjDat_9878(pc),a1
 		move.w	(a1)+,d0
 
-loc_9658:
+- ;loc_9658:
 		move.l	(a1)+,(a0)
 		move.w	#make_art_tile(ArtTile_ArtKos_Competition_ModeSel,0,0),art_tile(a0)
 		move.l	#Map_CompetitionObject,mappings(a0)
@@ -75,7 +75,7 @@ loc_9658:
 		move.b	(a1)+,mapping_frame(a0)
 		move.b	(a1)+,$2E(a0)
 		lea	next_object(a0),a0
-		dbf	d0,loc_9658
+		dbf	d0,- ;loc_9658
 		jsr	(Init_SpriteTable).l
 		jsr	(Process_Sprites).l
 		jsr	(Render_Sprites).l
@@ -100,7 +100,7 @@ loc_96B8:
 		andi.b	#button_A_mask|button_B_mask|button_C_mask|button_start_mask,d1
 		beq.w	loc_9776
 		btst	#button_B,d1
-		bne.s	loc_96FE
+		bne.s	+ ;loc_96FE
 		moveq	#0,d2
 		move.b	(Competition_menu_selection).w,d2
 		add.w	d2,d2
@@ -115,7 +115,7 @@ loc_96F8:
 		bra.s	loc_9744
 ; ---------------------------------------------------------------------------
 
-loc_96FE:
++ ;loc_96FE:
 		move.b	#4,(Game_mode).w
 		rts
 ; ---------------------------------------------------------------------------
@@ -127,7 +127,7 @@ loc_9706:
 		andi.b	#button_A_mask|button_C_mask|button_start_mask,d0
 		sne	(Not_ghost_flag).w
 		move.b	#$3C,(Game_mode).w
-		bra.s	loc_975E
+		bra.s	+ ;loc_975E
 ; ---------------------------------------------------------------------------
 
 loc_9724:
@@ -137,7 +137,7 @@ loc_9724:
 		andi.b	#button_A_mask|button_C_mask|button_start_mask,d0
 		sne	(Not_ghost_flag).w
 		move.b	#$40,(Game_mode).w
-		bra.s	loc_975E
+		bra.s	+ ;loc_975E
 ; ---------------------------------------------------------------------------
 
 loc_9744:
@@ -148,14 +148,14 @@ loc_9744:
 		clr.b	(Not_ghost_flag).w
 		move.b	#$C0,(Game_mode).w
 
-loc_975E:
++ ;loc_975E:
 		lea	($FF7800).l,a1
 		moveq	#0,d0
 		moveq	#bytesToLcnt($28),d1
 
-loc_9768:
+- ;loc_9768:
 		move.l	d0,(a1)+
-		dbf	d1,loc_9768
+		dbf	d1,- ;loc_9768
 		moveq	#signextendB(sfx_Starpost),d0
 		jmp	(Play_SFX).l
 ; ---------------------------------------------------------------------------
@@ -164,46 +164,46 @@ loc_9776:
 		moveq	#0,d2
 		move.b	(Competition_menu_selection).w,d1
 		lsr.w	#1,d0
-		bcc.s	loc_978A
+		bcc.s	+ ;loc_978A
 		moveq	#signextendB(sfx_Switch),d2
 		subq.b	#1,d1
-		bcc.s	loc_979A
+		bcc.s	++ ;loc_979A
 		moveq	#3,d1
-		bra.s	loc_979A
+		bra.s	++ ;loc_979A
 ; ---------------------------------------------------------------------------
 
-loc_978A:
++ ;loc_978A:
 		lsr.w	#1,d0
-		bcc.s	loc_979A
+		bcc.s	+ ;loc_979A
 		moveq	#signextendB(sfx_Switch),d2
 		addq.b	#1,d1
 		cmpi.b	#3,d1
-		bls.s	loc_979A
+		bls.s	+ ;loc_979A
 		moveq	#0,d1
 
-loc_979A:
++ ;loc_979A:
 		move.b	d1,(Competition_menu_selection).w
 		move.w	d2,d0
-		beq.s	loc_97A8
+		beq.s	+ ;loc_97A8
 		jsr	(Play_SFX).l
 
-loc_97A8:
++ ;loc_97A8:
 		bra.w	loc_96B8
 ; ---------------------------------------------------------------------------
 
 Obj_Competition_97AC:
 		move.b	$2E(a0),d0
-		bmi.s	loc_97CA
+		bmi.s	++ ;loc_97CA
 		andi.w	#$9FFF,art_tile(a0)
 		move.w	#$2000,d1
 		cmp.b	(Competition_menu_selection).w,d0
-		bne.s	loc_97C6
+		bne.s	+ ;loc_97C6
 		move.w	#$4000,d1
 
-loc_97C6:
++ ;loc_97C6:
 		or.w	d1,art_tile(a0)
 
-loc_97CA:
++ ;loc_97CA:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -213,19 +213,19 @@ Obj_Competition_97D0:
 		move.b	(Ctrl_1_pressed).w,d0
 		or.b	(Ctrl_2_pressed).w,d0
 		andi.w	#button_left_mask|button_right_mask,d0
-		beq.s	loc_97F6
+		beq.s	+ ;loc_97F6
 		tst.b	(Competition_menu_items).w
 		seq	(Competition_menu_items).w
 		moveq	#signextendB(sfx_Switch),d0
 		jsr	(Play_SFX).l
 
-loc_97F6:
++ ;loc_97F6:
 		move.w	#$15C,d0
 		tst.b	(Competition_menu_items).w
-		beq.s	loc_9804
+		beq.s	+ ;loc_9804
 		addi.w	#$20,d0
 
-loc_9804:
++ ;loc_9804:
 		move.w	d0,x_pos(a0)
 		btst	#3,(Level_frame_counter+1).w
 		beq.s	locret_9816
@@ -339,25 +339,25 @@ Competition_LevelSelect:
 		lea	(Target_palette).w,a1
 		moveq	#bytesToLcnt($20),d0
 
-loc_9B70:
+- ;loc_9B70:
 		move.l	(a0)+,(a1)+
-		dbf	d0,loc_9B70
+		dbf	d0,- ;loc_9B70
 		lea	Pal_Competition2(pc),a0
 		moveq	#bytesToLcnt($60),d0
 
-loc_9B7C:
+- ;loc_9B7C:
 		move.l	(a0)+,(a1)+
-		dbf	d0,loc_9B7C
+		dbf	d0,- ;loc_9B7C
 		lea	(Object_RAM).w,a0
 		lea	ObjDat_CompetitionMatchRace(pc),a1
 		tst.b	(Game_mode).w
-		bpl.s	loc_9B94
+		bpl.s	+ ;loc_9B94
 		lea	ObjDat_CompetitionTimeAttack(pc),a1
 
-loc_9B94:
++ ;loc_9B94:
 		move.w	(a1)+,d0
 
-loc_9B96:
+- ;loc_9B96:
 		move.l	(a1)+,(a0)
 		move.l	#Map_CompetitionSelect,mappings(a0)
 		move.w	(a1),x_pos(a0)
@@ -370,21 +370,21 @@ loc_9B96:
 		move.b	(a1)+,mapping_frame(a0)
 		move.b	(a1)+,$2E(a0)
 		lea	next_object(a0),a0
-		dbf	d0,loc_9B96
+		dbf	d0,- ;loc_9B96
 		moveq	#0,d0
 		move.b	(P1_character).w,d0
 		mulu.w	#$55,d0
 		addi.b	#$40,d0
 		move.b	d0,(Reserved_object_3+objoff_2E).w
 		tst.b	(Game_mode).w
-		bmi.s	loc_9BF4
+		bmi.s	+ ;loc_9BF4
 		moveq	#0,d0
 		move.b	(P2_character).w,d0
 		mulu.w	#$55,d0
 		addi.b	#$40,d0
 		move.b	d0,(Dynamic_object_RAM+(object_size*4)+objoff_2E).w
 
-loc_9BF4:
++ ;loc_9BF4:
 		jsr	(Init_SpriteTable).l
 		jsr	(Process_Sprites).l
 		jsr	(Render_Sprites).l
@@ -413,79 +413,79 @@ loc_9C5C:
 		jsr	sub_B596(pc)
 		jsr	(Render_Sprites).l
 		move.b	(Events_bg+$12).w,d0
-		beq.s	loc_9C88
+		beq.s	+ ;loc_9C88
 		move.b	d0,(Game_mode).w
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_9C88:
++ ;loc_9C88:
 		move.w	(Events_bg+$10).w,d0
 		tst.b	(Not_ghost_flag).w
-		bne.s	loc_9C94
+		bne.s	+ ;loc_9C94
 		lsr.w	#8,d0
 
-loc_9C94:
++ ;loc_9C94:
 		tst.w	d0
-		beq.s	loc_9CB4
+		beq.s	++ ;loc_9CB4
 		move.w	(H_scroll_buffer).w,d0
 		beq.s	loc_9C5C
 		cmpi.w	#-$58,d0
-		bne.s	loc_9CAC
+		bne.s	+ ;loc_9CAC
 		move.l	#loc_9E2E,(_unkEF44_1).w
 
-loc_9CAC:
++ ;loc_9CAC:
 		addq.w	#8,d0
 		move.w	d0,(H_scroll_buffer).w
 		bra.s	loc_9C5C
 ; ---------------------------------------------------------------------------
 
-loc_9CB4:
++ ;loc_9CB4:
 		cmpi.w	#-$58,(H_scroll_buffer).w
-		beq.s	loc_9CC2
+		beq.s	+ ;loc_9CC2
 		subq.w	#8,(H_scroll_buffer).w
 		bra.s	loc_9C5C
 ; ---------------------------------------------------------------------------
 
-loc_9CC2:
++ ;loc_9CC2:
 		moveq	#8,d0
 		move.w	(Events_bg+$14).w,d1
-		beq.s	loc_9CD8
-		bpl.s	loc_9CCE
+		beq.s	++ ;loc_9CD8
+		bpl.s	+ ;loc_9CCE
 		neg.w	d0
 
-loc_9CCE:
++ ;loc_9CCE:
 		add.w	d0,(V_scroll_value).w
 		sub.w	d0,(Events_bg+$14).w
 		bra.s	loc_9C5C
 ; ---------------------------------------------------------------------------
 
-loc_9CD8:
++ ;loc_9CD8:
 		move.b	(Ctrl_1_pressed).w,d1
 		moveq	#0,d2
 		tst.b	(Not_ghost_flag).w
-		beq.s	loc_9CE8
+		beq.s	+ ;loc_9CE8
 		move.b	(Ctrl_2_pressed).w,d2
 
-loc_9CE8:
++ ;loc_9CE8:
 		btst	#button_B,d2
-		beq.s	loc_9CF6
+		beq.s	+ ;loc_9CF6
 		sf	(Dynamic_object_RAM+(object_size*4)+objoff_2F).w
 		st	(Events_bg+$11).w
 
-loc_9CF6:
++ ;loc_9CF6:
 		btst	#button_B,d1
-		beq.s	loc_9D04
+		beq.s	+ ;loc_9D04
 		sf	(Reserved_object_3+objoff_2F).w
 		st	(Events_bg+$10).w
 
-loc_9D04:
++ ;loc_9D04:
 		or.b	d2,d1
 		move.b	d1,d2
 		andi.w	#3,d2
 		beq.s	loc_9D5C
 		lea	(Competition_menu_zone).w,a0
 		lsr.w	#1,d2
-		bcs.s	loc_9D3C
+		bcs.s	+ ;loc_9D3C
 		cmpi.b	#4,(a0)
 		beq.s	loc_9D5C
 		moveq	#signextendB(sfx_Switch),d0
@@ -499,7 +499,7 @@ loc_9D04:
 		bra.w	loc_9C5C
 ; ---------------------------------------------------------------------------
 
-loc_9D3C:
++ ;loc_9D3C:
 		tst.b	(a0)
 		beq.s	loc_9D5C
 		moveq	#signextendB(sfx_Switch),d0
@@ -556,9 +556,9 @@ locret_9DC0:
 
 loc_9DC2:
 		cmpi.w	#-$58,(H_scroll_buffer).w
-		bne.s	loc_9E06
+		bne.s	+ ;loc_9E06
 		tst.w	(Events_bg+$14).w
-		bne.s	loc_9E06
+		bne.s	+ ;loc_9E06
 		moveq	#0,d0
 		move.b	(Competition_menu_zone).w,d0
 		mulu.w	#$48,d0
@@ -574,19 +574,19 @@ loc_9DC2:
 		lsl.w	#5,d0
 		lea	Pal_Competition4(pc),a1
 		adda.w	d0,a1
-		bra.s	loc_9E0A
+		bra.s	++ ;loc_9E0A
 ; ---------------------------------------------------------------------------
 
-loc_9E06:
++ ;loc_9E06:
 		lea	Pal_Competition3(pc),a1
 
-loc_9E0A:
++ ;loc_9E0A:
 		lea	(Normal_palette_line_3).w,a2
 		moveq	#bytesToLcnt($20),d0
 
-loc_9E10:
+- ;loc_9E10:
 		move.l	(a1)+,(a2)+
-		dbf	d0,loc_9E10
+		dbf	d0,- ;loc_9E10
 		rts
 
 ; =============== S U B R O U T I N E =======================================
@@ -596,10 +596,10 @@ sub_9E18:
 		moveq	#0,d0
 		move.b	(Competition_menu_zone).w,d0
 		subq.w	#1,d0
-		bcc.s	loc_9E24
+		bcc.s	+ ;loc_9E24
 		moveq	#0,d0
 
-loc_9E24:
++ ;loc_9E24:
 		cmpi.w	#2,d0
 		bls.s	locret_9E2C
 		moveq	#2,d0
@@ -618,15 +618,15 @@ loc_9E2E:
 		move.w	#$8F80,VDP_control_port-VDP_data_port(a6)
 		moveq	#9-1,d2
 
-loc_9E50:
+- ;loc_9E50:
 		moveq	#$13-1,d3
 		move.l	d0,VDP_control_port-VDP_data_port(a6)
 
-loc_9E56:
+- ;loc_9E56:
 		move.l	d1,(a6)
-		dbf	d3,loc_9E56
+		dbf	d3,- ;loc_9E56
 		addi.l	#2<<16,d0
-		dbf	d2,loc_9E50
+		dbf	d2,-- ;loc_9E50
 		move.w	#$8F02,VDP_control_port-VDP_data_port(a6)
 
 ; =============== S U B R O U T I N E =======================================
@@ -640,7 +640,7 @@ sub_9E6C:
 		addi.w	#VRAM_Plane_A_Name_Table+$004,d0
 		move.w	d0,d7
 		tst.b	(Game_mode).w
-		bmi.s	loc_9E94
+		bmi.s	+ ;loc_9E94
 		jsr	sub_B534(pc)
 		move.w	d7,d0
 		addi.w	#$600,d0
@@ -649,7 +649,7 @@ sub_9E6C:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_9E94:
++ ;loc_9E94:
 		addi.w	#$300,d0
 		jmp	sub_B534(pc)
 ; End of function sub_9E6C
@@ -684,14 +684,14 @@ sub_9ECC:
 		lsl.l	#8,d6
 		moveq	#2,d3
 
-loc_9ED2:
+- ;loc_9ED2:
 		rol.l	#8,d6
 		moveq	#0,d0
 		move.b	d6,d0
 		jsr	(LevResults_GetDecimalScore).l
 		move.b	d1,d5
 		lsl.l	#8,d5
-		dbf	d3,loc_9ED2
+		dbf	d3,- ;loc_9ED2
 		lea	(Plane_buffer).w,a1
 		lea	MapUnc_CompetitionNumbers(pc),a2
 		moveq	#0,d0
@@ -933,20 +933,20 @@ Competition_PlayerSelect:
 		lea	(Target_palette).w,a1
 		moveq	#bytesToLcnt($20),d0
 
-loc_A280:
+- ;loc_A280:
 		move.l	(a0)+,(a1)+
-		dbf	d0,loc_A280
+		dbf	d0,- ;loc_A280
 		lea	Pal_Competition2(pc),a0
 		moveq	#bytesToLcnt($60),d0
 
-loc_A28C:
+- ;loc_A28C:
 		move.l	(a0)+,(a1)+
-		dbf	d0,loc_A28C
+		dbf	d0,- ;loc_A28C
 		lea	(Player_2).w,a0
 		lea	ObjDat_A65E(pc),a1
 		move.w	(a1)+,d0
 
-loc_A29C:
+- ;loc_A29C:
 		move.l	(a1)+,(a0)
 		move.l	#Map_CompetitionSelect,mappings(a0)
 		move.w	(a1),x_pos(a0)
@@ -959,7 +959,7 @@ loc_A29C:
 		move.b	(a1)+,mapping_frame(a0)
 		move.b	(a1)+,$2E(a0)
 		lea	next_object(a0),a0
-		dbf	d0,loc_A29C
+		dbf	d0,- ;loc_A29C
 		moveq	#0,d0
 		move.b	(P1_character).w,d0
 		mulu.w	#$55,d0
@@ -985,7 +985,7 @@ loc_A29C:
 		move.w	d0,(VDP_control_port).l
 		jsr	(Pal_FadeFromBlack).l
 
-loc_A33E:
+- ;loc_A33E:
 		move.b	#$1E,(V_int_routine).w
 		jsr	(Wait_VSync).l
 		addq.w	#1,(Level_frame_counter).w
@@ -993,20 +993,20 @@ loc_A33E:
 		jsr	sub_B596(pc)
 		jsr	(Render_Sprites).l
 		move.b	(Events_bg+$12).w,d0
-		beq.s	loc_A36A
+		beq.s	+ ;loc_A36A
 		move.b	d0,(Game_mode).w
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_A36A:
++ ;loc_A36A:
 		move.w	(Events_bg+$10).w,d0
 		tst.b	(Not_ghost_flag).w
-		bne.s	loc_A376
+		bne.s	+ ;loc_A376
 		lsr.w	#8,d0
 
-loc_A376:
++ ;loc_A376:
 		tst.w	d0
-		bne.s	loc_A33E
+		bne.s	- ;loc_A33E
 		move.w	#$E00,(Current_zone_and_act).w
 		jsr	sub_B5EC(pc)
 		move.b	#$C,(Game_mode).w
@@ -1025,13 +1025,13 @@ Obj_Competition_2PSelect:
 		lea	(Events_bg+$11).w,a2
 		lea	(P2_character).w,a3
 		tst.b	(Not_ghost_flag).w
-		bne.s	loc_A3CE
+		bne.s	++ ;loc_A3CE
 		tst.w	(Events_bg+$14).w
-		bne.s	loc_A3BC
+		bne.s	+ ;loc_A3BC
 		tst.b	(a1)
 		smi	(Not_ghost_flag).w
 
-loc_A3BC:
++ ;loc_A3BC:
 		moveq	#0,d0
 		bra.w	loc_A4CE
 ; ---------------------------------------------------------------------------
@@ -1041,11 +1041,11 @@ Obj_Competition_1PSelect:
 		lea	(Events_bg+$10).w,a2
 		lea	(P1_character).w,a3
 
-loc_A3CE:
++ ;loc_A3CE:
 		tst.w	(H_scroll_buffer).w
 		bne.w	loc_A4BC
 		tst.b	$2F(a0)
-		beq.s	loc_A3EE
+		beq.s	+ ;loc_A3EE
 		btst	#4,(a1)
 		beq.w	loc_A4BC
 		sf	$2F(a0)
@@ -1053,7 +1053,7 @@ loc_A3CE:
 		bra.w	loc_A4BC
 ; ---------------------------------------------------------------------------
 
-loc_A3EE:
++ ;loc_A3EE:
 		tst.b	$30(a0)
 		bne.s	loc_A466
 		move.b	(a1),d0
@@ -1071,16 +1071,16 @@ loc_A3EE:
 		move.b	(a3),d0
 		addq.b	#1,d0
 		cmpi.b	#2,d0
-		bls.s	loc_A42C
+		bls.s	+ ;loc_A42C
 		moveq	#0,d0
 
-loc_A42C:
++ ;loc_A42C:
 		move.b	d0,(a3)
 		mulu.w	#$55,d0
-		bne.s	loc_A438
+		bne.s	+ ;loc_A438
 		move.w	#$100,d0
 
-loc_A438:
++ ;loc_A438:
 		addi.w	#$40,d0
 		move.w	d0,$32(a0)
 		bra.s	loc_A466
@@ -1090,17 +1090,17 @@ loc_A442:
 		move.b	#-1,$30(a0)
 		move.b	(a3),d0
 		subq.b	#1,d0
-		bcc.s	loc_A450
+		bcc.s	+ ;loc_A450
 		moveq	#2,d0
 
-loc_A450:
++ ;loc_A450:
 		move.b	d0,(a3)
 		mulu.w	#$55,d0
 		cmpi.w	#$80,d0
-		blo.s	loc_A45E
+		blo.s	+ ;loc_A45E
 		ext.w	d0
 
-loc_A45E:
++ ;loc_A45E:
 		addi.w	#$40,d0
 		move.w	d0,$32(a0)
 
@@ -1108,23 +1108,23 @@ loc_A466:
 		move.w	$34(a0),d0
 		move.w	$32(a0),d1
 		tst.b	$30(a0)
-		bmi.s	loc_A482
+		bmi.s	+ ;loc_A482
 		addq.w	#5,d0
 		cmp.w	d0,d1
-		bgt.s	loc_A48E
+		bgt.s	++ ;loc_A48E
 		move.w	d1,d0
 		clr.b	$30(a0)
-		bra.s	loc_A48E
+		bra.s	++ ;loc_A48E
 ; ---------------------------------------------------------------------------
 
-loc_A482:
++ ;loc_A482:
 		subq.w	#5,d0
 		cmp.w	d0,d1
-		blt.s	loc_A48E
+		blt.s	+ ;loc_A48E
 		move.w	d1,d0
 		clr.b	$30(a0)
 
-loc_A48E:
++ ;loc_A48E:
 		move.w	d0,$34(a0)
 		move.b	d0,$2E(a0)
 		bra.s	loc_A4BC
@@ -1132,12 +1132,12 @@ loc_A48E:
 
 loc_A498:
 		btst	#4,(a1)
-		beq.s	loc_A4A6
+		beq.s	+ ;loc_A4A6
 		move.b	#$38,(Events_bg+$12).w
 		bra.s	loc_A4BC
 ; ---------------------------------------------------------------------------
 
-loc_A4A6:
++ ;loc_A4A6:
 		move.b	(a1),d0
 		andi.w	#$E0,d0
 		beq.s	loc_A4BC
@@ -1176,10 +1176,10 @@ Obj_CompetitionPlayerSprite:
 		moveq	#0,d2
 		move.b	$2E(a0),d2
 
-loc_A504:
+- ;loc_A504:
 		addi.w	#object_size,d0
 		addi.w	#$55,d1
-		dbf	d2,loc_A504
+		dbf	d2,- ;loc_A504
 		neg.w	d0
 		move.b	$2E(a0,d0.w),d0
 		add.b	d1,d0
@@ -1318,26 +1318,26 @@ Competition_Results:
 		lea	(Target_palette).w,a1
 		moveq	#bytesToLcnt($20),d0
 
-loc_AACC:
+- ;loc_AACC:
 		move.l	(a0)+,(a1)+
-		dbf	d0,loc_AACC
+		dbf	d0,- ;loc_AACC
 		lea	Pal_Competition2(pc),a0
 		moveq	#bytesToLcnt($40),d0
 
-loc_AAD8:
+- ;loc_AAD8:
 		move.l	(a0)+,(a1)+
-		dbf	d0,loc_AAD8
+		dbf	d0,- ;loc_AAD8
 		lea	Pal_CompetitionResults(pc),a0
 		moveq	#bytesToLcnt($20),d0
 
-loc_AAE4:
+- ;loc_AAE4:
 		move.l	(a0)+,(a1)+
-		dbf	d0,loc_AAE4
+		dbf	d0,- ;loc_AAE4
 		lea	(Object_RAM).w,a0
 		lea	ObjDat_ADA4(pc),a1
 		move.w	(a1)+,d0
 
-loc_AAF4:
+- ;loc_AAF4:
 		move.l	(a1)+,(a0)
 		move.l	#Map_CompetitionSelect,mappings(a0)
 		move.w	(a1),x_pos(a0)
@@ -1350,7 +1350,7 @@ loc_AAF4:
 		move.b	(a1)+,mapping_frame(a0)
 		move.b	(a1)+,$2E(a0)
 		lea	next_object(a0),a0
-		dbf	d0,loc_AAF4
+		dbf	d0,- ;loc_AAF4
 		jsr	(Init_SpriteTable).l
 		jsr	(Process_Sprites).l
 		jsr	(Render_Sprites).l
@@ -1368,50 +1368,50 @@ loc_AB62:
 		jsr	(Wait_VSync).l
 		addq.w	#1,(Level_frame_counter).w
 		move.w	(_unkEEA0).w,d7
-		beq.s	loc_AB92
+		beq.s	++ ;loc_AB92
 		btst	#3,(Level_frame_counter+1).w
-		bne.s	loc_AB8A
+		bne.s	+ ;loc_AB8A
 		lea	(Plane_buffer+$20).w,a1
 		jsr	loc_9F0A(pc)
-		bra.s	loc_AB92
+		bra.s	++ ;loc_AB92
 ; ---------------------------------------------------------------------------
 
-loc_AB8A:
++ ;loc_AB8A:
 		move.l	(_unkEE98).w,d6
 		jsr	sub_9ECC(pc)
 
-loc_AB92:
++ ;loc_AB92:
 		tst.w	(Events_bg+$16).w
-		beq.s	loc_AB9E
+		beq.s	+ ;loc_AB9E
 		subq.w	#1,(Events_bg+$16).w
 		bra.s	loc_ABD6
 ; ---------------------------------------------------------------------------
 
-loc_AB9E:
++ ;loc_AB9E:
 		move.b	(Ctrl_1_pressed).w,d0
 		tst.b	(Not_ghost_flag).w
-		beq.s	loc_ABAC
+		beq.s	+ ;loc_ABAC
 		or.b	(Ctrl_2_pressed).w,d0
 
-loc_ABAC:
++ ;loc_ABAC:
 		move.w	(H_scroll_buffer).w,d1
-		beq.s	loc_ABBA
+		beq.s	+ ;loc_ABBA
 		cmpi.w	#$FF78,d1
-		beq.s	loc_ABC8
-		bra.s	loc_ABC0
+		beq.s	+++ ;loc_ABC8
+		bra.s	++ ;loc_ABC0
 ; ---------------------------------------------------------------------------
 
-loc_ABBA:
++ ;loc_ABBA:
 		andi.w	#button_start_mask|button_A_mask|button_C_mask,d0
 		beq.s	loc_ABD6
 
-loc_ABC0:
++ ;loc_ABC0:
 		subq.w	#8,d1
 		move.w	d1,(H_scroll_buffer).w
 		bra.s	loc_ABD6
 ; ---------------------------------------------------------------------------
 
-loc_ABC8:
++ ;loc_ABC8:
 		andi.w	#button_start_mask|button_A_mask|button_C_mask,d0
 		beq.s	loc_ABD6
 		move.b	#$38,(Game_mode).w
@@ -1429,10 +1429,10 @@ Obj_Competition_ABE6:
 		move.w	#make_art_tile(ArtTile_ArtKos_Competition_CharSel,1,1),art_tile(a0)
 		move.b	(P1_character).w,d0
 		tst.b	$2E(a0)
-		beq.s	loc_AC02
+		beq.s	+ ;loc_AC02
 		move.b	(P2_character).w,d0
 
-loc_AC02:
++ ;loc_AC02:
 		move.b	d0,mapping_frame(a0)
 		jmp	Obj_Competition_StaticSprite(pc)
 ; ---------------------------------------------------------------------------
@@ -1442,20 +1442,20 @@ Obj_Competition_AC0A:
 		move.b	(_unkEEA2).w,d0
 		move.b	(_unkEEA2+1).w,d1
 		tst.b	$2E(a0)
-		beq.s	loc_AC20
+		beq.s	+ ;loc_AC20
 		exg	d0,d1
 
-loc_AC20:
++ ;loc_AC20:
 		moveq	#$D,d2
 		cmp.b	d0,d1
-		beq.s	loc_AC2C
-		bcs.s	loc_AC2A
+		beq.s	++ ;loc_AC2C
+		bcs.s	+ ;loc_AC2A
 		addq.w	#1,d2
 
-loc_AC2A:
++ ;loc_AC2A:
 		subq.b	#2,d2
 
-loc_AC2C:
++ ;loc_AC2C:
 		move.b	d2,mapping_frame(a0)
 		cmpi.b	#$B,d2
 		bne.w	Obj_Competition_StaticSprite
@@ -1481,43 +1481,43 @@ sub_AC44:
 		jsr	sub_AD3E(pc)
 		move.w	#$CCDA,d7
 		cmp.l	(_unkEE98).w,d6
-		bhi.s	loc_AC92
-		bne.s	loc_AC8A
+		bhi.s	++ ;loc_AC92
+		bne.s	+ ;loc_AC8A
 		clr.w	(_unkEEA0).w
-		bra.s	loc_AC92
+		bra.s	++ ;loc_AC92
 ; ---------------------------------------------------------------------------
 
-loc_AC8A:
++ ;loc_AC8A:
 		move.l	d6,(_unkEE98).w
 		move.w	d7,(_unkEEA0).w
 
-loc_AC92:
++ ;loc_AC92:
 		jsr	sub_9ECC(pc)
 		clr.w	(_unkEEA2).w
 		lea	($FF7800).l,a0
 		move.l	#vdpComm(VRAM_Plane_A_Name_Table+$148,VRAM,WRITE),d5
 		moveq	#5-1,d7
 
-loc_ACA8:
+- ;loc_ACA8:
 		lea	MapUnc_ResultsWin(pc),a1
 		lea	MapUnc_ResultsLose(pc),a2
 		addq.b	#1,(_unkEEA2).w
 		move.l	(a0)+,d0
 		cmp.l	x_pos(a0),d0
-		beq.s	loc_ACCA
-		bcs.s	loc_ACD4
+		beq.s	+ ;loc_ACCA
+		bcs.s	++ ;loc_ACD4
 		exg	a1,a2
 		subq.b	#1,(_unkEEA2).w
 		addq.b	#1,(_unkEEA2+1).w
-		bra.s	loc_ACD4
+		bra.s	++ ;loc_ACD4
 ; ---------------------------------------------------------------------------
 
-loc_ACCA:
++ ;loc_ACCA:
 		lea	MapUnc_ResultsTie(pc),a1
 		movea.l	a1,a2
 		subq.b	#1,(_unkEEA2).w
 
-loc_ACD4:
++ ;loc_ACD4:
 		move.l	d5,d0
 		moveq	#2-1,d1
 		moveq	#2-1,d2
@@ -1529,7 +1529,7 @@ loc_ACD4:
 		moveq	#2-1,d2
 		jsr	(Plane_Map_To_VRAM).l
 		addi.l	#$100<<16,d5
-		dbf	d7,loc_ACA8
+		dbf	d7,- ;loc_ACA8
 		move.w	(_unkEEA0).w,d7
 		beq.s	locret_AD26
 		move.l	(_unkEE98).w,d6
@@ -1538,12 +1538,12 @@ loc_ACD4:
 		lea	$20(a0),a1
 		moveq	#$10-1,d0
 
-loc_AD16:
+- ;loc_AD16:
 		move.w	(a0)+,d1
 		andi.w	#$9FFF,d1
 		ori.w	#$6000,d1
 		move.w	d1,(a1)+
-		dbf	d0,loc_AD16
+		dbf	d0,- ;loc_AD16
 
 locret_AD26:
 		rts
@@ -1556,14 +1556,14 @@ locret_AD26:
 sub_AD28:
 		moveq	#5-1,d0
 
-
+- ;
 loc_AD2A:
 		move.w	d0,-(sp)
 		move.l	(a0)+,d6
 		jsr	sub_9ECC(pc)
 		addi.w	#$100,d7
 		move.w	(sp)+,d0
-		dbf	d0,loc_AD2A
+		dbf	d0,- ;loc_AD2A
 		rts
 ; End of function sub_AD28
 
@@ -1575,32 +1575,32 @@ sub_AD3E:
 		clr.l	(_unkEF40_1).w
 		moveq	#5-1,d7
 
-loc_AD44:
+- ;loc_AD44:
 		move.l	(a0)+,d6
 		lea	(_unkEF44_2).w,a1
 		add.b	d6,-(a1)
 		cmpi.b	#100,(a1)
-		blo.s	loc_AD5A
+		blo.s	+ ;loc_AD5A
 		subi.b	#100,(a1)
 		addq.b	#1,-1(a1)
 
-loc_AD5A:
++ ;loc_AD5A:
 		lsr.l	#8,d6
 		add.b	d6,-(a1)
 		cmpi.b	#60,(a1)
-		blo.s	loc_AD6C
+		blo.s	+ ;loc_AD6C
 		subi.b	#60,(a1)
 		addq.b	#1,-1(a1)
 
-loc_AD6C:
++ ;loc_AD6C:
 		lsr.l	#8,d6
 		add.b	d6,-(a1)
 		cmpi.b	#100,(a1)
-		blo.s	loc_AD7A
+		blo.s	+ ;loc_AD7A
 		move.b	#99,(a1)
 
-loc_AD7A:
-		dbf	d7,loc_AD44
++ ;loc_AD7A:
+		dbf	d7,- ;loc_AD44
 		move.l	(_unkEF40_1).w,d6
 		rts
 ; End of function sub_AD3E
@@ -1758,33 +1758,33 @@ TimeAttack_Records:
 		lea	(VDP_data_port).l,a6
 		move.w	#bytesToLcnt(tiles_to_bytes($1B)),d0
 
-loc_B0C2:
+- ;loc_B0C2:
 		move.l	(a0)+,(a6)
-		dbf	d0,loc_B0C2
+		dbf	d0,- ;loc_B0C2
 		lea	(Pal_CompetitionMenuBG).l,a0
 		lea	(Target_palette).w,a1
 		moveq	#bytesToLcnt($20),d0
 
-loc_B0D4:
+- ;loc_B0D4:
 		move.l	(a0)+,(a1)+
-		dbf	d0,loc_B0D4
+		dbf	d0,- ;loc_B0D4
 		lea	Pal_Competition2(pc),a0
 		moveq	#bytesToLcnt($40),d0
 
-loc_B0E0:
+- ;loc_B0E0:
 		move.l	(a0)+,(a1)+
-		dbf	d0,loc_B0E0
+		dbf	d0,- ;loc_B0E0
 		lea	Pal_CompetitionTimeAttack(pc),a0
 		moveq	#bytesToLcnt($20),d0
 
-loc_B0EC:
+- ;loc_B0EC:
 		move.l	(a0)+,(a1)+
-		dbf	d0,loc_B0EC
+		dbf	d0,- ;loc_B0EC
 		lea	(Object_RAM).w,a0
 		lea	ObjDat_B28C(pc),a1
 		move.w	(a1)+,d0
 
-loc_B0FC:
+- ;loc_B0FC:
 		move.l	(a1)+,(a0)
 		move.l	#Map_CompetitionSelect,mappings(a0)
 		move.w	(a1),x_pos(a0)
@@ -1797,7 +1797,7 @@ loc_B0FC:
 		move.b	(a1)+,mapping_frame(a0)
 		move.b	(a1)+,$2E(a0)
 		lea	next_object(a0),a0
-		dbf	d0,loc_B0FC
+		dbf	d0,- ;loc_B0FC
 		jsr	(Init_SpriteTable).l
 		jsr	(Process_Sprites).l
 		jsr	(Render_Sprites).l
@@ -1810,42 +1810,42 @@ loc_B0FC:
 		move.w	d0,(VDP_control_port).l
 		jsr	(Pal_FadeFromBlack).l
 
-loc_B16A:
+- ;loc_B16A:
 		move.b	#$1E,(V_int_routine).w
 		jsr	(Wait_VSync).l
 		addq.w	#1,(Level_frame_counter).w
 		move.w	(_unkEEA0).w,d7
-		beq.s	loc_B19A
+		beq.s	++ ;loc_B19A
 		btst	#3,(Level_frame_counter+1).w
-		bne.s	loc_B192
+		bne.s	+ ;loc_B192
 		lea	(Plane_buffer+$20).w,a1
 		jsr	loc_9F0A(pc)
-		bra.s	loc_B19A
+		bra.s	++ ;loc_B19A
 ; ---------------------------------------------------------------------------
 
-loc_B192:
++ ;loc_B192:
 		move.l	(_unkEE98).w,d6
 		jsr	sub_9ECC(pc)
 
-loc_B19A:
++ ;loc_B19A:
 		tst.w	(Events_bg+$16).w
-		beq.s	loc_B1A6
+		beq.s	+ ;loc_B1A6
 		subq.w	#1,(Events_bg+$16).w
-		bra.s	loc_B1B8
+		bra.s	++ ;loc_B1B8
 ; ---------------------------------------------------------------------------
 
-loc_B1A6:
++ ;loc_B1A6:
 		move.b	(Ctrl_1_pressed).w,d0
 		andi.w	#button_start_mask|button_A_mask|button_C_mask,d0
-		beq.s	loc_B1B8
+		beq.s	+ ;loc_B1B8
 		move.b	#$C0,(Game_mode).w
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_B1B8:
++ ;loc_B1B8:
 		jsr	(Process_Sprites).l
 		jsr	(Render_Sprites).l
-		bra.s	loc_B16A
+		bra.s	- ;loc_B16A
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -1889,10 +1889,10 @@ Obj_Competition_B20C:
 		move.b	$2E(a0),d0
 		move.b	(a1,d0.w),d0
 		cmpi.w	#2,d0
-		bne.s	loc_B244
+		bne.s	+ ;loc_B244
 		addi.w	#palette_line_1,art_tile(a0)
 
-loc_B244:
++ ;loc_B244:
 		addi.w	#$29,d0
 		move.b	d0,mapping_frame(a0)
 		move.l	#loc_B252,(a0)
@@ -1900,11 +1900,11 @@ loc_B244:
 loc_B252:
 		move.b	(Competition_time_attack_new_top_record).w,d0
 		cmp.b	$2E(a0),d0
-		bne.s	loc_B264
+		bne.s	+ ;loc_B264
 		btst	#3,(Level_frame_counter+1).w
 		beq.s	locret_B26A
 
-loc_B264:
++ ;loc_B264:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 

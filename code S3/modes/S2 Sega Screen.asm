@@ -46,24 +46,24 @@ SonicOnSegaScr_Init:
 		moveq	#0,d0
 		moveq	#35-1,d6
 
-loc_431B8:
+- ;loc_431B8:
 		move.b	(a2)+,d0
 		add.w	d0,(a1)
 		addq.w	#8,a1
-		dbf	d6,loc_431B8
+		dbf	d6,- ;loc_431B8
 		move.w	d7,-(sp)
 		moveq	#0,d0
 		moveq	#0,d1
 		lea	SonicRunningSpriteScaleData(pc),a6
 		moveq	#8-1,d7
 
-loc_431CE:
+- ;loc_431CE:
 		movea.l	(a6)+,a1
 		movea.l	(a6)+,a2
 		move.b	(a6)+,d0
 		move.b	(a6)+,d1
 		bsr.w	Scale_2x
-		dbf	d7,loc_431CE
+		dbf	d7,- ;loc_431CE
 		move.w	(sp)+,d7
 		rts
 ; ---------------------------------------------------------------------------
@@ -105,14 +105,14 @@ SonicRunningSpriteScaleData:
 SonicOnSegaScr_RunLeft:
 		subi.w	#$20,x_pos(a0)
 		subq.w	#1,$2E(a0)
-		bmi.s	loc_43254
+		bmi.s	+ ;loc_43254
 		bsr.w	SonicOnSegaScr_Move_Streaks_Left
 		lea	(Ani_SonicOnSegaScr).l,a1
 		jsr	(Animate_Sprite).l
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_43254:
++ ;loc_43254:
 		addq.b	#2,routine(a0)
 		move.w	#$C,$2E(a0)
 		move.b	#1,$30(a0)
@@ -122,18 +122,18 @@ loc_43254:
 
 SonicOnSegaScr_MidWipe:
 		tst.w	$2E(a0)
-		beq.s	loc_4327E
+		beq.s	+ ;loc_4327E
 		subq.w	#1,$2E(a0)
 		bsr.w	SonicOnSegaScr_Move_Streaks_Left
 
-loc_4327E:
++ ;loc_4327E:
 		lea	byte_433F4(pc),a1
 		bsr.w	sub_433A6
-		bne.s	loc_4328A
+		bne.s	+ ;loc_4328A
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4328A:
++ ;loc_4328A:
 		addq.b	#2,routine(a0)
 		bchg	#0,render_flags(a0)
 		move.w	#$B,$2E(a0)
@@ -148,11 +148,11 @@ loc_4328A:
 		moveq	#0,d0
 		moveq	#35-1,d6
 
-loc_432CE:
+- ;loc_432CE:
 		move.b	(a2)+,d0
 		sub.w	d0,(a1)
 		addq.w	#8,a1
-		dbf	d6,loc_432CE
+		dbf	d6,- ;loc_432CE
 
 locret_432D8:
 		rts
@@ -160,7 +160,7 @@ locret_432D8:
 
 SonicOnSegaScr_RunRight:
 		subq.w	#1,$2E(a0)
-		bmi.s	loc_432FC
+		bmi.s	+ ;loc_432FC
 		addi.w	#$20,x_pos(a0)
 		bsr.w	SonicOnSegaScr_Move_Streaks_Right
 		lea	(Ani_SonicOnSegaScr).l,a1
@@ -168,7 +168,7 @@ SonicOnSegaScr_RunRight:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_432FC:
++ ;loc_432FC:
 		addq.b	#2,routine(a0)
 		move.w	#$C,$2E(a0)
 		move.b	#1,$30(a0)
@@ -178,18 +178,18 @@ loc_432FC:
 
 SonicOnSegaScr_EndWipe:
 		tst.w	$2E(a0)
-		beq.s	loc_43322
+		beq.s	+ ;loc_43322
 		subq.w	#1,$2E(a0)
 		bsr.w	SonicOnSegaScr_Move_Streaks_Right
 
-loc_43322:
++ ;loc_43322:
 		lea	byte_4346A(pc),a1
 		bsr.w	sub_433A6
-		bne.s	loc_4332E
+		bne.s	+ ;loc_4332E
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4332E:
++ ;loc_4332E:
 		addq.b	#2,routine(a0)
 		st	(_unkF660).w
 		move.b	#mus_S2SEGA,d0
@@ -230,10 +230,10 @@ SonicOnSegaScr_Move_Streaks_Left:
 		lea	(H_scroll_buffer+$138).w,a1
 		move.w	#35-1,d6
 
-loc_43386:
+- ;loc_43386:
 		subi.w	#$20,(a1)
 		addq.w	#8,a1
-		dbf	d6,loc_43386
+		dbf	d6,- ;loc_43386
 		rts
 ; End of function SonicOnSegaScr_Move_Streaks_Left
 
@@ -245,10 +245,10 @@ SonicOnSegaScr_Move_Streaks_Right:
 		lea	(H_scroll_buffer+$13C).w,a1
 		move.w	#35-1,d6
 
-loc_4339A:
+- ;loc_4339A:
 		addi.w	#$20,(a1)
 		addq.w	#8,a1
-		dbf	d6,loc_4339A
+		dbf	d6,- ;loc_4339A
 		rts
 ; End of function SonicOnSegaScr_Move_Streaks_Right
 
@@ -263,11 +263,11 @@ sub_433A6:
 		move.b	$31(a0),d0
 		addq.b	#1,d0
 		cmp.b	1(a1),d0
-		bcs.s	loc_433C0
+		bcs.s	+ ;loc_433C0
 		tst.b	3(a1)
 		bne.s	loc_433F0
 
-loc_433C0:
++ ;loc_433C0:
 		move.b	d0,$31(a0)
 		move.b	(a1),$30(a0)
 		lea	6(a1),a2
@@ -275,19 +275,19 @@ loc_433C0:
 		move.b	2(a1),d1
 		move.w	d1,d2
 		tst.w	d0
-		beq.s	loc_433E2
+		beq.s	++ ;loc_433E2
 
 loc_433D8:
 		subq.b	#1,d0
-		beq.s	loc_433E0
+		beq.s	+ ;loc_433E0
 		add.w	d2,d1
 		bra.s	loc_433D8
 ; ---------------------------------------------------------------------------
 
-loc_433E0:
++ ;loc_433E0:
 		adda.w	d1,a2
 
-loc_433E2:
++ ;loc_433E2:
 		movea.w	4(a1),a3
 
 loc_433E6:
@@ -358,49 +358,49 @@ loc_435C4:
 		dma68kToVDP $FF0B00,$1100,$2C00,VRAM
 		lea	ObjB1_Streak_fade_to_right(pc),a1
 		move.l	#vdpComm(VRAM_Plane_A_Name_Table+$950,VRAM,WRITE),d0
-		bra.w	loc_43632
+		bra.w	+ ;loc_43632
 ; ---------------------------------------------------------------------------
 
 loc_435F6:
 		dmaFillVRAM 0,VRAM_Plane_A_Name_Table,$2000
 		lea	ObjB1_Streak_fade_to_left(pc),a1
 		move.l	#vdpComm(VRAM_Plane_A_Name_Table+$9A0,VRAM,WRITE),d0
-		bra.w	loc_43632
+		bra.w	+ ;loc_43632
 ; ---------------------------------------------------------------------------
 
-loc_43632:
++ ;loc_43632:
 		lea	(VDP_data_port).l,a6
 		move.l	#$100<<16,d6
 		moveq	#8-1,d1
 		moveq	#$A-1,d2
 
-loc_43642:
+- ;loc_43642:
 		move.l	d0,4(a6)
 		move.w	d1,d3
 		movea.l	a1,a2
 
-loc_4364A:
+- ;loc_4364A:
 		move.w	(a2)+,d4
 		bclr	#$A,d4
-		beq.s	loc_43656
-		bsr.w	sub_43664
+		beq.s	+ ;loc_43656
+		bsr.w	++ ;sub_43664
 
-loc_43656:
++ ;loc_43656:
 		move.w	d4,(a6)
-		dbf	d3,loc_4364A
+		dbf	d3,- ;loc_4364A
 		add.l	d6,d0
-		dbf	d2,loc_43642
+		dbf	d2,-- ;loc_43642
 		rts
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_43664:
++ ;sub_43664:
 		moveq	#$29-1,d5
 
-loc_43666:
+- ;loc_43666:
 		move.w	d4,(a6)
-		dbf	d5,loc_43666
+		dbf	d5,- ;loc_43666
 		rts
 ; End of function sub_43664
 
@@ -476,14 +476,14 @@ Scale_2x:
 		addq.w	#1,d3
 		lsl.w	#6,d3
 		swap	d3
-		bsr.w	sub_436DE
+		bsr.w	++ ;sub_436DE
 		btst	#1,d0
 		beq.w	locret_432D8
 		btst	#1,d1
-		bne.s	loc_436DC
+		bne.s	+ ;loc_436DC
 		movea.l	a3,a5
 
-loc_436DC:
++ ;loc_436DC:
 		movea.l	a5,a2
 ; End of function Scale_2x
 
@@ -491,7 +491,7 @@ loc_436DC:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_436DE:
++ ;sub_436DE:
 		movea.l	a2,a4
 		swap	d2
 		lea	(a2,d2.w),a3
@@ -500,7 +500,7 @@ sub_436DE:
 		andi.w	#1,d5
 		bsr.w	Scale2x_SingleTile
 		btst	#1,d1
-		beq.s	loc_4371A
+		beq.s	+ ;loc_4371A
 		swap	d2
 		move.w	d2,d4
 		swap	d2
@@ -516,13 +516,13 @@ sub_436DE:
 		swap	d3
 		bsr.w	Scale2x_SingleTile2
 
-loc_4371A:
++ ;loc_4371A:
 		btst	#0,d0
-		bne.s	loc_43726
+		bne.s	+ ;loc_43726
 		btst	#1,d0
 		beq.s	locret_43756
 
-loc_43726:
++ ;loc_43726:
 		swap	d2
 		lea	(a2,d2.w),a2
 		lea	(a2,d2.w),a3
@@ -551,12 +551,12 @@ locret_43756:
 Scale2x_SingleTile:
 		moveq	#8-1,d6
 
-.loop:
+- ;.loop:
 		bsr.w	Scale_2x_LeftPixels
 		addq.w	#4,a2
 		bsr.w	Scale_2x_RightPixels
 		addq.w	#4,a3
-		dbf	d6,.loop
+		dbf	d6,- ;.loop
 		dbf	d5,Scale2x_SingleTile
 		rts
 ; End of function Scale2x_SingleTile
@@ -568,12 +568,12 @@ Scale2x_SingleTile:
 Scale2x_SingleTile2:
 		moveq	#8-1,d6
 
-.loop:
+- ;.loop:
 		bsr.w	Scale_2x_LeftPixels2
 		addq.w	#4,a4
 		bsr.w	Scale_2x_RightPixels2
 		addq.w	#4,a5
-		dbf	d6,.loop
+		dbf	d6,- ;.loop
 		dbf	d5,Scale2x_SingleTile2
 		rts
 ; End of function Scale2x_SingleTile2
@@ -583,9 +583,9 @@ Scale2x_SingleTile2:
 
 
 Scale_2x_LeftPixels:
-		bsr.w	loc_4378C
+		bsr.w	+ ;loc_4378C
 
-loc_4378C:
++ ;loc_4378C:
 		move.b	(a1)+,d2
 		move.b	d2,d3
 		andi.b	#$F0,d2
@@ -608,9 +608,9 @@ loc_4378C:
 
 
 Scale_2x_RightPixels:
-		bsr.w	loc_437B6
+		bsr.w	+ ;loc_437B6
 
-loc_437B6:
++ ;loc_437B6:
 		move.b	(a1)+,d2
 		move.b	d2,d3
 		andi.b	#$F0,d2
@@ -633,9 +633,9 @@ loc_437B6:
 
 
 Scale_2x_LeftPixels2:
-		bsr.w	loc_437E0
+		bsr.w	+ ;loc_437E0
 
-loc_437E0:
++ ;loc_437E0:
 		move.b	(a1)+,d2
 		move.b	d2,d3
 		andi.b	#$F0,d2
@@ -658,9 +658,9 @@ loc_437E0:
 
 
 Scale_2x_RightPixels2:
-		bsr.w	loc_4380A
+		bsr.w	+ ;loc_4380A
 
-loc_4380A:
++ ;loc_4380A:
 		move.b	(a1)+,d2
 		move.b	d2,d3
 		andi.b	#$F0,d2

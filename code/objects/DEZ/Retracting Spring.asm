@@ -20,48 +20,48 @@ Obj_DEZRetractingSpring:
 loc_480D4:
 		move.w	(Player_1+y_pos).w,d0
 		sub.w	y_pos(a0),d0
-		bcs.s	loc_48102
+		bcs.s	++ ;loc_48102
 		cmpi.w	#$20,d0
 		blt.s	loc_48124
 		move.w	$32(a0),d1
 		cmp.w	$34(a0),d1
 		beq.s	loc_48124
 		tst.w	$34(a0)
-		bne.s	loc_480FC
+		bne.s	+ ;loc_480FC
 		moveq	#signextendB(sfx_SpringLatch),d0
 		jsr	(Play_SFX).l
 
-loc_480FC:
++ ;loc_480FC:
 		addq.w	#8,$34(a0)
 		bra.s	loc_48124
 ; ---------------------------------------------------------------------------
 
-loc_48102:
++ ;loc_48102:
 		cmpi.w	#-$20,d0
 		bge.s	loc_48124
 		tst.w	$34(a0)
 		beq.s	loc_48124
 		move.w	$32(a0),d1
 		cmp.w	$34(a0),d1
-		bne.s	loc_48120
+		bne.s	+ ;loc_48120
 		moveq	#signextendB(sfx_SpringLatch),d0
 		jsr	(Play_SFX).l
 
-loc_48120:
++ ;loc_48120:
 		subq.w	#8,$34(a0)
 
 loc_48124:
 		move.w	$34(a0),d0
 		btst	#0,status(a0)
-		bne.s	loc_48132
+		bne.s	+ ;loc_48132
 		neg.w	d0
 
-loc_48132:
++ ;loc_48132:
 		btst	#1,status(a0)
-		beq.s	loc_4813C
+		beq.s	+ ;loc_4813C
 		neg.w	d0
 
-loc_4813C:
++ ;loc_4813C:
 		add.w	$44(a0),d0
 		move.w	d0,x_pos(a0)
 		moveq	#0,d1
@@ -73,19 +73,19 @@ loc_4813C:
 		movem.l	d1-d4,-(sp)
 		jsr	(SolidObjectTop_1P).l
 		btst	#p1_standing_bit,status(a0)
-		beq.s	loc_4816E
+		beq.s	+ ;loc_4816E
 		jsr	(sub_22F98).l
 
-loc_4816E:
++ ;loc_4816E:
 		movem.l	(sp)+,d1-d4
 		lea	(Player_2).w,a1
 		moveq	#p2_standing_bit,d6
 		jsr	(SolidObjectTop_1P).l
 		btst	#p2_standing_bit,status(a0)
-		beq.s	loc_4818C
+		beq.s	+ ;loc_4818C
 		jsr	(sub_22F98).l
 
-loc_4818C:
++ ;loc_4818C:
 		lea	(Ani_DEZRetractingSpring).l,a1
 		jsr	(Animate_Sprite).l
 		move.w	$44(a0),d0

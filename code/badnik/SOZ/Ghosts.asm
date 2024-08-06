@@ -5,14 +5,14 @@ Obj_SOZGhosts:
 
 loc_8F0CA:
 		cmpi.b	#2,(Player_1+character_id).w
-		beq.s	loc_8F0DA
+		beq.s	+ ;loc_8F0DA
 		tst.b	(Last_star_post_hit).w
 		beq.w	locret_8F436
 
-loc_8F0DA:
++ ;loc_8F0DA:
 		moveq	#0,d0
 		move.b	(_unkF7C3).w,d0
-		beq.s	loc_8F112
+		beq.s	++ ;loc_8F112
 		move.b	byte_8F118(pc,d0.w),d0
 		move.b	(_unkFAAD).w,d1
 		cmp.b	d0,d1
@@ -22,15 +22,15 @@ loc_8F0DA:
 		addq.b	#1,d1
 		move.b	d1,(_unkFAAD).w
 		cmp.b	d0,d1
-		bhs.s	loc_8F108
+		bhs.s	+ ;loc_8F108
 		move.w	#$3F,$3A(a0)
 
-loc_8F108:
++ ;loc_8F108:
 		lea	ChildObjDat_8F674(pc),a2
 		jmp	(CreateChild6_Simple).l
 ; ---------------------------------------------------------------------------
 
-loc_8F112:
++ ;loc_8F112:
 		clr.b	(_unkFAAD).w
 		rts
 ; ---------------------------------------------------------------------------
@@ -49,16 +49,16 @@ loc_8F11E:
 		tst.b	render_flags(a0)
 		bpl.s	loc_8F16A
 		tst.b	(_unkF7C3).w
-		beq.s	loc_8F174
+		beq.s	++ ;loc_8F174
 		jsr	(Check_PlayerCollision).l
-		beq.s	loc_8F15E
+		beq.s	+ ;loc_8F15E
 		jsr	(Check_PlayerAttack).l
-		bne.s	loc_8F174
+		bne.s	++ ;loc_8F174
 		tst.b	invulnerability_timer(a1)
-		bne.s	loc_8F15E
+		bne.s	+ ;loc_8F15E
 		jsr	(HurtCharacter_Directly).l
 
-loc_8F15E:
++ ;loc_8F15E:
 		jsr	(Add_SpriteToCollisionResponseList).l
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
@@ -68,7 +68,7 @@ loc_8F16A:
 		jmp	(Go_Delete_SpriteSlotted2).l
 ; ---------------------------------------------------------------------------
 
-loc_8F174:
++ ;loc_8F174:
 		move.l	#loc_8F37A,(a0)
 		move.l	#loc_8F16A,$34(a0)
 		lea	byte_8F6BF(pc),a1
@@ -135,12 +135,12 @@ loc_8F226:
 		jsr	(Animate_RawMultiDelay).l
 		jsr	(Swing_UpAndDown).l
 		tst.w	d3
-		bne.s	loc_8F240
+		bne.s	+ ;loc_8F240
 		jsr	(MoveSprite2).l
 		bra.w	sub_8F4F0
 ; ---------------------------------------------------------------------------
 
-loc_8F240:
++ ;loc_8F240:
 		move.b	#8,routine(a0)
 		moveq	#0,d0
 		move.b	(_unkF7C3).w,d0
@@ -202,17 +202,17 @@ loc_8F2E0:
 		jsr	(MoveSprite2).l
 		move.w	x_pos(a0),d0
 		tst.w	x_vel(a0)
-		bmi.s	loc_8F304
+		bmi.s	+ ;loc_8F304
 		cmpi.w	#$1A0,d0
-		bhi.s	loc_8F30A
+		bhi.s	++ ;loc_8F30A
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_8F304:
++ ;loc_8F304:
 		cmpi.w	#$A0,d0
 		bhs.s	locret_8F320
 
-loc_8F30A:
++ ;loc_8F30A:
 		move.b	#$E,routine(a0)
 		bchg	#0,render_flags(a0)
 		neg.w	x_vel(a0)
@@ -303,11 +303,11 @@ Obj_SOZGhostCapsule:
 		lea	ChildObjDat_8F646(pc),a2
 		jsr	(CreateChild1_Normal).l
 		tst.b	(Last_star_post_hit).w
-		bne.s	loc_8F424
+		bne.s	+ ;loc_8F424
 		cmpi.b	#2,(Player_1+character_id).w
 		bne.s	locret_8F436
 
-loc_8F424:
++ ;loc_8F424:
 		move.l	#loc_89C54,(a0)
 		move.b	#1,mapping_frame(a0)
 		bset	#5,$38(a0)
@@ -335,13 +335,13 @@ loc_8F45E:
 		move.w	off_8F488(pc,d0.w),d1
 		jsr	off_8F488(pc,d1.w)
 		tst.b	subtype(a0)
-		bne.s	loc_8F482
+		bne.s	+ ;loc_8F482
 		lea	DPLCPtr_SOZGhosts(pc),a2
 		jsr	(Perform_DPLC).l
 		jmp	(Sprite_CheckDeleteSlotted).l
 ; ---------------------------------------------------------------------------
 
-loc_8F482:
++ ;loc_8F482:
 		jmp	(Sprite_CheckDelete).l
 ; ---------------------------------------------------------------------------
 off_8F488:
@@ -359,12 +359,12 @@ loc_8F48E:
 		move.w	(a1)+,$40(a0)
 		jsr	(Change_FlipXWithVelocity).l
 		tst.w	d0
-		bne.s	loc_8F4B6
+		bne.s	+ ;loc_8F4B6
 		lea	ObjSlot_SOZGhosts(pc),a1
 		jmp	(SetUp_ObjAttributesSlotted).l
 ; ---------------------------------------------------------------------------
 
-loc_8F4B6:
++ ;loc_8F4B6:
 		lea	ObjDat3_8F63A(pc),a1
 		jmp	(SetUp_ObjAttributes).l
 ; ---------------------------------------------------------------------------
@@ -392,17 +392,17 @@ loc_8F4E2:
 sub_8F4F0:
 		move.w	x_pos(a0),d0
 		tst.w	x_vel(a0)
-		bmi.s	loc_8F502
+		bmi.s	+ ;loc_8F502
 		cmpi.w	#$1A0,d0
-		bhi.s	loc_8F508
+		bhi.s	++ ;loc_8F508
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_8F502:
++ ;loc_8F502:
 		cmpi.w	#$A0,d0
 		bhs.s	locret_8F512
 
-loc_8F508:
++ ;loc_8F508:
 		bchg	#0,render_flags(a0)
 		neg.w	x_vel(a0)
 
@@ -434,11 +434,11 @@ sub_8F538:
 		add.w	d1,d1
 		move.w	word_8F582(pc,d1.w),d2
 		cmpi.w	#$120,d0
-		bhs.s	loc_8F564
+		bhs.s	+ ;loc_8F564
 		bset	#0,render_flags(a0)
 		neg.w	d2
 
-loc_8F564:
++ ;loc_8F564:
 		move.w	d2,x_vel(a0)
 		andi.w	#$C,d1
 		move.l	off_8F576(pc,d1.w),$30(a0)
@@ -463,21 +463,21 @@ loc_8F58E:
 		add.w	d0,d0
 		move.w	word_8F582(pc,d0.w),d1
 		tst.w	x_vel(a0)
-		bmi.s	loc_8F5A2
+		bmi.s	+ ;loc_8F5A2
 		neg.w	d1
 
-loc_8F5A2:
++ ;loc_8F5A2:
 		move.w	d1,x_vel(a0)
 		add.w	d0,d0
 		movea.l	off_8F5C8(pc,d0.w),a1
 		bclr	#0,$38(a0)
 		jsr	(a1)
 		tst.w	y_vel(a0)
-		bpl.s	loc_8F5C2
+		bpl.s	+ ;loc_8F5C2
 		bset	#0,$38(a0)
 		neg.w	d0
 
-loc_8F5C2:
++ ;loc_8F5C2:
 		move.w	d0,y_vel(a0)
 		rts
 ; End of function sub_8F538

@@ -17,31 +17,31 @@ loc_4172E:
 		jsr	(SolidObjectFull).l
 		move.b	status(a0),d0
 		andi.b	#standing_mask,d0
-		bne.s	loc_41760
+		bne.s	+ ;loc_41760
 
 loc_4175A:
 		jmp	(Sprite_OnScreen_Test).l
 ; ---------------------------------------------------------------------------
 
-loc_41760:
++ ;loc_41760:
 		cmpi.b	#$18,d0
-		bne.s	loc_4178E
+		bne.s	++ ;loc_4178E
 		cmpi.b	#2,$30(a0)
-		beq.s	loc_41776
+		beq.s	+ ;loc_41776
 		cmpi.b	#2,$31(a0)
 		bne.s	loc_4175A
 
-loc_41776:
++ ;loc_41776:
 		lea	(Player_1).w,a1
 		move.b	$30(a0),d0
-		bsr.s	sub_417A6
+		bsr.s	++ ;sub_417A6
 		lea	(Player_2).w,a1
 		move.b	$31(a0),d0
-		bsr.s	sub_417A6
+		bsr.s	++ ;sub_417A6
 		bra.w	loc_417F6
 ; ---------------------------------------------------------------------------
 
-loc_4178E:
++ ;loc_4178E:
 		move.b	d0,d1
 		andi.b	#8,d1
 		beq.s	loc_417DE
@@ -54,9 +54,9 @@ loc_4178E:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_417A6:
++ ;sub_417A6:
 		cmpi.b	#2,d0
-		bne.s	loc_417CA
+		bne.s	+ ;loc_417CA
 ; End of function sub_417A6
 
 
@@ -70,7 +70,7 @@ sub_417AC:
 		move.b	#2,anim(a1)
 		move.w	#-$300,y_vel(a1)
 
-loc_417CA:
++ ;loc_417CA:
 		bset	#Status_InAir,status(a1)
 		bclr	#Status_OnObj,status(a1)
 		move.b	#2,routine(a1)
@@ -95,14 +95,14 @@ loc_417F6:
 
 loc_4180A:
 		subq.b	#1,anim_frame_timer(a0)
-		bpl.s	loc_41828
+		bpl.s	+ ;loc_41828
 		move.b	#5,anim_frame_timer(a0)
 		addq.b	#1,mapping_frame(a0)
 		cmpi.b	#5,mapping_frame(a0)
-		blo.s	loc_41828
+		blo.s	+ ;loc_41828
 		move.w	#$7F00,x_pos(a0)
 
-loc_41828:
++ ;loc_41828:
 		jmp	(Sprite_OnScreen_Test).l
 ; ---------------------------------------------------------------------------
 Map_SOZBreakableSandRock:

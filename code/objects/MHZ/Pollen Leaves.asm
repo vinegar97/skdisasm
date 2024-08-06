@@ -3,12 +3,12 @@ Obj_MHZ_Pollen_Spawner:
 		bhs.s	locret_3DA22
 		lea	$2E(a0),a3
 		lea	(Player_1).w,a2
-		bsr.s	sub_3DA24
+		bsr.s	+ ;sub_3DA24
 		lea	(Player_2).w,a2
 		tst.b	render_flags(a2)
 		bpl.s	locret_3DA22
 		lea	$30(a0),a3
-		bsr.s	sub_3DA24
+		bsr.s	+ ;sub_3DA24
 
 locret_3DA22:
 		rts
@@ -16,28 +16,28 @@ locret_3DA22:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_3DA24:
++ ;sub_3DA24:
 		cmpi.b	#$C,top_solid_bit(a2)
 		bne.s	locret_3DA22
 		btst	#Status_InAir,status(a2)
-		bne.w	loc_3DAC4
+		bne.w	+++ ;loc_3DAC4
 		jsr	(Random_Number).l
 		andi.w	#3,d0
 		bne.s	locret_3DA22
 		move.w	(a3),d2
-		beq.s	loc_3DA58
+		beq.s	+ ;loc_3DA58
 		move.w	#0,(a3)
 		btst	#Status_OnObj,status(a2)
-		bne.s	loc_3DA58
+		bne.s	+ ;loc_3DA58
 		cmpi.w	#$400,d2
 		bhs.s	loc_3DACA
 
-loc_3DA58:
++ ;loc_3DA58:
 		move.w	x_vel(a2),d2
-		bpl.s	loc_3DA60
+		bpl.s	+ ;loc_3DA60
 		neg.w	d2
 
-loc_3DA60:
++ ;loc_3DA60:
 		cmpi.w	#$500,d2
 		blo.s	locret_3DAC2
 		jsr	(AllocateObjectAfterCurrent).l
@@ -66,7 +66,7 @@ locret_3DAC2:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_3DAC4:
++ ;loc_3DAC4:
 		move.w	y_vel(a2),(a3)
 		rts
 ; ---------------------------------------------------------------------------
@@ -76,9 +76,9 @@ loc_3DACA:
 		lea	(word_3DB50).l,a4
 		moveq	#6-1,d6
 
-loc_3DAD6:
+- ;loc_3DAD6:
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.s	loc_3DB4A
+		bne.s	+ ;loc_3DB4A
 		bsr.w	sub_3DB68
 		ori.b	#4,render_flags(a1)
 		move.w	#0,priority(a1)
@@ -106,8 +106,8 @@ loc_3DAD6:
 		move.l	#loc_3DC18,(a1)
 		addq.b	#1,(MHZ_pollen_counter).w
 
-loc_3DB4A:
-		dbf	d6,loc_3DAD6
++ ;loc_3DB4A:
+		dbf	d6,- ;loc_3DAD6
 		rts
 ; End of function sub_3DA24
 
@@ -125,24 +125,24 @@ word_3DB50:
 
 sub_3DB68:
 		tst.b	(_unkF7C1).w
-		bne.s	loc_3DB7E
+		bne.s	+ ;loc_3DB7E
 		move.l	#Map_MHZPollen,mappings(a1)
 		move.w	#make_art_tile($368,3,1),art_tile(a1)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_3DB7E:
++ ;loc_3DB7E:
 		move.b	$32(a0),d0
 		addq.b	#1,$32(a0)
 		andi.w	#7,d0
 		move.b	byte_3DBB0(pc,d0.w),d0
-		bne.s	loc_3DBA0
+		bne.s	+ ;loc_3DBA0
 		move.l	#Map_MHZBigLeaves,mappings(a1)
 		move.w	#make_art_tile($363,3,1),art_tile(a1)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_3DBA0:
++ ;loc_3DBA0:
 		move.l	#Map_MHZPollen,mappings(a1)
 		move.w	#make_art_tile($363,3,1),art_tile(a1)
 		rts
@@ -160,11 +160,11 @@ Obj_MHZ_Pollen:
 		add.w	d0,d0
 		add.w	d0,d0
 		add.w	d0,y_vel(a0)
-		bmi.s	loc_3DBD8
+		bmi.s	+ ;loc_3DBD8
 		move.l	#loc_3DBE0,(a0)
 		move.b	(Level_frame_counter+1).w,angle(a0)
 
-loc_3DBD8:
++ ;loc_3DBD8:
 		bsr.s	sub_3DC3A
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
@@ -178,11 +178,11 @@ loc_3DBE0:
 		move.w	$34(a0),d0
 		add.w	d0,y_vel(a0)
 		tst.b	render_flags(a0)
-		bmi.s	loc_3DC10
+		bmi.s	+ ;loc_3DC10
 		move.w	#$7F00,x_pos(a0)
 		subq.b	#1,(MHZ_pollen_counter).w
 
-loc_3DC10:
++ ;loc_3DC10:
 		bsr.s	sub_3DC3A
 		jmp	(Sprite_OnScreen_Test).l
 ; ---------------------------------------------------------------------------
@@ -193,10 +193,10 @@ loc_3DC18:
 		add.w	d0,d0
 		add.w	d0,d0
 		add.w	d0,y_vel(a0)
-		bmi.s	loc_3DC32
+		bmi.s	+ ;loc_3DC32
 		move.l	#loc_3DBE0,(a0)
 
-loc_3DC32:
++ ;loc_3DC32:
 		bsr.s	sub_3DC3A
 		jmp	(Draw_Sprite).l
 

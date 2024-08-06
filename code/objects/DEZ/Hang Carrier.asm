@@ -21,11 +21,11 @@ loc_46FCE:
 		lea	$30(a0),a2
 		lea	(Player_1).w,a1
 		move.w	(Ctrl_1_logical).w,d0
-		bsr.w	sub_4703E
+		bsr.w	+++ ;sub_4703E
 		lea	(Player_2).w,a1
 		addq.w	#1,a2
 		move.w	(Ctrl_2_logical).w,d0
-		bsr.w	sub_4703E
+		bsr.w	+++ ;sub_4703E
 		jmp	(Sprite_OnScreen_Test).l
 ; ---------------------------------------------------------------------------
 
@@ -34,18 +34,18 @@ loc_46FF2:
 		subi.w	#8,y_vel(a0)
 		jsr	(ObjCheckCeilingDist).l
 		tst.w	d1
-		bpl.s	loc_4702A
+		bpl.s	++ ;loc_4702A
 		sub.w	d1,y_pos(a0)
 		move.w	#0,y_vel(a0)
 		move.w	#$200,x_vel(a0)
 		btst	#0,status(a0)
-		beq.s	loc_47024
+		beq.s	+ ;loc_47024
 		neg.w	x_vel(a0)
 
-loc_47024:
++ ;loc_47024:
 		move.l	#loc_4702C,(a0)
 
-loc_4702A:
++ ;loc_4702A:
 		bra.s	loc_46FCE
 ; ---------------------------------------------------------------------------
 
@@ -59,7 +59,7 @@ loc_4702C:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_4703E:
++ ;sub_4703E:
 		tst.b	(a2)
 		beq.w	loc_470F8
 		tst.b	render_flags(a1)
@@ -72,20 +72,20 @@ sub_4703E:
 		clr.b	(a2)
 		move.b	#18,2(a2)
 		andi.w	#(button_up_mask|button_down_mask|button_left_mask|button_right_mask)<<8,d0
-		beq.w	loc_47074
+		beq.w	+ ;loc_47074
 		move.b	#60,2(a2)
 
-loc_47074:
++ ;loc_47074:
 		btst	#button_left+8,d0
-		beq.s	loc_47080
+		beq.s	+ ;loc_47080
 		move.w	#-$200,x_vel(a1)
 
-loc_47080:
++ ;loc_47080:
 		btst	#button_right+8,d0
-		beq.s	loc_4708C
+		beq.s	+ ;loc_4708C
 		move.w	#$200,x_vel(a1)
 
-loc_4708C:
++ ;loc_4708C:
 		move.w	#-$380,y_vel(a1)
 		bset	#Status_InAir,status(a1)
 		move.b	#1,jumping(a1)
@@ -121,12 +121,12 @@ locret_470F6:
 
 loc_470F8:
 		tst.b	2(a2)
-		beq.s	loc_47104
+		beq.s	+ ;loc_47104
 		subq.b	#1,2(a2)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_47104:
++ ;loc_47104:
 		move.w	x_pos(a1),d0
 		sub.w	x_pos(a0),d0
 		addi.w	#$10,d0

@@ -16,35 +16,35 @@ loc_48AD6:
 		swap	d6
 		move.w	d6,d0
 		andi.w	#$14,d0
-		beq.w	loc_48B3A
+		beq.w	++ ;loc_48B3A
 		move.b	#1,mapping_frame(a0)
 		move.l	#loc_48B7E,(a0)
 		move.w	#3,$30(a0)
 		moveq	#8,d0
 		btst	#1,4(a0)
-		beq.s	loc_48B16
+		beq.s	+ ;loc_48B16
 		neg.w	d0
 
-loc_48B16:
++ ;loc_48B16:
 		add.w	d0,y_pos(a0)
 		lea	(Player_1).w,a1
 		move.w	d6,d2
 		move.w	#$14,d3
-		bsr.s	sub_48B40
+		bsr.s	++ ;sub_48B40
 		lea	(Player_2).w,a1
 		move.w	d6,d2
 		move.w	#$28,d3
-		bsr.s	sub_48B40
+		bsr.s	++ ;sub_48B40
 		moveq	#signextendB(sfx_Transporter),d0
 		jsr	(Play_SFX).l
 
-loc_48B3A:
++ ;loc_48B3A:
 		jmp	(Sprite_OnScreen_Test).l
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_48B40:
++ ;sub_48B40:
 		tst.b	object_control(a1)
 		bne.s	locret_48B7C
 		moveq	#0,d1
@@ -70,12 +70,12 @@ locret_48B7C:
 
 loc_48B7E:
 		subq.w	#1,$30(a0)
-		bpl.s	loc_48B96
+		bpl.s	+ ;loc_48B96
 		move.w	#20-1,$30(a0)
 		eori.b	#1,(Reverse_gravity_flag).w
 		move.l	#loc_48B9C,(a0)
 
-loc_48B96:
++ ;loc_48B96:
 		jmp	(Sprite_OnScreen_Test).l
 ; ---------------------------------------------------------------------------
 
@@ -86,25 +86,25 @@ loc_48B9C:
 		move.w	x_pos(a0),d4
 		jsr	(SolidObjectFull).l
 		btst	#Status_OnObj,status(a0)
-		beq.s	loc_48BC2
+		beq.s	+ ;loc_48BC2
 		move.w	#0,$30(a0)
-		bra.s	loc_48BE4
+		bra.s	+++ ;loc_48BE4
 ; ---------------------------------------------------------------------------
 
-loc_48BC2:
++ ;loc_48BC2:
 		subq.w	#1,$30(a0)
-		bpl.s	loc_48BE4
+		bpl.s	++ ;loc_48BE4
 		move.b	#0,mapping_frame(a0)
 		moveq	#8,d0
 		btst	#1,render_flags(a0)
-		beq.s	loc_48BDA
+		beq.s	+ ;loc_48BDA
 		neg.w	d0
 
-loc_48BDA:
++ ;loc_48BDA:
 		sub.w	d0,y_pos(a0)
 		move.l	#loc_48AD6,(a0)
 
-loc_48BE4:
++ ;loc_48BE4:
 		jmp	(Sprite_OnScreen_Test).l
 ; ---------------------------------------------------------------------------
 Map_DEZGravitySwitch:

@@ -14,28 +14,28 @@ loc_8B384:
 		moveq	#$10,d3
 		move.w	x_pos(a0),d4
 		jsr	(SolidObjectFull).l
-		bsr.w	sub_8B3AA
+		bsr.w	+ ;sub_8B3AA
 		jmp	(Sprite_OnScreen_Test).l
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_8B3AA:
++ ;sub_8B3AA:
 		move.b	status(a0),d0
 		btst	#p1_standing_bit,d0
-		beq.s	loc_8B3C0
+		beq.s	+ ;loc_8B3C0
 		lea	(Player_1).w,a1
 		cmpi.b	#2,$3A(a0)
-		beq.s	loc_8B3D2
+		beq.s	++ ;loc_8B3D2
 
-loc_8B3C0:
++ ;loc_8B3C0:
 		btst	#p2_standing_bit,d0
 		beq.s	locret_8B430
 		lea	(Player_2).w,a1
 		cmpi.b	#2,$3B(a0)
 		bne.s	locret_8B430
 
-loc_8B3D2:
++ ;loc_8B3D2:
 		bset	#Status_Roll,status(a1)
 		move.b	#$E,y_radius(a1)
 		move.b	#7,x_radius(a1)
@@ -45,12 +45,12 @@ loc_8B3D2:
 		bclr	#Status_OnObj,status(a1)
 		move.b	#2,routine(a1)
 		btst	#p2_standing_bit,status(a0)
-		beq.s	loc_8B41A
+		beq.s	+ ;loc_8B41A
 		lea	(Player_2).w,a1
 		bset	#Status_InAir,status(a1)
 		bclr	#Status_OnObj,status(a1)
 
-loc_8B41A:
++ ;loc_8B41A:
 		lea	ChildObjDat_8B480(pc),a2
 		jsr	CreateChild1_Normal(pc)
 		moveq	#signextendB(sfx_BossHit),d0
@@ -69,10 +69,10 @@ loc_8B432:
 		move.l	#AnimateRaw_MoveChkDel,(a0)
 		move.l	#byte_8AB34,$30(a0)
 		cmpi.b	#$C,subtype(a0)
-		blo.s	loc_8B458
+		blo.s	+ ;loc_8B458
 		move.l	#byte_8AB3E,$30(a0)
 
-loc_8B458:
++ ;loc_8B458:
 		jsr	(Random_Number).l
 		andi.b	#3,d0
 		move.b	d0,anim_frame(a0)

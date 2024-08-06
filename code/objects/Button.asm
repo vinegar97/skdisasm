@@ -4,43 +4,43 @@ Obj_Button:
 		move.l	#Map_Button,mappings(a0)
 		move.w	#make_art_tile($456,0,0),art_tile(a0)
 		cmpi.b	#1,(Current_zone).w
-		bne.s	loc_2C544
+		bne.s	+ ;loc_2C544
 		move.l	#Map_Button2,mappings(a0)
 		move.w	#make_art_tile($426,1,0),art_tile(a0)
 
-loc_2C544:
++ ;loc_2C544:
 		cmpi.b	#3,(Current_zone).w
-		bne.s	loc_2C55A
+		bne.s	+ ;loc_2C55A
 		move.l	#Map_CNZButton,mappings(a0)
 		move.w	#make_art_tile($41A,2,0),art_tile(a0)
 
-loc_2C55A:
++ ;loc_2C55A:
 		cmpi.b	#4,(Current_zone).w
-		bne.s	loc_2C568
+		bne.s	+ ;loc_2C568
 		move.w	#make_art_tile($500,0,0),art_tile(a0)
 
-loc_2C568:
++ ;loc_2C568:
 		cmpi.b	#9,(Current_zone).w
-		bne.s	loc_2C58A
+		bne.s	+ ;loc_2C58A
 		move.l	#Map_LRZButton,mappings(a0)
 		move.w	#make_art_tile($3A1,3,0),art_tile(a0)
 		tst.b	(Current_act).w
-		beq.s	loc_2C58A
+		beq.s	+ ;loc_2C58A
 		move.w	#make_art_tile($429,1,0),art_tile(a0)
 
-loc_2C58A:
++ ;loc_2C58A:
 		move.b	#4,render_flags(a0)
 		move.b	#$10,width_pixels(a0)
 		move.b	#8,height_pixels(a0)
 		move.w	#$200,priority(a0)
 		addq.w	#4,y_pos(a0)
 		btst	#5,subtype(a0)
-		beq.s	loc_2C5B8
+		beq.s	+ ;loc_2C5B8
 		move.l	#loc_2C62C,(a0)
 		bra.w	loc_2C62C
 ; ---------------------------------------------------------------------------
 
-loc_2C5B8:
++ ;loc_2C5B8:
 		move.l	#loc_2C5BE,(a0)
 
 loc_2C5BE:
@@ -58,26 +58,26 @@ loc_2C5BE:
 		lea	(a3,d0.w),a3
 		moveq	#0,d3
 		btst	#6,subtype(a0)
-		beq.s	loc_2C5FC
+		beq.s	+ ;loc_2C5FC
 		moveq	#7,d3
 
-loc_2C5FC:
++ ;loc_2C5FC:
 		move.b	status(a0),d0
 		andi.b	#standing_mask,d0
-		bne.s	loc_2C612
+		bne.s	+ ;loc_2C612
 		btst	#4,subtype(a0)
 		bne.s	loc_2C626
 		bclr	d3,(a3)
 		bra.s	loc_2C626
 ; ---------------------------------------------------------------------------
 
-loc_2C612:
++ ;loc_2C612:
 		tst.b	(a3)
-		bne.s	loc_2C61E
+		bne.s	+ ;loc_2C61E
 		moveq	#signextendB(sfx_Switch),d0
 		jsr	(Play_SFX).l
 
-loc_2C61E:
++ ;loc_2C61E:
 		bset	d3,(a3)
 		move.b	#1,mapping_frame(a0)
 
@@ -99,26 +99,26 @@ loc_2C62C:
 		lea	(a3,d0.w),a3
 		moveq	#0,d3
 		btst	#6,subtype(a0)
-		beq.s	loc_2C666
+		beq.s	+ ;loc_2C666
 		moveq	#7,d3
 
-loc_2C666:
++ ;loc_2C666:
 		move.b	status(a0),d0
 		andi.b	#standing_mask,d0
-		bne.s	loc_2C67C
+		bne.s	+ ;loc_2C67C
 		btst	#4,subtype(a0)
 		bne.s	loc_2C690
 		bclr	d3,(a3)
 		bra.s	loc_2C690
 ; ---------------------------------------------------------------------------
 
-loc_2C67C:
++ ;loc_2C67C:
 		tst.b	(a3)
-		bne.s	loc_2C688
+		bne.s	+ ;loc_2C688
 		moveq	#signextendB(sfx_Switch),d0
 		jsr	(Play_SFX).l
 
-loc_2C688:
++ ;loc_2C688:
 		bset	d3,(a3)
 		move.b	#1,mapping_frame(a0)
 
@@ -149,24 +149,24 @@ loc_2C6C0:
 		moveq	#0,d3
 		move.b	status(a0),d0
 		andi.b	#standing_mask,d0
-		bne.s	loc_2C704
+		bne.s	+ ;loc_2C704
 		btst	#4,subtype(a0)
-		bne.s	loc_2C718
+		bne.s	+++ ;loc_2C718
 		bclr	d3,(a3)
-		bra.s	loc_2C718
+		bra.s	+++ ;loc_2C718
 ; ---------------------------------------------------------------------------
 
-loc_2C704:
++ ;loc_2C704:
 		tst.b	(a3)
-		bne.s	loc_2C710
+		bne.s	+ ;loc_2C710
 		moveq	#signextendB(sfx_Switch),d0
 		jsr	(Play_SFX).l
 
-loc_2C710:
++ ;loc_2C710:
 		bset	d3,(a3)
 		move.b	#1,mapping_frame(a0)
 
-loc_2C718:
++ ;loc_2C718:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 Map_Button:

@@ -27,7 +27,7 @@ sub_3FBC4:
 		cmpi.w	#$80,d0
 		bhs.w	locret_3FC74
 		tst.b	object_control(a1)
-		bne.w	loc_3FC76
+		bne.w	+++ ;loc_3FC76
 		moveq	#0,d1
 		move.b	(Oscillating_table+$16).w,d1
 		add.w	y_pos(a1),d1
@@ -37,11 +37,11 @@ sub_3FBC4:
 		cmpi.w	#$50,d1
 		bhs.s	locret_3FC74
 		subi.w	#$40,d1
-		bcs.s	loc_3FC0E
+		bcs.s	+ ;loc_3FC0E
 		not.w	d1
 		add.w	d1,d1
 
-loc_3FC0E:
++ ;loc_3FC0E:
 		addi.w	#$40,d1
 		neg.w	d1
 		asr.w	#6,d1
@@ -53,11 +53,11 @@ loc_3FC0E:
 		move.b	#0,jumping(a1)
 		move.b	(V_int_run_count+3).w,d0
 		andi.b	#$F,d0
-		bne.s	loc_3FC4A
+		bne.s	+ ;loc_3FC4A
 		moveq	#signextendB(sfx_WindQuiet),d0
 		jsr	(Play_SFX).l
 
-loc_3FC4A:
++ ;loc_3FC4A:
 		tst.b	subtype(a0)
 		bmi.s	loc_3FCC6
 		move.w	#1,ground_vel(a1)
@@ -72,14 +72,14 @@ locret_3FC74:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_3FC76:
++ ;loc_3FC76:
 		movea.w	interact(a1),a3
 		cmpi.l	#loc_3F51C,(a3)
-		beq.s	loc_3FC8A
+		beq.s	+ ;loc_3FC8A
 		cmpi.l	#loc_3F572,(a3)
 		bne.s	locret_3FC74
 
-loc_3FC8A:
++ ;loc_3FC8A:
 		moveq	#0,d1
 		move.b	(Oscillating_table+$16).w,d1
 		add.w	y_pos(a1),d1
@@ -89,11 +89,11 @@ loc_3FC8A:
 		cmp.w	$38(a0),d1
 		bhs.s	locret_3FC74
 		sub.w	$36(a0),d1
-		bcs.s	loc_3FCAE
+		bcs.s	+ ;loc_3FCAE
 		not.w	d1
 		add.w	d1,d1
 
-loc_3FCAE:
++ ;loc_3FCAE:
 		add.w	$36(a0),d1
 		neg.w	d1
 		asr.w	#6,d1

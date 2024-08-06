@@ -13,25 +13,25 @@ loc_3716C:
 		lea	(Ani_2PNeonDisplay).l,a1
 		jsr	(Animate_Sprite).l
 		cmpi.b	#1,anim(a0)
-		bne.s	loc_371AE
+		bne.s	++ ;loc_371AE
 		cmpi.b	#5,anim_frame_timer(a0)
-		bne.s	loc_371AE
+		bne.s	++ ;loc_371AE
 		moveq	#signextendB(sfx_LaunchReady),d0
 		move.b	anim_frame(a0),d1
 		cmpi.b	#1,d1
-		beq.s	loc_371A8
+		beq.s	+ ;loc_371A8
 		cmpi.b	#11,d1
-		beq.s	loc_371A8
+		beq.s	+ ;loc_371A8
 		cmpi.b	#21,d1
-		beq.s	loc_371A8
+		beq.s	+ ;loc_371A8
 		moveq	#signextendB(sfx_LaunchGo),d0
 		cmpi.b	#31,d1
-		bne.s	loc_371AE
+		bne.s	++ ;loc_371AE
 
-loc_371A8:
++ ;loc_371A8:
 		jsr	(Play_SFX).l
 
-loc_371AE:
++ ;loc_371AE:
 		bsr.s	sub_371BE
 		tst.w	(Events_bg+$14).w
 		bne.s	locret_371BC
@@ -46,15 +46,15 @@ locret_371BC:
 
 sub_371BE:
 		move.b	$3A(a0),d0
-		bne.s	loc_371F4
+		bne.s	++ ;loc_371F4
 		tst.b	(Ctrl_1_locked).w
-		beq.s	loc_371D8
+		beq.s	+ ;loc_371D8
 		move.w	#1,anim(a0)
 		move.b	#$A,mapping_frame(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_371D8:
++ ;loc_371D8:
 		cmpi.b	#3,mapping_frame(a0)
 		bne.s	locret_371F2
 		move.b	#1,(Update_HUD_timer).w
@@ -65,46 +65,46 @@ locret_371F2:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_371F4:
++ ;loc_371F4:
 		subq.b	#1,d0
 		bne.w	loc_372D0
 		move.l	#(9<<16)|(59<<8)|99,d0
 		cmp.l	(Competition_time_record).w,d0
-		bls.s	loc_3720C
+		bls.s	+ ;loc_3720C
 		cmp.l	(Competition_time_record_P2).w,d0
-		bhi.s	loc_37218
+		bhi.s	++ ;loc_37218
 
-loc_3720C:
++ ;loc_3720C:
 		move.b	#2,$3A(a0)
 		move.w	#$78,(Events_bg+$16).w
 
-loc_37218:
++ ;loc_37218:
 		move.b	(Competition_total_laps).w,d0
 		cmp.b	(Competition_current_lap).w,d0
 		bhs.s	loc_37292
 		move.b	#3,anim(a0)
 		tst.b	(Not_ghost_flag).w
-		beq.s	loc_37232
+		beq.s	+ ;loc_37232
 		addq.b	#1,anim(a0)
 
-loc_37232:
++ ;loc_37232:
 		bset	#3,render_flags(a0)
 		move.b	#2,$3A(a0)
 		move.w	#$78,(Events_bg+$16).w
 		tst.b	(Not_ghost_flag).w
-		beq.s	loc_37256
+		beq.s	+ ;loc_37256
 		tst.b	(Competition_type).w
-		bne.s	loc_37256
+		bne.s	+ ;loc_37256
 		move.w	#$168,(Events_bg+$16).w
 
-loc_37256:
++ ;loc_37256:
 		move.b	#$80,(Update_HUD_timer).w
 		jsr	sub_37430(pc)
 		moveq	#signextendB(sfx_Goal),d0
 		jsr	(Play_SFX).l
 		move.b	(Competition_total_laps).w,d0
 		cmp.b	(Competition_current_lap_2P).w,d0
-		bhs.s	loc_3728C
+		bhs.s	+ ;loc_3728C
 		move.b	#6,anim(a0)
 		bclr	#3,render_flags(a0)
 		move.w	#$78,(Events_bg+$16).w
@@ -112,7 +112,7 @@ loc_37256:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_3728C:
++ ;loc_3728C:
 		bsr.w	sub_37406
 		rts
 ; ---------------------------------------------------------------------------
@@ -125,10 +125,10 @@ loc_37292:
 		move.b	#2,$3A(a0)
 		move.w	#$78,(Events_bg+$16).w
 		tst.b	(Competition_type).w
-		bne.s	loc_372BC
+		bne.s	+ ;loc_372BC
 		move.w	#$168,(Events_bg+$16).w
 
-loc_372BC:
++ ;loc_372BC:
 		move.b	#$80,(Update_HUD_timer_P2).w
 		bsr.w	sub_37406
 		moveq	#signextendB(sfx_Goal),d0
@@ -142,15 +142,15 @@ loc_372D0:
 		subq.b	#1,d0
 		bne.w	loc_373A4
 		tst.b	(Competition_type).w
-		beq.s	loc_37308
+		beq.s	++ ;loc_37308
 		tst.b	(Update_HUD_timer).w
 		bpl.s	locret_37306
 		tst.b	(Not_ghost_flag).w
-		beq.s	loc_372EE
+		beq.s	+ ;loc_372EE
 		tst.b	(Update_HUD_timer_P2).w
 		bpl.s	locret_37306
 
-loc_372EE:
++ ;loc_372EE:
 		subq.w	#1,(Events_bg+$16).w
 		bpl.s	locret_37306
 		move.b	#$40,(Game_mode).w
@@ -162,29 +162,29 @@ locret_37306:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_37308:
++ ;loc_37308:
 		move.b	(Competition_current_lap).w,d0
 		tst.b	(Update_HUD_timer).w
-		bpl.s	loc_3731C
+		bpl.s	+ ;loc_3731C
 		move.b	(Competition_current_lap_2P).w,d0
 		tst.b	(Update_HUD_timer).w
-		bmi.s	loc_37322
+		bmi.s	++ ;loc_37322
 
-loc_3731C:
++ ;loc_3731C:
 		cmp.b	(Competition_total_laps).w,d0
-		beq.s	loc_37328
+		beq.s	++ ;loc_37328
 
-loc_37322:
++ ;loc_37322:
 		subq.w	#1,(Events_bg+$16).w
-		bmi.s	loc_3733C
+		bmi.s	++ ;loc_3733C
 
-loc_37328:
++ ;loc_37328:
 		cmpi.l	#(9<<16)|(59<<8)|99,(Competition_time_record).w
-		bhs.s	loc_3733C
+		bhs.s	+ ;loc_3733C
 		cmpi.l	#(9<<16)|(59<<8)|99,(Competition_time_record_P2).w
 		blo.s	locret_37398
 
-loc_3733C:
++ ;loc_3733C:
 		moveq	#0,d0
 		move.b	(Current_zone).w,d0
 		subi.b	#$E,d0
@@ -193,25 +193,25 @@ loc_3733C:
 		move.l	(Competition_time_record).w,(a1,d0.w)
 		move.l	(Competition_time_record_P2).w,$14(a1,d0.w)
 		tst.b	(Update_HUD_timer).w
-		bmi.s	loc_3736A
+		bmi.s	+ ;loc_3736A
 		move.l	#(9<<16)|(59<<8)|99,(a1,d0.w)
 
-loc_3736A:
++ ;loc_3736A:
 		tst.b	(Update_HUD_timer_P2).w
-		bmi.s	loc_37378
+		bmi.s	+ ;loc_37378
 		move.l	#(9<<16)|(59<<8)|99,$14(a1,d0.w)
 
-loc_37378:
++ ;loc_37378:
 		move.b	(Current_zone).w,d0
 		subi.b	#$E,d0
 		move.b	byte_3739A(pc,d0.w),d0
-		beq.s	loc_37392
+		beq.s	+ ;loc_37392
 		move.b	d0,(Current_zone).w
 		move.b	#1,(Restart_level_flag).w
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_37392:
++ ;loc_37392:
 		move.b	#$44,(Game_mode).w
 
 locret_37398:
@@ -235,9 +235,9 @@ byte_3739F:
 loc_373A4:
 		move.b	(Competition_total_laps).w,d0
 		cmp.b	(Competition_current_lap).w,d0
-		bhs.s	loc_373D4
+		bhs.s	+ ;loc_373D4
 		tst.b	(Update_HUD_timer).w
-		bmi.s	loc_373D4
+		bmi.s	+ ;loc_373D4
 		move.b	#5,anim(a0)
 		bset	#3,render_flags(a0)
 		move.b	#$80,(Update_HUD_timer).w
@@ -245,7 +245,7 @@ loc_373A4:
 		moveq	#signextendB(sfx_Goal),d0
 		jsr	(Play_SFX).l
 
-loc_373D4:
++ ;loc_373D4:
 		move.b	(Competition_total_laps).w,d0
 		cmp.b	(Competition_current_lap_2P).w,d0
 		bhs.s	locret_37404
@@ -294,7 +294,7 @@ sub_37430:
 		adda.w	d0,a1
 		move.l	(Competition_time_record).w,d0
 		cmp.l	(a1),d0
-		bhs.s	loc_37476
+		bhs.s	+ ;loc_37476
 		move.b	$D(a1),$E(a1)
 		move.b	$C(a1),$D(a1)
 		move.b	(P1_character).w,$C(a1)
@@ -302,28 +302,28 @@ sub_37430:
 		move.l	(a1),4(a1)
 		move.l	d0,(a1)
 		clr.b	(Competition_time_attack_new_top_record).w
-		bra.s	loc_374B0
+		bra.s	+++ ;loc_374B0
 ; ---------------------------------------------------------------------------
 
-loc_37476:
++ ;loc_37476:
 		cmp.l	4(a1),d0
-		bhs.s	loc_3749A
+		bhs.s	+ ;loc_3749A
 		move.b	$D(a1),$E(a1)
 		move.b	(P1_character).w,$D(a1)
 		move.l	4(a1),8(a1)
 		move.l	d0,4(a1)
 		move.b	#1,(Competition_time_attack_new_top_record).w
-		bra.s	loc_374B0
+		bra.s	++ ;loc_374B0
 ; ---------------------------------------------------------------------------
 
-loc_3749A:
++ ;loc_3749A:
 		cmp.l	8(a1),d0
 		bhs.s	locret_374B6
 		move.b	(P1_character).w,$E(a1)
 		move.l	d0,8(a1)
 		move.b	#2,(Competition_time_attack_new_top_record).w
 
-loc_374B0:
++ ;loc_374B0:
 		jsr	(Write_SaveGeneral).l
 
 locret_374B6:
@@ -345,11 +345,11 @@ loc_374B8:
 
 loc_374F0:
 		tst.w	(Events_bg+$14).w
-		bne.s	loc_374FC
+		bne.s	+ ;loc_374FC
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_374FC:
++ ;loc_374FC:
 		lea	(Ani_2PNeonDisplay).l,a1
 		jsr	(Animate_Sprite).l
 		jmp	(Draw_Sprite).l

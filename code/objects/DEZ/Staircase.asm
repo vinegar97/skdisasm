@@ -3,35 +3,35 @@ Obj_DEZStaircase:
 		move.b	subtype(a0),d0
 		andi.w	#7,d0
 		cmpi.w	#4,d0
-		blo.s	loc_47658
+		blo.s	+ ;loc_47658
 		bchg	#0,render_flags(a0)
 
-loc_47658:
++ ;loc_47658:
 		btst	#1,render_flags(a0)
-		beq.s	loc_47666
+		beq.s	+ ;loc_47666
 		bchg	#0,render_flags(a0)
 
-loc_47666:
++ ;loc_47666:
 		moveq	#$34,d3
 		moveq	#2,d4
 		btst	#0,status(a0)
-		beq.s	loc_47676
+		beq.s	+ ;loc_47676
 		moveq	#$3A,d3
 		moveq	#-2,d4
 
-loc_47676:
++ ;loc_47676:
 		move.w	x_pos(a0),d2
 		movea.l	a0,a1
 		moveq	#3,d1
-		bra.s	loc_47690
+		bra.s	+ ;loc_47690
 ; ---------------------------------------------------------------------------
 
-loc_47680:
+- ;loc_47680:
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_476E4
+		bne.w	++ ;loc_476E4
 		move.l	#loc_476FE,(a1)
 
-loc_47690:
++ ;loc_47690:
 		move.l	#Map_DEZTiltingBridge,mappings(a1)
 		move.w	#make_art_tile($480,1,0),art_tile(a1)
 		move.b	render_flags(a0),render_flags(a1)
@@ -47,9 +47,9 @@ loc_47690:
 		move.b	d3,$33(a1)
 		move.w	a0,$3E(a1)
 		add.b	d4,d3
-		dbf	d1,loc_47680
+		dbf	d1,- ;loc_47680
 
-loc_476E4:
++ ;loc_476E4:
 		move.l	#loc_476EA,(a0)
 
 loc_476EA:
@@ -90,7 +90,7 @@ off_4773A:
 
 loc_4774A:
 		tst.w	$30(a0)
-		bne.s	loc_47762
+		bne.s	+ ;loc_47762
 		move.b	$32(a0),d0
 		andi.b	#$30,d0
 		beq.s	locret_47760
@@ -100,7 +100,7 @@ locret_47760:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_47762:
++ ;loc_47762:
 		subq.w	#1,$30(a0)
 		bne.s	locret_47760
 		addq.b	#1,subtype(a0)
@@ -110,7 +110,7 @@ loc_47762:
 
 loc_47774:
 		tst.w	$30(a0)
-		bne.s	loc_4778C
+		bne.s	+ ;loc_4778C
 		move.b	$32(a0),d0
 		andi.b	#$C,d0
 		beq.s	locret_4778A
@@ -120,15 +120,15 @@ locret_4778A:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4778C:
++ ;loc_4778C:
 		subq.w	#1,$30(a0)
-		bne.s	loc_4779E
+		bne.s	+ ;loc_4779E
 		addq.b	#1,subtype(a0)
 		moveq	#signextendB(sfx_FanBig),d0
 		jmp	(Play_SFX).l
 ; ---------------------------------------------------------------------------
 
-loc_4779E:
++ ;loc_4779E:
 		lea	$34(a0),a1
 		move.w	$30(a0),d0
 		lsr.b	#2,d0

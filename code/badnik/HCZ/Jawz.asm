@@ -13,21 +13,21 @@ loc_878CE:
 		jsr	Animate_RawNoSST(pc)
 		moveq	#0,d0
 		move.b	collision_property(a0),d0
-		bne.s	loc_878E8
+		bne.s	+ ;loc_878E8
 		jmp	Sprite_CheckDeleteTouch(pc)
 ; ---------------------------------------------------------------------------
 
-loc_878E8:
++ ;loc_878E8:
 		add.w	d0,d0
 		movea.w	word_87912-2(pc,d0.w),a1
 		jsr	(Check_PlayerAttack).l
-		bne.s	loc_87904
+		bne.s	+ ;loc_87904
 		lea	(ChildObjDat_6BDB2).l,a2
 		jsr	CreateChild1_Normal(pc)
 		jmp	Go_Delete_Sprite(pc)
 ; ---------------------------------------------------------------------------
 
-loc_87904:
++ ;loc_87904:
 		move.w	a1,$44(a0)
 		jsr	EnemyDefeated(pc)
 		jmp	(Draw_Sprite).l

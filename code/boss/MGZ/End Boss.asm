@@ -63,10 +63,10 @@ loc_6BFCA:
 		move.w	#-$800,y_vel(a0)
 		lea	Child1_MakeRoboShip3(pc),a2
 		jsr	(CreateChild1_Normal).l
-		bne.s	loc_6C00A
+		bne.s	+ ;loc_6C00A
 		move.b	#9,subtype(a1)
 
-loc_6C00A:
++ ;loc_6C00A:
 		lea	ChildObjDat_6D7C0(pc),a2
 		jmp	(CreateChild1_Normal).l
 ; ---------------------------------------------------------------------------
@@ -82,28 +82,28 @@ loc_6C024:
 		move.w	y_vel(a0),d0
 		addi.w	#$40,d0
 		cmpi.w	#$C0,d0
-		bge.s	loc_6C06E
+		bge.s	+++ ;loc_6C06E
 		move.w	d0,y_vel(a0)
 		btst	#7,$38(a0)
-		bne.s	loc_6C068
+		bne.s	++ ;loc_6C068
 		move.w	(Camera_Y_pos).w,d1
 		addi.w	#$120,d1
 		cmp.w	y_pos(a0),d1
-		blo.s	loc_6C068
+		blo.s	++ ;loc_6C068
 		bset	#7,$38(a0)
 		lea	ChildObjDat_6D7EA(pc),a2
 		btst	#0,render_flags(a0)
-		beq.s	loc_6C062
+		beq.s	+ ;loc_6C062
 		lea	ChildObjDat_6D7F2(pc),a2
 
-loc_6C062:
++ ;loc_6C062:
 		jsr	(CreateChild3_NormalRepeated).l
 
-loc_6C068:
++ ;loc_6C068:
 		jmp	(MoveSprite2).l
 ; ---------------------------------------------------------------------------
 
-loc_6C06E:
++ ;loc_6C06E:
 		move.b	#6,routine(a0)
 		move.b	#5,$39(a0)
 		jmp	Swing_Setup1(pc)
@@ -111,32 +111,32 @@ loc_6C06E:
 
 loc_6C07E:
 		btst	#6,status(a0)
-		bne.s	loc_6C092
+		bne.s	+ ;loc_6C092
 		jsr	(Swing_UpAndDown_Count).l
 		tst.b	$39(a0)
-		bpl.s	loc_6C0AC
+		bpl.s	++ ;loc_6C0AC
 
-loc_6C092:
++ ;loc_6C092:
 		move.b	#$16,routine(a0)
 		move.w	#-$400,y_vel(a0)
 		move.w	#$7F,$2E(a0)
 		move.l	#loc_6C200,$34(a0)
 
-loc_6C0AC:
++ ;loc_6C0AC:
 		jmp	(MoveSprite2).l
 ; ---------------------------------------------------------------------------
 
 loc_6C0B2:
 		subq.w	#1,$2E(a0)
-		bpl.s	loc_6C0D8
+		bpl.s	+ ;loc_6C0D8
 		move.w	#3,$2E(a0)
 		subq.w	#2,angle(a0)
-		bne.s	loc_6C0D8
+		bne.s	+ ;loc_6C0D8
 		move.b	#$A,routine(a0)
 		move.w	#$3F,$2E(a0)
 		move.l	#loc_6C0F6,$34(a0)
 
-loc_6C0D8:
++ ;loc_6C0D8:
 		jsr	(Swing_UpAndDown).l
 		jmp	(MoveSprite2).l
 ; ---------------------------------------------------------------------------
@@ -175,11 +175,11 @@ loc_6C128:
 
 loc_6C136:
 		btst	#1,$38(a0)
-		beq.s	loc_6C140
+		beq.s	+ ;loc_6C140
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_6C140:
++ ;loc_6C140:
 		move.b	#$10,routine(a0)
 		bclr	#3,$38(a0)
 		move.w	#$5F,$2E(a0)
@@ -201,13 +201,13 @@ loc_6C16A:
 		move.w	#3,$2E(a0)
 		addq.w	#2,angle(a0)
 		cmpi.w	#$C,angle(a0)
-		bhs.s	loc_6C190
+		bhs.s	+ ;loc_6C190
 
 locret_6C18E:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_6C190:
++ ;loc_6C190:
 		move.b	#$14,routine(a0)
 		move.w	#$1F,$2E(a0)
 		move.l	#loc_6C1A6,$34(a0)
@@ -231,18 +231,18 @@ loc_6C1B2:
 loc_6C1D4:
 		jsr	(ObjCheckCeilingDist).l
 		tst.w	d1
-		bmi.s	loc_6C1E4
+		bmi.s	+ ;loc_6C1E4
 		jmp	(Move_WaitNoFall).l
 ; ---------------------------------------------------------------------------
 
-loc_6C1E4:
++ ;loc_6C1E4:
 		move.b	#$18,routine(a0)
 		lea	ChildObjDat_6D7EA(pc),a2
 		btst	#0,render_flags(a0)
-		beq.s	loc_6C1FA
+		beq.s	+ ;loc_6C1FA
 		lea	ChildObjDat_6D7F2(pc),a2
 
-loc_6C1FA:
++ ;loc_6C1FA:
 		jmp	(CreateChild3_NormalRepeated).l
 ; ---------------------------------------------------------------------------
 
@@ -272,7 +272,7 @@ loc_6C200:
 		move.w	#$1DF,(Camera_min_Y_pos).w
 		st	(Events_fg_2).w
 		btst	#0,render_flags(a0)
-		bne.s	loc_6C29E
+		bne.s	+ ;loc_6C29E
 		move.w	#$6000,(Camera_stored_max_X_pos).w
 		jsr	(AllocateObject).l
 		bne.s	locret_6C29C
@@ -282,7 +282,7 @@ locret_6C29C:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_6C29E:
++ ;loc_6C29E:
 		clr.w	(Camera_stored_min_X_pos).w
 		jsr	(AllocateObject).l
 		bne.s	locret_6C2B0
@@ -437,13 +437,13 @@ loc_6C45A:
 		move.w	#3,$2E(a0)
 		subq.w	#2,angle(a0)
 		cmpi.w	#4,angle(a0)
-		bls.s	loc_6C480
+		bls.s	+ ;loc_6C480
 
 locret_6C47E:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_6C480:
++ ;loc_6C480:
 		move.b	#$A,routine(a0)
 		bset	#3,$38(a0)
 		move.w	#$5F,$2E(a0)
@@ -516,13 +516,13 @@ loc_6C546:
 		bpl.s	locret_6C564
 		move.w	#3,$2E(a0)
 		subq.w	#2,angle(a0)
-		beq.s	loc_6C566
+		beq.s	+ ;loc_6C566
 
 locret_6C564:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_6C566:
++ ;loc_6C566:
 		move.b	#$16,routine(a0)
 		move.w	#$3F,$2E(a0)
 		move.l	#loc_6C57C,$34(a0)
@@ -551,15 +551,15 @@ loc_6C598:
 loc_6C5C4:
 		jsr	(MoveSprite2).l
 		btst	#6,status(a0)
-		bne.s	loc_6C5E8
+		bne.s	+ ;loc_6C5E8
 		move.w	(Player_1+x_pos).w,d0
 		cmp.w	x_pos(a0),d0
-		bhs.s	loc_6C5E8
+		bhs.s	+ ;loc_6C5E8
 		jsr	(Swing_UpAndDown).l
 		jmp	(MoveSprite2).l
 ; ---------------------------------------------------------------------------
 
-loc_6C5E8:
++ ;loc_6C5E8:
 		move.b	#$1C,routine(a0)
 		move.w	#$200,x_vel(a0)
 		move.l	#loc_6C614,$34(a0)
@@ -688,11 +688,11 @@ loc_6C788:
 
 loc_6C796:
 		btst	#2,$38(a0)
-		bne.s	loc_6C7A0
+		bne.s	+ ;loc_6C7A0
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_6C7A0:
++ ;loc_6C7A0:
 		move.b	#6,routine(a0)
 		move.w	#$1F,$2E(a0)
 		move.l	#loc_6C7BC,$34(a0)
@@ -837,10 +837,10 @@ loc_6C962:
 		jsr	(SetUp_ObjAttributes3).l
 		movea.w	parent3(a0),a1
 		cmpi.l	#Obj_MGZEndBoss,(a1)
-		bne.s	loc_6C97E
+		bne.s	+ ;loc_6C97E
 		bclr	#7,art_tile(a0)
 
-loc_6C97E:
++ ;loc_6C97E:
 		lea	ChildObjDat_6D7DA(pc),a2
 		jmp	(CreateChild1_Normal).l
 ; ---------------------------------------------------------------------------
@@ -850,25 +850,25 @@ loc_6C988:
 		btst	#5,$38(a1)
 		bne.s	loc_6C9E2
 		cmpi.b	#2,subtype(a1)
-		beq.s	loc_6C9CC
+		beq.s	+++ ;loc_6C9CC
 		btst	#1,$38(a1)
-		beq.s	loc_6C9C6
+		beq.s	++ ;loc_6C9C6
 		bset	#1,$38(a0)
-		bne.s	loc_6C9CC
+		bne.s	+++ ;loc_6C9CC
 		lea	ChildObjDat_6D802(pc),a2
 		btst	#0,render_flags(a0)
-		beq.s	loc_6C9BC
+		beq.s	+ ;loc_6C9BC
 		lea	ChildObjDat_6D80A(pc),a2
 
-loc_6C9BC:
++ ;loc_6C9BC:
 		jsr	(CreateChild3_NormalRepeated).l
-		bra.w	loc_6C9CC
+		bra.w	++ ;loc_6C9CC
 ; ---------------------------------------------------------------------------
 
-loc_6C9C6:
++ ;loc_6C9C6:
 		bclr	#1,$38(a0)
 
-loc_6C9CC:
++ ;loc_6C9CC:
 		lea	byte_6D24A(pc),a2
 		bsr.w	sub_6D228
 		lea	byte_6D284(pc),a2
@@ -915,7 +915,7 @@ loc_6CA2E:
 		btst	#5,$38(a1)
 		bne.s	loc_6C9E2
 		btst	#3,$38(a1)
-		bne.s	loc_6CA58
+		bne.s	+ ;loc_6CA58
 		lea	byte_6D25A(pc),a2
 		bsr.w	sub_6D228
 
@@ -925,7 +925,7 @@ loc_6CA4A:
 		jmp	(Refresh_ChildPositionAdjusted).l
 ; ---------------------------------------------------------------------------
 
-loc_6CA58:
++ ;loc_6CA58:
 		move.b	#4,routine(a0)
 		bra.w	loc_6D2FA
 ; ---------------------------------------------------------------------------
@@ -935,22 +935,22 @@ loc_6CA62:
 		btst	#5,$38(a1)
 		bne.w	loc_6C9E2
 		btst	#3,$38(a1)
-		beq.s	loc_6CA88
+		beq.s	+ ;loc_6CA88
 		btst	#1,$38(a1)
-		bne.s	loc_6CA9A
+		bne.s	++ ;loc_6CA9A
 		jsr	(Animate_RawMultiDelay).l
 		bra.s	loc_6CA4A
 ; ---------------------------------------------------------------------------
 
-loc_6CA88:
++ ;loc_6CA88:
 		move.b	#6,routine(a0)
 		move.l	#loc_6CB1E,$34(a0)
 		bra.w	loc_6D3A8
 ; ---------------------------------------------------------------------------
 
-loc_6CA9A:
++ ;loc_6CA9A:
 		cmpi.b	#2,subtype(a1)
-		beq.s	loc_6CACA
+		beq.s	+ ;loc_6CACA
 		move.b	#8,routine(a0)
 		move.w	#$27,$2E(a0)
 		move.l	#loc_6CB4A,$34(a0)
@@ -960,7 +960,7 @@ loc_6CA9A:
 		jmp	(CreateChild1_Normal).l
 ; ---------------------------------------------------------------------------
 
-loc_6CACA:
++ ;loc_6CACA:
 		move.b	#8,routine(a0)
 		move.w	#$37,$2E(a0)
 		move.l	#loc_6CBB2,$34(a0)
@@ -1045,10 +1045,10 @@ loc_6CBCE:
 		bsr.w	sub_6D4DC
 		lea	ChildObjDat_6D812(pc),a2
 		jsr	(CreateChild1_Normal).l
-		bne.s	loc_6CBF8
+		bne.s	+ ;loc_6CBF8
 		move.b	#2,subtype(a1)
 
-loc_6CBF8:
++ ;loc_6CBF8:
 		moveq	#signextendB(sfx_Collapse),d0
 		jsr	(Play_SFX).l
 		lea	ChildObjDat_6D83E(pc),a2
@@ -1122,13 +1122,13 @@ loc_6CCC0:
 		jsr	(Refresh_ChildPositionAdjusted).l
 		movea.w	parent3(a0),a1
 		btst	#5,$38(a1)
-		bne.s	loc_6CCE0
+		bne.s	+ ;loc_6CCE0
 		btst	#4,$38(a1)
-		bne.s	loc_6CCE0
+		bne.s	+ ;loc_6CCE0
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_6CCE0:
++ ;loc_6CCE0:
 		jmp	(Go_Delete_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -1180,13 +1180,13 @@ loc_6CD42:
 loc_6CD80:
 		movea.w	$44(a0),a1
 		btst	#2,$38(a1)
-		bne.s	loc_6CD9C
+		bne.s	+ ;loc_6CD9C
 		jsr	(MoveSprite2).l
 		jsr	(Obj_Wait).l
 		bra.w	loc_6D6A6
 ; ---------------------------------------------------------------------------
 
-loc_6CD9C:
++ ;loc_6CD9C:
 		move.l	#loc_6CDB0,(a0)
 		movea.w	$44(a0),a1
 		move.w	parent3(a1),$44(a0)
@@ -1199,25 +1199,25 @@ loc_6CDB0:
 		move.w	y_pos(a1),d0
 		move.b	subtype(a2),d1
 		cmp.b	subtype(a0),d1
-		bne.s	loc_6CDE4
+		bne.s	++ ;loc_6CDE4
 		tst.b	d1
-		bne.s	loc_6CDDA
+		bne.s	+ ;loc_6CDDA
 		moveq	#8,d1
 		add.w	d1,d0
 		cmp.w	y_pos(a0),d0
-		blt.s	loc_6CDE4
+		blt.s	++ ;loc_6CDE4
 
 loc_6CDD4:
 		jmp	(Go_Delete_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_6CDDA:
++ ;loc_6CDDA:
 		moveq	#8,d1
 		sub.w	d1,d0
 		cmp.w	y_pos(a0),d0
 		ble.s	loc_6CDD4
 
-loc_6CDE4:
++ ;loc_6CDE4:
 		bra.w	loc_6D6A6
 ; ---------------------------------------------------------------------------
 
@@ -1248,14 +1248,14 @@ loc_6CE1E:
 loc_6CE36:
 		movea.w	parent3(a0),a1
 		btst	#3,$38(a1)
-		bne.s	loc_6CE58
+		bne.s	+ ;loc_6CE58
 		move.b	#$16,mapping_frame(a0)
 		addq.w	#1,$2E(a0)
 		jsr	(MoveSprite2).l
 		jmp	(Child_DrawTouch_Sprite_FlickerMove).l
 ; ---------------------------------------------------------------------------
 
-loc_6CE58:
++ ;loc_6CE58:
 		move.l	#loc_6CE66,(a0)
 		moveq	#0,d0
 		jmp	(Child_DrawTouch_Sprite_FlickerMove).l
@@ -1264,11 +1264,11 @@ loc_6CE58:
 loc_6CE66:
 		movea.w	parent3(a0),a1
 		btst	#3,$38(a1)
-		beq.s	loc_6CE78
+		beq.s	+ ;loc_6CE78
 		jmp	(Child_DrawTouch_Sprite_FlickerMove).l
 ; ---------------------------------------------------------------------------
 
-loc_6CE78:
++ ;loc_6CE78:
 		move.l	#loc_6CE8A,(a0)
 		neg.w	x_vel(a0)
 		moveq	#0,d0
@@ -1277,12 +1277,12 @@ loc_6CE78:
 
 loc_6CE8A:
 		subq.w	#1,$2E(a0)
-		bmi.s	loc_6CE9C
+		bmi.s	+ ;loc_6CE9C
 		jsr	(MoveSprite2).l
 		jmp	(Child_DrawTouch_Sprite_FlickerMove).l
 ; ---------------------------------------------------------------------------
 
-loc_6CE9C:
++ ;loc_6CE9C:
 		move.b	#$17,mapping_frame(a0)
 		move.l	#Delete_Current_Sprite,(a0)
 		moveq	#0,d0
@@ -1296,14 +1296,14 @@ loc_6CEB0:
 		move.b	subtype(a0),d0
 		subi.b	#4,d0
 		move.b	d0,subtype(a0)
-		beq.s	loc_6CEE6
+		beq.s	+ ;loc_6CEE6
 		move.w	#$380,priority(a0)
 		movea.w	parent3(a0),a1
 		cmpi.l	#Obj_MGZEndBoss,(a1)
-		bne.s	loc_6CEE6
+		bne.s	+ ;loc_6CEE6
 		bclr	#7,art_tile(a0)
 
-loc_6CEE6:
++ ;loc_6CEE6:
 		lea	ChildObjDat_6D7E2(pc),a2
 		jmp	(CreateChild1_Normal).l
 ; ---------------------------------------------------------------------------
@@ -1311,7 +1311,7 @@ loc_6CEE6:
 loc_6CEF0:
 		movea.w	parent3(a0),a1
 		btst	#5,$38(a1)
-		bne.s	loc_6CF12
+		bne.s	+ ;loc_6CF12
 		lea	byte_6D2D2(pc),a2
 		bsr.w	sub_6D2A4
 		jsr	(Refresh_ChildPositionAdjusted).l
@@ -1319,7 +1319,7 @@ loc_6CEF0:
 		jmp	(Child_Draw_Sprite2_FlickerMove).l
 ; ---------------------------------------------------------------------------
 
-loc_6CF12:
++ ;loc_6CF12:
 		bset	#5,$38(a0)
 		move.l	#Delete_Current_Sprite,(a0)
 		rts
@@ -1333,10 +1333,10 @@ loc_6CF20:
 		movea.w	parent3(a0),a1
 		move.w	parent3(a1),$44(a0)
 		tst.b	subtype(a1)
-		beq.s	loc_6CF4C
+		beq.s	+ ;loc_6CF4C
 		move.w	#$300,priority(a0)
 
-loc_6CF4C:
++ ;loc_6CF4C:
 		bclr	#7,art_tile(a0)
 		btst	#7,art_tile(a1)
 		beq.s	locret_6CF60
@@ -1349,19 +1349,19 @@ locret_6CF60:
 loc_6CF62:
 		movea.w	parent3(a0),a1
 		btst	#5,$38(a1)
-		bne.s	loc_6CF98
+		bne.s	+ ;loc_6CF98
 		lea	byte_6D2E6(pc),a2
 		bsr.w	sub_6D2A4
 		jsr	(Refresh_ChildPositionAdjusted).l
 		movea.w	$44(a0),a1
 		btst	#7,status(a1)
-		bne.s	loc_6CF98
+		bne.s	+ ;loc_6CF98
 		btst	#0,(V_int_run_count+3).w
 		bne.w	locret_6BF96
 		jmp	(Draw_And_Touch_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_6CF98:
++ ;loc_6CF98:
 		jmp	(Go_Delete_Sprite_2).l
 ; ---------------------------------------------------------------------------
 
@@ -1384,10 +1384,10 @@ loc_6CFBE:
 		move.l	#Obj_FlickerMove,(a0)
 		moveq	#0,d0
 		move.b	subtype(a0),d0
-		beq.s	loc_6CFE2
+		beq.s	+ ;loc_6CFE2
 		move.w	#$200,priority(a0)
 
-loc_6CFE2:
++ ;loc_6CFE2:
 		lsr.w	#1,d0
 		addi.b	#$2E,d0
 		move.b	d0,mapping_frame(a0)
@@ -1415,12 +1415,12 @@ loc_6CFF4:
 		bsr.w	sub_6D6CC
 		moveq	#6,d0
 		move.w	ground_vel(a0),d1
-		beq.s	loc_6D058
+		beq.s	+ ;loc_6D058
 		cmpi.w	#$C,d1
-		beq.s	loc_6D058
+		beq.s	+ ;loc_6D058
 		moveq	#$10,d0
 
-loc_6D058:
++ ;loc_6D058:
 		move.w	d0,$2E(a0)
 		bra.w	loc_6D0EE
 ; ---------------------------------------------------------------------------
@@ -1432,28 +1432,28 @@ loc_6D060:
 		move.w	x_vel(a0),d0
 		add.w	$2E(a0),d0
 		cmpi.w	#-$100,d0
-		bgt.s	loc_6D080
+		bgt.s	+ ;loc_6D080
 		move.w	d0,x_vel(a0)
 
-loc_6D080:
++ ;loc_6D080:
 		move.w	y_vel(a0),d0
 		move.w	$3C(a0),d1
-		bmi.s	loc_6D096
+		bmi.s	+ ;loc_6D096
 		add.w	d1,d0
 		cmpi.w	#$400,d0
-		ble.s	loc_6D09E
-		bra.w	loc_6D0A2
+		ble.s	++ ;loc_6D09E
+		bra.w	+++ ;loc_6D0A2
 ; ---------------------------------------------------------------------------
 
-loc_6D096:
++ ;loc_6D096:
 		add.w	d1,d0
 		cmpi.w	#-$400,d0
-		blt.s	loc_6D0A2
+		blt.s	++ ;loc_6D0A2
 
-loc_6D09E:
++ ;loc_6D09E:
 		move.w	d0,y_vel(a0)
 
-loc_6D0A2:
++ ;loc_6D0A2:
 		jsr	(sub_86180).l
 		move.w	$30(a0),d2
 		move.w	$34(a0),d3
@@ -1468,7 +1468,7 @@ loc_6D0A2:
 		move.w	d3,y_pos(a0)
 		move.b	(V_int_run_count+3).w,d0
 		andi.b	#3,d0
-		bne.s	loc_6D0F4
+		bne.s	+ ;loc_6D0F4
 		move.b	$40(a0),d0
 		add.b	$3E(a0),d0
 		andi.b	#$7F,d0
@@ -1479,7 +1479,7 @@ loc_6D0A2:
 loc_6D0EE:
 		jsr	(Perform_Art_Scaling).l
 
-loc_6D0F4:
++ ;loc_6D0F4:
 		move.w	$30(a0),d0
 		jmp	(Sprite_OnScreen_Test2).l
 ; ---------------------------------------------------------------------------
@@ -1500,9 +1500,9 @@ loc_6D104:
 		lea	(Normal_palette_line_4).w,a2
 		moveq	#bytesToLcnt($20),d1
 
-loc_6D128:
+- ;loc_6D128:
 		move.l	(a1)+,(a2)+
-		dbf	d1,loc_6D128
+		dbf	d1,- ;loc_6D128
 		addq.b	#2,$39(a0)
 		cmpi.b	#$20,$39(a0)
 		blo.w	locret_6BF96
@@ -1779,10 +1779,10 @@ sub_6D36E:
 		add.w	d0,d0
 		move.l	word_6D34E(pc,d0.w),x_vel(a0)	; and y_vel
 		btst	#0,render_flags(a1)
-		beq.s	loc_6D38A
+		beq.s	+ ;loc_6D38A
 		neg.w	x_vel(a0)
 
-loc_6D38A:
++ ;loc_6D38A:
 		moveq	#0,d0
 		move.b	subtype(a0),d0
 		move.w	word_6D398(pc,d0.w),$2E(a0)
@@ -1849,11 +1849,11 @@ sub_6D42E:
 		andi.w	#1,d1
 		bclr	#0,render_flags(a0)
 		subi.w	#$80,d0
-		bcc.s	loc_6D452
+		bcc.s	+ ;loc_6D452
 		addq.w	#2,d1
 		bset	#0,render_flags(a0)
 
-loc_6D452:
++ ;loc_6D452:
 		move.w	(Camera_Y_pos).w,d3
 		addi.w	#8,d3
 		lea	(_unkFA82).w,a2
@@ -1912,11 +1912,11 @@ sub_6D4DC:
 		lsr.w	#1,d2
 		bset	#0,render_flags(a0)
 		move.b	byte_6D516(pc,d2.w),d3
-		beq.s	loc_6D508
+		beq.s	+ ;loc_6D508
 		neg.w	d0
 		bclr	#0,render_flags(a0)
 
-loc_6D508:
++ ;loc_6D508:
 		add.b	d3,d1
 		move.w	#$F8,d3
 		lea	(_unkFA8A).w,a2
@@ -1987,27 +1987,27 @@ MGZ2_SpecialCheckHit:
 		tst.b	collision_flags(a0)
 		bne.s	locret_6D608	; If collision is on, don't do anything
 		tst.b	collision_property(a0)
-		bne.s	loc_6D5C2		; If still has a hit point, branch
+		bne.s	+ ;loc_6D5C2		; If still has a hit point, branch
 		tst.b	$46(a0)
 		beq.s	loc_6D60A		; ONLY kill the boss is $46 isn't set. If it is set, this is an event instance of the object
 		move.b	#1,collision_property(a0)
 		bclr	#7,status(a0)
 
-loc_6D5C2:
++ ;loc_6D5C2:
 		tst.b	$20(a0)
-		bne.s	loc_6D5D6
+		bne.s	+ ;loc_6D5D6
 		move.b	#$20,$20(a0)
 		moveq	#signextendB(sfx_BossHit),d0			; Play hit sound
 		jsr	(Play_SFX).l
 
-loc_6D5D6:
++ ;loc_6D5D6:
 		bset	#6,status(a0)
 		moveq	#0,d0
 		btst	#0,$20(a0)
-		bne.s	loc_6D5EA
+		bne.s	+ ;loc_6D5EA
 		addi.w	#2*3,d0
 
-loc_6D5EA:
++ ;loc_6D5EA:
 		bsr.w	MGZ2_BossPalAdjust
 		subq.b	#1,$20(a0)
 		bne.s	locret_6D608
@@ -2032,21 +2032,21 @@ loc_6D61E:
 		tst.b	collision_flags(a0)
 		bne.s	locret_6D668
 		tst.b	collision_property(a0)
-		beq.s	loc_6D66A
+		beq.s	+++ ;loc_6D66A
 		tst.b	$20(a0)
-		bne.s	loc_6D644
+		bne.s	+ ;loc_6D644
 		move.b	#$20,$20(a0)
 		moveq	#signextendB(sfx_BossHit),d0
 		jsr	(Play_SFX).l
 		bset	#6,status(a0)
 
-loc_6D644:
++ ;loc_6D644:
 		moveq	#0,d0
 		btst	#0,$20(a0)
-		bne.s	loc_6D652
+		bne.s	+ ;loc_6D652
 		addi.w	#6,d0
 
-loc_6D652:
++ ;loc_6D652:
 		bsr.w	MGZ2_BossPalAdjust
 		subq.b	#1,$20(a0)
 		bne.s	locret_6D668
@@ -2057,7 +2057,7 @@ locret_6D668:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_6D66A:
++ ;loc_6D66A:
 		move.l	#Wait_FadeToLevelMusic,(a0)
 		move.l	#loc_6C890,$34(a0)
 		jmp	(BossDefeated_StopTimer).l
@@ -2087,11 +2087,11 @@ loc_6D6A6:
 		movea.w	$44(a0),a1
 		movea.w	parent3(a1),a1
 		btst	#7,status(a1)
-		bne.s	loc_6D6BC
+		bne.s	+ ;loc_6D6BC
 		jmp	(Draw_And_Touch_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_6D6BC:
++ ;loc_6D6BC:
 		jsr	(Random_Number).l
 		andi.w	#$3C,d0
 		jmp	(loc_849D8).l

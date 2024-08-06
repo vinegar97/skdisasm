@@ -26,16 +26,16 @@ loc_56C56:
 		jsr	Find_SonicTails(pc)
 		bclr	#0,render_flags(a0)
 		tst.w	d0
-		beq.s	loc_56C6A
+		beq.s	+ ;loc_56C6A
 		bset	#0,render_flags(a0)
 
-loc_56C6A:
++ ;loc_56C6A:
 		cmpi.w	#$40,d2
-		blo.s	loc_56C72
+		blo.s	+ ;loc_56C72
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_56C72:
++ ;loc_56C72:
 		move.b	#4,routine(a0)
 		move.l	#loc_56CA6,$34(a0)
 		rts

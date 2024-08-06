@@ -6,7 +6,7 @@ Obj_LRZSpikeBallLauncher:
 		move.b	#$10,height_pixels(a0)
 		move.w	#$280,priority(a0)
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_448A2
+		bne.w	+ ;loc_448A2
 		move.l	#loc_44954,(a1)
 		move.w	x_pos(a0),x_pos(a1)
 		move.w	y_pos(a0),y_pos(a1)
@@ -21,31 +21,31 @@ Obj_LRZSpikeBallLauncher:
 		move.b	#$9A,collision_flags(a1)
 		move.w	a1,$3C(a0)
 
-loc_448A2:
++ ;loc_448A2:
 		move.l	#loc_448A8,(a0)
 
 loc_448A8:
 		lea	(Ani_LRZSpikeBallLauncher).l,a1
 		jsr	(Animate_SpriteIrregularDelay).l
 		tst.b	routine(a0)
-		beq.s	loc_448FA
+		beq.s	+++ ;loc_448FA
 		clr.b	routine(a0)
 		tst.b	anim(a0)
-		bne.s	loc_448D4
+		bne.s	+ ;loc_448D4
 		tst.b	render_flags(a0)
-		bpl.s	loc_448FA
+		bpl.s	+++ ;loc_448FA
 		moveq	#signextendB(sfx_Charging),d0
 		jsr	(Play_SFX).l
-		bra.s	loc_448FA
+		bra.s	+++ ;loc_448FA
 ; ---------------------------------------------------------------------------
 
-loc_448D4:
++ ;loc_448D4:
 		tst.b	render_flags(a0)
-		bpl.s	loc_448E2
+		bpl.s	+ ;loc_448E2
 		moveq	#signextendB(sfx_BossHit),d0
 		jsr	(Play_SFX).l
 
-loc_448E2:
++ ;loc_448E2:
 		movea.w	$3C(a0),a1
 		move.l	#loc_44916,(a1)
 		moveq	#0,d0
@@ -54,7 +54,7 @@ loc_448E2:
 		neg.w	d0
 		move.w	d0,y_vel(a1)
 
-loc_448FA:
++ ;loc_448FA:
 		move.w	#$1B,d1
 		move.w	#4,d2
 		move.w	#5,d3
@@ -65,14 +65,14 @@ loc_448FA:
 
 loc_44916:
 		subq.b	#1,anim_frame_timer(a0)
-		bpl.s	loc_44934
+		bpl.s	+ ;loc_44934
 		move.b	#2,anim_frame_timer(a0)
 		addq.b	#1,mapping_frame(a0)
 		cmpi.b	#3,mapping_frame(a0)
-		blo.s	loc_44934
+		blo.s	+ ;loc_44934
 		move.b	#0,mapping_frame(a0)
 
-loc_44934:
++ ;loc_44934:
 		jsr	(MoveSprite).l
 		move.w	$46(a0),d0
 		cmp.w	y_pos(a0),d0

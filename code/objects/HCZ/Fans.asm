@@ -3,7 +3,7 @@ Obj_HCZCGZFan:
 		bne.w	loc_309CC
 		movea.l	a0,a1
 		tst.b	subtype(a0)
-		bpl.s	loc_30602
+		bpl.s	+ ;loc_30602
 		jsr	(AllocateObjectAfterCurrent).l
 		bne.w	locret_3064C
 		move.l	#loc_30850,(a0)
@@ -26,7 +26,7 @@ Obj_HCZCGZFan:
 		bclr	#5,subtype(a1)
 		bset	#4,subtype(a1)
 
-loc_30602:
++ ;loc_30602:
 		move.l	#Map_HCZFan,mappings(a1)
 		move.w	#make_art_tile($40B,1,0),art_tile(a1)
 		ori.b	#4,render_flags(a1)
@@ -50,65 +50,65 @@ locret_3064C:
 loc_3064E:
 		move.b	subtype(a0),d0
 		btst	#5,d0
-		beq.s	loc_3066C
+		beq.s	+ ;loc_3066C
 		tst.b	(Level_trigger_array).w
 		beq.w	loc_30774
 		bclr	#5,subtype(a0)
 		bset	#4,subtype(a0)
 
-loc_3066C:
++ ;loc_3066C:
 		tst.b	$42(a0)
-		bne.s	loc_306A2
+		bne.s	++ ;loc_306A2
 		btst	#4,subtype(a0)
-		bne.s	loc_306C2
+		bne.s	+++ ;loc_306C2
 		subq.w	#1,$30(a0)
-		bpl.s	loc_3069A
+		bpl.s	+ ;loc_3069A
 		move.w	#0,$34(a0)
 		move.w	#2*60,$30(a0)
 		bchg	#0,$32(a0)
-		beq.s	loc_3069A
+		beq.s	+ ;loc_3069A
 		move.w	#3*60,$30(a0)
 
-loc_3069A:
++ ;loc_3069A:
 		tst.b	$32(a0)
-		beq.w	loc_306C2
+		beq.w	++ ;loc_306C2
 
-loc_306A2:
++ ;loc_306A2:
 		subq.b	#1,anim_frame_timer(a0)
 		bpl.w	loc_30774
 		cmpi.w	#$400,$34(a0)
 		bhs.w	loc_30774
 		addi.w	#$2A,$34(a0)
 		move.b	$34(a0),anim_frame_timer(a0)
-		bra.s	loc_306E0
+		bra.s	++ ;loc_306E0
 ; ---------------------------------------------------------------------------
 
-loc_306C2:
++ ;loc_306C2:
 		lea	(Player_1).w,a1
 		bsr.w	loc_3077E
 		lea	(Player_2).w,a1
 		bsr.w	loc_3077E
 		subq.b	#1,anim_frame_timer(a0)
-		bpl.w	loc_306F2
+		bpl.w	++ ;loc_306F2
 		move.b	#0,anim_frame_timer(a0)
 
-loc_306E0:
++ ;loc_306E0:
 		addq.b	#1,mapping_frame(a0)
 		cmpi.b	#5,mapping_frame(a0)
-		blo.s	loc_306F2
+		blo.s	+ ;loc_306F2
 		move.b	#0,mapping_frame(a0)
 
-loc_306F2:
++ ;loc_306F2:
 		tst.b	render_flags(a0)
-		bpl.s	loc_3070C
+		bpl.s	+ ;loc_3070C
 		move.b	(Level_frame_counter+1).w,d0
 		addq.b	#1,d0
 		andi.b	#$F,d0
-		bne.s	loc_3070C
+		bne.s	+ ;loc_3070C
 		moveq	#signextendB(sfx_FanSmall),d0
 		jsr	(Play_SFX).l
 
-loc_3070C:
++ ;loc_3070C:
 		btst	#6,subtype(a0)
 		beq.s	loc_30774
 		move.b	(Level_frame_counter+1).w,d0
@@ -153,13 +153,13 @@ loc_3077E:
 		cmp.w	$38(a0),d1
 		bhs.s	locret_3081C
 		tst.b	object_control(a1)
-		bne.s	loc_3081E
+		bne.s	++ ;loc_3081E
 		sub.w	$36(a0),d1
-		bcs.s	loc_307C6
+		bcs.s	+ ;loc_307C6
 		not.w	d1
 		add.w	d1,d1
 
-loc_307C6:
++ ;loc_307C6:
 		add.w	$36(a0),d1
 		neg.w	d1
 		asr.w	#6,d1
@@ -170,7 +170,7 @@ loc_307C6:
 		move.b	#0,double_jump_flag(a1)
 		move.b	#0,jumping(a1)
 		btst	#6,subtype(a0)
-		bne.s	loc_30826
+		bne.s	++ ;loc_30826
 		move.w	#1,ground_vel(a1)
 		tst.b	flip_angle(a1)
 		bne.s	locret_3081C
@@ -183,12 +183,12 @@ locret_3081C:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_3081E:
++ ;loc_3081E:
 		move.w	#1,ground_vel(a1)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_30826:
++ ;loc_30826:
 		move.w	#1,ground_vel(a1)
 		move.b	#$F,anim(a1)
 		rts
@@ -197,12 +197,12 @@ loc_30826:
 loc_30834:
 		move.w	(Water_level).w,d0
 		cmp.w	y_pos(a0),d0
-		bhs.s	loc_3084A
+		bhs.s	+ ;loc_3084A
 		jsr	(MoveSprite2).l
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_3084A:
++ ;loc_3084A:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -210,17 +210,17 @@ loc_30850:
 		movea.w	$3C(a0),a1
 		move.w	(Player_1+y_pos).w,d0
 		sub.w	y_pos(a0),d0
-		bcs.s	loc_3088E
+		bcs.s	++ ;loc_3088E
 		cmpi.w	#$20,d0
 		blt.s	loc_308B8
 		tst.b	$42(a1)
-		bne.s	loc_3087E
+		bne.s	+ ;loc_3087E
 		move.b	#1,$42(a1)
 		move.w	#0,$34(a1)
 		moveq	#signextendB(sfx_FanLatch),d0
 		jsr	(Play_SFX).l
 
-loc_3087E:
++ ;loc_3087E:
 		move.w	$3A(a0),d1
 		cmp.w	$30(a0),d1
 		beq.s	loc_308B8
@@ -228,17 +228,17 @@ loc_3087E:
 		bra.s	loc_308B8
 ; ---------------------------------------------------------------------------
 
-loc_3088E:
++ ;loc_3088E:
 		cmpi.w	#-$30,d0
 		bge.s	loc_308B8
 		tst.b	$42(a1)
-		beq.s	loc_308AE
+		beq.s	+ ;loc_308AE
 		move.b	#0,$42(a1)
 		move.b	#0,anim_frame_timer(a1)
 		moveq	#signextendB(sfx_FanLatch),d0
 		jsr	(Play_SFX).l
 
-loc_308AE:
++ ;loc_308AE:
 		tst.w	$30(a0)
 		beq.s	loc_308B8
 		subq.w	#8,$30(a0)
@@ -246,10 +246,10 @@ loc_308AE:
 loc_308B8:
 		move.w	$30(a0),d0
 		btst	#0,status(a0)
-		beq.s	loc_308C6
+		beq.s	+ ;loc_308C6
 		neg.w	d0
 
-loc_308C6:
++ ;loc_308C6:
 		add.w	$40(a0),d0
 		move.w	d0,x_pos(a0)
 		move.w	d0,x_pos(a1)
@@ -270,19 +270,19 @@ Obj_HCZLargeFan:
 		move.w	(Player_1+x_pos).w,d0
 		subi.w	#$20,d0
 		cmp.w	x_pos(a0),d0
-		blo.s	loc_3091A
+		blo.s	+ ;loc_3091A
 		move.w	(Player_1+y_pos).w,d0
 		subi.w	#$20,d0
 		sub.w	y_pos(a0),d0
 		cmpi.w	#$40,d0
-		blo.s	loc_30926
+		blo.s	++ ;loc_30926
 
-loc_3091A:
++ ;loc_3091A:
 		move.b	#3,(_unkF7C7).w
 		jmp	(Delete_Sprite_If_Not_In_Range).l
 ; ---------------------------------------------------------------------------
 
-loc_30926:
++ ;loc_30926:
 		lea	(ArtKosM_HCZLargeFan).l,a1
 		move.w	#tiles_to_bytes($500),d2
 		jsr	(Queue_Kos_Module).l
@@ -290,11 +290,11 @@ loc_30926:
 
 loc_3093C:
 		tst.b	(Kos_modules_left).w
-		beq.s	loc_30944
+		beq.s	+ ;loc_30944
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_30944:
++ ;loc_30944:
 		ori.b	#4,render_flags(a0)
 		move.w	#$200,priority(a0)
 		move.l	#Map_HCZLargeFan,mappings(a0)
@@ -308,29 +308,29 @@ loc_30944:
 
 loc_3097E:
 		tst.w	$30(a0)
-		beq.s	loc_30994
+		beq.s	+ ;loc_30994
 		addq.w	#8,y_pos(a0)
 		subq.w	#1,$30(a0)
-		bne.s	loc_30994
+		bne.s	+ ;loc_30994
 		move.b	#0,(_unkF7C7).w
 
-loc_30994:
++ ;loc_30994:
 		move.b	(Level_frame_counter+1).w,d0
 		andi.b	#$F,d0
-		bne.s	loc_309A6
+		bne.s	+ ;loc_309A6
 		moveq	#signextendB(sfx_FanBig),d0
 		jsr	(Play_SFX).l
 
-loc_309A6:
++ ;loc_309A6:
 		subq.b	#1,anim_frame_timer(a0)
-		bpl.w	loc_309C6
+		bpl.w	+ ;loc_309C6
 		move.b	#0,anim_frame_timer(a0)
 		addq.b	#1,mapping_frame(a0)
 		cmpi.b	#5,mapping_frame(a0)
-		blo.s	loc_309C6
+		blo.s	+ ;loc_309C6
 		move.b	#0,mapping_frame(a0)
 
-loc_309C6:
++ ;loc_309C6:
 		jmp	(Sprite_OnScreen_Test).l
 ; ---------------------------------------------------------------------------
 

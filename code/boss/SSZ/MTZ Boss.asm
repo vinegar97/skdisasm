@@ -6,11 +6,11 @@ Obj_SSZMTZBoss:
 		moveq	#signextendB(mus_FadeOut),d0
 		jsr	(Play_Music).l
 		jsr	(AllocateObject).l
-		bne.s	loc_7A6DC
+		bne.s	+ ;loc_7A6DC
 		move.l	#Obj_Song_Fade_Transition,(a1)
 		move.b	#mus_EndBoss,subtype(a1)
 
-loc_7A6DC:
++ ;loc_7A6DC:
 		clr.w	(_unkFA88).w
 		moveq	#$7B,d0
 		jsr	(Load_PLC).l
@@ -21,9 +21,9 @@ loc_7A6DC:
 		lea	(Target_palette_line_2).w,a2
 		moveq	#bytesToLcnt($20),d6
 
-loc_7A702:
+- ;loc_7A702:
 		move.l	(a1)+,(a2)+
-		dbf	d6,loc_7A702
+		dbf	d6,- ;loc_7A702
 		lea	Pal_SSZMTZOrbs(pc),a1
 		jmp	(PalLoad_Line1).l
 ; ---------------------------------------------------------------------------
@@ -71,11 +71,11 @@ loc_7A72C:
 		lea	(Child1_MakeMechaHead).l,a2
 		jsr	(CreateChild1_Normal).l
 		jsr	(AllocateObject).l
-		bne.s	loc_7A7C4
+		bne.s	+ ;loc_7A7C4
 		move.l	#loc_7AD8A,(a1)
 		move.l	a0,$34(a1)
 
-loc_7A7C4:
++ ;loc_7A7C4:
 		lea	(_unkFA82).w,a2
 		move.b	#$10,(a2)+
 		move.b	#0,(a2)+
@@ -107,7 +107,7 @@ loc_7A800:
 		bsr.w	Boss_MoveObject
 		move.w	(SSZ_MTZ_boss_Y_pos).w,$14(a0)
 		cmpi.w	#$420,(SSZ_MTZ_boss_Y_pos).w
-		blo.s	loc_7A84A
+		blo.s	+ ;loc_7A84A
 		addq.b	#2,$26(a0)
 		move.w	#0,(SSZ_MTZ_boss_Y_vel).w
 		move.w	#-$100,(SSZ_MTZ_boss_X_vel).w
@@ -115,12 +115,12 @@ loc_7A800:
 		bclr	#0,render_flags(a0)
 		move.w	(Player_1+x_pos).w,d0
 		cmp.w	(SSZ_MTZ_boss_X_pos).w,d0
-		blo.s	loc_7A84A
+		blo.s	+ ;loc_7A84A
 		move.w	#$100,(SSZ_MTZ_boss_X_vel).w
 		bset	#7,$2E(a0)
 		bset	#0,render_flags(a0)
 
-loc_7A84A:
++ ;loc_7A84A:
 		bsr.w	sub_7AC06
 		jsr	(Add_SpriteToCollisionResponseList).l
 		jmp	(Draw_Sprite).l
@@ -143,7 +143,7 @@ sub_7A85A:
 loc_7A874:
 		bsr.w	Boss_MoveObject
 		btst	#7,$2E(a0)
-		bne.s	loc_7A8AE
+		bne.s	+ ;loc_7A8AE
 		cmpi.w	#$1680,(SSZ_MTZ_boss_X_pos).w
 		bhs.s	loc_7A8DA
 		bchg	#7,$2E(a0)
@@ -156,7 +156,7 @@ loc_7A874:
 		bra.s	loc_7A8DA
 ; ---------------------------------------------------------------------------
 
-loc_7A8AE:
++ ;loc_7A8AE:
 		cmpi.w	#$1780,(SSZ_MTZ_boss_X_pos).w
 		blo.s	loc_7A8DA
 		bchg	#7,$2E(a0)
@@ -180,98 +180,98 @@ loc_7A8E4:
 loc_7A8F4:
 		bsr.w	Boss_MoveObject
 		cmpi.w	#$3F0,(SSZ_MTZ_boss_Y_pos).w
-		bhs.s	loc_7A906
+		bhs.s	+ ;loc_7A906
 		move.w	#0,(SSZ_MTZ_boss_Y_vel).w
 
-loc_7A906:
++ ;loc_7A906:
 		btst	#7,$2E(a0)
-		bne.s	loc_7A91E
+		bne.s	+ ;loc_7A91E
 		cmpi.w	#$1700,(SSZ_MTZ_boss_X_pos).w
-		bhs.s	loc_7A92C
+		bhs.s	++ ;loc_7A92C
 		move.w	#0,(SSZ_MTZ_boss_X_vel).w
-		bra.s	loc_7A92C
+		bra.s	++ ;loc_7A92C
 ; ---------------------------------------------------------------------------
 
-loc_7A91E:
++ ;loc_7A91E:
 		cmpi.w	#$1700,(SSZ_MTZ_boss_X_pos).w
-		blo.s	loc_7A92C
+		blo.s	+ ;loc_7A92C
 		move.w	#0,(SSZ_MTZ_boss_X_vel).w
 
-loc_7A92C:
++ ;loc_7A92C:
 		move.w	(SSZ_MTZ_boss_X_vel).w,d0
 		or.w	(SSZ_MTZ_boss_Y_vel).w,d0
-		bne.s	loc_7A93A
+		bne.s	+ ;loc_7A93A
 		addq.b	#2,$26(a0)
 
-loc_7A93A:
++ ;loc_7A93A:
 		bra.s	loc_7A8DA
 ; ---------------------------------------------------------------------------
 
 loc_7A93C:
 		cmpi.b	#$68,$38(a0)
-		bhs.s	loc_7A94E
+		bhs.s	+ ;loc_7A94E
 		addq.b	#1,$38(a0)
 		addq.b	#1,$3A(a0)
-		bra.s	loc_7A958
+		bra.s	++ ;loc_7A958
 ; ---------------------------------------------------------------------------
 
-loc_7A94E:
++ ;loc_7A94E:
 		subq.b	#1,$3A(a0)
-		bne.s	loc_7A958
+		bne.s	+ ;loc_7A958
 		addq.b	#2,$26(a0)
 
-loc_7A958:
++ ;loc_7A958:
 		bra.s	loc_7A8DA
 ; ---------------------------------------------------------------------------
 
 loc_7A95A:
 		cmpi.b	#$27,$38(a0)
-		blo.s	loc_7A968
+		blo.s	+ ;loc_7A968
 		subq.b	#1,$38(a0)
-		bra.s	loc_7A986
+		bra.s	++ ;loc_7A986
 ; ---------------------------------------------------------------------------
 
-loc_7A968:
++ ;loc_7A968:
 		addq.b	#1,$3A(a0)
 		cmpi.b	#$27,$3A(a0)
-		blo.s	loc_7A986
+		blo.s	+ ;loc_7A986
 		move.w	#$100,(SSZ_MTZ_boss_Y_vel).w
 		move.b	#0,$26(a0)
 		bclr	#6,$2E(a0)
 
-loc_7A986:
++ ;loc_7A986:
 		bra.w	loc_7A8DA
 ; ---------------------------------------------------------------------------
 
 loc_7A98A:
 		tst.b	$3A(a0)
-		beq.s	loc_7A996
+		beq.s	+ ;loc_7A996
 		subq.b	#1,$3A(a0)
-		bra.s	loc_7A99C
+		bra.s	++ ;loc_7A99C
 ; ---------------------------------------------------------------------------
 
-loc_7A996:
++ ;loc_7A996:
 		move.b	#-1,$3B(a0)
 
-loc_7A99C:
++ ;loc_7A99C:
 		cmpi.b	#$27,$38(a0)
-		blo.s	loc_7A9A8
+		blo.s	+ ;loc_7A9A8
 		subq.b	#1,$38(a0)
 
-loc_7A9A8:
++ ;loc_7A9A8:
 		bsr.w	Boss_MoveObject
 		cmpi.w	#$3B0,(SSZ_MTZ_boss_Y_pos).w
-		bhs.s	loc_7A9BA
+		bhs.s	+ ;loc_7A9BA
 		move.w	#0,(SSZ_MTZ_boss_Y_vel).w
 
-loc_7A9BA:
++ ;loc_7A9BA:
 		tst.b	$30(a0)
 		bne.s	loc_7A9D0
 		tst.b	$3B(a0)
-		beq.s	loc_7A9CC
+		beq.s	+ ;loc_7A9CC
 		move.b	#$80,$3B(a0)
 
-loc_7A9CC:
++ ;loc_7A9CC:
 		addq.b	#2,$26(a0)
 
 loc_7A9D0:
@@ -280,32 +280,32 @@ loc_7A9D0:
 
 loc_7A9D4:
 		tst.b	$3C(a0)
-		beq.s	loc_7AA02
+		beq.s	++ ;loc_7AA02
 		tst.b	$3B(a0)
 		bne.s	loc_7AA40
 		cmpi.b	#$27,$3A(a0)
-		bhs.s	loc_7A9EE
+		bhs.s	+ ;loc_7A9EE
 		addq.b	#1,$3A(a0)
 		bra.s	loc_7AA40
 ; ---------------------------------------------------------------------------
 
-loc_7A9EE:
++ ;loc_7A9EE:
 		move.w	#$100,(SSZ_MTZ_boss_Y_vel).w
 		move.b	#0,$26(a0)
 		bclr	#6,$2E(a0)
 		bra.s	loc_7AA40
 ; ---------------------------------------------------------------------------
 
-loc_7AA02:
++ ;loc_7AA02:
 		move.w	#-$180,(SSZ_MTZ_boss_Y_vel).w
 		move.w	#-$100,(SSZ_MTZ_boss_X_vel).w
 		bclr	#0,render_flags(a0)
 		btst	#7,$2E(a0)
-		beq.s	loc_7AA28
+		beq.s	+ ;loc_7AA28
 		move.w	#$100,(SSZ_MTZ_boss_X_vel).w
 		bset	#0,render_flags(a0)
 
-loc_7AA28:
++ ;loc_7AA28:
 		move.b	#$E,$26(a0)
 		move.b	#0,$32(a0)
 		bclr	#6,$2E(a0)
@@ -317,12 +317,12 @@ loc_7AA40:
 
 loc_7AA44:
 		tst.b	$33(a0)
-		beq.s	loc_7AA52
+		beq.s	+ ;loc_7AA52
 		subq.b	#1,$33(a0)
 		bra.w	loc_7A8E4
 ; ---------------------------------------------------------------------------
 
-loc_7AA52:
++ ;loc_7AA52:
 		moveq	#0,d0
 		move.b	$32(a0),d0
 		move.w	off_7AA60(pc,d0.w),d1
@@ -337,60 +337,60 @@ off_7AA60:
 loc_7AA66:
 		bsr.w	Boss_MoveObject
 		cmpi.w	#$3B0,(SSZ_MTZ_boss_Y_pos).w
-		bhs.s	loc_7AA78
+		bhs.s	+ ;loc_7AA78
 		move.w	#0,(SSZ_MTZ_boss_Y_vel).w
 
-loc_7AA78:
++ ;loc_7AA78:
 		btst	#7,$2E(a0)
-		bne.s	loc_7AAA6
+		bne.s	+ ;loc_7AAA6
 		cmpi.w	#$16A0,(SSZ_MTZ_boss_X_pos).w
-		bhs.s	loc_7AACA
+		bhs.s	++ ;loc_7AACA
 		addq.b	#2,$32(a0)
 		move.w	#$180,(SSZ_MTZ_boss_Y_vel).w
 		move.b	#3,$31(a0)
 		move.w	#$1E,(SSZ_MTZ_boss_laser_timer).w
 		bset	#0,render_flags(a0)
-		bra.s	loc_7AACA
+		bra.s	++ ;loc_7AACA
 ; ---------------------------------------------------------------------------
 
-loc_7AAA6:
++ ;loc_7AAA6:
 		cmpi.w	#$1760,(SSZ_MTZ_boss_X_pos).w
-		blo.s	loc_7AACA
+		blo.s	+ ;loc_7AACA
 		addq.b	#2,$32(a0)
 		move.w	#$180,(SSZ_MTZ_boss_Y_vel).w
 		move.b	#3,$31(a0)
 		move.w	#$1E,(SSZ_MTZ_boss_laser_timer).w
 		bclr	#0,render_flags(a0)
 
-loc_7AACA:
++ ;loc_7AACA:
 		bra.w	loc_7A8DA
 ; ---------------------------------------------------------------------------
 
 loc_7AACE:
 		bsr.w	Boss_MoveObject
 		cmpi.w	#$420,(SSZ_MTZ_boss_Y_pos).w
-		blo.s	loc_7AAEC
+		blo.s	+ ;loc_7AAEC
 		move.w	#-$180,(SSZ_MTZ_boss_Y_vel).w
 		addq.b	#2,$32(a0)
 		bchg	#7,$2E(a0)
-		bra.s	loc_7AB12
+		bra.s	+++ ;loc_7AB12
 ; ---------------------------------------------------------------------------
 
-loc_7AAEC:
++ ;loc_7AAEC:
 		btst	#7,$2E(a0)
-		bne.s	loc_7AB04
+		bne.s	+ ;loc_7AB04
 		cmpi.w	#$1680,(SSZ_MTZ_boss_X_pos).w
-		bhs.s	loc_7AB12
+		bhs.s	++ ;loc_7AB12
 		move.w	#0,(SSZ_MTZ_boss_X_vel).w
-		bra.s	loc_7AB12
+		bra.s	++ ;loc_7AB12
 ; ---------------------------------------------------------------------------
 
-loc_7AB04:
++ ;loc_7AB04:
 		cmpi.w	#$1780,(SSZ_MTZ_boss_X_pos).w
-		blo.s	loc_7AB12
+		blo.s	+ ;loc_7AB12
 		move.w	#0,(SSZ_MTZ_boss_X_vel).w
 
-loc_7AB12:
++ ;loc_7AB12:
 		bsr.w	sub_7AB56
 		bra.w	loc_7A8DA
 ; ---------------------------------------------------------------------------
@@ -398,19 +398,19 @@ loc_7AB12:
 loc_7AB1A:
 		bsr.w	Boss_MoveObject
 		cmpi.w	#$3F0,(SSZ_MTZ_boss_Y_pos).w
-		bhs.s	loc_7AB3A
+		bhs.s	+ ;loc_7AB3A
 		move.w	#$100,(SSZ_MTZ_boss_X_vel).w
 		btst	#7,$2E(a0)
-		bne.s	loc_7AB3A
+		bne.s	+ ;loc_7AB3A
 		move.w	#-$100,(SSZ_MTZ_boss_X_vel).w
 
-loc_7AB3A:
++ ;loc_7AB3A:
 		cmpi.w	#$3B0,(SSZ_MTZ_boss_Y_pos).w
-		bhs.s	loc_7AB4E
+		bhs.s	+ ;loc_7AB4E
 		move.w	#0,(SSZ_MTZ_boss_Y_vel).w
 		move.b	#0,$32(a0)
 
-loc_7AB4E:
++ ;loc_7AB4E:
 		bsr.w	sub_7AB56
 		bra.w	loc_7A8DA
 
@@ -448,29 +448,29 @@ loc_7AB8E:
 		jsr	(Refresh_ChildPositionAdjusted).l
 		moveq	#0,d0
 		tst.b	subtype(a0)
-		beq.s	loc_7ABB8
+		beq.s	+ ;loc_7ABB8
 		moveq	#8,d0
 		move.b	#$C,mapping_frame(a0)
 		move.w	#$100,priority(a0)
 
-loc_7ABB8:
++ ;loc_7ABB8:
 		move.w	d0,$2E(a0)
 		move.l	#loc_7ABC2,(a0)
 
 loc_7ABC2:
 		subq.w	#1,$2E(a0)
-		bmi.s	loc_7ABCE
+		bmi.s	+ ;loc_7ABCE
 		jmp	(Child_Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_7ABCE:
++ ;loc_7ABCE:
 		move.l	#loc_7ABEE,(a0)
 		move.w	#-$400,d0
 		btst	#0,render_flags(a0)
-		beq.s	loc_7ABE2
+		beq.s	+ ;loc_7ABE2
 		neg.w	d0
 
-loc_7ABE2:
++ ;loc_7ABE2:
 		move.w	d0,$18(a0)
 		moveq	#signextendB(sfx_Laser),d0
 		jsr	(Play_SFX).l
@@ -491,30 +491,30 @@ ObjDat3_7ABFA:
 sub_7AC06:
 		bsr.w	sub_7ACF2
 		cmpi.b	#$1F,$1C(a0)
-		bne.s	loc_7AC4A
+		bne.s	++ ;loc_7AC4A
 		st	$39(a0)
 		lea	(_unkFA82).w,a1
 		andi.b	#$F0,2(a1)
 		ori.b	#5,2(a1)
 		tst.b	$3C(a0)
-		beq.s	loc_7AC42
+		beq.s	+ ;loc_7AC42
 		move.b	#$A,$26(a0)
 		move.w	#-$180,(SSZ_MTZ_boss_Y_vel).w
 		subq.b	#1,$3C(a0)
 		move.w	#0,(SSZ_MTZ_boss_X_vel).w
 
-loc_7AC42:
++ ;loc_7AC42:
 		move.w	#0,(SSZ_MTZ_boss_X_vel).w
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_7AC4A:
++ ;loc_7AC4A:
 		cmpi.b	#4,(Player_1+routine).w
-		beq.s	loc_7AC5A
+		beq.s	+ ;loc_7AC5A
 		cmpi.b	#4,(Player_2+routine).w
 		bne.s	locret_7AC78
 
-loc_7AC5A:
++ ;loc_7AC5A:
 		lea	(_unkFA82).w,a1
 		move.b	2(a1),d0
 		andi.b	#$F,d0
@@ -539,12 +539,12 @@ loc_7AC7A:
 
 loc_7AC92:
 		subq.w	#1,$2E(a0)
-		bmi.s	loc_7ACA4
+		bmi.s	+ ;loc_7ACA4
 		jsr	(MoveSprite2).l
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_7ACA4:
++ ;loc_7ACA4:
 		clr.b	(Boss_flag).w
 		bset	#4,$38(a0)
 		st	(_unkFA89).w
@@ -553,9 +553,9 @@ loc_7ACA4:
 		lea	(Normal_palette_line_2).w,a2
 		moveq	#bytesToLcnt($20),d6
 
-loc_7ACC0:
+- ;loc_7ACC0:
 		move.l	(a1)+,(a2)+
-		dbf	d6,loc_7ACC0
+		dbf	d6,- ;loc_7ACC0
 		moveq	#$32,d0
 		jsr	(Load_PLC).l
 		jmp	(Go_Delete_Sprite).l
@@ -575,23 +575,23 @@ sub_7ACF2:
 		cmpi.b	#$10,$26(a0)
 		bhs.s	locret_7AD38
 		tst.b	collision_property(a0)
-		beq.s	loc_7AD3A
+		beq.s	+++ ;loc_7AD3A
 		tst.b	collision_flags(a0)
 		bne.s	locret_7AD38
 		tst.b	$1C(a0)
-		bne.s	loc_7AD1A
+		bne.s	+ ;loc_7AD1A
 		move.b	#$20,$1C(a0)
 		moveq	#signextendB(sfx_BossHit),d0
 		jsr	(Play_SFX).l
 
-loc_7AD1A:
++ ;loc_7AD1A:
 		moveq	#0,d0
 		btst	#0,$1C(a0)
-		bne.s	loc_7AD28
+		bne.s	+ ;loc_7AD28
 		; Bug: this should be 2*3
 		addi.w	#2*2,d0
 
-loc_7AD28:
++ ;loc_7AD28:
 		bsr.w	sub_7AD6A
 		subq.b	#1,$1C(a0)
 		bne.s	locret_7AD38
@@ -601,17 +601,17 @@ locret_7AD38:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_7AD3A:
++ ;loc_7AD3A:
 		move.l	#Wait_FadeToLevelMusic,(a0)
 		move.l	#loc_7AC7A,$34(a0)
 		st	(_unkFA88).w
 		clr.b	$38(a0)
 		lea	(Child6_CreateBossExplosion).l,a2
 		jsr	(CreateChild1_Normal).l
-		bne.s	loc_7AD64
+		bne.s	+ ;loc_7AD64
 		move.b	#4,subtype(a1)
 
-loc_7AD64:
++ ;loc_7AD64:
 		jmp	(BossDefeated).l
 ; End of function sub_7ACF2
 
@@ -651,14 +651,14 @@ loc_7ADA2:
 		movea.l	a0,a1
 		moveq	#7-1,d3
 		moveq	#0,d2
-		bra.s	loc_7ADB2
+		bra.s	+ ;loc_7ADB2
 ; ---------------------------------------------------------------------------
 
-loc_7ADAA:
+- ;loc_7ADAA:
 		jsr	(AllocateObject).l
 		bne.s	locret_7AE12
 
-loc_7ADB2:
++ ;loc_7ADB2:
 		move.b	#$20,width_pixels(a1)
 		move.l	$34(a0),$34(a1)
 		move.l	#loc_7AD8A,(a1)
@@ -675,7 +675,7 @@ loc_7ADB2:
 		move.b	#$87,collision_flags(a1)
 		move.b	#0,$42(a1)
 		addq.w	#1,d2
-		dbf	d3,loc_7ADAA
+		dbf	d3,- ;loc_7ADAA
 
 locret_7AE12:
 		rts
@@ -703,26 +703,26 @@ loc_7AE22:
 		move.w	#-$80,d1
 		move.w	(Player_1+x_pos).w,d0
 		sub.w	x_pos(a0),d0
-		bpl.s	loc_7AE70
+		bpl.s	+ ;loc_7AE70
 		neg.w	d1
 
-loc_7AE70:
++ ;loc_7AE70:
 		cmpi.w	#$16A0,x_pos(a0)
-		bhs.s	loc_7AE7C
+		bhs.s	+ ;loc_7AE7C
 		move.w	#$80,d1
 
-loc_7AE7C:
++ ;loc_7AE7C:
 		cmpi.w	#$1760,x_pos(a0)
-		blo.s	loc_7AE88
+		blo.s	+ ;loc_7AE88
 		move.w	#-$80,d1
 
-loc_7AE88:
++ ;loc_7AE88:
 		bclr	#0,render_flags(a0)
 		tst.w	d1
-		bmi.s	loc_7AE98
+		bmi.s	+ ;loc_7AE98
 		bset	#0,render_flags(a0)
 
-loc_7AE98:
++ ;loc_7AE98:
 		move.w	d1,x_vel(a0)
 
 loc_7AE9C:
@@ -745,10 +745,10 @@ sub_7AEB0:
 		move.w	d0,d4
 		move.b	$3A(a1),d2
 		tst.b	$3B(a1)
-		beq.s	loc_7AED6
+		beq.s	+ ;loc_7AED6
 		move.w	#$10,d2
 
-loc_7AED6:
++ ;loc_7AED6:
 		muls.w	d3,d2
 		move.w	$3E(a0),d6
 		move.b	$2E(a0),d0
@@ -763,10 +763,10 @@ loc_7AED6:
 		move.w	$30(a0),d6
 		move.b	$41(a0),d0
 		tst.b	$3B(a1)
-		beq.s	loc_7AF0A
+		beq.s	+ ;loc_7AF0A
 		move.b	$42(a0),d0
 
-loc_7AF0A:
++ ;loc_7AF0A:
 		jsr	(GetSineCosine).l
 		muls.w	d0,d2
 		swap	d2
@@ -774,26 +774,26 @@ loc_7AF0A:
 		move.w	d2,y_pos(a0)
 		addq.b	#4,$2E(a0)
 		tst.b	$3B(a1)
-		bne.s	loc_7AF2A
+		bne.s	+ ;loc_7AF2A
 		addq.b	#8,$41(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_7AF2A:
++ ;loc_7AF2A:
 		cmpi.b	#-1,$3B(a1)
-		beq.s	loc_7AF4C
+		beq.s	++ ;loc_7AF4C
 		cmpi.b	#$80,$3B(a1)
-		bne.s	loc_7AF44
+		bne.s	+ ;loc_7AF44
 		subq.b	#2,$42(a0)
 		bpl.s	locret_7AF58
 		clr.b	$42(a0)
 
-loc_7AF44:
++ ;loc_7AF44:
 		move.b	#0,$3B(a1)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_7AF4C:
++ ;loc_7AF4C:
 		cmpi.b	#$40,$42(a0)
 		bhs.s	locret_7AF58
 		addq.b	#2,$42(a0)
@@ -808,29 +808,29 @@ locret_7AF58:
 
 sub_7AF5A:
 		move.w	$3A(a0),d0
-		bmi.s	loc_7AF82
+		bmi.s	++ ;loc_7AF82
 		cmpi.w	#$C,d0
-		blt.s	loc_7AF74
+		blt.s	+ ;loc_7AF74
 		move.b	#0,mapping_frame(a0)
 		move.w	#$80,priority(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_7AF74:
++ ;loc_7AF74:
 		move.b	#1,mapping_frame(a0)
 		move.w	#$100,priority(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_7AF82:
++ ;loc_7AF82:
 		cmpi.w	#-$C,d0
-		blt.s	loc_7AF96
+		blt.s	+ ;loc_7AF96
 		move.b	#1,mapping_frame(a0)
 		move.w	#$300,priority(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_7AF96:
++ ;loc_7AF96:
 		move.b	#2,mapping_frame(a0)
 		move.w	#$380,priority(a0)
 		rts
@@ -840,30 +840,30 @@ loc_7AF96:
 
 loc_7AFA4:
 		tst.b	$3C(a0)
-		bmi.s	loc_7AFB6
+		bmi.s	+ ;loc_7AFB6
 		subq.b	#1,$3C(a0)
-		bpl.s	loc_7AFB6
+		bpl.s	+ ;loc_7AFB6
 		move.b	#$C6,collision_flags(a0)
 
-loc_7AFB6:
++ ;loc_7AFB6:
 		jsr	(MoveSprite).l
 		subi.w	#$20,y_vel(a0)
 		cmpi.w	#$180,y_vel(a0)
-		blt.s	loc_7AFD0
+		blt.s	+ ;loc_7AFD0
 		move.w	#$180,y_vel(a0)
 
-loc_7AFD0:
++ ;loc_7AFD0:
 		tst.w	y_vel(a0)
-		bmi.s	loc_7AFF8
+		bmi.s	+ ;loc_7AFF8
 		cmpi.w	#$42C,y_pos(a0)
-		blo.s	loc_7AFF8
+		blo.s	+ ;loc_7AFF8
 		move.w	#$42C,y_pos(a0)
 		move.w	#$42C,$38(a0)
 		move.b	#1,$32(a0)
 		addq.b	#2,routine(a0)
 		bsr.w	sub_7B0A8
 
-loc_7AFF8:
++ ;loc_7AFF8:
 		bsr.w	sub_7B0C2
 
 loc_7AFFC:
@@ -884,12 +884,12 @@ locret_7B028:
 
 loc_7B02A:
 		tst.b	$3C(a0)
-		bmi.s	loc_7B03C
+		bmi.s	+ ;loc_7B03C
 		subq.b	#1,$3C(a0)
-		bpl.s	loc_7B03C
+		bpl.s	+ ;loc_7B03C
 		move.b	#$DA,collision_flags(a0)
 
-loc_7B03C:
++ ;loc_7B03C:
 		bsr.w	sub_7B0C2
 		cmpi.b	#8,mapping_frame(a0)
 		bne.s	loc_7AFFC
@@ -899,25 +899,25 @@ loc_7B03C:
 		asr.w	#2,d0
 		add.w	$38(a0),d0
 		cmpi.w	#$42C,d0
-		bhs.s	loc_7B08C
+		bhs.s	+++ ;loc_7B08C
 		move.w	d0,y_pos(a0)
 		addq.b	#1,$32(a0)
 		btst	#0,$32(a0)
-		beq.s	loc_7B080
+		beq.s	++ ;loc_7B080
 		moveq	#-1,d0
 		btst	#0,render_flags(a0)
-		beq.s	loc_7B07C
+		beq.s	+ ;loc_7B07C
 		neg.w	d0
 
-loc_7B07C:
++ ;loc_7B07C:
 		add.w	d0,x_pos(a0)
 
-loc_7B080:
++ ;loc_7B080:
 		jsr	(Add_SpriteToCollisionResponseList).l
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_7B08C:
++ ;loc_7B08C:
 		move.w	#$42C,y_pos(a0)
 		bsr.w	sub_7B0A8
 		move.b	#1,$32(a0)
@@ -930,12 +930,12 @@ loc_7B08C:
 sub_7B0A8:
 		move.w	(Player_1+x_pos).w,d0
 		sub.w	x_pos(a0),d0
-		bpl.s	loc_7B0BA
+		bpl.s	+ ;loc_7B0BA
 		bclr	#0,render_flags(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_7B0BA:
++ ;loc_7B0BA:
 		bset	#0,render_flags(a0)
 		rts
 ; End of function sub_7B0A8
@@ -947,13 +947,13 @@ loc_7B0BA:
 sub_7B0C2:
 		moveq	#0,d0
 		move.b	collision_property(a0),d0
-		bne.s	loc_7B0D2
+		bne.s	+ ;loc_7B0D2
 		tst.b	(_unkFA88).w
-		bne.s	loc_7B0F6
+		bne.s	++ ;loc_7B0F6
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_7B0D2:
++ ;loc_7B0D2:
 		clr.b	collision_property(a0)
 		andi.b	#3,d0
 		add.w	d0,d0
@@ -961,10 +961,10 @@ loc_7B0D2:
 		tst.b	$34(a1)
 		bne.w	locret_7A718
 		jsr	(Check_PlayerAttack).l
-		bne.s	loc_7B0F6
+		bne.s	+ ;loc_7B0F6
 		jsr	(HurtCharacter_Directly).l
 
-loc_7B0F6:
++ ;loc_7B0F6:
 		clr.b	collision_flags(a0)
 		move.b	#$E,mapping_frame(a0)
 		move.b	#6,anim(a0)
@@ -1014,15 +1014,15 @@ Boss_MoveObject:
 		lea	(_unkFA82).w,a2
 		lea	mapping_frame(a0),a3
 		tst.b	(a3)
-		bne.s	loc_7B168
+		bne.s	+ ;loc_7B168
 		addq.w	#2,a2
-		bra.s	loc_7B16C
+		bra.s	++ ;loc_7B16C
 ; ---------------------------------------------------------------------------
 
-loc_7B168:
++ ;loc_7B168:
 		bsr.w	sub_7B17A
 
-loc_7B16C:
++ ;loc_7B16C:
 		moveq	#0,d6
 		move.b	mainspr_childsprites(a0),d6
 		subq.w	#1,d6
@@ -1044,10 +1044,10 @@ sub_7B17A:
 		andi.b	#$F,d0
 		move.b	d0,d2
 		cmp.b	d0,d1
-		beq.s	loc_7B196
+		beq.s	+ ;loc_7B196
 		st	d4
 
-loc_7B196:
++ ;loc_7B196:
 		move.b	d0,d5
 		lsl.b	#4,d5
 		or.b	d0,d5
@@ -1055,11 +1055,11 @@ loc_7B196:
 		move.b	d0,d1
 		lsr.b	#4,d1
 		tst.b	d4
-		beq.s	loc_7B1AA
+		beq.s	+ ;loc_7B1AA
 		moveq	#0,d0
 		moveq	#0,d1
 
-loc_7B1AA:
++ ;loc_7B1AA:
 		andi.b	#$F,d0
 		subi.b	#1,d0
 		bpl.s	loc_7B1CC
@@ -1067,7 +1067,7 @@ loc_7B1AA:
 		adda.w	(a1,d2.w),a1
 		move.b	(a1),d0
 		move.b	1(a1,d1.w),d2
-		bmi.s	loc_7B1E2
+		bmi.s	+ ;loc_7B1E2
 
 loc_7B1C2:
 		andi.b	#$7F,d2
@@ -1086,15 +1086,15 @@ locret_7B1E0:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_7B1E2:
++ ;loc_7B1E2:
 		addq.b	#1,d2
-		bne.s	loc_7B1F0
+		bne.s	+ ;loc_7B1F0
 		move.b	#0,d1
 		move.b	1(a1),d2
 		bra.s	loc_7B1C2
 ; ---------------------------------------------------------------------------
 
-loc_7B1F0:
++ ;loc_7B1F0:
 		addq.b	#1,d2
 		bne.s	loc_7B1FC
 		addi.b	#2,$26(a0)
@@ -1103,13 +1103,13 @@ loc_7B1F0:
 
 loc_7B1FC:
 		addq.b	#1,d2
-		bne.s	loc_7B20A
+		bne.s	+ ;loc_7B20A
 		andi.b	#$F0,d5
 		or.b	2(a1,d1.w),d5
 		bra.s	loc_7B1CC
 ; ---------------------------------------------------------------------------
 
-loc_7B20A:
++ ;loc_7B20A:
 		addq.b	#1,d2
 		bne.s	locret_7B21A
 		moveq	#0,d3

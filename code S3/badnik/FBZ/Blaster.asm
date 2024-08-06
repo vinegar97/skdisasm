@@ -23,10 +23,10 @@ loc_5726A:
 		move.b	#$10,y_radius(a0)
 		bset	#1,render_flags(a0)
 		bclr	#1,render_flags(a0)
-		beq.s	loc_5728A
+		beq.s	+ ;loc_5728A
 		st	$3C(a0)
 
-loc_5728A:
++ ;loc_5728A:
 		move.b	#$E,y_radius(a0)
 		moveq	#0,d0
 		move.b	subtype(a0),d0
@@ -43,16 +43,16 @@ loc_572B2:
 		bsr.w	sub_57414
 		jsr	Find_SonicTails(pc)
 		cmpi.w	#$60,d2
-		bhs.s	loc_572CE
+		bhs.s	++ ;loc_572CE
 		btst	#0,render_flags(a0)
-		beq.s	loc_572CA
+		beq.s	+ ;loc_572CA
 		subq.w	#2,d0
 
-loc_572CA:
++ ;loc_572CA:
 		tst.w	d0
-		beq.s	loc_572E4
+		beq.s	++ ;loc_572E4
 
-loc_572CE:
++ ;loc_572CE:
 		lea	byte_5749A(pc),a1
 		jsr	Animate_RawNoSSTMultiDelay(pc)
 		jsr	(MoveSprite2).l
@@ -60,7 +60,7 @@ loc_572CE:
 		jmp	Obj_Wait(pc)
 ; ---------------------------------------------------------------------------
 
-loc_572E4:
++ ;loc_572E4:
 		move.b	#6,routine(a0)
 		move.b	#0,mapping_frame(a0)
 		move.w	$2E(a0),$3A(a0)
@@ -121,11 +121,11 @@ loc_57384:
 		jsr	(MoveSprite2).l
 		jsr	(ObjCheckCeilingDist).l
 		tst.w	d1
-		bmi.s	loc_5739C
+		bmi.s	+ ;loc_5739C
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_5739C:
++ ;loc_5739C:
 		add.w	d1,y_pos(a0)
 		move.b	#$C,routine(a0)
 		clr.w	y_vel(a0)
@@ -134,11 +134,11 @@ loc_5739C:
 
 loc_573AC:
 		tst.b	(_unkFAA2).w
-		beq.s	loc_573B4
+		beq.s	+ ;loc_573B4
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_573B4:
++ ;loc_573B4:
 		move.b	#$E,routine(a0)
 		rts
 ; ---------------------------------------------------------------------------
@@ -148,11 +148,11 @@ loc_573BC:
 		jsr	(MoveSprite2).l
 		jsr	(ObjCheckFloorDist).l
 		tst.w	d1
-		bmi.s	loc_573D4
+		bmi.s	+ ;loc_573D4
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_573D4:
++ ;loc_573D4:
 		add.w	d1,y_pos(a0)
 		move.b	$3D(a0),routine(a0)
 		move.w	$3E(a0),x_vel(a0)

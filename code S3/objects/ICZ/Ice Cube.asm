@@ -14,21 +14,21 @@ loc_58B3C:
 		moveq	#$10,d3
 		move.w	x_pos(a0),d4
 		jsr	(SolidObjectFull).l
-		bsr.w	sub_58B62
+		bsr.w	+ ;sub_58B62
 		jmp	(Sprite_OnScreen_Test).l
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_58B62:
++ ;sub_58B62:
 		move.b	status(a0),d0
 		btst	#p1_standing_bit,d0
-		beq.s	loc_58B78
+		beq.s	+ ;loc_58B78
 		lea	(Player_1).w,a1
 		cmpi.b	#2,$3A(a0)
-		beq.s	loc_58B8A
+		beq.s	++ ;loc_58B8A
 
-loc_58B78:
++ ;loc_58B78:
 		btst	#p2_standing_bit,d0
 		beq.s	locret_58BD0
 		; Bug: this should instead write Player_2 to a1
@@ -36,7 +36,7 @@ loc_58B78:
 		cmpi.b	#2,$3B(a0)
 		bne.s	locret_58BD0
 
-loc_58B8A:
++ ;loc_58B8A:
 		bset	#Status_Roll,status(a1)
 		move.b	#$E,y_radius(a1)
 		move.b	#7,x_radius(a1)
@@ -63,10 +63,10 @@ loc_58BD2:
 		move.l	#AnimateRaw_MoveChkDel,(a0)
 		move.l	#byte_5830A,$30(a0)
 		cmpi.b	#$C,subtype(a0)
-		blo.s	loc_58BF8
+		blo.s	+ ;loc_58BF8
 		move.l	#byte_58314,$30(a0)
 
-loc_58BF8:
++ ;loc_58BF8:
 		jsr	(Random_Number).l
 		andi.b	#3,d0
 		move.b	d0,anim_frame(a0)

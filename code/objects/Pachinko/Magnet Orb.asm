@@ -11,17 +11,17 @@ loc_4A408:
 		lea	$30(a0),a2
 		lea	(Player_1).w,a1
 		move.w	(Ctrl_1_logical).w,d1
-		bsr.s	sub_4A428
+		bsr.s	+ ;sub_4A428
 		addq.w	#1,a2
 		lea	(Player_2).w,a1
 		move.w	(Ctrl_2_logical).w,d1
-		bsr.s	sub_4A428
+		bsr.s	+ ;sub_4A428
 		jmp	(loc_49B4E).l
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_4A428:
++ ;sub_4A428:
 		tst.b	(a2)
 		beq.w	loc_4A53A
 		tst.w	(Debug_placement_mode).w
@@ -31,17 +31,17 @@ sub_4A428:
 		tst.b	object_control(a1)
 		bmi.w	loc_4A4F6
 		andi.b	#button_A_mask|button_B_mask|button_C_mask,d1
-		bne.w	loc_4A4B4
+		bne.w	+++ ;loc_4A4B4
 		btst	#button_left+8,d1
-		beq.s	loc_4A45A
+		beq.s	+ ;loc_4A45A
 		subq.b	#1,6(a2)
 
-loc_4A45A:
++ ;loc_4A45A:
 		btst	#button_right+8,d1
-		beq.s	loc_4A464
+		beq.s	+ ;loc_4A464
 		addq.b	#1,6(a2)
 
-loc_4A464:
++ ;loc_4A464:
 		move.w	x_pos(a1),d1
 		move.w	y_pos(a1),d2
 		movem.l	d1-d2,-(sp)
@@ -69,7 +69,7 @@ byte_4A4A4:
 		even
 ; ---------------------------------------------------------------------------
 
-loc_4A4B4:
++ ;loc_4A4B4:
 		moveq	#0,d1
 		move.b	4(a2),d0
 		move.b	d0,d1
@@ -111,7 +111,7 @@ loc_4A4F6:
 
 loc_4A53A:
 		tst.b	2(a2)
-		beq.s	loc_4A54E
+		beq.s	+ ;loc_4A54E
 		subq.b	#1,2(a2)
 		bne.s	locret_4A54C
 		move.w	#$100,priority(a1)
@@ -120,7 +120,7 @@ locret_4A54C:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4A54E:
++ ;loc_4A54E:
 		move.w	x_pos(a1),d1
 		sub.w	x_pos(a0),d1
 		addi.w	#$38,d1
@@ -142,11 +142,11 @@ loc_4A54E:
 		jsr	(GetArcTan).l
 		moveq	#0,d1
 		tst.b	d0
-		bpl.s	loc_4A5AA
+		bpl.s	+ ;loc_4A5AA
 		moveq	#-$80,d1
 		addi.b	#$80,d0
 
-loc_4A5AA:
++ ;loc_4A5AA:
 		move.b	d1,4(a2)
 		subi.b	#$40,d0
 		move.b	d0,6(a2)

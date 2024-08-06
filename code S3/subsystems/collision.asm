@@ -4,44 +4,44 @@
 Player_AnglePos:
 		move.l	(Primary_collision_addr).w,(Collision_addr).w
 		cmpi.b	#$C,top_solid_bit(a0)
-		beq.s	loc_FFB8
+		beq.s	+ ;loc_FFB8
 		move.l	(Secondary_collision_addr).w,(Collision_addr).w
 
-loc_FFB8:
++ ;loc_FFB8:
 		move.b	top_solid_bit(a0),d5
 		btst	#Status_OnObj,status(a0)
-		beq.s	loc_FFD0
+		beq.s	+ ;loc_FFD0
 		moveq	#0,d0
 		move.b	d0,(Primary_Angle).w
 		move.b	d0,(Secondary_Angle).w
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_FFD0:
++ ;loc_FFD0:
 		moveq	#3,d0
 		move.b	d0,(Primary_Angle).w
 		move.b	d0,(Secondary_Angle).w
 		move.b	angle(a0),d0
 		addi.b	#$20,d0
-		bpl.s	loc_FFF2
+		bpl.s	++ ;loc_FFF2
 		move.b	angle(a0),d0
-		bpl.s	loc_FFEC
+		bpl.s	+ ;loc_FFEC
 		subq.b	#1,d0
 
-loc_FFEC:
++ ;loc_FFEC:
 		addi.b	#$20,d0
-		bra.s	loc_FFFE
+		bra.s	+++ ;loc_FFFE
 ; ---------------------------------------------------------------------------
 
-loc_FFF2:
++ ;loc_FFF2:
 		move.b	angle(a0),d0
-		bpl.s	loc_FFFA
+		bpl.s	+ ;loc_FFFA
 		addq.b	#1,d0
 
-loc_FFFA:
++ ;loc_FFFA:
 		addi.b	#$1F,d0
 
-loc_FFFE:
++ ;loc_FFFE:
 		andi.b	#$C0,d0
 		cmpi.b	#$40,d0
 		beq.w	Player_WalkVertL
@@ -81,7 +81,7 @@ loc_FFFE:
 		bsr.w	Player_Angle
 		tst.w	d1
 		beq.s	locret_10088
-		bpl.s	loc_1008A
+		bpl.s	+ ;loc_1008A
 		cmpi.w	#-$E,d1
 		blt.s	locret_10088
 		add.w	d1,y_pos(a0)
@@ -90,29 +90,29 @@ locret_10088:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_1008A:
++ ;loc_1008A:
 		tst.b	stick_to_convex(a0)
-		bne.s	loc_100A8
+		bne.s	+++ ;loc_100A8
 		move.b	x_vel(a0),d0
-		bpl.s	loc_10098
+		bpl.s	+ ;loc_10098
 		neg.b	d0
 
-loc_10098:
++ ;loc_10098:
 		addq.b	#4,d0
 		cmpi.b	#$E,d0
-		blo.s	loc_100A4
+		blo.s	+ ;loc_100A4
 		move.b	#$E,d0
 
-loc_100A4:
++ ;loc_100A4:
 		cmp.b	d0,d1
-		bgt.s	loc_100AE
+		bgt.s	++ ;loc_100AE
 
-loc_100A8:
++ ;loc_100A8:
 		add.w	d1,y_pos(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_100AE:
++ ;loc_100AE:
 		bset	#Status_InAir,status(a0)
 		bclr	#Status_Push,status(a0)
 		move.b	#1,prev_anim(a0)
@@ -127,27 +127,27 @@ Player_Angle:
 		move.w	d0,d3
 		move.b	(Secondary_Angle).w,d2
 		cmp.w	d0,d1
-		ble.s	loc_100D4
+		ble.s	+ ;loc_100D4
 		move.b	(Primary_Angle).w,d2
 		move.w	d1,d3
 		move.w	d0,d1
 
-loc_100D4:
++ ;loc_100D4:
 		btst	#0,d2
-		bne.s	loc_100F0
+		bne.s	++ ;loc_100F0
 		move.b	d2,d0
 		sub.b	angle(a0),d0
-		bpl.s	loc_100E4
+		bpl.s	+ ;loc_100E4
 		neg.b	d0
 
-loc_100E4:
++ ;loc_100E4:
 		cmpi.b	#$20,d0
-		bhs.s	loc_100F0
+		bhs.s	+ ;loc_100F0
 		move.b	d2,angle(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_100F0:
++ ;loc_100F0:
 		move.b	angle(a0),d2
 		addi.b	#$20,d2
 		andi.b	#$C0,d2
@@ -190,24 +190,24 @@ Player_WalkVertR:
 		bsr.w	Player_Angle
 		tst.w	d1
 		beq.s	locret_10176
-		bpl.s	loc_10198
+		bpl.s	+++ ;loc_10198
 		cmpi.w	#-$E,d1
-		blt.s	loc_10184
+		blt.s	++ ;loc_10184
 		tst.b	$41(a0)
-		bne.s	loc_10178
+		bne.s	+ ;loc_10178
 		add.w	d1,x_pos(a0)
 
 locret_10176:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_10178:
++ ;loc_10178:
 		subq.b	#1,$41(a0)
 		move.b	#$C0,angle(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_10184:
++ ;loc_10184:
 		tst.w	(Current_zone_and_act).w
 		bne.s	locret_10176
 		move.b	#$C0,angle(a0)
@@ -215,29 +215,29 @@ loc_10184:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_10198:
++ ;loc_10198:
 		tst.b	stick_to_convex(a0)
-		bne.s	loc_101B6
+		bne.s	+++ ;loc_101B6
 		move.b	y_vel(a0),d0
-		bpl.s	loc_101A6
+		bpl.s	+ ;loc_101A6
 		neg.b	d0
 
-loc_101A6:
++ ;loc_101A6:
 		addq.b	#4,d0
 		cmpi.b	#$E,d0
-		blo.s	loc_101B2
+		blo.s	+ ;loc_101B2
 		move.b	#$E,d0
 
-loc_101B2:
++ ;loc_101B2:
 		cmp.b	d0,d1
-		bgt.s	loc_101BC
+		bgt.s	++ ;loc_101BC
 
-loc_101B6:
++ ;loc_101B6:
 		add.w	d1,x_pos(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_101BC:
++ ;loc_101BC:
 		bset	#Status_InAir,status(a0)
 		bclr	#Status_Push,status(a0)
 		move.b	#1,prev_anim(a0)
@@ -278,7 +278,7 @@ Player_WalkCeiling:
 		bsr.w	Player_Angle
 		tst.w	d1
 		beq.s	locret_10244
-		bpl.s	loc_10246
+		bpl.s	+ ;loc_10246
 		cmpi.w	#-$E,d1
 		blt.s	locret_10244
 		sub.w	d1,y_pos(a0)
@@ -287,29 +287,29 @@ locret_10244:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_10246:
++ ;loc_10246:
 		tst.b	stick_to_convex(a0)
-		bne.s	loc_10264
+		bne.s	+++ ;loc_10264
 		move.b	x_vel(a0),d0
-		bpl.s	loc_10254
+		bpl.s	+ ;loc_10254
 		neg.b	d0
 
-loc_10254:
++ ;loc_10254:
 		addq.b	#4,d0
 		cmpi.b	#$E,d0
-		blo.s	loc_10260
+		blo.s	+ ;loc_10260
 		move.b	#$E,d0
 
-loc_10260:
++ ;loc_10260:
 		cmp.b	d0,d1
-		bgt.s	loc_1026A
+		bgt.s	++ ;loc_1026A
 
-loc_10264:
++ ;loc_10264:
 		sub.w	d1,y_pos(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_1026A:
++ ;loc_1026A:
 		bset	#Status_InAir,status(a0)
 		bclr	#Status_Push,status(a0)
 		move.b	#1,prev_anim(a0)
@@ -350,7 +350,7 @@ Player_WalkVertL:
 		bsr.w	Player_Angle
 		tst.w	d1
 		beq.s	locret_102F2
-		bpl.s	loc_102F4
+		bpl.s	+ ;loc_102F4
 		cmpi.w	#-$E,d1
 		blt.s	locret_102F2
 		sub.w	d1,x_pos(a0)
@@ -359,29 +359,29 @@ locret_102F2:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_102F4:
++ ;loc_102F4:
 		tst.b	stick_to_convex(a0)
-		bne.s	loc_10312
+		bne.s	+++ ;loc_10312
 		move.b	y_vel(a0),d0
-		bpl.s	loc_10302
+		bpl.s	+ ;loc_10302
 		neg.b	d0
 
-loc_10302:
++ ;loc_10302:
 		addq.b	#4,d0
 		cmpi.b	#$E,d0
-		blo.s	loc_1030E
+		blo.s	+ ;loc_1030E
 		move.b	#$E,d0
 
-loc_1030E:
++ ;loc_1030E:
 		cmp.b	d0,d1
-		bgt.s	loc_10318
+		bgt.s	++ ;loc_10318
 
-loc_10312:
++ ;loc_10312:
 		sub.w	d1,x_pos(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_10318:
++ ;loc_10318:
 		bset	#Status_InAir,status(a0)
 		bclr	#Status_Push,status(a0)
 		move.b	#1,prev_anim(a0)
@@ -494,7 +494,7 @@ sub_105DA:
 		andi.w	#$3FF,d0
 		beq.s	loc_105EA
 		btst	d5,d4
-		bne.s	loc_105F8
+		bne.s	+ ;loc_105F8
 
 loc_105EA:
 		add.w	a3,d2
@@ -504,7 +504,7 @@ loc_105EA:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_105F8:
++ ;loc_105F8:
 		movea.l	(Collision_addr).w,a2
 		add.w	d0,d0
 		move.w	(a2,d0.w),d0
@@ -514,18 +514,18 @@ loc_105F8:
 		lsl.w	#4,d0
 		move.w	d3,d1
 		btst	#$A,d4
-		beq.s	loc_1061C
+		beq.s	+ ;loc_1061C
 		not.w	d1
 		neg.b	(a4)
 
-loc_1061C:
++ ;loc_1061C:
 		btst	#$B,d4
-		beq.s	loc_1062C
+		beq.s	+ ;loc_1062C
 		addi.b	#$40,(a4)
 		neg.b	(a4)
 		subi.b	#$40,(a4)
 
-loc_1062C:
++ ;loc_1062C:
 		andi.w	#$F,d1
 		add.w	d0,d1
 		lea	(HeightMaps).l,a2
@@ -533,15 +533,15 @@ loc_1062C:
 		ext.w	d0
 		eor.w	d6,d4
 		btst	#$B,d4
-		beq.s	loc_10648
+		beq.s	+ ;loc_10648
 		neg.w	d0
 
-loc_10648:
++ ;loc_10648:
 		tst.w	d0
 		beq.s	loc_105EA
-		bmi.s	loc_10664
+		bmi.s	+ ;loc_10664
 		cmpi.b	#$10,d0
-		beq.s	loc_10670
+		beq.s	++ ;loc_10670
 		move.w	d2,d1
 		andi.w	#$F,d1
 		add.w	d1,d0
@@ -550,13 +550,13 @@ loc_10648:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_10664:
++ ;loc_10664:
 		move.w	d2,d1
 		andi.w	#$F,d1
 		add.w	d1,d0
 		bpl.w	loc_105EA
 
-loc_10670:
++ ;loc_10670:
 		sub.w	a3,d2
 		bsr.w	sub_1067E
 		add.w	a3,d2
@@ -575,7 +575,7 @@ sub_1067E:
 		andi.w	#$3FF,d0
 		beq.s	loc_1068E
 		btst	d5,d4
-		bne.s	loc_1069C
+		bne.s	+ ;loc_1069C
 
 loc_1068E:
 		move.w	#$F,d1
@@ -585,7 +585,7 @@ loc_1068E:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_1069C:
++ ;loc_1069C:
 		movea.l	(Collision_addr).w,a2
 		add.w	d0,d0
 		move.w	(a2,d0.w),d0
@@ -595,18 +595,18 @@ loc_1069C:
 		lsl.w	#4,d0
 		move.w	d3,d1
 		btst	#$A,d4
-		beq.s	loc_106C0
+		beq.s	+ ;loc_106C0
 		not.w	d1
 		neg.b	(a4)
 
-loc_106C0:
++ ;loc_106C0:
 		btst	#$B,d4
-		beq.s	loc_106D0
+		beq.s	+ ;loc_106D0
 		addi.b	#$40,(a4)
 		neg.b	(a4)
 		subi.b	#$40,(a4)
 
-loc_106D0:
++ ;loc_106D0:
 		andi.w	#$F,d1
 		add.w	d0,d1
 		lea	(HeightMaps).l,a2
@@ -614,13 +614,13 @@ loc_106D0:
 		ext.w	d0
 		eor.w	d6,d4
 		btst	#$B,d4
-		beq.s	loc_106EC
+		beq.s	+ ;loc_106EC
 		neg.w	d0
 
-loc_106EC:
++ ;loc_106EC:
 		tst.w	d0
 		beq.s	loc_1068E
-		bmi.s	loc_10702
+		bmi.s	+ ;loc_10702
 		move.w	d2,d1
 		andi.w	#$F,d1
 		add.w	d1,d0
@@ -629,7 +629,7 @@ loc_106EC:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_10702:
++ ;loc_10702:
 		move.w	d2,d1
 		andi.w	#$F,d1
 		add.w	d1,d0
@@ -672,14 +672,14 @@ sub_1074C:
 		andi.w	#$3FF,d0
 		beq.s	loc_1075C
 		btst	d5,d4
-		bne.s	loc_10762
+		bne.s	+ ;loc_10762
 
 loc_1075C:
 		move.w	#$10,d1
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_10762:
++ ;loc_10762:
 		movea.l	(Collision_addr).w,a2
 		add.w	d0,d0
 		move.w	(a2,d0.w),d0
@@ -689,18 +689,18 @@ loc_10762:
 		lsl.w	#4,d0
 		move.w	d3,d1
 		btst	#$A,d4
-		beq.s	loc_10786
+		beq.s	+ ;loc_10786
 		not.w	d1
 		neg.b	(a4)
 
-loc_10786:
++ ;loc_10786:
 		btst	#$B,d4
-		beq.s	loc_10796
+		beq.s	+ ;loc_10796
 		addi.b	#$40,(a4)
 		neg.b	(a4)
 		subi.b	#$40,(a4)
 
-loc_10796:
++ ;loc_10796:
 		andi.w	#$F,d1
 		add.w	d0,d1
 		lea	(HeightMaps).l,a2
@@ -708,15 +708,15 @@ loc_10796:
 		ext.w	d0
 		eor.w	d6,d4
 		btst	#$B,d4
-		beq.s	loc_107B2
+		beq.s	+ ;loc_107B2
 		neg.w	d0
 
-loc_107B2:
++ ;loc_107B2:
 		tst.w	d0
 		beq.s	loc_1075C
-		bmi.s	loc_107CE
+		bmi.s	+ ;loc_107CE
 		cmpi.b	#$10,d0
-		beq.s	loc_107DA
+		beq.s	++ ;loc_107DA
 		move.w	d2,d1
 		andi.w	#$F,d1
 		add.w	d1,d0
@@ -725,13 +725,13 @@ loc_107B2:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_107CE:
++ ;loc_107CE:
 		move.w	d2,d1
 		andi.w	#$F,d1
 		add.w	d1,d0
 		bpl.w	loc_1075C
 
-loc_107DA:
++ ;loc_107DA:
 		sub.w	a3,d2
 		bsr.w	sub_1067E
 		add.w	a3,d2
@@ -751,32 +751,32 @@ FindWall:
 		move.b	(a4),Primary_Angle_save-Primary_Angle(a4)
 		move.w	d1,-(sp)
 		move.w	a3,d0
-		bpl.s	loc_1080E
+		bpl.s	+ ;loc_1080E
 		eori.w	#$F,d3
 		sub.w	(Camera_X_diff).w,d3
 		eori.w	#$F,d3
-		bra.s	loc_10812
+		bra.s	++ ;loc_10812
 ; ---------------------------------------------------------------------------
 
-loc_1080E:
++ ;loc_1080E:
 		sub.w	(Camera_X_diff).w,d3
 
-loc_10812:
++ ;loc_10812:
 		sub.w	(Camera_Y_diff).w,d2
 		lea	(Find_Tile_BG).l,a5
 		bsr.s	sub_10846
 		move.w	a3,d0
-		bpl.s	loc_10830
+		bpl.s	+ ;loc_10830
 		eori.w	#$F,d3
 		add.w	(Camera_X_diff).w,d3
 		eori.w	#$F,d3
-		bra.s	loc_10834
+		bra.s	++ ;loc_10834
 ; ---------------------------------------------------------------------------
 
-loc_10830:
++ ;loc_10830:
 		add.w	(Camera_X_diff).w,d3
 
-loc_10834:
++ ;loc_10834:
 		add.w	(Camera_Y_diff).w,d2
 		move.w	(sp)+,d0
 		cmp.w	d0,d1
@@ -799,7 +799,7 @@ sub_10846:
 		andi.w	#$3FF,d0
 		beq.s	loc_10856
 		btst	d5,d4
-		bne.s	loc_10864
+		bne.s	+ ;loc_10864
 
 loc_10856:
 		add.w	a3,d3
@@ -809,7 +809,7 @@ loc_10856:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_10864:
++ ;loc_10864:
 		movea.l	(Collision_addr).w,a2
 		add.w	d0,d0
 		move.w	(a2,d0.w),d0
@@ -819,18 +819,18 @@ loc_10864:
 		lsl.w	#4,d0
 		move.w	d2,d1
 		btst	#$B,d4
-		beq.s	loc_10890
+		beq.s	+ ;loc_10890
 		not.w	d1
 		addi.b	#$40,(a4)
 		neg.b	(a4)
 		subi.b	#$40,(a4)
 
-loc_10890:
++ ;loc_10890:
 		btst	#$A,d4
-		beq.s	loc_10898
+		beq.s	+ ;loc_10898
 		neg.b	(a4)
 
-loc_10898:
++ ;loc_10898:
 		andi.w	#$F,d1
 		add.w	d0,d1
 		lea	(HeightMapsRot).l,a2
@@ -838,15 +838,15 @@ loc_10898:
 		ext.w	d0
 		eor.w	d6,d4
 		btst	#$A,d4
-		beq.s	loc_108B4
+		beq.s	+ ;loc_108B4
 		neg.w	d0
 
-loc_108B4:
++ ;loc_108B4:
 		tst.w	d0
 		beq.s	loc_10856
-		bmi.s	loc_108D0
+		bmi.s	+ ;loc_108D0
 		cmpi.b	#$10,d0
-		beq.s	loc_108DC
+		beq.s	++ ;loc_108DC
 		move.w	d3,d1
 		andi.w	#$F,d1
 		add.w	d1,d0
@@ -855,13 +855,13 @@ loc_108B4:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_108D0:
++ ;loc_108D0:
 		move.w	d3,d1
 		andi.w	#$F,d1
 		add.w	d1,d0
 		bpl.w	loc_10856
 
-loc_108DC:
++ ;loc_108DC:
 		sub.w	a3,d3
 		bsr.w	sub_108EA
 		add.w	a3,d3
@@ -880,7 +880,7 @@ sub_108EA:
 		andi.w	#$3FF,d0
 		beq.s	loc_108FA
 		btst	d5,d4
-		bne.s	loc_10908
+		bne.s	+ ;loc_10908
 
 loc_108FA:
 		move.w	#$F,d1
@@ -890,7 +890,7 @@ loc_108FA:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_10908:
++ ;loc_10908:
 		movea.l	(Collision_addr).w,a2
 		add.w	d0,d0
 		move.w	(a2,d0.w),d0
@@ -900,18 +900,18 @@ loc_10908:
 		lsl.w	#4,d0
 		move.w	d2,d1
 		btst	#$B,d4
-		beq.s	loc_10934
+		beq.s	+ ;loc_10934
 		not.w	d1
 		addi.b	#$40,(a4)
 		neg.b	(a4)
 		subi.b	#$40,(a4)
 
-loc_10934:
++ ;loc_10934:
 		btst	#$A,d4
-		beq.s	loc_1093C
+		beq.s	+ ;loc_1093C
 		neg.b	(a4)
 
-loc_1093C:
++ ;loc_1093C:
 		andi.w	#$F,d1
 		add.w	d0,d1
 		lea	(HeightMapsRot).l,a2
@@ -919,13 +919,13 @@ loc_1093C:
 		ext.w	d0
 		eor.w	d6,d4
 		btst	#$A,d4
-		beq.s	loc_10958
+		beq.s	+ ;loc_10958
 		neg.w	d0
 
-loc_10958:
++ ;loc_10958:
 		tst.w	d0
 		beq.s	loc_108FA
-		bmi.s	loc_1096E
+		bmi.s	+ ;loc_1096E
 		move.w	d3,d1
 		andi.w	#$F,d1
 		add.w	d1,d0
@@ -934,7 +934,7 @@ loc_10958:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_1096E:
++ ;loc_1096E:
 		move.w	d3,d1
 		andi.w	#$F,d1
 		add.w	d1,d0
@@ -960,10 +960,10 @@ sub_10980:
 		bne.w	sub_10A10
 		move.l	(Primary_collision_addr).w,(Collision_addr).w
 		cmpi.b	#$C,top_solid_bit(a0)
-		beq.s	loc_1099C
+		beq.s	+ ;loc_1099C
 		move.l	(Secondary_collision_addr).w,(Collision_addr).w
 
-loc_1099C:
++ ;loc_1099C:
 		move.b	lrb_solid_bit(a0),d5
 		move.l	x_pos(a0),d3
 		move.l	y_pos(a0),d2
@@ -981,36 +981,36 @@ loc_1099C:
 		move.b	d0,(Secondary_Angle).w
 		move.b	d0,d1
 		addi.b	#$20,d0
-		bpl.s	loc_109DC
+		bpl.s	++ ;loc_109DC
 		move.b	d1,d0
-		bpl.s	loc_109D6
+		bpl.s	+ ;loc_109D6
 		subq.b	#1,d0
 
-loc_109D6:
++ ;loc_109D6:
 		addi.b	#$20,d0
-		bra.s	loc_109E6
+		bra.s	+++ ;loc_109E6
 ; ---------------------------------------------------------------------------
 
-loc_109DC:
++ ;loc_109DC:
 		move.b	d1,d0
-		bpl.s	loc_109E2
+		bpl.s	+ ;loc_109E2
 		addq.b	#1,d0
 
-loc_109E2:
++ ;loc_109E2:
 		addi.b	#$1F,d0
 
-loc_109E6:
++ ;loc_109E6:
 		andi.b	#$C0,d0
 		beq.w	CheckFloorDist_Part2
 		cmpi.b	#$80,d0
 		beq.w	CheckCeilingDist_Part2
 		tst.w	(Competition_mode).w
-		bne.s	loc_10A04
+		bne.s	+ ;loc_10A04
 		andi.b	#$38,d1
-		bne.s	loc_10A04
+		bne.s	+ ;loc_10A04
 		addq.w	#8,d2
 
-loc_10A04:
++ ;loc_10A04:
 		cmpi.b	#$40,d0
 		beq.w	loc_11084
 		bra.w	loc_10DE4
@@ -1023,10 +1023,10 @@ loc_10A04:
 sub_10A10:
 		move.l	(Primary_collision_addr).w,(Collision_addr).w
 		cmpi.b	#$C,top_solid_bit(a0)
-		beq.s	loc_10A24
+		beq.s	+ ;loc_10A24
 		move.l	(Secondary_collision_addr).w,(Collision_addr).w
 
-loc_10A24:
++ ;loc_10A24:
 		move.b	lrb_solid_bit(a0),d5
 		move.l	x_pos(a0),d3
 		move.l	y_pos(a0),d2
@@ -1044,25 +1044,25 @@ loc_10A24:
 		move.b	d0,(Secondary_Angle).w
 		move.b	d0,d1
 		addi.b	#$20,d0
-		bpl.s	loc_10A64
+		bpl.s	++ ;loc_10A64
 		move.b	d1,d0
-		bpl.s	loc_10A5E
+		bpl.s	+ ;loc_10A5E
 		subq.b	#1,d0
 
-loc_10A5E:
++ ;loc_10A5E:
 		addi.b	#$20,d0
-		bra.s	loc_10A6E
+		bra.s	+++ ;loc_10A6E
 ; ---------------------------------------------------------------------------
 
-loc_10A64:
++ ;loc_10A64:
 		move.b	d1,d0
-		bpl.s	loc_10A6A
+		bpl.s	+ ;loc_10A6A
 		addq.b	#1,d0
 
-loc_10A6A:
++ ;loc_10A6A:
 		addi.b	#$1F,d0
 
-loc_10A6E:
++ ;loc_10A6E:
 		andi.b	#$C0,d0
 		beq.w	sub_10B84
 		cmpi.b	#$80,d0

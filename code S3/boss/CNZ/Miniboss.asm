@@ -1,11 +1,11 @@
 Obj_CNZMiniboss:
 		move.w	#$31E0,d0
 		cmp.w	(Camera_X_pos).w,d0	; Wait for Player to get in range
-		bls.s	loc_4B5B4
+		bls.s	+ ;loc_4B5B4
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4B5B4:
++ ;loc_4B5B4:
 		move.w	(Camera_max_X_pos).w,(Camera_stored_max_X_pos).w	; X end to FFFA92
 		move.w	#$1A0,(Camera_min_Y_pos).w
 		move.w	d0,(Camera_min_X_pos).w		; Set X start

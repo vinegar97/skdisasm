@@ -8,48 +8,48 @@ VInt:
 		tst.b	(V_int_routine).w
 		beq.w	VInt_0.Main
 
-loc_810:
+- ;loc_810:
 		move.w	(VDP_control_port).l,d0
 		andi.w	#8,d0
-		beq.s	loc_810	; wait until vertical blanking is taking place
+		beq.s	- ;loc_810	; wait until vertical blanking is taking place
 
 		move.l	#vdpComm($0000,VSRAM,WRITE),(VDP_control_port).l
 		move.l	(V_scroll_value).w,(VDP_data_port).l
 		btst	#6,(Graphics_flags).w
-		beq.s	loc_83E	; branch if it's not a PAL system
+		beq.s	+ ;loc_83E	; branch if it's not a PAL system
 		move.w	#$700,d0
 		dbf	d0,*	; otherwise, waste a bit of time here
 
-loc_83E:
++ ;loc_83E:
 		move.b	(V_int_routine).w,d0
 		move.b	#0,(V_int_routine).w
 		move.w	#1,(H_int_flag).w		; Allow H Interrupt code to run
 		andi.w	#$3E,d0
-		move.w	VInt_Table(pc,d0.w),d0
-		jsr	VInt_Table(pc,d0.w)
+		move.w	.Table(pc,d0.w),d0
+		jsr	.Table(pc,d0.w)
 
-VInt_Done:
+.Done:
 		addq.l	#1,(V_int_run_count).w
 		movem.l	(sp)+,d0-a6
 		rte
 ; ---------------------------------------------------------------------------
-VInt_Table:
-		dc.w VInt_0-VInt_Table
-		dc.w VInt_2-VInt_Table
-		dc.w VInt_4-VInt_Table
-		dc.w VInt_6-VInt_Table
-		dc.w VInt_8-VInt_Table
-		dc.w VInt_A_C-VInt_Table
-		dc.w VInt_A_C-VInt_Table
-		dc.w VInt_E-VInt_Table
-		dc.w VInt_10-VInt_Table
-		dc.w VInt_12-VInt_Table
-		dc.w VInt_14-VInt_Table
-		dc.w VInt_16-VInt_Table
-		dc.w VInt_18-VInt_Table
-		dc.w VInt_1A-VInt_Table
-		dc.w VInt_1C-VInt_Table
-		dc.w VInt_1E-VInt_Table
+.Table:
+		dc.w VInt_0-.Table
+		dc.w VInt_2-.Table
+		dc.w VInt_4-.Table
+		dc.w VInt_6-.Table
+		dc.w VInt_8-.Table
+		dc.w VInt_A_C-.Table
+		dc.w VInt_A_C-.Table
+		dc.w VInt_E-.Table
+		dc.w VInt_10-.Table
+		dc.w VInt_12-.Table
+		dc.w VInt_14-.Table
+		dc.w VInt_16-.Table
+		dc.w VInt_18-.Table
+		dc.w VInt_1A-.Table
+		dc.w VInt_1C-.Table
+		dc.w VInt_1E-.Table
 ; ---------------------------------------------------------------------------
 
 VInt_0:
@@ -60,20 +60,20 @@ VInt_0:
 
 		; branch if a level or demo is running
 		cmpi.b	#$88,(Game_mode).w
-		beq.s	.Level
+		beq.s	+ ;.Level
 		cmpi.b	#$8C,(Game_mode).w
-		beq.s	.Level
+		beq.s	+ ;.Level
 		cmpi.b	#8,(Game_mode).w
-		beq.s	.Level
+		beq.s	+ ;.Level
 		cmpi.b	#$C,(Game_mode).w
-		beq.s	.Level
+		beq.s	+ ;.Level
 		stopZ80
 		bsr.w	sndDriverInput
 		startZ80
-		bra.s	VInt_Done	; otherwise, return from V-int
+		bra.s	VInt.Done	; otherwise, return from V-int
 ; ---------------------------------------------------------------------------
 
-.Level:
++ ;.Level:
 		tst.b	(Water_flag).w
 		beq.w	.NoWater
 		move.w	(VDP_control_port).l,d0
@@ -86,19 +86,19 @@ VInt_0:
 		move.w	#1,(H_int_flag).w
 		stopZ80
 		tst.b	(Water_full_screen_flag).w
-		bne.s	.FullyUnderwater
+		bne.s	+ ;.FullyUnderwater
 		dma68kToVDP Normal_palette,$0000,$80,CRAM
-		bra.s	.Water_Cont
+		bra.s	++ ;.Water_Cont
 ; ---------------------------------------------------------------------------
 
-.FullyUnderwater:
++ ;.FullyUnderwater:
 		dma68kToVDP Water_palette,$0000,$80,CRAM
 
-.Water_Cont:
++ ;.Water_Cont:
 		move.w	(H_int_counter_command).w,(a5)
 		bsr.w	sndDriverInput
 		startZ80
-		bra.w	VInt_Done
+		bra.w	VInt.Done
 ; ---------------------------------------------------------------------------
 
 .NoWater:
@@ -139,7 +139,7 @@ VInt_0:
 .Done:
 		bsr.w	sndDriverInput
 		startZ80
-		bra.w	VInt_Done
+		bra.w	VInt.Done
 ; ---------------------------------------------------------------------------
 
 VInt_2:
@@ -157,13 +157,13 @@ VInt_2:
 VInt_14:
 		move.b	(V_int_run_count+3).w,d0
 		andi.w	#$F,d0
-		bne.s	loc_A76	; run the following code once every 16 frames
+		bne.s	+ ;loc_A76	; run the following code once every 16 frames
 
 		stopZ80
 		bsr.w	Poll_Controllers
 		startZ80
 
-loc_A76:
++ ;loc_A76:
 		tst.w	(Demo_timer).w
 		beq.w	.locret_A82
 		subq.w	#1,(Demo_timer).w
@@ -338,10 +338,10 @@ VInt_18:
 		dma68kToVDP H_scroll_buffer,$F000,$380,VRAM
 
 		bclr	#0,(_unkFA88).w
-		beq.s	loc_DEA
+		beq.s	+ ;loc_DEA
 		dma68kToVDP $FF2000,$C000,$2000,VRAM
 
-loc_DEA:
++ ;loc_DEA:
 		bsr.w	Process_DMA_Queue
 		bsr.w	sndDriverInput
 		startZ80
@@ -379,10 +379,10 @@ VInt_1C:
 		bsr.w	Do_ControllerPal
 		bsr.w	Update_SSMap
 		tst.w	(Demo_timer).w
-		beq.w	loc_EC6
+		beq.w	+ ;loc_EC6
 		subq.w	#1,(Demo_timer).w
 
-loc_EC6:
++ ;loc_EC6:
 		jmp	(Set_Kos_Bookmark).l
 ; ---------------------------------------------------------------------------
 
@@ -400,14 +400,14 @@ Do_ControllerPal:
 		stopZ80
 		bsr.w	Poll_Controllers
 		tst.b	(Water_full_screen_flag).w
-		bne.s	loc_F20
+		bne.s	+ ;loc_F20
 		dma68kToVDP Normal_palette,$0000,$80,CRAM
-		bra.s	loc_F44
+		bra.s	++ ;loc_F44
 
-loc_F20:
++ ;loc_F20:
 		dma68kToVDP Water_palette,$0000,$80,CRAM
 
-loc_F44:
++ ;loc_F44:
 		dma68kToVDP Sprite_table,$F800,$280,VRAM
 		dma68kToVDP H_scroll_buffer,$F000,$380,VRAM
 		bsr.w	Process_DMA_Queue

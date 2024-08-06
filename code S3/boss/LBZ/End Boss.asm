@@ -58,11 +58,11 @@ loc_504B4:
 
 loc_504CA:
 		btst	#7,$38(a0)
-		bne.s	loc_504D4
+		bne.s	+ ;loc_504D4
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_504D4:
++ ;loc_504D4:
 		move.b	#6,routine(a0)
 
 locret_504DA:
@@ -73,13 +73,13 @@ loc_504DC:
 		move.w	(Camera_max_X_pos).w,d0
 		subq.w	#1,d0
 		cmpi.w	#$39F0,d0
-		bls.s	loc_504F2
+		bls.s	+ ;loc_504F2
 		move.w	d0,(Camera_min_X_pos).w
 		move.w	d0,(Camera_max_X_pos).w
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_504F2:
++ ;loc_504F2:
 		move.b	#8,routine(a0)
 		moveq	#signextendB(sfx_Rising),d0
 		jsr	(Play_SFX).l
@@ -155,13 +155,13 @@ loc_505BA:
 		jsr	off_505E8(pc,d1.w)
 		jsr	Animate_Raw(pc)
 		btst	#7,status(a0)
-		bne.s	loc_505E4
+		bne.s	+ ;loc_505E4
 		movea.w	parent3(a0),a1
 		btst	#7,status(a1)
-		beq.s	loc_505E4
+		beq.s	+ ;loc_505E4
 		bsr.w	loc_50690
 
-loc_505E4:
++ ;loc_505E4:
 		jmp	Child_DrawTouch_Sprite(pc)
 ; ---------------------------------------------------------------------------
 off_505E8:
@@ -206,10 +206,10 @@ loc_50650:
 		jsr	ObjHitWall_DoRoutine(pc)
 		jsr	ObjHitFloor2_DoRoutine(pc)
 		tst.b	d3
-		beq.s	loc_50666
+		beq.s	+ ;loc_50666
 		addi.w	#$10,x_vel(a0)
 
-loc_50666:
++ ;loc_50666:
 		jsr	(MoveSprite2).l
 		move.w	x_vel(a0),d0
 		addi.w	#$200,d0
@@ -239,12 +239,12 @@ loc_506AC:
 		move.l	#Go_Delete_Sprite,$34(a0)
 		moveq	#0,d0
 		move.b	subtype(a0),d0
-		bne.s	loc_506DA
+		bne.s	+ ;loc_506DA
 		move.w	#-$200,y_vel(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_506DA:
++ ;loc_506DA:
 		subi.w	#$10,d0
 		add.w	d0,d0
 		neg.w	d0
@@ -293,12 +293,12 @@ loc_5072C:
 loc_50744:
 		movea.w	parent3(a0),a1
 		btst	#2,$38(a1)
-		beq.s	loc_50758
+		beq.s	+ ;loc_50758
 		move.b	#4,routine(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_50758:
++ ;loc_50758:
 		move.w	$2E(a0),d0
 		addq.w	#1,$2E(a0)
 		andi.w	#3,d0
@@ -309,11 +309,11 @@ loc_50758:
 loc_5076A:
 		movea.w	parent3(a0),a1
 		btst	#7,status(a1)
-		bne.s	loc_50778
+		bne.s	+ ;loc_50778
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_50778:
++ ;loc_50778:
 		lea	ChildObjDat_50C02(pc),a2
 		jmp	CreateChild1_Normal(pc)
 ; ---------------------------------------------------------------------------
@@ -367,11 +367,11 @@ locret_507F4:
 
 loc_507F6:
 		btst	#1,$38(a1)
-		bne.s	loc_50800
+		bne.s	+ ;loc_50800
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_50800:
++ ;loc_50800:
 		move.b	#4,routine(a0)
 		rts
 ; ---------------------------------------------------------------------------
@@ -379,11 +379,11 @@ loc_50800:
 loc_50808:
 		subq.b	#1,$3C(a0)
 		cmpi.b	#-$40,$3C(a0)
-		bls.s	loc_50816
+		bls.s	+ ;loc_50816
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_50816:
++ ;loc_50816:
 		move.b	#6,routine(a0)
 		move.w	#$80,$2E(a0)
 		move.l	#loc_50830,$34(a0)
@@ -401,11 +401,11 @@ loc_50830:
 
 loc_50838:
 		addq.b	#1,$3C(a0)
-		beq.s	loc_50840
+		beq.s	+ ;loc_50840
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_50840:
++ ;loc_50840:
 		move.b	#2,routine(a0)
 		bclr	#1,$38(a1)
 		rts
@@ -492,11 +492,11 @@ loc_5090C:
 loc_50914:
 		movea.w	parent3(a0),a1
 		btst	#7,$38(a1)
-		bne.s	loc_50922
+		bne.s	+ ;loc_50922
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_50922:
++ ;loc_50922:
 		move.b	#4,routine(a0)
 		move.b	#0,mapping_frame(a0)
 		move.l	#byte_50C7C,$30(a0)
@@ -506,18 +506,18 @@ loc_50922:
 loc_50938:
 		movea.w	parent3(a0),a1
 		btst	#6,status(a1)
-		bne.s	loc_50950
+		bne.s	+ ;loc_50950
 		btst	#7,status(a1)
-		bne.s	loc_50958
+		bne.s	++ ;loc_50958
 		jmp	Animate_Raw(pc)
 ; ---------------------------------------------------------------------------
 
-loc_50950:
++ ;loc_50950:
 		move.b	#2,mapping_frame(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_50958:
++ ;loc_50958:
 		move.b	#6,routine(a0)
 		move.b	#3,$22(a0)
 		rts
@@ -526,11 +526,11 @@ loc_50958:
 loc_50966:
 		movea.w	parent3(a0),a1
 		btst	#5,$38(a1)
-		bne.s	loc_50974
+		bne.s	+ ;loc_50974
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_50974:
++ ;loc_50974:
 		jmp	(Go_Delete_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -549,11 +549,11 @@ loc_5098A:
 		jsr	(SolidObjectFull).l
 		movea.w	parent3(a0),a1
 		btst	#4,$38(a1)
-		bne.s	loc_509AC
+		bne.s	+ ;loc_509AC
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_509AC:
++ ;loc_509AC:
 		jsr	Displace_PlayerOffObject(pc)
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
@@ -597,12 +597,12 @@ loc_50A14:
 		move.w	d0,d1
 		move.w	d0,d2
 		cmpi.b	#8,d0
-		blo.s	loc_50A30
+		blo.s	+ ;loc_50A30
 		move.b	#$B,mapping_frame(a0)
 		subi.w	#8,d2
 		move.w	d2,d1
 
-loc_50A30:
++ ;loc_50A30:
 		add.w	d0,d0
 		lea	word_50A46(pc,d0.w),a1
 		move.w	(a1)+,x_vel(a0)
@@ -644,22 +644,22 @@ sub_50A7A:
 		tst.b	collision_flags(a0)
 		bne.s	locret_50AD0
 		tst.b	collision_property(a0)
-		beq.s	loc_50AD2
+		beq.s	+++ ;loc_50AD2
 		tst.b	$20(a0)
-		bne.s	loc_50A9E
+		bne.s	+ ;loc_50A9E
 		move.b	#$20,$20(a0)
 		moveq	#signextendB(sfx_BossHit),d0
 		jsr	(Play_SFX).l
 
-loc_50A9E:
++ ;loc_50A9E:
 		bset	#6,status(a0)
 		lea	(Normal_palette_line_2+$16).w,a1
 		move.w	#$222,d0
 		btst	#0,$20(a0)
-		bne.s	loc_50AB8
+		bne.s	+ ;loc_50AB8
 		move.w	#$EEE,d0
 
-loc_50AB8:
++ ;loc_50AB8:
 		move.w	d0,(a1)
 		subq.b	#1,$20(a0)
 		bne.s	locret_50AD0
@@ -671,7 +671,7 @@ locret_50AD0:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_50AD2:
++ ;loc_50AD2:
 		move.l	#loc_5057E,(a0)
 		moveq	#100,d0
 		jsr	(HUD_AddToScore).l
@@ -683,10 +683,10 @@ loc_50AD2:
 		move.l	#loc_50594,$34(a0)
 		lea	(Child6_CreateBossExplosion).l,a2
 		jsr	CreateChild1_Normal(pc)
-		bne.s	loc_50B18
+		bne.s	+ ;loc_50B18
 		move.b	#4,subtype(a1)
 
-loc_50B18:
++ ;loc_50B18:
 		move.w	#$3AB8,(Camera_stored_max_X_pos).w
 		lea	Child6_IncLevX(pc),a2
 		jmp	CreateChild6_Simple(pc)
@@ -697,11 +697,11 @@ loc_50B18:
 loc_50B26:
 		movea.w	parent3(a0),a1
 		btst	#7,status(a1)
-		bne.s	loc_50B38
+		bne.s	+ ;loc_50B38
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_50B38:
++ ;loc_50B38:
 		move.l	#MoveChkDel,(a0)
 		bset	#7,status(a0)
 		move.w	#make_art_tile($425,1,1),art_tile(a0)

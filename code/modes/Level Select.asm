@@ -47,17 +47,17 @@ LevelSelect_S2Options:
 		; S3 only cleared 1600 bytes, to preserve the level icon emblem
 		move.w	#bytesToWcnt($28*$1C*2),d1	; This is the size of your usual decompressed plane map
 
-	.clearloop:
+-	;.clearloop:
 		move.w	#0,(a3)+
-		dbf	d1,.clearloop
+		dbf	d1,- ;.clearloop
 
 		; S3 would remove the one zone name that wasn't cleared: Oil Ocean
 		;lea	(RAM_start+planeLocH28(3,$15)).l,a3
 		;move.w	#bytesToWcnt($20),d1
 
-	;.loop:
+;-	;.loop:
 		;move.w	#0,(a3)+
-		;dbf	d1,.loop
+		;dbf	d1,- ;.loop
 
 		; Build new plane map from LevelSelectText and LevSel_MappingOffsets
 		save
@@ -69,32 +69,32 @@ LevelSelect_S2Options:
 		moveq	#0,d0
 		move.w	#$11-1,d1		; This is how many entries there are in LevelSelectText
 
-	.writezone:
+-	;.writezone:
 		move.w	(a5)+,d3	; Get relative address in plane map to write to
 		lea	(a3,d3.w),a2	; Get absolute address
 		moveq	#0,d2
 		move.b	(a1)+,d2	; Get length of string
 		move.w	d2,d3		; Store it
 
-	.writeletter:
+-	;.writeletter:
 		move.b	(a1)+,d0	; Get character from string
 		;ori.w	#make_art_tile($000,0,0),d0
 		move.w	d0,(a2)+	; Send it to plane map
-		dbf	d2,.writeletter	; Loop for entire string
+		dbf	d2,- ;.writeletter	; Loop for entire string
 
 		move.w	#$D,d2		; Maximum length of string
 		sub.w	d3,d2		; Get remaining space in string
 		bcs.s	.stringfull	; If there is none, skip ahead
 
-	.blankloop:
+-	;.blankloop:
 		move.w	#make_art_tile(' ',0,0),(a2)+	; Full the remaining space with blank characters
-		dbf	d2,.blankloop
+		dbf	d2,- ;.blankloop
 
 	.stringfull:
 		move.w	#make_art_tile('1',0,0),(a2)	; Write (act) '1'
 		lea	$28*2(a2),a2	; Next line
 		move.w	#make_art_tile('2',0,0),(a2)	; Write (act) '2'
-		dbf	d1,.writezone
+		dbf	d1,--- ;.writezone
 
 		; Assuming the last line was the sound test...
 		move.w	#make_art_tile(' ',0,0),(a2)	; Get rid of (act) '2'
@@ -136,10 +136,10 @@ LevelSelect_S2Options:
 		lea	(Target_palette_line_3).w,a2
 		moveq	#bytesToLcnt($20),d1
 
-loc_7BE4:
+- ;loc_7BE4:
 		move.l	(a1),(a2)+
 		clr.l	(a1)+
-		dbf	d1,loc_7BE4
+		dbf	d1,- ;loc_7BE4
 		moveq	#signextendB(mus_DataSelect),d0
 		jsr	(Play_Music).l
 		move.w	#(30*60)-1,(Demo_timer).w
@@ -186,18 +186,18 @@ LevelSelect_Main:	; routine running during level select
 		move.b	(Ctrl_1_pressed).w,d0
 		or.b	(Ctrl_2_pressed).w,d0
 		andi.b	#button_start_mask,d0
-		bne.s	LevelSelect_PressStart
+		bne.s	+ ;LevelSelect_PressStart
 		bra.w	LevelSelect_Main
 ; ---------------------------------------------------------------------------
 
-LevelSelect_PressStart:
++ ;LevelSelect_PressStart:
 		tst.w	(SK_alone_flag).w
-		beq.s	loc_7CA0
+		beq.s	+ ;loc_7CA0
 		cmpi.w	#3,(Player_option).w
-		bhs.s	loc_7CA0
+		bhs.s	+ ;loc_7CA0
 		move.w	#1,(Player_option).w
 
-loc_7CA0:
++ ;loc_7CA0:
 		move.w	(Player_option).w,(Player_mode).w
 		lea	LS_Level_Order(pc),a1
 		move.w	(Level_select_option).w,d0
@@ -281,9 +281,9 @@ LevelSelect_Return:
 
 LevelSelect_CheckKnuckles:
 		tst.w	(Debug_cheat_flag).w
-		bne.s	loc_7DBA
+		bne.s	+++ ;loc_7DBA
 		cmpi.w	#3,(Player_mode).w		; Are we Knuckles?
-		bne.s	LevelSelect_CheckSonicTails	; If not, branch
+		bne.s	+ ;LevelSelect_CheckSonicTails	; If not, branch
 		cmpi.w	#$A00,d0			; Is SSZ act 1 selected?
 		beq.s	LevelSelect_DenySelection	; If so, branch and deny entry
 		cmpi.w	#$C00,d0			; Is DDZ act 1 selected?
@@ -291,7 +291,7 @@ LevelSelect_CheckKnuckles:
 		cmpi.w	#$1600,d0			; Is LRZ act 3 selected?
 		beq.s	LevelSelect_DenySelection	; If so, branch and deny entry
 		cmpi.w	#$1700,d0			; Is DDZ act 2 selected?
-		bne.s	LevelSelect_CheckSonicTails	; If not, branch
+		bne.s	+ ;LevelSelect_CheckSonicTails	; If not, branch
 
 
 LevelSelect_DenySelection:
@@ -300,31 +300,31 @@ LevelSelect_DenySelection:
 		bra.w	LevelSelect_Main
 ; ---------------------------------------------------------------------------
 
-LevelSelect_CheckSonicTails:
++ ;LevelSelect_CheckSonicTails:
 		cmpi.w	#3,(Player_mode).w		; Are we Knuckles (any character with an ID of 3+)?
-		bhs.s	loc_7DAC			; If so, branch
+		bhs.s	+ ;loc_7DAC			; If so, branch
 		cmpi.w	#$A01,d0			; Is SSZ act 2 selected?
 		beq.s	LevelSelect_DenySelection	; If so, branch and deny entry
 
-loc_7DAC:
++ ;loc_7DAC:
 		cmpi.w	#2,(Player_mode).w		; Are we Tails?
-		bne.s	loc_7DBA			; If not, branch
+		bne.s	+ ;loc_7DBA			; If not, branch
 		cmpi.w	#$C00,d0			; Is DDZ act 1 selected?
 		beq.s	LevelSelect_DenySelection	; If so, branch and deny entry
 
-loc_7DBA:
++ ;loc_7DBA:
 		tst.w	(SK_alone_flag).w	; Are we playing S3K and not S&K?
-		beq.s	LevelSelect_StartZone	; If so, branch
+		beq.s	+ ;LevelSelect_StartZone	; If so, branch
 		; This here stops you from accessing S3 zones in S&K
 		move.w	d0,d1			; Load selection
 		move.b	#0,d1			; Eliminate act byte, leaving only the zone
 		cmpi.w	#$400,d1		; Is FBZ selected?
-		beq.s	LevelSelect_StartZone	; If so, branch
+		beq.s	+ ;LevelSelect_StartZone	; If so, branch
 		cmpi.w	#$700,d1		; Is any other S&K zone selected?
-		bhs.s	LevelSelect_StartZone	; If so, branch
+		bhs.s	+ ;LevelSelect_StartZone	; If so, branch
 		move.w	#$700,d0		; If any S3 zone is selected, force it to be MHZ
 
-LevelSelect_StartZone:
++ ;LevelSelect_StartZone:
 		andi.w	#$3FFF,d0
 		move.w	d0,(Current_zone_and_act).w
 		move.w	d0,(Apparent_zone_and_act).w
@@ -367,31 +367,31 @@ locret_7E62:
 LevSelControls:
 		move.b	(Ctrl_1_pressed).w,d1
 		andi.b	#button_up_mask|button_down_mask,d1
-		bne.s	loc_7E74	; up/down pressed
+		bne.s	+ ;loc_7E74	; up/down pressed
 		subq.w	#1,(Level_select_repeat).w
 		bpl.s	LevSelControls_CheckLR
 
-loc_7E74:
++ ;loc_7E74:
 		move.w	#$B,(Level_select_repeat).w
 		move.b	(Ctrl_1).w,d1
 		andi.b	#button_up_mask|button_down_mask,d1
 		beq.s	LevSelControls_CheckLR	; up/down not pressed, check for left & right
 		move.w	(Level_select_option).w,d0
 		btst	#button_up,d1
-		beq.s	loc_7E94
+		beq.s	+ ;loc_7E94
 		subq.w	#1,d0		; decrease by 1
-		bcc.s	loc_7E94	; >= 0?
+		bcc.s	+ ;loc_7E94	; >= 0?
 		moveq	#$20,d0		; set to $20
 
-loc_7E94:
++ ;loc_7E94:
 		btst	#button_down,d1
-		beq.s	loc_7EA4
+		beq.s	+ ;loc_7EA4
 		addq.w	#1,d0		; yes, add 1
 		cmpi.w	#$21,d0
-		blo.s	loc_7EA4	; smaller than $21?
+		blo.s	+ ;loc_7EA4	; smaller than $21?
 		moveq	#0,d0		; if not, set to 0
 
-loc_7EA4:
++ ;loc_7EA4:
 		move.w	d0,(Level_select_option).w
 		rts
 ; ---------------------------------------------------------------------------
@@ -402,33 +402,33 @@ LevSelControls_CheckLR:
 		move.w	(Sound_test_sound).w,d0
 		move.b	(Ctrl_1_pressed).w,d1
 		btst	#button_left,d1
-		beq.s	loc_7EC6
+		beq.s	+ ;loc_7EC6
 		subq.b	#1,d0
-		bcc.s	loc_7EC6
+		bcc.s	+ ;loc_7EC6
 		moveq	#0,d0
 
-loc_7EC6:
++ ;loc_7EC6:
 		btst	#button_right,d1
-		beq.s	loc_7ED6
+		beq.s	+ ;loc_7ED6
 		addq.b	#1,d0
 		cmpi.w	#$100,d0
-		blo.s	loc_7ED6
+		blo.s	+ ;loc_7ED6
 		moveq	#0,d0
 
-loc_7ED6:
++ ;loc_7ED6:
 		btst	#button_A,d1
-		beq.s	loc_7EE4
+		beq.s	+ ;loc_7EE4
 		addi.b	#$10,d0
 		andi.b	#$FF,d0
 
-loc_7EE4:
++ ;loc_7EE4:
 		move.w	d0,(Sound_test_sound).w
 		btst	#button_C,d1
-		beq.s	loc_7EF8
+		beq.s	+ ;loc_7EF8
 		move.w	(Sound_test_sound).w,d0
 		jsr	(Play_Music).l
 
-loc_7EF8:
++ ;loc_7EF8:
 		btst	#button_B,d1
 		beq.s	locret_7F06
 		moveq	#signextendB(mus_MutePSG),d0
@@ -441,12 +441,12 @@ locret_7F06:
 LevSelControls_SwitchSide:
 		move.b	(Ctrl_1_pressed).w,d1
 		andi.b	#button_left_mask|button_right_mask,d1
-		beq.s	loc_7F1E
+		beq.s	+ ;loc_7F1E
 		move.w	(Level_select_option).w,d0
 		move.b	LevelSelect_SwitchTable(pc,d0.w),d0
 		move.w	d0,(Level_select_option).w
 
-loc_7F1E:
++ ;loc_7F1E:
 		bra.s	LevelSelect_PickCharacterNumber
 ; ---------------------------------------------------------------------------
 		rts
@@ -533,15 +533,15 @@ LevelSelect_MarkFields:
 		move.l	d1,VDP_control_port-VDP_data_port(a6)
 		moveq	#$F-1,d2
 
-loc_7FB2:
+- ;loc_7FB2:
 		move.w	(a1)+,d0
 		add.w	d3,d0
 		move.w	d0,(a6)
-		dbf	d2,loc_7FB2
+		dbf	d2,- ;loc_7FB2
 		addq.w	#2,a3
 		moveq	#0,d0
 		move.b	(a3),d0
-		beq.s	loc_7FF6
+		beq.s	+ ;loc_7FF6
 		mulu.w	#$50,d0
 		moveq	#0,d1
 		move.b	1(a3),d1
@@ -561,7 +561,7 @@ loc_7FB2:
 		add.w	d3,d0
 		move.w	d0,(a6)
 
-loc_7FF6:
++ ;loc_7FF6:
 		cmpi.w	#$20,(Level_select_option).w
 		bne.s	LevelSelect_DrawCharacterNumber
 		bra.w	LevelSelect_DrawSoundNumber
@@ -584,16 +584,16 @@ LevelSelect_DrawSoundNumber:
 LevelSelect_DrawContinued:
 		move.b	d0,d2
 		lsr.b	#4,d0
-		bsr.s	sub_8028
+		bsr.s	+ ;sub_8028
 		move.b	d2,d0
 
-sub_8028:
++ ;sub_8028:
 		andi.w	#$F,d0
 		cmpi.b	#$A,d0
-		blo.s	loc_8036
+		blo.s	+ ;loc_8036
 		addi.b	#4,d0
 
-loc_8036:
++ ;loc_8036:
 		addi.b	#$10,d0
 		add.w	d3,d0
 		move.w	d0,(a6)

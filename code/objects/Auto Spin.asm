@@ -7,7 +7,7 @@ Obj_AutoSpin:
 		move.w	#$280,priority(a0)
 		move.b	subtype(a0),d0
 		btst	#2,d0
-		beq.s	loc_1E85C
+		beq.s	+++ ;loc_1E85C
 		andi.w	#7,d0
 		move.b	d0,mapping_frame(a0)
 		andi.w	#3,d0
@@ -16,16 +16,16 @@ Obj_AutoSpin:
 		move.w	y_pos(a0),d1
 		lea	(Player_1).w,a1
 		cmp.w	y_pos(a1),d1
-		bhs.s	loc_1E83A
+		bhs.s	+ ;loc_1E83A
 		move.b	#1,$34(a0)
 
-loc_1E83A:
++ ;loc_1E83A:
 		lea	(Player_2).w,a1
 		cmp.w	y_pos(a1),d1
-		bhs.s	loc_1E84A
+		bhs.s	+ ;loc_1E84A
 		move.b	#1,$35(a0)
 
-loc_1E84A:
++ ;loc_1E84A:
 		move.l	#loc_1E9E6,(a0)
 		bra.w	loc_1E9E6
 ; ---------------------------------------------------------------------------
@@ -33,7 +33,7 @@ word_1E854:
 		dc.w    $20,   $40,   $80,  $100
 ; ---------------------------------------------------------------------------
 
-loc_1E85C:
++ ;loc_1E85C:
 		andi.w	#3,d0
 		move.b	d0,mapping_frame(a0)
 		add.w	d0,d0
@@ -41,41 +41,41 @@ loc_1E85C:
 		move.w	x_pos(a0),d1
 		lea	(Player_1).w,a1
 		cmp.w	x_pos(a1),d1
-		bhs.s	loc_1E880
+		bhs.s	+ ;loc_1E880
 		move.b	#1,$34(a0)
 
-loc_1E880:
++ ;loc_1E880:
 		lea	(Player_2).w,a1
 		cmp.w	x_pos(a1),d1
-		bhs.s	loc_1E890
+		bhs.s	+ ;loc_1E890
 		move.b	#1,$35(a0)
 
-loc_1E890:
++ ;loc_1E890:
 		move.l	#loc_1E896,(a0)
 
 loc_1E896:
 		tst.w	(Debug_placement_mode).w
-		bne.s	loc_1E8C0
+		bne.s	++ ;loc_1E8C0
 		move.w	x_pos(a0),d1
 		lea	$34(a0),a2
 		lea	(Player_1).w,a1
-		bsr.s	sub_1E8C6
+		bsr.s	+++ ;sub_1E8C6
 		lea	(Player_2).w,a1
 		cmpi.w	#4,(Tails_CPU_routine).w
-		beq.w	loc_1E8BA
-		bsr.s	sub_1E8C6
+		beq.w	+ ;loc_1E8BA
+		bsr.s	+++ ;sub_1E8C6
 
-loc_1E8BA:
++ ;loc_1E8BA:
 		jmp	(Delete_Sprite_If_Not_In_Range).l
 ; ---------------------------------------------------------------------------
 
-loc_1E8C0:
++ ;loc_1E8C0:
 		jmp	(Sprite_OnScreen_Test).l
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_1E8C6:
++ ;sub_1E8C6:
 		tst.b	(a2)+
 		bne.s	loc_1E944
 		cmp.w	x_pos(a1),d1
@@ -92,26 +92,26 @@ sub_1E8C6:
 		cmp.w	d3,d4
 		bhs.w	locret_1E9B4
 		btst	#5,subtype(a0)
-		beq.s	loc_1E908
+		beq.s	+ ;loc_1E908
 		btst	#Status_InAir,status(a1)
 		bne.w	locret_1E9B4
 
-loc_1E908:
++ ;loc_1E908:
 		btst	#0,render_flags(a0)
-		bne.s	loc_1E934
+		bne.s	++ ;loc_1E934
 		btst	#4,subtype(a0)
-		bne.s	loc_1E930
+		bne.s	+ ;loc_1E930
 		move.w	#$580,ground_vel(a1)
 		move.b	#1,spin_dash_flag(a1)
 		tst.b	subtype(a0)
-		bpl.s	loc_1E930
+		bpl.s	+ ;loc_1E930
 		move.b	#$81,spin_dash_flag(a1)
 
-loc_1E930:
++ ;loc_1E930:
 		bra.w	loc_1E9B6
 ; ---------------------------------------------------------------------------
 
-loc_1E934:
++ ;loc_1E934:
 		btst	#4,subtype(a0)
 		bne.s	locret_1E9B4
 		move.b	#0,spin_dash_flag(a1)
@@ -139,20 +139,20 @@ loc_1E944:
 
 loc_1E97C:
 		btst	#0,render_flags(a0)
-		beq.s	loc_1E9A6
+		beq.s	++ ;loc_1E9A6
 		btst	#4,subtype(a0)
-		bne.s	loc_1E9A4
+		bne.s	+ ;loc_1E9A4
 		move.w	#-$580,ground_vel(a1)
 		move.b	#1,spin_dash_flag(a1)
 		tst.b	subtype(a0)
-		bpl.s	loc_1E9A4
+		bpl.s	+ ;loc_1E9A4
 		move.b	#$81,spin_dash_flag(a1)
 
-loc_1E9A4:
++ ;loc_1E9A4:
 		bra.s	loc_1E9B6
 ; ---------------------------------------------------------------------------
 
-loc_1E9A6:
++ ;loc_1E9A6:
 		btst	#4,subtype(a0)
 		bne.s	locret_1E9B4
 		move.b	#0,spin_dash_flag(a1)
@@ -163,11 +163,11 @@ locret_1E9B4:
 
 loc_1E9B6:
 		btst	#Status_Roll,status(a1)
-		beq.s	loc_1E9C0
+		beq.s	+ ;loc_1E9C0
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_1E9C0:
++ ;loc_1E9C0:
 		bset	#Status_Roll,status(a1)
 		move.b	#$E,y_radius(a1)
 		move.b	#7,x_radius(a1)
@@ -182,27 +182,27 @@ loc_1E9C0:
 
 loc_1E9E6:
 		tst.w	(Debug_placement_mode).w
-		bne.s	loc_1EA0E
+		bne.s	++ ;loc_1EA0E
 		move.w	y_pos(a0),d1
 		lea	$34(a0),a2
 		lea	(Player_1).w,a1
-		bsr.s	sub_1EA14
+		bsr.s	+++ ;sub_1EA14
 		lea	(Player_2).w,a1
 		cmpi.w	#4,(Tails_CPU_routine).w
-		beq.s	loc_1EA08
-		bsr.s	sub_1EA14
+		beq.s	+ ;loc_1EA08
+		bsr.s	+++ ;sub_1EA14
 
-loc_1EA08:
++ ;loc_1EA08:
 		jmp	(Delete_Sprite_If_Not_In_Range).l
 ; ---------------------------------------------------------------------------
 
-loc_1EA0E:
++ ;loc_1EA0E:
 		jmp	(Sprite_OnScreen_Test).l
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_1EA14:
++ ;sub_1EA14:
 		tst.b	(a2)+
 		bne.w	loc_1EAB0
 		cmp.w	y_pos(a1),d1
@@ -219,33 +219,33 @@ sub_1EA14:
 		cmp.w	d3,d4
 		bhs.w	locret_1EB30
 		btst	#5,subtype(a0)
-		beq.s	loc_1EA58
+		beq.s	+ ;loc_1EA58
 		btst	#1,status(a1)
 		bne.w	locret_1EB30
 
-loc_1EA58:
++ ;loc_1EA58:
 		btst	#0,render_flags(a0)
-		bne.s	loc_1EA9E
+		bne.s	+++ ;loc_1EA9E
 		btst	#4,subtype(a0)
-		bne.s	loc_1EA9A
+		bne.s	++ ;loc_1EA9A
 		move.b	#1,spin_dash_flag(a1)
 		tst.b	subtype(a0)
-		bpl.s	loc_1EA7A
+		bpl.s	+ ;loc_1EA7A
 		move.b	#$81,spin_dash_flag(a1)
 
-loc_1EA7A:
++ ;loc_1EA7A:
 		btst	#6,subtype(a0)
-		beq.s	loc_1EA9A
+		beq.s	+ ;loc_1EA9A
 		bclr	#Status_InAir,status(a1)
 		move.b	#$40,angle(a1)
 		move.w	y_vel(a1),ground_vel(a1)
 		move.w	#0,x_vel(a1)
 
-loc_1EA9A:
++ ;loc_1EA9A:
 		bra.w	loc_1E9B6
 ; ---------------------------------------------------------------------------
 
-loc_1EA9E:
++ ;loc_1EA9E:
 		btst	#4,subtype(a0)
 		bne.w	locret_1EB30
 		move.b	#0,spin_dash_flag(a1)
@@ -267,31 +267,31 @@ loc_1EAB0:
 		cmp.w	d3,d4
 		bhs.s	locret_1EB30
 		btst	#5,subtype(a0)
-		beq.s	loc_1EAE8
+		beq.s	+ ;loc_1EAE8
 		btst	#Status_InAir,status(a1)
 		bne.w	locret_1EB30
 
-loc_1EAE8:
++ ;loc_1EAE8:
 		btst	#0,render_flags(a0)
-		beq.s	loc_1EB22
+		beq.s	+++ ;loc_1EB22
 		btst	#4,subtype(a0)
-		bne.s	loc_1EB1E
+		bne.s	++ ;loc_1EB1E
 		move.b	#1,spin_dash_flag(a1)
 		tst.b	subtype(a0)
-		bpl.s	loc_1EB0A
+		bpl.s	+ ;loc_1EB0A
 		move.b	#$81,spin_dash_flag(a1)
 
-loc_1EB0A:
++ ;loc_1EB0A:
 		btst	#6,subtype(a0)
-		beq.s	loc_1EB1E
+		beq.s	+ ;loc_1EB1E
 		bclr	#Status_InAir,status(a1)
 		move.b	#$40,angle(a1)
 
-loc_1EB1E:
++ ;loc_1EB1E:
 		bra.w	loc_1E9B6
 ; ---------------------------------------------------------------------------
 
-loc_1EB22:
++ ;loc_1EB22:
 		btst	#4,subtype(a0)
 		bne.s	locret_1EB30
 		move.b	#0,spin_dash_flag(a1)

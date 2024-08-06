@@ -17,10 +17,10 @@ loc_8C746:
 		jsr	(SetUp_ObjAttributes).l
 		moveq	#-1,d0
 		btst	#0,render_flags(a0)
-		beq.s	loc_8C75C
+		beq.s	+ ;loc_8C75C
 		neg.w	d0
 
-loc_8C75C:
++ ;loc_8C75C:
 		move.w	d0,$40(a0)
 		move.b	subtype(a0),d0
 		move.b	d0,$2F(a0)
@@ -35,23 +35,23 @@ loc_8C780:
 		andi.w	#$3F,d0
 		move.w	d0,d1
 		andi.w	#$30,d1
-		bne.s	loc_8C796
+		bne.s	+ ;loc_8C796
 		ori.w	#$30,d0
 
-loc_8C796:
++ ;loc_8C796:
 		move.w	d0,$3A(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
 loc_8C79C:
 		subq.w	#1,$3A(a0)
-		bmi.s	loc_8C7AE
+		bmi.s	+ ;loc_8C7AE
 		move.w	$40(a0),d0
 		add.w	d0,x_pos(a0)
 		jmp	Obj_Wait(pc)
 ; ---------------------------------------------------------------------------
 
-loc_8C7AE:
++ ;loc_8C7AE:
 		move.b	#4,routine(a0)
 		bset	#1,$38(a0)
 		rts
@@ -66,11 +66,11 @@ loc_8C7BC:
 
 loc_8C7CC:
 		btst	#1,$38(a0)
-		beq.s	loc_8C7D6
+		beq.s	+ ;loc_8C7D6
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_8C7D6:
++ ;loc_8C7D6:
 		move.b	#2,routine(a0)
 		bra.s	loc_8C780
 ; ---------------------------------------------------------------------------
@@ -112,31 +112,31 @@ loc_8C82C:
 		tst.w	d2
 		bpl.s	locret_8C84E
 		cmpi.b	#4,$2F(a0)
-		beq.s	loc_8C850
+		beq.s	+ ;loc_8C850
 		cmpi.b	#5,$2F(a0)
-		beq.s	loc_8C864
+		beq.s	++ ;loc_8C864
 		cmpi.b	#6,$2F(a0)
-		beq.s	loc_8C878
+		beq.s	+++ ;loc_8C878
 
 locret_8C84E:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_8C850:
++ ;loc_8C850:
 		lea	ChildObjDat_8C916(pc),a2
 		jsr	(CreateChild1_Normal).l
 		move.l	#byte_8C933,$30(a1)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_8C864:
++ ;loc_8C864:
 		lea	ChildObjDat_8C91E(pc),a2
 		jsr	(CreateChild1_Normal).l
 		move.l	#byte_8C93C,$30(a1)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_8C878:
++ ;loc_8C878:
 		lea	ChildObjDat_8C926(pc),a2
 		jsr	(CreateChild1_Normal).l
 		move.l	#byte_8C945,$30(a1)

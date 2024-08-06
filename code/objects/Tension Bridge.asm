@@ -4,27 +4,27 @@ Obj_TensionBridge:
 		move.w	#make_art_tile($038,2,0),art_tile(a0)
 		move.w	#$200,priority(a0)
 		cmpi.b	#5,(Current_zone).w
-		bne.s	loc_386D0
+		bne.s	+ ;loc_386D0
 		move.l	#loc_38882,(a0)
 		move.l	#Map_ICZTensionBridge,mappings(a0)
 		move.w	#make_art_tile($3B6,2,0),art_tile(a0)
 		tst.b	subtype(a0)
-		bpl.s	loc_386D0
+		bpl.s	+ ;loc_386D0
 		move.l	#loc_38946,(a0)
 		andi.b	#$7F,subtype(a0)
 
-loc_386D0:
++ ;loc_386D0:
 		cmpi.b	#9,(Current_zone).w
-		bne.s	loc_386DE
+		bne.s	+ ;loc_386DE
 		move.w	#make_art_tile($113,3,1),art_tile(a0)
 
-loc_386DE:
++ ;loc_386DE:
 		tst.b	subtype(a0)
-		bpl.s	loc_386F0
+		bpl.s	+ ;loc_386F0
 		move.l	#loc_387B6,(a0)
 		andi.b	#$7F,subtype(a0)
 
-loc_386F0:
++ ;loc_386F0:
 		move.b	#4,render_flags(a0)
 		move.b	#$80,width_pixels(a0)
 		move.b	#8,height_pixels(a0)
@@ -47,7 +47,7 @@ loc_386F0:
 		move.l	a1,$30(a0)
 		swap	d1
 		subq.w	#8,d1
-		bls.s	loc_38752
+		bls.s	+ ;loc_38752
 		move.w	d1,d4
 		bsr.s	sub_38756
 		move.l	a1,$34(a0)
@@ -58,7 +58,7 @@ loc_386F0:
 		subq.w	#8,d0
 		move.w	d0,x_pos(a1)
 
-loc_38752:
++ ;loc_38752:
 		bra.w	loc_387E0
 
 ; =============== S U B R O U T I N E =======================================
@@ -81,12 +81,12 @@ sub_38756:
 		subq.b	#1,d1
 		lea	sub2_x_pos(a1),a2
 
-loc_387A4:
+- ;loc_387A4:
 		move.w	d3,(a2)+
 		move.w	d2,(a2)+
 		move.w	#0,(a2)+
 		addi.w	#$10,d3
-		dbf	d1,loc_387A4
+		dbf	d1,- ;loc_387A4
 
 locret_387B4:
 		rts
@@ -110,28 +110,28 @@ loc_387B6:
 loc_387E0:
 		move.b	status(a0),d0
 		andi.b	#standing_mask,d0
-		bne.s	loc_387F6
+		bne.s	+ ;loc_387F6
 		tst.b	$3E(a0)
 		beq.s	loc_38822
 		subq.b	#4,$3E(a0)
 		bra.s	loc_3881E
 ; ---------------------------------------------------------------------------
 
-loc_387F6:
++ ;loc_387F6:
 		andi.b	#$10,d0
-		beq.s	loc_38812
+		beq.s	++ ;loc_38812
 		move.b	$3F(a0),d0
 		sub.b	$3B(a0),d0
-		beq.s	loc_38812
-		bcc.s	loc_3880E
+		beq.s	++ ;loc_38812
+		bcc.s	+ ;loc_3880E
 		addq.b	#1,$3F(a0)
-		bra.s	loc_38812
+		bra.s	++ ;loc_38812
 ; ---------------------------------------------------------------------------
 
-loc_3880E:
++ ;loc_3880E:
 		subq.b	#1,$3F(a0)
 
-loc_38812:
++ ;loc_38812:
 		cmpi.b	#$40,$3E(a0)
 		beq.s	loc_3881E
 		addq.b	#4,$3E(a0)
@@ -155,25 +155,25 @@ loc_3883A:
 		andi.w	#$FF80,d0
 		sub.w	(Camera_X_pos_coarse_back).w,d0
 		cmpi.w	#$280,d0
-		bhi.s	loc_3884E
+		bhi.s	+ ;loc_3884E
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_3884E:
++ ;loc_3884E:
 		movea.l	$30(a0),a1
 		jsr	(Delete_Referenced_Sprite).l
 		cmpi.b	#8,subtype(a0)
-		bls.s	loc_3886A
+		bls.s	+ ;loc_3886A
 		movea.l	$34(a0),a1
 		jsr	(Delete_Referenced_Sprite).l
 
-loc_3886A:
++ ;loc_3886A:
 		move.w	respawn_addr(a0),d0
-		beq.s	loc_38876
+		beq.s	+ ;loc_38876
 		movea.w	d0,a2
 		bclr	#7,(a2)
 
-loc_38876:
++ ;loc_38876:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -184,28 +184,28 @@ loc_3887C:
 loc_38882:
 		move.b	status(a0),d0
 		andi.b	#standing_mask,d0
-		bne.s	loc_38898
+		bne.s	+ ;loc_38898
 		tst.b	$3E(a0)
 		beq.s	loc_388C4
 		subq.b	#4,$3E(a0)
 		bra.s	loc_388C0
 ; ---------------------------------------------------------------------------
 
-loc_38898:
++ ;loc_38898:
 		andi.b	#p2_standing,d0
-		beq.s	loc_388B4
+		beq.s	++ ;loc_388B4
 		move.b	$3F(a0),d0
 		sub.b	$3B(a0),d0
-		beq.s	loc_388B4
-		bcc.s	loc_388B0
+		beq.s	++ ;loc_388B4
+		bcc.s	+ ;loc_388B0
 		addq.b	#1,$3F(a0)
-		bra.s	loc_388B4
+		bra.s	++ ;loc_388B4
 ; ---------------------------------------------------------------------------
 
-loc_388B0:
++ ;loc_388B0:
 		subq.b	#1,$3F(a0)
 
-loc_388B4:
++ ;loc_388B4:
 		cmpi.b	#$40,$3E(a0)
 		beq.s	loc_388C0
 		addq.b	#4,$3E(a0)
@@ -229,42 +229,42 @@ loc_388C4:
 
 loc_388E4:
 		tst.b	$34(a0)
-		beq.s	loc_388F4
+		beq.s	+ ;loc_388F4
 		subq.b	#1,$34(a0)
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_388F4:
++ ;loc_388F4:
 		jsr	(MoveSprite).l
 		tst.b	render_flags(a0)
-		bpl.s	loc_38906
+		bpl.s	+ ;loc_38906
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_38906:
++ ;loc_38906:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
 loc_3890C:
 		tst.b	$34(a0)
-		beq.s	loc_38918
+		beq.s	+ ;loc_38918
 		subq.b	#1,$34(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_38918:
++ ;loc_38918:
 		bclr	#p1_standing_bit,status(a0)
-		beq.s	loc_3892C
+		beq.s	+ ;loc_3892C
 		bclr	#Status_OnObj,(Player_1+status).w
 		bset	#Status_InAir,(Player_1+status).w
 
-loc_3892C:
++ ;loc_3892C:
 		bclr	#p2_standing_bit,status(a0)
-		beq.s	loc_38940
+		beq.s	+ ;loc_38940
 		bclr	#Status_OnObj,(Player_2+status).w
 		bset	#Status_InAir,(Player_2+status).w
 
-loc_38940:
++ ;loc_38940:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -275,14 +275,14 @@ loc_38946:
 loc_38950:
 		move.b	status(a0),d0
 		andi.b	#standing_mask,d0
-		bne.s	loc_38966
+		bne.s	+ ;loc_38966
 		tst.b	$3E(a0)
 		beq.s	loc_389A8
 		subq.b	#4,$3E(a0)
 		bra.s	loc_389A4
 ; ---------------------------------------------------------------------------
 
-loc_38966:
++ ;loc_38966:
 		moveq	#0,d1
 		move.b	subtype(a0),d1
 		lsl.w	#3,d1
@@ -292,19 +292,19 @@ loc_38966:
 		bsr.w	sub_38BD8
 		move.b	status(a0),d0
 		andi.b	#p2_standing,d0
-		beq.s	loc_38998
+		beq.s	++ ;loc_38998
 		move.b	$3F(a0),d0
 		sub.b	$3B(a0),d0
-		beq.s	loc_38998
-		bcc.s	loc_38994
+		beq.s	++ ;loc_38998
+		bcc.s	+ ;loc_38994
 		addq.b	#1,$3F(a0)
-		bra.s	loc_38998
+		bra.s	++ ;loc_38998
 ; ---------------------------------------------------------------------------
 
-loc_38994:
++ ;loc_38994:
 		subq.b	#1,$3F(a0)
 
-loc_38998:
++ ;loc_38998:
 		cmpi.b	#$40,$3E(a0)
 		beq.s	loc_389A4
 		addq.b	#4,$3E(a0)
@@ -347,14 +347,14 @@ sub_389DE:
 		subq.w	#1,d6
 		bclr	#6,render_flags(a3)
 		movea.l	a3,a1
-		bra.s	loc_38A00
+		bra.s	+ ;loc_38A00
 ; ---------------------------------------------------------------------------
 
-loc_389F8:
+- ;loc_389F8:
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.s	loc_38A64
+		bne.s	++ ;loc_38A64
 
-loc_38A00:
++ ;loc_38A00:
 		move.l	d4,(a1)
 		move.l	mappings(a3),mappings(a1)
 		move.b	render_flags(a3),render_flags(a1)
@@ -370,14 +370,14 @@ loc_38A00:
 		move.b	(a4)+,$34(a1)
 		movea.l	a1,a5
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.s	loc_38A64
+		bne.s	+ ;loc_38A64
 		move.l	#loc_1E6EC,(a1)
 		move.w	x_pos(a5),x_pos(a1)
 		move.w	y_pos(a5),y_pos(a1)
 		move.b	-1(a4),$24(a1)
-		dbf	d6,loc_389F8
+		dbf	d6,- ;loc_389F8
 
-loc_38A64:
++ ;loc_38A64:
 		move.w	#0,sub2_x_pos(a3)
 		move.w	#0,sub2_y_pos(a3)
 		moveq	#signextendB(sfx_BridgeCollapse),d0
@@ -412,32 +412,32 @@ sub_38AA2:
 		btst	d6,status(a0)
 		beq.s	loc_38B06
 		btst	#Status_InAir,status(a1)
-		bne.s	loc_38AC2
+		bne.s	+ ;loc_38AC2
 		moveq	#0,d0
 		move.w	x_pos(a1),d0
 		sub.w	x_pos(a0),d0
 		add.w	d1,d0
-		bmi.s	loc_38AC2
+		bmi.s	+ ;loc_38AC2
 		cmp.w	d2,d0
-		blo.s	loc_38AD0
+		blo.s	++ ;loc_38AD0
 
-loc_38AC2:
++ ;loc_38AC2:
 		bclr	#Status_OnObj,status(a1)
 		bclr	d6,status(a0)
 		moveq	#0,d4
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_38AD0:
++ ;loc_38AD0:
 		lsr.w	#4,d0
 		move.b	d0,(a0,d5.w)
 		movea.l	$30(a0),a2
 		cmpi.w	#8,d0
-		blo.s	loc_38AE8
+		blo.s	+ ;loc_38AE8
 		movea.l	$34(a0),a2
 		subi.w	#8,d0
 
-loc_38AE8:
++ ;loc_38AE8:
 		add.w	d0,d0
 		move.w	d0,d1
 		add.w	d0,d0
@@ -493,31 +493,31 @@ sub_38B44:
 		btst	d6,status(a0)
 		beq.s	loc_38BA4
 		btst	#Status_InAir,status(a1)
-		bne.s	loc_38B64
+		bne.s	+ ;loc_38B64
 		moveq	#0,d0
 		move.w	x_pos(a1),d0
 		sub.w	x_pos(a0),d0
 		add.w	d1,d0
-		bmi.s	loc_38B64
+		bmi.s	+ ;loc_38B64
 		cmp.w	d2,d0
-		blo.s	loc_38B72
+		blo.s	++ ;loc_38B72
 
-loc_38B64:
++ ;loc_38B64:
 		bclr	#Status_OnObj,status(a1)
 		bclr	d6,status(a0)
 		moveq	#0,d4
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_38B72:
++ ;loc_38B72:
 		lsr.w	#4,d0
 		movea.l	$30(a0),a2
 		cmpi.w	#8,d0
-		blo.s	loc_38B86
+		blo.s	+ ;loc_38B86
 		movea.l	$34(a0),a2
 		subi.w	#8,d0
 
-loc_38B86:
++ ;loc_38B86:
 		add.w	d0,d0
 		move.w	d0,d1
 		add.w	d0,d0
@@ -615,22 +615,22 @@ sub_38C12:
 		moveq	#-2,d4
 		move.b	status(a0),d0
 		andi.w	#p1_standing,d0
-		beq.s	loc_38C3E
+		beq.s	+ ;loc_38C3E
 		tst.w	(Player_1+x_vel).w
-		beq.s	loc_38C3E
+		beq.s	+ ;loc_38C3E
 		move.b	$3F(a0),d0
 		bsr.w	sub_38C8E
 
-loc_38C3E:
++ ;loc_38C3E:
 		move.b	status(a0),d0
 		andi.w	#p2_standing,d0
-		beq.s	loc_38C56
+		beq.s	+ ;loc_38C56
 		tst.w	(Player_2+x_vel).w
-		beq.s	loc_38C56
+		beq.s	+ ;loc_38C56
 		move.b	$3B(a0),d0
 		bsr.w	sub_38C8E
 
-loc_38C56:
++ ;loc_38C56:
 		movea.l	$30(a0),a1
 		lea	$4D(a1),a2
 		lea	sub2_mapframe(a1),a1
@@ -638,23 +638,23 @@ loc_38C56:
 		move.b	subtype(a0),d1
 		subq.b	#1,d1
 
-loc_38C6A:
+- ;loc_38C6A:
 		tst.b	(a1)
-		beq.s	loc_38C7A
+		beq.s	+ ;loc_38C7A
 		addq.b	#1,(a1)
 		cmpi.b	#$C,(a1)
-		blo.s	loc_38C7A
+		blo.s	+ ;loc_38C7A
 		move.b	#0,(a1)
 
-loc_38C7A:
++ ;loc_38C7A:
 		addq.w	#next_subspr,a1
 		cmpa.w	a2,a1
-		bne.s	loc_38C88
+		bne.s	+ ;loc_38C88
 		movea.l	$34(a0),a1
 		lea	sub2_mapframe(a1),a1
 
-loc_38C88:
-		dbf	d1,loc_38C6A
++ ;loc_38C88:
+		dbf	d1,- ;loc_38C6A
 		rts
 ; End of function sub_38C12
 
@@ -664,7 +664,7 @@ loc_38C88:
 
 sub_38C8E:
 		cmpi.b	#8,d0
-		bhs.s	loc_38CAA
+		bhs.s	+ ;loc_38CAA
 		move.w	d0,d1
 		add.w	d0,d0
 		add.w	d1,d0
@@ -677,7 +677,7 @@ locret_38CA8:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_38CAA:
++ ;loc_38CAA:
 		subq.w	#8,d0
 		move.w	d0,d1
 		add.w	d0,d0
@@ -717,7 +717,7 @@ sub_38CC2:
 		lea	next_object(a1),a2
 		lea	sub2_y_pos(a1),a1
 
-loc_38D08:
+- ;loc_38D08:
 		moveq	#0,d0
 		move.b	(a3)+,d0
 		addq.w	#1,d0
@@ -728,12 +728,12 @@ loc_38D08:
 		move.w	d0,(a1)
 		addq.w	#next_subspr,a1
 		cmpa.w	a2,a1
-		bne.s	loc_38D28
+		bne.s	+ ;loc_38D28
 		movea.l	$34(a0),a1
 		lea	sub2_y_pos(a1),a1
 
-loc_38D28:
-		dbf	d2,loc_38D08
++ ;loc_38D28:
+		dbf	d2,- ;loc_38D08
 		moveq	#0,d0
 		move.b	subtype(a0),d0
 		moveq	#0,d3
@@ -749,7 +749,7 @@ loc_38D28:
 		subq.w	#1,d2
 		bcs.s	locret_38D72
 
-loc_38D4E:
+- ;loc_38D4E:
 		moveq	#0,d0
 		move.b	-(a3),d0
 		addq.w	#1,d0
@@ -760,12 +760,12 @@ loc_38D4E:
 		move.w	d0,(a1)
 		addq.w	#next_subspr,a1
 		cmpa.w	a2,a1
-		bne.s	loc_38D6E
+		bne.s	+ ;loc_38D6E
 		movea.l	$34(a0),a1
 		lea	sub2_y_pos(a1),a1
 
-loc_38D6E:
-		dbf	d2,loc_38D4E
++ ;loc_38D6E:
+		dbf	d2,- ;loc_38D4E
 
 locret_38D72:
 		rts
@@ -798,7 +798,7 @@ sub_38D74:
 		lea	next_object(a1),a2
 		lea	sub2_y_pos(a1),a1
 
-loc_38DBE:
+- ;loc_38DBE:
 		moveq	#0,d0
 		move.b	(a3)+,d0
 		addq.w	#1,d0
@@ -810,12 +810,12 @@ loc_38DBE:
 		move.w	d0,(a1)
 		addq.w	#next_subspr,a1
 		cmpa.w	a2,a1
-		bne.s	loc_38DDE
+		bne.s	+ ;loc_38DDE
 		movea.l	$34(a0),a1
 		lea	sub2_y_pos(a1),a1
 
-loc_38DDE:
-		dbf	d2,loc_38DBE
++ ;loc_38DDE:
+		dbf	d2,- ;loc_38DBE
 		moveq	#0,d0
 		move.b	subtype(a0),d0
 		moveq	#0,d3
@@ -831,7 +831,7 @@ loc_38DDE:
 		subq.w	#1,d2
 		bcs.s	locret_38E28
 
-loc_38E04:
+- ;loc_38E04:
 		moveq	#0,d0
 		move.b	-(a3),d0
 		addq.w	#1,d0
@@ -843,12 +843,12 @@ loc_38E04:
 		move.w	d0,(a1)
 		addq.w	#6,a1
 		cmpa.w	a2,a1
-		bne.s	loc_38E24
+		bne.s	+ ;loc_38E24
 		movea.l	$34(a0),a1
 		lea	sub2_y_pos(a1),a1
 
-loc_38E24:
-		dbf	d2,loc_38E04
++ ;loc_38E24:
+		dbf	d2,- ;loc_38E04
 
 locret_38E28:
 		rts

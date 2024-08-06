@@ -8,21 +8,21 @@ Obj_LRZDashElevator:
 		move.w	y_pos(a0),$46(a0)
 		moveq	#0,d1
 		move.b	subtype(a0),d0
-		bpl.s	loc_42F54
+		bpl.s	+ ;loc_42F54
 		moveq	#$20,d1
 		move.w	d1,$30(a0)
 
-loc_42F54:
++ ;loc_42F54:
 		andi.w	#$7F,d0
 		lsl.w	#3,d0
 		move.w	d0,$34(a0)
 		bclr	#0,status(a0)
-		beq.s	loc_42F72
+		beq.s	+ ;loc_42F72
 		move.w	d0,$30(a0)
 		sub.w	d1,$30(a0)
 		sub.w	d0,$46(a0)
 
-loc_42F72:
++ ;loc_42F72:
 		move.l	#loc_42F78,(a0)
 
 loc_42F78:
@@ -39,48 +39,48 @@ loc_42F78:
 		swap	d5
 		asr.l	#3,d5
 		add.l	d5,d0
-		bpl.s	loc_42FA4
+		bpl.s	+ ;loc_42FA4
 		moveq	#0,d0
 		moveq	#0,d5
 
-loc_42FA4:
++ ;loc_42FA4:
 		move.l	$34(a0),d1
 		cmp.l	d1,d0
-		blo.s	loc_42FB0
+		blo.s	+ ;loc_42FB0
 		move.l	d1,d0
 		moveq	#0,d5
 
-loc_42FB0:
++ ;loc_42FB0:
 		move.l	d0,$30(a0)
 		swap	d0
 		add.w	$46(a0),d0
 		move.w	d0,y_pos(a0)
 		move.b	(Level_frame_counter+1).w,d0
 		andi.b	#3,d0
-		bne.s	loc_43000
+		bne.s	+++ ;loc_43000
 		tst.l	d5
-		beq.s	loc_43000
-		bpl.s	loc_42FE2
+		beq.s	+++ ;loc_43000
+		bpl.s	+ ;loc_42FE2
 		addq.b	#1,mapping_frame(a0)
 		cmpi.b	#3,mapping_frame(a0)
-		blo.s	loc_42FEE
+		blo.s	++ ;loc_42FEE
 		move.b	#0,mapping_frame(a0)
-		bra.s	loc_42FEE
+		bra.s	++ ;loc_42FEE
 ; ---------------------------------------------------------------------------
 
-loc_42FE2:
++ ;loc_42FE2:
 		subq.b	#1,mapping_frame(a0)
-		bcc.s	loc_42FEE
+		bcc.s	+ ;loc_42FEE
 		move.b	#2,mapping_frame(a0)
 
-loc_42FEE:
++ ;loc_42FEE:
 		move.b	(Level_frame_counter+1).w,d0
 		andi.b	#$F,d0
-		bne.s	loc_43000
+		bne.s	+ ;loc_43000
 		moveq	#signextendB(sfx_ConveyorPlatform),d0
 		jsr	(Play_SFX).l
 
-loc_43000:
++ ;loc_43000:
 		move.w	#$2B,d1
 		move.w	#8,d2
 		move.w	#9,d3
@@ -93,7 +93,7 @@ loc_43000:
 
 sub_4301C:
 		tst.b	(a2)
-		bne.s	loc_4303A
+		bne.s	+ ;loc_4303A
 		btst	d6,status(a0)
 		beq.s	locret_43038
 		cmpi.b	#9,anim(a1)
@@ -105,47 +105,47 @@ locret_43038:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4303A:
++ ;loc_4303A:
 		btst	#Status_InAir,status(a1)
-		bne.s	loc_43052
+		bne.s	+ ;loc_43052
 		cmpi.b	#2,anim(a1)
-		beq.s	loc_4305E
+		beq.s	++ ;loc_4305E
 		cmpi.b	#9,anim(a1)
-		beq.s	loc_4305E
+		beq.s	++ ;loc_4305E
 
-loc_43052:
++ ;loc_43052:
 		move.w	#0,x_vel(a1)
 		move.b	#0,(a2)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4305E:
++ ;loc_4305E:
 		move.w	x_pos(a0),x_pos(a1)
 		move.w	ground_vel(a1),d0
-		beq.s	loc_43082
-		bpl.s	loc_43076
+		beq.s	+++ ;loc_43082
+		bpl.s	+ ;loc_43076
 		addi.w	#$40,d0
-		bcc.s	loc_4307E
+		bcc.s	++ ;loc_4307E
 		moveq	#0,d0
-		bra.s	loc_4307E
+		bra.s	++ ;loc_4307E
 ; ---------------------------------------------------------------------------
 
-loc_43076:
++ ;loc_43076:
 		subi.w	#$40,d0
-		bcc.s	loc_4307E
+		bcc.s	+ ;loc_4307E
 		moveq	#0,d0
 
-loc_4307E:
++ ;loc_4307E:
 		move.w	d0,ground_vel(a1)
 
-loc_43082:
++ ;loc_43082:
 		moveq	#8,d0
 		add.b	spin_dash_counter(a1),d0
 		btst	#Status_Facing,status(a1)
-		bne.s	loc_43092
+		bne.s	+ ;loc_43092
 		neg.w	d0
 
-loc_43092:
++ ;loc_43092:
 		add.w	d0,d5
 		rts
 ; End of function sub_4301C

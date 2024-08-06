@@ -21,11 +21,11 @@ loc_55748:
 loc_55750:
 		jsr	Find_SonicTails(pc)
 		cmpi.w	#$80,d2
-		blo.s	loc_5575C
+		blo.s	+ ;loc_5575C
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_5575C:
++ ;loc_5575C:
 		move.b	#4,routine(a0)
 		move.l	#byte_557F6,$30(a0)
 		move.l	#loc_5579E,$34(a0)

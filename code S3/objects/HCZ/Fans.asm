@@ -3,7 +3,7 @@ Obj_HCZCGZFan:
 		bne.w	loc_2F51C
 		movea.l	a0,a1
 		tst.b	subtype(a0)
-		bpl.s	loc_2EFE0
+		bpl.s	+ ;loc_2EFE0
 		jsr	(AllocateObjectAfterCurrent).l
 		bne.w	locret_2F02A
 		move.l	#loc_2F22E,(a0)
@@ -26,7 +26,7 @@ Obj_HCZCGZFan:
 		bclr	#5,subtype(a1)
 		bset	#4,subtype(a1)
 
-loc_2EFE0:
++ ;loc_2EFE0:
 		move.l	#Map_HCZFan,mappings(a1)
 		move.w	#make_art_tile($40B,1,0),art_tile(a1)
 		ori.b	#4,render_flags(a1)
@@ -50,65 +50,65 @@ locret_2F02A:
 loc_2F02C:
 		move.b	subtype(a0),d0
 		btst	#5,d0
-		beq.s	loc_2F04A
+		beq.s	+ ;loc_2F04A
 		tst.b	(Level_trigger_array).w
 		beq.w	loc_2F152
 		bclr	#5,subtype(a0)
 		bset	#4,subtype(a0)
 
-loc_2F04A:
++ ;loc_2F04A:
 		tst.b	$42(a0)
-		bne.s	loc_2F080
+		bne.s	++ ;loc_2F080
 		btst	#4,subtype(a0)
-		bne.s	loc_2F0A0
+		bne.s	+++ ;loc_2F0A0
 		subq.w	#1,$30(a0)
-		bpl.s	loc_2F078
+		bpl.s	+ ;loc_2F078
 		move.w	#0,$34(a0)
 		move.w	#2*60,$30(a0)
 		bchg	#0,$32(a0)
-		beq.s	loc_2F078
+		beq.s	+ ;loc_2F078
 		move.w	#3*60,$30(a0)
 
-loc_2F078:
++ ;loc_2F078:
 		tst.b	$32(a0)
-		beq.w	loc_2F0A0
+		beq.w	++ ;loc_2F0A0
 
-loc_2F080:
++ ;loc_2F080:
 		subq.b	#1,anim_frame_timer(a0)
 		bpl.w	loc_2F152
 		cmpi.w	#$400,$34(a0)
 		bhs.w	loc_2F152
 		addi.w	#$2A,$34(a0)
 		move.b	$34(a0),anim_frame_timer(a0)
-		bra.s	loc_2F0BE
+		bra.s	++ ;loc_2F0BE
 ; ---------------------------------------------------------------------------
 
-loc_2F0A0:
++ ;loc_2F0A0:
 		lea	(Player_1).w,a1
 		bsr.w	sub_2F15C
 		lea	(Player_2).w,a1
 		bsr.w	sub_2F15C
 		subq.b	#1,anim_frame_timer(a0)
-		bpl.w	loc_2F0D0
+		bpl.w	++ ;loc_2F0D0
 		move.b	#0,anim_frame_timer(a0)
 
-loc_2F0BE:
++ ;loc_2F0BE:
 		addq.b	#1,mapping_frame(a0)
 		cmpi.b	#5,mapping_frame(a0)
-		blo.s	loc_2F0D0
+		blo.s	+ ;loc_2F0D0
 		move.b	#0,mapping_frame(a0)
 
-loc_2F0D0:
++ ;loc_2F0D0:
 		tst.b	render_flags(a0)
-		bpl.s	loc_2F0EA
+		bpl.s	+ ;loc_2F0EA
 		move.b	(Level_frame_counter+1).w,d0
 		addq.b	#1,d0
 		andi.b	#$F,d0
-		bne.s	loc_2F0EA
+		bne.s	+ ;loc_2F0EA
 		moveq	#signextendB(sfx_FanSmall),d0
 		jsr	(Play_SFX).l
 
-loc_2F0EA:
++ ;loc_2F0EA:
 		btst	#6,subtype(a0)
 		beq.s	loc_2F152
 		move.b	(Level_frame_counter+1).w,d0
@@ -153,13 +153,13 @@ sub_2F15C:
 		cmp.w	$38(a0),d1
 		bhs.s	locret_2F1FA
 		tst.b	object_control(a1)
-		bne.s	loc_2F1FC
+		bne.s	++ ;loc_2F1FC
 		sub.w	$36(a0),d1
-		bcs.s	loc_2F1A4
+		bcs.s	+ ;loc_2F1A4
 		not.w	d1
 		add.w	d1,d1
 
-loc_2F1A4:
++ ;loc_2F1A4:
 		add.w	$36(a0),d1
 		neg.w	d1
 		asr.w	#6,d1
@@ -170,7 +170,7 @@ loc_2F1A4:
 		move.b	#0,double_jump_flag(a1)
 		move.b	#0,jumping(a1)
 		btst	#6,subtype(a0)
-		bne.s	loc_2F204
+		bne.s	++ ;loc_2F204
 		move.w	#1,ground_vel(a1)
 		tst.b	flip_angle(a1)
 		bne.s	locret_2F1FA
@@ -183,12 +183,12 @@ locret_2F1FA:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_2F1FC:
++ ;loc_2F1FC:
 		move.w	#1,ground_vel(a1)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_2F204:
++ ;loc_2F204:
 		move.w	#1,ground_vel(a1)
 		move.b	#$F,anim(a1)
 		rts
@@ -197,12 +197,12 @@ loc_2F204:
 loc_2F212:
 		move.w	(Water_level).w,d0
 		cmp.w	y_pos(a0),d0
-		bhs.s	loc_2F228
+		bhs.s	+ ;loc_2F228
 		jsr	(MoveSprite2).l
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_2F228:
++ ;loc_2F228:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -210,17 +210,17 @@ loc_2F22E:
 		movea.w	$3C(a0),a1
 		move.w	(Player_1+y_pos).w,d0
 		sub.w	y_pos(a0),d0
-		bcs.s	loc_2F26C
+		bcs.s	++ ;loc_2F26C
 		cmpi.w	#$20,d0
 		blt.s	loc_2F296
 		tst.b	$42(a1)
-		bne.s	loc_2F25C
+		bne.s	+ ;loc_2F25C
 		move.b	#1,$42(a1)
 		move.w	#0,$34(a1)
 		moveq	#signextendB(sfx_FanLatch),d0
 		jsr	(Play_SFX).l
 
-loc_2F25C:
++ ;loc_2F25C:
 		move.w	$3A(a0),d1
 		cmp.w	$30(a0),d1
 		beq.s	loc_2F296
@@ -228,17 +228,17 @@ loc_2F25C:
 		bra.s	loc_2F296
 ; ---------------------------------------------------------------------------
 
-loc_2F26C:
++ ;loc_2F26C:
 		cmpi.w	#-$30,d0
 		bge.s	loc_2F296
 		tst.b	$42(a1)
-		beq.s	loc_2F28C
+		beq.s	+ ;loc_2F28C
 		move.b	#0,$42(a1)
 		move.b	#0,anim_frame_timer(a1)
 		moveq	#signextendB(sfx_FanLatch),d0
 		jsr	(Play_SFX).l
 
-loc_2F28C:
++ ;loc_2F28C:
 		tst.w	$30(a0)
 		beq.s	loc_2F296
 		subq.w	#8,$30(a0)
@@ -246,10 +246,10 @@ loc_2F28C:
 loc_2F296:
 		move.w	$30(a0),d0
 		btst	#0,status(a0)
-		beq.s	loc_2F2A4
+		beq.s	+ ;loc_2F2A4
 		neg.w	d0
 
-loc_2F2A4:
++ ;loc_2F2A4:
 		add.w	$40(a0),d0
 		move.w	d0,x_pos(a0)
 		move.w	d0,x_pos(a1)
@@ -270,19 +270,19 @@ Obj_HCZLargeFan:
 		move.w	(Player_1+x_pos).w,d0
 		subi.w	#$20,d0
 		cmp.w	x_pos(a0),d0
-		blo.s	loc_2F2F8
+		blo.s	+ ;loc_2F2F8
 		move.w	(Player_1+y_pos).w,d0
 		subi.w	#$20,d0
 		sub.w	y_pos(a0),d0
 		cmpi.w	#$40,d0
-		blo.s	loc_2F304
+		blo.s	++ ;loc_2F304
 
-loc_2F2F8:
++ ;loc_2F2F8:
 		move.b	#3,(_unkF7C7).w
 		jmp	(Delete_Sprite_If_Not_In_Range).l
 ; ---------------------------------------------------------------------------
 
-loc_2F304:
++ ;loc_2F304:
 		lea	(ArtKosM_HCZLargeFan).l,a1
 		move.w	#tiles_to_bytes($500),d2
 		jsr	(Queue_Kos_Module).l
@@ -290,11 +290,11 @@ loc_2F304:
 
 loc_2F31A:
 		tst.b	(Kos_modules_left).w
-		beq.s	loc_2F322
+		beq.s	+ ;loc_2F322
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_2F322:
++ ;loc_2F322:
 		ori.b	#4,render_flags(a0)
 		move.w	#$200,priority(a0)
 		move.l	#Map_HCZLargeFan,mappings(a0)
@@ -308,29 +308,29 @@ loc_2F322:
 
 loc_2F35C:
 		tst.w	$30(a0)
-		beq.s	loc_2F372
+		beq.s	+ ;loc_2F372
 		addq.w	#8,y_pos(a0)
 		subq.w	#1,$30(a0)
-		bne.s	loc_2F372
+		bne.s	+ ;loc_2F372
 		move.b	#0,(_unkF7C7).w
 
-loc_2F372:
++ ;loc_2F372:
 		move.b	(Level_frame_counter+1).w,d0
 		andi.b	#$F,d0
-		bne.s	loc_2F384
+		bne.s	+ ;loc_2F384
 		moveq	#signextendB(sfx_FanBig),d0
 		jsr	(Play_SFX).l
 
-loc_2F384:
++ ;loc_2F384:
 		subq.b	#1,anim_frame_timer(a0)
-		bpl.w	loc_2F3A4
+		bpl.w	+ ;loc_2F3A4
 		move.b	#0,anim_frame_timer(a0)
 		addq.b	#1,mapping_frame(a0)
 		cmpi.b	#5,mapping_frame(a0)
-		blo.s	loc_2F3A4
+		blo.s	+ ;loc_2F3A4
 		move.b	#0,mapping_frame(a0)
 
-loc_2F3A4:
++ ;loc_2F3A4:
 		jmp	(Sprite_OnScreen_Test).l
 ; ---------------------------------------------------------------------------
 Map_HCZFan:

@@ -25,10 +25,10 @@ Obj_AIZDisappearingFloor:
 		add.w	d0,d0
 		move.w	word_2A232(pc,d0.w),$32(a0)
 		subq.w	#3,d2
-		bcc.s	loc_2A26C
+		bcc.s	+ ;loc_2A26C
 		moveq	#0,d2
 
-loc_2A26C:
++ ;loc_2A26C:
 		lsr.w	#4,d1
 		andi.w	#$F,d1
 		lsl.w	d2,d1
@@ -43,40 +43,40 @@ loc_2A26C:
 		move.w	(Level_frame_counter).w,d0
 		add.w	$34(a0),d0
 		and.w	$32(a0),d0
-		beq.s	loc_2A2D0
+		beq.s	+ ;loc_2A2D0
 		subi.w	#$C8,d0
-		bcc.s	loc_2A2D0
+		bcc.s	+ ;loc_2A2D0
 		neg.w	d0
 		move.b	d0,anim_frame_timer(a0)
 		move.b	#0,anim_frame(a0)
 		move.w	#(2<<8)|2,anim(a0)	; and prev_anim
 		move.b	#5,mapping_frame(a0)
 
-loc_2A2D0:
++ ;loc_2A2D0:
 		move.l	#loc_2A2D6,(a0)
 
 loc_2A2D6:
 		move.w	(Level_frame_counter).w,d0
 		add.w	$34(a0),d0
 		and.w	$32(a0),d0
-		bne.w	loc_2A300
+		bne.w	+ ;loc_2A300
 		move.w	#(1<<8)|0,anim(a0)	; and prev_anim
 		move.b	#0,$36(a0)
 		tst.b	render_flags(a0)
-		bpl.s	loc_2A300
+		bpl.s	+ ;loc_2A300
 		moveq	#signextendB(sfx_WaterfallSplash),d0
 		jsr	(Play_SFX).l
 
-loc_2A300:
++ ;loc_2A300:
 		lea	(Ani_AIZDisappearingFloor).l,a1
 		jsr	(Animate_SpriteIrregularDelay).l
 		cmpi.b	#5,mapping_frame(a0)
-		bne.s	loc_2A366
+		bne.s	+ ;loc_2A366
 		tst.b	$36(a0)
-		bne.s	loc_2A366
+		bne.s	+ ;loc_2A366
 		move.b	#1,$36(a0)
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_2A366
+		bne.w	+ ;loc_2A366
 		move.l	#loc_2A36C,(a1)
 		move.w	x_pos(a0),x_pos(a1)
 		move.w	y_pos(a0),y_pos(a1)
@@ -88,24 +88,24 @@ loc_2A300:
 		move.w	#$200,priority(a1)
 		move.w	a0,$3C(a1)
 
-loc_2A366:
++ ;loc_2A366:
 		jmp	(Sprite_OnScreen_Test).l
 ; ---------------------------------------------------------------------------
 
 loc_2A36C:
 		movea.w	$3C(a0),a1
 		cmpi.b	#3,mapping_frame(a1)
-		bne.s	loc_2A37E
+		bne.s	+ ;loc_2A37E
 		move.w	#$7FF0,x_pos(a0)
 
-loc_2A37E:
++ ;loc_2A37E:
 		subq.b	#1,anim_frame_timer(a0)
-		bpl.s	loc_2A394
+		bpl.s	+ ;loc_2A394
 		move.b	#3,anim_frame_timer(a0)
 		addq.b	#1,mapping_frame(a0)
 		andi.b	#3,mapping_frame(a0)
 
-loc_2A394:
++ ;loc_2A394:
 		move.w	#$2B,d1
 		move.w	#$18,d2
 		move.w	#$19,d3

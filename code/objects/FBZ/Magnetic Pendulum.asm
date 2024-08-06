@@ -7,30 +7,30 @@ Obj_FBZMagneticPendulum:
 		move.w	#make_art_tile($323,1,0),art_tile(a0)
 		move.l	#Map_FBZMagneticPendulum,mappings(a0)
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.s	loc_3D496
+		bne.s	+ ;loc_3D496
 		move.w	a1,$44(a0)
 		move.l	#loc_3D736,(a1)
 		move.w	x_pos(a0),$12(a1)
 		move.w	y_pos(a0),$16(a1)
 		move.w	a0,parent3(a1)
 
-loc_3D496:
++ ;loc_3D496:
 		moveq	#-$80,d0
 		tst.b	subtype(a0)
-		bpl.s	loc_3D4A8
+		bpl.s	+ ;loc_3D4A8
 		addi.w	#$40,d0
 		move.b	#1,mapping_frame(a0)
 
-loc_3D4A8:
++ ;loc_3D4A8:
 		move.w	respawn_addr(a0),d1
-		beq.s	loc_3D4BE
+		beq.s	+ ;loc_3D4BE
 		movea.w	d1,a1
 		btst	#0,(a1)
-		beq.s	loc_3D4BE
+		beq.s	+ ;loc_3D4BE
 		st	$2E(a0)
 		addi.w	#$80,d0
 
-loc_3D4BE:
++ ;loc_3D4BE:
 		move.b	d0,angle(a0)
 
 loc_3D4C2:
@@ -40,29 +40,29 @@ loc_3D4C2:
 		cmpi.w	#$280,d0
 		bls.s	loc_3D506
 		move.w	$44(a0),d0
-		beq.s	loc_3D4E0
+		beq.s	+ ;loc_3D4E0
 		movea.w	d0,a1
 		st	routine(a1)
 
-loc_3D4E0:
++ ;loc_3D4E0:
 		move.w	respawn_addr(a0),d0
-		beq.s	loc_3D500
+		beq.s	+++ ;loc_3D500
 		movea.w	d0,a1
 		move.b	angle(a0),d0
 		tst.b	subtype(a0)
-		bmi.s	loc_3D4F6
+		bmi.s	+ ;loc_3D4F6
 		addi.b	#$40,d0
 
-loc_3D4F6:
++ ;loc_3D4F6:
 		moveq	#0,d1
 		tst.b	d0
-		bmi.s	loc_3D4FE
+		bmi.s	+ ;loc_3D4FE
 		moveq	#1,d1
 
-loc_3D4FE:
++ ;loc_3D4FE:
 		move.b	d1,(a1)
 
-loc_3D500:
++ ;loc_3D500:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -70,7 +70,7 @@ loc_3D506:
 		lea	(Player_1).w,a2
 		tst.b	$2F(a0)
 		beq.w	loc_3D730
-		bmi.s	loc_3D542
+		bmi.s	+ ;loc_3D542
 		move.w	x_vel(a2),d0
 		ext.l	d0
 		lsl.l	#8,d0
@@ -86,22 +86,22 @@ loc_3D506:
 		bra.w	loc_3D730
 ; ---------------------------------------------------------------------------
 
-loc_3D542:
++ ;loc_3D542:
 		move.w	$30(a0),d0
 		add.w	d0,angle(a0)
 		moveq	#6,d1
 		move.b	angle(a0),d0
 		subi.b	#$40,d0
-		bmi.s	loc_3D558
+		bmi.s	+ ;loc_3D558
 		neg.w	d1
 
-loc_3D558:
++ ;loc_3D558:
 		add.w	d1,$30(a0)
 		move.b	angle(a0),d0
 		tst.b	subtype(a0)
-		bpl.s	loc_3D594
+		bpl.s	++ ;loc_3D594
 		tst.w	$30(a0)
-		bpl.s	loc_3D580
+		bpl.s	+ ;loc_3D580
 		tst.b	d0
 		bpl.w	loc_3D640
 		cmpi.b	#-$40,d0
@@ -111,7 +111,7 @@ loc_3D558:
 		bra.s	loc_3D5C4
 ; ---------------------------------------------------------------------------
 
-loc_3D580:
++ ;loc_3D580:
 		tst.b	d0
 		bmi.w	loc_3D640
 		cmpi.b	#$40,d0
@@ -121,10 +121,10 @@ loc_3D580:
 		bra.s	loc_3D5C4
 ; ---------------------------------------------------------------------------
 
-loc_3D594:
++ ;loc_3D594:
 		addi.b	#$40,d0
 		tst.w	$30(a0)
-		bpl.s	loc_3D5B2
+		bpl.s	+ ;loc_3D5B2
 		tst.b	d0
 		bpl.w	loc_3D640
 		cmpi.b	#-$40,d0
@@ -134,7 +134,7 @@ loc_3D594:
 		bra.s	loc_3D5C4
 ; ---------------------------------------------------------------------------
 
-loc_3D5B2:
++ ;loc_3D5B2:
 		tst.b	d0
 		bmi.w	loc_3D640
 		cmpi.b	#$40,d0
@@ -155,44 +155,44 @@ loc_3D5C4:
 		move.b	#1,$2F(a0)
 		moveq	#0,d0
 		move.w	$30(a0),d0
-		bpl.s	loc_3D5F8
+		bpl.s	+ ;loc_3D5F8
 		neg.w	d0
 
-loc_3D5F8:
++ ;loc_3D5F8:
 		lsl.l	#8,d0
 		divu.w	#$51,d0
 		cmpi.w	#$100,d0
-		bhs.s	loc_3D608
+		bhs.s	+ ;loc_3D608
 		move.w	#$100,d0
 
-loc_3D608:
++ ;loc_3D608:
 		tst.b	subtype(a0)
-		bpl.s	loc_3D628
+		bpl.s	+ ;loc_3D628
 		clr.w	y_vel(a2)
 		neg.w	d0
 		move.w	d0,x_vel(a2)
 		move.w	d0,ground_vel(a2)
 		tst.b	angle(a0)
-		bmi.s	loc_3D648
+		bmi.s	++ ;loc_3D648
 		neg.w	ground_vel(a2)
-		bra.s	loc_3D648
+		bra.s	++ ;loc_3D648
 ; ---------------------------------------------------------------------------
 
-loc_3D628:
++ ;loc_3D628:
 		clr.w	x_vel(a2)
 		move.w	d0,y_vel(a2)
 		move.w	d0,ground_vel(a2)
 		tst.b	angle(a0)
-		bpl.s	loc_3D648
+		bpl.s	+ ;loc_3D648
 		neg.w	ground_vel(a2)
-		bra.s	loc_3D648
+		bra.s	+ ;loc_3D648
 ; ---------------------------------------------------------------------------
 
 loc_3D640:
 		tst.b	$32(a0)
 		beq.w	loc_3D730
 
-loc_3D648:
++ ;loc_3D648:
 		move.b	angle(a0),d0
 		jsr	(GetSineCosine).l
 		swap	d1
@@ -208,21 +208,21 @@ loc_3D648:
 		asr.l	#3,d2
 		add.l	d2,d0
 		btst	#Status_Roll,status(a2)
-		bne.s	loc_3D67C
+		bne.s	+ ;loc_3D67C
 		asr.l	#2,d3
 		add.l	d3,d1
 		asr.l	#2,d2
 		add.l	d2,d0
-		bra.s	loc_3D684
+		bra.s	++ ;loc_3D684
 ; ---------------------------------------------------------------------------
 
-loc_3D67C:
++ ;loc_3D67C:
 		asr.l	#4,d3
 		sub.l	d3,d1
 		asr.l	#4,d2
 		sub.l	d2,d0
 
-loc_3D684:
++ ;loc_3D684:
 		swap	d1
 		add.w	x_pos(a0),d1
 		move.w	d1,x_pos(a2)
@@ -238,11 +238,11 @@ loc_3D684:
 		addi.b	#$40,d0
 		jsr	(GetSineCosine).l
 		tst.w	$30(a0)
-		bpl.s	loc_3D6C4
+		bpl.s	+ ;loc_3D6C4
 		neg.w	d1
 		neg.w	d0
 
-loc_3D6C4:
++ ;loc_3D6C4:
 		move.w	d1,x_vel(a2)
 		move.w	d0,y_vel(a2)
 		move.b	(Ctrl_1_pressed_logical).w,d0
@@ -294,17 +294,17 @@ loc_3D736:
 
 loc_3D78C:
 		tst.b	routine(a0)
-		beq.s	loc_3D7A4
+		beq.s	++ ;loc_3D7A4
 		move.w	$44(a0),d0
-		beq.s	loc_3D79E
+		beq.s	+ ;loc_3D79E
 		movea.w	d0,a1
 		st	routine(a1)
 
-loc_3D79E:
++ ;loc_3D79E:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_3D7A4:
++ ;loc_3D7A4:
 		movea.w	parent3(a0),a1
 		move.b	angle(a1),d0
 		jsr	(GetSineCosine).l
@@ -336,7 +336,7 @@ loc_3D7A4:
 		tst.w	(Debug_placement_mode).w
 		bne.w	loc_3D902
 		tst.b	subtype(a1)
-		bpl.s	loc_3D87A
+		bpl.s	+++ ;loc_3D87A
 		tst.w	x_vel(a2)
 		bmi.w	loc_3D902
 		move.w	x_pos(a0),d0
@@ -349,24 +349,24 @@ loc_3D7A4:
 		moveq	#$1D,d0
 		moveq	#$21,d1
 		btst	#Status_Roll,status(a2)
-		bne.s	loc_3D848
+		bne.s	+ ;loc_3D848
 		moveq	#$22,d0
 		moveq	#$26,d1
 		cmpi.w	#2,(Player_mode).w
-		bne.s	loc_3D848
+		bne.s	+ ;loc_3D848
 		moveq	#$1E,d0
 		moveq	#$22,d1
 
-loc_3D848:
++ ;loc_3D848:
 		tst.b	$2E(a1)
-		beq.s	loc_3D858
+		beq.s	+ ;loc_3D858
 		subq.w	#1,d0
 		neg.w	d0
 		subq.w	#1,d1
 		neg.w	d1
 		exg	d0,d1
 
-loc_3D858:
++ ;loc_3D858:
 		move.w	y_pos(a0),d2
 		sub.w	d0,d2
 		cmp.w	y_pos(a2),d2
@@ -379,7 +379,7 @@ loc_3D858:
 		bra.s	loc_3D8E2
 ; ---------------------------------------------------------------------------
 
-loc_3D87A:
++ ;loc_3D87A:
 		tst.w	y_vel(a2)
 		bpl.w	loc_3D902
 		move.w	y_pos(a0),d0
@@ -392,24 +392,24 @@ loc_3D87A:
 		moveq	#$1D,d0
 		moveq	#$21,d1
 		btst	#Status_Roll,status(a2)
-		bne.s	loc_3D8B4
+		bne.s	+ ;loc_3D8B4
 		moveq	#$22,d0
 		moveq	#$26,d1
 		cmpi.w	#2,(Player_mode).w
-		bne.s	loc_3D8B4
+		bne.s	+ ;loc_3D8B4
 		moveq	#$1E,d0
 		moveq	#$22,d1
 
-loc_3D8B4:
++ ;loc_3D8B4:
 		tst.b	$2E(a1)
-		beq.s	loc_3D8C4
+		beq.s	+ ;loc_3D8C4
 		subq.w	#1,d0
 		neg.w	d0
 		subq.w	#1,d1
 		neg.w	d1
 		exg	d0,d1
 
-loc_3D8C4:
++ ;loc_3D8C4:
 		move.w	x_pos(a0),d2
 		sub.w	d0,d2
 		cmp.w	x_pos(a2),d2
@@ -425,10 +425,10 @@ loc_3D8E2:
 		mulu.w	#$51,d0
 		lsr.l	#8,d0
 		tst.b	$2E(a1)
-		beq.s	loc_3D8F0
+		beq.s	+ ;loc_3D8F0
 		neg.w	d0
 
-loc_3D8F0:
++ ;loc_3D8F0:
 		st	$2F(a1)
 		move.w	d0,$30(a1)
 		st	$32(a1)
@@ -450,11 +450,11 @@ loc_3D908:
 
 loc_3D93A:
 		tst.b	routine(a0)
-		beq.s	loc_3D946
+		beq.s	+ ;loc_3D946
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_3D946:
++ ;loc_3D946:
 		movea.w	parent3(a0),a1
 		move.w	x_pos(a0),d3
 		swap	d3
@@ -485,7 +485,7 @@ loc_3D946:
 		lea	sub2_x_pos(a0),a1
 		moveq	#5-1,d4
 
-loc_3D98E:
+- ;loc_3D98E:
 		swap	d3
 		swap	d2
 		move.w	d3,(a1)+
@@ -496,7 +496,7 @@ loc_3D98E:
 		swap	d2
 		add.l	d1,d3
 		add.l	d0,d2
-		dbf	d4,loc_3D98E
+		dbf	d4,- ;loc_3D98E
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 Map_FBZMagneticPendulum:

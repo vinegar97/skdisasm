@@ -65,71 +65,71 @@ EntryPoint:
 		tst.w	(HW_Expansion_Control-1).l
 
 +
-		bne.s	Init_SkipPowerOn	; in case of a soft reset
+		bne.s	++ ;Init_SkipPowerOn	; in case of a soft reset
 		lea	SetupValues(pc),a5
 		movem.w	(a5)+,d5-d7
 		movem.l	(a5)+,a0-a4
 		move.b	HW_Version-Z80_bus_request(a1),d0	; get hardware version
 		andi.b	#$F,d0
-		beq.s	SkipSecurity	; branch if hardware is older than Genesis III
+		beq.s	+ ;SkipSecurity	; branch if hardware is older than Genesis III
 		move.l	#'SEGA',Security_addr-Z80_bus_request(a1)	; satisfy the TMSS
 
-SkipSecurity:
++ ;SkipSecurity:
 		move.w	(a4),d0	; check if VDP works
 		moveq	#0,d0
 		movea.l	d0,a6
 		move.l	a6,usp	; set usp to $0
 		moveq	#VDPInitValues.End-VDPInitValues-1,d1
 
-Init_VDPRegs:
+- ;Init_VDPRegs:
 		move.b	(a5)+,d5
 		move.w	d5,(a4)
 		add.w	d7,d5
-		dbf	d1,Init_VDPRegs	; set all 24 registers
+		dbf	d1,- ;Init_VDPRegs	; set all 24 registers
 
 		move.l	(a5)+,(a4)	; set VRAM write mode
 		move.w	d0,(a3)	; clear the screen
 		move.w	d7,(a1)	; stop the Z80
 		move.w	d7,(a2)	; reset the Z80
 
-WaitForZ80:
+- ;WaitForZ80:
 		btst	d0,(a1)	; has the Z80 stopped?
-		bne.s	WaitForZ80	; if not, branch
+		bne.s	- ;WaitForZ80	; if not, branch
 		moveq	#Z80StartupCodeEnd-Z80StartupCodeBegin-1,d2
 
-Init_SoundRAM:
+- ;Init_SoundRAM:
 		move.b	(a5)+,(a0)+
-		dbf	d2,Init_SoundRAM
+		dbf	d2,- ;Init_SoundRAM
 		move.w	d0,(a2)
 		move.w	d0,(a1)	; start the Z80
 		move.w	d7,(a2)	; reset the Z80
 
-Init_ClearRAM:
+- ;Init_ClearRAM:
 		move.l	d0,-(a6)		; Clear normal RAM
-		dbf	d6,Init_ClearRAM
+		dbf	d6,- ;Init_ClearRAM
 		move.l	(a5)+,(a4)	; set VDP display mode and increment
 		move.l	(a5)+,(a4)	; set VDP to CRAM write
 		moveq	#bytesToLcnt($80),d3
 
-Init_ClearCRAM:
+- ;Init_ClearCRAM:
 		move.l	d0,(a3)			; Clear CRAM
-		dbf	d3,Init_ClearCRAM
+		dbf	d3,- ;Init_ClearCRAM
 		move.l	(a5)+,(a4)
 		moveq	#bytesToLcnt($50),d4
 
-Init_ClearVSRAM:
+- ;Init_ClearVSRAM:
 		move.l	d0,(a3)			; Clear VSRAM
-		dbf	d4,Init_ClearVSRAM
+		dbf	d4,- ;Init_ClearVSRAM
 		moveq	#PSGInitValues.End-PSGInitValues-1,d5
 
-Init_InputPSG:
+- ;Init_InputPSG:
 		move.b	(a5)+,PSG_input-VDP_data_port(a3)	; reset the PSG
-		dbf	d5,Init_InputPSG
+		dbf	d5,- ;Init_InputPSG
 		move.w	d0,(a2)
 		movem.l	(a6),d0-a6	; clear all registers
 		move	#$2700,sr	; set the sr
 
-Init_SkipPowerOn:
++ ;Init_SkipPowerOn:
 		bra.s	Test_LockOn
 ; ---------------------------------------------------------------------------
 SetupValues:
@@ -280,12 +280,12 @@ $$compareChars:
 $$matchingChar:
 		dbf	d2,$$compareChars
 		tst.b	d3
-		beq.s	S2orS3LockedOn
+		beq.s	+ ;S2orS3LockedOn
 		dbf	d1,$$compareSerials
 		bra.s	BlueSpheresStartup
 ; ---------------------------------------------------------------------------
 
-S2orS3LockedOn:
++ ;S2orS3LockedOn:
 		tst.w	d1
 		beq.w	SonicAndKnucklesStartup
 		move.b	#1,(SRAM_access_flag).l
@@ -325,7 +325,7 @@ Test_Checksum:
 		btst	#6,(HW_Expansion_Control).l
 		beq.s	+
 		cmpi.l	#Ref_Checksum_String,(Checksum_string).w
-		beq.w	Test_Checksum_Done
+		beq.w	.Done
 
 +
 		movea.l	#ErrorTrap,a6
@@ -350,7 +350,7 @@ Test_Checksum:
 		move.b	d6,(Graphics_flags).w
 		move.l	#Ref_Checksum_String,(Checksum_string).w
 
-Test_Checksum_Done:
+.Done:
 		rts
 ; End of function Test_Checksum
 
@@ -367,11 +367,12 @@ SonicAndKnucklesStartup:
 		move.b	#0,(Game_mode).w
 
 GameLoop:
+-
 		move.b	(Game_mode).w,d0
 		andi.w	#$7C,d0
 		movea.l	.Modes(pc,d0.w),a0
 		jsr	(a0)
-		bra.s	GameLoop
+		bra.s	- ;GameLoop
 ; ---------------------------------------------------------------------------
 ;GameModes:
 .Modes:
@@ -410,11 +411,11 @@ ChecksumError2:
 		bsr.w	Init_VDP
 		move.l	(sp)+,d1
 
-.Loop:
+- ;.Loop:
 		move.l	#vdpComm($0000,CRAM,WRITE),(VDP_control_port).l
 		move.w	d7,(VDP_data_port).l
 		addq.w	#1,d7
-		bra.s	.Loop
+		bra.s	- ;.Loop
 ; ---------------------------------------------------------------------------
 ; unused/dead code
 
@@ -422,12 +423,12 @@ ChecksumError:
 		move.l	#vdpComm($0000,CRAM,WRITE),(VDP_control_port).l
 		moveq	#bytesToWcnt($80),d7
 
-.loop:
+- ;.loop:
 		move.w	#$E,(VDP_data_port).l
-		dbf	d7,.loop	; fill entire CRAM with red
+		dbf	d7,- ;.loop	; fill entire CRAM with red
 
-ChecksumError_Loop:
-		bra.s	ChecksumError_Loop
+;ChecksumError_Loop:
+		bra.s	* ;ChecksumError_Loop
 
 ; =============== S U B R O U T I N E =======================================
 

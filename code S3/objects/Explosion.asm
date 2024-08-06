@@ -39,13 +39,13 @@ loc_1C24C:
 
 loc_1C2A0:
 		subq.b	#1,anim_frame_timer(a0)
-		bpl.s	loc_1C2BA
+		bpl.s	+ ;loc_1C2BA
 		move.b	#7,anim_frame_timer(a0)
 		addq.b	#1,mapping_frame(a0)
 		cmpi.b	#5,mapping_frame(a0)
 		beq.w	Delete_Current_Sprite
 
-loc_1C2BA:
++ ;loc_1C2BA:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -63,13 +63,13 @@ Obj_FireShield_Dissipate:
 loc_1C2F8:
 		jsr	(MoveSprite2).l
 		subq.b	#1,anim_frame_timer(a0)
-		bpl.s	loc_1C318
+		bpl.s	+ ;loc_1C318
 		move.b	#3,anim_frame_timer(a0)
 		addq.b	#1,mapping_frame(a0)
 		cmpi.b	#5,mapping_frame(a0)
 		beq.w	Delete_Current_Sprite
 
-loc_1C318:
++ ;loc_1C318:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -85,24 +85,24 @@ loc_1C31E:
 
 loc_1C350:
 		subq.b	#1,anim_frame_timer(a0)
-		bmi.s	loc_1C358
+		bmi.s	+ ;loc_1C358
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_1C358:
++ ;loc_1C358:
 		move.b	#3,anim_frame_timer(a0)
 		move.l	#loc_1C364,(a0)
 
 loc_1C364:
 		jsr	(MoveSprite2).l
 		subq.b	#1,anim_frame_timer(a0)
-		bpl.s	loc_1C384
+		bpl.s	+ ;loc_1C384
 		move.b	#7,anim_frame_timer(a0)
 		addq.b	#1,mapping_frame(a0)
 		cmpi.b	#5,mapping_frame(a0)
 		beq.w	Delete_Current_Sprite
 
-loc_1C384:
++ ;loc_1C384:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 Map_Explosion:

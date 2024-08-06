@@ -8,53 +8,53 @@ Obj_AIZSpikedLog:
 		move.w	y_pos(a0),$30(a0)
 		move.b	(Water_entered_counter).w,$36(a0)
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_2B7AE
+		bne.w	+ ;loc_2B7AE
 		move.l	#loc_2B8EE,(a1)
 		move.b	#4,render_flags(a1)
 		move.b	#$9C,collision_flags(a1)
 		move.w	a0,$3C(a1)
 		move.w	a1,$3C(a0)
 
-loc_2B7AE:
++ ;loc_2B7AE:
 		move.l	#loc_2B7B4,(a0)
 
 loc_2B7B4:
 		tst.b	$34(a0)
-		bmi.s	loc_2B7E8
+		bmi.s	++ ;loc_2B7E8
 		move.b	$36(a0),d0
 		cmp.b	(Water_entered_counter).w,d0
-		beq.s	loc_2B7D2
+		beq.s	+ ;loc_2B7D2
 		move.b	(Water_entered_counter).w,$36(a0)
 		move.b	#-$7F,$34(a0)
-		bra.s	loc_2B7E8
+		bra.s	++ ;loc_2B7E8
 ; ---------------------------------------------------------------------------
 
-loc_2B7D2:
++ ;loc_2B7D2:
 		move.b	status(a0),d0
 		andi.b	#standing_mask,d0
-		bne.s	loc_2B7E8
+		bne.s	+ ;loc_2B7E8
 		tst.b	$32(a0)
 		beq.s	loc_2B81A
 		subq.b	#4,$32(a0)
 		bra.s	loc_2B81A
 ; ---------------------------------------------------------------------------
 
-loc_2B7E8:
++ ;loc_2B7E8:
 		tst.b	$34(a0)
-		bne.s	loc_2B806
+		bne.s	+ ;loc_2B806
 		move.b	anim_frame(a0),$35(a0)
 		move.b	#0,anim_frame(a0)
 		move.b	#0,anim_frame_timer(a0)
 		move.b	#1,$34(a0)
 
-loc_2B806:
++ ;loc_2B806:
 		cmpi.b	#$40,$32(a0)
-		beq.s	loc_2B814
+		beq.s	+ ;loc_2B814
 		addq.b	#4,$32(a0)
 		bra.s	loc_2B81A
 ; ---------------------------------------------------------------------------
 
-loc_2B814:
++ ;loc_2B814:
 		andi.b	#$7F,$34(a0)
 
 loc_2B81A:
@@ -64,34 +64,34 @@ loc_2B81A:
 		add.w	$30(a0),d0
 		move.w	d0,y_pos(a0)
 		tst.b	$34(a0)
-		beq.s	loc_2B864
+		beq.s	+ ;loc_2B864
 		subq.b	#1,anim_frame_timer(a0)
-		bpl.s	loc_2B896
+		bpl.s	+++ ;loc_2B896
 		move.b	#3,anim_frame_timer(a0)
 		subq.b	#1,mapping_frame(a0)
 		andi.b	#$F,mapping_frame(a0)
 		addq.b	#1,anim_frame(a0)
 		cmpi.b	#$10,anim_frame(a0)
-		blo.s	loc_2B896
+		blo.s	+++ ;loc_2B896
 		move.b	$35(a0),anim_frame(a0)
 		move.b	#0,$34(a0)
-		bra.s	loc_2B896
+		bra.s	+++ ;loc_2B896
 ; ---------------------------------------------------------------------------
 
-loc_2B864:
++ ;loc_2B864:
 		subq.b	#1,anim_frame_timer(a0)
-		bpl.s	loc_2B896
+		bpl.s	++ ;loc_2B896
 		move.b	#$17,anim_frame_timer(a0)
 		moveq	#0,d0
 		move.b	anim_frame(a0),d0
 		addq.b	#1,anim_frame(a0)
 		move.b	byte_2B88E(pc,d0.w),mapping_frame(a0)
 		move.b	byte_2B88E+1(pc,d0.w),d0
-		bpl.s	loc_2B88C
+		bpl.s	+ ;loc_2B88C
 		move.b	#0,anim_frame(a0)
 
-loc_2B88C:
-		bra.s	loc_2B896
++ ;loc_2B88C:
+		bra.s	+ ;loc_2B896
 ; ---------------------------------------------------------------------------
 byte_2B88E:
 		dc.b    7
@@ -104,7 +104,7 @@ byte_2B88E:
 		even
 ; ---------------------------------------------------------------------------
 
-loc_2B896:
++ ;loc_2B896:
 		moveq	#0,d1
 		move.b	width_pixels(a0),d1
 		addi.w	#$B,d1
@@ -118,23 +118,23 @@ loc_2B896:
 		andi.w	#$FF80,d0
 		sub.w	(Camera_X_pos_coarse_back).w,d0
 		cmpi.w	#$280,d0
-		bhi.w	loc_2B8CE
+		bhi.w	+ ;loc_2B8CE
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_2B8CE:
++ ;loc_2B8CE:
 		move.w	$3C(a0),d0
-		beq.s	loc_2B8DC
+		beq.s	+ ;loc_2B8DC
 		movea.w	d0,a1
 		jsr	(Delete_Referenced_Sprite).l
 
-loc_2B8DC:
++ ;loc_2B8DC:
 		move.w	respawn_addr(a0),d0
-		beq.s	loc_2B8E8
+		beq.s	+ ;loc_2B8E8
 		movea.w	d0,a2
 		bclr	#7,(a2)
 
-loc_2B8E8:
++ ;loc_2B8E8:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 

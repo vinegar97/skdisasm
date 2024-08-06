@@ -10,10 +10,10 @@ Obj_Toxomister:
 		move.w	y_pos(a0),d0
 		moveq	#$18,d1
 		btst	#1,render_flags(a0)
-		beq.s	loc_8FD6A
+		beq.s	+ ;loc_8FD6A
 		neg.w	d1
 
-loc_8FD6A:
++ ;loc_8FD6A:
 		add.w	d1,d0
 		move.w	d0,(a1)+
 		move.w	#0,(a1)+
@@ -22,12 +22,12 @@ loc_8FD6A:
 loc_8FD76:
 		movea.w	$44(a0),a1
 		btst	#7,status(a1)
-		beq.s	loc_8FD96
+		beq.s	+ ;loc_8FD96
 		move.l	#loc_8FDA0,(a0)
 		move.w	#$1F,$2E(a0)
 		move.l	#loc_8FDB0,$34(a0)
 
-loc_8FD96:
++ ;loc_8FD96:
 		bsr.w	sub_8FF5A
 		jmp	(Sprite_CheckDeleteTouch).l
 ; ---------------------------------------------------------------------------
@@ -100,9 +100,9 @@ loc_8FE36:
 loc_8FE50:
 		movea.w	$44(a0),a1
 		cmpi.b	#9,anim(a1)
-		beq.s	loc_8FE82
+		beq.s	+ ;loc_8FE82
 		jsr	(Check_LRControllerShake).l
-		bne.s	loc_8FE88
+		bne.s	++ ;loc_8FE88
 		movea.w	$44(a0),a1
 		move.w	x_pos(a1),x_pos(a0)
 		move.w	y_pos(a1),y_pos(a0)
@@ -110,10 +110,10 @@ loc_8FE50:
 		jsr	(sub_881FE).l
 		beq.w	locret_8FE24
 
-loc_8FE82:
++ ;loc_8FE82:
 		bset	#2,$38(a0)
 
-loc_8FE88:
++ ;loc_8FE88:
 		jmp	(Go_Delete_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -145,28 +145,28 @@ loc_8FED4:
 loc_8FEDC:
 		movea.w	parent3(a0),a1
 		btst	#7,status(a1)
-		bne.s	loc_8FF12
+		bne.s	++ ;loc_8FF12
 		jsr	(Refresh_ChildPosition).l
 		jsr	(Animate_Raw).l
 		btst	#0,(V_int_run_count+3).w
 		sne	d0
 		btst	#0,subtype(a0)
-		beq.s	loc_8FF06
+		beq.s	+ ;loc_8FF06
 		not.b	d0
 
-loc_8FF06:
++ ;loc_8FF06:
 		tst.b	d0
 		bne.w	locret_8FE24
 		jmp	(Child_Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_8FF12:
++ ;loc_8FF12:
 		clr.w	x_vel(a0)
 		btst	#2,$38(a1)
-		beq.s	loc_8FF22
-		bsr.w	loc_90002
+		beq.s	+ ;loc_8FF22
+		bsr.w	+++ ;loc_90002
 
-loc_8FF22:
++ ;loc_8FF22:
 		clr.w	y_vel(a0)
 		move.l	#loc_8FF42,(a0)
 		move.l	#byte_90085,$30(a0)
@@ -247,10 +247,10 @@ sub_8FFE0:
 		sub.w	d0,x_vel(a1)
 		moveq	#ground_vel,d0
 		btst	#Status_InAir,status(a1)
-		beq.s	loc_8FFF6
+		beq.s	+ ;loc_8FFF6
 		moveq	#y_vel,d0
 
-loc_8FFF6:
++ ;loc_8FFF6:
 		move.w	(a1,d0.w),d1
 		asr.w	#3,d1
 		sub.w	d1,(a1,d0.w)
@@ -259,16 +259,16 @@ loc_8FFF6:
 
 ; ---------------------------------------------------------------------------
 
-loc_90002:
++ ;loc_90002:
 		moveq	#0,d0
 		move.b	subtype(a0),d0
 		move.w	word_90020(pc,d0.w),d0
 		movea.w	$44(a1),a2
 		btst	#0,render_flags(a2)
-		bne.s	loc_9001A
+		bne.s	+ ;loc_9001A
 		neg.w	d0
 
-loc_9001A:
++ ;loc_9001A:
 		move.w	d0,x_vel(a0)
 		rts
 ; ---------------------------------------------------------------------------

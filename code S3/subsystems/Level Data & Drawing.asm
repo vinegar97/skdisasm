@@ -27,7 +27,7 @@ Get_LevelSizeStart:
 		move.w	#$60,(Distance_from_top_P2).w
 		move.w	#-1,(Screen_X_wrap_value).w
 		move.w	#-1,(Screen_Y_wrap_value).w
-		bra.w	loc_1A374
+		bra.w	+ ;loc_1A374
 ; ---------------------------------------------------------------------------
 LevelSizes:	;     xstart    xend  ystart    yend	; Level
 		dc.w   $1308,  $6000,      0,   $390	; AIZ1
@@ -80,16 +80,16 @@ LevelSizes:	;     xstart    xend  ystart    yend	; Level
 		dc.w       0,  $6000,      0,  $1000	; Special Stage Arena (HPZ)
 ; ---------------------------------------------------------------------------
 
-loc_1A374:
++ ;loc_1A374:
 		tst.b	(Last_star_post_hit).w
-		beq.s	loc_1A38C
+		beq.s	+ ;loc_1A38C
 		jsr	(Load_Starpost_Settings).l
 		move.w	(Player_1+x_pos).w,d1
 		move.w	(Player_1+y_pos).w,d0
-		bra.w	loc_1A43C
+		bra.w	+++ ;loc_1A43C
 ; ---------------------------------------------------------------------------
 
-loc_1A38C:
++ ;loc_1A38C:
 		move.w	(Current_zone_and_act).w,d0
 		ror.b	#1,d0
 		lsr.w	#5,d0
@@ -102,11 +102,11 @@ loc_1A38C:
 		move.w	(a1),d0
 		move.w	d0,(Player_1+y_pos).w
 		tst.b	(Last_star_post_hit).w
-		bne.w	loc_1A43C
+		bne.w	++ ;loc_1A43C
 		cmpi.w	#0,(Current_zone_and_act).w
-		bne.s	loc_1A3E6
+		bne.s	+ ;loc_1A3E6
 		cmpi.w	#2,(Player_mode).w
-		bhs.s	loc_1A3E6
+		bhs.s	+ ;loc_1A3E6
 		move.w	#$40,d1				; If in Angel Island Zone and playing as Sonic, the start position is overridden for the intro
 		move.w	d1,(Player_1+x_pos).w
 		move.w	#$420,d0
@@ -116,11 +116,11 @@ loc_1A38C:
 		move.w	d1,(Camera_target_min_X_pos).w
 		move.w	d1,(Camera_min_X_pos_P2).w
 
-loc_1A3E6:
++ ;loc_1A3E6:
 		cmpi.w	#$500,(Current_zone_and_act).w
-		bne.s	loc_1A43C
+		bne.s	+ ;loc_1A43C
 		cmpi.w	#2,(Player_mode).w
-		blo.s	loc_1A43C
+		blo.s	+ ;loc_1A43C
 		move.w	#$35A0,d1			; If in Ice Cap Act 1 and playing as Tails,
 		move.w	d1,(Camera_min_X_pos).w	; we use a different start position and different level sizes
 		move.w	d1,(Camera_target_min_X_pos).w	; to skip the snowboarding sequence
@@ -141,32 +141,32 @@ loc_1A3E6:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_1A43C:
++ ;loc_1A43C:
 		subi.w	#$A0,d1
-		bcc.s	loc_1A444
+		bcc.s	+ ;loc_1A444
 		moveq	#0,d1
 
-loc_1A444:
++ ;loc_1A444:
 		tst.w	(Competition_mode).w
-		bne.s	loc_1A454
+		bne.s	+ ;loc_1A454
 		move.w	(Camera_max_X_pos).w,d2
 		cmp.w	d2,d1
-		blo.s	loc_1A454
+		blo.s	+ ;loc_1A454
 		move.w	d2,d1
 
-loc_1A454:
++ ;loc_1A454:
 		move.w	d1,(Camera_X_pos).w
 		move.w	d1,(Camera_X_pos_P2).w
 		subi.w	#$60,d0
-		bcc.s	loc_1A464
+		bcc.s	+ ;loc_1A464
 		moveq	#0,d0
 
-loc_1A464:
++ ;loc_1A464:
 		cmp.w	(Camera_max_Y_pos).w,d0
-		blt.s	loc_1A46E
+		blt.s	+ ;loc_1A46E
 		move.w	(Camera_max_Y_pos).w,d0
 
-loc_1A46E:
++ ;loc_1A46E:
 		move.w	d0,(Camera_Y_pos).w
 		move.w	d0,(Camera_Y_pos_P2).w
 		rts
@@ -178,11 +178,11 @@ loc_1A46E:
 
 DeformBgLayer:
 		tst.b	(Deform_lock).w
-		beq.s	loc_1A480
+		beq.s	+ ;loc_1A480
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_1A480:
++ ;loc_1A480:
 		clr.w	(Camera_RAM).w
 		clr.w	(V_scroll_amount).w
 		clr.w	(H_scroll_amount_P2).w
@@ -190,7 +190,7 @@ loc_1A480:
 		tst.w	(Competition_mode).w
 		bne.w	loc_1A4DE
 		tst.b	(Scroll_lock).w
-		bne.s	loc_1A4DA
+		bne.s	++ ;loc_1A4DA
 		lea	(Player_1).w,a0
 		lea	(Camera_X_pos).w,a1
 		lea	(Camera_min_X_pos).w,a2
@@ -203,19 +203,19 @@ loc_1A480:
 		lea	(V_scroll_amount).w,a4
 		move.w	(Distance_from_top).w,d3
 		cmpi.w	#2,(Player_mode).w
-		bne.s	loc_1A4D6
+		bne.s	+ ;loc_1A4D6
 		move.w	(Distance_from_top_P2).w,d3
 
-loc_1A4D6:
++ ;loc_1A4D6:
 		bsr.w	MoveCameraY
 
-loc_1A4DA:
++ ;loc_1A4DA:
 		bra.w	Do_ResizeEvents
 ; ---------------------------------------------------------------------------
 
 loc_1A4DE:
 		tst.b	(Scroll_lock).w
-		bne.s	loc_1A520
+		bne.s	++ ;loc_1A520
 		lea	(Player_1).w,a0
 		lea	(Camera_X_pos).w,a1
 		lea	(Camera_min_X_pos).w,a2
@@ -228,15 +228,15 @@ loc_1A4DE:
 		lea	(V_scroll_amount).w,a4
 		move.w	(Distance_from_top).w,d3
 		cmpi.w	#2,(Player_mode).w
-		bne.s	loc_1A51C
+		bne.s	+ ;loc_1A51C
 		move.w	(Distance_from_top_P2).w,d3
 
-loc_1A51C:
++ ;loc_1A51C:
 		bsr.w	MoveCameraY
 
-loc_1A520:
++ ;loc_1A520:
 		tst.b	(Scroll_lock_P2).w
-		bne.s	loc_1A556
+		bne.s	+ ;loc_1A556
 		lea	(Player_2).w,a0
 		lea	(Camera_X_pos_P2).w,a1
 		lea	(Camera_min_X_pos_P2).w,a2
@@ -250,7 +250,7 @@ loc_1A520:
 		move.w	(Distance_from_top_P2).w,d3
 		bsr.w	MoveCameraY
 
-loc_1A556:
++ ;loc_1A556:
 		bra.w	Do_ResizeEvents
 ; End of function DeformBgLayer
 
@@ -263,7 +263,7 @@ MoveCameraX:
 		tst.b	(Teleport_active_flag).w
 		bne.s	locret_1A598
 		move.w	(a5),d1
-		beq.s	loc_1A584
+		beq.s	+ ;loc_1A584
 		subi.w	#$100,d1
 		move.w	d1,(a5)
 		moveq	#0,d1
@@ -274,49 +274,49 @@ MoveCameraX:
 		sub.b	d1,d0
 		move.w	(a6,d0.w),d0
 		andi.w	#$7FFF,d0
-		bra.s	loc_1A588
+		bra.s	++ ;loc_1A588
 ; ---------------------------------------------------------------------------
 
-loc_1A584:
++ ;loc_1A584:
 		move.w	x_pos(a0),d0
 
-loc_1A588:
++ ;loc_1A588:
 		sub.w	(a1),d0
 		subi.w	#$90,d0
-		blt.s	loc_1A59A
+		blt.s	+ ;loc_1A59A
 		subi.w	#$10,d0
-		bge.s	loc_1A5AE
+		bge.s	+++ ;loc_1A5AE
 		clr.w	(a4)
 
 locret_1A598:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_1A59A:
++ ;loc_1A59A:
 		cmpi.w	#-$18,d0
-		bgt.s	loc_1A5A4
+		bgt.s	+ ;loc_1A5A4
 		move.w	#-$18,d0
 
-loc_1A5A4:
++ ;loc_1A5A4:
 		add.w	(a1),d0
 		cmp.w	(a2),d0
-		bgt.s	loc_1A5C4
+		bgt.s	+++ ;loc_1A5C4
 		move.w	(a2),d0
-		bra.s	loc_1A5C4
+		bra.s	+++ ;loc_1A5C4
 ; ---------------------------------------------------------------------------
 
-loc_1A5AE:
++ ;loc_1A5AE:
 		cmpi.w	#$18,d0
-		blo.s	loc_1A5B8
+		blo.s	+ ;loc_1A5B8
 		move.w	#$18,d0
 
-loc_1A5B8:
++ ;loc_1A5B8:
 		add.w	(a1),d0
 		cmp.w	2(a2),d0
-		blt.s	loc_1A5C4
+		blt.s	+ ;loc_1A5C4
 		move.w	2(a2),d0
 
-loc_1A5C4:
++ ;loc_1A5C4:
 		move.w	d0,d1
 		sub.w	(a1),d1
 		asl.w	#8,d1
@@ -334,23 +334,23 @@ MoveCameraY:
 		move.w	y_pos(a0),d0
 		sub.w	(a1),d0
 		cmpi.w	#-$100,(Camera_min_Y_pos).w
-		bne.s	loc_1A5E4
+		bne.s	+ ;loc_1A5E4
 		and.w	(Screen_Y_wrap_value).w,d0
 
-loc_1A5E4:
++ ;loc_1A5E4:
 		btst	#Status_Roll,status(a0)
-		beq.s	loc_1A5EE
+		beq.s	+ ;loc_1A5EE
 		subq.w	#5,d0
 
-loc_1A5EE:
++ ;loc_1A5EE:
 		move.w	d3,d1
 		tst.w	(Competition_mode).w
-		beq.s	loc_1A5F8
+		beq.s	+ ;loc_1A5F8
 		lsr.w	#1,d1
 
-loc_1A5F8:
++ ;loc_1A5F8:
 		btst	#Status_InAir,status(a0)
-		beq.s	loc_1A616
+		beq.s	+ ;loc_1A616
 		addi.w	#$20,d0
 		sub.w	d1,d0
 		bcs.s	loc_1A662
@@ -358,47 +358,47 @@ loc_1A5F8:
 		bcc.s	loc_1A662
 		tst.b	(Camera_max_Y_pos_changing).w
 		bne.s	loc_1A674
-		bra.s	loc_1A620
+		bra.s	++ ;loc_1A620
 ; ---------------------------------------------------------------------------
 
-loc_1A616:
++ ;loc_1A616:
 		sub.w	d1,d0
-		bne.s	loc_1A624
+		bne.s	++ ;loc_1A624
 		tst.b	(Camera_max_Y_pos_changing).w
 		bne.s	loc_1A674
 
-loc_1A620:
++ ;loc_1A620:
 		clr.w	(a4)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_1A624:
++ ;loc_1A624:
 		cmpi.w	#$60,d3
-		bne.s	loc_1A650
+		bne.s	++ ;loc_1A650
 		tst.b	(Fast_V_scroll_flag).w
 		bne.s	loc_1A662
 		move.w	ground_vel(a0),d1
-		bpl.s	loc_1A638
+		bpl.s	+ ;loc_1A638
 		neg.w	d1
 
-loc_1A638:
++ ;loc_1A638:
 		cmpi.w	#$800,d1
 		bhs.s	loc_1A662
 		move.w	#$600,d1
 		cmpi.w	#6,d0
 		bgt.s	loc_1A6AC
 		cmpi.w	#-6,d0
-		blt.s	loc_1A68A
-		bra.s	loc_1A67A
+		blt.s	+++ ;loc_1A68A
+		bra.s	++ ;loc_1A67A
 ; ---------------------------------------------------------------------------
 
-loc_1A650:
++ ;loc_1A650:
 		move.w	#$200,d1
 		cmpi.w	#2,d0
 		bgt.s	loc_1A6AC
 		cmpi.w	#-2,d0
-		blt.s	loc_1A68A
-		bra.s	loc_1A67A
+		blt.s	++ ;loc_1A68A
+		bra.s	+ ;loc_1A67A
 ; ---------------------------------------------------------------------------
 
 loc_1A662:
@@ -406,42 +406,42 @@ loc_1A662:
 		cmpi.w	#$18,d0
 		bgt.s	loc_1A6AC
 		cmpi.w	#-$18,d0
-		blt.s	loc_1A68A
-		bra.s	loc_1A67A
+		blt.s	++ ;loc_1A68A
+		bra.s	+ ;loc_1A67A
 ; ---------------------------------------------------------------------------
 
 loc_1A674:
 		moveq	#0,d0
 		move.b	d0,(Camera_max_Y_pos_changing).w
 
-loc_1A67A:
++ ;loc_1A67A:
 		moveq	#0,d1
 		move.w	d0,d1
 		add.w	(a1),d1
 		tst.w	d0
 		bpl.w	loc_1A6B4
-		bra.w	loc_1A694
+		bra.w	++ ;loc_1A694
 ; ---------------------------------------------------------------------------
 
-loc_1A68A:
++ ;loc_1A68A:
 		neg.w	d1
 		ext.l	d1
 		asl.l	#8,d1
 		add.l	(a1),d1
 		swap	d1
 
-loc_1A694:
++ ;loc_1A694:
 		cmp.w	4(a2),d1
-		bgt.s	loc_1A6CC
+		bgt.s	+++ ;loc_1A6CC
 		cmpi.w	#-$100,d1
-		bgt.s	loc_1A6A6
+		bgt.s	+ ;loc_1A6A6
 		and.w	(Screen_Y_wrap_value).w,d1
-		bra.s	loc_1A6CC
+		bra.s	+++ ;loc_1A6CC
 ; ---------------------------------------------------------------------------
 
-loc_1A6A6:
++ ;loc_1A6A6:
 		move.w	4(a2),d1
-		bra.s	loc_1A6CC
+		bra.s	++ ;loc_1A6CC
 ; ---------------------------------------------------------------------------
 
 loc_1A6AC:
@@ -452,19 +452,19 @@ loc_1A6AC:
 
 loc_1A6B4:
 		cmp.w	6(a2),d1
-		blt.s	loc_1A6CC
+		blt.s	++ ;loc_1A6CC
 		move.w	(Screen_Y_wrap_value).w,d3
 		addq.w	#1,d3
 		sub.w	d3,d1
-		bcs.s	loc_1A6C8
+		bcs.s	+ ;loc_1A6C8
 		sub.w	d3,(a1)
-		bra.s	loc_1A6CC
+		bra.s	++ ;loc_1A6CC
 ; ---------------------------------------------------------------------------
 
-loc_1A6C8:
++ ;loc_1A6C8:
 		move.w	6(a2),d1
 
-loc_1A6CC:
++ ;loc_1A6CC:
 		move.w	(a1),d4
 		swap	d1
 		move.l	d1,d3
@@ -491,7 +491,7 @@ MoveCameraX_2P:
 		tst.b	(Teleport_active_flag).w
 		bne.s	locret_1A72E
 		move.w	(a5),d1
-		beq.s	loc_1A714
+		beq.s	+ ;loc_1A714
 		subi.w	#$100,d1
 		move.w	d1,(a5)
 		moveq	#0,d1
@@ -502,45 +502,45 @@ MoveCameraX_2P:
 		sub.b	d1,d0
 		move.w	(a6,d0.w),d0
 		andi.w	#$7FFF,d0
-		bra.s	loc_1A718
+		bra.s	++ ;loc_1A718
 ; ---------------------------------------------------------------------------
 
-loc_1A714:
++ ;loc_1A714:
 		move.w	x_pos(a0),d0
 
-loc_1A718:
++ ;loc_1A718:
 		move.w	(Screen_X_wrap_value).w,d2
 		sub.w	(a1),d0
 		and.w	d2,d0
 		subi.w	#$90,d0
-		blt.s	loc_1A730
+		blt.s	+ ;loc_1A730
 		subi.w	#$10,d0
-		bge.s	loc_1A73E
+		bge.s	+++ ;loc_1A73E
 		clr.w	(a4)
 
 locret_1A72E:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_1A730:
++ ;loc_1A730:
 		cmpi.w	#-$10,d0
-		bgt.s	loc_1A73A
+		bgt.s	+ ;loc_1A73A
 		move.w	#-$10,d0
 
-loc_1A73A:
++ ;loc_1A73A:
 		add.w	(a1),d0
-		bra.s	loc_1A74A
+		bra.s	+++ ;loc_1A74A
 ; ---------------------------------------------------------------------------
 
-loc_1A73E:
++ ;loc_1A73E:
 		cmpi.w	#$10,d0
-		blo.s	loc_1A748
+		blo.s	+ ;loc_1A748
 		move.w	#$10,d0
 
-loc_1A748:
++ ;loc_1A748:
 		add.w	(a1),d0
 
-loc_1A74A:
++ ;loc_1A74A:
 		move.w	d0,d1
 		sub.w	(a1),d1
 		asl.w	#8,d1
@@ -565,16 +565,16 @@ j_LevelSetup:
 
 LoadLevelLoadBlock2:
 		move.w	(Current_zone_and_act).w,d0
-		bne.s	loc_1A77A
+		bne.s	++ ;loc_1A77A
 		cmpi.w	#2,(Player_mode).w
-		beq.s	loc_1A776
+		beq.s	+ ;loc_1A776
 		tst.b	(Last_star_post_hit).w
-		beq.s	loc_1A77A
+		beq.s	++ ;loc_1A77A
 
-loc_1A776:
++ ;loc_1A776:
 		move.w	#$D00,d0
 
-loc_1A77A:
++ ;loc_1A77A:
 		ror.b	#1,d0
 		lsr.w	#4,d0
 		andi.w	#$1F8,d0
@@ -594,11 +594,11 @@ loc_1A77A:
 		move.l	(a2)+,d0
 		andi.l	#$FFFFFF,d0
 		cmp.l	d0,d7
-		beq.s	loc_1A7C0
+		beq.s	+ ;loc_1A7C0
 		movea.l	d0,a0
 		jsr	(Kos_Decomp).l
 
-loc_1A7C0:
++ ;loc_1A7C0:
 		move.l	(a2)+,d0
 		andi.l	#$FFFFFF,d0
 		move.l	d0,d7
@@ -608,23 +608,23 @@ loc_1A7C0:
 		move.l	(a2)+,d0
 		andi.l	#$FFFFFF,d0
 		cmp.l	d0,d7
-		beq.s	loc_1A7EC
+		beq.s	+ ;loc_1A7EC
 		movea.l	d0,a0
 		jsr	(Kos_Decomp).l
 
-loc_1A7EC:
++ ;loc_1A7EC:
 		bsr.w	Load_Level
 		movea.l	(sp)+,a2
 		move.b	(a2),d1
 		addq.w	#4,a2
 		moveq	#0,d0
 		move.b	(a2),d0
-		beq.s	loc_1A806
+		beq.s	+ ;loc_1A806
 		cmp.b	d0,d1
-		beq.s	loc_1A806
+		beq.s	+ ;loc_1A806
 		jsr	(Load_PLC).l
 
-loc_1A806:
++ ;loc_1A806:
 		addq.w	#4,a2
 		moveq	#0,d0
 		move.b	(a2),d0
@@ -647,8 +647,8 @@ Load_Level:
 		lea	(Level_layout_header).w,a1
 		move.w	#bytesToWcnt($1000),d2
 
-.loop:
+- ;.loop:
 		move.w	(a0)+,(a1)+
-		dbf	d2,.loop
+		dbf	d2,- ;.loop
 		rts
 ; End of function Load_Level

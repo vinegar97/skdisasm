@@ -473,57 +473,57 @@ Touch_Hurt:
 HurtCharacter:
 		move.w	(Ring_count).w,d0
 		cmpa.w	#Player_1,a0
-		beq.s	loc_102A8
+		beq.s	+ ;loc_102A8
 		tst.w	(Competition_mode).w
-		beq.s	loc_102E0
+		beq.s	+++ ;loc_102E0
 		move.w	(Ring_count_P2).w,d0
 
-loc_102A8:
++ ;loc_102A8:
 		btst	#0,status_secondary(a0)
-		bne.s	loc_102DA
+		bne.s	+ ;loc_102DA
 		tst.b	status_tertiary(a0)
-		bmi.s	loc_102E0
+		bmi.s	++ ;loc_102E0
 		tst.w	d0
 		beq.w	loc_10350
 		jsr	(AllocateObject).l
-		bne.s	loc_102DA
+		bne.s	+ ;loc_102DA
 		move.l	#Obj_Bouncing_Ring,(a1)
 		move.w	x_pos(a0),x_pos(a1)
 		move.w	y_pos(a0),y_pos(a1)
 		move.w	a0,$3E(a1)
 
-loc_102DA:
++ ;loc_102DA:
 		andi.b	#$8E,status_secondary(a0)
 
-loc_102E0:
++ ;loc_102E0:
 		move.b	#4,routine(a0)
 		jsr	(Player_TouchFloor).l
 		bset	#Status_InAir,status(a0)
 		move.w	#-$400,y_vel(a0)
 		move.w	#-$200,x_vel(a0)
 		btst	#Status_Underwater,status(a0)
-		beq.s	loc_10312
+		beq.s	+ ;loc_10312
 		move.w	#-$200,y_vel(a0)
 		move.w	#-$100,x_vel(a0)
 
-loc_10312:
++ ;loc_10312:
 		move.w	x_pos(a0),d0
 		cmp.w	x_pos(a2),d0
-		blo.s	loc_10320
+		blo.s	+ ;loc_10320
 		neg.w	x_vel(a0)
 
-loc_10320:
++ ;loc_10320:
 		move.w	#0,ground_vel(a0)
 		move.b	#$1A,anim(a0)
 		move.b	#120,invulnerability_timer(a0)
 		moveq	#signextendB(sfx_Death),d0
 		cmpi.l	#Obj_Spikes,(a2)
-		blo.s	loc_10346
+		blo.s	+ ;loc_10346
 		cmpi.l	#sub_24280,(a2)
-		bhs.s	loc_10346
+		bhs.s	+ ;loc_10346
 		moveq	#signextendB(sfx_SpikeHit),d0
 
-loc_10346:
++ ;loc_10346:
 		jsr	(Play_SFX).l
 		moveq	#-1,d0
 		rts
@@ -532,21 +532,21 @@ loc_10346:
 loc_10350:
 		moveq	#signextendB(sfx_Death),d0
 		cmpi.l	#Obj_Spikes,(a2)
-		blo.s	loc_10364
+		blo.s	+ ;loc_10364
 		cmpi.l	#sub_24280,(a2)
-		bhs.s	loc_10364
+		bhs.s	+ ;loc_10364
 		moveq	#signextendB(sfx_SpikeHit),d0
 
-loc_10364:
-		bra.s	loc_1036E
++ ;loc_10364:
+		bra.s	+ ;loc_1036E
 ; ---------------------------------------------------------------------------
 
 Kill_Character:
 		tst.w	(Debug_placement_mode).w
-		bne.s	loc_103B6
+		bne.s	++ ;loc_103B6
 		moveq	#signextendB(sfx_Death),d0
 
-loc_1036E:
++ ;loc_1036E:
 		clr.b	status_secondary(a0)
 		clr.b	status_tertiary(a0)
 		move.b	#6,routine(a0)
@@ -562,7 +562,7 @@ loc_1036E:
 		bset	#7,art_tile(a0)
 		jsr	(Play_SFX).l
 
-loc_103B6:
++ ;loc_103B6:
 		moveq	#-1,d0
 		rts
 ; ---------------------------------------------------------------------------
@@ -571,27 +571,27 @@ Touch_Special:
 		move.b	collision_flags(a1),d1	; Get collision_flags
 		andi.b	#$3F,d1			; Get only collision size (but that doesn't seems to be its use here)
 		cmpi.b	#7,d1
-		beq.s	loc_103FA
+		beq.s	+ ;loc_103FA
 		cmpi.b	#6,d1
-		beq.s	loc_103FA
+		beq.s	+ ;loc_103FA
 		cmpi.b	#$A,d1
-		beq.s	loc_103FA
+		beq.s	+ ;loc_103FA
 		cmpi.b	#$C,d1
-		beq.s	loc_103FA
+		beq.s	+ ;loc_103FA
 		cmpi.b	#$15,d1
-		beq.s	loc_103FA
+		beq.s	+ ;loc_103FA
 		cmpi.b	#$16,d1
-		beq.s	loc_103FA
+		beq.s	+ ;loc_103FA
 		cmpi.b	#$17,d1
-		beq.s	loc_103FA
+		beq.s	+ ;loc_103FA
 		cmpi.b	#$18,d1
-		beq.s	loc_103FA
+		beq.s	+ ;loc_103FA
 		cmpi.b	#$21,d1
-		beq.s	loc_103FA
+		beq.s	+ ;loc_103FA
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_103FA:
++ ;loc_103FA:
 		move.w	a0,d1				; Get RAM address of what object hit this
 		subi.w	#Object_RAM,d1
 		beq.s	.ismaincharacter		; If the main character hit it, branch

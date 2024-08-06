@@ -24,12 +24,12 @@ Obj_MGZTriggerPlatform:
 		move.w	#$280,priority(a0)
 		move.w	x_pos(a0),$36(a0)
 		tst.w	d1
-		beq.s	loc_345FA
+		beq.s	++ ;loc_345FA
 		move.b	subtype(a0),d0
 		andi.w	#$F,d0
 		lea	(Level_trigger_array).w,a3
 		tst.b	(a3,d0.w)
-		beq.s	loc_345F0
+		beq.s	+ ;loc_345F0
 		move.w	$34(a0),d0
 		btst	#0,status(a0)
 		beq.s	loc_345E0
@@ -41,12 +41,12 @@ loc_345E0:
 		bne.s	loc_345E0
 		move.b	#-1,$32(a0)
 
-loc_345F0:
++ ;loc_345F0:
 		move.l	#loc_3466E,(a0)
 		bra.w	loc_3466E
 ; ---------------------------------------------------------------------------
 
-loc_345FA:
++ ;loc_345FA:
 		move.l	#loc_34600,(a0)
 
 loc_34600:
@@ -54,23 +54,23 @@ loc_34600:
 		andi.w	#$F,d0
 		lea	(Level_trigger_array).w,a3
 		tst.b	(a3,d0.w)
-		beq.s	loc_34646
+		beq.s	++ ;loc_34646
 		moveq	#2,d0
 		btst	#0,status(a0)
-		beq.s	loc_3461E
+		beq.s	+ ;loc_3461E
 		neg.w	d0
 
-loc_3461E:
++ ;loc_3461E:
 		add.w	d0,x_pos(a0)
 		move.w	#-1,(Screen_shake_flag).w
 		subq.w	#1,$30(a0)
-		bne.s	loc_34646
+		bne.s	+ ;loc_34646
 		move.w	#$7F00,x_pos(a0)
 		move.w	#$7F00,$36(a0)
 		move.w	#0,respawn_addr(a0)
 		move.w	#0,(Screen_shake_flag).w
 
-loc_34646:
++ ;loc_34646:
 		moveq	#0,d1
 		move.b	width_pixels(a0),d1
 		addi.w	#$B,d1
@@ -89,29 +89,29 @@ loc_3466E:
 		andi.w	#$F,d0
 		lea	(Level_trigger_array).w,a3
 		tst.b	(a3,d0.w)
-		beq.s	loc_3468C
+		beq.s	+ ;loc_3468C
 		tst.b	$32(a0)
-		bmi.s	loc_346BE
+		bmi.s	+++ ;loc_346BE
 		move.b	#1,$32(a0)
 
-loc_3468C:
++ ;loc_3468C:
 		tst.b	$32(a0)
-		beq.s	loc_346BE
-		bmi.s	loc_346BE
+		beq.s	++ ;loc_346BE
+		bmi.s	++ ;loc_346BE
 		move.w	$34(a0),d0
 		btst	#0,status(a0)
-		beq.s	loc_346A2
+		beq.s	+ ;loc_346A2
 		neg.w	d0
 
-loc_346A2:
++ ;loc_346A2:
 		add.w	d0,y_pos(a0)
 		move.w	#-1,(Screen_shake_flag).w
 		subq.w	#1,$30(a0)
-		bne.s	loc_346BE
+		bne.s	+ ;loc_346BE
 		move.b	#-1,$32(a0)
 		move.w	#0,(Screen_shake_flag).w
 
-loc_346BE:
++ ;loc_346BE:
 		moveq	#0,d1
 		move.b	width_pixels(a0),d1
 		addi.w	#$B,d1

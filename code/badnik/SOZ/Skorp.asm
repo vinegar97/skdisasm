@@ -19,10 +19,10 @@ loc_8E670:
 		move.l	#loc_8E706,$34(a0)
 		move.w	#-$80,d0
 		btst	#0,render_flags(a0)
-		beq.s	loc_8E696
+		beq.s	+ ;loc_8E696
 		neg.w	d0
 
-loc_8E696:
++ ;loc_8E696:
 		move.w	d0,x_vel(a0)
 		moveq	#0,d0
 		move.b	subtype(a0),d0
@@ -41,20 +41,20 @@ loc_8E6B8:
 		btst	#0,render_flags(a0)
 		sne	d4
 		tst.w	d0
-		beq.s	loc_8E6D0
+		beq.s	+ ;loc_8E6D0
 		not.b	d4
 
-loc_8E6D0:
++ ;loc_8E6D0:
 		tst.b	d4
-		bne.s	loc_8E6E6
+		bne.s	+ ;loc_8E6E6
 		cmpi.w	#$20,d2
-		blo.s	loc_8E6E6
+		blo.s	+ ;loc_8E6E6
 		cmpi.w	#$80,d2
-		bhs.s	loc_8E6E6
+		bhs.s	+ ;loc_8E6E6
 		cmpi.w	#$28,d3
-		blo.s	loc_8E718
+		blo.s	++ ;loc_8E718
 
-loc_8E6E6:
++ ;loc_8E6E6:
 		lea	byte_8EA60(pc),a1
 		jsr	(Animate_RawNoSST).l
 		jsr	(MoveSprite2).l
@@ -72,7 +72,7 @@ locret_8E716:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_8E718:
++ ;loc_8E718:
 		move.b	#4,routine(a0)
 		bset	#1,$38(a0)
 		move.w	x_pos(a1),$3E(a0)
@@ -82,11 +82,11 @@ loc_8E718:
 
 loc_8E732:
 		btst	#1,$38(a0)
-		beq.s	loc_8E73C
+		beq.s	+ ;loc_8E73C
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_8E73C:
++ ;loc_8E73C:
 		move.b	#2,routine(a0)
 		rts
 ; ---------------------------------------------------------------------------
@@ -98,16 +98,16 @@ loc_8E744:
 		jsr	off_8E778(pc,d1.w)
 		movea.w	$44(a0),a1
 		btst	#7,status(a1)
-		bne.s	loc_8E772
+		bne.s	++ ;loc_8E772
 		cmpi.b	#$A,subtype(a0)
-		bne.s	loc_8E76C
+		bne.s	+ ;loc_8E76C
 		jsr	(Add_SpriteToCollisionResponseList).l
 
-loc_8E76C:
++ ;loc_8E76C:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_8E772:
++ ;loc_8E772:
 		jmp	(Go_Delete_Sprite).l
 ; ---------------------------------------------------------------------------
 off_8E778:
@@ -128,35 +128,35 @@ loc_8E78C:
 		jsr	(SetUp_ObjAttributes3).l
 		movea.w	parent3(a0),a1
 		move.b	subtype(a0),d0
-		bne.s	loc_8E7B2
+		bne.s	+ ;loc_8E7B2
 		move.b	#8,child_dx(a0)
 		move.b	#-$10,child_dy(a0)
 		move.w	parent3(a0),$44(a1)
 
-loc_8E7B2:
++ ;loc_8E7B2:
 		move.w	$44(a1),$44(a0)
 		cmpi.b	#$A,d0
-		bne.s	loc_8E7D0
+		bne.s	+ ;loc_8E7D0
 		move.b	#4,mapping_frame(a0)
 		move.w	#$100,priority(a0)
 		move.b	#$87,collision_flags(a0)
 
-loc_8E7D0:
++ ;loc_8E7D0:
 		bsr.w	sub_8E982
 
 loc_8E7D4:
 		jsr	(Change_FlipXUseParent).l
 		tst.b	subtype(a0)
-		beq.s	loc_8E7F8
+		beq.s	+ ;loc_8E7F8
 		movea.w	$44(a0),a1
 		btst	#1,$38(a1)
-		bne.s	loc_8E80E
+		bne.s	++ ;loc_8E80E
 		bsr.w	sub_8EA1C
 		moveq	#5,d2
 		jmp	(MoveSprite_CircularSimpleCheckFlip).l
 ; ---------------------------------------------------------------------------
 
-loc_8E7F8:
++ ;loc_8E7F8:
 		jsr	(Refresh_ChildPositionAdjusted).l
 		movea.w	parent3(a0),a1
 		moveq	#0,d0
@@ -165,7 +165,7 @@ loc_8E7F8:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_8E80E:
++ ;loc_8E80E:
 		move.b	#4,routine(a0)
 		move.l	#loc_8E87C,$34(a0)
 		movea.w	$44(a0),a1
@@ -181,15 +181,15 @@ loc_8E828:
 		move.b	$3C(a0),d2
 		subq.b	#8,d2
 		cmp.b	d1,d2
-		bhi.s	loc_8E856
+		bhi.s	+ ;loc_8E856
 		move.b	#6,routine(a0)
 		move.b	d1,d2
 		cmpi.b	#5,d0
-		bne.s	loc_8E856
+		bne.s	+ ;loc_8E856
 		movea.w	$44(a0),a1
 		bset	#3,$38(a1)
 
-loc_8E856:
++ ;loc_8E856:
 		move.b	d2,$3C(a0)
 		moveq	#5,d2
 		jmp	(MoveSprite_CircularSimpleCheckFlip).l
@@ -202,11 +202,11 @@ byte_8E862:
 loc_8E868:
 		movea.w	$44(a0),a1
 		btst	#3,$38(a1)
-		bne.s	loc_8E876
+		bne.s	+ ;loc_8E876
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_8E876:
++ ;loc_8E876:
 		movea.l	$34(a0),a1
 		jmp	(a1)
 ; ---------------------------------------------------------------------------
@@ -224,14 +224,14 @@ loc_8E884:
 loc_8E88C:
 		move.b	$3C(a0),d0
 		addi.b	#$10,d0
-		bpl.s	loc_8E8B2
+		bpl.s	+ ;loc_8E8B2
 		move.b	#$C,routine(a0)
 		move.w	#$F,$2E(a0)
 		move.l	#loc_8E8CA,$34(a0)
 		bsr.w	sub_8E9A4
 		move.b	#$80,d0
 
-loc_8E8B2:
++ ;loc_8E8B2:
 		move.b	d0,$3C(a0)
 		moveq	#5,d2
 		jmp	(MoveSprite_CircularSimpleCheckFlip).l
@@ -276,15 +276,15 @@ loc_8E918:
 		move.b	$3C(a0),d2
 		addq.b	#8,d2
 		cmp.b	d1,d2
-		blo.s	loc_8E946
+		blo.s	+ ;loc_8E946
 		move.b	#$12,routine(a0)
 		move.b	d1,d2
 		cmpi.b	#5,d0
-		bne.s	loc_8E946
+		bne.s	+ ;loc_8E946
 		movea.w	$44(a0),a1
 		bset	#2,$38(a1)
 
-loc_8E946:
++ ;loc_8E946:
 		move.b	d2,$3C(a0)
 		moveq	#5,d2
 		jmp	(MoveSprite_CircularSimpleCheckFlip).l
@@ -297,11 +297,11 @@ byte_8E952:
 loc_8E958:
 		movea.w	$44(a0),a1
 		btst	#2,$38(a1)
-		bne.s	loc_8E966
+		bne.s	+ ;loc_8E966
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_8E966:
++ ;loc_8E966:
 		move.b	#2,routine(a0)
 		movea.w	$44(a0),a1
 		bclr	#1,$38(a1)
@@ -338,17 +338,17 @@ sub_8E9A4:
 		move.w	$3E(a1),d0
 		sub.w	x_pos(a0),d0
 		smi	d2
-		bpl.s	loc_8E9B6
+		bpl.s	+ ;loc_8E9B6
 		neg.w	d0
 
-loc_8E9B6:
++ ;loc_8E9B6:
 		move.w	$40(a1),d1
 		sub.w	y_pos(a0),d1
 		smi	d3
-		bpl.s	loc_8E9C4
+		bpl.s	+ ;loc_8E9C4
 		neg.w	d1
 
-loc_8E9C4:
++ ;loc_8E9C4:
 		moveq	#0,d4
 		move.b	subtype(a0),d4
 		move.w	off_8E9D2(pc,d4.w),d4
@@ -367,23 +367,23 @@ off_8E9D2:
 
 loc_8E9DE:
 		move.w	#$3333,d4
-		bra.w	loc_8E9FA
+		bra.w	+ ;loc_8E9FA
 ; ---------------------------------------------------------------------------
 
 loc_8E9E6:
 		move.w	#$6666,d4
-		bra.w	loc_8E9FA
+		bra.w	+ ;loc_8E9FA
 ; ---------------------------------------------------------------------------
 
 loc_8E9EE:
 		move.w	#$9999,d4
-		bra.w	loc_8E9FA
+		bra.w	+ ;loc_8E9FA
 ; ---------------------------------------------------------------------------
 
 loc_8E9F6:
 		move.w	#$CCCC,d4
 
-loc_8E9FA:
++ ;loc_8E9FA:
 		mulu.w	d4,d0
 		swap	d0
 		mulu.w	d4,d1
@@ -392,17 +392,17 @@ loc_8E9FA:
 loc_8EA02:
 		asl.w	#4,d0
 		tst.b	d2
-		beq.s	loc_8EA0A
+		beq.s	+ ;loc_8EA0A
 		neg.w	d0
 
-loc_8EA0A:
++ ;loc_8EA0A:
 		move.w	d0,x_vel(a0)
 		asl.w	#4,d1
 		tst.b	d3
-		beq.s	loc_8EA16
+		beq.s	+ ;loc_8EA16
 		neg.w	d1
 
-loc_8EA16:
++ ;loc_8EA16:
 		move.w	d1,y_vel(a0)
 		rts
 
@@ -411,19 +411,19 @@ loc_8EA16:
 
 sub_8EA1C:
 		subq.b	#1,$3B(a0)
-		bpl.s	loc_8EA2E
+		bpl.s	+ ;loc_8EA2E
 		move.b	#$10,$3B(a0)
 		bchg	#0,$38(a0)
 
-loc_8EA2E:
++ ;loc_8EA2E:
 		btst	#0,$3B(a0)
 		bne.s	locret_8EA46
 		moveq	#1,d0
 		btst	#0,$38(a0)
-		bne.s	loc_8EA42
+		bne.s	+ ;loc_8EA42
 		neg.w	d0
 
-loc_8EA42:
++ ;loc_8EA42:
 		add.b	d0,$3C(a0)
 
 locret_8EA46:

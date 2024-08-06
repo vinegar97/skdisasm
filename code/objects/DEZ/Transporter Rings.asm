@@ -7,7 +7,7 @@ Obj_DEZTransRingSpawner_Main:
 		bpl.w	loc_48896
 		move.w	#1,objoff_30(a0)
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_4888E
+		bne.w	+++ ;loc_4888E
 		move.l	#Obj_DEZTransRing,(a1)
 		move.w	x_pos(a0),x_pos(a1)
 		move.w	y_pos(a0),y_pos(a1)
@@ -18,25 +18,25 @@ Obj_DEZTransRingSpawner_Main:
 		move.b	#$10,height_pixels(a1)
 		move.w	#$80,priority(a1)
 		cmpi.b	#-1,angle(a0)
-		bne.s	.NormalAnim
+		bne.s	++ ;.NormalAnim
 		move.b	flip_angle(a0),d1
 		move.w	#0,priority(a1)
 		move.b	d1,d0
 		add.b	d0,d0
-		bpl.s	.SineAnim
+		bpl.s	+ ;.SineAnim
 		bset	#0,status(a1)
 		move.w	#$80,priority(a1)
 
-.SineAnim:
++ ;.SineAnim:
 		addq.b	#8,d1
 		lsr.b	#4,d1
 		andi.b	#7,d1
 		addq.b	#8,d1
 		move.b	d1,anim(a1)
-		bra.s	loc_4888E
+		bra.s	++ ;loc_4888E
 ; ---------------------------------------------------------------------------
 
-.NormalAnim:
++ ;.NormalAnim:
 		move.w	x_vel(a0),d1
 		move.w	y_vel(a0),d2
 		jsr	(GetArcTan).l
@@ -45,17 +45,17 @@ Obj_DEZTransRingSpawner_Main:
 		andi.b	#7,d0
 		move.b	d0,anim(a1)
 
-loc_4888E:
++ ;loc_4888E:
 		moveq	#signextendB(sfx_LightTunnel),d0
 		jsr	(Play_SFX).l
 
 loc_48896:
 		tst.b	object_control(a0)
-		beq.s	loc_4889E
+		beq.s	+ ;loc_4889E
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4889E:
++ ;loc_4889E:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 

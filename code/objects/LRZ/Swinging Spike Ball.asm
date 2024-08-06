@@ -9,13 +9,13 @@ Obj_LRZSwingingSpikeBall:
 		move.w	y_pos(a0),$46(a0)
 		move.b	#$9A,collision_flags(a0)
 		tst.b	(Current_act).w
-		beq.s	loc_4354E
+		beq.s	+ ;loc_4354E
 		move.l	#Map_LRZSwingingSpikeBall2,mappings(a0)
 		move.w	#make_art_tile($40D,1,1),art_tile(a0)
 
-loc_4354E:
++ ;loc_4354E:
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_435CA
+		bne.w	+ ;loc_435CA
 		move.l	#loc_435FE,(a1)
 		move.l	mappings(a0),mappings(a1)
 		move.w	art_tile(a0),art_tile(a1)
@@ -34,21 +34,21 @@ loc_4354E:
 		move.w	mainspr_childsprites(a1),d0
 		subq.w	#1,d0
 
-loc_435B0:
+- ;loc_435B0:
 		move.w	x_pos(a0),(a2)+
 		move.w	y_pos(a0),(a2)+
 		move.w	#1,(a2)+
-		dbf	d0,loc_435B0
+		dbf	d0,- ;loc_435B0
 		move.b	#1,mapping_frame(a1)
 		move.w	a1,$3C(a0)
 
-loc_435CA:
++ ;loc_435CA:
 		moveq	#2,d0
 		btst	#0,status(a0)
-		beq.s	loc_435D6
+		beq.s	+ ;loc_435D6
 		neg.w	d0
 
-loc_435D6:
++ ;loc_435D6:
 		move.b	d0,$36(a0)
 		move.l	#loc_435E0,(a0)
 
@@ -80,16 +80,16 @@ sub_43604:
 		move.l	d0,d4
 		move.l	d1,d5
 		tst.b	subtype(a0)
-		bpl.s	loc_4362C
+		bpl.s	+ ;loc_4362C
 		add.l	d0,d4
 		add.l	d1,d5
 
-loc_4362C:
++ ;loc_4362C:
 		lea	sub2_x_pos(a1),a2
 		move.w	mainspr_childsprites(a1),d6
 		subq.w	#1,d6
 
-loc_43636:
+- ;loc_43636:
 		movem.l	d4-d5,-(sp)
 		swap	d4
 		swap	d5
@@ -101,7 +101,7 @@ loc_43636:
 		add.l	d0,d4
 		add.l	d1,d5
 		addq.w	#2,a2
-		dbf	d6,loc_43636
+		dbf	d6,- ;loc_43636
 		swap	d4
 		swap	d5
 		add.w	d2,d4

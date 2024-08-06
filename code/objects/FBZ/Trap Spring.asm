@@ -10,31 +10,31 @@ Obj_FBZTrapSpring:
 loc_3CB66:
 		move.w	(Player_1+y_pos).w,d0
 		sub.w	y_pos(a0),d0
-		bcs.s	loc_3CB7E
+		bcs.s	+ ;loc_3CB7E
 		cmpi.w	#$20,d0
-		blt.s	loc_3CB8A
+		blt.s	++ ;loc_3CB8A
 		move.b	#1,anim(a0)
-		bra.s	loc_3CB8A
+		bra.s	++ ;loc_3CB8A
 ; ---------------------------------------------------------------------------
 
-loc_3CB7E:
++ ;loc_3CB7E:
 		cmpi.w	#-$10,d0
-		bge.s	loc_3CB8A
+		bge.s	+ ;loc_3CB8A
 		move.b	#0,anim(a0)
 
-loc_3CB8A:
++ ;loc_3CB8A:
 		lea	(Player_1).w,a1
 		bclr	#p1_standing_bit,status(a0)
-		beq.s	loc_3CB98
+		beq.s	+ ;loc_3CB98
 		bsr.s	sub_3CBCE
 
-loc_3CB98:
++ ;loc_3CB98:
 		lea	(Player_2).w,a1
 		bclr	#p2_standing_bit,status(a0)
-		beq.s	loc_3CBA6
+		beq.s	+ ;loc_3CBA6
 		bsr.s	sub_3CBCE
 
-loc_3CBA6:
++ ;loc_3CBA6:
 		move.w	#$1B,d1
 		move.w	#8,d2
 		move.w	#9,d3
@@ -51,10 +51,10 @@ sub_3CBCE:
 		move.w	#-$1000,y_vel(a1)
 		move.b	subtype(a0),d0
 		btst	#1,d0
-		beq.s	loc_3CBE4
+		beq.s	+ ;loc_3CBE4
 		move.w	#-$A00,y_vel(a1)
 
-loc_3CBE4:
++ ;loc_3CBE4:
 		bset	#Status_InAir,status(a1)
 		bclr	#Status_OnObj,status(a1)
 		clr.b	jumping(a1)
@@ -62,23 +62,23 @@ loc_3CBE4:
 		move.b	#$10,anim(a1)
 		move.b	#2,routine(a1)
 		btst	#0,d0
-		beq.s	loc_3CC44
+		beq.s	++ ;loc_3CC44
 		move.w	#1,ground_vel(a1)
 		move.b	#1,flip_angle(a1)
 		move.b	#0,anim(a1)
 		move.b	#0,flips_remaining(a1)
 		move.b	#4,flip_speed(a1)
 		btst	#1,d0
-		bne.s	loc_3CC34
+		bne.s	+ ;loc_3CC34
 		move.b	#1,flips_remaining(a1)
 
-loc_3CC34:
++ ;loc_3CC34:
 		btst	#Status_Facing,status(a1)
-		beq.s	loc_3CC44
+		beq.s	+ ;loc_3CC44
 		neg.b	flip_angle(a1)
 		neg.w	ground_vel(a1)
 
-loc_3CC44:
++ ;loc_3CC44:
 		moveq	#signextendB(sfx_Spring),d0
 		jmp	(Play_SFX).l
 ; End of function sub_3CBCE

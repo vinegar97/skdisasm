@@ -13,12 +13,12 @@ Init_ArtScaling:
 		lea	(H_scroll_buffer).w,a6
 		move.w	#($1000/$100)-1,d1
 
-.loop:
+- ;.loop:
 	rept 10
 		movem.l	a0-a5,-(a6)
 	endm
 		movem.l	a0-a3,-(a6)
-		dbf	d1,.loop
+		dbf	d1,- ;.loop
 		rts
 ; End of function Init_ArtScaling
 
@@ -64,17 +64,17 @@ sub_22C90:
 		moveq	#0,d1
 		move.b	$40(a0),d1
 		cmpi.b	#$1C,d1
-		blo.s	loc_22CA0
+		blo.s	+ ;loc_22CA0
 		move.b	#$1C,d1		; Maximum 28 different "scales"
 
-loc_22CA0:
++ ;loc_22CA0:
 		move.b	d1,mapping_frame(a0)	; Scale level correlates with mapping frame
 		add.w	d1,d1
 		move.w	word_22C50(pc,d1.w),d1
 		move.w	(_unkF740).w,d2
 		add.w	d1,d2
 		cmpi.w	#$80,d2
-		bhi.s	loc_22CD8
+		bhi.s	+ ;loc_22CD8
 		sub.w	d1,d2
 		movem.l	d1/d5-a0/a2/a4,-(sp)
 		lea	(Kos_decomp_buffer).w,a2
@@ -82,7 +82,7 @@ loc_22CA0:
 		move.w	d0,art_tile(a0)
 		lsl.w	#5,d2
 		adda.w	d2,a2
-		bsr.s	sub_22CE0
+		bsr.s	++ ;sub_22CE0
 		movem.l	(sp)+,d1/d5-a0/a2/a4
 		add.w	d1,(_unkF740).w
 		rts
@@ -90,7 +90,7 @@ loc_22CA0:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_22CD8:
++ ;loc_22CD8:
 		bclr	#7,render_flags(a0)
 		rts
 ; End of function sub_22C90
@@ -99,7 +99,7 @@ loc_22CD8:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_22CE0:
++ ;sub_22CE0:
 		moveq	#0,d0
 		move.b	$40(a0),d0		; Scale factor
 		moveq	#0,d1
@@ -122,13 +122,13 @@ sub_22CE0:
 		tst.w	d4
 		beq.w	loc_22FC0		; If modified scale factor smaller than 8, branch
 		cmpi.w	#1,d4
-		bne.s	loc_22D30		; If modified scale factor is not between 8-$10, branch
+		bne.s	+ ;loc_22D30		; If modified scale factor is not between 8-$10, branch
 		tst.w	d5
 		beq.w	loc_22F44		; If modified scale factor is 8, branch
 		cmpi.w	#$2000,d5
 		beq.w	loc_22EBE		; If modified scale factor is 9, branch
 
-loc_22D30:
++ ;loc_22D30:
 		move.w	d4,d2			; All other instances. Scale factor/8 to d2
 		swap	d2
 		move.w	d5,d2
@@ -146,35 +146,35 @@ loc_22D30:
 loc_22D50:
 		move.w	#$20-1,d7
 
-loc_22D54:
+- ;loc_22D54:
 		swap	d7
 		swap	d3
 		move.w	#0,d2
 		move.w	#0,d3
 		movea.l	a2,a4
 		move.w	a5,d6
-		bmi.s	loc_22D76
+		bmi.s	+ ;loc_22D76
 
-loc_22D66:
+- ;loc_22D66:
 		swap	d6
 		jsr	(a6)
 		swap	d6
-		dbf	d6,loc_22D66
+		dbf	d6,- ;loc_22D66
 		cmpi.w	#$40,d2
-		bhs.s	loc_22D7E
+		bhs.s	++ ;loc_22D7E
 
-loc_22D76:
++ ;loc_22D76:
 		swap	d6
 		jsr	sub_22E08(pc)
 		swap	d6
 
-loc_22D7E:
++ ;loc_22D7E:
 		swap	d3
 		add.w	d5,d3
-		bcc.s	loc_22D88
+		bcc.s	+ ;loc_22D88
 		adda.w	#$40,a1
 
-loc_22D88:
++ ;loc_22D88:
 		move.w	d4,d0
 		lsl.w	#6,d0
 		adda.w	d0,a1
@@ -182,7 +182,7 @@ loc_22D88:
 		bhs.s	locret_22DA0
 		addq.w	#4,a2
 		swap	d7
-		dbf	d7,loc_22D54
+		dbf	d7,-- ;loc_22D54
 		lea	$380(a2),a2
 		bra.s	loc_22D50
 ; ---------------------------------------------------------------------------
@@ -216,18 +216,18 @@ sub_22E08:
 		add.w	d5,d3
 		addx.w	d4,d2
 		cmpi.w	#$40,d2
-		blo.s	loc_22E1A
+		blo.s	+ ;loc_22E1A
 		move.b	#0,d0
 
-loc_22E1A:
++ ;loc_22E1A:
 		move.b	(a1,d2.w),d1
 		add.w	d5,d3
 		addx.w	d4,d2
 		cmpi.w	#$40,d2
-		blo.s	loc_22E2C
+		blo.s	+ ;loc_22E2C
 		move.b	#0,d1
 
-loc_22E2C:
++ ;loc_22E2C:
 		and.b	d6,d0
 		and.b	d7,d1
 		or.b	d1,d0
@@ -245,11 +245,11 @@ loc_22EBE:
 		lea	loc_22F0C(pc),a6
 		move.w	#2-1,d7
 
-loc_22ECA:
+- ;loc_22ECA:
 		swap	d7
 		move.w	#$20-1,d6
 
-loc_22ED0:
+- ;loc_22ED0:
 		swap	d6
 		movea.l	a1,a3
 		movea.l	a2,a4
@@ -260,19 +260,19 @@ loc_22ED0:
 		and.b	d6,d0
 		move.b	d0,(a4)+
 		add.w	d5,d3
-		bcc.s	loc_22EF2
+		bcc.s	+ ;loc_22EF2
 		lea	$40(a1),a1
 
-loc_22EF2:
++ ;loc_22EF2:
 		adda.w	d4,a1
 		cmpa.l	a0,a1
 		bhs.s	locret_22F0A
 		addq.w	#4,a2
 		swap	d6
-		dbf	d6,loc_22ED0
+		dbf	d6,- ;loc_22ED0
 		lea	$380(a2),a2
 		swap	d7
-		dbf	d7,loc_22ECA
+		dbf	d7,-- ;loc_22ECA
 
 locret_22F0A:
 		rts
@@ -304,11 +304,11 @@ loc_22F44:
 		lea	loc_22F8A(pc),a6
 		move.w	#2-1,d7
 
-loc_22F50:
+- ;loc_22F50:
 		swap	d7
 		move.w	#$20-1,d6
 
-loc_22F56:
+- ;loc_22F56:
 		swap	d6
 		movea.l	a1,a3
 		movea.l	a2,a4
@@ -316,17 +316,17 @@ loc_22F56:
 		jsr	(a6)
 	endm
 		add.w	d5,d3
-		bcc.s	loc_22F74
+		bcc.s	+ ;loc_22F74
 		lea	$40(a1),a1
 
-loc_22F74:
++ ;loc_22F74:
 		adda.w	d4,a1
 		addq.w	#4,a2
 		swap	d6
-		dbf	d6,loc_22F56
+		dbf	d6,- ;loc_22F56
 		lea	$380(a2),a2
 		swap	d7
-		dbf	d7,loc_22F50
+		dbf	d7,-- ;loc_22F50
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -345,17 +345,17 @@ loc_22F8A:
 
 loc_22FC0:
 		cmpi.w	#$E000,d5
-		bne.w	loc_23042
+		bne.w	++ ;loc_23042
 		lea	loc_23016(pc),a6
 		moveq	#0,d3
 		lsl.w	#6,d4
 		move.w	#3-1,d7
 
-loc_22FD4:
+- ;loc_22FD4:
 		swap	d7
 		move.w	#$20-1,d6
 
-loc_22FDA:
+- ;loc_22FDA:
 		swap	d6
 		movea.l	a1,a3
 		movea.l	a2,a4
@@ -364,19 +364,19 @@ loc_22FDA:
 	endm
 		move.b	(a3),(a4)
 		add.w	d5,d3
-		bcc.s	loc_22FFC
+		bcc.s	+ ;loc_22FFC
 		lea	$40(a1),a1
 
-loc_22FFC:
++ ;loc_22FFC:
 		adda.w	d4,a1
 		cmpa.l	a0,a1
 		bhs.s	locret_23014
 		addq.w	#4,a2
 		swap	d6
-		dbf	d6,loc_22FDA
+		dbf	d6,- ;loc_22FDA
 		lea	$580(a2),a2
 		swap	d7
-		dbf	d7,loc_22FD4
+		dbf	d7,-- ;loc_22FD4
 
 locret_23014:
 		rts
@@ -396,7 +396,7 @@ loc_23016:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_23042:
++ ;loc_23042:
 		cmpi.w	#$C000,d5
 		bne.w	loc_230CC
 		moveq	#0,d3
@@ -404,11 +404,11 @@ loc_23042:
 		lea	loc_230AA(pc),a6
 		move.w	#4-1,d7
 
-loc_23056:
+- ;loc_23056:
 		swap	d7
 		move.w	#$20-1,d6
 
-loc_2305C:
+- ;loc_2305C:
 		swap	d6
 		movea.l	a1,a3
 		movea.l	a2,a4
@@ -425,19 +425,19 @@ loc_2305C:
 		move.b	(a3),d0
 		move.b	d0,(a4)
 		add.w	d5,d3
-		bcc.s	loc_23090
+		bcc.s	+ ;loc_23090
 		lea	$40(a1),a1
 
-loc_23090:
++ ;loc_23090:
 		adda.w	d4,a1
 		cmpa.l	a0,a1
 		bhs.s	locret_230A8
 		addq.w	#4,a2
 		swap	d6
-		dbf	d6,loc_2305C
+		dbf	d6,- ;loc_2305C
 		lea	$580(a2),a2
 		swap	d7
-		dbf	d7,loc_23056
+		dbf	d7,-- ;loc_23056
 
 locret_230A8:
 		rts
@@ -459,18 +459,18 @@ loc_230AA:
 
 loc_230CC:
 		cmpi.w	#$A000,d5
-		bne.w	loc_23166
+		bne.w	++ ;loc_23166
 		moveq	#0,d3
 		lsl.w	#6,d4
 		lea	loc_23150(pc),a5
 		lea	loc_23138(pc),a6
 		move.w	#4-1,d7
 
-loc_230E4:
+- ;loc_230E4:
 		swap	d7
 		move.w	#$20-1,d6
 
-loc_230EA:
+- ;loc_230EA:
 		swap	d6
 		movea.l	a1,a3
 		movea.l	a2,a4
@@ -486,19 +486,19 @@ loc_230EA:
 		or.b	d1,d0
 		move.b	d0,(a4)+
 		add.w	d5,d3
-		bcc.s	loc_2311E
+		bcc.s	+ ;loc_2311E
 		lea	$40(a1),a1
 
-loc_2311E:
++ ;loc_2311E:
 		adda.w	d4,a1
 		cmpa.l	a0,a1
 		bhs.s	locret_23136
 		addq.w	#4,a2
 		swap	d6
-		dbf	d6,loc_230EA
+		dbf	d6,- ;loc_230EA
 		lea	$780(a2),a2
 		swap	d7
-		dbf	d7,loc_230E4
+		dbf	d7,-- ;loc_230E4
 
 locret_23136:
 		rts
@@ -531,15 +531,15 @@ loc_23150:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_23166:
++ ;loc_23166:
 		moveq	#0,d3
 		lsl.w	#6,d4
 		moveq	#4-1,d7
 
-loc_2316C:
+- ;loc_2316C:
 		move.w	#$20-1,d6
 
-loc_23170:
+- ;loc_23170:
 		movea.l	a1,a3
 		movea.l	a2,a4
 	rept 16
@@ -547,15 +547,15 @@ loc_23170:
 		lea	$80(a4),a4
 	endm
 		add.w	d5,d3
-		bcc.s	loc_231DC
+		bcc.s	+ ;loc_231DC
 		lea	$40(a1),a1
 
-loc_231DC:
++ ;loc_231DC:
 		adda.w	d4,a1
 		addq.w	#4,a2
-		dbf	d6,loc_23170
+		dbf	d6,- ;loc_23170
 		lea	$780(a2),a2
-		dbf	d7,loc_2316C
+		dbf	d7,-- ;loc_2316C
 		rts
 ; ---------------------------------------------------------------------------
 Map_ScaledArt:

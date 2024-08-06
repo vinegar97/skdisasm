@@ -9,22 +9,22 @@ Obj_MHZMushroomPlatform:
 
 loc_3F39C:
 		tst.b	$2E(a0)
-		beq.s	loc_3F3CC
+		beq.s	++ ;loc_3F3CC
 		tst.b	$2F(a0)
-		beq.s	loc_3F3AE
+		beq.s	+ ;loc_3F3AE
 		subq.b	#1,$2F(a0)
-		bra.s	loc_3F3CC
+		bra.s	++ ;loc_3F3CC
 ; ---------------------------------------------------------------------------
 
-loc_3F3AE:
++ ;loc_3F3AE:
 		jsr	(MoveSprite2).l
 		addi.w	#$28,y_vel(a0)
 		jsr	(CheckPlayerReleaseFromObj).l
 		tst.b	render_flags(a0)
-		bmi.s	loc_3F3CC
+		bmi.s	+ ;loc_3F3CC
 		move.w	#$7F00,x_pos(a0)
 
-loc_3F3CC:
++ ;loc_3F3CC:
 		moveq	#0,d1
 		move.b	width_pixels(a0),d1
 		lea	(byte_3F42A).l,a2
@@ -32,16 +32,16 @@ loc_3F3CC:
 		jsr	(SolidObjectTopSloped2).l
 		move.b	status(a0),d0
 		andi.b	#standing_mask,d0
-		beq.s	loc_3F40A
+		beq.s	+ ;loc_3F40A
 		move.b	#1,anim(a0)
 		tst.b	subtype(a0)
-		beq.s	loc_3F40A
+		beq.s	+ ;loc_3F40A
 		tst.b	$2E(a0)
-		bne.s	loc_3F40A
+		bne.s	+ ;loc_3F40A
 		move.b	#1,$2E(a0)
 		move.b	#$10,$2F(a0)
 
-loc_3F40A:
++ ;loc_3F40A:
 		lea	(Ani_MHZMushroomPlatform).l,a1
 		jsr	(Animate_Sprite).l
 		jmp	(Sprite_OnScreen_Test).l

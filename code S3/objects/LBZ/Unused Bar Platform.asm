@@ -1,6 +1,6 @@
 Obj_LBZUnusedBarPlatform:
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_242B4
+		bne.w	+ ;loc_242B4
 		move.w	x_pos(a0),x_pos(a1)
 		move.w	y_pos(a0),y_pos(a1)
 		move.b	status(a0),status(a1)
@@ -15,7 +15,7 @@ Obj_LBZUnusedBarPlatform:
 		move.w	a1,$3E(a0)
 		move.b	#1,$3D(a0)
 
-loc_242B4:
++ ;loc_242B4:
 		bra.w	Obj_LBZMovingPlatform
 ; ---------------------------------------------------------------------------
 
@@ -25,17 +25,17 @@ loc_242B8:
 		move.w	x_pos(a1),x_pos(a0)
 		move.w	y_pos(a1),y_pos(a0)
 		sub.w	x_pos(a1),d4
-		bsr.s	sub_242D8
+		bsr.s	+ ;sub_242D8
 		jmp	(Draw_Sprite).l
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_242D8:
++ ;sub_242D8:
 		lea	$33(a0),a2
 		lea	(Player_2).w,a1
 		move.w	(Ctrl_2).w,d0
-		bsr.s	sub_242F0
+		bsr.s	+ ;sub_242F0
 		lea	(Player_1).w,a1
 		subq.w	#1,a2
 		move.w	(Ctrl_1).w,d0
@@ -45,7 +45,7 @@ sub_242D8:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_242F0:
++ ;sub_242F0:
 		tst.b	(a2)
 		beq.w	loc_2436C
 		tst.b	render_flags(a1)
@@ -58,20 +58,20 @@ sub_242F0:
 		clr.b	(a2)
 		move.b	#$12,2(a2)
 		andi.w	#(button_up_mask|button_down_mask|button_left_mask|button_right_mask)<<8,d0
-		beq.w	loc_24326
+		beq.w	+ ;loc_24326
 		move.b	#$3C,2(a2)
 
-loc_24326:
++ ;loc_24326:
 		btst	#button_left+8,d0
-		beq.s	loc_24332
+		beq.s	+ ;loc_24332
 		move.w	#-$200,x_vel(a1)
 
-loc_24332:
++ ;loc_24332:
 		btst	#button_right+8,d0
-		beq.s	loc_2433E
+		beq.s	+ ;loc_2433E
 		move.w	#$200,x_vel(a1)
 
-loc_2433E:
++ ;loc_2433E:
 		move.w	#-$380,y_vel(a1)
 		bset	#1,status(a1)
 		rts
@@ -93,11 +93,11 @@ loc_2435A:
 
 loc_2436C:
 		tst.b	2(a2)
-		beq.s	loc_2437A
+		beq.s	+ ;loc_2437A
 		subq.b	#1,2(a2)
 		bne.w	locret_243DE
 
-loc_2437A:
++ ;loc_2437A:
 		move.w	x_pos(a1),d0
 		sub.w	x_pos(a0),d0
 		addi.w	#$1C,d0

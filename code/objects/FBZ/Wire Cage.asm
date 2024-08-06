@@ -1,6 +1,6 @@
 Obj_FBZWireCage:
 		move.b	subtype(a0),d0
-		bpl.s	loc_39F48
+		bpl.s	+ ;loc_39F48
 		andi.w	#$7F,d0
 		lsl.w	#3,d0
 		move.w	d0,subtype(a0)
@@ -8,7 +8,7 @@ Obj_FBZWireCage:
 		bra.w	loc_3A0B0
 ; ---------------------------------------------------------------------------
 
-loc_39F48:
++ ;loc_39F48:
 		andi.w	#$7F,d0
 		lsl.w	#3,d0
 		move.w	d0,subtype(a0)
@@ -21,19 +21,19 @@ loc_39F58:
 		lea	(Player_1).w,a1
 		lea	(_unkF7B0+0).w,a2
 		moveq	#p1_standing_bit,d6
-		bsr.s	sub_39F7E
+		bsr.s	+ ;sub_39F7E
 		lea	(Player_2).w,a1
 		lea	(_unkF7B0+1).w,a2
 		addq.b	#p2_standing_bit-p1_standing_bit,d6
-		bsr.s	sub_39F7E
+		bsr.s	+ ;sub_39F7E
 		jmp	(Delete_Sprite_If_Not_In_Range).l
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_39F7E:
++ ;sub_39F7E:
 		btst	d6,status(a0)
-		bne.w	loc_3A01A
+		bne.w	+++ ;loc_3A01A
 		move.w	x_pos(a1),d0
 		sub.w	x_pos(a0),d0
 		add.w	d4,d0
@@ -43,17 +43,17 @@ sub_39F7E:
 		sub.w	y_pos(a0),d0
 		addi.w	#$50,d0
 		cmpi.w	#$18,d0
-		bhs.s	loc_39FAE
+		bhs.s	+ ;loc_39FAE
 		move.b	#$28,2(a2)
 
-loc_39FAE:
++ ;loc_39FAE:
 		tst.b	2(a2)
-		beq.s	loc_39FBA
+		beq.s	+ ;loc_39FBA
 		subq.b	#1,2(a2)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_39FBA:
++ ;loc_39FBA:
 		move.w	y_pos(a0),d0
 		addi.w	#$3C,d0
 		move.w	y_pos(a1),d2
@@ -85,14 +85,14 @@ locret_3A018:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_3A01A:
++ ;loc_3A01A:
 		btst	#1,status(a1)
-		bne.s	loc_3A054
+		bne.s	+ ;loc_3A054
 		move.w	x_pos(a1),d0
 		sub.w	x_pos(a0),d0
 		add.w	d4,d0
 		cmp.w	d5,d0
-		blo.s	loc_3A06E
+		blo.s	+++ ;loc_3A06E
 
 loc_3A030:
 		bclr	#Status_OnObj,status(a1)
@@ -104,21 +104,21 @@ loc_3A030:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_3A054:
++ ;loc_3A054:
 		move.b	(a2),d0
 		addi.b	#$20,d0
 		cmpi.b	#$40,d0
-		bhs.s	loc_3A066
+		bhs.s	+ ;loc_3A066
 		asr	y_vel(a1)
 		bra.s	loc_3A030
 ; ---------------------------------------------------------------------------
 
-loc_3A066:
++ ;loc_3A066:
 		move.w	#0,y_vel(a1)
 		bra.s	loc_3A030
 ; ---------------------------------------------------------------------------
 
-loc_3A06E:
++ ;loc_3A06E:
 		btst	#Status_OnObj,status(a1)
 		beq.s	locret_3A018
 		move.b	(a2),d0
@@ -152,19 +152,19 @@ loc_3A0B0:
 		lea	(Player_1).w,a1
 		lea	(_unkF7B0+0).w,a2
 		moveq	#p1_standing_bit,d6
-		bsr.s	sub_3A0D6
+		bsr.s	+ ;sub_3A0D6
 		lea	(Player_2).w,a1
 		lea	(_unkF7B0+1).w,a2
 		; Bug: if player 1 was riding the object, then d6 may have become dirty from
 		; a call to Perform_Player_DPLC, causing player 2 to behave erratically
 		addq.b	#p2_standing_bit-p1_standing_bit,d6
-		bsr.s	sub_3A0D6
+		bsr.s	+ ;sub_3A0D6
 		jmp	(Delete_Sprite_If_Not_In_Range).l
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_3A0D6:
++ ;sub_3A0D6:
 		btst	d6,status(a0)
 		bne.w	loc_3A18E
 		move.w	x_pos(a1),d0
@@ -184,11 +184,11 @@ sub_3A0D6:
 		tst.b	object_control(a1)
 		bmi.s	locret_3A18C
 		cmpi.w	#$20,d0
-		blo.s	loc_3A126
+		blo.s	+ ;loc_3A126
 		cmpi.w	#$E0,d0
 		blo.s	locret_3A18C
 
-loc_3A126:
++ ;loc_3A126:
 		bsr.w	sub_33C34
 		move.b	#-$40,angle(a1)
 		bclr	#0,render_flags(a1)
@@ -196,19 +196,19 @@ loc_3A126:
 		move.b	#0,(a2)
 		move.w	x_pos(a1),d0
 		sub.w	x_pos(a0),d0
-		bcc.s	loc_3A14E
+		bcc.s	+ ;loc_3A14E
 		move.b	#$80,(a2)
 
-loc_3A14E:
++ ;loc_3A14E:
 		move.w	y_vel(a1),ground_vel(a1)
 		neg.w	ground_vel(a1)
 		move.w	y_pos(a1),d0
 		sub.w	y_pos(a0),d0
-		bcc.s	loc_3A16C
+		bcc.s	+ ;loc_3A16C
 		move.b	#$40,angle(a1)
 		neg.w	ground_vel(a1)
 
-loc_3A16C:
++ ;loc_3A16C:
 		bset	#6,object_control(a1)
 		bset	#1,object_control(a1)
 		move.w	#1,anim(a1)
@@ -226,7 +226,7 @@ loc_3A18E:
 		sub.w	y_pos(a0),d1
 		add.w	d4,d1
 		cmp.w	d5,d1
-		blo.s	loc_3A1C6
+		blo.s	+ ;loc_3A1C6
 		move.b	#0,object_control(a1)
 		bclr	#Status_OnObj,status(a1)
 		bclr	d6,status(a0)
@@ -237,15 +237,15 @@ loc_3A18E:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_3A1C6:
++ ;loc_3A1C6:
 		btst	#Status_OnObj,status(a1)
 		beq.s	locret_3A18C
 		bclr	#1,render_flags(a1)
 		tst.w	y_vel(a1)
-		bmi.s	loc_3A1E0
+		bmi.s	+ ;loc_3A1E0
 		bset	#1,render_flags(a1)
 
-loc_3A1E0:
++ ;loc_3A1E0:
 		move.b	(a2),d0
 		jsr	(GetSineCosine).l
 		muls.w	#$6800,d1
@@ -287,19 +287,19 @@ loc_3A252:
 		lea	(Player_1).w,a1
 		lea	$30(a0),a2
 		moveq	#p1_standing_bit,d6
-		bsr.s	sub_3A270
+		bsr.s	+ ;sub_3A270
 		lea	(Player_2).w,a1
 		lea	$38(a0),a2
 		; Bug: if player 1 was riding the object, then d6 may have become dirty from
 		; a call to Perform_Player_DPLC, causing player 2 to behave erratically
 		addq.b	#p2_standing_bit-p1_standing_bit,d6
-		bsr.s	sub_3A270
+		bsr.s	+ ;sub_3A270
 		jmp	(Delete_Sprite_If_Not_In_Range).l
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_3A270:
++ ;sub_3A270:
 		btst	d6,status(a0)
 		bne.w	loc_3A314
 		btst	#Status_InAir,status(a1)
@@ -307,52 +307,52 @@ sub_3A270:
 		move.w	x_pos(a1),d0
 		sub.w	x_pos(a0),d0
 		tst.w	x_vel(a1)
-		bmi.s	loc_3A2A2
+		bmi.s	+ ;loc_3A2A2
 		cmpi.w	#-$B0,d0
 		bgt.w	locret_3A312
 		cmpi.w	#-$C0,d0
 		blt.s	locret_3A312
 		moveq	#0,d2
-		bra.s	loc_3A2B0
+		bra.s	++ ;loc_3A2B0
 ; ---------------------------------------------------------------------------
 
-loc_3A2A2:
++ ;loc_3A2A2:
 		cmpi.w	#$B0,d0
 		blt.s	locret_3A312
 		cmpi.w	#$C0,d0
 		bgt.s	locret_3A312
 		moveq	#1,d2
 
-loc_3A2B0:
++ ;loc_3A2B0:
 		move.w	y_pos(a1),d1
 		sub.w	y_pos(a0),d1
 		addi.w	#$10,d1
 		cmpi.w	#$20,d1
 		bhs.s	locret_3A312
 		move.w	ground_vel(a1),d0
-		bpl.s	loc_3A2CA
+		bpl.s	+ ;loc_3A2CA
 		neg.w	d0
 
-loc_3A2CA:
++ ;loc_3A2CA:
 		cmpi.w	#$400,d0
 		blo.s	locret_3A312
 		tst.b	object_control(a1)
 		bne.s	locret_3A312
 		moveq	#0,d3
 		tst.b	subtype(a0)
-		beq.s	loc_3A2F0
+		beq.s	++ ;loc_3A2F0
 		btst	#0,status(a0)
-		bne.s	loc_3A2EC
+		bne.s	+ ;loc_3A2EC
 		tst.w	d2
 		bne.s	locret_3A312
-		bra.s	loc_3A2F0
+		bra.s	++ ;loc_3A2F0
 ; ---------------------------------------------------------------------------
 
-loc_3A2EC:
++ ;loc_3A2EC:
 		tst.w	d2
 		beq.s	locret_3A312
 
-loc_3A2F0:
++ ;loc_3A2F0:
 		move.l	#0,(a2)
 		move.b	d2,4(a2)
 		move.w	d3,6(a2)
@@ -368,24 +368,24 @@ locret_3A312:
 
 loc_3A314:
 		move.w	ground_vel(a1),d0
-		bpl.s	loc_3A31C
+		bpl.s	+ ;loc_3A31C
 		neg.w	d0
 
-loc_3A31C:
++ ;loc_3A31C:
 		cmpi.w	#$400,d0
-		blo.s	loc_3A36E
+		blo.s	++ ;loc_3A36E
 		btst	#Status_InAir,status(a1)
-		bne.s	loc_3A36E
+		bne.s	++ ;loc_3A36E
 		tst.l	(a2)
 		bne.w	loc_3A480
 		move.w	x_pos(a1),d0
 		sub.w	x_pos(a0),d0
 		addi.w	#$C0,d0
-		bmi.s	loc_3A344
+		bmi.s	+ ;loc_3A344
 		cmpi.w	#$180,d0
-		blo.s	loc_3A3B4
+		blo.s	+++ ;loc_3A3B4
 
-loc_3A344:
++ ;loc_3A344:
 		bclr	#Status_Roll,status(a1)
 		move.b	default_y_radius(a1),y_radius(a1)
 		move.b	default_x_radius(a1),x_radius(a1)
@@ -396,7 +396,7 @@ loc_3A344:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_3A36E:
++ ;loc_3A36E:
 		asr	x_vel(a1)
 		bset	#Status_InAir,status(a1)
 		bclr	#Status_Roll,status(a1)
@@ -412,17 +412,17 @@ loc_3A36E:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_3A3B4:
++ ;loc_3A3B4:
 		btst	#Status_OnObj,status(a1)
 		beq.w	locret_3A312
 		tst.b	subtype(a0)
-		beq.s	loc_3A426
+		beq.s	++ ;loc_3A426
 		tst.b	4(a2)
-		bne.s	loc_3A3F2
+		bne.s	+ ;loc_3A3F2
 		cmpi.w	#$C0,d0
-		blo.s	loc_3A426
+		blo.s	++ ;loc_3A426
 		tst.w	ground_vel(a1)
-		bmi.s	loc_3A426
+		bmi.s	++ ;loc_3A426
 		subi.w	#$C0,d0
 		move.w	d0,(a2)
 		move.w	#0,2(a2)
@@ -431,11 +431,11 @@ loc_3A3B4:
 		bra.w	loc_3A480
 ; ---------------------------------------------------------------------------
 
-loc_3A3F2:
++ ;loc_3A3F2:
 		cmpi.w	#$C0,d0
-		bhs.s	loc_3A426
+		bhs.s	+ ;loc_3A426
 		tst.w	ground_vel(a1)
-		bpl.s	loc_3A426
+		bpl.s	+ ;loc_3A426
 		subi.w	#$C0,d0
 		add.w	$42(a0),d0
 		move.w	d0,(a2)
@@ -448,7 +448,7 @@ loc_3A3F2:
 		bra.s	loc_3A480
 ; ---------------------------------------------------------------------------
 
-loc_3A426:
++ ;loc_3A426:
 		lsr.w	#5,d0
 		andi.w	#$F,d0
 		move.b	byte_3A468(pc,d0.w),d1
@@ -482,7 +482,7 @@ loc_3A480:
 		ext.l	d0
 		lsl.l	#8,d0
 		add.l	d0,(a2)
-		bpl.s	loc_3A4B2
+		bpl.s	+ ;loc_3A4B2
 		move.l	#0,(a2)
 		move.b	#0,4(a2)
 		move.w	$40(a0),d0
@@ -493,10 +493,10 @@ loc_3A480:
 		bra.w	loc_3A314
 ; ---------------------------------------------------------------------------
 
-loc_3A4B2:
++ ;loc_3A4B2:
 		move.w	(a2),d0
 		cmp.w	$42(a0),d0
-		blo.s	loc_3A4DC
+		blo.s	+ ;loc_3A4DC
 		move.l	#0,(a2)
 		move.b	#1,4(a2)
 		move.w	$40(a0),6(a2)
@@ -505,7 +505,7 @@ loc_3A4B2:
 		bra.w	loc_3A314
 ; ---------------------------------------------------------------------------
 
-loc_3A4DC:
++ ;loc_3A4DC:
 		move.w	x_pos(a1),d2
 		move.w	(a2),d0
 		lsr.w	#1,d0
@@ -531,10 +531,10 @@ loc_3A4DC:
 		lsr.w	#1,d0
 		andi.w	#$FF,d0
 		tst.w	ground_vel(a1)
-		bpl.s	loc_3A52E
+		bpl.s	+ ;loc_3A52E
 		neg.b	d0
 
-loc_3A52E:
++ ;loc_3A52E:
 		divu.w	#$B,d0
 		move.b	RawAni_3A548(pc,d0.w),mapping_frame(a1)
 		moveq	#0,d0

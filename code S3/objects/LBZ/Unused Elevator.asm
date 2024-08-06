@@ -21,12 +21,12 @@ Obj_LBZUnusedElevator:
 		move.w	d0,$38(a0)
 		sub.w	d0,y_pos(a0)
 		btst	#0,status(a0)
-		beq.s	loc_24782
+		beq.s	+ ;loc_24782
 		add.w	d0,d0
 		add.w	d0,y_pos(a0)
 		move.b	#1,$34(a0)
 
-loc_24782:
++ ;loc_24782:
 		move.l	#loc_24788,(a0)
 
 loc_24788:
@@ -34,7 +34,7 @@ loc_24788:
 		move.w	off_247BE(pc,d0.w),d1
 		jsr	off_247BE(pc,d1.w)
 		tst.b	render_flags(a0)
-		bpl.s	loc_247B8
+		bpl.s	+ ;loc_247B8
 		moveq	#0,d1
 		move.b	width_pixels(a0),d1
 		addi.w	#$B,d1
@@ -45,7 +45,7 @@ loc_24788:
 		move.w	x_pos(a0),d4
 		jsr	(SolidObjectFull).l
 
-loc_247B8:
++ ;loc_247B8:
 		jmp	(Sprite_OnScreen_Test).l
 ; ---------------------------------------------------------------------------
 off_247BE:
@@ -69,7 +69,7 @@ locret_247E2:
 ; ---------------------------------------------------------------------------
 
 loc_247E4:
-		bsr.w	sub_2485A
+		bsr.w	+ ;sub_2485A
 		tst.w	y_vel(a0)
 		bne.s	locret_2480E
 		addq.w	#2,$36(a0)
@@ -101,7 +101,7 @@ locret_2482C:
 ; ---------------------------------------------------------------------------
 
 loc_2482E:
-		bsr.w	sub_2485A
+		bsr.w	+ ;sub_2485A
 		tst.w	y_vel(a0)
 		bne.s	locret_24858
 		clr.w	$36(a0)
@@ -121,11 +121,11 @@ locret_24858:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_2485A:
++ ;sub_2485A:
 		move.w	y_pos(a0),d2
 		moveq	#8,d1
 		tst.b	$34(a0)
-		bne.s	loc_248A8
+		bne.s	++ ;loc_248A8
 		add.w	d1,y_vel(a0)
 		move.w	y_vel(a0),d0
 		ext.l	d0
@@ -134,7 +134,7 @@ sub_2485A:
 		move.w	$32(a0),d0
 		cmp.w	y_pos(a0),d0
 		bhi.s	locret_248E8
-		beq.s	loc_24898
+		beq.s	+ ;loc_24898
 		sub.w	d0,d2
 		neg.w	d2
 		add.w	d0,d2
@@ -144,14 +144,14 @@ sub_2485A:
 		bra.s	locret_248E8
 ; ---------------------------------------------------------------------------
 
-loc_24898:
++ ;loc_24898:
 		neg.w	$16(a0)
 		add.w	d1,y_vel(a0)
 		move.b	#1,$34(a0)
 		bra.s	locret_248E8
 ; ---------------------------------------------------------------------------
 
-loc_248A8:
++ ;loc_248A8:
 		sub.w	d1,y_vel(a0)
 		move.w	y_vel(a0),d0
 		ext.l	d0
@@ -160,7 +160,7 @@ loc_248A8:
 		move.w	$32(a0),d0
 		cmp.w	y_pos(a0),d0
 		blo.s	locret_248E8
-		beq.s	loc_248DA
+		beq.s	+ ;loc_248DA
 		sub.w	d0,d2
 		neg.w	d2
 		add.w	d0,d2
@@ -170,7 +170,7 @@ loc_248A8:
 		bra.s	locret_248E8
 ; ---------------------------------------------------------------------------
 
-loc_248DA:
++ ;loc_248DA:
 		neg.w	$16(a0)
 		sub.w	d1,y_vel(a0)
 		move.b	#0,$34(a0)

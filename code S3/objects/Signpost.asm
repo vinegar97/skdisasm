@@ -12,37 +12,37 @@ Obj_HiddenMonitor:
 Obj_HiddenMonitorMain:
 		movea.w	(Signpost_addr).w,a1
 		cmpi.l	#Obj_EndSign,(a1)
-		bne.s	loc_52360			; If no signpost is active, branch
+		bne.s	++ ;loc_52360			; If no signpost is active, branch
 		btst	#0,$38(a1)
-		beq.s	loc_52360			; If signpost hasn't landed, branch
+		beq.s	++ ;loc_52360			; If signpost hasn't landed, branch
 		lea	word_52392(pc),a2
 		move.w	x_pos(a0),d0
 		move.w	x_pos(a1),d1
 		add.w	(a2)+,d0
 		cmp.w	d0,d1
-		blo.s	loc_52352
+		blo.s	+ ;loc_52352
 		add.w	(a2)+,d0
 		cmp.w	d0,d1
-		bhs.s	loc_52352
+		bhs.s	+ ;loc_52352
 		move.w	y_pos(a0),d0
 		move.w	y_pos(a1),d1
 		add.w	(a2)+,d0
 		cmp.w	d0,d1
-		blo.s	loc_52352
+		blo.s	+ ;loc_52352
 		add.w	(a2)+,d0
 		cmp.w	d0,d1
-		blo.s	loc_52366
+		blo.s	+++ ;loc_52366
 
-loc_52352:
++ ;loc_52352:
 		moveq	#signextendB(sfx_GroundSlide),d0				; If signpost has landed
 		jsr	(Play_SFX).l
 		move.l	#Sprite_OnScreen_Test,(a0)
 
-loc_52360:
++ ;loc_52360:
 		jmp	(Sprite_OnScreen_Test).l
 ; ---------------------------------------------------------------------------
 
-loc_52366:
++ ;loc_52366:
 		bclr	#0,$38(a1)			; If signpost has landed and is in range
 		move.l	#Obj_Monitor,(a0)	; make this object a monitor
 		move.b	#2,routine(a0)
@@ -86,10 +86,10 @@ Obj_EndSignInit:
 		move.b	#$1E,y_radius(a0)
 		move.l	#AniRaw_EndSigns,$30(a0)
 		cmpi.b	#6,(Current_zone).w
-		bne.s	loc_523FA
+		bne.s	+ ;loc_523FA
 		move.w	#$3EC0,x_pos(a0)
 
-loc_523FA:
++ ;loc_523FA:
 		move.w	(Camera_Y_pos).w,d0
 		subi.w	#$20,d0
 		move.w	d0,y_pos(a0)			; Place vertical position at top of screen
@@ -102,11 +102,11 @@ loc_523FA:
 Obj_EndSignFall:
 		move.b	(V_int_run_count+3).w,d0
 		andi.b	#3,d0
-		bne.s	loc_52428
+		bne.s	+ ;loc_52428
 		lea	Child6_EndSignSparkle(pc),a2	; Create a signpost sparkle every 4 frames
 		jsr	CreateChild6_Simple(pc)
 
-loc_52428:
++ ;loc_52428:
 		bsr.w	EndSign_CheckPlayerHit
 		addi.w	#$C,y_vel(a0)
 		jsr	(MoveSprite2).l					; Move downward
@@ -114,10 +114,10 @@ loc_52428:
 		jsr	Animate_Raw(pc)
 		move.w	(Camera_Y_pos).w,d0
 		cmpi.b	#6,(Current_zone).w
-		bne.s	loc_52450
+		bne.s	+ ;loc_52450
 		addi.w	#$60,d0
 
-loc_52450:
++ ;loc_52450:
 		cmp.w	y_pos(a0),d0
 		bhi.s	locret_5247C		; Ensure that signpost can't land if too far up the screen itself
 		tst.w	y_vel(a0)
@@ -136,14 +136,14 @@ locret_5247C:
 
 Obj_EndSignLanded:
 		btst	#0,$38(a0)
-		beq.s	loc_524AA
+		beq.s	++ ;loc_524AA
 		jsr	Animate_Raw(pc)
 		subq.w	#1,$2E(a0)			; Keep animating while landing for X amount of frames
-		bmi.s	loc_52492
+		bmi.s	+ ;loc_52492
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_52492:
++ ;loc_52492:
 		move.b	#6,routine(a0)
 		moveq	#0,d0
 		move.b	(Player_mode+1).w,d0	; Get current character "mode"
@@ -152,7 +152,7 @@ loc_52492:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_524AA:
++ ;loc_524AA:
 		move.b	#2,routine(a0)			; If a hidden monitor was hit, bounce ths signpost again
 		move.b	#$20,$20(a0)
 		move.w	#-$200,y_vel(a0)
@@ -182,11 +182,11 @@ Obj_EndSignAfter:
 		andi.w	#$FF80,d0
 		sub.w	(Camera_X_pos_coarse_back).w,d0
 		cmpi.w	#$280,d0
-		bhi.s	loc_52500
+		bhi.s	+ ;loc_52500
 		jmp	(Check_TailsEndPose).l
 ; ---------------------------------------------------------------------------
 
-loc_52500:
++ ;loc_52500:
 		lea	PLC_SpikesSprings(pc),a1
 		jsr	(Load_PLC_Raw).l
 		jsr	Remove_From_TrackingSlot(pc)
@@ -214,16 +214,16 @@ Obj_SignpostSparkleMain:
 		move.w	#$400,d0
 		move.w	x_pos(a0),d1
 		cmp.w	$3A(a0),d1
-		blo.s	loc_52564
+		blo.s	+ ;loc_52564
 		neg.w	d0
 
-loc_52564:
++ ;loc_52564:
 		move.w	#$80,d1
 		add.w	d0,x_vel(a0)		; Do rotation around sign
-		bpl.s	loc_52572
+		bpl.s	+ ;loc_52572
 		move.w	#$180,d1
 
-loc_52572:
++ ;loc_52572:
 		move.w	d1,priority(a0)
 		jsr	(MoveSprite2).l
 		lea	AniRaw_SignpostSparkle(pc),a1
@@ -253,10 +253,10 @@ EndSign_CheckPlayerHit:
 		tst.l	d0
 		beq.s	locret_52612		; If neither player is in range, don't do anything
 		tst.w	d0
-		beq.s	loc_525C0
-		bsr.w	sub_525C6
+		beq.s	+ ;loc_525C0
+		bsr.w	++ ;sub_525C6
 
-loc_525C0:
++ ;loc_525C0:
 		swap	d0
 		tst.w	d0
 		beq.s	locret_52612
@@ -266,7 +266,7 @@ loc_525C0:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_525C6:
++ ;sub_525C6:
 		movea.w	d0,a1			; This can be done up to twice depending on who hit the signpost
 		cmpi.b	#2,anim(a1)
 		bne.s	locret_52612		; only go on if Player is currently jumping
@@ -275,10 +275,10 @@ sub_525C6:
 		move.b	#$20,$20(a0)		; Set delay for when it checks for the next hit
 		move.w	x_pos(a0),d0
 		sub.w	x_pos(a1),d0
-		bne.s	loc_525E8
+		bne.s	+ ;loc_525E8
 		moveq	#8,d0
 
-loc_525E8:
++ ;loc_525E8:
 		lsl.w	#4,d0
 		move.w	d0,x_vel(a0)		; Modify strength of X velocity based on how far to the left/right player is
 		move.w	#-$200,y_vel(a0)	; New vertical velocity is always the same
@@ -308,27 +308,27 @@ EndSign_Range:
 EndSign_CheckWall:
 		move.w	(Camera_X_pos).w,d0
 		tst.w	x_vel(a0)
-		bmi.s	loc_5263E
+		bmi.s	+ ;loc_5263E
 		addi.w	#$128,d0
 		cmp.w	x_pos(a0),d0
-		blo.s	loc_52654
+		blo.s	++ ;loc_52654
 		moveq	#$20,d3
 		jsr	(ObjCheckRightWallDist).l
 		tst.w	d1
-		bmi.s	loc_52654
+		bmi.s	++ ;loc_52654
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_5263E:
++ ;loc_5263E:
 		addi.w	#$18,d0
 		cmp.w	x_pos(a0),d0
-		bhi.s	loc_52654
+		bhi.s	+ ;loc_52654
 		moveq	#-$20,d3
 		jsr	(ObjCheckLeftWallDist).l
 		tst.w	d1
 		bpl.s	locret_52658
 
-loc_52654:
++ ;loc_52654:
 		neg.w	x_vel(a0)
 
 locret_52658:

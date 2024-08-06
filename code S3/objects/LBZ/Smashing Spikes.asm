@@ -5,14 +5,14 @@ Obj_MGZLBZSmashingPillar:
 		move.b	#$10,height_pixels(a0)
 		move.w	#$80,priority(a0)
 		cmpi.b	#2,(Current_zone).w
-		bne.s	loc_2815C
+		bne.s	+ ;loc_2815C
 		move.l	#Map_MGZSmashingPillar,mappings(a0)
 		move.w	#make_art_tile($001,2,0),art_tile(a0)
 		move.b	#$20,width_pixels(a0)
 		move.b	#$28,height_pixels(a0)
 		move.w	#$280,priority(a0)
 
-loc_2815C:
++ ;loc_2815C:
 		move.b	#4,render_flags(a0)
 		move.w	y_pos(a0),$30(a0)
 		moveq	#0,d0
@@ -23,7 +23,7 @@ loc_2815C:
 
 loc_2817A:
 		tst.b	$32(a0)
-		bne.s	loc_281C6
+		bne.s	++ ;loc_281C6
 		move.w	y_vel(a0),d0
 		addi.w	#$80,y_vel(a0)
 		ext.l	d0
@@ -39,23 +39,23 @@ loc_2817A:
 		bpl.s	loc_281DA
 		moveq	#signextendB(sfx_Crash),d0
 		cmpi.b	#2,(Current_zone).w
-		beq.s	loc_281BE
+		beq.s	+ ;loc_281BE
 		moveq	#signextendB(sfx_MechaLand),d0
 
-loc_281BE:
++ ;loc_281BE:
 		jsr	(Play_SFX).l
 		bra.s	loc_281DA
 ; ---------------------------------------------------------------------------
 
-loc_281C6:
++ ;loc_281C6:
 		move.w	$34(a0),d2
-		beq.s	loc_281D4
+		beq.s	+ ;loc_281D4
 		subq.w	#1,d2
 		move.w	d2,$34(a0)
 		bra.s	loc_281DA
 ; ---------------------------------------------------------------------------
 
-loc_281D4:
++ ;loc_281D4:
 		move.b	#0,$32(a0)
 
 loc_281DA:
@@ -73,24 +73,24 @@ loc_281DA:
 		jsr	(SolidObjectFull).l
 		swap	d6
 		andi.w	#4|8,d6
-		bne.s	loc_28212
+		bne.s	+ ;loc_28212
 		jmp	(Sprite_OnScreen_Test).l
 ; ---------------------------------------------------------------------------
 
-loc_28212:
++ ;loc_28212:
 		move.b	d6,d0
 		andi.b	#4,d0
-		beq.s	loc_28222
+		beq.s	+ ;loc_28222
 		lea	(Player_1).w,a1
 		bsr.w	sub_228EC
 
-loc_28222:
++ ;loc_28222:
 		andi.b	#8,d6
-		beq.s	loc_28230
+		beq.s	+ ;loc_28230
 		lea	(Player_2).w,a1
 		bsr.w	sub_228EC
 
-loc_28230:
++ ;loc_28230:
 		jmp	(Sprite_OnScreen_Test).l
 ; ---------------------------------------------------------------------------
 Map_LBZSmashingSpikes:

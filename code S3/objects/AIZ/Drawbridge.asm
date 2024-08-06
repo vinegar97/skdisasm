@@ -12,21 +12,21 @@ Obj_AIZDrawBridge:
 		move.b	#-$40,$38(a0)
 		moveq	#-$10,d4
 		btst	#1,status(a0)
-		beq.s	loc_2A84E
+		beq.s	+ ;loc_2A84E
 		addi.w	#$D0,y_pos(a0)
 		move.b	#$40,$38(a0)
 		neg.w	d4
 
-loc_2A84E:
++ ;loc_2A84E:
 		move.w	#$200,d1
 		btst	#0,status(a0)
-		beq.s	loc_2A85C
+		beq.s	+ ;loc_2A85C
 		neg.w	d1
 
-loc_2A85C:
++ ;loc_2A85C:
 		move.w	d1,$34(a0)
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_2A92E
+		bne.w	+ ;loc_2A92E
 		move.l	#loc_2AA48,(a1)
 		move.l	mappings(a0),mappings(a1)
 		move.w	art_tile(a0),art_tile(a1)
@@ -42,17 +42,17 @@ loc_2A85C:
 		subq.w	#1,d1
 		lea	sub2_x_pos(a1),a2
 
-loc_2A8AE:
+- ;loc_2A8AE:
 		add.w	d4,d3
 		move.w	d2,(a2)+
 		move.w	d3,(a2)+
 		move.w	#1,(a2)+
-		dbf	d1,loc_2A8AE
+		dbf	d1,- ;loc_2A8AE
 		move.w	$30(a1),x_pos(a1)
 		move.w	$32(a1),y_pos(a1)
 		move.w	a1,$3C(a0)
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.s	loc_2A92E
+		bne.s	+ ;loc_2A92E
 		move.l	#loc_2AA48,(a1)
 		move.l	mappings(a0),mappings(a1)
 		move.w	art_tile(a0),art_tile(a1)
@@ -66,119 +66,119 @@ loc_2A8AE:
 		subq.w	#1,d1
 		lea	sub2_x_pos(a1),a2
 
-loc_2A910:
+- ;loc_2A910:
 		add.w	d4,d3
 		move.w	d2,(a2)+
 		move.w	d3,(a2)+
 		move.w	#1,(a2)+
-		dbf	d1,loc_2A910
+		dbf	d1,- ;loc_2A910
 		move.w	sub2_x_pos(a1),x_pos(a1)
 		move.w	sub2_y_pos(a1),y_pos(a1)
 		move.w	a1,$3E(a0)
 
-loc_2A92E:
++ ;loc_2A92E:
 		move.l	#loc_2A934,(a0)
 
 loc_2A934:
 		tst.b	(_unkFAA3).w
-		beq.s	loc_2A978
+		beq.s	++ ;loc_2A978
 		tst.b	$36(a0)
-		bne.s	loc_2A978
+		bne.s	++ ;loc_2A978
 		move.b	#1,$36(a0)
 		moveq	#signextendB(sfx_FlipBridge),d0
 		jsr	(Play_SFX).l
 		move.w	#$68,d1
 		btst	#0,status(a0)
-		beq.s	loc_2A95C
+		beq.s	+ ;loc_2A95C
 		neg.w	d1
 
-loc_2A95C:
++ ;loc_2A95C:
 		move.w	$30(a0),x_pos(a0)
 		move.w	$32(a0),y_pos(a0)
 		add.w	d1,x_pos(a0)
 		move.b	#$60,width_pixels(a0)
 		move.b	#8,height_pixels(a0)
 
-loc_2A978:
++ ;loc_2A978:
 		tst.b	$36(a0)
-		beq.s	loc_2A9AA
+		beq.s	+++ ;loc_2A9AA
 		tst.b	$38(a0)
-		beq.s	loc_2A98C
+		beq.s	+ ;loc_2A98C
 		cmpi.b	#$80,$38(a0)
-		bne.s	loc_2A9A2
+		bne.s	++ ;loc_2A9A2
 
-loc_2A98C:
++ ;loc_2A98C:
 		move.b	#0,$36(a0)
 		moveq	#signextendB(sfx_FlipBridge),d0
 		jsr	(Play_SFX).l
 		move.l	#loc_2A9B0,(a0)
-		bra.s	loc_2A9AA
+		bra.s	++ ;loc_2A9AA
 ; ---------------------------------------------------------------------------
 
-loc_2A9A2:
++ ;loc_2A9A2:
 		move.w	$34(a0),d0
 		add.w	d0,$38(a0)
 
-loc_2A9AA:
++ ;loc_2A9AA:
 		bsr.w	sub_2AA4E
-		bra.s	loc_2A9CC
+		bra.s	+ ;loc_2A9CC
 ; ---------------------------------------------------------------------------
 
 loc_2A9B0:
 		tst.b	(_unkFAA9).w
-		beq.s	loc_2A9CC
+		beq.s	+ ;loc_2A9CC
 		move.l	#loc_2AB1A,(a0)
 		move.b	#$E,$34(a0)
 		move.l	#loc_2AAF2,d4
 		bra.w	loc_2AB60
 ; ---------------------------------------------------------------------------
 
-loc_2A9CC:
++ ;loc_2A9CC:
 		move.w	#$13,d1
 		move.w	#$60,d2
 		move.w	#$61,d3
 		move.b	$38(a0),d0
-		beq.s	loc_2A9EA
+		beq.s	+ ;loc_2A9EA
 		cmpi.b	#$40,d0
-		beq.s	loc_2A9F6
+		beq.s	++ ;loc_2A9F6
 		cmpi.b	#-$40,d0
-		beq.s	loc_2A9F6
+		beq.s	++ ;loc_2A9F6
 
-loc_2A9EA:
++ ;loc_2A9EA:
 		move.w	#$6B,d1
 		move.w	#8,d2
 		move.w	#8,d3
 
-loc_2A9F6:
++ ;loc_2A9F6:
 		move.w	x_pos(a0),d4
 		jsr	(SolidObjectFull2).l
 		move.w	$30(a0),d0
 		andi.w	#$FF80,d0
 		sub.w	(Camera_X_pos_coarse_back).w,d0
 		cmpi.w	#$280,d0
-		bhi.w	loc_2AA1A
+		bhi.w	+ ;loc_2AA1A
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_2AA1A:
++ ;loc_2AA1A:
 		move.w	$3C(a0),d0
-		beq.s	loc_2AA28
+		beq.s	+ ;loc_2AA28
 		movea.w	d0,a1
 		jsr	(Delete_Referenced_Sprite).l
 
-loc_2AA28:
++ ;loc_2AA28:
 		move.w	$3E(a0),d0
-		beq.s	loc_2AA36
+		beq.s	+ ;loc_2AA36
 		movea.w	d0,a1
 		jsr	(Delete_Referenced_Sprite).l
 
-loc_2AA36:
++ ;loc_2AA36:
 		move.w	respawn_addr(a0),d0
-		beq.s	loc_2AA42
+		beq.s	+ ;loc_2AA42
 		movea.w	d0,a2
 		bclr	#7,(a2)
 
-loc_2AA42:
++ ;loc_2AA42:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -210,7 +210,7 @@ sub_2AA4E:
 		move.l	d1,d5
 		lea	sub2_x_pos(a1),a2
 
-loc_2AA8A:
+- ;loc_2AA8A:
 		movem.l	d4-d5,-(sp)
 		swap	d4
 		swap	d5
@@ -222,7 +222,7 @@ loc_2AA8A:
 		add.l	d0,d4
 		add.l	d1,d5
 		addq.w	#2,a2
-		dbf	d6,loc_2AA8A
+		dbf	d6,- ;loc_2AA8A
 		move.w	$30(a1),x_pos(a1)
 		move.w	$32(a1),y_pos(a1)
 		moveq	#0,d6
@@ -232,7 +232,7 @@ loc_2AA8A:
 		bcs.s	locret_2AAF0
 		lea	sub2_x_pos(a1),a2
 
-loc_2AAC6:
+- ;loc_2AAC6:
 		movem.l	d4-d5,-(sp)
 		swap	d4
 		swap	d5
@@ -244,7 +244,7 @@ loc_2AAC6:
 		add.l	d0,d4
 		add.l	d1,d5
 		addq.w	#2,a2
-		dbf	d6,loc_2AAC6
+		dbf	d6,- ;loc_2AAC6
 		move.w	sub2_x_pos(a1),x_pos(a1)
 		move.w	sub2_y_pos(a1),y_pos(a1)
 
@@ -256,78 +256,78 @@ locret_2AAF0:
 
 loc_2AAF2:
 		tst.b	$34(a0)
-		beq.s	loc_2AB02
+		beq.s	+ ;loc_2AB02
 		subq.b	#1,$34(a0)
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_2AB02:
++ ;loc_2AB02:
 		jsr	(MoveSprite).l
 		tst.b	render_flags(a0)
-		bpl.s	loc_2AB14
+		bpl.s	+ ;loc_2AB14
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_2AB14:
++ ;loc_2AB14:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
 loc_2AB1A:
 		tst.b	$34(a0)
-		beq.s	loc_2AB26
+		beq.s	+ ;loc_2AB26
 		subq.b	#1,$34(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_2AB26:
++ ;loc_2AB26:
 		bclr	#p1_standing_bit,status(a0)
-		beq.s	loc_2AB40
+		beq.s	+ ;loc_2AB40
 		bclr	#Status_OnObj,(Player_1+status).w
 		bset	#Status_InAir,(Player_1+status).w
 		move.b	#$1B,(Player_1+anim).w
 
-loc_2AB40:
++ ;loc_2AB40:
 		bclr	#p2_standing_bit,status(a0)
-		beq.s	loc_2AB5A
+		beq.s	+ ;loc_2AB5A
 		bclr	#Status_OnObj,(Player_2+status).w
 		bset	#Status_InAir,(Player_2+status).w
 		move.b	#$1B,(Player_2+anim).w
 
-loc_2AB5A:
++ ;loc_2AB5A:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
 loc_2AB60:
 		move.w	$3C(a0),d0
-		beq.s	loc_2AB6A
+		beq.s	+ ;loc_2AB6A
 		movea.w	d0,a3
-		bsr.s	sub_2AB76
+		bsr.s	++ ;sub_2AB76
 
-loc_2AB6A:
++ ;loc_2AB6A:
 		move.w	$3E(a0),d0
 		beq.s	locret_2AB74
 		movea.w	d0,a3
-		bsr.s	sub_2AB76
+		bsr.s	+ ;sub_2AB76
 
 locret_2AB74:
 		rts
 ; ---------------------------------------------------------------------------
 
-sub_2AB76:
++ ;sub_2AB76:
 		lea	(byte_2AC10).l,a4
 		lea	$18(a3),a2
 		move.w	mainspr_childsprites(a3),d6
 		subq.w	#1,d6
 		bclr	#6,render_flags(a3)
 		movea.l	a3,a1
-		bra.s	loc_2AB98
+		bra.s	+ ;loc_2AB98
 ; ---------------------------------------------------------------------------
 
-loc_2AB90:
+- ;loc_2AB90:
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.s	loc_2ABFC
+		bne.s	++ ;loc_2ABFC
 
-loc_2AB98:
++ ;loc_2AB98:
 		move.l	d4,(a1)
 		move.l	mappings(a3),mappings(a1)
 		move.b	render_flags(a3),render_flags(a1)
@@ -343,14 +343,14 @@ loc_2AB98:
 		move.b	(a4)+,$34(a1)
 		movea.l	a1,a5
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.s	loc_2ABFC
+		bne.s	+ ;loc_2ABFC
 		move.l	#loc_1C31E,(a1)
 		move.w	x_pos(a5),x_pos(a1)
 		move.w	y_pos(a5),y_pos(a1)
 		move.b	-1(a4),anim_frame_timer(a1)
-		dbf	d6,loc_2AB90
+		dbf	d6,- ;loc_2AB90
 
-loc_2ABFC:
++ ;loc_2ABFC:
 		move.w	#0,sub2_x_pos(a3)
 		move.w	#0,sub2_y_pos(a3)
 		moveq	#signextendB(sfx_BridgeCollapse),d0

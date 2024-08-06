@@ -22,7 +22,7 @@ loc_2CFC0:
 		move.w	#$280,priority(a0)
 		movea.w	respawn_addr(a0),a2
 		btst	#0,(a2)
-		bne.s	loc_2D008
+		bne.s	+ ;loc_2D008
 		move.b	(Last_star_post_hit).w,d1
 		andi.b	#$7F,d1
 		move.b	subtype(a0),d2
@@ -30,7 +30,7 @@ loc_2CFC0:
 		cmp.b	d2,d1
 		blo.s	loc_2D012
 
-loc_2D008:
++ ;loc_2D008:
 		bset	#0,(a2)
 		move.b	#2,anim(a0)
 
@@ -39,18 +39,18 @@ loc_2D012:
 		bne.w	loc_2D0F8
 		lea	(Player_1).w,a3
 		move.b	(Last_star_post_hit).w,d1
-		bsr.s	sub_2D028
+		bsr.s	+ ;sub_2D028
 		bra.w	loc_2D0F8
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_2D028:
++ ;sub_2D028:
 		andi.b	#$7F,d1
 		move.b	subtype(a0),d2
 		andi.b	#$7F,d2
 		cmp.b	d2,d1
-		bhs.w	loc_2D0EA
+		bhs.w	++ ;loc_2D0EA
 		move.w	x_pos(a3),d0
 		sub.w	x_pos(a0),d0
 		addi.w	#8,d0
@@ -64,7 +64,7 @@ sub_2D028:
 		moveq	#signextendB(sfx_Starpost),d0
 		jsr	(Play_SFX).l
 		jsr	(AllocateObject).l
-		bne.s	loc_2D0D0
+		bne.s	+ ;loc_2D0D0
 		move.l	#Obj_StarPost,(a1)
 		move.b	#6,routine(a1)
 		move.w	x_pos(a0),$30(a1)
@@ -80,10 +80,10 @@ sub_2D028:
 		move.w	#$20,$36(a1)
 		move.w	a0,$3E(a1)
 		cmpi.w	#20,(Ring_count).w
-		blo.s	loc_2D0D0
+		blo.s	+ ;loc_2D0D0
 		bsr.w	sub_2D3C8
 
-loc_2D0D0:
++ ;loc_2D0D0:
 		move.b	#1,anim(a0)
 		bsr.w	sub_2D164
 		move.b	#4,routine(a0)
@@ -94,7 +94,7 @@ locret_2D0E8:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_2D0EA:
++ ;loc_2D0EA:
 		tst.b	anim(a0)
 		bne.s	locret_2D0F6
 		move.b	#2,anim(a0)
@@ -113,18 +113,18 @@ loc_2D0F8:
 
 loc_2D10A:
 		subq.w	#1,$36(a0)
-		bpl.s	loc_2D12E
+		bpl.s	++ ;loc_2D12E
 		movea.w	$3E(a0),a1
 		cmpi.l	#Obj_StarPost,(a1)
-		bne.s	loc_2D128
+		bne.s	+ ;loc_2D128
 		move.b	#2,anim(a1)
 		move.b	#0,mapping_frame(a1)
 
-loc_2D128:
++ ;loc_2D128:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_2D12E:
++ ;loc_2D12E:
 		move.b	angle(a0),d0
 		subi.b	#$10,angle(a0)
 		subi.b	#$40,d0
@@ -201,7 +201,7 @@ Save_Level_Data2:
 
 Load_Starpost_Settings:
 		tst.b	(Special_bonus_entry_flag).w
-		bne.w	loc_2D2C2
+		bne.w	++ ;loc_2D2C2
 		move.b	(Saved_last_star_post_hit).w,(Last_star_post_hit).w
 		move.w	(Saved_zone_and_act).w,(Current_zone_and_act).w
 		move.w	(Saved_apparent_zone_and_act).w,(Apparent_zone_and_act).w
@@ -210,11 +210,11 @@ Load_Starpost_Settings:
 		move.w	(Saved_ring_count).w,(Ring_count).w
 		move.b	(Saved_extra_life_flags).w,(Extra_life_flags).w
 		tst.b	(Respawn_table_keep).w
-		bne.s	loc_2D274
+		bne.s	+ ;loc_2D274
 		clr.w	(Ring_count).w
 		clr.b	(Extra_life_flags).w
 
-loc_2D274:
++ ;loc_2D274:
 		move.l	(Saved_timer).w,(Timer).w
 		move.b	#60-1,(Timer_frame).w
 		subq.b	#1,(Timer_second).w
@@ -234,7 +234,7 @@ locret_2D2C0:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_2D2C2:
++ ;loc_2D2C2:
 		clr.b	(Special_bonus_entry_flag).w
 		move.w	(Saved2_zone_and_act).w,(Current_zone_and_act).w
 		move.w	(Saved2_apparent_zone_and_act).w,(Apparent_zone_and_act).w
@@ -276,9 +276,9 @@ sub_2D3C8:
 		moveq	#4-1,d1
 		moveq	#0,d2
 
-loc_2D3CC:
+- ;loc_2D3CC:
 		jsr	(AllocateObject).l
-		bne.s	loc_2D436
+		bne.s	+ ;loc_2D436
 		move.l	(a0),(a1)
 		move.l	#Map_StarpostStars,mappings(a1)
 		move.w	#make_art_tile(ArtTile_StarPost+8,0,0),art_tile(a1)
@@ -298,9 +298,9 @@ loc_2D3CC:
 		move.w	#0,y_vel(a1)
 		move.w	d2,$34(a1)
 		addi.w	#$40,d2
-		dbf	d1,loc_2D3CC
+		dbf	d1,- ;loc_2D3CC
 
-loc_2D436:
++ ;loc_2D436:
 		lea	(ArtKosM_StarPostStars3).l,a1
 		move.w	(Ring_count).w,d0
 		subi.w	#20,d0
@@ -308,22 +308,22 @@ loc_2D436:
 		ext.l	d0
 		moveq	#2,d2
 		tst.w	(SK_alone_flag).w
-		bne.s	loc_2D454
+		bne.s	+ ;loc_2D454
 		moveq	#3,d2
 
-loc_2D454:
++ ;loc_2D454:
 		divu.w	d2,d0
 		swap	d0
 		tst.w	d0
-		beq.s	loc_2D474
+		beq.s	+ ;loc_2D474
 		lea	(ArtKosM_StarPost_Stars1).l,a1
 		cmpi.w	#1,d0
-		beq.s	loc_2D474
+		beq.s	+ ;loc_2D474
 		tst.w	(SK_alone_flag).w
-		bne.s	loc_2D474
+		bne.s	+ ;loc_2D474
 		lea	(ArtKosM_StarPostStars2).l,a1
 
-loc_2D474:
++ ;loc_2D474:
 		move.w	#tiles_to_bytes($5EC),d2
 		jmp	(Queue_Kos_Module).l
 ; End of function sub_2D3C8
@@ -334,7 +334,7 @@ loc_2D47E:
 		move.b	collision_property(a0),d0
 		beq.w	loc_2D50A
 		andi.b	#1,d0
-		beq.s	loc_2D506
+		beq.s	+++ ;loc_2D506
 		move.b	#2,(Special_bonus_entry_flag).w
 		move.w	#$1500,d1
 		move.w	(Saved_ring_count).w,d0
@@ -343,22 +343,22 @@ loc_2D47E:
 		ext.l	d0
 		moveq	#2,d2
 		tst.w	(SK_alone_flag).w
-		bne.s	loc_2D4AE
+		bne.s	+ ;loc_2D4AE
 		moveq	#3,d2
 
-loc_2D4AE:
++ ;loc_2D4AE:
 		divu.w	d2,d0
 		swap	d0
 		tst.w	d0
-		beq.s	loc_2D4CA
+		beq.s	+ ;loc_2D4CA
 		move.w	#$1400,d1
 		cmpi.w	#1,d0
-		beq.s	loc_2D4CA
+		beq.s	+ ;loc_2D4CA
 		tst.w	(SK_alone_flag).w
-		bne.s	loc_2D4CA
+		bne.s	+ ;loc_2D4CA
 		move.w	#$1300,d1
 
-loc_2D4CA:
++ ;loc_2D4CA:
 		move.w	d1,(Current_zone_and_act).w
 		move.w	d1,(Apparent_zone_and_act).w
 		move.w	(Ring_count).w,(Saved_ring_count).w
@@ -372,7 +372,7 @@ loc_2D4CA:
 		move.b	#1,(Respawn_table_keep).w
 		jsr	(Clear_SpriteRingMem).l
 
-loc_2D506:
++ ;loc_2D506:
 		clr.b	collision_property(a0)
 
 loc_2D50A:
@@ -389,53 +389,53 @@ loc_2D50A:
 		moveq	#2,d5
 		moveq	#0,d4
 		cmpi.w	#$10,d2
-		ble.s	loc_2D53A
+		ble.s	+ ;loc_2D53A
 		neg.w	d1
 
-loc_2D53A:
++ ;loc_2D53A:
 		andi.w	#$F,d2
 		cmpi.w	#8,d2
-		ble.s	loc_2D54A
+		ble.s	+ ;loc_2D54A
 		neg.w	d2
 		andi.w	#7,d2
 
-loc_2D54A:
+/ ;loc_2D54A:
 		lsr.w	#1,d2
-		beq.s	loc_2D550
+		beq.s	+ ;loc_2D550
 		add.w	d1,d4
 
-loc_2D550:
++ ;loc_2D550:
 		asl.w	#1,d1
-		dbf	d5,loc_2D54A
+		dbf	d5,- ;loc_2D54A
 		asr.w	#4,d4
 		add.w	d4,d0
 		addq.w	#1,$36(a0)
 		move.w	$36(a0),d1
 		cmpi.w	#$80,d1
-		beq.s	loc_2D574
-		bgt.s	loc_2D57A
+		beq.s	+ ;loc_2D574
+		bgt.s	++ ;loc_2D57A
 
 loc_2D56A:
 		muls.w	d1,d0
 		muls.w	d1,d3
 		asr.w	#7,d0
 		asr.w	#7,d3
-		bra.s	loc_2D58C
+		bra.s	+++ ;loc_2D58C
 ; ---------------------------------------------------------------------------
 
-loc_2D574:
++ ;loc_2D574:
 		move.b	#$D8,collision_flags(a0)
 
-loc_2D57A:
++ ;loc_2D57A:
 		cmpi.w	#$180,d1
-		ble.s	loc_2D58C
+		ble.s	+ ;loc_2D58C
 		neg.w	d1
 		addi.w	#$200,d1
-		bmi.w	loc_2D5C0
+		bmi.w	+++ ;loc_2D5C0
 		bra.s	loc_2D56A
 ; ---------------------------------------------------------------------------
 
-loc_2D58C:
++ ;loc_2D58C:
 		move.w	$30(a0),d2
 		add.w	d3,d2
 		move.w	d2,x_pos(a0)
@@ -447,13 +447,13 @@ loc_2D58C:
 		andi.w	#6,d0
 		lsr.w	#1,d0
 		cmpi.b	#3,d0
-		bne.s	loc_2D5B6
+		bne.s	+ ;loc_2D5B6
 		moveq	#1,d0
 
-loc_2D5B6:
++ ;loc_2D5B6:
 		move.b	d0,mapping_frame(a0)
 		jmp	(Sprite_CheckDeleteTouch3).l
 ; ---------------------------------------------------------------------------
 
-loc_2D5C0:
++ ;loc_2D5C0:
 		jmp	(Delete_Current_Sprite).l

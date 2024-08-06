@@ -21,36 +21,36 @@ loc_25D9C:
 		jsr	(sub_1DD0E).l
 		swap	d6
 		andi.w	#$33,d6
-		beq.s	loc_25E22
+		beq.s	++ ;loc_25E22
 		move.b	d6,d0
 		andi.b	#$11,d0
-		beq.s	loc_25DF0
+		beq.s	+ ;loc_25DF0
 		lea	(Player_1).w,a1
 		cmpi.b	#9,anim(a1)
-		bne.s	loc_25DF0
+		bne.s	+ ;loc_25DF0
 		move.w	#$3C,$30(a0)
 		move.b	#1,$32(a0)
 		move.b	status(a1),d0
 		add.b	status(a0),d0
 		andi.b	#1,d0
-		bne.s	loc_25DF0
+		bne.s	+ ;loc_25DF0
 		move.b	#-1,$32(a0)
 
-loc_25DF0:
++ ;loc_25DF0:
 		andi.b	#$22,d6
-		beq.s	loc_25E22
+		beq.s	+ ;loc_25E22
 		lea	(Player_2).w,a1
 		cmpi.b	#9,anim(a1)
-		bne.s	loc_25E22
+		bne.s	+ ;loc_25E22
 		move.w	#$3C,$30(a0)
 		move.b	#1,$32(a0)
 		move.b	status(a1),d0
 		add.b	status(a0),d0
 		andi.b	#1,d0
-		bne.s	loc_25E22
+		bne.s	+ ;loc_25E22
 		move.b	#-1,$32(a0)
 
-loc_25E22:
++ ;loc_25E22:
 		tst.w	$30(a0)
 		beq.s	loc_25EA0
 		move.b	subtype(a0),d0
@@ -58,45 +58,45 @@ loc_25E22:
 		lea	(Level_trigger_array).w,a3
 		lea	(a3,d0.w),a3
 		subq.w	#1,$30(a0)
-		bne.s	loc_25E4A
+		bne.s	+ ;loc_25E4A
 		move.b	#0,(a3)
 		move.b	#0,mapping_frame(a0)
 		bra.s	loc_25EA0
 ; ---------------------------------------------------------------------------
 
-loc_25E4A:
++ ;loc_25E4A:
 		move.b	#1,(a3)
 		move.b	status(a0),d6
 		andi.w	#standing_mask,d6
-		beq.s	loc_25E72
+		beq.s	++ ;loc_25E72
 		move.w	d6,d0
 		andi.w	#p1_standing,d0
-		beq.s	loc_25E66
+		beq.s	+ ;loc_25E66
 		lea	(Player_1).w,a1
 		bsr.s	sub_25EA6
 
-loc_25E66:
++ ;loc_25E66:
 		andi.w	#p2_standing,d6
-		beq.s	loc_25E72
+		beq.s	+ ;loc_25E72
 		lea	(Player_2).w,a1
 		bsr.s	sub_25EA6
 
-loc_25E72:
++ ;loc_25E72:
 		subq.b	#1,anim_frame_timer(a0)
-		bpl.s	loc_25E8C
+		bpl.s	+ ;loc_25E8C
 		move.b	#1,anim_frame_timer(a0)
 		move.b	$32(a0),d0
 		add.b	d0,$1D(a0)
 		andi.b	#3,$1D(a0)
 
-loc_25E8C:
++ ;loc_25E8C:
 		tst.b	mapping_frame(a0)
-		beq.s	loc_25E9A
+		beq.s	+ ;loc_25E9A
 		move.b	#0,mapping_frame(a0)
 		bra.s	loc_25EA0
 ; ---------------------------------------------------------------------------
 
-loc_25E9A:
++ ;loc_25E9A:
 		move.b	#4,mapping_frame(a0)
 
 loc_25EA0:
@@ -109,10 +109,10 @@ sub_25EA6:
 		move.w	x_pos(a0),d1
 		subi.w	#$10,d1
 		btst	#0,status(a0)
-		beq.s	loc_25EBA
+		beq.s	+ ;loc_25EBA
 		addi.w	#2*$10,d1
 
-loc_25EBA:
++ ;loc_25EBA:
 		move.w	y_pos(a0),d2
 		addi.w	#$10,d2
 		sub.w	x_pos(a1),d1

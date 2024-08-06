@@ -7,7 +7,7 @@ Obj_AutoSpin:
 		move.w	#$280,priority(a0)
 		move.b	subtype(a0),d0
 		btst	#2,d0
-		beq.s	loc_1C4BA
+		beq.s	+++ ;loc_1C4BA
 		andi.w	#7,d0
 		move.b	d0,mapping_frame(a0)
 		andi.w	#3,d0
@@ -16,16 +16,16 @@ Obj_AutoSpin:
 		move.w	y_pos(a0),d1
 		lea	(Player_1).w,a1
 		cmp.w	y_pos(a1),d1
-		bhs.s	loc_1C498
+		bhs.s	+ ;loc_1C498
 		move.b	#1,$34(a0)
 
-loc_1C498:
++ ;loc_1C498:
 		lea	(Player_2).w,a1
 		cmp.w	y_pos(a1),d1
-		bhs.s	loc_1C4A8
+		bhs.s	+ ;loc_1C4A8
 		move.b	#1,$35(a0)
 
-loc_1C4A8:
++ ;loc_1C4A8:
 		move.l	#loc_1C5FA,(a0)
 		bra.w	loc_1C5FA
 ; ---------------------------------------------------------------------------
@@ -33,7 +33,7 @@ word_1C4B2:
 		dc.w    $20,   $40,   $80,  $100
 ; ---------------------------------------------------------------------------
 
-loc_1C4BA:
++ ;loc_1C4BA:
 		andi.w	#3,d0
 		move.b	d0,mapping_frame(a0)
 		add.w	d0,d0
@@ -41,16 +41,16 @@ loc_1C4BA:
 		move.w	x_pos(a0),d1
 		lea	(Player_1).w,a1
 		cmp.w	x_pos(a1),d1
-		bhs.s	loc_1C4DE
+		bhs.s	+ ;loc_1C4DE
 		move.b	#1,$34(a0)
 
-loc_1C4DE:
++ ;loc_1C4DE:
 		lea	(Player_2).w,a1
 		cmp.w	x_pos(a1),d1
-		bhs.s	loc_1C4EE
+		bhs.s	+ ;loc_1C4EE
 		move.b	#1,$35(a0)
 
-loc_1C4EE:
++ ;loc_1C4EE:
 		move.l	#loc_1C4F4,(a0)
 
 loc_1C4F4:
@@ -59,7 +59,7 @@ loc_1C4F4:
 		move.w	x_pos(a0),d1
 		lea	$34(a0),a2
 		lea	(Player_1).w,a1
-		bsr.s	sub_1C518
+		bsr.s	+ ;sub_1C518
 		lea	(Player_2).w,a1
 		cmpi.w	#4,(Tails_CPU_routine).w
 		beq.w	loc_1C5BC
@@ -67,7 +67,7 @@ loc_1C4F4:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_1C518:
++ ;sub_1C518:
 		tst.b	(a2)+
 		bne.s	loc_1C56E
 		cmp.w	x_pos(a1),d1
@@ -84,18 +84,18 @@ sub_1C518:
 		cmp.w	d3,d4
 		bhs.s	loc_1C5BC
 		btst	#0,render_flags(a0)
-		bne.s	loc_1C566
+		bne.s	++ ;loc_1C566
 		move.w	#$580,ground_vel(a1)
 		move.b	#1,spin_dash_flag(a1)
 		tst.b	subtype(a0)
-		bpl.s	loc_1C564
+		bpl.s	+ ;loc_1C564
 		move.b	#$81,spin_dash_flag(a1)
 
-loc_1C564:
++ ;loc_1C564:
 		bra.s	loc_1C5CA
 ; ---------------------------------------------------------------------------
 
-loc_1C566:
++ ;loc_1C566:
 		move.b	#0,spin_dash_flag(a1)
 		bra.s	loc_1C5BC
 ; ---------------------------------------------------------------------------
@@ -115,18 +115,18 @@ loc_1C56E:
 		cmp.w	d3,d4
 		bhs.s	loc_1C5BC
 		btst	#0,render_flags(a0)
-		beq.s	loc_1C5B6
+		beq.s	++ ;loc_1C5B6
 		move.w	#-$580,ground_vel(a1)
 		move.b	#1,spin_dash_flag(a1)
 		tst.b	subtype(a0)
-		bpl.s	loc_1C5B4
+		bpl.s	+ ;loc_1C5B4
 		move.b	#$81,spin_dash_flag(a1)
 
-loc_1C5B4:
++ ;loc_1C5B4:
 		bra.s	loc_1C5CA
 ; ---------------------------------------------------------------------------
 
-loc_1C5B6:
++ ;loc_1C5B6:
 		move.b	#0,spin_dash_flag(a1)
 
 loc_1C5BC:
@@ -137,11 +137,11 @@ loc_1C5BC:
 
 loc_1C5CA:
 		btst	#Status_Roll,status(a1)
-		beq.s	loc_1C5D4
+		beq.s	+ ;loc_1C5D4
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_1C5D4:
++ ;loc_1C5D4:
 		bset	#Status_Roll,status(a1)
 		move.b	#$E,y_radius(a1)
 		move.b	#7,x_radius(a1)
@@ -160,7 +160,7 @@ loc_1C5FA:
 		move.w	y_pos(a0),d1
 		lea	$34(a0),a2
 		lea	(Player_1).w,a1
-		bsr.s	sub_1C61E
+		bsr.s	+ ;sub_1C61E
 		lea	(Player_2).w,a1
 		cmpi.w	#4,(Tails_CPU_routine).w
 		beq.w	loc_1C6F2
@@ -168,7 +168,7 @@ loc_1C5FA:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_1C61E:
++ ;sub_1C61E:
 		tst.b	(a2)+
 		bne.s	loc_1C694
 		cmp.w	y_pos(a1),d1
@@ -185,25 +185,25 @@ sub_1C61E:
 		cmp.w	d3,d4
 		bhs.w	loc_1C6F2
 		btst	#0,render_flags(a0)
-		bne.s	loc_1C68C
+		bne.s	+++ ;loc_1C68C
 		move.b	#1,spin_dash_flag(a1)
 		tst.b	subtype(a0)
-		bpl.s	loc_1C668
+		bpl.s	+ ;loc_1C668
 		move.b	#$81,spin_dash_flag(a1)
 
-loc_1C668:
++ ;loc_1C668:
 		btst	#6,subtype(a0)
-		beq.s	loc_1C688
+		beq.s	+ ;loc_1C688
 		bclr	#Status_InAir,status(a1)
 		move.b	#$40,angle(a1)
 		move.w	y_vel(a1),ground_vel(a1)
 		move.w	#0,x_vel(a1)
 
-loc_1C688:
++ ;loc_1C688:
 		bra.w	loc_1C5CA
 ; ---------------------------------------------------------------------------
 
-loc_1C68C:
++ ;loc_1C68C:
 		move.b	#0,spin_dash_flag(a1)
 		bra.s	loc_1C6F2
 ; ---------------------------------------------------------------------------
@@ -223,23 +223,23 @@ loc_1C694:
 		cmp.w	d3,d4
 		bhs.s	loc_1C6F2
 		btst	#0,render_flags(a0)
-		beq.s	loc_1C6EC
+		beq.s	+++ ;loc_1C6EC
 		move.b	#1,spin_dash_flag(a1)
 		tst.b	subtype(a0)
-		bpl.s	loc_1C6D4
+		bpl.s	+ ;loc_1C6D4
 		move.b	#$81,spin_dash_flag(a1)
 
-loc_1C6D4:
++ ;loc_1C6D4:
 		btst	#6,subtype(a0)
-		beq.s	loc_1C6E8
+		beq.s	+ ;loc_1C6E8
 		bclr	#Status_InAir,status(a1)
 		move.b	#$40,angle(a1)
 
-loc_1C6E8:
++ ;loc_1C6E8:
 		bra.w	loc_1C5CA
 ; ---------------------------------------------------------------------------
 
-loc_1C6EC:
++ ;loc_1C6EC:
 		move.b	#0,spin_dash_flag(a1)
 
 loc_1C6F2:

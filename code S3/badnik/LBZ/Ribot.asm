@@ -17,20 +17,20 @@ loc_59A90:
 		bset	#2,$38(a0)
 		move.b	subtype(a0),d0
 		subq.b	#2,d0
-		beq.s	loc_59AB8
-		bpl.s	loc_59AC8
+		beq.s	+ ;loc_59AB8
+		bpl.s	++ ;loc_59AC8
 		move.l	#byte_59DA6,$30(a0)
 		lea	ChildObjDat_59D62(pc),a2
 		jmp	CreateChild1_Normal(pc)
 ; ---------------------------------------------------------------------------
 
-loc_59AB8:
++ ;loc_59AB8:
 		move.l	#byte_59DA6,$30(a0)
 		lea	ChildObjDat_59D70(pc),a2
 		jmp	CreateChild1_Normal(pc)
 ; ---------------------------------------------------------------------------
 
-loc_59AC8:
++ ;loc_59AC8:
 		move.l	#byte_59DAC,$30(a0)
 		lea	ChildObjDat_59D7E(pc),a2
 		jmp	CreateChild1_Normal(pc)
@@ -38,17 +38,17 @@ loc_59AC8:
 
 loc_59AD8:
 		bclr	#2,$38(a0)
-		beq.s	loc_59AF6
+		beq.s	++ ;loc_59AF6
 		andi.b	#$FC,$38(a0)
 		moveq	#0,d0
 		bchg	#3,$38(a0)
-		beq.s	loc_59AF2
+		beq.s	+ ;loc_59AF2
 		moveq	#1,d0
 
-loc_59AF2:
++ ;loc_59AF2:
 		bset	d0,$38(a0)
 
-loc_59AF6:
++ ;loc_59AF6:
 		jmp	Animate_Raw(pc)
 ; ---------------------------------------------------------------------------
 
@@ -93,16 +93,16 @@ off_59B4C:
 loc_59B52:
 		moveq	#0,d0
 		tst.b	subtype(a0)
-		bne.s	loc_59B5C
+		bne.s	+ ;loc_59B5C
 		moveq	#1,d0
 
-loc_59B5C:
++ ;loc_59B5C:
 		btst	d0,$38(a1)
-		bne.s	loc_59B64
+		bne.s	+ ;loc_59B64
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_59B64:
++ ;loc_59B64:
 		move.b	#4,routine(a0)
 		move.l	#loc_59BDE,$34(a0)
 		rts
@@ -112,17 +112,17 @@ loc_59B74:
 		moveq	#0,d0
 		move.w	#$400,d1
 		tst.b	subtype(a0)
-		bne.s	loc_59B84
+		bne.s	+ ;loc_59B84
 		moveq	#1,d0
 		neg.w	d1
 
-loc_59B84:
++ ;loc_59B84:
 		btst	d0,$38(a1)
-		bne.s	loc_59B8C
+		bne.s	+ ;loc_59B8C
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_59B8C:
++ ;loc_59B8C:
 		move.b	#4,routine(a0)
 		move.w	d1,x_vel(a0)
 		move.w	#$F,$2E(a0)
@@ -300,23 +300,23 @@ loc_59D1A:
 		movea.w	parent3(a0),a1
 		move.b	subtype(a1),d0
 		subq.b	#2,d0
-		beq.s	loc_59D30
-		bpl.s	loc_59D42
+		beq.s	+ ;loc_59D30
+		bpl.s	+++ ;loc_59D42
 		lea	ChildObjDat_59D86(pc),a2
 		jmp	CreateChild3_NormalRepeated(pc)
 ; ---------------------------------------------------------------------------
 
-loc_59D30:
++ ;loc_59D30:
 		lea	ChildObjDat_59D8E(pc),a2
 		tst.b	subtype(a0)
-		beq.s	loc_59D3E
+		beq.s	+ ;loc_59D3E
 		lea	ChildObjDat_59D96(pc),a2
 
-loc_59D3E:
++ ;loc_59D3E:
 		jmp	CreateChild3_NormalRepeated(pc)
 ; ---------------------------------------------------------------------------
 
-loc_59D42:
++ ;loc_59D42:
 		lea	ChildObjDat_59D9E(pc),a2
 		jmp	CreateChild3_NormalRepeated(pc)
 ; ---------------------------------------------------------------------------

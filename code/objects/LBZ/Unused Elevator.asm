@@ -21,12 +21,12 @@ Obj_LBZUnusedElevator:
 		move.w	d0,$38(a0)
 		sub.w	d0,y_pos(a0)
 		btst	#0,status(a0)
-		beq.s	loc_25B56
+		beq.s	+ ;loc_25B56
 		add.w	d0,d0
 		add.w	d0,y_pos(a0)
 		move.b	#1,$34(a0)
 
-loc_25B56:
++ ;loc_25B56:
 		move.l	#loc_25B5C,(a0)
 
 loc_25B5C:
@@ -34,7 +34,7 @@ loc_25B5C:
 		move.w	off_25B92(pc,d0.w),d1
 		jsr	off_25B92(pc,d1.w)
 		tst.b	render_flags(a0)
-		bpl.s	loc_25B8C
+		bpl.s	+ ;loc_25B8C
 		moveq	#0,d1
 		move.b	width_pixels(a0),d1
 		addi.w	#$B,d1
@@ -45,7 +45,7 @@ loc_25B5C:
 		move.w	x_pos(a0),d4
 		jsr	(SolidObjectFull).l
 
-loc_25B8C:
++ ;loc_25B8C:
 		jmp	(Sprite_OnScreen_Test).l
 ; ---------------------------------------------------------------------------
 off_25B92:
@@ -69,7 +69,7 @@ locret_25BB6:
 ; ---------------------------------------------------------------------------
 
 loc_25BB8:
-		bsr.w	sub_25C2E
+		bsr.w	+ ;sub_25C2E
 		tst.w	y_vel(a0)
 		bne.s	locret_25BE2
 		addq.w	#2,$36(a0)
@@ -101,7 +101,7 @@ locret_25C00:
 ; ---------------------------------------------------------------------------
 
 loc_25C02:
-		bsr.w	sub_25C2E
+		bsr.w	+ ;sub_25C2E
 		tst.w	y_vel(a0)
 		bne.s	locret_25C2C
 		clr.w	$36(a0)
@@ -121,11 +121,11 @@ locret_25C2C:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_25C2E:
++ ;sub_25C2E:
 		move.w	y_pos(a0),d2
 		moveq	#8,d1
 		tst.b	$34(a0)
-		bne.s	loc_25C7C
+		bne.s	++ ;loc_25C7C
 		add.w	d1,y_vel(a0)
 		move.w	y_vel(a0),d0
 		ext.l	d0
@@ -134,7 +134,7 @@ sub_25C2E:
 		move.w	$32(a0),d0
 		cmp.w	y_pos(a0),d0
 		bhi.s	locret_25CBC
-		beq.s	loc_25C6C
+		beq.s	+ ;loc_25C6C
 		sub.w	d0,d2
 		neg.w	d2
 		add.w	d0,d2
@@ -144,14 +144,14 @@ sub_25C2E:
 		bra.s	locret_25CBC
 ; ---------------------------------------------------------------------------
 
-loc_25C6C:
++ ;loc_25C6C:
 		neg.w	$16(a0)
 		add.w	d1,y_vel(a0)
 		move.b	#1,$34(a0)
 		bra.s	locret_25CBC
 ; ---------------------------------------------------------------------------
 
-loc_25C7C:
++ ;loc_25C7C:
 		sub.w	d1,y_vel(a0)
 		move.w	y_vel(a0),d0
 		ext.l	d0
@@ -160,7 +160,7 @@ loc_25C7C:
 		move.w	$32(a0),d0
 		cmp.w	y_pos(a0),d0
 		blo.s	locret_25CBC
-		beq.s	loc_25CAE
+		beq.s	+ ;loc_25CAE
 		sub.w	d0,d2
 		neg.w	d2
 		add.w	d0,d2
@@ -170,7 +170,7 @@ loc_25C7C:
 		bra.s	locret_25CBC
 ; ---------------------------------------------------------------------------
 
-loc_25CAE:
++ ;loc_25CAE:
 		neg.w	$16(a0)
 		sub.w	d1,y_vel(a0)
 		move.b	#0,$34(a0)

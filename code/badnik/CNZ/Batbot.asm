@@ -22,19 +22,19 @@ loc_89394:
 loc_893A4:
 		jsr	Find_SonicTails(pc)
 		cmpi.w	#$40,d2
-		blo.s	loc_893B0
+		blo.s	+ ;loc_893B0
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_893B0:
++ ;loc_893B0:
 		move.b	#4,routine(a0)
 		bset	#3,$38(a0)
 		move.w	#$200,d0
 		tst.w	d0
-		bne.s	loc_893C6
+		bne.s	+ ;loc_893C6
 		neg.w	d0
 
-loc_893C6:
++ ;loc_893C6:
 		move.w	d0,x_vel(a0)
 		rts
 ; ---------------------------------------------------------------------------
@@ -71,11 +71,11 @@ loc_89404:
 loc_8940C:
 		movea.w	parent3(a0),a1
 		btst	#3,$38(a1)
-		bne.s	loc_8941A
+		bne.s	+ ;loc_8941A
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_8941A:
++ ;loc_8941A:
 		move.b	#4,routine(a0)
 		addq.b	#1,mapping_frame(a0)
 		rts

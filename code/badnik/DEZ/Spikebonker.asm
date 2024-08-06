@@ -17,10 +17,10 @@ loc_91A0C:
 		jsr	(SetUp_ObjAttributes).l
 		move.w	#-$80,d0
 		btst	#0,render_flags(a0)
-		beq.s	loc_91A24
+		beq.s	+ ;loc_91A24
 		neg.w	d0
 
-loc_91A24:
++ ;loc_91A24:
 		move.w	d0,x_vel(a0)
 		moveq	#0,d0
 		move.b	subtype(a0),d0
@@ -45,22 +45,22 @@ loc_91A6A:
 		lea	(Player_1).w,a1
 		jsr	(Find_OtherObject).l
 		cmpi.w	#$60,d2
-		bhs.s	loc_91A88
+		bhs.s	++ ;loc_91A88
 		btst	#0,render_flags(a0)
-		beq.s	loc_91A84
+		beq.s	+ ;loc_91A84
 		subq.w	#2,d0
 
-loc_91A84:
++ ;loc_91A84:
 		tst.w	d0
-		beq.s	loc_91A9A
+		beq.s	++ ;loc_91A9A
 
-loc_91A88:
++ ;loc_91A88:
 		jsr	(Swing_UpAndDown).l
 		jsr	(MoveSprite2).l
 		jmp	(Obj_Wait).l
 ; ---------------------------------------------------------------------------
 
-loc_91A9A:
++ ;loc_91A9A:
 		move.b	#4,routine(a0)
 		bset	#3,$38(a0)
 		moveq	#signextendB(sfx_Bouncy),d0
@@ -96,25 +96,25 @@ loc_91AEC:
 		jsr	(Refresh_ChildPositionAdjusted).l
 		movea.w	$44(a0),a1
 		move.b	$3C(a1),d0
-		bne.s	loc_91B08
+		bne.s	+ ;loc_91B08
 		movea.w	parent3(a0),a2
 		btst	#3,$38(a2)
-		bne.s	loc_91B14
+		bne.s	++ ;loc_91B14
 
-loc_91B08:
++ ;loc_91B08:
 		subq.b	#8,d0
 		move.b	d0,$3C(a1)
 		jmp	(Child_CheckParent).l
 ; ---------------------------------------------------------------------------
 
-loc_91B14:
++ ;loc_91B14:
 		move.l	#loc_91B3E,(a0)
 		moveq	#-4,d0
 		btst	#0,render_flags(a0)
-		beq.s	loc_91B26
+		beq.s	+ ;loc_91B26
 		neg.w	d0
 
-loc_91B26:
++ ;loc_91B26:
 		move.w	d0,x_vel(a0)
 		move.w	#$1F,$2E(a0)
 		move.l	#loc_91B68,$34(a0)
@@ -145,13 +145,13 @@ loc_91B70:
 		movea.w	$44(a0),a1
 		move.b	$3C(a1),d0
 		cmpi.b	#$80,d0
-		beq.s	loc_91B8A
+		beq.s	+ ;loc_91B8A
 		subq.b	#8,d0
 		move.b	d0,$3C(a1)
 		jmp	(Child_CheckParent).l
 ; ---------------------------------------------------------------------------
 
-loc_91B8A:
++ ;loc_91B8A:
 		move.l	#loc_91B3E,(a0)
 		neg.w	x_vel(a0)
 		move.w	#$1F,$2E(a0)
@@ -184,10 +184,10 @@ loc_91BD4:
 		bsr.w	sub_91BFA
 		move.w	#$200,priority(a0)
 		addi.b	#$40,d0
-		bpl.s	loc_91BEE
+		bpl.s	+ ;loc_91BEE
 		move.w	#$280,priority(a0)
 
-loc_91BEE:
++ ;loc_91BEE:
 		lea	(AngleLookup_1).l,a1
 		jmp	(MoveSprite_AngleXLookupOffset).l
 
@@ -200,12 +200,12 @@ sub_91BFA:
 loc_91BFC:
 		lea	byte_91C0E(pc,d1.w),a1
 		cmp.b	(a1)+,d0
-		bls.s	loc_91C08
+		bls.s	+ ;loc_91C08
 		addq.w	#2,d1
 		bra.s	loc_91BFC
 ; ---------------------------------------------------------------------------
 
-loc_91C08:
++ ;loc_91C08:
 		move.b	(a1),mapping_frame(a0)
 		rts
 ; End of function sub_91BFA

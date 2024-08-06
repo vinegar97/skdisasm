@@ -20,7 +20,7 @@ Obj_HCZBreakableBar:
 		lsr.w	#2,d1
 		lea	byte_1C8E2(pc,d1.w),a1
 		tst.b	subtype(a0)
-		bpl.s	loc_1C956
+		bpl.s	+ ;loc_1C956
 		moveq	#0,d0
 		move.b	(a1)+,d0
 		move.w	d0,$36(a0)
@@ -35,7 +35,7 @@ Obj_HCZBreakableBar:
 		bra.w	loc_1CB2C
 ; ---------------------------------------------------------------------------
 
-loc_1C956:
++ ;loc_1C956:
 		moveq	#0,d0
 		move.b	(a1)+,d0
 		move.w	d0,$36(a0)
@@ -49,22 +49,22 @@ loc_1C956:
 loc_1C978:
 		lea	$32(a0),a2
 		tst.w	$30(a0)
-		beq.s	loc_1C98E
+		beq.s	+ ;loc_1C98E
 		tst.w	(a2)
-		beq.s	loc_1C98E
+		beq.s	+ ;loc_1C98E
 		subq.w	#1,$30(a0)
 		beq.w	loc_1CAB4
 
-loc_1C98E:
++ ;loc_1C98E:
 		lea	(Player_1).w,a1
 		move.w	(Ctrl_1).w,d1
 		moveq	#0,d2
-		bsr.s	sub_1C9B4
+		bsr.s	+ ;sub_1C9B4
 		addq.w	#1,a2
 		lea	(Player_2).w,a1
 		move.w	(Ctrl_2).w,d1
 		moveq	#1,d2
-		bsr.s	sub_1C9B4
+		bsr.s	+ ;sub_1C9B4
 		tst.b	$3A(a0)
 		bne.w	loc_1CAB4
 		bra.w	Sprite_OnScreen_Test
@@ -72,28 +72,28 @@ loc_1C98E:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_1C9B4:
++ ;sub_1C9B4:
 		tst.b	(a2)
-		beq.s	loc_1CA16
+		beq.s	+++ ;loc_1CA16
 		move.w	y_pos(a0),d0
 		sub.w	$36(a0),d0
 		btst	#button_up+8,d1
-		beq.s	loc_1C9D4
+		beq.s	+ ;loc_1C9D4
 		subq.w	#1,y_pos(a1)
 		cmp.w	y_pos(a1),d0
-		blo.s	loc_1C9D4
+		blo.s	+ ;loc_1C9D4
 		move.w	d0,y_pos(a1)
 
-loc_1C9D4:
++ ;loc_1C9D4:
 		add.w	$38(a0),d0
 		btst	#button_down+8,d1
-		beq.s	loc_1C9EC
+		beq.s	+ ;loc_1C9EC
 		addq.w	#1,y_pos(a1)
 		cmp.w	y_pos(a1),d0
-		bhs.s	loc_1C9EC
+		bhs.s	+ ;loc_1C9EC
 		move.w	d0,y_pos(a1)
 
-loc_1C9EC:
++ ;loc_1C9EC:
 		andi.w	#button_A_mask|button_B_mask|button_C_mask,d1
 		beq.w	locret_1CAB2
 		clr.b	(a2)
@@ -108,14 +108,14 @@ locret_1CA14:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_1CA16:
++ ;loc_1CA16:
 		tst.b	2(a2)
-		beq.s	loc_1CA22
+		beq.s	+ ;loc_1CA22
 		subq.b	#1,2(a2)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_1CA22:
++ ;loc_1CA22:
 		moveq	#0,d1
 		move.b	height_pixels(a0),d1
 		move.w	y_pos(a0),d0
@@ -141,16 +141,16 @@ loc_1CA22:
 		move.w	y_pos(a0),d0
 		sub.w	$36(a0),d0
 		cmp.w	y_pos(a1),d0
-		blo.s	loc_1CA76
+		blo.s	+ ;loc_1CA76
 		move.w	d0,y_pos(a1)
 
-loc_1CA76:
++ ;loc_1CA76:
 		add.w	$38(a0),d0
 		cmp.w	y_pos(a1),d0
-		bhs.s	loc_1CA84
+		bhs.s	+ ;loc_1CA84
 		move.w	d0,y_pos(a1)
 
-loc_1CA84:
++ ;loc_1CA84:
 		clr.w	x_vel(a1)
 		clr.w	y_vel(a1)
 		move.w	x_pos(a0),d0
@@ -170,15 +170,15 @@ locret_1CAB2:
 
 loc_1CAB4:
 		tst.b	$32(a0)
-		beq.s	loc_1CAC0
+		beq.s	+ ;loc_1CAC0
 		andi.b	#$FE,(Player_1+object_control).w
 
-loc_1CAC0:
++ ;loc_1CAC0:
 		tst.b	$33(a0)
-		beq.s	loc_1CACC
+		beq.s	+ ;loc_1CACC
 		andi.b	#$FE,(Player_2+object_control).w
 
-loc_1CACC:
++ ;loc_1CACC:
 		clr.b	(_unkF7C7).w
 		clr.w	$32(a0)
 		move.l	#loc_1CB06,(a0)
@@ -195,16 +195,16 @@ loc_1CACC:
 
 loc_1CB06:
 		tst.b	$3F(a0)
-		beq.s	loc_1CB12
+		beq.s	+ ;loc_1CB12
 		subq.b	#1,$3F(a0)
-		bra.s	loc_1CB1E
+		bra.s	++ ;loc_1CB1E
 ; ---------------------------------------------------------------------------
 
-loc_1CB12:
++ ;loc_1CB12:
 		jsr	(MoveSprite2).l
 		addi.w	#8,y_vel(a0)
 
-loc_1CB1E:
++ ;loc_1CB1E:
 		tst.b	render_flags(a0)
 		bpl.w	loc_1C778
 		jmp	(Draw_Sprite).l
@@ -213,22 +213,22 @@ loc_1CB1E:
 loc_1CB2C:
 		lea	$32(a0),a2
 		tst.w	$30(a0)
-		beq.s	loc_1CB42
+		beq.s	+ ;loc_1CB42
 		tst.w	(a2)
-		beq.s	loc_1CB42
+		beq.s	+ ;loc_1CB42
 		subq.w	#1,$30(a0)
 		beq.w	loc_1CC62
 
-loc_1CB42:
++ ;loc_1CB42:
 		lea	(Player_1).w,a1
 		move.w	(Ctrl_1).w,d1
 		moveq	#0,d2
-		bsr.s	sub_1CB68
+		bsr.s	+ ;sub_1CB68
 		addq.w	#1,a2
 		lea	(Player_2).w,a1
 		move.w	(Ctrl_2).w,d1
 		moveq	#1,d2
-		bsr.s	sub_1CB68
+		bsr.s	+ ;sub_1CB68
 		tst.b	$3A(a0)
 		bne.w	loc_1CC62
 		bra.w	Sprite_OnScreen_Test
@@ -236,28 +236,28 @@ loc_1CB42:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_1CB68:
++ ;sub_1CB68:
 		tst.b	(a2)
 		beq.s	loc_1CBCA
 		move.w	x_pos(a0),d0
 		sub.w	$36(a0),d0
 		btst	#button_left+8,d1
-		beq.s	loc_1CB88
+		beq.s	+ ;loc_1CB88
 		subq.w	#1,x_pos(a1)
 		cmp.w	x_pos(a1),d0
-		blo.s	loc_1CB88
+		blo.s	+ ;loc_1CB88
 		move.w	d0,x_pos(a1)
 
-loc_1CB88:
++ ;loc_1CB88:
 		add.w	$38(a0),d0
 		btst	#button_right+8,d1
-		beq.s	loc_1CBA0
+		beq.s	+ ;loc_1CBA0
 		addq.w	#1,x_pos(a1)
 		cmp.w	x_pos(a1),d0
-		bhs.s	loc_1CBA0
+		bhs.s	+ ;loc_1CBA0
 		move.w	d0,x_pos(a1)
 
-loc_1CBA0:
++ ;loc_1CBA0:
 		andi.w	#button_A_mask|button_B_mask|button_C_mask,d1
 		beq.w	locret_1CC60
 		clr.b	(a2)
@@ -274,12 +274,12 @@ locret_1CBC8:
 
 loc_1CBCA:
 		tst.b	2(a2)
-		beq.s	loc_1CBD6
+		beq.s	+ ;loc_1CBD6
 		subq.b	#1,2(a2)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_1CBD6:
++ ;loc_1CBD6:
 		moveq	#0,d1
 		move.b	width_pixels(a0),d1
 		move.w	x_pos(a0),d0
@@ -305,16 +305,16 @@ loc_1CBD6:
 		move.w	x_pos(a0),d0
 		sub.w	$36(a0),d0
 		cmp.w	x_pos(a1),d0
-		blo.s	loc_1CC2A
+		blo.s	+ ;loc_1CC2A
 		move.w	d0,x_pos(a1)
 
-loc_1CC2A:
++ ;loc_1CC2A:
 		add.w	$38(a0),d0
 		cmp.w	x_pos(a1),d0
-		bhs.s	loc_1CC38
+		bhs.s	+ ;loc_1CC38
 		move.w	d0,x_pos(a1)
 
-loc_1CC38:
++ ;loc_1CC38:
 		clr.w	x_vel(a1)
 		clr.w	y_vel(a1)
 		move.w	y_pos(a0),d0
@@ -333,15 +333,15 @@ locret_1CC60:
 
 loc_1CC62:
 		tst.b	$32(a0)
-		beq.s	loc_1CC6E
+		beq.s	+ ;loc_1CC6E
 		andi.b	#$FE,(Player_1+object_control).w
 
-loc_1CC6E:
++ ;loc_1CC6E:
 		tst.b	$33(a0)
-		beq.s	loc_1CC7A
+		beq.s	+ ;loc_1CC7A
 		andi.b	#$FE,(Player_2+object_control).w
 
-loc_1CC7A:
++ ;loc_1CC7A:
 		clr.b	(_unkF7C7).w
 		clr.w	$32(a0)
 		move.l	#loc_1CB06,(a0)
@@ -404,14 +404,14 @@ sub_1CD50:
 		move.w	y_pos(a0),d3
 		move.w	priority(a0),d4
 		movea.l	a0,a1
-		bra.s	loc_1CD68
+		bra.s	+ ;loc_1CD68
 ; ---------------------------------------------------------------------------
 
-loc_1CD60:
+- ;loc_1CD60:
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.s	loc_1CDC2
+		bne.s	++ ;loc_1CDC2
 
-loc_1CD68:
++ ;loc_1CD68:
 		move.l	(a0),(a1)
 		move.l	mappings(a0),mappings(a1)
 		move.w	art_tile(a0),art_tile(a1)
@@ -431,9 +431,9 @@ loc_1CD68:
 		move.w	x_vel(a0),x_vel(a1)
 		move.w	y_vel(a0),y_vel(a1)
 		move.b	(a2)+,$3F(a1)
-		dbf	d1,loc_1CD60
+		dbf	d1,- ;loc_1CD60
 
-loc_1CDC2:
++ ;loc_1CDC2:
 		moveq	#signextendB(sfx_Collapse),d0
 		jmp	(Play_SFX).l
 ; End of function sub_1CD50

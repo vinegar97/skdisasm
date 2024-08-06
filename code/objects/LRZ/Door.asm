@@ -7,12 +7,12 @@ Obj_LRZDoor:
 		move.w	#$200,priority(a0)
 		move.w	y_pos(a0),$46(a0)
 		tst.b	(Current_act).w
-		beq.s	loc_4296E
+		beq.s	+ ;loc_4296E
 		move.b	#1,mapping_frame(a0)
 		move.w	#make_art_tile($090,2,0),art_tile(a0)
 		move.b	#$20,height_pixels(a0)
 
-loc_4296E:
++ ;loc_4296E:
 		move.l	#loc_42974,(a0)
 
 loc_42974:
@@ -28,10 +28,10 @@ loc_42974:
 loc_42994:
 		addq.b	#1,$2E(a0)
 		cmpi.b	#$40,$2E(a0)
-		bne.s	loc_429A6
+		bne.s	+ ;loc_429A6
 		move.l	#loc_429BC,(a0)
 
-loc_429A6:
++ ;loc_429A6:
 		move.b	$2E(a0),d0
 		jsr	(GetSineCosine).l
 		asr.w	#2,d0
@@ -62,16 +62,16 @@ Obj_LRZBigDoor:
 		move.w	#$280,priority(a0)
 		move.w	y_pos(a0),$46(a0)
 		move.w	respawn_addr(a0),d0
-		beq.s	loc_42A62
+		beq.s	+ ;loc_42A62
 		movea.w	d0,a2
 		btst	#0,(a2)
-		beq.s	loc_42A62
+		beq.s	+ ;loc_42A62
 		addi.w	#$80,y_pos(a0)
 		move.l	#loc_42B08,(a0)
 		bra.w	loc_42B08
 ; ---------------------------------------------------------------------------
 
-loc_42A62:
++ ;loc_42A62:
 		move.l	#loc_42A68,(a0)
 
 loc_42A68:
@@ -97,11 +97,11 @@ loc_42A68:
 loc_42AAE:
 		addq.b	#1,$2E(a0)
 		cmpi.b	#$40,$2E(a0)
-		bne.s	loc_42AC6
+		bne.s	+ ;loc_42AC6
 		move.l	#loc_42B08,(a0)
 		move.w	#0,(Screen_shake_flag).w
 
-loc_42AC6:
++ ;loc_42AC6:
 		move.b	$2E(a0),d0
 		jsr	(GetSineCosine).l
 		asr.w	#1,d0
@@ -109,11 +109,11 @@ loc_42AC6:
 		move.w	d0,y_pos(a0)
 		move.b	(Level_frame_counter+1).w,d0
 		andi.b	#$F,d0
-		bne.s	loc_42AEC
+		bne.s	+ ;loc_42AEC
 		moveq	#signextendB(sfx_BigRumble),d0
 		jsr	(Play_SFX).l
 
-loc_42AEC:
++ ;loc_42AEC:
 		move.w	#$3B,d1
 		move.w	#$40,d2
 		move.w	#$41,d3

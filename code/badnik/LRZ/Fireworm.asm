@@ -20,11 +20,11 @@ loc_8F770:
 loc_8F77A:
 		jsr	(Find_SonicTails).l
 		cmpi.w	#$80,d2
-		blo.s	loc_8F788
+		blo.s	+ ;loc_8F788
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_8F788:
++ ;loc_8F788:
 		move.b	#4,routine(a0)
 		lea	ChildObjDat_8FA0E(pc),a2
 		jsr	(CreateChild1_Normal).l
@@ -50,12 +50,12 @@ loc_8F7A4:
 		andi.w	#$FF80,d0
 		sub.w	(Camera_X_pos_coarse_back).w,d0
 		cmpi.w	#$280,d0
-		bhi.s	loc_8F7DA
+		bhi.s	+ ;loc_8F7DA
 		jsr	(Add_SpriteToCollisionResponseList).l
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_8F7DA:
++ ;loc_8F7DA:
 		jmp	(Go_Delete_SpriteSlotted2).l
 ; ---------------------------------------------------------------------------
 off_8F7E0:
@@ -105,12 +105,12 @@ loc_8F842:
 
 loc_8F862:
 		jsr	(Swing_UpAndDown_Count).l
-		bne.s	loc_8F876
+		bne.s	+ ;loc_8F876
 		jsr	(MoveSprite2).l
 		jmp	(Animate_RawMultiDelay).l
 ; ---------------------------------------------------------------------------
 
-loc_8F876:
++ ;loc_8F876:
 		move.b	#8,routine(a0)
 		move.w	x_vel(a0),$44(a0)
 		move.w	$42(a0),y_vel(a0)
@@ -126,25 +126,25 @@ loc_8F89A:
 		jsr	(Animate_RawNoSSTMultiDelayFlipX).l
 		addq.w	#1,$2E(a0)
 		tst.w	$44(a0)
-		bmi.s	loc_8F8C6
+		bmi.s	+ ;loc_8F8C6
 		move.w	x_vel(a0),d0
 		subi.w	#$10,d0
 		cmpi.w	#-$100,d0
-		ble.s	loc_8F8DE
+		ble.s	++ ;loc_8F8DE
 		move.w	d0,x_vel(a0)
 		jmp	(MoveSprite2).l
 ; ---------------------------------------------------------------------------
 
-loc_8F8C6:
++ ;loc_8F8C6:
 		move.w	x_vel(a0),d0
 		addi.w	#$10,d0
 		cmpi.w	#$100,d0
-		bge.s	loc_8F8DE
+		bge.s	+ ;loc_8F8DE
 		move.w	d0,x_vel(a0)
 		jmp	(MoveSprite2).l
 ; ---------------------------------------------------------------------------
 
-loc_8F8DE:
++ ;loc_8F8DE:
 		move.b	#6,routine(a0)
 		clr.b	anim_frame(a0)
 		clr.b	anim_frame_timer(a0)

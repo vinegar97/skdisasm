@@ -38,16 +38,16 @@ loc_8C9B2:
 		lea	(Player_1).w,a1
 		jsr	Find_OtherObject(pc)
 		tst.w	d1
-		beq.s	loc_8C9E2
+		beq.s	+ ;loc_8C9E2
 		cmpi.w	#$60,d2
-		blo.s	loc_8C9EC
+		blo.s	++ ;loc_8C9EC
 
-loc_8C9E2:
++ ;loc_8C9E2:
 		jsr	Change_FlipXWithVelocity(pc)
 		jmp	(Animate_Raw).l
 ; ---------------------------------------------------------------------------
 
-loc_8C9EC:
++ ;loc_8C9EC:
 		move.b	#4,routine(a0)
 		clr.w	y_vel(a0)
 		move.w	y_pos(a0),$44(a0)
@@ -70,11 +70,11 @@ loc_8CA22:
 		move.w	#$200,d1
 		bset	#0,render_flags(a0)
 		tst.w	d0
-		bne.s	loc_8CA46
+		bne.s	+ ;loc_8CA46
 		neg.w	d1
 		bclr	#0,render_flags(a0)
 
-loc_8CA46:
++ ;loc_8CA46:
 		move.w	d1,x_vel(a0)
 		move.l	#byte_8CB3F,$30(a0)
 		move.w	#$200,y_vel(a0)
@@ -85,16 +85,16 @@ loc_8CA46:
 loc_8CA60:
 		jsr	(MoveSprite2).l
 		subq.w	#1,$2E(a0)
-		bpl.s	loc_8CA74
+		bpl.s	+ ;loc_8CA74
 		jsr	Find_SonicTails(pc)
 		tst.w	d1
-		beq.s	loc_8CA7A
+		beq.s	++ ;loc_8CA7A
 
-loc_8CA74:
++ ;loc_8CA74:
 		jmp	(Animate_Raw).l
 ; ---------------------------------------------------------------------------
 
-loc_8CA7A:
++ ;loc_8CA7A:
 		move.b	#8,routine(a0)
 		move.l	#byte_8CB4B,$30(a0)
 		clr.b	anim_frame(a0)
@@ -107,11 +107,11 @@ loc_8CA96:
 		jsr	(MoveSprite2).l
 		move.w	y_pos(a0),d0
 		cmp.w	$44(a0),d0
-		blo.s	loc_8CAAC
+		blo.s	+ ;loc_8CAAC
 		jmp	(Animate_Raw).l
 ; ---------------------------------------------------------------------------
 
-loc_8CAAC:
++ ;loc_8CAAC:
 		move.b	#$A,routine(a0)
 		move.l	#byte_8CB2A,$30(a0)
 		clr.b	anim_frame(a0)

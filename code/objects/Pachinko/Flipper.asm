@@ -17,14 +17,14 @@ loc_49C8A:
 		lea	(Player_1).w,a1
 		move.w	(Ctrl_1_logical).w,d5
 		moveq	#p1_standing_bit,d6
-		bsr.s	sub_49CFE
+		bsr.s	++ ;sub_49CFE
 		lea	$37(a0),a3
 		lea	(Player_2).w,a1
 		move.w	(Ctrl_2_logical).w,d5
 		moveq	#p2_standing_bit,d6
-		bsr.s	sub_49CFE
+		bsr.s	++ ;sub_49CFE
 		tst.b	$38(a0)
-		beq.s	loc_49CEC
+		beq.s	+ ;loc_49CEC
 		clr.b	$38(a0)
 		lea	$36(a0),a3
 		lea	(Player_1).w,a1
@@ -36,7 +36,7 @@ loc_49C8A:
 		bsr.w	sub_49D72
 		move.b	#1,anim(a0)
 
-loc_49CEC:
++ ;loc_49CEC:
 		lea	(Ani_PachinkoFlipper).l,a1
 		jsr	(Animate_Sprite).l
 		jmp	(loc_49B22).l
@@ -44,11 +44,11 @@ loc_49CEC:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_49CFE:
++ ;sub_49CFE:
 		tst.w	(Debug_placement_mode).w
-		bne.s	loc_49D48
+		bne.s	++ ;loc_49D48
 		move.b	(a3),d0
-		bne.s	loc_49D3C
+		bne.s	+ ;loc_49D3C
 		btst	d6,status(a0)
 		beq.s	locret_49D3A
 		addq.b	#1,(a3)
@@ -65,25 +65,25 @@ locret_49D3A:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_49D3C:
++ ;loc_49D3C:
 		andi.w	#button_A_mask|button_B_mask|button_C_mask,d5
 		bne.s	loc_49D68
 		btst	d6,status(a0)
-		bne.s	loc_49D54
+		bne.s	++ ;loc_49D54
 
-loc_49D48:
++ ;loc_49D48:
 		move.b	#0,object_control(a1)
 		move.b	#0,(a3)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_49D54:
++ ;loc_49D54:
 		moveq	#$18,d1
 		btst	#0,status(a0)
-		beq.s	loc_49D60
+		beq.s	+ ;loc_49D60
 		not.w	d1
 
-loc_49D60:
++ ;loc_49D60:
 		add.w	d1,ground_vel(a1)
 		bra.w	loc_49DE4
 ; ---------------------------------------------------------------------------

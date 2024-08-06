@@ -22,11 +22,11 @@ loc_4A0C6:
 		addi.b	#$84,angle(a0)
 		addi.w	#2,x_pos(a0)
 		cmpi.w	#$178,x_pos(a0)
-		bls.s	loc_4A10A
+		bls.s	+ ;loc_4A10A
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_4A10A:
++ ;loc_4A10A:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 RawAni_4A110:

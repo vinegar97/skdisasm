@@ -23,23 +23,23 @@ Obj_AirCountdown:
 		addq.b	#2,routine(a0)
 		move.l	#Map_Bubbler,mappings(a0)
 		tst.b	parent+1(a0)
-		beq.s	loc_1819E
+		beq.s	+ ;loc_1819E
 		move.l	#Map_Bubbler2,mappings(a0)
 
-loc_1819E:
++ ;loc_1819E:
 		move.w	#make_art_tile($45C,0,0),art_tile(a0)
 		move.b	#$84,render_flags(a0)
 		move.b	#$10,width_pixels(a0)
 		move.w	#$80,priority(a0)
 		move.b	subtype(a0),d0
-		bpl.s	loc_181CC
+		bpl.s	+ ;loc_181CC
 		addq.b	#8,routine(a0)
 		andi.w	#$7F,d0
 		move.b	d0,$37(a0)
 		bra.w	AirCountdown_Countdown
 ; ---------------------------------------------------------------------------
 
-loc_181CC:
++ ;loc_181CC:
 		move.b	d0,anim(a0)
 		move.w	x_pos(a0),$34(a0)
 		move.w	#-$100,y_vel(a0)
@@ -51,7 +51,7 @@ AirCountdown_Animate:
 AirCountdown_ChkWater:
 		move.w	(Water_level).w,d0
 		cmp.w	y_pos(a0),d0		; has bubble reached the water surface?
-		blo.s	AirCountdown_Wobble	; if not, branch
+		blo.s	+ ;AirCountdown_Wobble	; if not, branch
 		; pop the bubble:
 		move.b	#6,routine(a0)
 		addq.b	#7,anim(a0)
@@ -62,12 +62,12 @@ AirCountdown_ChkWater:
 		bra.s	AirCountdown_Display
 ; ---------------------------------------------------------------------------
 
-AirCountdown_Wobble:
++ ;AirCountdown_Wobble:
 		tst.w	(WindTunnel_flag).w
-		beq.s	loc_18218
+		beq.s	+ ;loc_18218
 		addq.w	#4,$34(a0)
 
-loc_18218:
++ ;loc_18218:
 		move.b	angle(a0),d0
 		addq.b	#1,angle(a0)
 		andi.w	#$7F,d0
@@ -79,11 +79,11 @@ loc_18218:
 		bsr.w	AirCountdown_ShowNumber
 		jsr	(MoveSprite2).l
 		tst.b	render_flags(a0)
-		bpl.s	loc_1824E
+		bpl.s	+ ;loc_1824E
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_1824E:
++ ;loc_1824E:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 ; AirCountdown_Display and AirCountdown_DisplayNumber were split in this
@@ -107,7 +107,7 @@ AirCountdown_Delete:
 AirCountdown_AirLeft:
 		movea.l	$40(a0),a2	; a2=character
 		cmpi.b	#12,air_left(a2)	; check air remaining
-		bhi.s	loc_182AC		; if higher than 12, branch
+		bhi.s	+ ;loc_182AC		; if higher than 12, branch
 		subq.w	#1,$3C(a0)
 		bne.s	AirCountdown_Display2
 		move.b	#$E,routine(a0)
@@ -120,11 +120,11 @@ AirCountdown_Display2:
 		jsr	(Animate_Sprite).l
 		bsr.w	AirCountdown_Load_Art
 		tst.b	render_flags(a0)
-		bpl.s	loc_182AC
+		bpl.s	+ ;loc_182AC
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_182AC:
++ ;loc_182AC:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -207,10 +207,10 @@ AirCountdown_Load_Art:
 		addi.l	#ArtUnc_AirCountdown,d1
 		move.w	#tiles_to_bytes(ArtTile_DashDust),d2
 		tst.b	parent+1(a0)
-		beq.s	loc_1845A
+		beq.s	+ ;loc_1845A
 		move.w	#tiles_to_bytes(ArtTile_DashDust_P2),d2
 
-loc_1845A:
++ ;loc_1845A:
 		move.w	#$60,d3
 		jsr	(Add_To_DMA_Queue).l
 
@@ -233,7 +233,7 @@ AirCountdown_Countdown:
 		btst	#Status_Underwater,status(a2)
 		beq.w	locret_18680
 		subq.w	#1,$3C(a0)
-		bpl.w	loc_18594
+		bpl.w	+++ ;loc_18594
 		move.w	#60-1,$3C(a0)
 		move.w	#1,$3A(a0)
 		jsr	(Random_Number).l
@@ -249,13 +249,13 @@ AirCountdown_Countdown:
 		beq.s	AirCountdown_WarnSound	; play ding sound if air is 15
 		cmpi.w	#12,d0
 		bhi.s	AirCountdown_ReduceAir
-		bne.s	loc_184E8
+		bne.s	+ ;loc_184E8
 		tst.b	parent+1(a0)
-		bne.s	loc_184E8
+		bne.s	+ ;loc_184E8
 		moveq	#signextendB(mus_Drowning),d0
 		jsr	(Play_Music).l
 
-loc_184E8:
++ ;loc_184E8:
 		subq.b	#1,$36(a0)
 		bpl.s	AirCountdown_ReduceAir
 		move.b	$37(a0),$36(a0)
@@ -302,20 +302,20 @@ locret_1857A:
 loc_1857C:
 		move.b	#$17,anim(a2)
 		subq.w	#1,$30(a0)
-		bne.s	loc_18590
+		bne.s	+ ;loc_18590
 		move.b	#6,routine(a2)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_18590:
-		bra.s	loc_18594
++ ;loc_18590:
+		bra.s	+ ;loc_18594
 ; ---------------------------------------------------------------------------
 
 loc_18592:
 		bra.s	AirCountdown_MakeItem
 ; ---------------------------------------------------------------------------
 
-loc_18594:
++ ;loc_18594:
 		tst.w	$3A(a0)
 		beq.w	locret_18680
 		subq.w	#1,$3E(a0)
@@ -332,17 +332,17 @@ AirCountdown_MakeItem:
 		move.w	x_pos(a2),x_pos(a1)	; match its X position to Sonic
 		moveq	#6,d0
 		btst	#Status_Facing,status(a2)
-		beq.s	loc_185D8
+		beq.s	+ ;loc_185D8
 		neg.w	d0
 		move.b	#$40,angle(a1)
 
-loc_185D8:
++ ;loc_185D8:
 		add.w	d0,x_pos(a1)
 		move.w	y_pos(a2),y_pos(a1)
 		move.l	$40(a0),$40(a1)
 		move.b	#6,subtype(a1)
 		tst.w	$30(a0)
-		beq.w	loc_1862A
+		beq.w	+ ;loc_1862A
 		andi.w	#7,$3E(a0)
 		addi.w	#0,$3E(a0)
 		move.w	y_pos(a2),d0
@@ -352,37 +352,37 @@ loc_185D8:
 		move.b	d0,angle(a1)
 		move.w	(Level_frame_counter).w,d0
 		andi.b	#3,d0
-		bne.s	loc_18676
+		bne.s	+++ ;loc_18676
 		move.b	#$E,subtype(a1)
-		bra.s	loc_18676
+		bra.s	+++ ;loc_18676
 ; ---------------------------------------------------------------------------
 ; has something to do with making bubbles come out less regularly
 ; when Sonic is almost drowning
-loc_1862A:
++ ;loc_1862A:
 		btst	#7,$3A(a0)
-		beq.s	loc_18676
+		beq.s	++ ;loc_18676
 		moveq	#0,d2
 		move.b	air_left(a2),d2
 		cmpi.b	#12,d2
-		bhs.s	loc_18676
+		bhs.s	++ ;loc_18676
 		lsr.w	#1,d2
 		jsr	(Random_Number).l
 		andi.w	#3,d0
-		bne.s	loc_1865E
+		bne.s	+ ;loc_1865E
 		bset	#6,$3A(a0)
-		bne.s	loc_18676
+		bne.s	++ ;loc_18676
 		move.b	d2,subtype(a1)
 		move.w	#$1C,$3C(a1)
 
-loc_1865E:
++ ;loc_1865E:
 		tst.b	$38(a0)
-		bne.s	loc_18676
+		bne.s	+ ;loc_18676
 		bset	#6,$3A(a0)
-		bne.s	loc_18676
+		bne.s	+ ;loc_18676
 		move.b	d2,subtype(a1)
 		move.w	#$1C,$3C(a1)
 
-loc_18676:
++ ;loc_18676:
 		subq.b	#1,$38(a0)
 		bpl.s	locret_18680
 		clr.w	$3A(a0)
@@ -400,20 +400,20 @@ Player_ResetAirTimer:
 		bne.s	loc_186BC		; branch if it isn't player 1
 		move.w	(Current_music).w,d0	; prepare to play current level's music
 		btst	#Status_Invincible,status_secondary(a1)
-		beq.s	loc_186A0		; branch if Sonic is not invincible
+		beq.s	+ ;loc_186A0		; branch if Sonic is not invincible
 		move.w	#mus_Invincibility,d0	; prepare to play invincibility music
 
-loc_186A0:
++ ;loc_186A0:
 		tst.b	(Super_Sonic_Knux_flag).w
-		beq.w	loc_186AC		; branch if it isn't Super/Hyper
+		beq.w	+ ;loc_186AC		; branch if it isn't Super/Hyper
 		move.w	#mus_Invincibility,d0	; prepare to play Super Sonic music (same as invincibility in this game)
 
-loc_186AC:
++ ;loc_186AC:
 		tst.b	(Boss_flag).w
-		beq.s	loc_186B6		; branch if not in a boss fight
+		beq.s	+ ;loc_186B6		; branch if not in a boss fight
 		move.w	#mus_MinibossK,d0	; prepare to play boss music
 
-loc_186B6:
++ ;loc_186B6:
 		jsr	(Play_Music).l
 
 loc_186BC:
@@ -491,7 +491,7 @@ Obj_Invincibility:
 		lea	(a0),a1
 		moveq	#4-1,d1
 
-loc_1880E:
+- ;loc_1880E:
 		move.l	#Obj_188E8,(a1)
 		move.l	#Map_Invincibility,mappings(a1)
 		move.w	#make_art_tile(ArtTile_Shield,0,0),art_tile(a1)
@@ -506,7 +506,7 @@ loc_1880E:
 		move.l	(a2)+,$30(a1)
 		move.w	(a2)+,$34(a1)
 		lea	next_object(a1),a1
-		dbf	d1,loc_1880E
+		dbf	d1,- ;loc_1880E
 		move.l	#loc_18868,(a0)
 		move.b	#4,$34(a0)
 
@@ -529,12 +529,12 @@ loc_18868:
 loc_188A0:
 		move.w	$38(a0),d2
 		move.b	(a3,d2.w),d5
-		bpl.s	loc_188B0
+		bpl.s	+ ;loc_188B0
 		clr.w	$38(a0)
 		bra.s	loc_188A0
 ; ---------------------------------------------------------------------------
 
-loc_188B0:
++ ;loc_188B0:
 		addq.w	#1,$38(a0)
 		lea	byte_189A0(pc),a6
 		move.b	$34(a0),d6
@@ -549,10 +549,10 @@ loc_188B0:
 		move.w	d5,(a2)+
 		moveq	#$12,d0
 		btst	#Status_Facing,status(a1)
-		beq.s	loc_188E0
+		beq.s	+ ;loc_188E0
 		neg.w	d0
 
-loc_188E0:
++ ;loc_188E0:
 		add.b	d0,$34(a0)
 		bra.w	Draw_Sprite
 ; ---------------------------------------------------------------------------
@@ -585,12 +585,12 @@ Obj_188E8:
 loc_18936:
 		move.w	$38(a0),d2
 		move.b	(a3,d2.w),d5
-		bpl.s	loc_18946
+		bpl.s	+ ;loc_18946
 		clr.w	$38(a0)
 		bra.s	loc_18936
 ; ---------------------------------------------------------------------------
 
-loc_18946:
++ ;loc_18946:
 		swap	d5
 		add.b	$35(a0),d2
 		move.b	(a3,d2.w),d5
@@ -609,10 +609,10 @@ loc_18946:
 		move.w	d5,(a2)+
 		moveq	#2,d0
 		btst	#Status_Facing,status(a1)
-		beq.s	loc_18982
+		beq.s	+ ;loc_18982
 		neg.w	d0
 
-loc_18982:
++ ;loc_18982:
 		add.b	d0,$34(a0)
 		bra.w	Draw_Sprite
 
@@ -743,12 +743,12 @@ loc_18BC8:
 
 loc_18BEC:
 		tst.b	prev_anim(a0)
-		bne.s	loc_18C04
+		bne.s	+ ;loc_18C04
 		move.w	x_pos(a2),x_pos(a0)
 		move.b	#0,status(a0)
 		andi.w	#drawing_mask,art_tile(a0)
 
-loc_18C04:
++ ;loc_18C04:
 		lea	(Ani_DashSplashDrown).l,a1
 		jsr	(Animate_Sprite).l
 		move.l	#ArtUnc_SplashDrown,d6
@@ -769,16 +769,16 @@ loc_18C20:
 		andi.b	#1,status(a0)
 		moveq	#4,d1
 		tst.b	(Reverse_gravity_flag).w
-		beq.s	loc_18C60
+		beq.s	+ ;loc_18C60
 		ori.b	#2,status(a0)
 		neg.w	d1
 
-loc_18C60:
++ ;loc_18C60:
 		tst.b	$38(a0)
-		beq.s	loc_18C6A
+		beq.s	+ ;loc_18C6A
 		sub.w	d1,y_pos(a0)
 
-loc_18C6A:
++ ;loc_18C6A:
 		tst.b	prev_anim(a0)
 		bne.s	loc_18C94
 		andi.w	#drawing_mask,art_tile(a0)
@@ -814,40 +814,40 @@ loc_18CB6:
 		movea.w	parent(a0),a2
 		moveq	#$10,d1
 		cmpi.b	#$D,anim(a2)
-		beq.s	loc_18CE4
+		beq.s	++ ;loc_18CE4
 		cmpi.b	#2,character_id(a2)
-		bne.s	loc_18CD6
+		bne.s	+ ;loc_18CD6
 		moveq	#6,d1
 		cmpi.b	#3,double_jump_flag(a2)
-		beq.s	loc_18CE4
+		beq.s	++ ;loc_18CE4
 
-loc_18CD6:
++ ;loc_18CD6:
 		move.b	#2,routine(a0)
 		move.b	#0,$36(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_18CE4:
++ ;loc_18CE4:
 		subq.b	#1,$36(a0)
-		bpl.s	loc_18D66
+		bpl.s	+++ ;loc_18D66
 		move.b	#3,$36(a0)
 		btst	#Status_Underwater,status(a2)
-		bne.s	loc_18D66
+		bne.s	+++ ;loc_18D66
 		bsr.w	AllocateObject
-		bne.s	loc_18D66
+		bne.s	+++ ;loc_18D66
 		move.l	(a0),(a1)
 		move.w	x_pos(a2),x_pos(a1)
 		move.w	y_pos(a2),y_pos(a1)
 		tst.b	$38(a0)
-		beq.s	loc_18D14
+		beq.s	+ ;loc_18D14
 		subq.w	#4,d1
 
-loc_18D14:
++ ;loc_18D14:
 		tst.b	(Reverse_gravity_flag).w
-		beq.s	loc_18D1C
+		beq.s	+ ;loc_18D1C
 		neg.w	d1
 
-loc_18D1C:
++ ;loc_18D1C:
 		add.w	d1,y_pos(a1)
 		move.b	#0,status(a1)
 		move.b	#3,anim(a1)
@@ -860,10 +860,10 @@ loc_18D1C:
 		move.w	parent(a0),parent(a1)
 		andi.w	#drawing_mask,art_tile(a1)
 		tst.w	art_tile(a2)
-		bpl.s	loc_18D66
+		bpl.s	+ ;loc_18D66
 		ori.w	#high_priority,art_tile(a1)
 
-loc_18D66:
++ ;loc_18D66:
 		bsr.s	DashDust_Load_DPLC
 		rts
 
@@ -887,7 +887,7 @@ SplashDrown_Load_DPLC:
 		bmi.s	locret_18DBE
 		move.w	vram_art(a0),d4
 
-loc_18D96:
+- ;loc_18D96:
 		moveq	#0,d1
 		move.w	(a2)+,d1
 		move.w	d1,d3
@@ -901,7 +901,7 @@ loc_18D96:
 		add.w	d3,d4
 		add.w	d3,d4
 		jsr	(Add_To_DMA_Queue).l
-		dbf	d5,loc_18D96
+		dbf	d5,- ;loc_18D96
 
 locret_18DBE:
 		rts
@@ -958,40 +958,40 @@ off_18FE6:
 
 loc_18FEE:
 		move.b	#0,mapping_frame(a0)
-		bra.s	loc_19046
+		bra.s	+ ;loc_19046
 ; ---------------------------------------------------------------------------
 
 loc_18FF6:
 		cmpi.b	#12,air_left(a2)
-		blo.s	loc_19058
+		blo.s	++ ;loc_19058
 		cmpi.b	#4,routine(a2)
-		bhs.s	loc_19058
+		bhs.s	++ ;loc_19058
 		tst.b	spin_dash_flag(a2)
-		beq.s	loc_19058
+		beq.s	++ ;loc_19058
 		move.w	x_pos(a2),x_pos(a0)
 		move.w	y_pos(a2),y_pos(a0)
 		move.b	status(a2),status(a0)
 		andi.b	#1,status(a0)
 		tst.b	prev_anim(a0)
-		bne.s	loc_19046
+		bne.s	+ ;loc_19046
 		andi.w	#drawing_mask,art_tile(a0)
 		tst.w	art_tile(a2)
-		bpl.s	loc_19046
+		bpl.s	+ ;loc_19046
 		ori.w	#high_priority,art_tile(a0)
-		bra.s	loc_19046
+		bra.s	+ ;loc_19046
 ; ---------------------------------------------------------------------------
 
 loc_1903E:
 		cmpi.b	#12,air_left(a2)
-		blo.s	loc_19058
+		blo.s	++ ;loc_19058
 
-loc_19046:
++ ;loc_19046:
 		lea	(Ani_DashDust2P).l,a1
 		jsr	(Animate_Sprite).l
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_19058:
++ ;loc_19058:
 		move.b	#0,anim(a0)
 		rts
 ; ---------------------------------------------------------------------------
@@ -1003,13 +1003,13 @@ loc_19060:
 loc_19064:
 		movea.w	parent(a0),a2
 		cmpi.b	#$D,anim(a2)
-		beq.s	loc_1907E
+		beq.s	+ ;loc_1907E
 		move.b	#2,routine(a0)
 		move.b	#0,$36(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_1907E:
++ ;loc_1907E:
 		move.b	#0,mapping_frame(a0)
 		subq.b	#1,$36(a0)
 		bpl.s	locret_190F0
@@ -1055,62 +1055,62 @@ Obj_SuperSonicKnux_Stars:
 		move.b	#$18,height_pixels(a0)
 		move.w	#make_art_tile(ArtTile_Shield,0,0),art_tile(a0)
 		btst	#7,(Player_1+art_tile).w
-		beq.s	loc_1919E
+		beq.s	+ ;loc_1919E
 		bset	#7,art_tile(a0)
 
-loc_1919E:
++ ;loc_1919E:
 		move.l	#loc_191A4,(a0)
 
 loc_191A4:
 		tst.b	(Super_Sonic_Knux_flag).w
 		beq.w	loc_19230
 		tst.b	anim(a0)
-		beq.s	loc_191B6
+		beq.s	+ ;loc_191B6
 		bsr.w	sub_19236
 
-loc_191B6:
++ ;loc_191B6:
 		tst.b	$34(a0)
-		beq.s	loc_19200
+		beq.s	+++ ;loc_19200
 		subq.b	#1,anim_frame_timer(a0)
-		bpl.s	loc_191E8
+		bpl.s	+ ;loc_191E8
 		move.b	#1,anim_frame_timer(a0)
 		addq.b	#1,mapping_frame(a0)
 		cmpi.b	#6,mapping_frame(a0)
-		blo.s	loc_191E8
+		blo.s	+ ;loc_191E8
 		move.b	#0,mapping_frame(a0)
 		move.b	#0,$34(a0)
 		move.b	#1,$35(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_191E8:
++ ;loc_191E8:
 		tst.b	$35(a0)
-		bne.s	loc_191FA
+		bne.s	+ ;loc_191FA
 
 loc_191EE:
 		move.w	(Player_1+x_pos).w,x_pos(a0)
 		move.w	(Player_1+y_pos).w,y_pos(a0)
 
-loc_191FA:
++ ;loc_191FA:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_19200:
++ ;loc_19200:
 		tst.b	(Player_1+object_control).w
-		bne.s	loc_19222
+		bne.s	++ ;loc_19222
 		move.w	(Player_1+ground_vel).w,d0
-		bpl.s	loc_1920E
+		bpl.s	+ ;loc_1920E
 		neg.w	d0
 
-loc_1920E:
++ ;loc_1920E:
 		cmpi.w	#$800,d0
-		blo.s	loc_19222
+		blo.s	+ ;loc_19222
 		move.b	#0,mapping_frame(a0)
 		move.b	#1,$34(a0)
 		bra.s	loc_191EE
 ; ---------------------------------------------------------------------------
 
-loc_19222:
++ ;loc_19222:
 		move.b	#0,$34(a0)
 		move.b	#0,$35(a0)
 		rts
@@ -1128,7 +1128,7 @@ sub_19236:
 		moveq	#$10-1,d5
 		move.w	#$488,d4
 
-loc_19246:
+- ;loc_19246:
 		bsr.w	AllocateObject
 		bne.w	locret_192BE
 		move.l	#Obj_SuperSonicKnux_Stars_Timer,(a1)
@@ -1141,7 +1141,7 @@ loc_19246:
 		move.b	#8,width_pixels(a1)
 		move.b	#8,height_pixels(a1)
 		tst.w	d4
-		bmi.s	loc_192AE
+		bmi.s	+ ;loc_192AE
 		move.w	d4,d0
 		jsr	(GetSineCosine).l
 		move.w	d4,d2
@@ -1151,17 +1151,17 @@ loc_19246:
 		move.w	d0,d2
 		move.w	d1,d3
 		addi.b	#$10,d4
-		bcc.s	loc_192AE
+		bcc.s	+ ;loc_192AE
 		subi.w	#$80,d4
-		bcc.s	loc_192AE
+		bcc.s	+ ;loc_192AE
 		move.w	#$488,d4
 
-loc_192AE:
++ ;loc_192AE:
 		move.w	d2,x_vel(a1)
 		move.w	d3,y_vel(a1)
 		neg.w	d2
 		neg.w	d4
-		dbf	d5,loc_19246
+		dbf	d5,- ;loc_19246
 
 locret_192BE:
 		rts
@@ -1171,11 +1171,11 @@ locret_192BE:
 
 Obj_SuperSonicKnux_Stars_Timer:
 		tst.b	render_flags(a0)
-		bmi.s	loc_192CC
+		bmi.s	+ ;loc_192CC
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_192CC:
++ ;loc_192CC:
 		addq.b	#1,mapping_frame(a0)
 		andi.b	#3,mapping_frame(a0)
 		bsr.w	MoveSprite2
@@ -1194,14 +1194,14 @@ Obj_HyperSonic_Stars:
 		moveq	#0,d2
 		moveq	#4-1,d1
 
-	.createObject:
+-	;.createObject:
 		move.l	#.Init,(a1)
 		move.b	d0,angle(a1)
 		addi.b	#$40,d0
 		addq.b	#1,d2
 		move.b	d2,anim_frame_timer(a1)
 		lea	next_object(a1),a1
-		dbf	d1,.createObject
+		dbf	d1,- ;.createObject
 
 .Init:
 		; Wait for art to finish loading before we display
@@ -1245,17 +1245,17 @@ Obj_HyperSonic_Stars:
 		tst.b	(Super_Sonic_Knux_flag).w
 		beq.w	loc_19486
 		subq.b	#1,anim_frame_timer(a0)
-		bpl.s	loc_1941C
+		bpl.s	+ ;loc_1941C
 		move.b	#1,anim_frame_timer(a0)
 		addq.b	#1,mapping_frame(a0)
 		cmpi.b	#3,mapping_frame(a0)
-		blo.s	loc_1941C
+		blo.s	+ ;loc_1941C
 		move.b	#0,mapping_frame(a0)
 		moveq	#0,d0
 		move.w	d0,$30(a0)
 		move.w	d0,$34(a0)
 
-loc_1941C:
++ ;loc_1941C:
 		move.b	angle(a0),d0
 		addi.b	#-$10,angle(a0)
 		jsr	(GetSineCosine).l
@@ -1270,10 +1270,10 @@ loc_1941C:
 		move.b	$30(a0),d2
 		ext.w	d2
 		btst	#Status_Facing,(Player_1+status).w
-		beq.s	loc_19458
+		beq.s	+ ;loc_19458
 		neg.w	d2
 
-loc_19458:
++ ;loc_19458:
 		move.b	$34(a0),d3
 		ext.w	d3
 		add.w	(Player_1+x_pos).w,d2
@@ -1282,10 +1282,10 @@ loc_19458:
 		move.w	d3,y_pos(a0)
 		andi.w	#drawing_mask,art_tile(a0)
 		tst.b	(Player_1+art_tile).w
-		bpl.s	loc_19480
+		bpl.s	+ ;loc_19480
 		ori.w	#high_priority,art_tile(a0)
 
-loc_19480:
++ ;loc_19480:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -1308,10 +1308,10 @@ Obj_InstaShield:
 		move.w	#make_art_tile(ArtTile_Shield,0,0),art_tile(a0)
 		move.w	#tiles_to_bytes(ArtTile_Shield),vram_art(a0)	; Used by PLCLoad_Shields
 		btst	#7,(Player_1+art_tile).w
-		beq.s	.nothighpriority
+		beq.s	+ ;.nothighpriority
 		bset	#7,art_tile(a0)
 
-	.nothighpriority:
++	;.nothighpriority:
 		move.w	#1,anim(a0)			; Clear anim and set prev_anim to 1
 		move.b	#-1,shield_prev_frame(a0)	; Reset shield_prev_frame (used by PLCLoad_Shields)
 		move.l	#.Main,(a0)
@@ -1325,34 +1325,34 @@ Obj_InstaShield:
 		move.b	status(a2),status(a0)		; Inherit status
 		andi.b	#1,status(a0)			; Limit inheritance to 'orientation' bit
 		tst.b	(Reverse_gravity_flag).w
-		beq.s	.normalgravity
+		beq.s	+ ;.normalgravity
 		ori.b	#2,status(a0)			; Reverse the vertical mirror render flag bit (on if off beforehand and vice versa)
 
-	.normalgravity:
++	;.normalgravity:
 		andi.w	#drawing_mask,art_tile(a0)
 		tst.w	art_tile(a2)
-		bpl.s	.nothighpriority
+		bpl.s	+ ;.nothighpriority
 		ori.w	#high_priority,art_tile(a0)
 
-	.nothighpriority:
++	;.nothighpriority:
 		lea	(Ani_InstaShield).l,a1
 		jsr	(Animate_Sprite).l
 		cmpi.b	#7,mapping_frame(a0)		; Has it reached then end of its animation?
-		bne.s	.notover			; If not, branch
+		bne.s	+ ;.notover			; If not, branch
 		tst.b	double_jump_flag(a2)		; Is it in its attacking state?
-		beq.s	.notover			; If not, branch
+		beq.s	+ ;.notover			; If not, branch
 		move.b	#2,double_jump_flag(a2)		; Mark attack as over
 
-	.notover:
++	;.notover:
 		tst.b	mapping_frame(a0)		; Is this the first frame?
-		beq.s	.loadnewDPLC			; If so, branch and load the DPLC for this and the next few frames
+		beq.s	+ ;.loadnewDPLC			; If so, branch and load the DPLC for this and the next few frames
 		cmpi.b	#3,mapping_frame(a0)		; Is this the third frame?
-		bne.s	.skipDPLC			; If not, branch as we don't need to load another DPLC yet
+		bne.s	++ ;.skipDPLC			; If not, branch as we don't need to load another DPLC yet
 
-	.loadnewDPLC:
++	;.loadnewDPLC:
 		bsr.w	PLCLoad_Shields
 
-	.skipDPLC:
++	;.skipDPLC:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -1372,11 +1372,11 @@ Obj_FireShield:
 		move.w	#make_art_tile(ArtTile_Shield,0,0),art_tile(a0)
 		move.w	#tiles_to_bytes(ArtTile_Shield),vram_art(a0)	; Used by PLCLoad_Shields
 		btst	#7,(Player_1+art_tile).w
-		beq.s	.nothighpriority
+		beq.s	+ ;.nothighpriority
 		bset	#7,art_tile(a0)
 
 ;loc_195F0:
-	.nothighpriority:
++	;.nothighpriority:
 		move.w	#1,anim(a0)				; Clear anim and set prev_anim to 1
 		move.b	#-1,shield_prev_frame(a0)		; Reset shield_prev_frame (used by PLCLoad_Shields)
 		move.l	#.Main,(a0)
@@ -1394,28 +1394,28 @@ Obj_FireShield:
 		move.w	x_pos(a2),x_pos(a0)
 		move.w	y_pos(a2),y_pos(a0)
 		tst.b	anim(a0)				; Is shield in its 'dashing' state?
-		bne.s	.nothighpriority			; If so, do not update orientation or allow changing of the priority art_tile bit
+		bne.s	++ ;.nothighpriority			; If so, do not update orientation or allow changing of the priority art_tile bit
 		move.b	status(a2),status(a0)			; Inherit status
 		andi.b	#1,status(a0)				; Limit inheritance to 'orientation' bit
 		tst.b	(Reverse_gravity_flag).w
-		beq.s	.normalgravity
+		beq.s	+ ;.normalgravity
 		ori.b	#2,status(a0)				; If in reverse gravity, reverse the vertical mirror render flag bit (on if off beforehand and vice versa)
 
-	.normalgravity:
++	;.normalgravity:
 		andi.w	#drawing_mask,art_tile(a0)
 		tst.w	art_tile(a2)
-		bpl.s	.nothighpriority
+		bpl.s	+ ;.nothighpriority
 		ori.w	#high_priority,art_tile(a0)
 
-	.nothighpriority:
++	;.nothighpriority:
 		lea	(Ani_FireShield).l,a1
 		jsr	(Animate_Sprite).l
 		move.w	#$80,priority(a0)		; Layer shield over player sprite
 		cmpi.b	#$F,mapping_frame(a0)		; Are these the frames that display in front of the player?
-		blo.s	.overplayer			; If so, branch
+		blo.s	+ ;.overplayer			; If so, branch
 		move.w	#$200,priority(a0)		; If not, layer shield behind player sprite
 
-	.overplayer:
++	;.overplayer:
 		bsr.w	PLCLoad_Shields
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
@@ -1456,10 +1456,10 @@ Obj_LightningShield:
 		move.w	#make_art_tile(ArtTile_Shield,0,0),art_tile(a0)
 		move.w	#tiles_to_bytes(ArtTile_Shield),vram_art(a0)	; Used by PLCLoad_Shields
 		btst	#7,(Player_1+art_tile).w
-		beq.s	.nothighpriority
+		beq.s	+ ;.nothighpriority
 		bset	#7,art_tile(a0)
 
-	.nothighpriority:
++	;.nothighpriority:
 		move.w	#1,anim(a0)				; Clear anim and set prev_anim to 1
 		move.b	#-1,shield_prev_frame(a0)		; Reset shield_prev_frame (used by PLCLoad_Shields)
 		move.l	#.Main,(a0)
@@ -1479,16 +1479,16 @@ Obj_LightningShield:
 		move.b	status(a2),status(a0)			; Inherit status
 		andi.b	#1,status(a0)				; Limit inheritance to 'orientation' bit
 		tst.b	(Reverse_gravity_flag).w
-		beq.s	.normalgravity
+		beq.s	+ ;.normalgravity
 		ori.b	#2,status(a0)				; If in reverse gravity, reverse the vertical mirror render flag bit (on if off beforehand and vice versa)
 
-	.normalgravity:
++	;.normalgravity:
 		andi.w	#drawing_mask,art_tile(a0)
 		tst.w	art_tile(a2)
-		bpl.s	.nothighpriority
+		bpl.s	+ ;.nothighpriority
 		ori.w	#high_priority,art_tile(a0)
 
-	.nothighpriority:
++	;.nothighpriority:
 		tst.b	anim(a0)				; Is shield in its 'double jump' state?
 		beq.s	.Display		; Is not, branch and display
 		bsr.s	.CreateSpark		; Create sparks
@@ -1499,10 +1499,10 @@ Obj_LightningShield:
 		jsr	(Animate_Sprite).l
 		move.w	#$80,priority(a0)			; Layer shield over player sprite
 		cmpi.b	#$E,mapping_frame(a0)			; Are these the frames that display in front of the player?
-		blo.s	.overplayer				; If so, branch
+		blo.s	+ ;.overplayer				; If so, branch
 		move.w	#$200,priority(a0)			; If not, layer shield behind player sprite
 
-	.overplayer:
++	;.overplayer:
 		bsr.w	PLCLoad_Shields
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
@@ -1530,10 +1530,10 @@ Obj_LightningShield:
 		lea	(Target_water_palette).w,a2
 		move.w	#bytesToLcnt($80),d0			; Size of Water_palette/4-1
 
-loc_197F2:
+- ;loc_197F2:
 		move.l	(a1),(a2)+			; Backup palette entries
 		move.l	#$0EEE0EEE,(a1)+		; Overwrite palette entries with white
-		dbf	d0,loc_197F2			; Loop until entire thing is overwritten
+		dbf	d0,- ;loc_197F2			; Loop until entire thing is overwritten
 
 		move.w	#0,-$40(a1)			; Set the first colour in the third palette line to black
 		move.b	#3,anim_frame_timer(a0)
@@ -1549,7 +1549,7 @@ Obj_LightningShield_CreateSpark_Part2:
 		lea	(SparkVelocities).l,a2
 		moveq	#4-1,d1
 
-	.loop:
+- 	;.loop:
 		bsr.w	AllocateObject		; Find free object slot
 		bne.s	.end			; If one can't be found, return
 		move.l	#Obj_LightningShield_Spark,(a1)	; Make new object a Spark
@@ -1564,7 +1564,7 @@ Obj_LightningShield_CreateSpark_Part2:
 		move.b	d2,anim(a1)
 		move.w	(a2)+,x_vel(a1)			; (Spark) Give x_vel (unique to each of the four Sparks)
 		move.w	(a2)+,y_vel(a1)			; (Spark) Give y_vel (unique to each of the four Sparks)
-		dbf	d1,.loop
+		dbf	d1,- ;.loop
 
 	.end:
 		rts
@@ -1600,9 +1600,9 @@ Obj_LightningShield_DestroyUnderwater2:
 		lea	(Water_palette).w,a2
 		move.w	#bytesToLcnt($80),d0		; Size of Water_palette/4-1
 
-	.loop:
+- ;.loop:
 		move.l	(a1)+,(a2)+			; Restore backed-up underwater palette
-		dbf	d0,.loop			; Loop until entire thing is restored
+		dbf	d0,- ;.loop			; Loop until entire thing is restored
 
 	.end:
 		rts
@@ -1620,10 +1620,10 @@ Obj_BubbleShield:
 		move.w	#make_art_tile(ArtTile_Shield,0,0),art_tile(a0)
 		move.w	#tiles_to_bytes(ArtTile_Shield),vram_art(a0)	; Used by PLCLoad_Shields
 		btst	#7,(Player_1+art_tile).w
-		beq.s	.nothighpriority
+		beq.s	+ ;.nothighpriority
 		bset	#7,art_tile(a0)
 
-	.nothighpriority:
++	;.nothighpriority:
 		move.w	#1,anim(a0)				; Clear anim and set prev_anim to 1
 		move.b	#-1,shield_prev_frame(a0)		; Reset shield_prev_frame (used by PLCLoad_Shields)
 		movea.w	parent(a0),a1
@@ -1643,16 +1643,16 @@ Obj_BubbleShield:
 		move.b	status(a2),status(a0)			; Inherit status
 		andi.b	#1,status(a0)				; Limit inheritance to 'orientation' bit
 		tst.b	(Reverse_gravity_flag).w
-		beq.s	.normalgravity
+		beq.s	+ ;.normalgravity
 		ori.b	#2,status(a0)				; Reverse the vertical mirror render flag bit (on if off beforehand and vice versa)
 
-	.normalgravity:
++	;.normalgravity:
 		andi.w	#drawing_mask,art_tile(a0)
 		tst.w	art_tile(a2)
-		bpl.s	.nothighpriority
+		bpl.s	+ ;.nothighpriority
 		ori.w	#high_priority,art_tile(a0)
 
-	.nothighpriority:
++	;.nothighpriority:
 		lea	(Ani_BubbleShield).l,a1
 		jsr	(Animate_Sprite).l
 		bsr.w	PLCLoad_Shields
@@ -1685,7 +1685,7 @@ PLCLoad_Shields:
 		bmi.s	.locret_199E8
 		move.w	vram_art(a0),d4
 
-.ReadEntry:
+- ;.ReadEntry:
 		moveq	#0,d1
 		move.w	(a2)+,d1
 		move.w	d1,d3
@@ -1699,7 +1699,7 @@ PLCLoad_Shields:
 		add.w	d3,d4
 		add.w	d3,d4
 		jsr	(Add_To_DMA_Queue).l
-		dbf	d5,.ReadEntry
+		dbf	d5,- ;.ReadEntry
 
 .locret_199E8:
 		rts
@@ -1744,12 +1744,12 @@ Obj_SuperTailsBirds:
 		moveq	#0,d0
 		moveq	#4-1,d1
 
-	.loop:
+- ;.loop:
 		move.l	#.Init,(a1)
 		move.b	d0,superTailsBirds_angle(a1)
 		addi.b	#$40,d0	; 90 degrees
 		lea	next_object(a1),a1
-		dbf	d1,.loop
+		dbf	d1,- ;.loop
 
 .Init:
 		; Wait for the object's art to finish loading
@@ -1813,10 +1813,10 @@ Obj_SuperTailsBirds_Main:
 		; Update whether the sprite should be upside down
 		andi.b	#~2,render_flags(a0)
 		tst.b	(Reverse_gravity_flag).w
-		beq.s	.not_upside_down
+		beq.s	+ ;.not_upside_down
 		ori.b	#2,render_flags(a0)
 
-	.not_upside_down:
++ ;	.not_upside_down:
 		subq.b	#1,anim_frame_timer(a0)
 		bpl.s	.timer_not_over
 		move.b	#1,anim_frame_timer(a0)
@@ -1864,10 +1864,10 @@ Obj_SuperTailsBirds_Main:
 		move.w	(Player_1+y_pos).w,d3
 		subi.w	#$20,d3
 		tst.b	(Reverse_gravity_flag).w
-		beq.s	.not_upside_down
+		beq.s	+ ;.not_upside_down
 		addi.w	#$20*2,d3
 
-	.not_upside_down:
++ ;	.not_upside_down:
 		add.w	d0,d2
 		add.w	d1,d3
 		rts
@@ -1977,13 +1977,13 @@ Obj_SuperTailsBirds_Move:
 		and.w	(Screen_Y_wrap_value).w,d3
 		move.w	#$20,d1
 		sub.w	y_pos(a0),d3
-		bcc.s	loc_1A3CA
+		bcc.s	+ ;loc_1A3CA
 		cmpi.w	#-$500,d3
-		ble.s	loc_1A3D0
+		ble.s	++ ;loc_1A3D0
 
 loc_1A3B4:
 		cmpi.w	#-$1000,y_vel(a0)
-		ble.s	loc_1A3D8
+		ble.s	+++ ;loc_1A3D8
 
 loc_1A3BC:
 		neg.w	d1
@@ -1995,15 +1995,15 @@ loc_1A3BC:
 		bra.s	loc_1A3E2
 ; ---------------------------------------------------------------------------
 
-loc_1A3CA:
++ ;loc_1A3CA:
 		cmpi.w	#$500,d3
 		bge.s	loc_1A3B4
 
-loc_1A3D0:
++ ;loc_1A3D0:
 		cmpi.w	#$1000,y_vel(a0)
 		bge.s	loc_1A3BC
 
-loc_1A3D8:
++ ;loc_1A3D8:
 		tst.w	y_vel(a0)
 		bpl.s	loc_1A3E2
 		; Going the wrong way - make it turn around faster

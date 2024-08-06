@@ -10,29 +10,29 @@ loc_32ED2:
 		lea	$30(a0),a2
 		moveq	#p1_standing_bit,d6
 		move.w	(Ctrl_1_logical).w,d5
-		bsr.s	sub_32EFE
+		bsr.s	+ ;sub_32EFE
 		jmp	(Delete_Sprite_If_Not_In_Range).l
 ; ---------------------------------------------------------------------------
 		lea	(Player_2).w,a1
 		lea	$36(a0),a2
 		addq.b	#p2_standing_bit-p1_standing_bit,d6
 		move.w	(Ctrl_2_logical).w,d5
-		bsr.s	sub_32EFE
+		bsr.s	+ ;sub_32EFE
 		jmp	(Delete_Sprite_If_Not_In_Range).l
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_32EFE:
++ ;sub_32EFE:
 		btst	d6,status(a0)
 		bne.w	loc_32FD6
 		tst.b	4(a2)
-		beq.s	loc_32F38
+		beq.s	++ ;loc_32F38
 		subq.b	#1,4(a2)
-		bne.s	loc_32F18
+		bne.s	+ ;loc_32F18
 		bclr	#0,object_control(a1)
 
-loc_32F18:
++ ;loc_32F18:
 		move.w	x_vel(a1),d0
 		ext.l	d0
 		lsl.l	#8,d0
@@ -45,7 +45,7 @@ loc_32F18:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_32F38:
++ ;loc_32F38:
 		moveq	#0,d1
 		move.b	y_radius(a1),d1
 		addi.w	#$24,d1
@@ -79,12 +79,12 @@ loc_32F38:
 		move.b	#$80,5(a2)
 		move.w	x_pos(a1),d0
 		sub.w	x_pos(a0),d0
-		bcs.s	loc_32FC2
+		bcs.s	+ ;loc_32FC2
 		move.b	#$40,angle(a1)
 		bset	#0,render_flags(a1)
 		move.b	#0,5(a2)
 
-loc_32FC2:
++ ;loc_32FC2:
 		bset	#1,render_flags(a1)
 		bset	#6,object_control(a1)
 		bset	#1,object_control(a1)
@@ -97,7 +97,7 @@ loc_32FD6:
 		tst.w	(Debug_placement_mode).w
 		bne.w	loc_330C6
 		andi.w	#button_A_mask|button_B_mask|button_C_mask,d5
-		beq.s	loc_33028
+		beq.s	+ ;loc_33028
 		move.b	#8,4(a2)
 		bset	#0,object_control(a1)
 		bset	#Status_InAir,status(a1)
@@ -113,43 +113,43 @@ loc_32FD6:
 		bra.w	loc_330C6
 ; ---------------------------------------------------------------------------
 
-loc_33028:
++ ;loc_33028:
 		move.w	ground_vel(a1),d0
-		bpl.s	loc_3303E
+		bpl.s	+ ;loc_3303E
 		neg.w	d0
 		cmpi.w	#$400,d0
-		bhs.s	loc_3304A
+		bhs.s	++ ;loc_3304A
 		move.w	#-$400,ground_vel(a1)
-		bra.s	loc_3304A
+		bra.s	++ ;loc_3304A
 ; ---------------------------------------------------------------------------
 
-loc_3303E:
++ ;loc_3303E:
 		cmpi.w	#$400,d0
-		bhs.s	loc_3304A
+		bhs.s	+ ;loc_3304A
 		move.w	#$400,ground_vel(a1)
 
-loc_3304A:
++ ;loc_3304A:
 		move.w	y_pos(a1),d0
 		sub.w	y_pos(a0),d0
 		cmp.w	$3A(a0),d0
 		blo.w	loc_3310A
 		move.w	ground_vel(a1),d0
-		bpl.s	loc_33076
+		bpl.s	+ ;loc_33076
 		neg.w	d0
 		cmpi.w	#$C00,d0
-		blo.s	loc_33088
+		blo.s	++ ;loc_33088
 		move.w	#-$C00,ground_vel(a1)
 		move.w	#$C00,y_vel(a1)
-		bra.s	loc_33088
+		bra.s	++ ;loc_33088
 ; ---------------------------------------------------------------------------
 
-loc_33076:
++ ;loc_33076:
 		cmpi.w	#$C00,d0
-		blo.s	loc_33088
+		blo.s	+ ;loc_33088
 		move.w	#$C00,ground_vel(a1)
 		move.w	#$C00,y_vel(a1)
 
-loc_33088:
++ ;loc_33088:
 		move.w	y_vel(a1),d0
 		ext.l	d0
 		lsl.l	#6,d0
@@ -176,10 +176,10 @@ loc_33088:
 
 loc_330C6:
 		btst	#0,status(a0)
-		beq.s	loc_330D4
+		beq.s	+ ;loc_330D4
 		addi.b	#$80,angle(a1)
 
-loc_330D4:
++ ;loc_330D4:
 		bclr	#Status_Roll,status(a1)
 		move.b	#$13,y_radius(a1)
 		move.b	#9,x_radius(a1)
@@ -194,22 +194,22 @@ loc_330D4:
 
 loc_3310A:
 		move.w	ground_vel(a1),d0
-		bpl.s	loc_33126
+		bpl.s	+ ;loc_33126
 		neg.w	d0
 		cmpi.w	#$C00,d0
-		blo.s	loc_33138
+		blo.s	++ ;loc_33138
 		move.w	#-$C00,ground_vel(a1)
 		move.w	#$C00,y_vel(a1)
-		bra.s	loc_33138
+		bra.s	++ ;loc_33138
 ; ---------------------------------------------------------------------------
 
-loc_33126:
++ ;loc_33126:
 		cmpi.w	#$C00,d0
-		blo.s	loc_33138
+		blo.s	+ ;loc_33138
 		move.w	#$C00,ground_vel(a1)
 		move.w	#$C00,y_vel(a1)
 
-loc_33138:
++ ;loc_33138:
 		move.w	y_vel(a1),d0
 		ext.l	d0
 		lsl.l	#6,d0
@@ -240,10 +240,10 @@ loc_33138:
 		moveq	#0,d0
 		andi.w	#drawing_mask,art_tile(a1)
 		cmpi.b	#$80,d2
-		bhs.s	loc_33196
+		bhs.s	+ ;loc_33196
 		ori.w	#high_priority,art_tile(a1)
 
-loc_33196:
++ ;loc_33196:
 		subi.b	#$40,d2
 		neg.b	d2
 		andi.w	#$FF,d2

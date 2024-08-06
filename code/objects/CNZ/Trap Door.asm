@@ -9,9 +9,9 @@ Obj_CNZTrapDoor:
 
 loc_31CCA:
 		lea	(Player_1).w,a1
-		bsr.s	sub_31CFA
+		bsr.s	+ ;sub_31CFA
 		lea	(Player_2).w,a1
-		bsr.s	sub_31CFA
+		bsr.s	+ ;sub_31CFA
 		move.w	#$20,d1
 		move.w	#9,d3
 		move.w	x_pos(a0),d4
@@ -23,7 +23,7 @@ loc_31CCA:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_31CFA:
++ ;sub_31CFA:
 		move.w	x_pos(a0),d0
 		sub.w	x_pos(a1),d0
 		addi.w	#$20,d0

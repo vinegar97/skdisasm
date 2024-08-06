@@ -7,7 +7,7 @@ Obj_PathSwap:
 		move.w	#$280,priority(a0)
 		move.b	subtype(a0),d0
 		btst	#2,d0
-		beq.s	loc_1B050
+		beq.s	+++ ;loc_1B050
 		andi.w	#7,d0
 		move.b	d0,mapping_frame(a0)
 		andi.w	#3,d0
@@ -16,16 +16,16 @@ Obj_PathSwap:
 		move.w	y_pos(a0),d1
 		lea	(Player_1).w,a1
 		cmp.w	y_pos(a1),d1
-		bhs.s	loc_1B01A
+		bhs.s	+ ;loc_1B01A
 		move.b	#1,$34(a0)
 
-loc_1B01A:
++ ;loc_1B01A:
 		lea	(Player_2).w,a1
 		cmp.w	y_pos(a1),d1
-		bhs.s	loc_1B02A
+		bhs.s	+ ;loc_1B02A
 		move.b	#1,$35(a0)
 
-loc_1B02A:
++ ;loc_1B02A:
 		move.l	#loc_1B208,(a0)
 		tst.w	(Competition_mode).w
 		beq.w	loc_1B208
@@ -37,7 +37,7 @@ word_1B048:
 		dc.w    $20,   $40,   $80,  $100
 ; ---------------------------------------------------------------------------
 
-loc_1B050:
++ ;loc_1B050:
 		andi.w	#3,d0
 		move.b	d0,mapping_frame(a0)
 		add.w	d0,d0
@@ -45,16 +45,16 @@ loc_1B050:
 		move.w	x_pos(a0),d1
 		lea	(Player_1).w,a1
 		cmp.w	x_pos(a1),d1
-		bhs.s	loc_1B074
+		bhs.s	+ ;loc_1B074
 		move.b	#1,$34(a0)
 
-loc_1B074:
++ ;loc_1B074:
 		lea	(Player_2).w,a1
 		cmp.w	x_pos(a1),d1
-		bhs.s	loc_1B084
+		bhs.s	+ ;loc_1B084
 		move.b	#1,$35(a0)
 
-loc_1B084:
++ ;loc_1B084:
 		move.l	#loc_1B09E,(a0)
 		tst.w	(Competition_mode).w
 		beq.s	loc_1B09E
@@ -65,7 +65,7 @@ loc_1B084:
 
 loc_1B09E:
 		tst.w	(Debug_placement_mode).w
-		bne.w	loc_1B0BA
+		bne.w	+ ;loc_1B0BA
 		move.w	x_pos(a0),d1
 		lea	$34(a0),a2
 		lea	(Player_1).w,a1
@@ -73,7 +73,7 @@ loc_1B09E:
 		lea	(Player_2).w,a1
 		bsr.s	sub_1B0F0
 
-loc_1B0BA:
++ ;loc_1B0BA:
 		tst.w	(Debug_mode_flag).w
 		beq.w	Delete_Sprite_If_Not_In_Range
 		jmp	(Sprite_OnScreen_Test).l
@@ -112,29 +112,29 @@ sub_1B0F0:
 		cmp.w	d3,d4
 		bge.w	locret_1B206
 		move.b	subtype(a0),d0
-		bpl.s	loc_1B132
+		bpl.s	+ ;loc_1B132
 		btst	#Status_InAir,status(a1)
 		bne.w	locret_1B206
 
-loc_1B132:
++ ;loc_1B132:
 		move.w	x_pos(a1),d2
 		sub.w	d1,d2
-		bcc.s	loc_1B13C
+		bcc.s	+ ;loc_1B13C
 		neg.w	d2
 
-loc_1B13C:
++ ;loc_1B13C:
 		cmpi.w	#$40,d2
 		bhs.w	locret_1B206
 		btst	#0,render_flags(a0)
-		bne.s	loc_1B16A
+		bne.s	+ ;loc_1B16A
 		move.b	#$C,top_solid_bit(a1)
 		move.b	#$D,lrb_solid_bit(a1)
 		btst	#3,d0
-		beq.s	loc_1B16A
+		beq.s	+ ;loc_1B16A
 		move.b	#$E,top_solid_bit(a1)
 		move.b	#$F,lrb_solid_bit(a1)
 
-loc_1B16A:
++ ;loc_1B16A:
 		andi.w	#drawing_mask,art_tile(a1)
 		btst	#5,d0
 		beq.w	locret_1B206
@@ -157,29 +157,29 @@ loc_1B182:
 		cmp.w	d3,d4
 		bge.w	locret_1B206
 		move.b	subtype(a0),d0
-		bpl.s	loc_1B1BE
+		bpl.s	+ ;loc_1B1BE
 		btst	#Status_InAir,status(a1)
 		bne.w	locret_1B206
 
-loc_1B1BE:
++ ;loc_1B1BE:
 		move.w	x_pos(a1),d2
 		sub.w	d1,d2
-		bcc.s	loc_1B1C8
+		bcc.s	+ ;loc_1B1C8
 		neg.w	d2
 
-loc_1B1C8:
++ ;loc_1B1C8:
 		cmpi.w	#$40,d2
 		bhs.s	locret_1B206
 		btst	#0,render_flags(a0)
-		bne.s	loc_1B1F4
+		bne.s	+ ;loc_1B1F4
 		move.b	#$C,top_solid_bit(a1)
 		move.b	#$D,lrb_solid_bit(a1)
 		btst	#4,d0
-		beq.s	loc_1B1F4
+		beq.s	+ ;loc_1B1F4
 		move.b	#$E,top_solid_bit(a1)
 		move.b	#$F,lrb_solid_bit(a1)
 
-loc_1B1F4:
++ ;loc_1B1F4:
 		andi.w	#drawing_mask,art_tile(a1)
 		btst	#6,d0
 		beq.s	locret_1B206
@@ -193,7 +193,7 @@ locret_1B206:
 
 loc_1B208:
 		tst.w	(Debug_placement_mode).w
-		bne.w	loc_1B224
+		bne.w	+ ;loc_1B224
 		move.w	y_pos(a0),d1
 		lea	$34(a0),a2
 		lea	(Player_1).w,a1
@@ -201,7 +201,7 @@ loc_1B208:
 		lea	(Player_2).w,a1
 		bsr.s	sub_1B25A
 
-loc_1B224:
++ ;loc_1B224:
 		tst.w	(Debug_mode_flag).w
 		beq.w	Delete_Sprite_If_Not_In_Range
 		jmp	(Sprite_OnScreen_Test).l
@@ -240,29 +240,29 @@ sub_1B25A:
 		cmp.w	d3,d4
 		bge.w	locret_1B370
 		move.b	subtype(a0),d0
-		bpl.s	loc_1B29C
+		bpl.s	+ ;loc_1B29C
 		btst	#Status_InAir,status(a1)
 		bne.w	locret_1B370
 
-loc_1B29C:
++ ;loc_1B29C:
 		move.w	y_pos(a1),d2
 		sub.w	d1,d2
-		bcc.s	loc_1B2A6
+		bcc.s	+ ;loc_1B2A6
 		neg.w	d2
 
-loc_1B2A6:
++ ;loc_1B2A6:
 		cmpi.w	#$40,d2
 		bhs.w	locret_1B370
 		btst	#0,render_flags(a0)
-		bne.s	loc_1B2D4
+		bne.s	+ ;loc_1B2D4
 		move.b	#$C,top_solid_bit(a1)
 		move.b	#$D,lrb_solid_bit(a1)
 		btst	#3,d0
-		beq.s	loc_1B2D4
+		beq.s	+ ;loc_1B2D4
 		move.b	#$E,top_solid_bit(a1)
 		move.b	#$F,lrb_solid_bit(a1)
 
-loc_1B2D4:
++ ;loc_1B2D4:
 		andi.w	#drawing_mask,art_tile(a1)
 		btst	#5,d0
 		beq.w	locret_1B370
@@ -285,29 +285,29 @@ loc_1B2EC:
 		cmp.w	d3,d4
 		bge.w	locret_1B370
 		move.b	subtype(a0),d0
-		bpl.s	loc_1B328
+		bpl.s	+ ;loc_1B328
 		btst	#Status_InAir,status(a1)
 		bne.w	locret_1B370
 
-loc_1B328:
++ ;loc_1B328:
 		move.w	y_pos(a1),d2
 		sub.w	d1,d2
-		bcc.s	loc_1B332
+		bcc.s	+ ;loc_1B332
 		neg.w	d2
 
-loc_1B332:
++ ;loc_1B332:
 		cmpi.w	#$40,d2
 		bhs.s	locret_1B370
 		btst	#0,render_flags(a0)
-		bne.s	loc_1B35E
+		bne.s	+ ;loc_1B35E
 		move.b	#$C,top_solid_bit(a1)
 		move.b	#$D,lrb_solid_bit(a1)
 		btst	#4,d0
-		beq.s	loc_1B35E
+		beq.s	+ ;loc_1B35E
 		move.b	#$E,top_solid_bit(a1)
 		move.b	#$F,lrb_solid_bit(a1)
 
-loc_1B35E:
++ ;loc_1B35E:
 		andi.w	#drawing_mask,art_tile(a1)
 		btst	#6,d0
 		beq.s	locret_1B370

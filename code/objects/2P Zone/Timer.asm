@@ -11,9 +11,9 @@ loc_37C8E:
 		lea	($FF7000).l,a2
 		move.w	#bytesToWcnt($34),d0
 
-loc_37CD0:
+- ;loc_37CD0:
 		move.w	(a1)+,(a2)+
-		dbf	d0,loc_37CD0
+		dbf	d0,- ;loc_37CD0
 		move.l	#loc_37CDC,(a0)
 
 loc_37CDC:
@@ -30,11 +30,11 @@ loc_37CDC:
 
 loc_37D00:
 		tst.b	(Not_ghost_flag).w
-		bne.s	loc_37D0C
+		bne.s	+ ;loc_37D0C
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_37D0C:
++ ;loc_37D0C:
 		move.l	#$FF7080,mappings(a0)
 		move.w	#make_art_tile($600,0,1),art_tile(a0)
 		move.w	#0,priority(a0)
@@ -47,9 +47,9 @@ loc_37D0C:
 		lea	($FF7080).l,a2
 		move.w	#bytesToWcnt($34),d0
 
-loc_37D4E:
+- ;loc_37D4E:
 		move.w	(a1)+,(a2)+
-		dbf	d0,loc_37D4E
+		dbf	d0,- ;loc_37D4E
 		move.l	#loc_37D5A,(a0)
 
 loc_37D5A:
@@ -64,38 +64,38 @@ loc_37D5A:
 
 loc_37D7C:
 		tst.b	(a4)
-		beq.s	loc_37DB0
-		bmi.s	loc_37DB0
+		beq.s	++ ;loc_37DB0
+		bmi.s	++ ;loc_37DB0
 		cmpi.l	#(9<<16)|(59<<8)|99,(a5)
-		blo.s	loc_37D96
+		blo.s	+ ;loc_37D96
 		move.b	#$80,(a4)
 		move.l	#(9<<16)|(59<<8)|99,(a5)
-		bra.s	loc_37DD0
+		bra.s	+++ ;loc_37DD0
 ; ---------------------------------------------------------------------------
 
-loc_37D96:
++ ;loc_37D96:
 		addq.b	#1,-(a1)
 		cmpi.b	#60,(a1)
-		blo.s	loc_37DB0
+		blo.s	+ ;loc_37DB0
 		move.b	#0,(a1)
 		addq.b	#1,-(a1)
 		cmpi.b	#60,(a1)
-		blo.s	loc_37DB0
+		blo.s	+ ;loc_37DB0
 		move.b	#0,(a1)
 		addq.b	#1,-(a1)
 
-loc_37DB0:
++ ;loc_37DB0:
 		move.l	-1(a3),d6
 		jsr	(sub_B0E4).l
 		cmpi.w	#5,d1
-		bhs.s	loc_37DD0
+		bhs.s	+ ;loc_37DD0
 		lsl.w	#2,d1
 		move.l	d6,(a6,d1.w)
 		move.l	$14(a6),d5
 		jsr	sub_36F76(pc)
 		move.l	d6,(a5)
 
-loc_37DD0:
++ ;loc_37DD0:
 		addq.w	#1,a5
 		lea	word_37E2A(pc),a1
 		moveq	#0,d0
@@ -109,12 +109,12 @@ loc_37DD0:
 
 loc_37DE8:
 		subi.w	#$A,d0
-		bcs.s	loc_37DF2
+		bcs.s	+ ;loc_37DF2
 		addq.w	#4,d2
 		bra.s	loc_37DE8
 ; ---------------------------------------------------------------------------
 
-loc_37DF2:
++ ;loc_37DF2:
 		addi.w	#$A,d0
 		move.l	(a1,d2.w),(a2)+
 		addq.w	#2,a2
@@ -127,12 +127,12 @@ loc_37DF2:
 
 loc_37E0A:
 		subi.w	#$A,d0
-		bcs.s	loc_37E14
+		bcs.s	+ ;loc_37E14
 		addq.w	#4,d2
 		bra.s	loc_37E0A
 ; ---------------------------------------------------------------------------
 
-loc_37E14:
++ ;loc_37E14:
 		addi.w	#$A,d0
 		move.l	(a1,d2.w),(a2)+
 		addq.w	#2,a2

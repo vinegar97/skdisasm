@@ -70,10 +70,10 @@ loc_8A4DE:
 		cmpi.w	#$28,d2
 		blo.w	locret_8A4C2
 		btst	#0,render_flags(a0)
-		beq.s	loc_8A4F8
+		beq.s	+ ;loc_8A4F8
 		subq.w	#2,d0
 
-loc_8A4F8:
++ ;loc_8A4F8:
 		tst.w	d0
 		beq.s	locret_8A4C2
 
@@ -90,11 +90,11 @@ loc_8A504:
 
 loc_8A50C:
 		cmpi.b	#2,(Player_1+character_id).w
-		bne.s	loc_8A516
+		bne.s	+ ;loc_8A516
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_8A516:
++ ;loc_8A516:
 		jmp	(Go_Delete_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -102,10 +102,10 @@ loc_8A51C:
 		move.w	y_vel(a0),d0
 		addi.w	#-$20,d0
 		cmpi.w	#-$400,d0
-		ble.s	loc_8A52E
+		ble.s	+ ;loc_8A52E
 		move.w	d0,y_vel(a0)
 
-loc_8A52E:
++ ;loc_8A52E:
 		jsr	(MoveSprite2).l
 		jsr	(ObjCheckCeilingDist).l
 		tst.w	d1
@@ -125,10 +125,10 @@ loc_8A562:
 		move.w	y_vel(a0),d0
 		addi.w	#$20,d0
 		cmpi.w	#$400,d0
-		bgt.s	loc_8A574
+		bgt.s	+ ;loc_8A574
 		move.w	d0,y_vel(a0)
 
-loc_8A574:
++ ;loc_8A574:
 		jsr	(MoveSprite2).l
 		jsr	(ObjCheckFloorDist).l
 		tst.w	d1
@@ -163,12 +163,12 @@ loc_8A5AC:
 		move.w	y_pos(a0),d0
 		subq.w	#1,d0
 		cmp.w	$3E(a0),d0
-		bls.s	loc_8A5BE
+		bls.s	+ ;loc_8A5BE
 		move.w	d0,y_pos(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_8A5BE:
++ ;loc_8A5BE:
 		move.w	#$5F,$2E(a0)
 		bra.w	loc_8A4B8
 ; ---------------------------------------------------------------------------
@@ -177,12 +177,12 @@ loc_8A5C8:
 		move.w	y_pos(a0),d0
 		addq.w	#1,d0
 		cmp.w	$3E(a0),d0
-		bhs.s	loc_8A5DA
+		bhs.s	+ ;loc_8A5DA
 		move.w	d0,y_pos(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_8A5DA:
++ ;loc_8A5DA:
 		move.w	#$5F,$2E(a0)
 		bra.w	loc_8A4B8
 ; ---------------------------------------------------------------------------
@@ -191,10 +191,10 @@ loc_8A5E4:
 		lea	(Player_1).w,a1
 		jsr	Find_OtherObject(pc)
 		btst	#0,render_flags(a0)
-		beq.s	loc_8A5F6
+		beq.s	+ ;loc_8A5F6
 		subq.w	#2,d0
 
-loc_8A5F6:
++ ;loc_8A5F6:
 		tst.w	d0
 		bne.w	locret_8A4C2
 		move.b	#$14,routine(a0)

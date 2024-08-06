@@ -16,9 +16,9 @@ Obj_GumballMachine:
 		moveq	#-1,d0
 		moveq	#bytesToLcnt($24),d1
 
-loc_43882:
+- ;loc_43882:
 		move.l	d0,(a1)+
-		dbf	d1,loc_43882
+		dbf	d1,- ;loc_43882
 		lea	ChildObjDat_43FC4(pc),a2
 		jsr	(CreateChild1_Normal).l
 
@@ -27,12 +27,12 @@ loc_43892:
 		lea	word_438F0(pc),a1
 		jsr	(Check_PlayerInRange).l
 		tst.w	d0
-		bne.s	loc_438AA
+		bne.s	+ ;loc_438AA
 		swap	d0
 		tst.w	d0
 		beq.s	loc_438EA
 
-loc_438AA:
++ ;loc_438AA:
 		move.l	#loc_438F8,(a0)
 		move.l	#loc_4390C,$34(a0)
 		bset	#1,$38(a0)
@@ -41,16 +41,16 @@ loc_438AA:
 		cmp.w	x_pos(a1),d0
 		scs	d1
 		tst.w	y_vel(a1)
-		bmi.s	loc_438D2
+		bmi.s	+ ;loc_438D2
 		not.b	d1
 
-loc_438D2:
++ ;loc_438D2:
 		bclr	#0,render_flags(a0)
 		tst.b	d1
-		beq.s	loc_438E2
+		beq.s	+ ;loc_438E2
 		bset	#0,render_flags(a0)
 
-loc_438E2:
++ ;loc_438E2:
 		moveq	#signextendB(sfx_GumballTab),d0
 		jsr	(Play_SFX).l
 
@@ -77,10 +77,10 @@ loc_4390C:
 loc_4391A:
 		bsr.w	sub_43E38
 		btst	#1,$38(a0)
-		bne.s	loc_4392C
+		bne.s	+ ;loc_4392C
 		move.l	#loc_43892,(a0)
 
-loc_4392C:
++ ;loc_4392C:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -95,13 +95,13 @@ loc_43932:
 
 loc_43958:
 		btst	#1,$38(a0)
-		bne.s	loc_43970
+		bne.s	+ ;loc_43970
 		lea	(SolidObjectFull).l,a1
 		bsr.w	sub_43EE0
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_43970:
++ ;loc_43970:
 		clr.b	($FF2022).l
 		lea	ChildObjDat_4400A(pc),a2
 		jsr	(CreateChild6_Simple).l
@@ -114,7 +114,7 @@ loc_43986:
 		move.w	#-$1000,$30(a0)
 		movea.w	parent3(a0),a1
 		btst	#1,$38(a1)
-		bne.s	loc_43A10
+		bne.s	+++ ;loc_43A10
 		move.w	#$1B,d1
 		move.w	#8,d2
 		move.w	#$10,d3
@@ -124,33 +124,33 @@ loc_43986:
 		movem.l	d1-d4,-(sp)
 		jsr	(SolidObjectFull2_1P).l
 		btst	#p1_standing_bit,status(a0)
-		beq.s	loc_439D6
+		beq.s	+ ;loc_439D6
 		bset	#5,$38(a0)
 		jsr	(sub_2164A).l
 
-loc_439D6:
++ ;loc_439D6:
 		movem.l	(sp)+,d1-d4
 		lea	(Player_2).w,a1
 		moveq	#p2_standing_bit,d6
 		jsr	(SolidObjectFull2_1P).l
 		btst	#p2_standing_bit,status(a0)
-		beq.s	loc_439F4
+		beq.s	+ ;loc_439F4
 		jsr	(sub_2164A).l
 
-loc_439F4:
++ ;loc_439F4:
 		lea	(Ani_Spring).l,a1
 		jsr	(Animate_Sprite).l
 		btst	#5,$38(a0)
-		beq.s	loc_43A20
+		beq.s	++ ;loc_43A20
 		cmpi.b	#1,prev_anim(a0)
-		bne.s	loc_43A20
+		bne.s	++ ;loc_43A20
 
-loc_43A10:
++ ;loc_43A10:
 		move.l	#MoveChkDel,(a0)
 		movea.w	parent3(a0),a1
 		bset	#1,$38(a1)
 
-loc_43A20:
++ ;loc_43A20:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -162,13 +162,13 @@ loc_43A26:
 loc_43A36:
 		movea.w	parent3(a0),a1
 		btst	#3,$38(a1)
-		beq.s	loc_43A5A
+		beq.s	+ ;loc_43A5A
 		move.l	#loc_43A66,(a0)
 		move.l	#loc_43A7C,$34(a0)
 		lea	ChildObjDat_44010(pc),a2
 		jsr	(CreateChild6_Simple).l
 
-loc_43A5A:
++ ;loc_43A5A:
 		jsr	(Refresh_ChildPosition).l
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
@@ -200,36 +200,36 @@ loc_43AA8:
 		move.w	y_vel(a0),d0
 		addi.w	#$10,d0
 		cmpi.w	#$200,d0
-		bhi.s	loc_43ABA
+		bhi.s	+ ;loc_43ABA
 		move.w	d0,y_vel(a0)
 
-loc_43ABA:
++ ;loc_43ABA:
 		jsr	(MoveSprite2).l
 		movea.w	parent3(a0),a1
 		move.w	y_pos(a1),d0
 		cmp.w	y_pos(a0),d0
-		bls.s	loc_43AD6
+		bls.s	+ ;loc_43AD6
 		move.w	d0,y_pos(a0)
-		bra.w	loc_43AE8
+		bra.w	++ ;loc_43AE8
 ; ---------------------------------------------------------------------------
 
-loc_43AD6:
++ ;loc_43AD6:
 		addi.w	#$10,d0
 		cmp.w	y_pos(a0),d0
-		bhi.s	loc_43AE8
+		bhi.s	+ ;loc_43AE8
 		jsr	(sub_43CAE).l
-		bne.s	loc_43B02
+		bne.s	++ ;loc_43B02
 
-loc_43AE8:
++ ;loc_43AE8:
 		move.w	(Camera_Y_pos).w,d0
 		addi.w	#$240,d0
 		cmp.w	y_pos(a0),d0
-		blo.s	loc_43B02
+		blo.s	+ ;loc_43B02
 		jsr	(Animate_Raw).l
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_43B02:
++ ;loc_43B02:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -247,25 +247,25 @@ loc_43B18:
 		move.w	x_pos(a0),d4
 		jsr	(SolidObjectFull).l
 		btst	#$10,d6
-		bne.s	loc_43B3E
+		bne.s	+ ;loc_43B3E
 		btst	#p1_standing_bit,status(a0)
-		beq.s	loc_43B4C
+		beq.s	++ ;loc_43B4C
 
-loc_43B3E:
++ ;loc_43B3E:
 		lea	(Player_1).w,a1
-		bsr.w	sub_43B6E
+		bsr.w	+++ ;sub_43B6E
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_43B4C:
++ ;loc_43B4C:
 		btst	#$11,d6
-		bne.s	loc_43B5A
+		bne.s	+ ;loc_43B5A
 		btst	#p2_standing_bit,status(a0)
 		beq.s	loc_43B68
 
-loc_43B5A:
++ ;loc_43B5A:
 		lea	(Player_2).w,a1
-		bsr.w	sub_43B6E
+		bsr.w	+ ;sub_43B6E
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -275,16 +275,16 @@ loc_43B68:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_43B6E:
++ ;sub_43B6E:
 		move.w	#-$300,d0
 		move.w	#-$600,y_vel(a1)
 		bset	#Status_Facing,status(a1)
 		btst	#0,render_flags(a0)
-		bne.s	loc_43B8E
+		bne.s	+ ;loc_43B8E
 		bclr	#Status_Facing,status(a1)
 		neg.w	d0
 
-loc_43B8E:
++ ;loc_43B8E:
 		move.w	d0,x_vel(a1)
 		move.w	d0,ground_vel(a1)
 		bset	#Status_InAir,status(a1)
@@ -324,10 +324,10 @@ loc_43BF8:
 
 loc_43C0C:
 		subq.b	#1,$2E(a0)
-		bpl.s	loc_43C18
+		bpl.s	+ ;loc_43C18
 		move.l	#MoveChkDel,(a0)
 
-loc_43C18:
++ ;loc_43C18:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -340,7 +340,7 @@ loc_43C2A:
 		lea	word_43C7C(pc),a1
 		jsr	(Check_PlayerInRange).l
 		tst.w	d0
-		bne.s	loc_43C50
+		bne.s	+ ;loc_43C50
 		swap	d0
 		tst.w	d0
 		beq.w	locret_43A92
@@ -348,7 +348,7 @@ loc_43C2A:
 		jmp	(Delete_Referenced_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_43C50:
++ ;loc_43C50:
 		move.w	(Saved_zone_and_act).w,(Current_zone_and_act).w
 		move.w	(Saved_apparent_zone_and_act).w,(Apparent_zone_and_act).w
 		move.b	(Saved_last_star_post_hit).w,(Last_star_post_hit).w
@@ -437,17 +437,17 @@ loc_43D1A:
 loc_43D28:
 		move.l	d0,-(sp)
 		tst.w	d0
-		beq.s	loc_43D30
-		bsr.s	sub_43D42
+		beq.s	+ ;loc_43D30
+		bsr.s	+++ ;sub_43D42
 
-loc_43D30:
++ ;loc_43D30:
 		move.l	(sp)+,d0
 		swap	d0
 		tst.w	d0
-		beq.s	loc_43D3A
-		bsr.s	sub_43D42
+		beq.s	+ ;loc_43D3A
+		bsr.s	++ ;sub_43D42
 
-loc_43D3A:
++ ;loc_43D3A:
 		clr.b	collision_property(a0)
 		moveq	#0,d2
 		rts
@@ -455,7 +455,7 @@ loc_43D3A:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_43D42:
++ ;sub_43D42:
 		movea.w	d0,a1
 		move.w	x_pos(a0),d1
 		move.w	y_pos(a0),d2
@@ -490,7 +490,7 @@ loc_43DA2:
 		andi.b	#$8E,status_secondary(a1)
 		bset	#Status_Shield,status_secondary(a1)
 		moveq	#Status_FireShield,d0
-		bsr.w	sub_43E20
+		bsr.w	+ ;sub_43E20
 		moveq	#signextendB(sfx_FireShield),d0
 		jmp	(Play_Music).l
 ; ---------------------------------------------------------------------------
@@ -502,7 +502,7 @@ loc_43DCC:
 		andi.b	#$8E,status_secondary(a1)
 		bset	#Status_Shield,status_secondary(a1)
 		moveq	#Status_BublShield,d0
-		bsr.w	sub_43E20
+		bsr.w	+ ;sub_43E20
 		moveq	#signextendB(sfx_BubbleShield),d0
 		jmp	(Play_Music).l
 ; ---------------------------------------------------------------------------
@@ -514,14 +514,14 @@ loc_43DF6:
 		andi.b	#$8E,status_secondary(a1)
 		bset	#Status_Shield,status_secondary(a1)
 		moveq	#Status_LtngShield,d0
-		bsr.w	sub_43E20
+		bsr.w	+ ;sub_43E20
 		moveq	#signextendB(sfx_LightningShield),d0
 		jmp	(Play_Music).l
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_43E20:
++ ;sub_43E20:
 		bset	d0,status_secondary(a1)
 		lea	(Saved_status_secondary).w,a2
 		andi.b	#$8F,(a2)
@@ -540,23 +540,23 @@ loc_43E30:
 
 sub_43E38:
 		bclr	#0,$38(a0)
-		beq.s	loc_43E60
+		beq.s	++ ;loc_43E60
 		lea	($FF2000).l,a1
 		moveq	#0,d0
 		moveq	#$E-1,d1
 
-loc_43E4A:
+- ;loc_43E4A:
 		tst.w	(a1)+
-		bne.s	loc_43E56
+		bne.s	+ ;loc_43E56
 		addi.w	#$20,d0
-		dbf	d1,loc_43E4A
+		dbf	d1,- ;loc_43E4A
 
-loc_43E56:
++ ;loc_43E56:
 		move.w	$3A(a0),d1
 		add.w	d0,d1
 		move.w	d1,$3C(a0)
 
-loc_43E60:
++ ;loc_43E60:
 		move.w	$3C(a0),d1
 		move.w	y_pos(a0),d2
 		cmp.w	d1,d2
@@ -575,20 +575,20 @@ loc_43E60:
 sub_43E74:
 		jsr	(Random_Number).l
 		andi.w	#$F,d0
-		bne.s	loc_43E8E
+		bne.s	+ ;loc_43E8E
 		movea.w	parent3(a0),a1
 		bset	#7,$38(a1)
-		beq.s	loc_43E8E
+		beq.s	+ ;loc_43E8E
 		moveq	#3,d0
 
-loc_43E8E:
++ ;loc_43E8E:
 		move.b	byte_43EAC(pc,d0.w),d0
 		move.b	d0,subtype(a0)
 		cmpi.b	#4,d0
-		bne.s	loc_43EA2
+		bne.s	+ ;loc_43EA2
 		move.b	#$D7,collision_flags(a0)
 
-loc_43EA2:
++ ;loc_43EA2:
 		lsl.w	#2,d0
 		move.l	off_43EBC(pc,d0.w),$30(a0)
 		rts

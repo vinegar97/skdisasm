@@ -22,11 +22,11 @@ loc_8D5A6:
 loc_8D5B0:
 		jsr	(Find_SonicTails).l
 		cmpi.w	#$A0,d2
-		blo.s	loc_8D5BE
+		blo.s	+ ;loc_8D5BE
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_8D5BE:
++ ;loc_8D5BE:
 		move.b	#4,routine(a0)
 		bset	#1,$38(a0)
 		lea	ChildObjDat_8D9C0(pc),a2
@@ -35,11 +35,11 @@ loc_8D5BE:
 
 loc_8D5D4:
 		btst	#1,$38(a0)
-		beq.s	loc_8D5DE
+		beq.s	+ ;loc_8D5DE
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_8D5DE:
++ ;loc_8D5DE:
 		move.b	#6,routine(a0)
 		move.w	#60,$2E(a0)
 		move.l	#loc_8D5FA,$34(a0)
@@ -80,11 +80,11 @@ loc_8D636:
 		bsr.w	sub_8D886
 		jsr	(MoveSprite2).l
 		subq.w	#1,$2E(a0)
-		bmi.s	loc_8D648
+		bmi.s	+ ;loc_8D648
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_8D648:
++ ;loc_8D648:
 		move.b	#4,routine(a0)
 		move.w	#$1F,$2E(a0)
 		rts
@@ -93,11 +93,11 @@ loc_8D648:
 loc_8D656:
 		bsr.w	sub_8D886
 		subq.w	#1,$2E(a0)
-		bmi.s	loc_8D662
+		bmi.s	+ ;loc_8D662
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_8D662:
++ ;loc_8D662:
 		move.b	#6,routine(a0)
 		move.l	#byte_8D9D8,$30(a0)
 		move.l	#loc_8D680,$34(a0)
@@ -115,10 +115,10 @@ loc_8D680:
 		jsr	(Play_SFX).l
 		lea	ChildObjDat_8D9C8(pc),a2
 		btst	#0,render_flags(a0)
-		beq.s	loc_8D6A8
+		beq.s	+ ;loc_8D6A8
 		lea	ChildObjDat_8D9D0(pc),a2
 
-loc_8D6A8:
++ ;loc_8D6A8:
 		jmp	(CreateChild1_Normal).l
 ; ---------------------------------------------------------------------------
 
@@ -150,24 +150,24 @@ loc_8D6E6:
 		andi.w	#$FF80,d0
 		sub.w	(Camera_X_pos_coarse_back).w,d0
 		cmpi.w	#$280,d0
-		bhi.s	loc_8D724
+		bhi.s	+ ;loc_8D724
 		move.w	y_pos(a0),d0
 		sub.w	(Camera_Y_pos).w,d0
 		addi.w	#$80,d0
 		cmpi.w	#$200,d0
-		bhi.s	loc_8D724
+		bhi.s	+ ;loc_8D724
 		jsr	(Add_SpriteToCollisionResponseList).l
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_8D724:
++ ;loc_8D724:
 		move.w	$44(a0),d0
-		beq.s	loc_8D736
+		beq.s	+ ;loc_8D736
 		movea.w	d0,a1
 		bset	#Status_InAir,status(a1)
 		clr.b	object_control(a1)
 
-loc_8D736:
++ ;loc_8D736:
 		jmp	(Go_Delete_Sprite).l
 ; ---------------------------------------------------------------------------
 off_8D73C:
@@ -197,10 +197,10 @@ loc_8D778:
 		bsr.w	sub_8D94A
 		jsr	(MoveSprite_LightGravity).l
 		tst.w	y_vel(a0)
-		bmi.s	loc_8D78E
+		bmi.s	+ ;loc_8D78E
 		jsr	(ObjHitFloor_DoRoutine).l
 
-loc_8D78E:
++ ;loc_8D78E:
 		jmp	(Animate_Raw).l
 ; ---------------------------------------------------------------------------
 
@@ -218,19 +218,19 @@ loc_8D7A8:
 		movea.w	$44(a0),a1
 		bclr	#0,render_flags(a1)
 		tst.w	x_vel(a0)
-		bmi.s	loc_8D7BE
+		bmi.s	+ ;loc_8D7BE
 		bset	#0,render_flags(a1)
 
-loc_8D7BE:
++ ;loc_8D7BE:
 		tst.b	object_control(a1)
 		beq.s	loc_8D83E
 		moveq	#8,d1
 		move.w	x_pos(a0),d0
 		btst	#0,render_flags(a1)
-		bne.s	loc_8D7D4
+		bne.s	+ ;loc_8D7D4
 		neg.w	d1
 
-loc_8D7D4:
++ ;loc_8D7D4:
 		add.w	d1,d0
 		move.w	d0,x_pos(a1)
 		move.w	y_pos(a0),d0
@@ -238,28 +238,28 @@ loc_8D7D4:
 		move.w	d0,y_pos(a1)
 		jsr	(MoveSprite_LightGravity).l
 		tst.w	x_vel(a0)
-		bmi.s	loc_8D800
+		bmi.s	+ ;loc_8D800
 		move.w	#$18,d3
 		jsr	(ObjCheckRightWallDist).l
-		bra.w	loc_8D80A
+		bra.w	++ ;loc_8D80A
 ; ---------------------------------------------------------------------------
 
-loc_8D800:
++ ;loc_8D800:
 		move.w	#-$18,d3
 		jsr	(ObjCheckLeftWallDist).l
 
-loc_8D80A:
++ ;loc_8D80A:
 		tst.w	d1
-		bmi.s	loc_8D820
+		bmi.s	++ ;loc_8D820
 		tst.w	y_vel(a0)
-		bmi.s	loc_8D81A
+		bmi.s	+ ;loc_8D81A
 		jsr	(ObjHitFloor_DoRoutine).l
 
-loc_8D81A:
++ ;loc_8D81A:
 		jmp	(Animate_Raw).l
 ; ---------------------------------------------------------------------------
 
-loc_8D820:
++ ;loc_8D820:
 		movea.w	$44(a0),a1
 		move.w	x_vel(a0),d0
 		neg.w	d0
@@ -278,14 +278,14 @@ loc_8D83E:
 
 loc_8D846:
 		cmpi.w	#$A00,y_vel(a0)
-		bge.s	loc_8D85E
+		bge.s	+ ;loc_8D85E
 		move.w	#-$500,y_vel(a0)
 		moveq	#signextendB(sfx_Flipper),d0
 		jsr	(Play_SFX).l
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_8D85E:
++ ;loc_8D85E:
 		movea.w	$44(a0),a1
 		move.w	#-$200,y_vel(a0)
 		move.w	#-$300,y_vel(a1)
@@ -324,21 +324,21 @@ loc_8D89E:
 		jsr	(Random_Number).l
 		moveq	#0,d2
 		tst.b	d0
-		bpl.s	loc_8D8BA
+		bpl.s	+ ;loc_8D8BA
 		addq.w	#4,d2
 		move.b	#4,routine(a0)
 		move.l	#loc_8D794,$34(a0)
 
-loc_8D8BA:
++ ;loc_8D8BA:
 		lea	word_8D8DE(pc,d2.w),a1
 		move.w	(a1)+,d0
 		movea.w	parent3(a0),a2
 		btst	#0,render_flags(a2)
-		beq.s	loc_8D8D4
+		beq.s	+ ;loc_8D8D4
 		neg.w	d0
 		bset	#0,render_flags(a0)
 
-loc_8D8D4:
++ ;loc_8D8D4:
 		move.w	d0,x_vel(a0)
 		move.w	(a1)+,y_vel(a0)
 		rts

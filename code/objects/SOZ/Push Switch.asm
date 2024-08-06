@@ -13,10 +13,10 @@ Obj_SOZPushSwitch:
 		move.w	x_pos(a0),d0
 		addi.w	#$10,d0
 		btst	#0,status(a0)
-		beq.s	loc_418D4
+		beq.s	+ ;loc_418D4
 		subi.w	#2*$10,d0
 
-loc_418D4:
++ ;loc_418D4:
 		move.w	d0,(a2)+
 		move.w	y_pos(a0),(a2)+
 		move.w	#0,(a2)+
@@ -42,52 +42,52 @@ loc_418E4:
 		move.w	$36(a0),d0
 		lsr.w	#2,d0
 		btst	#0,status(a0)
-		beq.s	loc_41934
+		beq.s	+ ;loc_41934
 		neg.w	d0
 
-loc_41934:
++ ;loc_41934:
 		add.w	$44(a0),d0
 		move.w	d0,x_pos(a0)
 		tst.b	subtype(a0)
-		bpl.s	loc_41946
+		bpl.s	+ ;loc_41946
 		bsr.w	sub_41AA8
 
-loc_41946:
++ ;loc_41946:
 		move.w	$36(a0),d1
 		move.b	d1,(a3)
 		move.w	$44(a0),d0
 		andi.w	#$FF80,d0
 		sub.w	(Camera_X_pos_coarse_back).w,d0
 		cmpi.w	#$280,d0
-		bhi.w	loc_41966
+		bhi.w	+ ;loc_41966
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_41966:
++ ;loc_41966:
 		move.w	respawn_addr(a0),d0
-		beq.s	loc_41972
+		beq.s	+ ;loc_41972
 		movea.w	d0,a2
 		bclr	#7,(a2)
 
-loc_41972:
++ ;loc_41972:
 		tst.w	$36(a0)
-		bne.s	loc_4197E
+		bne.s	+ ;loc_4197E
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_4197E:
++ ;loc_4197E:
 		move.l	#loc_41984,(a0)
 
 loc_41984:
 		move.w	respawn_addr(a0),d0
-		beq.s	loc_41996
+		beq.s	+ ;loc_41996
 		movea.w	d0,a2
 		tst.b	(a2)
-		bpl.s	loc_41996
+		bpl.s	+ ;loc_41996
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_41996:
++ ;loc_41996:
 		move.b	subtype(a0),d0
 		andi.w	#$F,d0
 		lea	(Level_trigger_array).w,a3
@@ -140,7 +140,7 @@ sub_419FA:
 		btst	d6,d3
 		beq.s	locret_41A6A
 		cmp.w	x_pos(a1),d2
-		bcc.s	loc_41A38
+		bcc.s	+ ;loc_41A38
 		btst	#5,d0
 		beq.s	locret_41A6A
 		btst	#0,status(a0)
@@ -160,7 +160,7 @@ loc_41A34:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_41A38:
++ ;loc_41A38:
 		btst	#5,d0
 		beq.s	locret_41A6A
 		btst	#0,status(a0)
@@ -187,26 +187,26 @@ locret_41A6A:
 sub_41A6C:
 		move.b	subtype(a0),d0
 		andi.w	#$70,d0
-		bne.s	loc_41A82
+		bne.s	+ ;loc_41A82
 		subq.w	#1,$34(a0)
 		bpl.s	locret_41AA6
 		move.w	#9,$34(a0)
 
-loc_41A82:
++ ;loc_41A82:
 		tst.w	$36(a0)
 		beq.s	locret_41AA6
 		moveq	#signextendB(sfx_DoorClose),d0
 		subq.w	#1,$36(a0)
-		beq.s	loc_41A9E
+		beq.s	+ ;loc_41A9E
 		subq.b	#1,$3A(a0)
-		bpl.s	loc_41AA4
+		bpl.s	++ ;loc_41AA4
 		move.b	#3,$3A(a0)
 		moveq	#signextendB(sfx_DoorMove),d0
 
-loc_41A9E:
++ ;loc_41A9E:
 		jsr	(Play_SFX).l
 
-loc_41AA4:
++ ;loc_41AA4:
 		moveq	#1,d4
 
 locret_41AA6:
@@ -222,12 +222,12 @@ sub_41AA8:
 		beq.w	locret_41B54
 		movea.w	d0,a2
 		cmpi.l	#loc_405D6,(a2)
-		beq.s	loc_41AC2
+		beq.s	+ ;loc_41AC2
 		move.w	#0,(_unkF7C4).w
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_41AC2:
++ ;loc_41AC2:
 		move.w	x_pos(a2),d2
 		sub.w	x_pos(a0),d2
 		addi.w	#$1B,d2
@@ -240,43 +240,43 @@ loc_41AC2:
 		bhs.s	loc_41B4E
 		move.b	status(a0),d0
 		cmpi.w	#$1C,d2
-		blo.s	loc_41AF4
+		blo.s	+ ;loc_41AF4
 		eori.b	#1,d0
 
-loc_41AF4:
++ ;loc_41AF4:
 		andi.b	#1,d0
-		bne.s	loc_41B24
+		bne.s	++ ;loc_41B24
 		cmpi.w	#$80,$36(a0)
-		beq.s	loc_41B24
+		beq.s	++ ;loc_41B24
 		moveq	#4,d1
 		add.w	d4,d1
 		move.w	$38(a0),d0
 		cmp.w	x_pos(a2),d0
-		bne.s	loc_41B12
+		bne.s	+ ;loc_41B12
 		moveq	#1,d1
 
-loc_41B12:
++ ;loc_41B12:
 		add.w	d1,$36(a0)
 		cmpi.w	#$80,$36(a0)
-		blo.s	loc_41B24
+		blo.s	+ ;loc_41B24
 		move.w	#$80,$36(a0)
 
-loc_41B24:
++ ;loc_41B24:
 		move.w	$36(a0),d0
 		lsr.w	#2,d0
 		btst	#0,status(a0)
-		beq.s	loc_41B34
+		beq.s	+ ;loc_41B34
 		neg.w	d0
 
-loc_41B34:
++ ;loc_41B34:
 		add.w	$44(a0),d0
 		move.w	d0,x_pos(a0)
 		subi.w	#$1C,d0
 		cmpi.w	#$1C,d2
-		blo.s	loc_41B4A
+		blo.s	+ ;loc_41B4A
 		addi.w	#$38,d0
 
-loc_41B4A:
++ ;loc_41B4A:
 		move.w	d0,x_pos(a2)
 
 loc_41B4E:

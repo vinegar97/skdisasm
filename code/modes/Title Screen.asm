@@ -62,11 +62,11 @@ Title_Screen:
 		move.w	#0,d0
 		bsr.w	Eni_Decomp			; Decompress Enigma mappings
 		tst.b	(Graphics_flags).w
-		bmi.s	loc_3F7E
+		bmi.s	+ ;loc_3F7E
 		moveq	#0,d0
 		move.l	d0,(RAM_start+$83AC).w		; Hide trademark symbol if the console is Japanese
 
-loc_3F7E:
++ ;loc_3F7E:
 		lea	(RAM_start+$8000).w,a1
 		move.l	#vdpComm(VRAM_Plane_A_Name_Table,VRAM,WRITE),d0
 		moveq	#$28-1,d1
@@ -76,9 +76,9 @@ loc_3F7E:
 		lea	(Target_palette).w,a1
 		moveq	#bytesToLcnt($20),d0
 
-loc_3F9E:
+- ;loc_3F9E:
 		move.l	(a0)+,(a1)+				; Fill 2 palette lines with title screen data
-		dbf	d0,loc_3F9E
+		dbf	d0,- ;loc_3F9E
 		move.w	#4*60,(Demo_timer).w
 		move.w	(VDP_reg_1_command).w,d0
 		ori.b	#$40,d0
@@ -93,11 +93,11 @@ Wait_SegaS3K:
 		bsr.w	Wait_VSync				; Wait for SEGA sound
 		move.b	(Ctrl_1_pressed).w,d0
 		andi.b	#button_start_mask,d0
-		bne.w	loc_3FE4				; If start was pressed, skip ahead
+		bne.w	+ ;loc_3FE4				; If start was pressed, skip ahead
 		tst.w	(Demo_timer).w
 		bne.s	Wait_SegaS3K
 
-loc_3FE4:
++ ;loc_3FE4:
 		moveq	#signextendB(mus_StopSEGA),d0
 		bsr.w	Play_Music				; Stop SEGA sound
 		lea	(Pal_Title).l,a1
@@ -121,10 +121,10 @@ loc_3FF0:
 		bsr.w	TitleSonic_LoadFrame
 		move.w	#15*60,(Demo_timer).w		; Set to wait 15 seconds (900 frames in NTSC)
 		btst	#6,(Graphics_flags).w
-		beq.s	loc_4040
+		beq.s	+ ;loc_4040
 		move.w	#15*50,(Demo_timer).w		; Set to wait 15 seconds (750 frames in PAL)
 
-loc_4040:
++ ;loc_4040:
 		lea	(ArtKos_S3TitleSonic8).l,a1
 		lea	(RAM_start).l,a2
 		jsr	(Queue_Kos).l				; Queue frame 8 of data into a2 since frame 1 is already in VRAM
@@ -141,18 +141,18 @@ Wait_TitleS3K:
 		bsr.w	Process_Nem_Queue_Init
 		move.b	(Ctrl_1_pressed).w,d0
 		andi.b	#button_start_mask,d0
-		bne.w	loc_4090			; If start was pressed, skip straight to title
+		bne.w	+ ;loc_4090			; If start was pressed, skip straight to title
 		cmpi.w	#$C,(Title_anim_frame).w
 		blo.s	Wait_TitleS3K		; If last frame was reached, don't repeat
 
-loc_4090:
++ ;loc_4090:
 		move.w	#$C,(Title_anim_frame).w
 		lea	(Normal_palette).w,a1
 		moveq	#$40-1,d1
 
-loc_409C:
+- ;loc_409C:
 		move.w	#$EEE,(a1)+
-		dbf	d1,loc_409C				; Flash palette white
+		dbf	d1,- ;loc_409C				; Flash palette white
 		move.b	#3,(Title_anim_delay).w
 		move.b	#4,(V_int_routine).w
 		bsr.w	Wait_VSync
@@ -189,9 +189,9 @@ loc_409C:
 		lea	(Target_palette).w,a1
 		moveq	#bytesToLcnt($80),d0
 
-loc_4140:
+- ;loc_4140:
 		move.l	(a0)+,(a1)+
-		dbf	d0,loc_4140
+		dbf	d0,- ;loc_4140
 		move.l	#vdpComm(tiles_to_bytes($500),VRAM,WRITE),(VDP_control_port).l	; to VRAM $A000
 		lea	(ArtNem_Title_S3Banner).l,a0
 		bsr.w	Nem_Decomp
@@ -222,7 +222,7 @@ loc_41D4:
 		tst.l	(Reserved_object_3).w
 		beq.s	loc_41D4			; Don't do anything at all until banner has finished moving
 		tst.w	(Demo_timer).w
-		beq.w	loc_4278			; If the timer has run out, go do the level demos
+		beq.w	+++ ;loc_4278			; If the timer has run out, go do the level demos
 		move.b	(Ctrl_1_pressed).w,d0
 		or.b	(Ctrl_2_pressed).w,d0
 		andi.b	#button_start_mask,d0
@@ -244,24 +244,24 @@ loc_41D4:
 		bsr.w	Play_SFX			; Fade out the title screen music
 		moveq	#0,d0
 		move.b	(Title_screen_option).w,d0		; Selection is stored here
-		bne.w	loc_4264
+		bne.w	+ ;loc_4264
 		move.b	#$4C,(Game_mode).w		; Game Mode 4C is the save select
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4264:
++ ;loc_4264:
 		subq.b	#1,d0
-		bne.s	loc_4270
+		bne.s	+ ;loc_4270
 		move.b	#$38,(Game_mode).w		; Game Mode 38 is Competition mode
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4270:
++ ;loc_4270:
 		move.b	#$28,(Game_mode).w		; Game Mode 28 is the level select
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4278:
++ ;loc_4278:
 		moveq	#signextendB(mus_FadeOut),d0
 		bsr.w	Play_SFX			; Fade out music
 		move.w	(Next_demo_number).w,d0		; Get index of current demo to run
@@ -276,31 +276,31 @@ loc_4278:
 		move.w	(Next_demo_number).w,d1
 		addq.w	#1,d1
 		tst.w	(SK_alone_flag).w
-		bne.s	loc_42C0		; If playing only Sonic & Knuckles, branch
+		bne.s	++ ;loc_42C0		; If playing only Sonic & Knuckles, branch
 		cmpi.w	#3,d1
-		bne.s	loc_42B6
+		bne.s	+ ;loc_42B6
 		moveq	#4,d1
-		bra.s	loc_42C8
+		bra.s	+++ ;loc_42C8
 ; ---------------------------------------------------------------------------
 
-loc_42B6:
++ ;loc_42B6:
 		cmpi.w	#7,d1
-		blo.s	loc_42C8
+		blo.s	++ ;loc_42C8
 		moveq	#0,d1
-		bra.s	loc_42C8
+		bra.s	++ ;loc_42C8
 ; ---------------------------------------------------------------------------
 ; unused/dead code, since it's not possible to reach the S3K title screen in S&K mode
 ; Even if were, this sets the next demo to a S3 level, which would crash S&K when played
 
-loc_42C0:
++ ;loc_42C0:
 		cmpi.w	#3,d1
-		blo.s	loc_42C8
+		blo.s	+ ;loc_42C8
 		moveq	#0,d1
 
-loc_42C8:
++ ;loc_42C8:
 		move.w	d1,(Next_demo_number).w
 		tst.w	d0
-		bpl.s	loc_4300			; Branch if we are indeed playing a level
+		bpl.s	+ ;loc_4300			; Branch if we are indeed playing a level
 		move.b	#$34,(Game_mode).w	; Do the special stage demo
 		move.b	#1,(Current_special_stage).w
 		move.b	#1,(SK_special_stage_flag).w
@@ -310,13 +310,13 @@ loc_42C8:
 		clr.w	(Collected_emeralds_array+4).w
 		clr.b	(Collected_emeralds_array+6).w
 		move.b	#2,(Collected_emeralds_array+1).w
-		bra.s	loc_4306
+		bra.s	++ ;loc_4306
 ; ---------------------------------------------------------------------------
 
-loc_4300:
++ ;loc_4300:
 		move.b	#8,(Game_mode).w	; We're about to perform a level demo
 
-loc_4306:
++ ;loc_4306:
 		move.w	#1,(Demo_mode_flag).w
 		move.b	#3,(Life_count).w
 		move.b	#3,(Life_count_P2).w
@@ -344,45 +344,45 @@ DemoLevels:
 
 TitleAnim_FlipBuffer:
 		tst.b	(Title_anim_delay).w
-		bne.s	loc_43AC
+		bne.s	++ ;loc_43AC
 		move.b	#4-1,(Title_anim_delay).w
 		cmpi.w	#$C,(Title_anim_frame).w
-		bhs.s	loc_43B2
+		bhs.s	+++ ;loc_43B2
 		move.b	#4-1,(Title_anim_delay).w
 		lea	(Target_palette).w,a0
 		lea	(Normal_palette).w,a1
 		moveq	#bytesToLcnt($40),d0
 
-loc_4376:
+- ;loc_4376:
 		move.l	(a0)+,(a1)+
-		dbf	d0,loc_4376
+		dbf	d0,- ;loc_4376
 		eori.b	#-1,(Title_anim_buffer).w
 		tst.b	(Title_anim_buffer).w
-		beq.s	loc_439A
+		beq.s	+ ;loc_439A
 		move.w	#$8406,(VDP_control_port).l		; Nametable B Address $C000
 		move.w	#$8230,(VDP_control_port).l		; Nametable A Address $C000
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_439A:
++ ;loc_439A:
 		move.w	#$8407,(VDP_control_port).l		; Nametable B Address $E000
 		move.w	#$8238,(VDP_control_port).l		; Nametable A Address $E000
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_43AC:
++ ;loc_43AC:
 		subq.b	#1,(Title_anim_delay).w
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_43B2:
++ ;loc_43B2:
 		lea	(Target_palette).w,a0
 		lea	(Normal_palette).w,a1
 		moveq	#bytesToLcnt($80),d0
 
-loc_43BC:
+- ;loc_43BC:
 		move.l	(a0)+,(a1)+
-		dbf	d0,loc_43BC
+		dbf	d0,- ;loc_43BC
 		move.w	#$8407,(VDP_control_port).l		; Nametable B Address $E000
 		move.w	#$8230,(VDP_control_port).l		; Nametable A Address $C000
 		rts
@@ -397,7 +397,7 @@ Iterate_TitleSonicFrame:
 		move.w	(Title_anim_frame).w,d0
 		move.b	SonicFrameIndex(pc,d0.w),d0
 		ext.w	d0
-		bmi.s	loc_43F2
+		bmi.s	+ ;loc_43F2
 		bsr.w	TitleSonic_LoadFrame
 		addq.w	#1,(Title_anim_frame).w
 
@@ -405,7 +405,7 @@ locret_43F0:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_43F2:
++ ;loc_43F2:
 		move.w	#$C,(Title_anim_frame).w
 		move.b	#3,(Title_anim_delay).w
 		rts
@@ -429,8 +429,8 @@ TitleSonic_LoadFrame:
 		move.w	#$2C60,d3
 		move.l	(a2)+,d0				; Art data
 		cmpi.w	#7,d7
-		beq.s	loc_4446
-		bcs.s	loc_4466
+		beq.s	+ ;loc_4446
+		bcs.s	+++ ;loc_4466
 		andi.l	#$FFFFFF,d0
 		movea.l	d0,a0
 		lea	(RAM_start).l,a1
@@ -438,39 +438,39 @@ TitleSonic_LoadFrame:
 		move.w	a1,d3
 		lsr.w	#1,d3
 
-loc_4446:
++ ;loc_4446:
 		move.l	#RAM_start,d1
 		move.w	#0,d2
 		tst.b	(Title_anim_buffer).w		; FFFFBC toggles on and off so that each animation frame could alternate locations for a sort of makeshift double-buffering
-		beq.s	loc_445A
+		beq.s	+ ;loc_445A
 		move.w	#tiles_to_bytes($300),d2
 
-loc_445A:
++ ;loc_445A:
 		andi.l	#$FFFFFF,d1
 		jsr	(Add_To_DMA_Queue).l
 
-loc_4466:
++ ;loc_4466:
 		movea.l	(a2)+,a0			; Palette data address
 		lea	(Target_palette).w,a1
 		moveq	#bytesToLcnt($40),d0
 
-loc_446E:
+- ;loc_446E:
 		move.l	(a0)+,(a1)+
-		dbf	d0,loc_446E
+		dbf	d0,- ;loc_446E
 		tst.b	(Title_anim_buffer).w
-		bne.s	loc_44B8
+		bne.s	++ ;loc_44B8
 		lea	(RAM_start+$8000).w,a1			; Buffer 1
 		movea.l	(a2)+,a0				; Enigma Mappings
 		move.w	#make_art_tile($000,0,0),d0
 		bsr.w	Eni_Decomp
 		cmpi.w	#7,d7
-		bhs.s	loc_449A
+		bhs.s	+ ;loc_449A
 		tst.b	(Graphics_flags).w
-		bmi.s	loc_449A
+		bmi.s	+ ;loc_449A
 		moveq	#0,d0
 		move.l	d0,(RAM_start+$83AC).w
 
-loc_449A:
++ ;loc_449A:
 		move	#$2700,sr
 		lea	(RAM_start+$8000).w,a1
 		move.l	#vdpComm(VRAM_Plane_A_Name_Table,VRAM,WRITE),d0	; to $C000 in VRAM, Nametable A
@@ -481,24 +481,24 @@ loc_449A:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_44B8:
++ ;loc_44B8:
 		lea	(RAM_start+$8000).w,a1			; Buffer 2
 		movea.l	(a2)+,a0				; Enigma Mappings
 		move.w	#make_art_tile($300,0,0),d0
 		cmpi.w	#7,d7
-		bhs.s	loc_44CC
+		bhs.s	+ ;loc_44CC
 		move.w	#make_art_tile($000,0,0),d0
 
-loc_44CC:
++ ;loc_44CC:
 		bsr.w	Eni_Decomp
 		cmpi.w	#7,d7
-		bhs.s	loc_44E2
+		bhs.s	+ ;loc_44E2
 		tst.b	(Graphics_flags).w
-		bmi.s	loc_44E2
+		bmi.s	+ ;loc_44E2
 		moveq	#0,d0
 		move.l	d0,(RAM_start+$83AC).w
 
-loc_44E2:
++ ;loc_44E2:
 		move	#$2700,sr
 		lea	(RAM_start+$8000).w,a1
 		move.l	#vdpComm(VRAM_Plane_B_Name_Table,VRAM,WRITE),d0	; to $E000 in VRAM Nametable B
@@ -616,26 +616,26 @@ Obj_TitleBanner_Main:
 		move.b	#0,$34(a0)
 		move.w	#$40,d1
 		cmpi.w	#0,d0
-		blt.s	loc_48B4
-		bne.s	loc_48AA
+		blt.s	++ ;loc_48B4
+		bne.s	+ ;loc_48AA
 		cmpi.w	#-$5B,y_vel(a0)
-		bne.s	loc_48AA
+		bne.s	+ ;loc_48AA
 		move.l	#Obj_TitleBanner_Display,(a0)
 		move.l	#Obj_TitleTM,(Reserved_object_3).w
-		bra.s	loc_48C2
+		bra.s	+++ ;loc_48C2
 ; ---------------------------------------------------------------------------
 
-loc_48AA:
++ ;loc_48AA:
 		move.b	#-1,$34(a0)
 		move.w	#-$40,d1
 
-loc_48B4:
++ ;loc_48B4:
 		add.w	d1,y_vel(a0)
 		cmp.b	$34(a0),d2
-		beq.s	loc_48C2
+		beq.s	+ ;loc_48C2
 		asr	y_vel(a0)
 
-loc_48C2:
++ ;loc_48C2:
 		move.w	$30(a0),d0
 		neg.w	d0
 		addi.w	#$D4,d0
@@ -646,12 +646,12 @@ loc_48C2:
 
 Obj_TitleBanner_Display:
 		subq.b	#1,anim_frame_timer(a0)
-		bpl.s	loc_48F2
+		bpl.s	+ ;loc_48F2
 		move.b	#9,anim_frame_timer(a0)
 		addq.b	#4,anim_frame(a0)
 		andi.b	#$1C,anim_frame(a0)
 
-loc_48F2:
++ ;loc_48F2:
 		moveq	#0,d0
 		move.b	anim_frame(a0),d0
 		move.l	Pal_TitleWaterRot(pc,d0.w),(Target_palette_line_3+$1A).w
@@ -713,7 +713,7 @@ OldDebugCode:
 		beq.s	locret_4A10
 		move.b	(Ctrl_1_held_title).w,d0
 		cmp.b	(a1),d0
-		bne.s	loc_4A0A
+		bne.s	+ ;loc_4A0A
 		addq.w	#1,(Debug_mode_cheat_counter).w
 		tst.b	1(a1)
 		bne.s	locret_4A10
@@ -721,7 +721,7 @@ OldDebugCode:
 		moveq	#signextendB(sfx_RingLoss),d0
 		bsr.w	Play_SFX
 
-loc_4A0A:
++ ;loc_4A0A:
 		move.w	#0,(Debug_mode_cheat_counter).w
 
 locret_4A10:
@@ -773,36 +773,36 @@ Obj_TitleSelection_Main:
 		move.b	(Ctrl_1_pressed).w,d0
 		or.b	(Ctrl_2_pressed).w,d0
 		btst	#0,d0
-		beq.s	loc_4AAE
+		beq.s	+ ;loc_4AAE
 		subq.b	#1,d2
-		bcc.s	loc_4AAE
+		bcc.s	+ ;loc_4AAE
 		move.b	#2,d2
 		tst.b	(Level_select_flag).w		; If level select is on, maximum choices are 3
-		bne.s	loc_4AAE
+		bne.s	+ ;loc_4AAE
 		move.b	#1,d2
 
-loc_4AAE:
++ ;loc_4AAE:
 		btst	#1,d0
-		beq.s	loc_4AC8
+		beq.s	++ ;loc_4AC8
 		addq.b	#1,d2
 		tst.b	(Level_select_flag).w		; See above
-		bne.s	loc_4AC0
+		bne.s	+ ;loc_4AC0
 		andi.b	#1,d2
 
-loc_4AC0:
++ ;loc_4AC0:
 		cmpi.b	#3,d2
-		blo.s	loc_4AC8
+		blo.s	+ ;loc_4AC8
 		moveq	#0,d2
 
-loc_4AC8:
++ ;loc_4AC8:
 		move.b	d2,mapping_frame(a0)
 		move.b	d2,(Title_screen_option).w
 		andi.b	#3,d0
-		beq.s	loc_4ADE
+		beq.s	+ ;loc_4ADE
 		moveq	#signextendB(sfx_Switch),d0
 		jsr	(Play_SFX).l		; Only play sound if selection was changed
 
-loc_4ADE:
++ ;loc_4ADE:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -862,34 +862,34 @@ Obj_TitleTailsPlane:
 
 Obj_TitleTailsPlane_Main:
 		tst.b	$30(a0)
-		bne.s	loc_4C0A
+		bne.s	++ ;loc_4C0A
 		addq.w	#1,x_pos(a0)
 		cmpi.w	#$240,x_pos(a0)
-		bne.s	loc_4C08
+		bne.s	+ ;loc_4C08
 		move.b	#1,$30(a0)
 		bset	#0,status(a0)
 		move.w	#$D0,y_pos(a0)
 
-loc_4C08:
-		bra.s	loc_4C28
++ ;loc_4C08:
+		bra.s	++ ;loc_4C28
 ; ---------------------------------------------------------------------------
 
-loc_4C0A:
++ ;loc_4C0A:
 		subq.w	#1,x_pos(a0)
 		cmpi.w	#0,x_pos(a0)
-		bne.s	loc_4C28
+		bne.s	+ ;loc_4C28
 		move.b	#0,$30(a0)
 		bclr	#0,status(a0)
 		move.w	#$C0,y_pos(a0)
 
-loc_4C28:
++ ;loc_4C28:
 		lea	(Ani_TitleTailsPlane).l,a1
 		jsr	(Animate_Sprite).l
 		tst.b	render_flags(a0)
-		bpl.s	loc_4C3E
+		bpl.s	+ ;loc_4C3E
 		bsr.w	S3_Level_Select_Code
 
-loc_4C3E:
++ ;loc_4C3E:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 Ani_TitleTailsPlane:
@@ -909,7 +909,7 @@ S3_Level_Select_Code:
 		beq.s	locret_4C90
 		move.b	(Ctrl_1_held_title).w,d0
 		cmp.b	(a1),d0
-		bne.s	loc_4C8A
+		bne.s	+ ;loc_4C8A
 		addq.w	#1,(Level_select_cheat_counter).w
 		tst.b	1(a1)
 		bne.s	locret_4C90
@@ -918,7 +918,7 @@ S3_Level_Select_Code:
 		moveq	#signextendB(sfx_RingRight),d0
 		bsr.w	Play_SFX
 
-loc_4C8A:
++ ;loc_4C8A:
 		move.w	#0,(Level_select_cheat_counter).w
 
 locret_4C90:
@@ -985,7 +985,7 @@ SK_Alone_Title_Screen:
 		move.w	#make_art_tile($49C,0,1),d0
 		bsr.w	Eni_Decomp
 		tst.b	(Graphics_flags).w
-		bmi.s	loc_5122
+		bmi.s	+ ;loc_5122
 		move.w	#make_art_tile($49C,1,1),d0
 		move.w	d0,(RAM_start+$775C).l
 		move.w	d0,(RAM_start+$775E).l
@@ -994,7 +994,7 @@ SK_Alone_Title_Screen:
 		move.w	d0,(RAM_start+$77AE).l
 		move.w	d0,(RAM_start+$77B0).l		; Remove the TM from the Sega logo if on a Japan console
 
-loc_5122:
++ ;loc_5122:
 		lea	(RAM_start+$7400).l,a1
 		move.l	#vdpComm(VRAM_Plane_A_Name_Table,VRAM,WRITE),d0
 		moveq	#$28-1,d1
@@ -1029,27 +1029,27 @@ loc_5122:
 		lea	(Target_palette).w,a1
 		moveq	#4-1,d1
 
-loc_51BC:
+- ;loc_51BC:
 		move.w	#0,(a1)+
 		moveq	#$F-1,d0
 
-loc_51C2:
+- ;loc_51C2:
 		move.w	#$EEE,(a1)+		; Set up the palette to full white
-		dbf	d0,loc_51C2
-		dbf	d1,loc_51BC
+		dbf	d0,- ;loc_51C2
+		dbf	d1,-- ;loc_51BC
 		lea	(Pal_SKTitle_SegaBG).l,a0
 		lea	(Target_palette_line_2).w,a1
 		moveq	#bytesToLcnt($20),d0
 
-loc_51DA:
+- ;loc_51DA:
 		move.l	(a0)+,(a1)+		; Load Sega palette into the first F colors of pal line 1
-		dbf	d0,loc_51DA
+		dbf	d0,- ;loc_51DA
 		move.w	#3*60,(Demo_timer).w	; Set vsync timer to 3 seconds (180 frames NTSC)
 		btst	#6,(Graphics_flags).w
-		beq.s	loc_51F4
+		beq.s	+ ;loc_51F4
 		move.w	#3*50,(Demo_timer).w	; Set vsync timer to 3 seconds (150 frames PAL)
 
-loc_51F4:
++ ;loc_51F4:
 		move.w	(VDP_reg_1_command).w,d0
 		ori.b	#$40,d0
 		move.w	d0,(VDP_control_port).l		; Turn the display on
@@ -1066,20 +1066,20 @@ loc_520C:
 		bne.s	loc_520C			; Don't allow the game to continue until the Knuckles art has been decompressed
 		move.b	(Ctrl_1_pressed).w,d0
 		andi.b	#button_start_mask,d0
-		bne.w	loc_523A			; If start is pressed afterwards, skip to next part of title
+		bne.w	+ ;loc_523A			; If start is pressed afterwards, skip to next part of title
 		tst.w	(Demo_timer).w
 		bne.s	loc_520C			; Otherwise, wait for vsync timer to run out
 
-loc_523A:
++ ;loc_523A:
 		moveq	#signextendB(mus_StopSEGA),d0
 		bsr.w	Play_Music			; Stop the SEGA sound if necessary
 		lea	(Pal_SKTitle_Sonic).l,a0
 		lea	(Target_palette).w,a1
 		moveq	#bytesToLcnt($80),d0
 
-loc_524C:
+- ;loc_524C:
 		move.l	(a0)+,(a1)+
-		dbf	d0,loc_524C				; Load the Sonic palette and Sega palette
+		dbf	d0,- ;loc_524C				; Load the Sonic palette and Sega palette
 		lea	(ArtKosM_SonicKnuxStand).l,a1
 		move.w	#tiles_to_bytes($0E2),d2
 		jsr	(Queue_Kos_Module).l	; Cue the art Sonic and Knuckles standing
@@ -1101,24 +1101,24 @@ loc_52A6:
 		jsr	(Process_Kos_Queue).l
 		bsr.w	Wait_VSync
 		tst.w	(Palette_fade_timer).w
-		beq.s	loc_52C4
+		beq.s	+ ;loc_52C4
 		subq.w	#1,(Palette_fade_timer).w
 		bsr.w	Pal_FromWhite		; Fade from white for set number of frames
 
-loc_52C4:
++ ;loc_52C4:
 		jsr	(Process_Sprites).l
 		jsr	(Render_Sprites).l
 		bsr.w	SKTitle_DeformBG
 		jsr	(Process_Kos_Module_Queue).l
 		move.b	(Ctrl_1_pressed).w,d0
 		andi.b	#button_start_mask,d0
-		bne.w	loc_52F0			; If start is pressed, branch
+		bne.w	+ ;loc_52F0			; If start is pressed, branch
 		tst.l	(Dynamic_object_RAM).w		; test if banner object has been created
 		beq.s	loc_52A6			; If not, continue with the above
 		bra.w	loc_537C
 ; ---------------------------------------------------------------------------
 
-loc_52F0:
++ ;loc_52F0:
 		tst.w	(Palette_fade_timer).w
 		bne.s	loc_52A6			; If palette fade hasn't completed, go back
 		lea	(Dynamic_object_RAM+object_size).w,a0
@@ -1138,10 +1138,10 @@ loc_52F0:
 		lea	(Normal_palette_line_2).w,a2
 		moveq	#8-1,d0
 
-loc_5342:
+- ;loc_5342:
 		move.l	(a0),$80(a2)
 		move.l	(a0)+,(a2)+				; Change to Knuckles palette
-		dbf	d0,loc_5342
+		dbf	d0,- ;loc_5342
 		bsr.w	SKTitle_DeformBG		; Deform the BG to apply the changes
 		move.b	#$1A,(V_int_routine).w
 		bsr.w	Wait_VSync				; Refresh the screen
@@ -1159,11 +1159,11 @@ loc_537C:
 		jsr	(Process_Kos_Queue).l
 		bsr.w	Wait_VSync
 		tst.w	(Palette_fade_timer).w
-		beq.s	loc_539A
+		beq.s	+ ;loc_539A
 		subq.w	#1,(Palette_fade_timer).w
 		bsr.w	Pal_FromWhite
 
-loc_539A:
++ ;loc_539A:
 		jsr	(Process_Sprites).l
 		jsr	(Render_Sprites).l
 		bsr.w	SKTitle_DeformBG
@@ -1172,7 +1172,7 @@ loc_539A:
 		tst.l	(Dynamic_object_RAM+(object_size*2)).w
 		beq.s	loc_537C			; If menu object isn't loaded, branch
 		tst.w	(Demo_timer).w
-		beq.w	loc_546C			; If timer has run out, branch forward
+		beq.w	++ ;loc_546C			; If timer has run out, branch forward
 		move.b	(Ctrl_1_pressed).w,d0
 		andi.b	#button_start_mask,d0
 		beq.w	loc_537C			; If start is not pressed, branch back
@@ -1194,7 +1194,7 @@ loc_539A:
 		moveq	#0,d0
 		move.b	(Title_screen_option).w,d0
 		cmpi.b	#2,d0
-		bhs.w	loc_5464
+		bhs.w	+ ;loc_5464
 		add.w	d0,d0
 		addq.w	#1,d0
 		move.w	d0,(Player_option).w
@@ -1214,22 +1214,22 @@ loc_539A:
 		btst	#button_A,(Ctrl_1).w
 		beq.s	locret_546A
 
-loc_5464:
++ ;loc_5464:
 		move.b	#$28,(Game_mode).w
 
 locret_546A:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_546C:
++ ;loc_546C:
 		moveq	#signextendB(mus_FadeOut),d0		; Start demo by fading out music
 		bsr.w	Play_SFX
 		move.w	(Next_demo_number).w,d0	; Get demo number
 		cmpi.w	#3,d0
-		bhs.s	loc_547E
+		bhs.s	+ ;loc_547E
 		moveq	#3,d0
 
-loc_547E:
++ ;loc_547E:
 		move.w	d0,(Next_demo_number).w
 		move.w	d0,(Demo_number).w
 		andi.w	#7,d0
@@ -1242,13 +1242,13 @@ loc_547E:
 		move.w	(Next_demo_number).w,d1
 		addq.w	#1,d1
 		cmpi.w	#7,d1
-		blo.s	loc_54AE
+		blo.s	+ ;loc_54AE
 		moveq	#3,d1
 
-loc_54AE:
++ ;loc_54AE:
 		move.w	d1,(Next_demo_number).w
 		tst.w	d0
-		bpl.s	loc_54E0
+		bpl.s	+ ;loc_54E0
 		move.b	#$34,(Game_mode).w	; Special stage
 		move.b	#1,(Current_special_stage).w
 		move.b	#1,(SK_special_stage_flag).w
@@ -1257,18 +1257,18 @@ loc_54AE:
 		clr.l	(Collected_emeralds_array).w
 		clr.w	(Collected_emeralds_array+4).w
 		clr.b	(Collected_emeralds_array+6).w
-		bra.s	loc_54F0
+		bra.s	+++ ;loc_54F0
 ; ---------------------------------------------------------------------------
 
-loc_54E0:
++ ;loc_54E0:
 		cmpi.w	#$700,d0
-		bne.s	loc_54EA
+		bne.s	+ ;loc_54EA
 		jsr	Prep_MHZDemo(pc)			; If doing Mushroom Hill demo, do this routine
 
-loc_54EA:
++ ;loc_54EA:
 		move.b	#8,(Game_mode).w
 
-loc_54F0:
++ ;loc_54F0:
 		move.w	#1,(Demo_mode_flag).w
 		move.b	#3,(Life_count).w
 		move.b	#3,(Life_count_P2).w
@@ -1331,35 +1331,35 @@ Obj_SKTitle_SonicFall:
 
 Obj_SKTitle_SonicFallMain:
 		cmpi.w	#$F0,y_pos(a0)
-		beq.s	loc_5666
+		beq.s	+ ;loc_5666
 		addq.w	#1,y_pos(a0)		; Slowly move Sonic downwards
 
-loc_5666:
++ ;loc_5666:
 		cmpi.w	#3,(Events_routine_fg).w
-		bne.s	loc_56AA		; Wait until the proper phase of the title sequence
+		bne.s	++ ;loc_56AA		; Wait until the proper phase of the title sequence
 		ori.w	#high_priority,art_tile(a0)	; Modify the priority of the sprite
 		cmpi.w	#$E0,(Camera_Y_pos).w
-		bhs.s	loc_56B0		; If the foreground Y is past $E0, branch
+		bhs.s	+++ ;loc_56B0		; If the foreground Y is past $E0, branch
 		addq.w	#8,(Camera_Y_pos).w	; Otherwise scroll foreground by 8 pixels
 		cmpi.w	#$C8,(Camera_Y_pos).w
-		bne.s	loc_5698
+		bne.s	+ ;loc_5698
 		lea	(ArtKosM_SonicLand).l,a1	; Once foreground has hit C8 Y
 		move.w	#tiles_to_bytes($462),d2
 		jsr	(Queue_Kos_Module).l	; Queue the landing frames into VRAM
 
-loc_5698:
++ ;loc_5698:
 		lea	(RAM_start+$8580).w,a1		; First frame data (Knuckles only)
 		move.l	#vdpComm(VRAM_Plane_A_Name_Table,VRAM,WRITE),d0
 		move.w	(Camera_Y_pos).w,d1
 		bsr.w	Copy_Map_Line_To_VRAM	; Since the nametable is only 32 tiles high, we can't copy the first foreground mapping frame for Sonic and Knuckles wholesale.
 										; We set up each line of mappings data every time the screen scrolls down further
 
-loc_56AA:
++ ;loc_56AA:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_56B0:
-		bne.s	loc_56D4
++ ;loc_56B0:
+		bne.s	+ ;loc_56D4
 		move	#$2700,sr		; Only do this when screen scrolling has his E0 Y
 		lea	(RAM_start+$8E40).w,a1	; Second frame data (Sonic lands)
 		move.l	#vdpComm(VRAM_Plane_A_Name_Table,VRAM,WRITE),d0
@@ -1369,14 +1369,14 @@ loc_56B0:
 		move	#$2300,sr
 		move.b	#6,anim_frame_timer(a0)			; Set up an internal timer
 
-loc_56D4:
++ ;loc_56D4:
 		cmpi.w	#$100,(Camera_Y_pos).w
-		beq.s	loc_56E2			; When screen has hit $100 Y, branch
+		beq.s	+ ;loc_56E2			; When screen has hit $100 Y, branch
 		addq.w	#8,(Camera_Y_pos).w
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_56E2:
++ ;loc_56E2:
 		move.l	#Obj_SKTitle_SonicFallLand,(a0)
 
 Obj_SKTitle_SonicFallLand:
@@ -1439,21 +1439,21 @@ Obj_SKTitle_DeathEgg:
 
 Obj_SKTitle_DeathEggMain:
 		cmpi.w	#$F0,y_pos(a0)
-		beq.s	loc_57D8				; If Death Egg has reached volcano, branch
+		beq.s	++ ;loc_57D8				; If Death Egg has reached volcano, branch
 		addi.l	#$8000,y_pos(a0)			; Move Death Egg sprite downward
 		cmpi.w	#$100,(Camera_Y_pos_P2).w
-		beq.s	loc_57D2
+		beq.s	+ ;loc_57D2
 		addq.w	#1,(Camera_Y_pos_P2).w		; Scroll screen downwards
 		lea	(Chunk_table+$7CC0).l,a1
 		move.l	#vdpComm(VRAM_Plane_B_Name_Table,VRAM,WRITE),d0
 		move.w	(Camera_Y_pos_P2).w,d1
 		bsr.w	Copy_Map_Line_To_VRAM		; Update second nametable with background mappings as the screen scrolls down
 
-loc_57D2:
++ ;loc_57D2:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_57D8:
++ ;loc_57D8:
 		move.l	x_pos(a0),$2E(a0)
 		move.l	y_pos(a0),$32(a0)			; Backup position values
 		move.w	#$8000,(Camera_Y_pos_P2+2).w
@@ -1465,7 +1465,7 @@ loc_57D8:
 Obj_SKTitle_DeathEggShake:
 		bsr.w	SKTitle_ScreenShake
 		cmpi.w	#$100,(Camera_Y_pos_P2).w
-		beq.s	loc_5832
+		beq.s	+ ;loc_5832
 		subi.l	#$8000,$32(a0)			; Move Death Egg backwards to keep up with scroll
 		addi.l	#$8000,(Camera_Y_pos_P2).w
 		lea	(Chunk_table+$7CC0).l,a1
@@ -1473,15 +1473,15 @@ Obj_SKTitle_DeathEggShake:
 		move.w	(Camera_Y_pos_P2).w,d1
 		bsr.w	Copy_Map_Line_To_VRAM	; Continue drawing mapping lines
 
-loc_5832:
++ ;loc_5832:
 		move.w	$2E(a0),d0
 		move.w	$32(a0),d1
 		tst.w	(Screen_shake_flag).w
-		beq.s	loc_5848
+		beq.s	+ ;loc_5848
 		sub.w	(Camera_X_pos_P2_copy).w,d0
 		sub.w	(Camera_Y_pos_P2_copy).w,d1		; Shake Death Egg along with screen
 
-loc_5848:
++ ;loc_5848:
 		move.w	d0,x_pos(a0)
 		move.w	d1,y_pos(a0)
 		jmp	(Draw_Sprite).l
@@ -1501,11 +1501,11 @@ Obj_SKTitle_MountainMain:
 		sub.w	(Camera_X_pos_P2).w,d0
 		sub.w	(Camera_Y_pos_P2).w,d1
 		tst.w	(Screen_shake_flag).w
-		beq.s	loc_589A
+		beq.s	+ ;loc_589A
 		sub.w	(Camera_X_pos_P2_copy).w,d0
 		sub.w	(Camera_Y_pos_P2_copy).w,d1
 
-loc_589A:
++ ;loc_589A:
 		move.w	d0,x_pos(a0)
 		move.w	d1,y_pos(a0)
 		jmp	(Draw_Sprite).l
@@ -1513,11 +1513,11 @@ loc_589A:
 
 Obj_SKTitle_Banner:
 		subq.b	#1,anim_frame_timer(a0)
-		beq.s	loc_58B0		; Wait for the timer to finish
+		beq.s	+ ;loc_58B0		; Wait for the timer to finish
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_58B0:
++ ;loc_58B0:
 		move.l	#Map_SKTitle_Banner,mappings(a0)
 		move.w	#make_art_tile($4EE,0,1),art_tile(a0)
 		move.w	#0,priority(a0)
@@ -1539,29 +1539,29 @@ Obj_SKTitle_BannerMain:
 		move.b	#0,$34(a0)	; Set direction toggle flag
 		move.w	#$40,d1
 		cmpi.w	#0,d0
-		blt.s	loc_5950	; If offset is negative, branch
-		bne.s	loc_5946	; If offset is positive and nonzero, branch
+		blt.s	++ ;loc_5950	; If offset is negative, branch
+		bne.s	+ ;loc_5946	; If offset is positive and nonzero, branch
 		cmpi.w	#-$5B,y_vel(a0)
-		bne.s	loc_5946	; Branch if the velocity isn't small enough
+		bne.s	+ ;loc_5946	; Branch if the velocity isn't small enough
 		move.l	#Obj_SKTitle_BannerDisplay,(a0)
 		move.l	#Obj_SKTitle_Icon,(Dynamic_object_RAM+(object_size*2)).w
 		move.l	#Obj_SKTitle_Icon2,(Dynamic_object_RAM+(object_size*3)).w
 		move.l	#Obj_SKTitle_TM,(Dynamic_object_RAM+(object_size*4)).w
 		move.l	#Obj_SKTitle_Copyright,(Dynamic_object_RAM+(object_size*5)).w		; Set up menu items and the like
-		bra.s	loc_595E
+		bra.s	+++ ;loc_595E
 ; ---------------------------------------------------------------------------
 
-loc_5946:
++ ;loc_5946:
 		move.b	#-1,$34(a0)		; This is all to perform the bobbing motion into place
 		move.w	#-$40,d1
 
-loc_5950:
++ ;loc_5950:
 		add.w	d1,y_vel(a0)
 		cmp.b	$34(a0),d2
-		beq.s	loc_595E
+		beq.s	+ ;loc_595E
 		asr	y_vel(a0)
 
-loc_595E:
++ ;loc_595E:
 		move.w	$30(a0),d0
 		neg.w	d0
 		addi.w	#$118,d0
@@ -1589,7 +1589,7 @@ Obj_SKTitle_HandAnimMain:
 		lea	(SKTitle_AnimSmile).l,a1
 		lea	$30(a0),a2
 		bsr.w	SKTitle_AnimateHands
-		bmi.s	loc_59D0
+		bmi.s	+ ;loc_59D0
 		lea	(RAM_start+$4800).l,a1
 		lea	(a1,d0.w),a1
 		move.l	a1,d1
@@ -1597,11 +1597,11 @@ Obj_SKTitle_HandAnimMain:
 		move.w	#$30,d3
 		jsr	(Add_To_DMA_Queue).l
 
-loc_59D0:
++ ;loc_59D0:
 		lea	(SKTitle_AnimFinger).l,a1
 		lea	$32(a0),a2
 		bsr.w	SKTitle_AnimateHands
-		bmi.s	loc_59FA
+		bmi.s	+ ;loc_59FA
 		lea	(RAM_start+$4920).l,a1
 		lea	(a1,d0.w),a1
 		move.l	a1,d1
@@ -1609,11 +1609,11 @@ loc_59D0:
 		move.w	#$290,d3
 		jsr	(Add_To_DMA_Queue).l
 
-loc_59FA:
++ ;loc_59FA:
 		lea	(SKTitle_AnimKnuckle1).l,a1
 		lea	$34(a0),a2
 		bsr.w	SKTitle_AnimateHands
-		bmi.s	loc_5A24
+		bmi.s	+ ;loc_5A24
 		lea	(RAM_start+$5880).l,a1
 		lea	(a1,d0.w),a1
 		move.l	a1,d1
@@ -1621,7 +1621,7 @@ loc_59FA:
 		move.w	#$2F0,d3
 		jsr	(Add_To_DMA_Queue).l
 
-loc_5A24:
++ ;loc_5A24:
 		lea	(SKTitle_AnimKnuckle2).l,a1
 		lea	$36(a0),a2
 		bsr.w	SKTitle_AnimateHands
@@ -1648,7 +1648,7 @@ SKTitle_AnimateHands:
 		moveq	#0,d1
 		move.b	1(a2),d1
 		move.b	1(a1,d1.w),d0
-		bmi.s	loc_5A70
+		bmi.s	+ ;loc_5A70
 
 loc_5A62:
 		addq.b	#1,1(a2)
@@ -1662,15 +1662,15 @@ loc_5A6C:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_5A70:
++ ;loc_5A70:
 		addq.b	#1,d0
-		bne.s	loc_5A80
+		bne.s	+ ;loc_5A80
 		move.b	#0,1(a2)
 		move.b	1(a1),d0
 		bra.s	loc_5A62
 ; ---------------------------------------------------------------------------
 
-loc_5A80:
++ ;loc_5A80:
 		addq.b	#1,d0
 		bne.s	loc_5A6C
 		move.b	2(a1,d1.w),d0
@@ -1719,42 +1719,42 @@ Obj_SKTitle_IconDisplay:
 		move.b	(Title_screen_option).w,d2	; Get current selection
 		move.b	angle(a0),d0
 		andi.b	#$7F,d0
-		bne.s	loc_5B9E			; If selection is currently, being rotated, branch
+		bne.s	+++ ;loc_5B9E			; If selection is currently, being rotated, branch
 		move.b	(Ctrl_1_pressed).w,d0
 		btst	#0,d0
-		beq.s	loc_5B6E
+		beq.s	+ ;loc_5B6E
 		subq.b	#8,angle(a0)			; if down was pressed, rotate backwards
 		move.b	#-8,$27(a0)
 		subq.b	#1,d2
-		bcc.s	loc_5B6E
+		bcc.s	+ ;loc_5B6E
 		move.b	#1,d2
 
-loc_5B6E:
++ ;loc_5B6E:
 		btst	#1,d0
-		beq.s	loc_5B8C
+		beq.s	+ ;loc_5B8C
 		addq.b	#8,angle(a0)			; if up was pressed, rotate forward
 		move.b	#8,$27(a0)
 		addq.b	#1,d2
 		andi.b	#1,d2
 		cmpi.b	#3,d2
-		blo.s	loc_5B8C
+		blo.s	+ ;loc_5B8C
 		moveq	#0,d2
 
-loc_5B8C:
++ ;loc_5B8C:
 		move.b	d2,(Title_screen_option).w	; Move selection
 		andi.b	#3,d0
-		beq.s	loc_5B9E
+		beq.s	+ ;loc_5B9E
 		moveq	#signextendB(sfx_Switch),d0
 		jsr	(Play_SFX).l		; Only play sound if selection was made
 
-loc_5B9E:
++ ;loc_5B9E:
 		move.b	angle(a0),d0
 		andi.b	#$7F,d0
-		beq.s	loc_5BB0
+		beq.s	+ ;loc_5BB0
 		move.b	$27(a0),d0			; Perform rotation if necessary
 		add.b	d0,angle(a0)
 
-loc_5BB0:
++ ;loc_5BB0:
 		move.b	angle(a0),d0			; Get rotation angle
 		addi.b	#$98,d0
 		jsr	(GetSineCosine).l
@@ -1774,12 +1774,12 @@ loc_5BB0:
 		moveq	#2,d5
 		move.b	angle(a0),d6
 		subi.b	#$A0,d6
-		bpl.s	loc_5BF6
+		bpl.s	+ ;loc_5BF6
 		exg	d1,d3		; Exchange attributes of Sonic/Knuckles text sprites depending on the rotation angle
 		exg	d0,d2
 		exg	d4,d5
 
-loc_5BF6:
++ ;loc_5BF6:
 		addq.b	#1,d5
 		lea	sub2_x_pos(a0),a2
 		move.w	d1,(a2)+	; sub2_x_pos
@@ -1868,7 +1868,7 @@ Copy_Map_Line_To_VRAM:
 		moveq	#$28-1,d3
 		lea	(VDP_data_port).l,a6
 		move	#$2700,sr
-		bsr.s	sub_5D42
+		bsr.s	+ ;sub_5D42
 		move	#$2300,sr
 
 locret_5D22:
@@ -1884,13 +1884,13 @@ RAM_Map_Data_To_VDP:
 		moveq	#$28-1,d1
 		moveq	#$20-1,d2
 
-.loop:
+- ;.loop:
 		movea.l	a1,a2
 		move.w	d1,d3
-		bsr.s	sub_5D42
+		bsr.s	+ ;sub_5D42
 		movea.l	a2,a1
 		addi.l	#$80<<16,d0
-		dbf	d2,.loop
+		dbf	d2,- ;.loop
 		rts
 ; End of function RAM_Map_Data_To_VDP
 
@@ -1898,12 +1898,12 @@ RAM_Map_Data_To_VDP:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_5D42:
++ ;sub_5D42:
 		move.l	d0,VDP_control_port-VDP_data_port(a6)
 
-.loop:
+- ;.loop:
 		move.w	(a1)+,(a6)
-		dbf	d3,.loop
+		dbf	d3,- ;.loop
 		rts
 ; End of function sub_5D42
 
@@ -1916,9 +1916,9 @@ ClearVRAMArea:
 		move.l	d0,VDP_control_port-VDP_data_port(a6)
 		moveq	#0,d0
 
-.loop:
+- ;.loop:
 		move.l	d0,(a6)
-		dbf	d3,.loop
+		dbf	d3,- ;.loop
 		rts
 ; End of function ClearVRAMArea
 
@@ -1930,10 +1930,10 @@ SKTitle_ScreenShake:
 		tst.w	(Screen_shake_flag).w
 		beq.s	locret_5D92			; If timer has run out, don't do anything
 		subq.w	#1,(Screen_shake_flag).w
-		bne.s	loc_5D72
+		bne.s	+ ;loc_5D72
 		addq.w	#1,(Events_routine_fg).w	; Increment title routine counter when this is done
 
-loc_5D72:
++ ;loc_5D72:
 		move.w	(V_int_run_count+2).w,d0
 		andi.w	#$3F,d0				; Get frame counter then AND it for offset
 		lea	(SKTitle_ShakeOffsets).l,a1
@@ -1957,16 +1957,16 @@ SKTitle_DeformBG:
 		move.w	(Camera_Y_pos_P2).w,(V_scroll_value_BG).w		; Move BG position values to their proper spots
 		moveq	#0,d2
 		tst.w	(Screen_shake_flag).w
-		beq.s	loc_5DB8
+		beq.s	+ ;loc_5DB8
 		move.w	(Camera_Y_pos_P2_copy).w,d0
 		add.w	d0,(V_scroll_value).w
 		add.w	d0,(V_scroll_value_BG).w				; Shake the screen by the proper offsets if screen shaking is on
 		move.w	(Camera_X_pos_P2_copy).w,d2				; Move shake X amount to d2
 
-loc_5DB8:
++ ;loc_5DB8:
 		lea	(H_scroll_buffer).w,a1
 		move.w	(Events_routine_fg).w,d0
-		bne.s	loc_5DE0
+		bne.s	+ ;loc_5DE0
 
 loc_5DC2:
 		move.w	#$E0-1,d1							; If routine counter is zero
@@ -1978,20 +1978,20 @@ loc_5DC2:
 		add.w	d2,d0
 		neg.w	d0
 
-loc_5DD8:
+- ;loc_5DD8:
 		move.l	d0,(a1)+						; Do normal deformation, nothing special
-		dbf	d1,loc_5DD8
+		dbf	d1,- ;loc_5DD8
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_5DE0:
++ ;loc_5DE0:
 		subq.w	#1,d0
-		bne.s	loc_5E0E
+		bne.s	+ ;loc_5E0E
 		add.w	(Camera_X_pos_P2).w,d2				; If routine counter is 1
 		neg.w	d2
 		move.w	#$70-1,d3
 
-loc_5DEE:
+- ;loc_5DEE:
 		jsr	(Random_Number).l
 		andi.w	#7,d0
 		move.w	d0,(a1)+		; Shake the scanlines of the foreground (SEGA logo) by random amounts to simulate static
@@ -2001,15 +2001,15 @@ loc_5DEE:
 		neg.w	d0
 		move.w	d0,(a1)+
 		move.w	d2,(a1)+
-		dbf	d3,loc_5DEE
+		dbf	d3,- ;loc_5DEE
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_5E0E:
++ ;loc_5E0E:
 		subq.w	#1,d0
 		bne.s	loc_5DC2
 		subq.w	#1,(Events_bg+$00).w		; If routine counter is 2
-		bne.s	loc_5E52
+		bne.s	+ ;loc_5E52
 		addq.w	#1,(Events_routine_fg).w		; If above timer has expired
 		move	#$2700,sr
 		move.l	#vdpComm(VRAM_Plane_A_Name_Table+$500,VRAM,WRITE),d0
@@ -2020,29 +2020,29 @@ loc_5E0E:
 		lea	(Normal_palette_line_2).w,a2
 		moveq	#bytesToLcnt($20),d0
 
-loc_5E3E:
+- ;loc_5E3E:
 		move.l	(a0)+,(a2)+				; Load the knuckles palette into the final line
-		dbf	d0,loc_5E3E
+		dbf	d0,- ;loc_5E3E
 		move.l	#Obj_SKTitle_HandAnim,(Dynamic_object_RAM+object_size).w	; Start hand animations
 		moveq	#0,d2
 		bra.w	loc_5DC2				; Then do normal deformation
 ; ---------------------------------------------------------------------------
 
-loc_5E52:
++ ;loc_5E52:
 		move.w	(Camera_X_pos_P2).w,d2
 		neg.w	d2
 		move.w	#$70-1,d3
 
-loc_5E5C:
+- ;loc_5E5C:
 		jsr	(Random_Number).l
 		addq.w	#8,(a1)			; On every other line, alternate between moving the line randomly to the left and randomly to the right
 		andi.w	#7,d0			; The result is a staticy phaseout effect of the SEGA logo
 		add.w	d0,(a1)
 		cmpi.w	#$FC,(a1)
-		blt.s	loc_5E74
+		blt.s	+ ;loc_5E74
 		move.w	#$FC,(a1)
 
-loc_5E74:
++ ;loc_5E74:
 		addq.w	#2,a1
 		move.w	d2,(a1)+
 		subq.w	#8,(a1)
@@ -2050,13 +2050,13 @@ loc_5E74:
 		andi.w	#7,d0
 		sub.w	d0,(a1)
 		cmpi.w	#-$104,(a1)
-		bgt.s	loc_5E8C
+		bgt.s	+ ;loc_5E8C
 		move.w	#-$104,(a1)
 
-loc_5E8C:
++ ;loc_5E8C:
 		addq.w	#2,a1
 		move.w	d2,(a1)+
-		dbf	d3,loc_5E5C
+		dbf	d3,- ;loc_5E5C
 		rts
 ; End of function SKTitle_DeformBG
 

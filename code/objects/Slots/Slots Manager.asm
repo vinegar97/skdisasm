@@ -30,9 +30,9 @@ loc_4C416:
 		movea.l	a4,a1
 		moveq	#8,d0
 
-loc_4C41A:
+- ;loc_4C41A:
 		clr.w	(a1)+
-		dbf	d0,loc_4C41A
+		dbf	d0,- ;loc_4C41A
 		move.b	(V_int_run_count+3).w,d0
 		move.b	d0,6(a4)
 		ror.b	#3,d0
@@ -53,11 +53,11 @@ loc_4C41A:
 loc_4C462:
 		bsr.w	sub_4C6D6
 		tst.b	1(a4)
-		beq.s	loc_4C46E
+		beq.s	+ ;loc_4C46E
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4C46E:
++ ;loc_4C46E:
 		move.b	#$18,(a4)
 		clr.w	8(a4)
 		clr.w	$C(a4)
@@ -94,20 +94,20 @@ loc_4C480:
 
 loc_4C4DC:
 		sub.b	(a2),d0
-		bcs.s	loc_4C4E4
+		bcs.s	+ ;loc_4C4E4
 		addq.w	#3,a2
 		bra.s	loc_4C4DC
 ; ---------------------------------------------------------------------------
 
-loc_4C4E4:
++ ;loc_4C4E4:
 		cmpi.b	#-1,(a2)
-		beq.s	loc_4C4F8
+		beq.s	+ ;loc_4C4F8
 		move.b	1(a2),4(a4)
 		move.b	2(a2),5(a4)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4C4F8:
++ ;loc_4C4F8:
 		jsr	(Random_Number).l
 		add.w	(V_int_run_count+2).w,d0
 		ror.w	#4,d0
@@ -132,11 +132,11 @@ loc_4C4F8:
 loc_4C540:
 		bsr.w	sub_4C6D6
 		tst.b	1(a4)
-		beq.s	loc_4C54C
+		beq.s	+ ;loc_4C54C
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4C54C:
++ ;loc_4C54C:
 		addi.b	#$30,8(a4)
 		addi.b	#$30,$C(a4)
 		addi.b	#$30,$10(a4)
@@ -152,13 +152,13 @@ loc_4C54C:
 loc_4C576:
 		bsr.w	sub_4C6D6
 		cmpi.b	#$C,9(a4)
-		bne.s	loc_4C594
+		bne.s	+ ;loc_4C594
 		cmpi.b	#$C,$D(a4)
-		bne.s	loc_4C594
+		bne.s	+ ;loc_4C594
 		cmpi.b	#$C,$11(a4)
 		beq.w	loc_4C6BC
 
-loc_4C594:
++ ;loc_4C594:
 		moveq	#0,d0
 		move.b	3(a4),d0
 		lea	6(a4),a1
@@ -186,17 +186,17 @@ loc_4C5B4:
 sub_4C5C4:
 		move.w	4(a4),d1
 		move.b	3(a4),d0
-		beq.s	loc_4C5D0
+		beq.s	+ ;loc_4C5D0
 		lsr.w	d0,d1
 
-loc_4C5D0:
++ ;loc_4C5D0:
 		andi.w	#7,d1
 		cmpi.b	#6,d1
-		bgt.s	loc_4C5DC
+		bgt.s	+ ;loc_4C5DC
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4C5DC:
++ ;loc_4C5DC:
 		subq.b	#2,d1
 		rts
 ; End of function sub_4C5C4
@@ -209,11 +209,11 @@ sub_4C5E0:
 		move.w	#$FFF0,d2
 		andi.w	#$F,d1
 		move.b	3(a4),d0
-		beq.s	loc_4C5F2
+		beq.s	+ ;loc_4C5F2
 		lsl.w	d0,d1
 		rol.w	d0,d2
 
-loc_4C5F2:
++ ;loc_4C5F2:
 		and.w	d2,4(a4)
 		or.w	d1,4(a4)
 		andi.w	#$777,4(a4)
@@ -224,19 +224,19 @@ loc_4C5F2:
 
 loc_4C602:
 		tst.b	3(a4)
-		bne.s	loc_4C610
+		bne.s	+ ;loc_4C610
 		tst.b	1(a4)
-		bmi.s	loc_4C61A
+		bmi.s	++ ;loc_4C61A
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4C610:
++ ;loc_4C610:
 		cmpi.b	#8,-1(a1)
-		bge.s	loc_4C61A
+		bge.s	+ ;loc_4C61A
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4C61A:
++ ;loc_4C61A:
 		bsr.s	sub_4C5C4
 		move.w	(a1),d0
 		subi.w	#$A0,d0
@@ -244,11 +244,11 @@ loc_4C61A:
 		andi.w	#7,d0
 		move.b	(a3,d0.w),d0
 		cmp.b	d1,d0
-		beq.s	loc_4C632
+		beq.s	+ ;loc_4C632
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4C632:
++ ;loc_4C632:
 		addq.b	#4,3(a1)
 		move.b	#$60,2(a1)
 		rts
@@ -264,22 +264,22 @@ loc_4C63E:
 		cmp.b	d0,d1
 		beq.s	loc_4C67C
 		cmpi.b	#$20,2(a1)
-		bls.s	loc_4C662
+		bls.s	+ ;loc_4C662
 		subi.b	#$C,2(a1)
 
-loc_4C662:
++ ;loc_4C662:
 		cmpi.b	#$18,2(a1)
-		bgt.s	loc_4C66C
+		bgt.s	+ ;loc_4C66C
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4C66C:
++ ;loc_4C66C:
 		cmpi.b	#$80,1(a1)
-		bls.s	loc_4C676
+		bls.s	+ ;loc_4C676
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4C676:
++ ;loc_4C676:
 		subq.b	#2,2(a1)
 		rts
 ; ---------------------------------------------------------------------------
@@ -302,11 +302,11 @@ loc_4C67C:
 
 loc_4C6A8:
 		tst.b	1(a1)
-		beq.s	loc_4C6B0
+		beq.s	+ ;loc_4C6B0
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4C6B0:
++ ;loc_4C6B0:
 		clr.b	2(a1)
 		addq.b	#4,3(a1)
 		rts
@@ -349,20 +349,20 @@ loc_4C6F0:
 		clr.b	3(a4)
 		subq.b	#1,1(a4)
 		move.w	#$4400,d2
-		bra.s	loc_4C71A
+		bra.s	+ ;loc_4C71A
 ; ---------------------------------------------------------------------------
 
 loc_4C706:
 		addq.b	#4,3(a4)
 		move.w	#$4000,d2
-		bra.w	loc_4C71A
+		bra.w	+ ;loc_4C71A
 ; ---------------------------------------------------------------------------
 
 loc_4C712:
 		addq.b	#4,3(a4)
 		move.w	#$4200,d2
 
-loc_4C71A:
++ ;loc_4C71A:
 		move.w	(a1),d0
 		move.b	2(a1),d1
 		ext.w	d1
@@ -371,28 +371,28 @@ loc_4C71A:
 		andi.w	#$7F8,d0
 		andi.w	#$7F8,d3
 		cmp.w	d0,d3
-		bne.s	loc_4C734
+		bne.s	+ ;loc_4C734
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4C734:
-		bsr.w	sub_4C77C
++ ;loc_4C734:
+		bsr.w	++ ;sub_4C77C
 		lea	(Chunk_table+$7C00).l,a1
 		move.w	#$20-1,d1
 
-loc_4C742:
+- ;loc_4C742:
 		move.l	$80(a2),$80(a1)
 		move.l	$100(a2),$100(a1)
 		move.l	$180(a2),$180(a1)
 		move.l	(a2)+,(a1)+
 		addq.b	#8,d3
-		bne.s	loc_4C766
+		bne.s	+ ;loc_4C766
 		addi.w	#$100,d3
 		andi.w	#$700,d3
-		bsr.w	sub_4C77C
+		bsr.w	++ ;sub_4C77C
 
-loc_4C766:
-		dbf	d1,loc_4C742
++ ;loc_4C766:
+		dbf	d1,- ;loc_4C742
 		move.l	#$FF7C00,d1
 		move.w	#$100,d3
 		jsr	(Add_To_DMA_Queue).l
@@ -401,7 +401,7 @@ loc_4C766:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_4C77C:
++ ;sub_4C77C:
 		move.w	d3,d0
 		lsr.w	#8,d0
 		andi.w	#7,d0
@@ -429,15 +429,15 @@ sub_4C7A2:
 		andi.w	#$F,d3
 		moveq	#0,d0
 		cmp.b	4(a4),d2
-		bne.s	loc_4C7BC
+		bne.s	+ ;loc_4C7BC
 		addq.w	#4,d0
 
-loc_4C7BC:
++ ;loc_4C7BC:
 		cmp.b	4(a4),d3
-		bne.s	loc_4C7C4
+		bne.s	+ ;loc_4C7C4
 		addq.w	#8,d0
 
-loc_4C7C4:
++ ;loc_4C7C4:
 		jmp	loc_4C7C8(pc,d0.w)
 ; End of function sub_4C7A2
 
@@ -458,7 +458,7 @@ loc_4C7C8:
 
 loc_4C7E0:
 		cmpi.b	#0,d3
-		bne.s	loc_4C7F6
+		bne.s	+ ;loc_4C7F6
 		move.w	d2,d0
 		bsr.w	sub_4C88E
 		bsr.w	sub_4C89C
@@ -466,7 +466,7 @@ loc_4C7E0:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4C7F6:
++ ;loc_4C7F6:
 		cmpi.b	#0,d2
 		bne.w	loc_4C838
 		move.w	d3,d0
@@ -478,7 +478,7 @@ loc_4C7F6:
 
 loc_4C80E:
 		cmpi.b	#0,d2
-		bne.s	loc_4C822
+		bne.s	+ ;loc_4C822
 		move.w	d3,d0
 		bsr.s	sub_4C88E
 		bsr.w	sub_4C89C
@@ -486,7 +486,7 @@ loc_4C80E:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4C822:
++ ;loc_4C822:
 		cmpi.b	#0,d3
 		bne.w	loc_4C838
 		move.w	d2,d0
@@ -498,9 +498,9 @@ loc_4C822:
 
 loc_4C838:
 		cmp.b	d2,d3
-		bne.s	loc_4C86C
+		bne.s	++ ;loc_4C86C
 		cmpi.b	#0,4(a4)
-		bne.s	loc_4C852
+		bne.s	+ ;loc_4C852
 		move.w	d2,d0
 		bsr.s	sub_4C88E
 		bsr.w	sub_4C8A0
@@ -508,9 +508,9 @@ loc_4C838:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4C852:
++ ;loc_4C852:
 		cmpi.b	#0,d2
-		bne.s	loc_4C86C
+		bne.s	+ ;loc_4C86C
 		move.b	4(a4),d0
 		andi.w	#$F,d0
 		bsr.s	sub_4C88E
@@ -519,24 +519,24 @@ loc_4C852:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4C86C:
++ ;loc_4C86C:
 		moveq	#2,d1
 		moveq	#0,d0
 		cmpi.b	#6,4(a4)
-		bne.s	loc_4C87A
+		bne.s	+ ;loc_4C87A
 		add.w	d1,d0
 
-loc_4C87A:
++ ;loc_4C87A:
 		cmpi.b	#6,d2
-		bne.s	loc_4C882
+		bne.s	+ ;loc_4C882
 		add.w	d1,d0
 
-loc_4C882:
++ ;loc_4C882:
 		cmpi.b	#6,d3
-		bne.s	loc_4C88A
+		bne.s	+ ;loc_4C88A
 		add.w	d1,d0
 
-loc_4C88A:
++ ;loc_4C88A:
 		move.w	d0,4(a4)
 
 ; =============== S U B R O U T I N E =======================================

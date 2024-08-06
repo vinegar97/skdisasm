@@ -11,22 +11,22 @@ loc_58966:
 		bsr.w	sub_58A22
 		jsr	Find_SonicTails(pc)
 		cmpi.w	#$70,d2
-		bhs.s	loc_58988
+		bhs.s	+ ;loc_58988
 		move.l	#loc_5898C,(a0)
 		move.w	#$F,$2E(a0)
 		move.l	#loc_589A4,$34(a0)
 
-loc_58988:
++ ;loc_58988:
 		jmp	Sprite_CheckDeleteTouch(pc)
 ; ---------------------------------------------------------------------------
 
 loc_5898C:
 		moveq	#2,d0
 		btst	#0,(V_int_run_count+3).w
-		beq.s	loc_58998
+		beq.s	+ ;loc_58998
 		neg.w	d0
 
-loc_58998:
++ ;loc_58998:
 		add.w	d0,x_pos(a0)
 		jsr	Obj_Wait(pc)
 		jmp	Sprite_CheckDeleteTouch(pc)
@@ -42,7 +42,7 @@ loc_589B2:
 		jsr	(MoveSprite).l
 		jsr	(ObjCheckCeilingDist).l
 		tst.w	d1
-		bpl.s	loc_589DC
+		bpl.s	+ ;loc_589DC
 		move.l	#loc_589E0,(a0)
 		clr.b	collision_flags(a0)
 		lea	ChildObjDat_58A4A(pc),a2
@@ -50,7 +50,7 @@ loc_589B2:
 		moveq	#signextendB(sfx_FloorThump),d0
 		jsr	(Play_SFX).l
 
-loc_589DC:
++ ;loc_589DC:
 		jmp	Sprite_CheckDeleteTouch(pc)
 ; ---------------------------------------------------------------------------
 

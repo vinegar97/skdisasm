@@ -4,10 +4,10 @@ Obj_StarPointer:
 		jsr	SetUp_ObjAttributes(pc)
 		move.l	#loc_5960C,(a0)
 		bclr	#1,render_flags(a0)
-		beq.s	loc_595E8
+		beq.s	+ ;loc_595E8
 		bset	#7,art_tile(a0)
 
-loc_595E8:
++ ;loc_595E8:
 		moveq	#0,d0
 		move.b	subtype(a0),d0
 		andi.w	#6,d0
@@ -24,20 +24,20 @@ loc_5960C:
 		jsr	(MoveSprite2).l
 		jsr	Find_SonicTails(pc)
 		cmpi.w	#$80,d2
-		bhs.s	loc_5962A
+		bhs.s	++ ;loc_5962A
 		btst	#0,render_flags(a0)
-		beq.s	loc_59626
+		beq.s	+ ;loc_59626
 		subq.w	#2,d0
 
-loc_59626:
++ ;loc_59626:
 		tst.w	d0
-		beq.s	loc_5962E
+		beq.s	++ ;loc_5962E
 
-loc_5962A:
++ ;loc_5962A:
 		jmp	Sprite_CheckDeleteTouch(pc)
 ; ---------------------------------------------------------------------------
 
-loc_5962E:
++ ;loc_5962E:
 		move.l	#loc_5963E,(a0)
 		bset	#1,$38(a0)
 		jmp	Sprite_CheckDeleteTouch(pc)
@@ -68,32 +68,32 @@ byte_5967A:
 
 loc_5967E:
 		btst	#0,(V_int_run_count+3).w
-		bne.s	loc_596D6
+		bne.s	+++ ;loc_596D6
 		movea.w	parent3(a0),a1
 		btst	#0,render_flags(a1)
-		beq.s	loc_5969A
+		beq.s	+ ;loc_5969A
 		addq.b	#1,$3C(a0)
-		bra.w	loc_5969E
+		bra.w	++ ;loc_5969E
 ; ---------------------------------------------------------------------------
 
-loc_5969A:
++ ;loc_5969A:
 		subq.b	#1,$3C(a0)
 
-loc_5969E:
-		bne.s	loc_596D6
++ ;loc_5969E:
+		bne.s	+ ;loc_596D6
 		btst	#1,$38(a1)
-		beq.s	loc_596D6
+		beq.s	+ ;loc_596D6
 		move.l	#loc_596E4,(a0)
 		move.w	x_vel(a1),d0
 		asl.w	#1,d0
 		move.l	#ObjHitWall_DoRoutine,$30(a0)
 		move.w	#8,$44(a0)
 		move.w	d0,x_vel(a0)
-		bpl.s	loc_596D6
+		bpl.s	+ ;loc_596D6
 		move.l	#ObjHitWall2_DoRoutine,$30(a0)
 		move.w	#-8,$44(a0)
 
-loc_596D6:
++ ;loc_596D6:
 		bsr.w	sub_59718
 		moveq	#4,d2
 		jsr	MoveSprite_CircularSimple(pc)

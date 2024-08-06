@@ -27,11 +27,11 @@ loc_5697E:
 loc_5698E:
 		jsr	Find_SonicTails(pc)
 		cmpi.w	#$40,d2
-		blo.s	loc_5699A
+		blo.s	+ ;loc_5699A
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_5699A:
++ ;loc_5699A:
 		move.b	#4,routine(a0)
 		move.w	#7,$2E(a0)
 		rts
@@ -40,11 +40,11 @@ loc_5699A:
 loc_569A8:
 		subq.w	#1,y_pos(a0)
 		subq.w	#1,$2E(a0)
-		bmi.s	loc_569B4
+		bmi.s	+ ;loc_569B4
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_569B4:
++ ;loc_569B4:
 		move.b	#6,routine(a0)
 		bset	#2,$38(a0)
 		rts
@@ -53,11 +53,11 @@ loc_569B4:
 loc_569C2:
 		jsr	Find_SonicTails(pc)
 		cmpi.w	#$40,d2
-		bhs.s	loc_569CE
+		bhs.s	+ ;loc_569CE
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_569CE:
++ ;loc_569CE:
 		move.b	#8,routine(a0)
 		bclr	#2,$38(a0)
 		move.w	#7,$2E(a0)
@@ -67,11 +67,11 @@ loc_569CE:
 loc_569E2:
 		addq.w	#1,y_pos(a0)
 		subq.w	#1,$2E(a0)
-		bmi.s	loc_569EE
+		bmi.s	+ ;loc_569EE
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_569EE:
++ ;loc_569EE:
 		move.b	#2,routine(a0)
 		rts
 ; ---------------------------------------------------------------------------
@@ -129,11 +129,11 @@ locret_56A6C:
 loc_56A6E:
 		movea.w	parent3(a0),a1
 		btst	#2,$38(a1)
-		bne.s	loc_56A7C
+		bne.s	+ ;loc_56A7C
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_56A7C:
++ ;loc_56A7C:
 		move.b	#4,routine(a0)
 		rts
 ; ---------------------------------------------------------------------------
@@ -141,29 +141,29 @@ loc_56A7C:
 loc_56A84:
 		movea.w	parent3(a0),a1
 		btst	#2,$38(a1)
-		beq.s	loc_56AB8
+		beq.s	+++ ;loc_56AB8
 		jsr	Find_SonicTails(pc)
 		cmpi.w	#$40,d2
 		bhs.s	locret_56AA6
 		tst.b	subtype(a0)
-		beq.s	loc_56AA2
+		beq.s	+ ;loc_56AA2
 		subq.w	#2,d0
 
-loc_56AA2:
++ ;loc_56AA2:
 		tst.w	d0
-		beq.s	loc_56AA8
+		beq.s	+ ;loc_56AA8
 
 locret_56AA6:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_56AA8:
++ ;loc_56AA8:
 		move.b	#6,routine(a0)
 		move.l	#loc_56AE6,$34(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_56AB8:
++ ;loc_56AB8:
 		move.b	#2,routine(a0)
 		rts
 ; ---------------------------------------------------------------------------
@@ -209,11 +209,11 @@ loc_56B0A:
 
 loc_56B12:
 		jsr	Check_PlayerCollision(pc)
-		bne.s	loc_56B1A
+		bne.s	+ ;loc_56B1A
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_56B1A:
++ ;loc_56B1A:
 		bsr.w	sub_56B64
 		move.b	#4,routine(a0)
 		clr.b	collision_flags(a0)
@@ -257,11 +257,11 @@ sub_56B64:
 
 sub_56B8C:
 		btst	#3,$38(a0)
-		bne.s	loc_56B96
+		bne.s	+ ;loc_56B96
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_56B96:
++ ;loc_56B96:
 		bclr	#3,$38(a0)
 		clr.b	anim_frame(a0)
 		clr.b	anim_frame_timer(a0)

@@ -23,10 +23,10 @@ Wait_VSync:
 
 Random_Number:
 		move.l	(RNG_seed).w,d1
-		bne.s	loc_1FBA
+		bne.s	+ ;loc_1FBA
 		move.l	#$2A6D365A,d1	; reset seed if needed
 
-loc_1FBA:
++ ;loc_1FBA:
 		move.l	d1,d0
 		asl.l	#2,d1
 		add.l	d0,d1
@@ -79,56 +79,57 @@ GetArcTan:
 		move.w	d1,d3
 		move.w	d2,d4
 		or.w	d3,d4
-		beq.s	GetArcTan_Zero	; special case when both x and y are zero
+		beq.s	.Zero	; special case when both x and y are zero
 		move.w	d2,d4
 		tst.w	d3
-		bpl.s	loc_2284
+		bpl.s	+ ;loc_2284
 		neg.w	d3
 
-loc_2284:
++ ;loc_2284:
 		tst.w	d4
-		bpl.s	loc_228A
+		bpl.s	+ ;loc_228A
 		neg.w	d4
 
-loc_228A:
++ ;loc_228A:
 		cmp.w	d3,d4
-		bcc.s	loc_229A	; if |y| >= |x|
+		bcc.s	+ ;loc_229A	; if |y| >= |x|
 		lsl.l	#8,d4
 		divu.w	d3,d4
 		moveq	#0,d0
-		move.b	ArcTanTable(pc,d4.w),d0
-		bra.s	loc_22A4
+		move.b	.Table(pc,d4.w),d0
+		bra.s	++ ;loc_22A4
 
-loc_229A:
++ ;loc_229A:
 		lsl.l	#8,d3
 		divu.w	d4,d3
 		moveq	#$40,d0
-		sub.b	ArcTanTable(pc,d3.w),d0	; arctan(y/x) = 90 - arctan(x/y)
+		sub.b	.Table(pc,d3.w),d0	; arctan(y/x) = 90 - arctan(x/y)
 
-loc_22A4:
++ ;loc_22A4:
 		tst.w	d1
-		bpl.s	loc_22AE
+		bpl.s	+ ;loc_22AE
 		neg.w	d0
 		addi.w	#$80,d0	; place angle in appropriate quadrant
 
-loc_22AE:
++ ;loc_22AE:
 		tst.w	d2
-		bpl.s	loc_22B8
+		bpl.s	+ ;loc_22B8
 		neg.w	d0
 		addi.w	#$100,d0	; place angle in appropriate quadrant
 
-loc_22B8:
++ ;loc_22B8:
 		movem.l	(sp)+,d3-d4
 		rts
 ; ---------------------------------------------------------------------------
 
-GetArcTan_Zero:
+.Zero:
 		move.w	#$40,d0	; angle = 90 degrees
 		movem.l	(sp)+,d3-d4
 		rts
 ; End of function GetArcTan
 
 ; ---------------------------------------------------------------------------
-ArcTanTable:
+; ArcTanTable:
+.Table:
 		binclude "Levels/Misc/arctan.bin"
 		even

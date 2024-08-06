@@ -31,9 +31,9 @@ ContinueScreen:
 		lea	(Target_palette).w,a2
 		moveq	#bytesToLcnt($80),d6
 
-loc_3F0F4:
+- ;loc_3F0F4:
 		move.l	(a1)+,(a2)+
-		dbf	d6,loc_3F0F4
+		dbf	d6,- ;loc_3F0F4
 		lea	aCONTINUE(pc),a1
 		jsr	sub_40A4A(pc)
 		move.l	#Obj_Continue_SonicWTails,(Player_1).w
@@ -63,12 +63,12 @@ loc_3F168:
 		move.b	(_unkFAA9).w,d0
 		beq.s	loc_3F168
 		subq.b	#1,d0
-		beq.s	loc_3F192
+		beq.s	+ ;loc_3F192
 		move.b	#0,(Game_mode).w
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_3F192:
++ ;loc_3F192:
 		move.b	#$C,(Game_mode).w
 		move.b	#3,(Life_count).w
 		move.b	#3,(Life_count_P2).w
@@ -94,15 +94,15 @@ loc_3F1D4:
 
 loc_3F1E4:
 		btst	#button_start,(Ctrl_1_pressed).w
-		bne.s	loc_3F21A
+		bne.s	++ ;loc_3F21A
 		btst	#button_start,(Ctrl_2_pressed).w
-		bne.s	loc_3F21A
+		bne.s	++ ;loc_3F21A
 		subq.w	#1,(_unkFA82).w
 		bpl.s	locret_3F210
 		move.w	#60-1,(_unkFA82).w
 		move.b	(_unkFA84).w,d0
 		subq.b	#1,d0
-		bmi.s	loc_3F212
+		bmi.s	+ ;loc_3F212
 		move.b	d0,(_unkFA84).w
 		bsr.w	sub_3F5C4
 
@@ -110,12 +110,12 @@ locret_3F210:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_3F212:
++ ;loc_3F212:
 		move.b	#2,(_unkFAA9).w
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_3F21A:
++ ;loc_3F21A:
 		move.l	#locret_3F226,(a0)
 		bset	#3,$38(a0)
 
@@ -136,17 +136,17 @@ Obj_Continue_SonicWTails:
 loc_3F25A:
 		movea.w	(_unkFAA4).w,a1
 		btst	#3,$38(a1)
-		bne.s	loc_3F280
+		bne.s	++ ;loc_3F280
 		move.b	#0,mapping_frame(a0)
 		btst	#4,(V_int_run_count+3).w
-		beq.s	loc_3F27A
+		beq.s	+ ;loc_3F27A
 		move.b	#1,mapping_frame(a0)
 
-loc_3F27A:
++ ;loc_3F27A:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_3F280:
++ ;loc_3F280:
 		move.l	#loc_3F286,(a0)
 
 loc_3F286:
@@ -184,7 +184,7 @@ loc_3F2CE:
 		move.b	anim_frame(a0),d0
 		addq.w	#2,d0
 		cmpi.b	#$A,d0
-		bhs.s	loc_3F306
+		bhs.s	+ ;loc_3F306
 		move.b	d0,anim_frame(a0)
 		lea	RawAni_3F320(pc,d0.w),a2
 		move.b	(a2)+,mapping_frame(a0)
@@ -197,7 +197,7 @@ locret_3F304:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_3F306:
++ ;loc_3F306:
 		move.b	#4,routine(a0)
 		move.w	#1,anim(a0)
 		move.w	#$600,ground_vel(a0)
@@ -216,11 +216,11 @@ RawAni_3F320:
 loc_3F32A:
 		jsr	(Animate_Sonic).l
 		subq.w	#1,$2E(a0)
-		bmi.s	loc_3F338
+		bmi.s	+ ;loc_3F338
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_3F338:
++ ;loc_3F338:
 		move.b	#6,routine(a0)
 		rts
 ; ---------------------------------------------------------------------------
@@ -229,11 +229,11 @@ loc_3F340:
 		jsr	(Animate_Sonic).l
 		addq.w	#6,x_pos(a0)
 		cmpi.w	#$1E0,x_pos(a0)
-		bhs.s	loc_3F354
+		bhs.s	+ ;loc_3F354
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_3F354:
++ ;loc_3F354:
 		move.b	#8,routine(a0)
 		rts
 ; ---------------------------------------------------------------------------
@@ -250,42 +250,43 @@ Obj_Continue_TailsWSonic:
 		move.b	#$14,height_pixels(a0)
 		move.w	#$12C,x_pos(a0)
 		move.w	#$120,y_pos(a0)
-		move.l	#loc_3F390,(a0)
+		move.l	#.loc_3F390,(a0)
 
-loc_3F390:
+.loc_3F390:
 		movea.w	(_unkFAA4).w,a1
 		btst	#3,$38(a1)
-		bne.s	loc_3F3B6
+		bne.s	++ ;loc_3F3B6
 		move.b	#5,mapping_frame(a0)
 		btst	#5,(V_int_run_count+3).w
-		beq.s	loc_3F3B0
+		beq.s	+ ;loc_3F3B0
 		move.b	#6,mapping_frame(a0)
 
-loc_3F3B0:
++ ;loc_3F3B0:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_3F3B6:
-		move.l	#loc_3F3D6,(a0)
++ ;loc_3F3B6:
+		move.l	#.loc_3F3D6,(a0)
 		addq.w	#4,y_pos(a0)
 		lea	(Tails_tails).w,a1
 		move.l	#Obj_Tails_Tail,(a1)
 		move.w	a0,$30(a1)
 		move.l	#loc_3F472,(Dust).w
 
-loc_3F3D6:
+.loc_3F3D6:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	off_3F3F0(pc,d0.w),d1
-		jsr	off_3F3F0(pc,d1.w)
+		move.w	.index(pc,d0.w),d1
+		jsr	.index(pc,d1.w)
 		jsr	(Tails_Load_PLC).l
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
-off_3F3F0:
-		dc.w loc_3F3F8-off_3F3F0
-		dc.w loc_3F428-off_3F3F0
-		dc.w loc_3F448-off_3F3F0
-		dc.w loc_3F45A-off_3F3F0
+;off_3F3F0:
+.index:
+		dc.w loc_3F3F8-.index
+		dc.w loc_3F428-.index
+		dc.w loc_3F448-.index
+		dc.w loc_3F45A-.index
 ; ---------------------------------------------------------------------------
 
 loc_3F3F8:
@@ -310,20 +311,20 @@ loc_3F428:
 
 loc_3F448:
 		subq.w	#1,$2E(a0)
-		bpl.s	loc_3F454
+		bpl.s	+ ;loc_3F454
 		move.b	#6,routine(a0)
 
-loc_3F454:
++ ;loc_3F454:
 		jmp	(Animate_Tails).l
 ; ---------------------------------------------------------------------------
 
 loc_3F45A:
 		addq.w	#6,x_pos(a0)
 		cmpi.w	#$1E0,x_pos(a0)
-		blo.s	loc_3F46C
+		blo.s	+ ;loc_3F46C
 		move.b	#1,(_unkFAA9).w
 
-loc_3F46C:
++ ;loc_3F46C:
 		jmp	(Animate_Tails).l
 ; ---------------------------------------------------------------------------
 
@@ -359,11 +360,11 @@ loc_3F4A6:
 loc_3F4CA:
 		movea.w	(_unkFAA4).w,a1
 		btst	#3,$38(a1)
-		bne.s	loc_3F4D8
+		bne.s	+ ;loc_3F4D8
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_3F4D8:
++ ;loc_3F4D8:
 		move.b	#4,routine(a0)
 
 loc_3F4DE:
@@ -371,12 +372,12 @@ loc_3F4DE:
 		addq.w	#6,d0
 		move.w	d0,x_pos(a0)
 		cmpi.w	#$1E0,d0
-		bhs.s	loc_3F4F8
+		bhs.s	+ ;loc_3F4F8
 		lea	byte_3F83A(pc),a1
 		jmp	(Animate_RawNoSST).l
 ; ---------------------------------------------------------------------------
 
-loc_3F4F8:
++ ;loc_3F4F8:
 		move.b	#6,routine(a0)
 
 locret_3F4FE:
@@ -412,10 +413,10 @@ loc_3F53E:
 loc_3F572:
 		moveq	#0,d0
 		btst	#4,(V_int_run_count+3).w
-		beq.s	loc_3F57E
+		beq.s	+ ;loc_3F57E
 		addq.w	#1,d0
 
-loc_3F57E:
++ ;loc_3F57E:
 		movea.l	$30(a0),a1
 		move.b	(a1,d0.w),mapping_frame(a0)
 		jmp	(Draw_Sprite).l
@@ -465,15 +466,15 @@ sub_3F5C4:
 sub_3F5FE:
 		moveq	#0,d0
 		move.b	(Continue_count).w,d0
-		beq.s	loc_3F60C
+		beq.s	+ ;loc_3F60C
 		cmpi.b	#$A,d0
-		bls.s	loc_3F612
+		bls.s	++ ;loc_3F612
 
-loc_3F60C:
++ ;loc_3F60C:
 		moveq	#$A,d0
 		move.b	d0,(Continue_count).w
 
-loc_3F612:
++ ;loc_3F612:
 		lea	(Dynamic_object_RAM+(object_size*2)).w,a1
 		moveq	#0,d1
 
@@ -516,11 +517,11 @@ word_3F63E:
 sub_3F650:
 		move.w	(Player_mode).w,d4
 		cmpi.b	#2,d4
-		bne.s	loc_3F664
+		bne.s	+ ;loc_3F664
 		lea	ChildObjDat_3F66E(pc),a2
 		jsr	(CreateChild6_Simple).l
 
-loc_3F664:
++ ;loc_3F664:
 		lsl.w	#2,d4
 		move.l	off_3F674(pc,d4.w),$30(a0)
 		rts

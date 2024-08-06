@@ -1,6 +1,6 @@
 Obj_MHZCurledVine:
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.s	loc_3E89C
+		bne.s	+ ;loc_3E89C
 		move.l	#loc_3E9A6,(a1)
 		move.w	x_pos(a0),x_pos(a1)
 		move.w	y_pos(a0),y_pos(a1)
@@ -19,7 +19,7 @@ Obj_MHZCurledVine:
 		bra.s	loc_3E8A2
 ; ---------------------------------------------------------------------------
 
-loc_3E89C:
++ ;loc_3E89C:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -29,22 +29,22 @@ loc_3E8A2:
 		moveq	#0,d2
 		move.b	status(a0),d1
 		andi.b	#standing_mask,d1
-		beq.s	loc_3E8C4
+		beq.s	++ ;loc_3E8C4
 		move.b	$36(a0),d1
 		move.b	$37(a0),d2
 		cmp.b	d1,d2
-		blo.s	loc_3E8C2
+		blo.s	+ ;loc_3E8C2
 		move.b	d2,d1
 
-loc_3E8C2:
++ ;loc_3E8C2:
 		addq.b	#1,d1
 
-loc_3E8C4:
++ ;loc_3E8C4:
 		move.b	byte_3E8F6(pc,d1.w),d2
 		move.w	d2,-(sp)
 		lsl.w	#2,d1
 		move.l	dword_3E8D2(pc,d1.w),d0
-		bra.s	loc_3E900
+		bra.s	+ ;loc_3E900
 ; ---------------------------------------------------------------------------
 dword_3E8D2:
 		dc.l  $FFF40000
@@ -69,19 +69,19 @@ byte_3E8F6:
 		even
 ; ---------------------------------------------------------------------------
 
-loc_3E900:
++ ;loc_3E900:
 		move.l	$32(a0),d4
 		cmp.l	d0,d4
-		beq.s	loc_3E918
-		bcs.s	loc_3E912
+		beq.s	++ ;loc_3E918
+		bcs.s	+ ;loc_3E912
 		subi.l	#$10000,d4
-		bra.s	loc_3E918
+		bra.s	++ ;loc_3E918
 ; ---------------------------------------------------------------------------
 
-loc_3E912:
++ ;loc_3E912:
 		addi.l	#$10000,d4
 
-loc_3E918:
++ ;loc_3E918:
 		move.l	d4,$32(a0)
 		move.l	d4,d1
 		asr.l	#1,d1
@@ -92,10 +92,10 @@ loc_3E918:
 		moveq	#8-1,d6
 		lea	sub2_x_pos(a1),a2
 		move.l	d1,-(sp)
-		bra.s	loc_3E952
+		bra.s	+ ;loc_3E952
 ; ---------------------------------------------------------------------------
 
-loc_3E93C:
+- ;loc_3E93C:
 		move.l	d1,-(sp)
 		swap	d5
 		move.w	d5,d0
@@ -106,35 +106,35 @@ loc_3E93C:
 		add.w	d1,d2
 		add.w	d0,d3
 
-loc_3E952:
++ ;loc_3E952:
 		move.w	d2,(a2)+
 		move.w	d3,(a2)+
 		addq.w	#2,a2
 		add.l	d4,d5
 		move.l	(sp)+,d1
 		add.l	d1,d4
-		dbf	d6,loc_3E93C
+		dbf	d6,- ;loc_3E93C
 		move.w	(sp)+,d2
 		move.w	#$40,d1
 		moveq	#8,d3
 		move.w	x_pos(a0),d4
 		movea.l	a1,a2
-		bsr.w	sub_3E9AC
+		bsr.w	+++ ;sub_3E9AC
 		move.w	x_pos(a0),d0
 		andi.w	#$FF80,d0
 		sub.w	(Camera_X_pos_coarse_back).w,d0
 		cmpi.w	#$280,d0
-		bhi.w	loc_3E98A
+		bhi.w	+ ;loc_3E98A
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_3E98A:
++ ;loc_3E98A:
 		move.w	respawn_addr(a0),d0
-		beq.s	loc_3E996
+		beq.s	+ ;loc_3E996
 		movea.w	d0,a2
 		bclr	#7,(a2)
 
-loc_3E996:
++ ;loc_3E996:
 		movea.w	parent3(a0),a1
 		jsr	(Delete_Referenced_Sprite).l
 		jmp	(Delete_Current_Sprite).l
@@ -146,12 +146,12 @@ loc_3E9A6:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_3E9AC:
++ ;sub_3E9AC:
 		lea	(Player_2).w,a1
 		moveq	#p2_standing_bit,d6
 		moveq	#$37,d5
 		movem.l	d1-d4,-(sp)
-		bsr.s	sub_3E9C6
+		bsr.s	+ ;sub_3E9C6
 		movem.l	(sp)+,d1-d4
 		lea	(Player_1).w,a1
 		subq.b	#p2_standing_bit-p1_standing_bit,d6
@@ -162,20 +162,20 @@ sub_3E9AC:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_3E9C6:
++ ;sub_3E9C6:
 		btst	d6,status(a0)
-		beq.s	loc_3EA1E
+		beq.s	+++ ;loc_3EA1E
 		btst	#Status_InAir,status(a1)
-		bne.s	loc_3E9E6
+		bne.s	+ ;loc_3E9E6
 		moveq	#0,d0
 		move.w	x_pos(a1),d0
 		sub.w	x_pos(a0),d0
 		add.w	d1,d0
-		bmi.s	loc_3E9E6
+		bmi.s	+ ;loc_3E9E6
 		cmp.w	d2,d0
-		blo.s	loc_3E9FA
+		blo.s	++ ;loc_3E9FA
 
-loc_3E9E6:
++ ;loc_3E9E6:
 		bclr	#Status_OnObj,status(a1)
 		bclr	d6,status(a0)
 		move.b	#0,(a0,d5.w)
@@ -183,7 +183,7 @@ loc_3E9E6:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_3E9FA:
++ ;loc_3E9FA:
 		lsr.w	#4,d0
 		move.b	d0,(a0,d5.w)
 		add.w	d0,d0
@@ -200,7 +200,7 @@ loc_3E9FA:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_3EA1E:
++ ;loc_3EA1E:
 		tst.w	y_vel(a1)
 		bmi.s	locret_3EA4A
 		move.w	x_pos(a1),d0

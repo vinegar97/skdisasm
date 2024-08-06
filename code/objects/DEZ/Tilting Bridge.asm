@@ -5,14 +5,14 @@ Obj_DEZTiltingBridge:
 		moveq	#8-1,d1
 		movea.l	a0,a1
 		moveq	#1,d4
-		bra.s	loc_46DBC
+		bra.s	+ ;loc_46DBC
 ; ---------------------------------------------------------------------------
 
-loc_46DB2:
+- ;loc_46DB2:
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_46E16
+		bne.w	++ ;loc_46E16
 
-loc_46DBC:
++ ;loc_46DBC:
 		move.l	#loc_46E4C,(a1)
 		move.w	d2,x_pos(a1)
 		move.w	y_pos(a0),y_pos(a1)
@@ -29,9 +29,9 @@ loc_46DBC:
 		move.w	d4,$38(a1)
 		addq.w	#1,d4
 		addi.w	#$20,d2
-		dbf	d1,loc_46DB2
+		dbf	d1,- ;loc_46DB2
 
-loc_46E16:
++ ;loc_46E16:
 		move.l	#loc_46E1C,(a0)
 
 loc_46E1C:
@@ -41,10 +41,10 @@ loc_46E1C:
 		move.w	#0,$36(a0)
 		move.w	y_pos(a0),d0
 		sub.w	$46(a0),d0
-		bpl.s	loc_46E40
+		bpl.s	+ ;loc_46E40
 		neg.w	d0
 
-loc_46E40:
++ ;loc_46E40:
 		cmpi.w	#$70,d0
 		blo.s	loc_46E4C
 		move.b	#1,$2E(a0)
@@ -52,7 +52,7 @@ loc_46E40:
 loc_46E4C:
 		movea.w	$3E(a0),a1
 		move.w	$30(a1),d0
-		beq.s	loc_46E68
+		beq.s	+ ;loc_46E68
 		lsl.w	#3,d0
 		add.w	$38(a0),d0
 		subi.w	#9,d0
@@ -60,9 +60,9 @@ loc_46E4C:
 		ext.w	d0
 		add.w	d0,d0
 
-loc_46E68:
++ ;loc_46E68:
 		move.w	$32(a1),d1
-		beq.s	loc_46E80
+		beq.s	+ ;loc_46E80
 		lsl.w	#3,d1
 		add.w	$38(a0),d1
 		subi.w	#9,d1
@@ -70,27 +70,27 @@ loc_46E68:
 		ext.w	d1
 		add.w	d1,d1
 
-loc_46E80:
++ ;loc_46E80:
 		add.w	d1,d0
 		ext.l	d0
 		add.l	d0,$3A(a0)
 		move.l	$3A(a0),d0
 		add.l	d0,y_pos(a0)
 		btst	#p1_standing_bit,status(a0)
-		beq.s	loc_46E9E
+		beq.s	+ ;loc_46E9E
 		move.w	$38(a0),$34(a1)
 
-loc_46E9E:
++ ;loc_46E9E:
 		btst	#p2_standing_bit,status(a0)
-		beq.s	loc_46EAC
+		beq.s	+ ;loc_46EAC
 		move.w	$38(a0),$36(a1)
 
-loc_46EAC:
++ ;loc_46EAC:
 		tst.b	$2E(a1)
-		beq.s	loc_46EB8
+		beq.s	+ ;loc_46EB8
 		move.l	#loc_46F18,(a0)
 
-loc_46EB8:
++ ;loc_46EB8:
 		move.w	#$1B,d1
 		move.w	#$10,d2
 		move.w	#$11,d3
@@ -125,11 +125,11 @@ loc_46F28:
 		move.w	(Camera_max_Y_pos).w,d0
 		addi.w	#$110,d0
 		cmp.w	y_pos(a0),d0
-		bgt.s	loc_46F54
+		bgt.s	+ ;loc_46F54
 		move.w	#$7F00,x_pos(a0)
 		move.w	#$7F00,$44(a0)
 
-loc_46F54:
++ ;loc_46F54:
 		move.w	#$1B,d1
 		move.w	#$10,d2
 		move.w	#$11,d3

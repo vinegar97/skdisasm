@@ -26,21 +26,21 @@ loc_3D0F6:
 		sub.w	x_pos(a0),d0
 		addi.w	#$10,d0
 		cmpi.w	#$20,d0
-		bhs.s	loc_3D118
+		bhs.s	+ ;loc_3D118
 		tst.w	(Debug_placement_mode).w
-		bne.s	loc_3D118
+		bne.s	+ ;loc_3D118
 		move.l	#loc_3D11E,(a0)
 
-loc_3D118:
++ ;loc_3D118:
 		jmp	(Sprite_OnScreen_Test).l
 ; ---------------------------------------------------------------------------
 
 loc_3D11E:
 		cmpi.w	#$40,$34(a0)
-		bhs.s	loc_3D12A
+		bhs.s	+ ;loc_3D12A
 		addq.w	#1,$34(a0)
 
-loc_3D12A:
++ ;loc_3D12A:
 		move.w	$34(a0),d0
 		add.w	$46(a0),d0
 		move.w	d0,y_pos(a0)
@@ -54,14 +54,14 @@ loc_3D12A:
 		sub.w	x_pos(a0),d0
 		addi.w	#$10,d0
 		cmpi.w	#$20,d0
-		bhs.w	loc_3D1AC
+		bhs.w	+ ;loc_3D1AC
 		move.w	y_pos(a1),d0
 		sub.w	y_pos(a0),d0
 		subi.w	#5,d0
 		cmpi.w	#$14,d0
-		bhs.w	loc_3D1AC
+		bhs.w	+ ;loc_3D1AC
 		btst	#Status_InAir,status(a1)
-		bne.s	loc_3D1AC
+		bne.s	+ ;loc_3D1AC
 		move.b	#$E,anim(a1)
 		move.b	#$C1,object_control(a1)
 		clr.b	spin_dash_flag(a1)
@@ -73,7 +73,7 @@ loc_3D12A:
 		move.b	default_x_radius(a1),x_radius(a1)
 		move.l	#loc_3D1B2,(a0)
 
-loc_3D1AC:
++ ;loc_3D1AC:
 		jmp	(Sprite_OnScreen_Test).l
 ; ---------------------------------------------------------------------------
 
@@ -83,7 +83,7 @@ loc_3D1B2:
 		addi.w	#$10,d0
 		move.w	d0,(Player_1+y_pos).w
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_3D20E
+		bne.w	+ ;loc_3D20E
 		move.l	#loc_3D2F6,(a1)
 		move.w	x_pos(a0),x_pos(a1)
 		move.w	y_pos(a0),y_pos(a1)
@@ -96,7 +96,7 @@ loc_3D1B2:
 		move.b	#$B,mapping_frame(a1)
 		move.w	a1,$3C(a0)
 
-loc_3D20E:
++ ;loc_3D20E:
 		move.b	#9,mapping_frame(a0)
 		move.l	#loc_3D220,(a0)
 		jmp	(Sprite_OnScreen_Test).l
@@ -104,12 +104,12 @@ loc_3D20E:
 
 loc_3D220:
 		tst.w	$34(a0)
-		beq.s	loc_3D232
+		beq.s	+ ;loc_3D232
 		subq.w	#1,$34(a0)
-		bne.s	loc_3D232
+		bne.s	+ ;loc_3D232
 		move.l	#loc_3D278,(a0)
 
-loc_3D232:
++ ;loc_3D232:
 		move.w	$34(a0),d0
 		add.w	$46(a0),d0
 		move.w	d0,y_pos(a0)
@@ -130,19 +130,19 @@ loc_3D232:
 
 loc_3D278:
 		tst.b	$36(a0)
-		bne.s	loc_3D29C
+		bne.s	+ ;loc_3D29C
 		addi.l	#$1000,$30(a0)
 		move.w	x_pos(a0),d0
 		sub.w	$44(a0),d0
 		cmp.w	$38(a0),d0
-		blt.s	loc_3D2D2
+		blt.s	++ ;loc_3D2D2
 		move.b	#1,$36(a0)
-		bra.s	loc_3D2D2
+		bra.s	++ ;loc_3D2D2
 ; ---------------------------------------------------------------------------
 
-loc_3D29C:
++ ;loc_3D29C:
 		subi.l	#$1000,$30(a0)
-		bne.s	loc_3D2D2
+		bne.s	+ ;loc_3D2D2
 		lea	(Player_1).w,a1
 		move.b	#0,anim(a1)
 		move.b	#0,object_control(a1)
@@ -152,7 +152,7 @@ loc_3D29C:
 		movea.w	$3C(a0),a1
 		move.b	#0,mapping_frame(a1)
 
-loc_3D2D2:
++ ;loc_3D2D2:
 		move.l	$30(a0),d0
 		add.l	d0,x_pos(a0)
 		move.w	x_pos(a0),x_vel(a0)

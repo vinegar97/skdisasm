@@ -10,14 +10,14 @@ Obj_LRZSpikeBall:
 		move.w	x_pos(a0),$44(a0)
 		move.w	y_pos(a0),$46(a0)
 		tst.b	subtype(a0)
-		bne.s	loc_437F8
+		bne.s	+ ;loc_437F8
 		ori.w	#high_priority,art_tile(a0)
 		move.b	#$8F,collision_flags(a0)
 		move.l	#loc_4397E,(a0)
 		bra.w	loc_4397E
 ; ---------------------------------------------------------------------------
 
-loc_437F8:
++ ;loc_437F8:
 		move.l	#loc_437FE,(a0)
 
 loc_437FE:
@@ -29,43 +29,43 @@ loc_437FE:
 		move.b	#0,collision_flags(a0)
 		andi.w	#drawing_mask,art_tile(a0)
 		tst.b	angle(a0)
-		bpl.s	loc_43830
+		bpl.s	+ ;loc_43830
 		ori.w	#high_priority,art_tile(a0)
 		move.b	#$8F,collision_flags(a0)
 
-loc_43830:
++ ;loc_43830:
 		lea	(Player_1).w,a1
 		move.w	y_pos(a1),d0
 		sub.w	$46(a0),d0
 		addi.w	#$40,d0
 		cmpi.w	#$80,d0
-		bhs.s	loc_4385C
+		bhs.s	+ ;loc_4385C
 		move.w	x_pos(a1),d0
 		sub.w	$44(a0),d0
-		bcc.s	loc_4385C
+		bcc.s	+ ;loc_4385C
 		tst.w	(Debug_placement_mode).w
-		bne.s	loc_4385C
+		bne.s	+ ;loc_4385C
 		move.b	#1,$30(a0)
 
-loc_4385C:
++ ;loc_4385C:
 		tst.b	$30(a0)
-		beq.s	loc_4387E
+		beq.s	+ ;loc_4387E
 		move.b	subtype(a0),d0
 		cmp.b	angle(a0),d0
-		bne.s	loc_4387E
+		bne.s	+ ;loc_4387E
 		move.l	#loc_4389E,(a0)
 		move.w	#-$400,x_vel(a0)
 		move.w	#0,y_vel(a0)
 
-loc_4387E:
++ ;loc_4387E:
 		subq.b	#2,angle(a0)
 		tst.b	$30(a0)
-		bne.s	loc_43892
+		bne.s	+ ;loc_43892
 		move.w	$44(a0),d0
 		jmp	(loc_1B666).l
 ; ---------------------------------------------------------------------------
 
-loc_43892:
++ ;loc_43892:
 		jsr	(Add_SpriteToCollisionResponseList).l
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
@@ -78,32 +78,32 @@ loc_4389E:
 		add.w	x_pos(a0),d3
 		jsr	(ObjCheckLeftWallDist_Part2).l
 		tst.w	d1
-		bpl.s	loc_438CC
+		bpl.s	+ ;loc_438CC
 		sub.w	d1,x_pos(a0)
 		move.w	#0,x_vel(a0)
 		move.b	#0,$30(a0)
 
-loc_438CC:
++ ;loc_438CC:
 		jsr	(ObjCheckFloorDist).l
 		cmpi.w	#$E,d1
-		bgt.s	loc_43906
+		bgt.s	++ ;loc_43906
 		add.w	d1,y_pos(a0)
 		move.w	#0,y_vel(a0)
 		tst.w	x_vel(a0)
-		beq.s	loc_438FA
+		beq.s	+ ;loc_438FA
 		move.b	(Level_frame_counter+1).w,d0
 		andi.b	#$F,d0
-		bne.s	loc_438FA
+		bne.s	+ ;loc_438FA
 		moveq	#signextendB(sfx_MechaLand),d0
 		jsr	(Play_SFX).l
 
-loc_438FA:
++ ;loc_438FA:
 		subi.w	#4,x_vel(a0)
 		bsr.w	sub_439EC
 		bra.s	loc_43948
 ; ---------------------------------------------------------------------------
 
-loc_43906:
++ ;loc_43906:
 		bset	#1,status(a0)
 		bra.s	loc_43948
 ; ---------------------------------------------------------------------------
@@ -113,11 +113,11 @@ loc_4390E:
 		add.w	x_pos(a0),d3
 		jsr	(ObjCheckLeftWallDist_Part2).l
 		tst.w	d1
-		bpl.s	loc_43928
+		bpl.s	+ ;loc_43928
 		sub.w	d1,x_pos(a0)
 		move.w	#0,x_vel(a0)
 
-loc_43928:
++ ;loc_43928:
 		jsr	(MoveSprite).l
 		jsr	(ObjCheckFloorDist).l
 		tst.w	d1
@@ -128,21 +128,21 @@ loc_43928:
 
 loc_43948:
 		subq.b	#1,anim_frame_timer(a0)
-		bpl.s	loc_43966
+		bpl.s	+ ;loc_43966
 		move.b	#3,anim_frame_timer(a0)
 		addq.b	#1,mapping_frame(a0)
 		cmpi.b	#3,mapping_frame(a0)
-		blo.s	loc_43966
+		blo.s	+ ;loc_43966
 		move.b	#0,mapping_frame(a0)
 
-loc_43966:
++ ;loc_43966:
 		tst.b	$30(a0)
-		beq.s	loc_43978
+		beq.s	+ ;loc_43978
 		jsr	(Add_SpriteToCollisionResponseList).l
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_43978:
++ ;loc_43978:
 		jmp	(Sprite_CheckDeleteTouch3).l
 ; ---------------------------------------------------------------------------
 
@@ -153,30 +153,30 @@ loc_4397E:
 		add.w	$44(a0),d1
 		move.w	d1,x_pos(a0)
 		btst	#1,status(a0)
-		bne.s	loc_439A4
+		bne.s	+ ;loc_439A4
 		jsr	(ObjCheckFloorDist).l
 		add.w	d1,y_pos(a0)
 
-loc_439A4:
++ ;loc_439A4:
 		tst.b	render_flags(a0)
-		bpl.s	loc_439BC
+		bpl.s	+ ;loc_439BC
 		move.b	(Level_frame_counter+1).w,d0
 		andi.b	#$F,d0
-		bne.s	loc_439BC
+		bne.s	+ ;loc_439BC
 		moveq	#signextendB(sfx_MechaLand),d0
 		jsr	(Play_SFX).l
 
-loc_439BC:
++ ;loc_439BC:
 		bsr.w	sub_439EC
 		subq.b	#1,anim_frame_timer(a0)
-		bpl.s	loc_439DE
+		bpl.s	+ ;loc_439DE
 		move.b	#3,anim_frame_timer(a0)
 		addq.b	#1,mapping_frame(a0)
 		cmpi.b	#3,mapping_frame(a0)
-		blo.s	loc_439DE
+		blo.s	+ ;loc_439DE
 		move.b	#0,mapping_frame(a0)
 
-loc_439DE:
++ ;loc_439DE:
 		subq.b	#2,angle(a0)
 		move.w	$44(a0),d0
 		jmp	(loc_1B666).l
@@ -221,14 +221,14 @@ locret_43A6A:
 
 loc_43A6C:
 		tst.b	render_flags(a0)
-		bpl.s	loc_43A88
+		bpl.s	+ ;loc_43A88
 		addq.b	#1,mapping_frame(a0)
 		andi.b	#3,mapping_frame(a0)
 		jsr	(MoveSprite).l
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_43A88:
++ ;loc_43A88:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 Map_LRZSpikeBall:

@@ -30,22 +30,22 @@ byte_39CA4:
 
 loc_39CA8:
 		tst.b	$32(a0)
-		beq.s	loc_39CBC
+		beq.s	++ ;loc_39CBC
 		tst.b	$30(a0)
-		bne.s	loc_39CB8
+		bne.s	+ ;loc_39CB8
 		bra.w	loc_39D84
 ; ---------------------------------------------------------------------------
 
-loc_39CB8:
++ ;loc_39CB8:
 		subq.b	#1,$30(a0)
 
-loc_39CBC:
++ ;loc_39CBC:
 		move.b	status(a0),d0
 		andi.b	#standing_mask,d0
-		beq.s	loc_39CCC
+		beq.s	+ ;loc_39CCC
 		move.b	#1,$32(a0)
 
-loc_39CCC:
++ ;loc_39CCC:
 		moveq	#0,d1
 		move.b	width_pixels(a0),d1
 		moveq	#0,d3
@@ -66,16 +66,16 @@ loc_39CE8:
 		bne.s	locret_39D3C
 		lea	(Player_1).w,a1
 		moveq	#p1_standing_bit,d6
-		bsr.s	sub_39D1A
+		bsr.s	+ ;sub_39D1A
 		lea	(Player_2).w,a1
 		moveq	#p2_standing_bit,d6
-		bsr.s	sub_39D1A
+		bsr.s	+ ;sub_39D1A
 		jmp	(Delete_Current_Sprite).l
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_39D1A:
++ ;sub_39D1A:
 		btst	d6,status(a0)
 		beq.s	locret_39D3C
 		bclr	d6,status(a0)
@@ -92,14 +92,14 @@ locret_39D3C:
 
 loc_39D3E:
 		tst.b	$30(a0)
-		beq.s	loc_39D4E
+		beq.s	+ ;loc_39D4E
 		subq.b	#1,$30(a0)
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_39D4E:
++ ;loc_39D4E:
 		subq.b	#1,anim_frame_timer(a0)
-		bpl.s	loc_39D6C
+		bpl.s	+ ;loc_39D6C
 		move.b	#7,anim_frame_timer(a0)
 		move.b	mapping_frame(a0),d0
 		addq.b	#1,d0
@@ -107,14 +107,14 @@ loc_39D4E:
 		add.b	$34(a0),d0
 		move.b	d0,mapping_frame(a0)
 
-loc_39D6C:
++ ;loc_39D6C:
 		jsr	(MoveSprite).l
 		tst.b	render_flags(a0)
-		bpl.s	loc_39D7E
+		bpl.s	+ ;loc_39D7E
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_39D7E:
++ ;loc_39D7E:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -128,9 +128,9 @@ loc_39D84:
 		move.w	x_pos(a0),d2
 		move.w	y_pos(a0),d3
 
-loc_39DAA:
+- ;loc_39DAA:
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.s	loc_39E08
+		bne.s	+ ;loc_39E08
 		move.l	d4,(a1)
 		move.l	mappings(a0),mappings(a1)
 		move.b	d5,render_flags(a1)
@@ -152,16 +152,16 @@ loc_39DAA:
 		move.b	mapping_frame(a1),d0
 		andi.b	#$FC,d0
 		move.b	d0,$34(a1)
-		dbf	d1,loc_39DAA
+		dbf	d1,- ;loc_39DAA
 
-loc_39E08:
++ ;loc_39E08:
 		move.w	respawn_addr(a0),d0
-		beq.s	loc_39E18
+		beq.s	+ ;loc_39E18
 		movea.w	d0,a1
 		bclr	#7,(a1)
 		clr.w	respawn_addr(a0)
 
-loc_39E18:
++ ;loc_39E18:
 		moveq	#signextendB(sfx_Collapse),d0
 		jmp	(Play_SFX).l
 ; ---------------------------------------------------------------------------

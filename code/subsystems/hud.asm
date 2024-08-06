@@ -13,39 +13,39 @@ Render_HUD_P1:
 
 Render_HUD:
 		cmpi.b	#$16,(Current_zone).w
-		bhs.s	loc_DB68
+		bhs.s	+ ;loc_DB68
 		cmpi.b	#$13,(Current_zone).w
-		blo.s	loc_DB68
+		blo.s	+ ;loc_DB68
 		moveq	#8,d4
 		btst	#3,(Level_frame_counter+1).w
-		bne.s	loc_DB84
+		bne.s	+++ ;loc_DB84
 		tst.w	(Ring_count).w
-		bne.s	loc_DB84
+		bne.s	+++ ;loc_DB84
 		addq.w	#2,d4
-		bra.s	loc_DB84
+		bra.s	+++ ;loc_DB84
 ; ---------------------------------------------------------------------------
 
-loc_DB68:
++ ;loc_DB68:
 		moveq	#0,d4
 		btst	#3,(Level_frame_counter+1).w
-		bne.s	loc_DB84
+		bne.s	++ ;loc_DB84
 		tst.w	(Ring_count).w
-		bne.s	loc_DB7A
+		bne.s	+ ;loc_DB7A
 		addq.w	#2,d4
 
-loc_DB7A:
++ ;loc_DB7A:
 		cmpi.b	#9,(Timer_minute).w
-		bne.s	loc_DB84
+		bne.s	+ ;loc_DB84
 		addq.w	#4,d4
 
-loc_DB84:
++ ;loc_DB84:
 		move.b	(Level_started_flag).w,d0
 		ext.w	d0
-		bpl.s	loc_DB92
+		bpl.s	+ ;loc_DB92
 		addq.w	#8,d0
 		move.b	d0,(Level_started_flag).w
 
-loc_DB92:
++ ;loc_DB92:
 		addi.w	#$8F,d0
 		move.w	#$108,d1
 		move.w	#make_art_tile($6CA,0,1),d5
@@ -111,53 +111,53 @@ UpdateHUD:
 		tst.w	(Debug_placement_mode).w
 		bne.w	loc_DDF4
 		tst.b	(Update_HUD_score).w
-		beq.s	loc_DD36
+		beq.s	+ ;loc_DD36
 		clr.b	(Update_HUD_score).w
 		move.l	#vdpComm(tiles_to_bytes($6E4),VRAM,WRITE),d0
 		move.l	(Score).w,d1
 		bsr.w	DrawSixDigitNumber
 
-loc_DD36:
++ ;loc_DD36:
 		tst.b	(Update_HUD_ring_count).w
-		beq.s	loc_DD56
-		bpl.s	loc_DD42
+		beq.s	++ ;loc_DD56
+		bpl.s	+ ;loc_DD42
 		bsr.w	HUD_DrawZeroRings
 
-loc_DD42:
++ ;loc_DD42:
 		clr.b	(Update_HUD_ring_count).w
 		move.l	#vdpComm(tiles_to_bytes($6FA),VRAM,WRITE),d0
 		moveq	#0,d1
 		move.w	(Ring_count).w,d1
 		bsr.w	DrawThreeDigitNumber
 
-loc_DD56:
++ ;loc_DD56:
 		tst.b	(Update_HUD_timer).w
-		bpl.s	loc_DD64
+		bpl.s	+ ;loc_DD64
 		move.b	#1,(Update_HUD_timer).w
-		bra.s	loc_DD9E
+		bra.s	++ ;loc_DD9E
 ; ---------------------------------------------------------------------------
 
-loc_DD64:
-		beq.s	loc_DDBE
++ ;loc_DD64:
+		beq.s	++ ;loc_DDBE
 		tst.w	(Game_paused).w
-		bne.s	loc_DDBE
+		bne.s	++ ;loc_DDBE
 		lea	(Timer).w,a1
 		cmpi.l	#(9<<16)|(59<<8)|59,(a1)+
 		beq.w	UpdateHUD_TimeOver
 		addq.b	#1,-(a1)
 		cmpi.b	#60,(a1)
-		blo.s	loc_DDBE
+		blo.s	++ ;loc_DDBE
 		move.b	#0,(a1)
 		addq.b	#1,-(a1)
 		cmpi.b	#60,(a1)
-		blo.s	loc_DD9E
+		blo.s	+ ;loc_DD9E
 		move.b	#0,(a1)
 		addq.b	#1,-(a1)
 		cmpi.b	#9,(a1)
-		blo.s	loc_DD9E
+		blo.s	+ ;loc_DD9E
 		move.b	#9,(a1)
 
-loc_DD9E:
++ ;loc_DD9E:
 		move.l	#vdpComm(tiles_to_bytes($6F2),VRAM,WRITE),d0
 		moveq	#0,d1
 		move.b	(Timer_minute).w,d1
@@ -167,7 +167,7 @@ loc_DD9E:
 		move.b	(Timer_second).w,d1
 		bsr.w	DrawTwoDigitNumber
 
-loc_DDBE:
++ ;loc_DDBE:
 		tst.b	(Update_HUD_life_count).w
 		beq.s	locret_DDCC
 		clr.b	(Update_HUD_life_count).w
@@ -181,13 +181,13 @@ UpdateHUD_TimeOver:
 		clr.b	(Update_HUD_timer).w
 		lea	(Player_1).w,a0
 		cmpi.b	#6,routine(a0)
-		bhs.s	loc_DDEC
+		bhs.s	+ ;loc_DDEC
 		cmpi.b	#$15,(Current_zone).w
-		beq.s	loc_DDEC
+		beq.s	+ ;loc_DDEC
 		movea.l	a0,a2
 		bsr.w	Kill_Character
 
-loc_DDEC:
++ ;loc_DDEC:
 		move.b	#1,(Time_over_flag).w
 		rts
 ; ---------------------------------------------------------------------------
@@ -195,18 +195,18 @@ loc_DDEC:
 loc_DDF4:
 		bsr.w	HUD_Debug
 		tst.b	(Update_HUD_ring_count).w
-		beq.s	loc_DE18
-		bpl.s	loc_DE04
+		beq.s	++ ;loc_DE18
+		bpl.s	+ ;loc_DE04
 		bsr.w	HUD_DrawZeroRings
 
-loc_DE04:
++ ;loc_DE04:
 		clr.b	(Update_HUD_ring_count).w
 		move.l	#vdpComm(tiles_to_bytes($6FA),VRAM,WRITE),d0
 		moveq	#0,d1
 		move.w	(Ring_count).w,d1
 		bsr.w	DrawThreeDigitNumber
 
-loc_DE18:
++ ;loc_DE18:
 		move.l	#vdpComm(tiles_to_bytes($6F2),VRAM,WRITE),d0
 		moveq	#0,d1
 		move.w	(Lag_frame_count).w,d1
@@ -216,11 +216,11 @@ loc_DE18:
 		move.b	(Sprites_drawn).w,d1
 		bsr.w	DrawTwoDigitNumber
 		tst.b	(Update_HUD_life_count).w
-		beq.s	loc_DE46
+		beq.s	+ ;loc_DE46
 		clr.b	(Update_HUD_life_count).w
 		bsr.w	HUD_Lives
 
-loc_DE46:
++ ;loc_DE46:
 		tst.w	(Game_paused).w
 		bne.s	locret_DE7C
 		lea	(Timer).w,a1
@@ -257,7 +257,7 @@ HUD_DrawZeroRings:
 		move.l	#vdpComm(tiles_to_bytes($6FA),VRAM,WRITE),(VDP_control_port).l
 		lea	HUD_Zero_Rings(pc),a2
 		move.w	#3-1,d2
-		bra.s	loc_DEBE
+		bra.s	+ ;loc_DEBE
 ; End of function HUD_DrawZeroRings
 
 
@@ -273,29 +273,29 @@ HUD_DrawInitial:
 		lea	HUD_Initial_Parts(pc),a2
 		move.w	#$F-1,d2
 
-loc_DEBE:
++ ;loc_DEBE:
 		lea	ArtUnc_HUDDigits(pc),a1
 
-loc_DEC2:
+- ;loc_DEC2:
 		move.w	#$10-1,d1
 		move.b	(a2)+,d0
-		bmi.s	loc_DEDE
+		bmi.s	+ ;loc_DEDE
 		ext.w	d0
 		lsl.w	#5,d0
 		lea	(a1,d0.w),a3
 
-loc_DED2:
+- ;loc_DED2:
 		move.l	(a3)+,(a6)
-		dbf	d1,loc_DED2
+		dbf	d1,- ;loc_DED2
 
 loc_DED8:
-		dbf	d2,loc_DEC2
+		dbf	d2,-- ;loc_DEC2
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_DEDE:
+/ ;loc_DEDE:
 		move.l	#0,(a6)
-		dbf	d1,loc_DEDE
+		dbf	d1,- ;loc_DEDE
 		bra.s	loc_DED8
 ; ---------------------------------------------------------------------------
 
@@ -349,22 +349,22 @@ sub_DF1C:
 		moveq	#8-1,d6
 		lea	(ArtUnc_DebugDigits).l,a1
 
-loc_DF24:
+- ;loc_DF24:
 		rol.w	#4,d1
 		move.w	d1,d2
 		andi.w	#$F,d2
 		cmpi.w	#$A,d2
-		blo.s	loc_DF36
+		blo.s	+ ;loc_DF36
 		addi.w	#7,d2
 
-loc_DF36:
++ ;loc_DF36:
 		lsl.w	#5,d2
 		lea	(a1,d2.w),a3
 	rept 8
 		move.l	(a3)+,(a6)
 	endm
 		swap	d1
-		dbf	d6,loc_DF24
+		dbf	d6,- ;loc_DF24
 		rts
 ; End of function sub_DF1C
 
@@ -393,7 +393,7 @@ loc_DF36:
 DrawThreeDigitNumber:
 		lea	(dword_E04C).l,a2
 		moveq	#3-1,d6
-		bra.s	loc_DF92
+		bra.s	+ ;loc_DF92
 ; End of function DrawThreeDigitNumber
 
 
@@ -404,30 +404,30 @@ DrawSixDigitNumber:
 		lea	(dword_E040).l,a2
 		moveq	#6-1,d6
 
-loc_DF92:
++ ;loc_DF92:
 		moveq	#0,d4
 		lea	ArtUnc_HUDDigits(pc),a1
 
-loc_DF98:
+- ;loc_DF98:
 		moveq	#0,d2
 		move.l	(a2)+,d3
 
 loc_DF9C:
 		sub.l	d3,d1
-		bcs.s	loc_DFA4
+		bcs.s	+ ;loc_DFA4
 		addq.w	#1,d2
 		bra.s	loc_DF9C
 ; ---------------------------------------------------------------------------
 
-loc_DFA4:
++ ;loc_DFA4:
 		add.l	d3,d1
 		tst.w	d2
-		beq.s	loc_DFAE
+		beq.s	+ ;loc_DFAE
 		move.w	#1,d4
 
-loc_DFAE:
++ ;loc_DFAE:
 		tst.w	d4
-		beq.s	loc_DFDC
+		beq.s	+ ;loc_DFDC
 		lsl.w	#6,d2
 		move.l	d0,VDP_control_port-VDP_data_port(a6)
 		lea	(a1,d2.w),a3
@@ -435,9 +435,9 @@ loc_DFAE:
 		move.l	(a3)+,(a6)
 	endm
 
-loc_DFDC:
++ ;loc_DFDC:
 		addi.l	#$40<<16,d0
-		dbf	d6,loc_DF98
+		dbf	d6,- ;loc_DF98
 		rts
 ; End of function DrawSixDigitNumber
 
@@ -449,25 +449,25 @@ loc_DFDC:
 		moveq	#0,d4
 		lea	ArtUnc_HUDDigits(pc),a1
 
-loc_E006:
+- ;loc_E006:
 		moveq	#0,d2
 		move.l	(a2)+,d3
 
 loc_E00A:
 		sub.l	d3,d1
-		bcs.s	loc_E012
+		bcs.s	+ ;loc_E012
 		addq.w	#1,d2
 		bra.s	loc_E00A
 ; ---------------------------------------------------------------------------
 
-loc_E012:
++ ;loc_E012:
 		add.l	d3,d1
 		lsl.w	#6,d2
 		lea	(a1,d2.w),a3
 	rept 16
 		move.l	(a3)+,(a6)
 	endm
-		dbf	d6,loc_E006
+		dbf	d6,- ;loc_E006
 		rts
 ; ---------------------------------------------------------------------------
 dword_E040:	dc.l 100000
@@ -483,7 +483,7 @@ dword_E054:	dc.l 1
 DrawSingleDigitNumber:
 		lea	(dword_E054).l,a2
 		moveq	#1-1,d6
-		bra.s	loc_E06A
+		bra.s	+ ;loc_E06A
 ; End of function DrawSingleDigitNumber
 
 
@@ -494,28 +494,28 @@ DrawTwoDigitNumber:
 		lea	(dword_E050).l,a2
 		moveq	#2-1,d6
 
-loc_E06A:
++ ;loc_E06A:
 		moveq	#0,d4
 		lea	ArtUnc_HUDDigits(pc),a1
 
-loc_E070:
+- ;loc_E070:
 		moveq	#0,d2
 		move.l	(a2)+,d3
 
 loc_E074:
 		sub.l	d3,d1
-		bcs.s	loc_E07C
+		bcs.s	+ ;loc_E07C
 		addq.w	#1,d2
 		bra.s	loc_E074
 ; ---------------------------------------------------------------------------
 
-loc_E07C:
++ ;loc_E07C:
 		add.l	d3,d1
 		tst.w	d2
-		beq.s	loc_E086
+		beq.s	+ ;loc_E086
 		move.w	#1,d4
 
-loc_E086:
++ ;loc_E086:
 		lsl.w	#6,d2
 		move.l	d0,VDP_control_port-VDP_data_port(a6)
 		lea	(a1,d2.w),a3
@@ -523,7 +523,7 @@ loc_E086:
 		move.l	(a3)+,(a6)
 	endm
 		addi.l	#$40<<16,d0
-		dbf	d6,loc_E070
+		dbf	d6,- ;loc_E070
 		rts
 ; End of function DrawTwoDigitNumber
 
@@ -533,26 +533,26 @@ loc_E086:
 		moveq	#0,d4
 		lea	ArtUnc_HUDDigits(pc),a1
 
-loc_E0CA:
+- ;loc_E0CA:
 		moveq	#0,d2
 		move.l	(a2)+,d3
 
 loc_E0CE:
 		sub.l	d3,d1
-		bcs.s	loc_E0D6
+		bcs.s	+ ;loc_E0D6
 		addq.w	#1,d2
 		bra.s	loc_E0CE
 ; ---------------------------------------------------------------------------
 
-loc_E0D6:
++ ;loc_E0D6:
 		add.l	d3,d1
 		tst.w	d2
-		beq.s	loc_E0E0
+		beq.s	+ ;loc_E0E0
 		move.w	#1,d4
 
-loc_E0E0:
++ ;loc_E0E0:
 		tst.w	d4
-		beq.s	loc_E110
+		beq.s	+ ;loc_E110
 		lsl.w	#6,d2
 		lea	(a1,d2.w),a3
 	rept 16
@@ -560,16 +560,16 @@ loc_E0E0:
 	endm
 
 loc_E10A:
-		dbf	d6,loc_E0CA
+		dbf	d6,- ;loc_E0CA
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_E110:
++ ;loc_E110:
 		moveq	#$10-1,d5
 
-loc_E112:
+- ;loc_E112:
 		move.l	#0,(a6)
-		dbf	d5,loc_E112
+		dbf	d5,- ;loc_E112
 		bra.s	loc_E10A
 
 ; =============== S U B R O U T I N E =======================================
@@ -584,27 +584,27 @@ HUD_Lives:
 		moveq	#0,d4
 		lea	ArtUnc_LivesDigits(pc),a1
 
-loc_E138:
+- ;loc_E138:
 		move.l	d0,VDP_control_port-VDP_data_port(a6)
 		moveq	#0,d2
 		move.l	(a2)+,d3
 
 loc_E140:
 		sub.l	d3,d1
-		bcs.s	loc_E148
+		bcs.s	+ ;loc_E148
 		addq.w	#1,d2
 		bra.s	loc_E140
 ; ---------------------------------------------------------------------------
 
-loc_E148:
++ ;loc_E148:
 		add.l	d3,d1
 		tst.w	d2
-		beq.s	loc_E152
+		beq.s	+ ;loc_E152
 		move.w	#1,d4
 
-loc_E152:
++ ;loc_E152:
 		tst.w	d4
-		beq.s	loc_E178
+		beq.s	+ ;loc_E178
 
 loc_E156:
 		lsl.w	#5,d2
@@ -615,18 +615,18 @@ loc_E156:
 
 loc_E16C:
 		addi.l	#$40<<16,d0
-		dbf	d6,loc_E138
+		dbf	d6,- ;loc_E138
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_E178:
++ ;loc_E178:
 		tst.w	d6
 		beq.s	loc_E156
 		moveq	#8-1,d5
 
-loc_E17E:
+- ;loc_E17E:
 		move.l	#0,(a6)
-		dbf	d5,loc_E17E
+		dbf	d5,- ;loc_E17E
 		bra.s	loc_E16C
 ; End of function HUD_Lives
 

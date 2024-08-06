@@ -18,9 +18,9 @@ Obj_FBZMissileLauncher:
 		andi.b	#$70,d1
 		move.b	d1,$32(a0)
 		tst.b	subtype(a0)
-		bpl.s	loc_3C520
+		bpl.s	++ ;loc_3C520
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_3C51A
+		bne.w	+ ;loc_3C51A
 		move.l	#loc_3C636,(a1)
 		move.w	x_pos(a0),x_pos(a1)
 		move.w	y_pos(a0),y_pos(a1)
@@ -37,10 +37,10 @@ Obj_FBZMissileLauncher:
 		bset	#7,status(a1)
 		move.w	a0,$3C(a1)
 
-loc_3C51A:
++ ;loc_3C51A:
 		move.b	#5,$40(a0)
 
-loc_3C520:
++ ;loc_3C520:
 		move.l	#loc_3C526,(a0)
 
 loc_3C526:
@@ -61,7 +61,7 @@ loc_3C552:
 		bpl.w	loc_3C60C
 		move.w	$30(a0),$2E(a0)
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_3C5F4
+		bne.w	+ ;loc_3C5F4
 		move.l	#loc_3C6CC,(a1)
 		move.w	x_pos(a0),x_pos(a1)
 		move.w	y_pos(a0),y_pos(a1)
@@ -90,7 +90,7 @@ loc_3C552:
 		moveq	#signextendB(sfx_LevelProjectile),d0
 		jsr	(Play_SFX).l
 
-loc_3C5F4:
++ ;loc_3C5F4:
 		subq.b	#1,$34(a0)
 		bpl.s	loc_3C60C
 		move.b	$35(a0),$34(a0)
@@ -122,13 +122,13 @@ loc_3C622:
 loc_3C636:
 		movea.w	$3C(a0),a1
 		tst.b	$40(a1)
-		bne.s	loc_3C694
+		bne.s	++ ;loc_3C694
 		lea	(word_3C6BC).l,a2
 		moveq	#4-1,d1
 
-loc_3C648:
+- ;loc_3C648:
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_3C67C
+		bne.w	+ ;loc_3C67C
 		move.l	#Obj_Explosion,(a1)
 		move.b	#6,routine(a1)
 		move.w	#make_art_tile($000,0,1),art_tile(a1)
@@ -139,14 +139,14 @@ loc_3C648:
 		move.w	(a2)+,d0
 		add.w	d0,y_pos(a1)
 
-loc_3C67C:
-		dbf	d1,loc_3C648
++ ;loc_3C67C:
+		dbf	d1,- ;loc_3C648
 		move.w	#$7F00,x_pos(a0)
 		move.w	x_pos(a0),$44(a0)
 		moveq	#signextendB(sfx_TubeLauncher),d0
 		jsr	(Play_SFX).l
 
-loc_3C694:
++ ;loc_3C694:
 		moveq	#0,d1
 		move.b	width_pixels(a0),d1
 		addi.w	#$B,d1
@@ -173,54 +173,54 @@ word_3C6BC:
 loc_3C6CC:
 		jsr	(MoveSprite2).l
 		tst.w	y_vel(a0)
-		bpl.s	loc_3C6F4
+		bpl.s	+ ;loc_3C6F4
 		addi.w	#$18,y_vel(a0)
-		bmi.s	loc_3C740
+		bmi.s	+++ ;loc_3C740
 		move.b	#3,mapping_frame(a0)
 		move.b	#$9E,collision_flags(a0)
 		andi.w	#drawing_mask,art_tile(a0)
-		bra.s	loc_3C740
+		bra.s	+++ ;loc_3C740
 ; ---------------------------------------------------------------------------
 
-loc_3C6F4:
++ ;loc_3C6F4:
 		addi.w	#$10,y_vel(a0)
 		tst.b	subtype(a0)
-		bmi.s	loc_3C716
+		bmi.s	+ ;loc_3C716
 
 loc_3C700:
 		jsr	(ObjCheckFloorDist).l
 		tst.w	d1
-		bpl.s	loc_3C740
+		bpl.s	++ ;loc_3C740
 		add.w	d1,y_pos(a0)
 		move.l	#loc_3C768,(a0)
-		bra.s	loc_3C740
+		bra.s	++ ;loc_3C740
 ; ---------------------------------------------------------------------------
 
-loc_3C716:
++ ;loc_3C716:
 		movea.w	$3C(a0),a1
 		tst.b	$40(a1)
 		beq.s	loc_3C700
 		move.w	$46(a0),d0
 		sub.w	y_pos(a0),d0
-		bcc.s	loc_3C740
+		bcc.s	+ ;loc_3C740
 		add.w	d0,y_pos(a0)
 		move.l	#loc_3C768,(a0)
 		subq.b	#1,$40(a1)
-		bne.s	loc_3C740
+		bne.s	+ ;loc_3C740
 		andi.b	#$7F,subtype(a1)
 
-loc_3C740:
++ ;loc_3C740:
 		move.w	y_vel(a0),d0
-		bpl.s	loc_3C748
+		bpl.s	+ ;loc_3C748
 		neg.w	d0
 
-loc_3C748:
++ ;loc_3C748:
 		cmpi.w	#$1D0,d0
-		bhs.s	loc_3C756
+		bhs.s	+ ;loc_3C756
 		move.l	$36(a0),d0
 		add.l	d0,x_pos(a0)
 
-loc_3C756:
++ ;loc_3C756:
 		jsr	(Add_SpriteToCollisionResponseList).l
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------

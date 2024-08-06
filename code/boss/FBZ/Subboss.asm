@@ -33,27 +33,27 @@ loc_6FD38:
 		move.w	#$5E0,(Camera_target_max_Y_pos).w
 		lea	PLC_FBZ2Subboss_SonicTails(pc),a1
 		cmpi.b	#2,(Player_1+character_id).w
-		bne.s	loc_6FD76
+		bne.s	+ ;loc_6FD76
 		lea	PLC_FBZ2Subboss_Knuckles(pc),a1
 
-loc_6FD76:
++ ;loc_6FD76:
 		jsr	(Load_PLC_Raw).l
 		lea	Pal_FBZ2Subboss(pc),a1
 		jsr	(PalLoad_Line1).l
 		jsr	(AllocateObject).l
-		bne.s	loc_6FD9A
+		bne.s	+ ;loc_6FD9A
 		move.l	#Obj_Song_Fade_Transition,(a1)
 		move.b	#mus_Miniboss,subtype(a1)
 
-loc_6FD9A:
++ ;loc_6FD9A:
 		lea	ChildObjDat_703D0(pc),a2
 		jsr	(CreateChild1_Normal).l
 		lea	ChildObjDat_703DE(pc),a2
 		jsr	(CreateChild6_Simple).l
-		bne.s	loc_6FDB6
+		bne.s	+ ;loc_6FDB6
 		move.b	#$49,subtype(a1)
 
-loc_6FDB6:
++ ;loc_6FDB6:
 		lea	ChildObjDat_703C8(pc),a2
 		jmp	(CreateChild3_NormalRepeated).l
 ; ---------------------------------------------------------------------------
@@ -62,11 +62,11 @@ loc_6FDC0:
 		lea	(Player_1).w,a1
 		jsr	(Find_OtherObject).l
 		cmpi.w	#$18,d2
-		blo.s	loc_6FDD2
+		blo.s	+ ;loc_6FDD2
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_6FDD2:
++ ;loc_6FDD2:
 		move.b	#4,routine(a0)
 		move.w	#$80,y_vel(a0)
 		move.w	#$37,$2E(a0)
@@ -99,7 +99,7 @@ loc_6FE22:
 
 loc_6FE28:
 		subq.b	#1,$39(a0)
-		bmi.s	loc_6FE6E
+		bmi.s	++ ;loc_6FE6E
 		bset	#3,$38(a0)
 		bclr	#6,status(a0)
 
@@ -118,17 +118,17 @@ sub_6FE54:
 		jsr	(Find_OtherObject).l
 		move.w	#$100,d1
 		tst.w	d0
-		bne.s	loc_6FE68
+		bne.s	+ ;loc_6FE68
 		neg.w	d1
 
-loc_6FE68:
++ ;loc_6FE68:
 		move.w	d1,x_vel(a0)
 		rts
 ; End of function sub_6FE54
 
 ; ---------------------------------------------------------------------------
 
-loc_6FE6E:
++ ;loc_6FE6E:
 		move.l	#Wait_Draw,(a0)
 		bset	#7,status(a0)
 		bset	#5,$38(a0)
@@ -137,11 +137,11 @@ loc_6FE6E:
 		lea	PLCKosM_FBZ2Subboss(pc),a6
 		move.w	(a6)+,d6
 
-loc_6FE94:
+- ;loc_6FE94:
 		movea.l	(a6)+,a1
 		move.w	(a6)+,d2
 		jsr	(Queue_Kos_Module).l
-		dbf	d6,loc_6FE94
+		dbf	d6,- ;loc_6FE94
 		rts
 ; ---------------------------------------------------------------------------
 PLCKosM_FBZ2Subboss: plrlistheader
@@ -155,28 +155,28 @@ loc_6FEB2:
 		bne.s	loc_6FEFA
 		move.b	(V_int_run_count+3).w,d0
 		andi.b	#$1F,d0
-		bne.s	loc_6FEC6
+		bne.s	+ ;loc_6FEC6
 		bsr.s	sub_6FE54
 
-loc_6FEC6:
++ ;loc_6FEC6:
 		move.w	#$100,d0
 		movea.w	$44(a0),a1
 		move.w	x_pos(a1),d1
 		move.w	x_pos(a0),d2
 		addi.w	#$20,d1
 		cmp.w	d1,d2
-		blo.s	loc_6FEF0
+		blo.s	+ ;loc_6FEF0
 		movea.w	parent3(a0),a1
 		move.w	x_pos(a1),d1
 		subi.w	#$20,d1
 		cmp.w	d1,d2
-		blo.s	loc_6FEF4
+		blo.s	++ ;loc_6FEF4
 		neg.w	d0
 
-loc_6FEF0:
++ ;loc_6FEF0:
 		move.w	d0,x_vel(a0)
 
-loc_6FEF4:
++ ;loc_6FEF4:
 		jmp	(MoveSprite2).l
 ; ---------------------------------------------------------------------------
 
@@ -222,22 +222,22 @@ loc_6FF5C:
 loc_6FF70:
 		movea.w	parent3(a0),a1
 		btst	#7,status(a1)
-		bne.s	loc_6FFB0
+		bne.s	++ ;loc_6FFB0
 		btst	#1,subtype(a0)
-		bne.s	loc_6FFAA
+		bne.s	+ ;loc_6FFAA
 		movea.w	parent3(a0),a1
 		btst	#3,$38(a1)
-		beq.s	loc_6FFAA
+		beq.s	+ ;loc_6FFAA
 		move.l	#loc_6FFB8,(a0)
 		move.w	#$1F,$2E(a0)
 		move.l	#loc_6FFCA,$34(a0)
 		move.w	#$100,x_vel(a0)
 
-loc_6FFAA:
++ ;loc_6FFAA:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_6FFB0:
++ ;loc_6FFB0:
 		move.l	#Sprite_OnScreen_Test,(a0)
 		rts
 ; ---------------------------------------------------------------------------
@@ -267,11 +267,11 @@ loc_6FFDC:
 loc_6FFFA:
 		movea.w	parent3(a0),a1
 		btst	#7,status(a1)
-		bne.s	loc_7000C
+		bne.s	+ ;loc_7000C
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_7000C:
++ ;loc_7000C:
 		move.l	#Sprite_OnScreen_Test,(a0)
 		move.b	#3,mapping_frame(a0)
 		lea	(Child6_CreateBossExplosion).l,a2
@@ -299,23 +299,23 @@ loc_70068:
 		jsr	(Animate_RawMultiDelay).l
 		movea.w	parent3(a0),a1
 		btst	#6,status(a1)
-		beq.s	loc_70080
+		beq.s	+ ;loc_70080
 		move.b	#2,mapping_frame(a0)
 
-loc_70080:
++ ;loc_70080:
 		btst	#7,status(a1)
-		beq.s	loc_70094
+		beq.s	+ ;loc_70094
 		move.l	#loc_7009A,(a0)
 		move.b	#3,mapping_frame(a0)
 
-loc_70094:
++ ;loc_70094:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
 loc_7009A:
 		movea.w	parent3(a0),a1
 		btst	#4,$38(a1)
-		beq.s	loc_700E4
+		beq.s	+ ;loc_700E4
 		move.l	$34(a0),(a0)
 		subq.w	#4,y_pos(a0)
 		move.w	#$200,x_vel(a0)
@@ -326,23 +326,23 @@ loc_7009A:
 		clr.b	anim_frame(a0)
 		bset	#0,render_flags(a0)
 		cmpi.b	#2,(Player_1+character_id).w
-		bne.s	loc_700E4
+		bne.s	+ ;loc_700E4
 		move.l	#Map_EggRoboRun,mappings(a0)
 
-loc_700E4:
++ ;loc_700E4:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
 loc_700EA:
 		tst.b	render_flags(a0)
-		bpl.s	loc_70106
+		bpl.s	+ ;loc_70106
 		lea	byte_70419(pc),a1
 		jsr	(Animate_RawNoSST).l
 		jsr	(MoveSprite2).l
 		jmp	(Sprite_OnScreen_Test).l
 ; ---------------------------------------------------------------------------
 
-loc_70106:
++ ;loc_70106:
 		lea	(PLC_MonitorsSpikesSprings).l,a1
 		jsr	(Load_PLC_Raw).l
 		jmp	(Delete_Current_Sprite).l
@@ -354,19 +354,19 @@ loc_70118:
 		move.l	#loc_70152,(a0)
 		move.w	#$B0,d0
 		move.b	subtype(a0),d1
-		bne.s	loc_70134
+		bne.s	+ ;loc_70134
 		neg.w	d0
 
-loc_70134:
++ ;loc_70134:
 		add.w	d0,x_pos(a0)
 		addi.w	#$60,y_pos(a0)
 		movea.w	parent3(a0),a1
 		moveq	#$44,d0
 		tst.b	d1
-		beq.s	loc_7014A
+		beq.s	+ ;loc_7014A
 		moveq	#parent3,d0
 
-loc_7014A:
++ ;loc_7014A:
 		move.w	(a1,d0.w),$44(a0)
 		rts
 ; ---------------------------------------------------------------------------
@@ -374,7 +374,7 @@ loc_7014A:
 loc_70152:
 		movea.w	parent3(a0),a1
 		btst	#2,$38(a1)
-		bne.s	loc_7018C
+		bne.s	+ ;loc_7018C
 		move.w	x_pos(a0),-(sp)
 		movea.w	$44(a0),a1
 		move.w	x_pos(a1),x_pos(a0)
@@ -388,7 +388,7 @@ loc_70152:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_7018C:
++ ;loc_7018C:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -405,20 +405,20 @@ loc_701B4:
 		jsr	(Refresh_ChildPosition).l
 		jsr	(Animate_RawGetFaster).l
 		tst.w	d2
-		beq.s	loc_701E8
-		bmi.s	loc_701D6
+		beq.s	++ ;loc_701E8
+		bmi.s	+ ;loc_701D6
 		cmpi.b	#4,$2E(a0)
-		bne.s	loc_701E8
+		bne.s	++ ;loc_701E8
 		moveq	#signextendB(sfx_Charging),d0
 		jsr	(Play_SFX).l
 
-loc_701D6:
++ ;loc_701D6:
 		cmpi.b	#$20,$2F(a0)
-		bne.s	loc_701E8
+		bne.s	+ ;loc_701E8
 		movea.w	parent3(a0),a1
 		bset	#1,$38(a1)
 
-loc_701E8:
++ ;loc_701E8:
 		jmp	(Draw_And_Touch_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -437,21 +437,21 @@ loc_701EE:
 loc_70220:
 		clr.b	collision_flags(a0)
 		cmpi.b	#8,mapping_frame(a0)
-		bne.s	loc_70232
+		bne.s	+ ;loc_70232
 		move.b	#$AC,collision_flags(a0)
 
-loc_70232:
++ ;loc_70232:
 		lea	(Player_1).w,a2
 		cmpi.b	#4,routine(a2)
-		beq.s	loc_7024A
+		beq.s	+ ;loc_7024A
 		lea	(Player_2).w,a2
 		cmpi.b	#4,routine(a2)
-		bne.s	loc_70250
+		bne.s	++ ;loc_70250
 
-loc_7024A:
++ ;loc_7024A:
 		bset	#6,status(a0)
 
-loc_70250:
++ ;loc_70250:
 		jsr	(Animate_Raw).l
 		jsr	(Obj_Wait).l
 		jmp	(Draw_And_Touch_Sprite).l
@@ -461,10 +461,10 @@ loc_70262:
 		move.l	#loc_70294,$34(a0)
 		move.w	#$1F,$2E(a0)
 		jsr	(AllocateObject).l
-		bne.s	loc_7027E
+		bne.s	+ ;loc_7027E
 		move.l	#loc_8642E,(a1)
 
-loc_7027E:
++ ;loc_7027E:
 		lea	(Child6_CreateBossExplosion).l,a2
 		jsr	(CreateChild1_Normal).l
 		bne.s	locret_70292
@@ -498,10 +498,10 @@ loc_702C0:
 loc_702D6:
 		movea.w	parent3(a0),a1
 		tst.b	$39(a1)
-		bmi.s	loc_702E4
+		bmi.s	+ ;loc_702E4
 		clr.w	(Screen_shake_flag).w
 
-loc_702E4:
++ ;loc_702E4:
 		jmp	(Go_Delete_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -510,17 +510,17 @@ loc_702EA:
 		moveq	#0,d0
 		move.b	subtype(a0),d0
 		cmpi.w	#4,d0
-		bhs.s	loc_7030C
+		bhs.s	++ ;loc_7030C
 		moveq	#$44,d1
 		tst.b	d0
-		beq.s	loc_70302
+		beq.s	+ ;loc_70302
 		moveq	#parent3,d1
 
-loc_70302:
++ ;loc_70302:
 		move.w	a0,(a1,d1.w)
 		bset	#1,render_flags(a0)
 
-loc_7030C:
++ ;loc_7030C:
 		add.w	d0,d0
 		lea	word_70320(pc,d0.w),a1
 		move.w	(a1)+,d0
@@ -542,12 +542,12 @@ sub_70330:
 		tst.b	collision_flags(a0)
 		bne.s	locret_70360
 		tst.b	$20(a0)
-		bne.s	loc_7034A
+		bne.s	+ ;loc_7034A
 		move.b	#$20,$20(a0)
 		moveq	#signextendB(sfx_BossHit),d0
 		jsr	(Play_SFX).l
 
-loc_7034A:
++ ;loc_7034A:
 		bsr.w	sub_70362
 		subq.b	#1,$20(a0)
 		bne.s	locret_70360
@@ -565,12 +565,12 @@ locret_70360:
 sub_70362:
 		moveq	#0,d0
 		btst	#0,$20(a0)
-		bne.s	loc_70376
+		bne.s	+ ;loc_70376
 		btst	#7,status(a0)
-		bne.s	loc_70376
+		bne.s	+ ;loc_70376
 		addq.w	#2*3,d0
 
-loc_70376:
++ ;loc_70376:
 		lea	word_70384(pc),a1
 		lea	word_7038A(pc,d0.w),a2
 		jmp	(CopyWordData_3).l

@@ -3,7 +3,7 @@ Obj_LRZTurbineSprites:
 		ori.b	#4,render_flags(a0)
 		move.w	#$200,priority(a0)
 		tst.b	subtype(a0)
-		beq.s	loc_442D8
+		beq.s	+ ;loc_442D8
 		move.l	#Map_LRZTurbineSprites2,mappings(a0)
 		move.b	#4,width_pixels(a0)
 		move.b	#$30,height_pixels(a0)
@@ -12,7 +12,7 @@ Obj_LRZTurbineSprites:
 		bra.w	loc_44592
 ; ---------------------------------------------------------------------------
 
-loc_442D8:
++ ;loc_442D8:
 		move.l	#Map_LRZTurbineSprites,mappings(a0)
 		move.b	#$10,width_pixels(a0)
 		move.b	#$30,height_pixels(a0)
@@ -22,38 +22,38 @@ loc_442F2:
 		lea	$30(a0),a2
 		lea	(Player_1).w,a1
 		move.w	(Ctrl_1_logical).w,d1
-		bsr.s	sub_44338
+		bsr.s	++ ;sub_44338
 		addq.w	#1,a2
 		lea	(Player_2).w,a1
 		move.w	(Ctrl_2_logical).w,d1
-		bsr.s	sub_44338
+		bsr.s	++ ;sub_44338
 		move.b	(Level_frame_counter+1).w,d0
 		lsr.b	#1,d0
 		andi.b	#3,d0
 		move.b	d0,mapping_frame(a0)
 		tst.b	render_flags(a0)
-		bpl.s	loc_44332
+		bpl.s	+ ;loc_44332
 		move.b	(Level_frame_counter+1).w,d0
 		andi.b	#$F,d0
-		bne.s	loc_44332
+		bne.s	+ ;loc_44332
 		moveq	#signextendB(sfx_FanBig),d0
 		jsr	(Play_SFX).l
 
-loc_44332:
++ ;loc_44332:
 		jmp	(Sprite_OnScreen_Test).l
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_44338:
++ ;sub_44338:
 		tst.b	(a2)
 		beq.w	loc_44434
 		tst.w	(Debug_placement_mode).w
-		bne.w	loc_4436E
+		bne.w	+ ;loc_4436E
 		cmpi.b	#4,routine(a1)
-		bhs.w	loc_4436E
+		bhs.w	+ ;loc_4436E
 		andi.w	#button_A_mask|button_B_mask|button_C_mask,d1
-		bne.w	loc_443C4
+		bne.w	++ ;loc_443C4
 		bsr.w	sub_4450A
 		moveq	#0,d0
 		move.b	mapping_frame(a1),d0
@@ -63,7 +63,7 @@ sub_44338:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4436E:
++ ;loc_4436E:
 		clr.b	(a2)
 		move.b	#30,2(a2)
 		andi.b	#$FC,object_control(a1)
@@ -83,7 +83,7 @@ byte_443B4:
 		even
 ; ---------------------------------------------------------------------------
 
-loc_443C4:
++ ;loc_443C4:
 		moveq	#0,d1
 		move.b	4(a2),d0
 		move.b	d0,d1
@@ -97,11 +97,11 @@ loc_443C4:
 		move.w	d0,y_vel(a1)
 		move.w	#0,anim(a1)	; and prev_anim
 		tst.w	d0
-		bpl.s	loc_443FE
+		bpl.s	+ ;loc_443FE
 		move.w	#$10<<8,anim(a1)	; and prev_anim
 		ori.w	#high_priority,art_tile(a1)
 
-loc_443FE:
++ ;loc_443FE:
 		clr.b	(a2)
 		move.b	#20,2(a2)
 		andi.b	#$FC,object_control(a1)
@@ -117,7 +117,7 @@ loc_443FE:
 
 loc_44434:
 		tst.b	2(a2)
-		beq.s	loc_44448
+		beq.s	+ ;loc_44448
 		subq.b	#1,2(a2)
 		bne.s	locret_44446
 		move.w	#$100,priority(a1)
@@ -126,7 +126,7 @@ locret_44446:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_44448:
++ ;loc_44448:
 		move.w	x_pos(a1),d0
 		sub.w	x_pos(a0),d0
 		addi.w	#$10,d0
@@ -137,17 +137,17 @@ loc_44448:
 		sub.w	y_pos(a0),d0
 		addi.w	#$50,d0
 		cmpi.w	#$18,d0
-		blo.w	loc_4448E
+		blo.w	+ ;loc_4448E
 		moveq	#$30,d1
 		addi.w	#-$40,d0
 		cmpi.w	#$18,d0
-		blo.w	loc_4448E
+		blo.w	+ ;loc_4448E
 		subi.w	#$40,d0
 		cmpi.w	#$18,d0
 		bhs.w	locret_44508
 		moveq	#-$10,d1
 
-loc_4448E:
++ ;loc_4448E:
 		tst.w	(Debug_placement_mode).w
 		bne.w	locret_44508
 		cmpi.b	#4,routine(a1)
@@ -155,11 +155,11 @@ loc_4448E:
 		tst.b	object_control(a1)
 		bne.w	locret_44508
 		cmpi.b	#$30,d1
-		bne.s	loc_444B6
+		bne.s	+ ;loc_444B6
 		tst.w	art_tile(a1)
 		bpl.w	locret_44508
 
-loc_444B6:
++ ;loc_444B6:
 		clr.w	x_vel(a1)
 		clr.w	y_vel(a1)
 		clr.w	ground_vel(a1)
@@ -204,11 +204,11 @@ sub_4450A:
 		move.w	#$100,priority(a1)
 		ori.w	#high_priority,art_tile(a1)
 		move.b	4(a2),d0
-		bpl.s	loc_4454A
+		bpl.s	+ ;loc_4454A
 		move.w	#$280,priority(a1)
 		andi.w	#drawing_mask,art_tile(a1)
 
-loc_4454A:
++ ;loc_4454A:
 		addq.b	#4,d0
 		move.b	d0,4(a2)
 		rts

@@ -3,26 +3,26 @@ Obj_ICZHarmfulIce:
 		lea	ObjDat3_8B532(pc),a1
 		move.l	#Sprite_CheckDeleteTouch,(a0)
 		tst.b	subtype(a0)
-		beq.s	loc_8B4E8
+		beq.s	+ ;loc_8B4E8
 		lea	ObjDat3_8B53E(pc),a1
 		move.l	#loc_8B4EC,(a0)
 
-loc_8B4E8:
++ ;loc_8B4E8:
 		jmp	SetUp_ObjAttributes(pc)
 ; ---------------------------------------------------------------------------
 
 loc_8B4EC:
 		moveq	#0,d0
 		move.b	collision_property(a0),d0
-		bne.s	loc_8B4F8
+		bne.s	+ ;loc_8B4F8
 		jmp	Sprite_CheckDeleteTouch(pc)
 ; ---------------------------------------------------------------------------
 
-loc_8B4F8:
++ ;loc_8B4F8:
 		add.w	d0,d0
 		movea.w	word_8B52C-2(pc,d0.w),a1
 		btst	#Status_Invincible,status_secondary(a1)
-		bne.s	loc_8B512
+		bne.s	+ ;loc_8B512
 		; Bug: no invulnerability check is performed,
 		; allowing flashing characters to be hurt
 		movea.l	a0,a2
@@ -30,7 +30,7 @@ loc_8B4F8:
 		jsr	(HurtCharacter).l
 		movea.l	a2,a0
 
-loc_8B512:
++ ;loc_8B512:
 		lea	ChildObjDat_8B54A(pc),a2
 		jsr	CreateChild6_Simple(pc)
 		jsr	Go_Delete_Sprite(pc)

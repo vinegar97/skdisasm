@@ -38,23 +38,23 @@ Obj_HCZTwistingLoop:
 loc_3869A:
 		lea	(Player_1).w,a1
 		lea	$34(a0),a4
-		bsr.s	sub_386C0
+		bsr.s	++ ;sub_386C0
 		lea	(Player_2).w,a1
 		lea	$3A(a0),a4
-		bsr.s	sub_386C0
+		bsr.s	++ ;sub_386C0
 		move.b	$34(a0),d0
 		add.b	$3A(a0),d0
-		beq.s	loc_386BA
+		beq.s	+ ;loc_386BA
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_386BA:
++ ;loc_386BA:
 		jmp	(Delete_Sprite_If_Not_In_Range).l
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_386C0:
++ ;sub_386C0:
 		moveq	#0,d0
 		move.b	(a4),d0
 		move.w	off_386F0(pc,d0.w),d0
@@ -90,7 +90,7 @@ loc_38700:
 		tst.w	(Debug_placement_mode).w
 		bne.w	locret_38794
 		tst.b	subtype(a0)
-		bmi.w	loc_38796
+		bmi.w	+++ ;loc_38796
 		move.w	x_pos(a1),d0
 		sub.w	x_pos(a0),d0
 		addi.w	#8,d0
@@ -103,20 +103,20 @@ loc_38700:
 		tst.b	object_control(a1)
 		bne.s	locret_38794
 		btst	#0,status(a0)
-		beq.s	loc_38750
+		beq.s	+ ;loc_38750
 		tst.w	ground_vel(a1)
 		bpl.s	locret_38794
 		tst.w	x_vel(a1)
 		bpl.s	locret_38794
 		neg.w	ground_vel(a1)
-		bra.s	loc_38756
+		bra.s	++ ;loc_38756
 ; ---------------------------------------------------------------------------
 
-loc_38750:
++ ;loc_38750:
 		tst.w	ground_vel(a1)
 		bmi.s	locret_38794
 
-loc_38756:
++ ;loc_38756:
 		addq.b	#2,(a4)
 		move.b	#1,object_control(a1)
 		move.b	#2,anim(a1)
@@ -134,7 +134,7 @@ locret_38794:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_38796:
++ ;loc_38796:
 		move.w	x_pos(a1),d0
 		sub.w	x_pos(a0),d0
 		addi.w	#$10,d0
@@ -180,24 +180,24 @@ sub_38806:
 		muls.w	#$50,d0
 		asr.l	#8,d0
 		tst.w	ground_vel(a1)
-		bmi.s	loc_3884E
+		bmi.s	++ ;loc_3884E
 		tst.w	d0
-		bpl.s	loc_38840
+		bpl.s	+ ;loc_38840
 		asr.l	#2,d0
 
-loc_38840:
++ ;loc_38840:
 		cmpi.w	#$1800,ground_vel(a1)
 		bge.s	locret_38858
 		add.w	d0,ground_vel(a1)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_3884E:
++ ;loc_3884E:
 		tst.w	d0
-		bmi.s	loc_38854
+		bmi.s	+ ;loc_38854
 		asr.l	#2,d0
 
-loc_38854:
++ ;loc_38854:
 		add.w	d0,ground_vel(a1)
 
 locret_38858:
@@ -209,19 +209,19 @@ locret_38858:
 loc_3885A:
 		move.w	2(a4),d0
 		subi.w	#$16,d0
-		bcc.s	loc_38880
+		bcc.s	++ ;loc_38880
 		tst.w	ground_vel(a1)
-		bpl.s	loc_3887E
+		bpl.s	+ ;loc_3887E
 		move.b	#0,(a4)
 		move.b	#0,object_control(a1)
 		move.b	#$70,angle(a1)
 		bra.w	sub_38806
 ; ---------------------------------------------------------------------------
 
-loc_3887E:
++ ;loc_3887E:
 		moveq	#0,d0
 
-loc_38880:
++ ;loc_38880:
 		mulu.w	#$DD,d0
 		lsr.w	#8,d0
 		jsr	(GetSineCosine).l

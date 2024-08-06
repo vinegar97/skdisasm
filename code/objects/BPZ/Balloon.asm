@@ -13,23 +13,23 @@ loc_35DB2:
 		beq.w	loc_35E4C
 		lea	(Player_1).w,a1
 		bclr	#0,collision_property(a0)
-		beq.s	loc_35DC8
-		bsr.s	sub_35DDE
+		beq.s	+ ;loc_35DC8
+		bsr.s	+++ ;sub_35DDE
 
-loc_35DC8:
++ ;loc_35DC8:
 		lea	(Player_2).w,a1
 		bclr	#1,collision_property(a0)
-		beq.s	loc_35DD6
-		bsr.s	sub_35DDE
+		beq.s	+ ;loc_35DD6
+		bsr.s	++ ;sub_35DDE
 
-loc_35DD6:
++ ;loc_35DD6:
 		clr.b	collision_property(a0)
 		bra.w	loc_35E4C
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_35DDE:
++ ;sub_35DDE:
 		move.w	x_pos(a0),d1
 		move.w	y_pos(a0),d2
 		sub.w	x_pos(a1),d1
@@ -38,13 +38,13 @@ sub_35DDE:
 		move.b	d0,d1
 		subi.b	#$20,d1
 		cmpi.b	#$40,d1
-		bhs.s	loc_35E0E
+		bhs.s	+ ;loc_35E0E
 		move.w	#-$900,y_vel(a1)
 		move.b	#1,anim(a0)
-		bra.s	loc_35E2E
+		bra.s	++ ;loc_35E2E
 ; ---------------------------------------------------------------------------
 
-loc_35E0E:
++ ;loc_35E0E:
 		jsr	(GetSineCosine).l
 		muls.w	#-$480,d1
 		asr.l	#8,d1
@@ -54,7 +54,7 @@ loc_35E0E:
 		move.w	d0,y_vel(a1)
 		move.b	#2,anim(a0)
 
-loc_35E2E:
++ ;loc_35E2E:
 		bset	#Status_InAir,status(a1)
 		bclr	#Status_RollJump,status(a1)
 		bclr	#Status_Push,status(a1)
@@ -69,12 +69,12 @@ loc_35E4C:
 		lea	(Ani_BPZBalloon).l,a1
 		jsr	(Animate_Sprite).l
 		cmpi.b	#5,mapping_frame(a0)
-		blo.s	loc_35E6E
+		blo.s	+ ;loc_35E6E
 		cmpi.b	#7,mapping_frame(a0)
-		bhs.s	loc_35E6E
+		bhs.s	+ ;loc_35E6E
 		jsr	(Add_SpriteToCollisionResponseList).l
 
-loc_35E6E:
++ ;loc_35E6E:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 Ani_BPZBalloon:

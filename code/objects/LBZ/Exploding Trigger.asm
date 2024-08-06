@@ -10,7 +10,7 @@ Obj_LBZExplodingTrigger:
 
 loc_25CF0:
 		move.b	collision_property(a0),d0
-		beq.w	loc_25D26
+		beq.w	++ ;loc_25D26
 		move.b	subtype(a0),d0
 		andi.w	#$F,d0
 		lea	(Level_trigger_array).w,a3
@@ -18,22 +18,22 @@ loc_25CF0:
 		moveq	#0,d3
 		lea	(Player_1).w,a1
 		bclr	#0,collision_property(a0)
-		beq.s	loc_25D18
-		bsr.s	sub_25D2C
+		beq.s	+ ;loc_25D18
+		bsr.s	+++ ;sub_25D2C
 
-loc_25D18:
++ ;loc_25D18:
 		lea	(Player_2).w,a1
 		bclr	#1,collision_property(a0)
-		beq.s	loc_25D26
-		bsr.s	sub_25D2C
+		beq.s	+ ;loc_25D26
+		bsr.s	++ ;sub_25D2C
 
-loc_25D26:
++ ;loc_25D26:
 		jmp	(Sprite_CheckDeleteTouch3).l
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_25D2C:
++ ;sub_25D2C:
 		cmpi.b	#2,anim(a1)
 		bne.s	locret_25D52
 		neg.w	x_vel(a1)

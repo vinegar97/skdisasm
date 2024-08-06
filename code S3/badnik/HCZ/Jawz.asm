@@ -13,23 +13,23 @@ loc_556CA:
 		jsr	Animate_RawNoSST(pc)
 		moveq	#0,d0
 		move.b	collision_property(a0),d0
-		bne.s	loc_556E4
+		bne.s	+ ;loc_556E4
 		jmp	Sprite_CheckDeleteTouch(pc)
 ; ---------------------------------------------------------------------------
 
-loc_556E4:
++ ;loc_556E4:
 		add.w	d0,d0
 		movea.w	word_55710-2(pc,d0.w),a1
 		cmpi.b	#2,anim(a1)
-		beq.s	loc_55708
+		beq.s	+ ;loc_55708
 		cmpi.b	#9,anim(a1)
-		beq.s	loc_55708
+		beq.s	+ ;loc_55708
 		lea	(ChildObjDat_49BF4).l,a2
 		jsr	CreateChild1_Normal(pc)
 		jmp	Go_Delete_Sprite(pc)
 ; ---------------------------------------------------------------------------
 
-loc_55708:
++ ;loc_55708:
 		move.w	a1,$44(a0)
 		jmp	EnemyDefeat_Score(pc)
 ; ---------------------------------------------------------------------------

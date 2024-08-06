@@ -18,33 +18,33 @@ SpecialCNZBumpers_Init:
 		addq.b	#2,(CNZ_bumper_routine).w
 		lea	(SpecialCNZBumpers_Act1).l,a1
 		tst.b	(Current_act).w
-		beq.s	loc_F8E6
+		beq.s	+ ;loc_F8E6
 		lea	(SpecialCNZBumpers_Act2).l,a1
 
-loc_F8E6:
++ ;loc_F8E6:
 		move.w	(Camera_X_pos).w,d4
 		subq.w	#8,d4
-		bhi.s	loc_F8F6
+		bhi.s	+ ;loc_F8F6
 		moveq	#1,d4
-		bra.s	loc_F8F6
+		bra.s	+ ;loc_F8F6
 ; ---------------------------------------------------------------------------
 
 loc_F8F2:
 		lea	6(a1),a1
 
-loc_F8F6:
++ ;loc_F8F6:
 		cmp.w	2(a1),d4
 		bhi.s	loc_F8F2
 		move.l	a1,(CNZ_visible_bumpers_start).w
 		move.l	a1,(CNZ_Visible_bumpers_start_P2).w
 		addi.w	#$150,d4
-		bra.s	loc_F90E
+		bra.s	+ ;loc_F90E
 ; ---------------------------------------------------------------------------
 
 loc_F90A:
 		lea	6(a1),a1
 
-loc_F90E:
++ ;loc_F90E:
 		cmp.w	2(a1),d4
 		bhi.s	loc_F90A
 		move.l	a1,(CNZ_Visible_bumpers_end).w
@@ -57,98 +57,98 @@ SpecialCNZBumpers_Main:
 		movea.l	(CNZ_visible_bumpers_start).w,a1
 		move.w	(Camera_X_pos).w,d4
 		subq.w	#8,d4
-		bhi.s	loc_F938
+		bhi.s	+ ;loc_F938
 		moveq	#1,d4
-		bra.s	loc_F938
+		bra.s	+ ;loc_F938
 ; ---------------------------------------------------------------------------
 
 loc_F934:
 		lea	6(a1),a1
 
-loc_F938:
++ ;loc_F938:
 		cmp.w	2(a1),d4
 		bhi.s	loc_F934
-		bra.s	loc_F942
+		bra.s	+ ;loc_F942
 ; ---------------------------------------------------------------------------
 
 loc_F940:
 		subq.w	#6,a1
 
-loc_F942:
++ ;loc_F942:
 		cmp.w	-4(a1),d4
 		bls.s	loc_F940
 		move.l	a1,(CNZ_visible_bumpers_start).w
 		movea.l	(CNZ_Visible_bumpers_end).w,a2
 		addi.w	#$150,d4
-		bra.s	loc_F95A
+		bra.s	+ ;loc_F95A
 ; ---------------------------------------------------------------------------
 
 loc_F956:
 		lea	6(a2),a2
 
-loc_F95A:
++ ;loc_F95A:
 		cmp.w	2(a2),d4
 		bhi.s	loc_F956
-		bra.s	loc_F964
+		bra.s	+ ;loc_F964
 ; ---------------------------------------------------------------------------
 
 loc_F962:
 		subq.w	#6,a2
 
-loc_F964:
++ ;loc_F964:
 		cmp.w	-4(a2),d4
 		bls.s	loc_F962
 		move.l	a2,(CNZ_Visible_bumpers_end).w
 		tst.w	(Competition_mode).w
-		bne.s	loc_F97E
+		bne.s	+ ;loc_F97E
 		move.l	a1,(CNZ_Visible_bumpers_start_P2).w
 		move.l	a2,(CNZ_Visible_bumpers_end_P2).w
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_F97E:
++ ;loc_F97E:
 		movea.l	(CNZ_Visible_bumpers_start_P2).w,a1
 		move.w	(Camera_X_pos_P2).w,d4
 		subq.w	#8,d4
-		bhi.s	loc_F992
+		bhi.s	+ ;loc_F992
 		moveq	#1,d4
-		bra.s	loc_F992
+		bra.s	+ ;loc_F992
 ; ---------------------------------------------------------------------------
 
 loc_F98E:
 		lea	6(a1),a1
 
-loc_F992:
++ ;loc_F992:
 		cmp.w	2(a1),d4
 		bhi.s	loc_F98E
-		bra.s	loc_F99C
+		bra.s	+ ;loc_F99C
 ; ---------------------------------------------------------------------------
 
 loc_F99A:
 		subq.w	#6,a1
 
-loc_F99C:
++ ;loc_F99C:
 		cmp.w	-4(a1),d4
 		bls.s	loc_F99A
 		move.l	a1,(CNZ_Visible_bumpers_start_P2).w
 		movea.l	(CNZ_Visible_bumpers_end_P2).w,a2
 		addi.w	#$150,d4
-		bra.s	loc_F9B4
+		bra.s	+ ;loc_F9B4
 ; ---------------------------------------------------------------------------
 
 loc_F9B0:
 		lea	6(a2),a2
 
-loc_F9B4:
++ ;loc_F9B4:
 		cmp.w	2(a2),d4
 		bhi.s	loc_F9B0
-		bra.s	loc_F9BE
+		bra.s	+ ;loc_F9BE
 ; ---------------------------------------------------------------------------
 
 loc_F9BC:
 		subq.w	#6,a2
 
-loc_F9BE:
++ ;loc_F9BE:
 		cmp.w	-4(a2),d4
 		bls.s	loc_F9BC
 		move.l	a2,(CNZ_Visible_bumpers_end_P2).w
@@ -161,11 +161,11 @@ Check_CNZ_Bumpers:
 		movea.l	(CNZ_visible_bumpers_start).w,a1
 		movea.l	(CNZ_Visible_bumpers_end).w,a2
 		cmpa.w	#Player_1,a0
-		beq.s	loc_F9E0
+		beq.s	+ ;loc_F9E0
 		movea.l	(CNZ_Visible_bumpers_start_P2).w,a1
 		movea.l	(CNZ_Visible_bumpers_end_P2).w,a2
 
-loc_F9E0:
++ ;loc_F9E0:
 		cmpa.l	a1,a2
 		beq.w	locret_FA7A
 		move.w	x_pos(a0),d2
@@ -176,11 +176,11 @@ loc_F9E0:
 		subq.b	#3,d5
 		sub.w	d5,d3
 		cmpi.b	#$4D,mapping_frame(a0)
-		bne.s	loc_FA0A
+		bne.s	+ ;loc_FA0A
 		addi.w	#$C,d3
 		moveq	#$A,d5
 
-loc_FA0A:
++ ;loc_FA0A:
 		move.w	#$12,d4
 		add.w	d5,d5
 
@@ -193,31 +193,31 @@ CNZ_Bumper_Loop:
 		move.w	2(a1),d0
 		sub.w	d1,d0
 		sub.w	d2,d0
-		bcc.s	loc_FA32
+		bcc.s	+ ;loc_FA32
 		add.w	d1,d1
 		add.w	d1,d0
-		bcs.s	loc_FA38
+		bcs.s	++ ;loc_FA38
 		bra.w	CNZ_Bumper_Next
 ; ---------------------------------------------------------------------------
 
-loc_FA32:
++ ;loc_FA32:
 		cmp.w	d4,d0
 		bhi.w	CNZ_Bumper_Next
 
-loc_FA38:
++ ;loc_FA38:
 		moveq	#0,d1
 		move.b	(a3)+,d1
 		move.w	4(a1),d0
 		sub.w	d1,d0
 		sub.w	d3,d0
-		bcc.s	loc_FA52
+		bcc.s	+ ;loc_FA52
 		add.w	d1,d1
 		add.w	d1,d0
 		bcs.w	loc_FA66
 		bra.w	CNZ_Bumper_Next
 ; ---------------------------------------------------------------------------
 
-loc_FA52:
++ ;loc_FA52:
 		cmp.w	d5,d0
 		bhi.w	CNZ_Bumper_Next
 		bra.s	loc_FA66
@@ -265,29 +265,29 @@ loc_FA88:
 		sub.w	y_pos(a0),d0
 		neg.w	d0
 		cmpi.w	#$20,d0
-		blt.s	loc_FAA2
+		blt.s	+ ;loc_FAA2
 		move.w	#$A00,y_vel(a0)
 		bra.w	loc_FCFC
 ; ---------------------------------------------------------------------------
 
-loc_FAA2:
++ ;loc_FAA2:
 		move.w	2(a1),d0
 		sub.w	x_pos(a0),d0
 		neg.w	d0
 		cmpi.w	#$20,d0
-		blt.s	loc_FABC
+		blt.s	+ ;loc_FABC
 		move.w	#$A00,x_vel(a0)
 		bra.w	loc_FCFC
 ; ---------------------------------------------------------------------------
 
-loc_FABC:
++ ;loc_FABC:
 		move.w	2(a1),d0
 		sub.w	x_pos(a0),d0
 		cmpi.w	#$20,d0
-		blt.s	loc_FACE
+		blt.s	+ ;loc_FACE
 		move.w	#$20,d0
 
-loc_FACE:
++ ;loc_FACE:
 		add.w	4(a1),d0
 		subq.w	#8,d0
 		move.w	y_pos(a0),d1
@@ -310,19 +310,19 @@ loc_FAEC:
 		move.b	d0,(_dbgFFDC).w
 		sub.w	d3,d0
 		move.w	d0,d1
-		bpl.s	loc_FB06
+		bpl.s	+ ;loc_FB06
 		neg.w	d1
 
-loc_FB06:
++ ;loc_FB06:
 		neg.w	d0
 		add.w	d3,d0
 		move.b	d0,(_dbgFFDD).w
 		move.b	d1,(_dbgFFDF).w
 		cmpi.b	#$38,d1
-		bcs.s	loc_FB1A
+		bcs.s	+ ;loc_FB1A
 		move.w	d3,d0
 
-loc_FB1A:
++ ;loc_FB1A:
 		move.b	d0,(_dbgFFDE).w
 		jsr	(GetSineCosine).l
 		muls.w	#-$A00,d1
@@ -339,29 +339,29 @@ loc_FB3A:
 		sub.w	y_pos(a0),d0
 		neg.w	d0
 		cmpi.w	#$20,d0
-		blt.s	loc_FB54
+		blt.s	+ ;loc_FB54
 		move.w	#$A00,y_vel(a0)
 		bra.w	loc_FCFC
 ; ---------------------------------------------------------------------------
 
-loc_FB54:
++ ;loc_FB54:
 		move.w	2(a1),d0
 		sub.w	x_pos(a0),d0
 		cmpi.w	#$20,d0
-		blt.s	loc_FB6C
+		blt.s	+ ;loc_FB6C
 		move.w	#-$A00,x_vel(a0)
 		bra.w	loc_FCFC
 ; ---------------------------------------------------------------------------
 
-loc_FB6C:
++ ;loc_FB6C:
 		move.w	2(a1),d0
 		sub.w	x_pos(a0),d0
 		neg.w	d0
 		cmpi.w	#$20,d0
-		blt.s	loc_FB80
+		blt.s	+ ;loc_FB80
 		move.w	#$20,d0
 
-loc_FB80:
++ ;loc_FB80:
 		add.w	4(a1),d0
 		subq.w	#8,d0
 		move.w	y_pos(a0),d1
@@ -382,35 +382,35 @@ loc_FBA0:
 		sub.w	y_pos(a0),d0
 		neg.w	d0
 		cmpi.w	#8,d0
-		blt.s	loc_FBBA
+		blt.s	+ ;loc_FBBA
 		move.w	#$A00,y_vel(a0)
 		bra.w	loc_FCFC
 ; ---------------------------------------------------------------------------
 
-loc_FBBA:
++ ;loc_FBBA:
 		move.w	2(a1),d0
 		sub.w	x_pos(a0),d0
 		cmpi.w	#$40,d0
-		blt.s	loc_FBD2
+		blt.s	+ ;loc_FBD2
 		move.w	#-$A00,x_vel(a0)
 		bra.w	loc_FCFC
 ; ---------------------------------------------------------------------------
 
-loc_FBD2:
++ ;loc_FBD2:
 		neg.w	d0
 		cmpi.w	#$40,d0
-		blt.s	loc_FBE4
+		blt.s	+ ;loc_FBE4
 		move.w	#$A00,x_vel(a0)
 		bra.w	loc_FCFC
 ; ---------------------------------------------------------------------------
 
-loc_FBE4:
++ ;loc_FBE4:
 		move.w	#$38,d3
 		tst.w	d0
-		bmi.s	loc_FBF0
+		bmi.s	+ ;loc_FBF0
 		move.w	#$48,d3
 
-loc_FBF0:
++ ;loc_FBF0:
 		bsr.w	loc_FAEC
 		bra.w	loc_FCFC
 ; ---------------------------------------------------------------------------
@@ -419,35 +419,35 @@ loc_FBF8:
 		move.w	4(a1),d0
 		sub.w	y_pos(a0),d0
 		cmpi.w	#8,d0
-		blt.s	loc_FC10
+		blt.s	+ ;loc_FC10
 		move.w	#-$A00,y_vel(a0)
 		bra.w	loc_FCFC
 ; ---------------------------------------------------------------------------
 
-loc_FC10:
++ ;loc_FC10:
 		move.w	2(a1),d0
 		sub.w	x_pos(a0),d0
 		cmpi.w	#$40,d0
-		blt.s	loc_FC28
+		blt.s	+ ;loc_FC28
 		move.w	#-$A00,x_vel(a0)
 		bra.w	loc_FCFC
 ; ---------------------------------------------------------------------------
 
-loc_FC28:
++ ;loc_FC28:
 		neg.w	d0
 		cmpi.w	#$40,d0
-		blt.s	loc_FC3A
+		blt.s	+ ;loc_FC3A
 		move.w	#$A00,x_vel(a0)
 		bra.w	loc_FCFC
 ; ---------------------------------------------------------------------------
 
-loc_FC3A:
++ ;loc_FC3A:
 		move.w	#$C8,d3
 		tst.w	d0
-		bmi.s	loc_FC46
+		bmi.s	+ ;loc_FC46
 		move.w	#$B8,d3
 
-loc_FC46:
++ ;loc_FC46:
 		bsr.w	loc_FAEC
 		bra.w	loc_FCFC
 ; ---------------------------------------------------------------------------
@@ -457,35 +457,35 @@ loc_FC4E:
 		sub.w	x_pos(a0),d0
 		neg.w	d0
 		cmpi.w	#8,d0
-		blt.s	loc_FC68
+		blt.s	+ ;loc_FC68
 		move.w	#$A00,x_vel(a0)
 		bra.w	loc_FCFC
 ; ---------------------------------------------------------------------------
 
-loc_FC68:
++ ;loc_FC68:
 		move.w	4(a1),d0
 		sub.w	y_pos(a0),d0
 		cmpi.w	#$40,d0
-		blt.s	loc_FC80
+		blt.s	+ ;loc_FC80
 		move.w	#-$A00,y_vel(a0)
 		bra.w	loc_FCFC
 ; ---------------------------------------------------------------------------
 
-loc_FC80:
++ ;loc_FC80:
 		neg.w	d0
 		cmpi.w	#$40,d0
-		blt.s	loc_FC92
+		blt.s	+ ;loc_FC92
 		move.w	#$A00,x_vel(a0)
 		bra.w	loc_FCFC
 ; ---------------------------------------------------------------------------
 
-loc_FC92:
++ ;loc_FC92:
 		move.w	#8,d3
 		tst.w	d0
-		bmi.s	loc_FC9E
+		bmi.s	+ ;loc_FC9E
 		move.w	#$F8,d3
 
-loc_FC9E:
++ ;loc_FC9E:
 		bsr.w	loc_FAEC
 		bra.w	loc_FCFC
 ; ---------------------------------------------------------------------------
@@ -494,35 +494,35 @@ loc_FCA6:
 		move.w	2(a1),d0
 		sub.w	x_pos(a0),d0
 		cmpi.w	#8,d0
-		blt.s	loc_FCBE
+		blt.s	+ ;loc_FCBE
 		move.w	#$A00,x_vel(a0)
 		bra.w	loc_FCFC
 ; ---------------------------------------------------------------------------
 
-loc_FCBE:
++ ;loc_FCBE:
 		move.w	4(a1),d0
 		sub.w	y_pos(a0),d0
 		cmpi.w	#$40,d0
-		blt.s	loc_FCD6
+		blt.s	+ ;loc_FCD6
 		move.w	#-$A00,y_vel(a0)
 		bra.w	loc_FCFC
 ; ---------------------------------------------------------------------------
 
-loc_FCD6:
++ ;loc_FCD6:
 		neg.w	d0
 		cmpi.w	#$40,d0
-		blt.s	loc_FCE8
+		blt.s	+ ;loc_FCE8
 		move.w	#$A00,x_vel(a0)
 		bra.w	loc_FCFC
 ; ---------------------------------------------------------------------------
 
-loc_FCE8:
++ ;loc_FCE8:
 		move.w	#$78,d3
 		tst.w	d0
-		bmi.s	loc_FCF4
+		bmi.s	+ ;loc_FCF4
 		move.w	#$88,d3
 
-loc_FCF4:
++ ;loc_FCF4:
 		bsr.w	loc_FAEC
 		bra.w	loc_FCFC
 ; ---------------------------------------------------------------------------

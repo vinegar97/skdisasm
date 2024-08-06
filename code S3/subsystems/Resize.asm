@@ -12,15 +12,15 @@ Do_ResizeEvents:
 		move.w	(Camera_target_max_Y_pos).w,d0
 		sub.w	(Camera_max_Y_pos).w,d0
 		beq.s	locret_1A880
-		bcc.s	loc_1A882
+		bcc.s	++ ;loc_1A882
 		neg.w	d1
 		move.w	(Camera_Y_pos).w,d0
 		cmp.w	(Camera_target_max_Y_pos).w,d0
-		bls.s	loc_1A876
+		bls.s	+ ;loc_1A876
 		move.w	d0,(Camera_max_Y_pos).w
 		andi.w	#$FFFE,(Camera_max_Y_pos).w
 
-loc_1A876:
++ ;loc_1A876:
 		add.w	d1,(Camera_max_Y_pos).w
 		move.b	#1,(Camera_max_Y_pos_changing).w
 
@@ -28,17 +28,17 @@ locret_1A880:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_1A882:
++ ;loc_1A882:
 		move.w	(Camera_Y_pos).w,d0
 		addi.w	#8,d0
 		cmp.w	(Camera_max_Y_pos).w,d0
-		blo.s	loc_1A89C
+		blo.s	+ ;loc_1A89C
 		btst	#1,(Player_1+status).w
-		beq.s	loc_1A89C
+		beq.s	+ ;loc_1A89C
 		add.w	d1,d1
 		add.w	d1,d1
 
-loc_1A89C:
++ ;loc_1A89C:
 		add.w	d1,(Camera_max_Y_pos).w
 		move.b	#1,(Camera_max_Y_pos_changing).w
 		rts
@@ -117,13 +117,13 @@ loc_1A920:
 		cmpi.w	#$1308,(Camera_X_pos).w
 		blo.s	locret_1A96A
 		tst.b	(Last_star_post_hit).w
-		bne.s	loc_1A958
+		bne.s	+ ;loc_1A958
 		cmpi.w	#2,(Player_mode).w
-		beq.s	loc_1A958
+		beq.s	+ ;loc_1A958
 		moveq	#$B,d0
 		jsr	(Load_PLC).l
 
-loc_1A958:
++ ;loc_1A958:
 		moveq	#$2A,d0
 		jsr	(LoadPalette_Immediate).l
 		move.w	#2,(Tails_CPU_routine).w
@@ -138,9 +138,9 @@ loc_1A96C:
 		cmpi.w	#$1400,(Camera_X_pos).w
 		blo.s	locret_1A9EA
 		tst.b	(Last_star_post_hit).w
-		bne.s	loc_1A9BE
+		bne.s	+ ;loc_1A9BE
 		cmpi.w	#2,(Player_mode).w
-		beq.s	loc_1A9BE
+		beq.s	+ ;loc_1A9BE
 		lea	(AIZ1_16x16_MainLevel_Kos).l,a1
 		lea	(Block_table+$268).w,a2
 		jsr	(Queue_Kos).l
@@ -152,7 +152,7 @@ loc_1A96C:
 		move.w	#$500,(Anim_Counters+2).w
 		move.w	#$500,(Anim_Counters+4).w
 
-loc_1A9BE:
++ ;loc_1A9BE:
 		move.b	#1,(Last_star_post_hit).w
 		move.w	#$13A0,(Saved_X_pos).w
 		move.w	#$41A,(Saved_Y_pos).w
@@ -172,15 +172,15 @@ loc_1A9EC:
 		move.w	#0,(Camera_min_Y_pos).w
 		move.w	#$20E,(Normal_palette_line_3+$1E).w
 		cmpi.w	#$2B00,(Camera_X_pos).w
-		blo.s	loc_1AA10
+		blo.s	+ ;loc_1AA10
 		move.w	#4,(Normal_palette_line_3+$1E).w
 
-loc_1AA10:
++ ;loc_1AA10:
 		cmpi.w	#$2C00,(Camera_X_pos).w
-		blo.s	loc_1AA1E
+		blo.s	+ ;loc_1AA1E
 		move.w	#$2E0,(Camera_min_Y_pos).w
 
-loc_1AA1E:
++ ;loc_1AA1E:
 		cmpi.w	#$2D80,(Camera_X_pos).w
 		blo.s	locret_1AA3E
 		move.w	#$C02,(Normal_palette_line_3+$1E).w
@@ -264,49 +264,49 @@ locret_1AAF2:
 
 AIZ2_Resize2:
 		cmpi.w	#$300,(Camera_Y_pos).w
-		bcc.s	loc_1AB48
+		bcc.s	+++ ;loc_1AB48
 		move.w	#$590,d0
 		cmpi.w	#$ED0,(Camera_X_pos).w
-		blo.s	loc_1AB0C
+		blo.s	+ ;loc_1AB0C
 		move.w	#$2B8,d0		; Set level height to 2B8 when boss is approached.
 
-loc_1AB0C:
++ ;loc_1AB0C:
 		move.w	d0,(Camera_max_Y_pos).w
 		move.w	d0,(Camera_target_max_Y_pos).w
 		cmpi.w	#$F50,(Camera_X_pos).w
 		blo.s	locret_1AB46
 		move.w	#$F50,(Camera_min_X_pos).w		; When boss has been reached, lock the screen
 		tst.w	(Debug_placement_mode).w			; If in debug mode, don't load boss
-		bne.s	loc_1AB42
+		bne.s	+ ;loc_1AB42
 		jsr	(AllocateObject).l
-		bne.s	loc_1AB42
+		bne.s	+ ;loc_1AB42
 		move.l	#Obj_AIZMiniboss,(a1)	; Make the miniboss
 		move.w	#$11F0,x_pos(a1)
 		move.w	#$289,y_pos(a1)			; Set the position for Sonic's area area
 
-loc_1AB42:
++ ;loc_1AB42:
 		addq.b	#2,(Dynamic_resize_routine).w
 
 locret_1AB46:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_1AB48:
++ ;loc_1AB48:
 		move.w	#$590,d0
 		cmpi.w	#$ED0,(Camera_X_pos).w
-		bcs.s	loc_1AB58
+		bcs.s	+ ;loc_1AB58
 		move.w	#$450,d0
 
-loc_1AB58:
++ ;loc_1AB58:
 		cmpi.w	#$11A0,(Camera_X_pos).w
-		bcs.s	loc_1AB70
+		bcs.s	+ ;loc_1AB70
 		move.w	#$820,d0
 		move.w	d0,(Camera_target_max_Y_pos).w
 		move.w	#$F80,(Target_water_level).w
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_1AB70:
++ ;loc_1AB70:
 		move.w	d0,(Camera_max_Y_pos).w
 		move.w	d0,(Camera_target_max_Y_pos).w
 		rts
@@ -423,21 +423,21 @@ locret_1AC72:
 
 loc_1AC74:
 		cmpi.w	#$360,(Camera_X_pos).w
-		bhs.s	loc_1AC8A
+		bhs.s	+ ;loc_1AC8A
 		cmpi.w	#$3E0,(Camera_Y_pos).w
 		bhs.s	locret_1ACAE
 		subq.b	#2,(Dynamic_resize_routine).w
-		bra.s	loc_1AC9E
+		bra.s	++ ;loc_1AC9E
 ; ---------------------------------------------------------------------------
 
-loc_1AC8A:
++ ;loc_1AC8A:
 		cmpi.w	#$500,(Camera_Y_pos).w
 		blo.s	locret_1ACAE
 		cmpi.w	#$900,(Camera_X_pos).w
 		blo.s	locret_1ACAE
 		addq.b	#2,(Dynamic_resize_routine).w
 
-loc_1AC9E:
++ ;loc_1AC9E:
 		lea	(Normal_palette_line_4+$10).w,a1
 		move.w	#$CEE,(a1)+
 		move.w	#$ACE,(a1)+
@@ -516,24 +516,24 @@ locret_1AD28:
 
 loc_1AD2A:
 		cmpi.w	#$3A00,(Camera_X_pos).w
-		blo.s	loc_1AD64
+		blo.s	++ ;loc_1AD64
 		move.w	#$3C80,d0
 		cmp.w	(Camera_X_pos).w,d0
 		bhi.s	locret_1AD82
 		move.w	d0,(Camera_min_X_pos).w
 		move.w	d0,(Camera_target_min_X_pos).w
 		jsr	(AllocateObject).l
-		bne.s	loc_1AD5E
+		bne.s	+ ;loc_1AD5E
 		move.l	#Obj_MGZEndBoss,(a1)
 		move.w	#$3D20,x_pos(a1)
 		move.w	#$668,y_pos(a1)
 
-loc_1AD5E:
++ ;loc_1AD5E:
 		addq.b	#2,(Dynamic_resize_routine).w
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_1AD64:
++ ;loc_1AD64:
 		move.l	#$1000,d0
 		move.l	d0,(Camera_min_Y_pos).w
 		move.l	d0,(Camera_target_min_Y_pos).w
@@ -673,17 +673,17 @@ No_Resize:
 Resize_MaxYFromX:
 		move.w	(Camera_X_pos).w,d0
 
-loc_1AE6E:
+- ;loc_1AE6E:
 		move.l	(a1)+,d1
 		cmp.w	d1,d0
-		bhi.s	loc_1AE6E
+		bhi.s	- ;loc_1AE6E
 		swap	d1
 		tst.w	d1
-		bpl.s	loc_1AE82
+		bpl.s	+ ;loc_1AE82
 		andi.w	#$7FFF,d1
 		move.w	d1,(Camera_max_Y_pos).w
 
-loc_1AE82:
++ ;loc_1AE82:
 		move.w	d1,(Camera_target_max_Y_pos).w
 		rts
 ; End of function Resize_MaxYFromX

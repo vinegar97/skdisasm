@@ -41,11 +41,11 @@ loc_8DDAA:
 		jsr	(Swing_UpAndDown).l
 		jsr	(MoveSprite2).l
 		tst.w	y_vel(a0)
-		beq.s	loc_8DDCA
+		beq.s	+ ;loc_8DDCA
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_8DDCA:
++ ;loc_8DDCA:
 		move.b	#4,routine(a0)
 		move.w	#$F,$2E(a0)
 		move.l	#loc_8DDF8,$34(a0)
@@ -95,10 +95,10 @@ loc_8DE44:
 		moveq	#0,d0
 		move.b	subtype(a0),d0
 		cmpi.b	#$C,d0
-		bne.s	loc_8DE66
+		bne.s	+ ;loc_8DE66
 		move.b	#6,mapping_frame(a0)
 
-loc_8DE66:
++ ;loc_8DE66:
 		move.w	d0,$2E(a0)
 		move.b	#1,child_dx(a0)
 		bra.w	loc_8DF68
@@ -107,11 +107,11 @@ loc_8DE66:
 loc_8DE74:
 		bsr.w	sub_8DF80
 		subq.w	#1,$2E(a0)
-		bmi.s	loc_8DE80
+		bmi.s	+ ;loc_8DE80
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_8DE80:
++ ;loc_8DE80:
 		move.b	#4,routine(a0)
 		bra.w	loc_8DD90
 ; ---------------------------------------------------------------------------
@@ -122,11 +122,11 @@ loc_8DE8A:
 		jsr	(MoveSprite2).l
 		movea.w	parent3(a0),a1
 		btst	#2,$38(a1)
-		bne.s	loc_8DEA8
+		bne.s	+ ;loc_8DEA8
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_8DEA8:
++ ;loc_8DEA8:
 		move.b	#6,routine(a0)
 		bset	#2,$38(a0)
 		rts
@@ -141,12 +141,12 @@ loc_8DEB6:
 		ext.w	d1
 		add.w	d1,d0
 		cmp.w	y_pos(a1),d0
-		beq.s	loc_8DEDE
+		beq.s	+ ;loc_8DEDE
 		move.w	d0,y_pos(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_8DEDE:
++ ;loc_8DEDE:
 		move.w	y_pos(a1),y_pos(a0)
 		move.b	#8,routine(a0)
 		neg.b	child_dx(a0)
@@ -161,21 +161,21 @@ loc_8DEF4:
 		move.w	y_pos(a1),d0
 		move.b	child_dy(a0),d1
 		ext.w	d1
-		bmi.s	loc_8DF1A
+		bmi.s	+ ;loc_8DF1A
 		add.w	d1,d0
 		cmp.w	y_pos(a0),d0
-		bls.s	loc_8DF24
+		bls.s	++ ;loc_8DF24
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_8DF1A:
++ ;loc_8DF1A:
 		add.w	d1,d0
 		cmp.w	y_pos(a0),d0
-		bhs.s	loc_8DF24
+		bhs.s	+ ;loc_8DF24
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_8DF24:
++ ;loc_8DF24:
 		move.b	#4,routine(a0)
 		move.w	d0,y_pos(a0)
 		bchg	#1,render_flags(a0)

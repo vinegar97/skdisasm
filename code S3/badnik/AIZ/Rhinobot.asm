@@ -23,13 +23,13 @@ loc_54C7A:
 		move.w	#-$10,d0
 		move.w	#-$300,d1
 		btst	#0,render_flags(a0)
-		beq.s	loc_54CAE
+		beq.s	+ ;loc_54CAE
 		neg.w	d0
 		neg.w	d1
 		bset	#3,$38(a0)
 		bset	#2,$38(a0)
 
-loc_54CAE:
++ ;loc_54CAE:
 		move.w	d0,$40(a0)
 		move.w	d1,$3E(a0)
 		move.l	#loc_54D3C,$34(a0)
@@ -60,7 +60,7 @@ loc_54CEA:
 
 loc_54CF8:
 		cmpi.w	#1,(Current_zone_and_act).w
-		beq.s	loc_54D22
+		beq.s	+ ;loc_54D22
 		jsr	Refresh_ChildPositionAdjusted(pc)
 		moveq	#0,d0
 		move.b	routine(a0),d0
@@ -75,7 +75,7 @@ off_54D1E:
 		dc.w loc_54D38-off_54D1E
 ; ---------------------------------------------------------------------------
 
-loc_54D22:
++ ;loc_54D22:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -107,10 +107,10 @@ loc_54D54:
 loc_54D70:
 		bclr	#2,$38(a0)
 		btst	#3,$38(a0)
-		bne.s	loc_54D84
+		bne.s	+ ;loc_54D84
 		bset	#2,$38(a0)
 
-loc_54D84:
++ ;loc_54D84:
 		clr.w	x_vel(a0)
 		clr.w	y_vel(a0)
 		bra.s	loc_54D54
@@ -137,10 +137,10 @@ loc_54DCA:
 		move.b	#6,routine(a0)
 		move.w	#$400,d0
 		btst	#3,$38(a0)
-		bne.s	loc_54DDE
+		bne.s	+ ;loc_54DDE
 		neg.w	d0
 
-loc_54DDE:
++ ;loc_54DDE:
 		move.w	d0,x_vel(a0)
 		rts
 ; ---------------------------------------------------------------------------
@@ -155,21 +155,21 @@ loc_54DE4:
 
 sub_54DF4:
 		move.w	x_vel(a0),d0
-		beq.s	loc_54E12
+		beq.s	++ ;loc_54E12
 		btst	#2,$38(a0)
-		beq.s	loc_54E0A
+		beq.s	+ ;loc_54E0A
 		cmp.w	$3E(a0),d0
-		bge.s	loc_54E12
+		bge.s	++ ;loc_54E12
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_54E0A:
++ ;loc_54E0A:
 		cmp.w	$3E(a0),d0
-		ble.s	loc_54E12
+		ble.s	+ ;loc_54E12
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_54E12:
++ ;loc_54E12:
 		movea.l	$34(a0),a1
 		jmp	(a1)
 ; End of function sub_54DF4
@@ -179,48 +179,48 @@ loc_54E12:
 loc_54E18:
 		moveq	#0,d1
 		btst	#3,$38(a0)
-		beq.s	loc_54E50
+		beq.s	++ ;loc_54E50
 		btst	#2,$38(a0)
-		beq.s	loc_54E38
+		beq.s	+ ;loc_54E38
 		cmpi.w	#$80,x_vel(a0)
 		bgt.s	loc_54E7A
 		moveq	#1,d1
 		bra.w	loc_54E7A
 ; ---------------------------------------------------------------------------
 
-loc_54E38:
++ ;loc_54E38:
 		moveq	#1,d1
 		cmpi.w	#$280,x_vel(a0)
 		bgt.s	loc_54E7A
 		moveq	#2,d1
 		bset	#1,$38(a0)
-		beq.s	loc_54E80
+		beq.s	+++ ;loc_54E80
 		bra.w	loc_54E7A
 ; ---------------------------------------------------------------------------
 
-loc_54E50:
++ ;loc_54E50:
 		btst	#2,$38(a0)
-		bne.s	loc_54E66
+		bne.s	+ ;loc_54E66
 		cmpi.w	#-$80,x_vel(a0)
 		ble.s	loc_54E7A
 		moveq	#1,d1
 		bra.w	loc_54E7A
 ; ---------------------------------------------------------------------------
 
-loc_54E66:
++ ;loc_54E66:
 		moveq	#1,d1
 		cmpi.w	#-$280,x_vel(a0)
 		ble.s	loc_54E7A
 		moveq	#2,d1
 		bset	#1,$38(a0)
-		beq.s	loc_54E80
+		beq.s	+ ;loc_54E80
 
 loc_54E7A:
 		move.b	d1,mapping_frame(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_54E80:
++ ;loc_54E80:
 		move.b	d1,mapping_frame(a0)
 		moveq	#signextendB(sfx_Blast),d0
 		jsr	(Play_SFX).l
@@ -242,18 +242,18 @@ sub_54EA0:
 		cmpi.w	#$60,d2
 		bhi.s	locret_54EBE
 		btst	#3,$38(a0)
-		bne.s	loc_54EBA
+		bne.s	+ ;loc_54EBA
 		subq.w	#2,d0
 
-loc_54EBA:
++ ;loc_54EBA:
 		tst.w	d0
-		bne.s	loc_54EC0
+		bne.s	+ ;loc_54EC0
 
 locret_54EBE:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_54EC0:
++ ;loc_54EC0:
 		jsr	(a3)
 		addq.w	#4,sp
 		rts
@@ -266,24 +266,24 @@ loc_54EC0:
 sub_54EC6:
 		moveq	#4,d0
 		btst	#3,$38(a0)
-		bne.s	loc_54ED2
+		bne.s	+ ;loc_54ED2
 		neg.w	d0
 
-loc_54ED2:
++ ;loc_54ED2:
 		move.w	x_pos(a0),d3
 		add.w	d0,d3
 		move.l	a3,-(sp)
 		jsr	(ObjCheckFloorDist2).l
 		movea.l	(sp)+,a3
 		cmpi.w	#-1,d1
-		blt.s	loc_54EF4
+		blt.s	+ ;loc_54EF4
 		cmpi.w	#$C,d1
-		bge.s	loc_54EF4
+		bge.s	+ ;loc_54EF4
 		add.w	d1,y_pos(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_54EF4:
++ ;loc_54EF4:
 		jsr	(a3)
 		addq.w	#4,sp
 		rts

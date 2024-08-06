@@ -2,35 +2,35 @@ Obj_DEZGravityRoom:
 		lea	$30(a0),a2
 		lea	(Player_1).w,a1
 		move.w	(Ctrl_1_logical).w,d4
-		bsr.s	sub_4964A
+		bsr.s	+++ ;sub_4964A
 		lea	$31(a0),a2
 		lea	(Player_2).w,a1
 		move.w	(Ctrl_2_logical).w,d4
-		bsr.s	sub_4964A
+		bsr.s	+++ ;sub_4964A
 		move.w	x_pos(a0),d0
 		addi.w	#$400,d0
 		andi.w	#$FF80,d0
 		sub.w	(Camera_X_pos_coarse_back).w,d0
 		cmpi.w	#$680,d0
-		bhi.w	loc_49638
+		bhi.w	+ ;loc_49638
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_49638:
++ ;loc_49638:
 		move.w	respawn_addr(a0),d0
-		beq.s	loc_49644
+		beq.s	+ ;loc_49644
 		movea.w	d0,a2
 		bclr	#7,(a2)
 
-loc_49644:
++ ;loc_49644:
 		jmp	(Delete_Current_Sprite).l
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_4964A:
++ ;sub_4964A:
 		tst.b	(a2)
-		bne.s	loc_496A8
+		bne.s	+ ;loc_496A8
 		move.w	x_pos(a1),d0
 		sub.w	x_pos(a0),d0
 		cmpi.w	#$500,d0
@@ -56,70 +56,70 @@ locret_496A6:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_496A8:
++ ;loc_496A8:
 		tst.w	(Debug_placement_mode).w
-		bne.s	loc_496BC
+		bne.s	+ ;loc_496BC
 		move.w	x_pos(a1),d0
 		sub.w	x_pos(a0),d0
 		cmpi.w	#$500,d0
-		blo.s	loc_496C8
+		blo.s	++ ;loc_496C8
 
-loc_496BC:
++ ;loc_496BC:
 		move.b	#0,object_control(a1)
 		move.b	#0,(a2)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_496C8:
++ ;loc_496C8:
 		addi.w	#$38,x_vel(a1)
 		move.w	#$600,d6
 		move.w	#$18,d5
 		move.w	y_vel(a1),d0
 		btst	#button_up+8,d4
-		beq.s	loc_496F2
+		beq.s	+ ;loc_496F2
 		sub.w	d5,d0
 		move.w	d6,d1
 		neg.w	d1
 		cmp.w	d1,d0
-		bgt.s	loc_496F2
+		bgt.s	+ ;loc_496F2
 		add.w	d5,d0
 		cmp.w	d1,d0
-		ble.s	loc_496F2
+		ble.s	+ ;loc_496F2
 		move.w	d1,d0
 
-loc_496F2:
++ ;loc_496F2:
 		btst	#button_down+8,d4
-		beq.s	loc_49706
+		beq.s	+ ;loc_49706
 		add.w	d5,d0
 		cmp.w	d6,d0
-		blt.s	loc_49706
+		blt.s	+ ;loc_49706
 		sub.w	d5,d0
 		cmp.w	d6,d0
-		bge.s	loc_49706
+		bge.s	+ ;loc_49706
 		move.w	d6,d0
 
-loc_49706:
++ ;loc_49706:
 		move.w	d0,y_vel(a1)
 		move.w	y_vel(a1),d0
 		move.w	d0,d1
 		asr.w	#5,d1
 		beq.s	loc_49730
-		bmi.s	loc_49724
+		bmi.s	++ ;loc_49724
 		sub.w	d1,d0
-		bcc.s	loc_4971E
+		bcc.s	+ ;loc_4971E
 		move.w	#0,d0
 
-loc_4971E:
++ ;loc_4971E:
 		move.w	d0,y_vel(a1)
 		bra.s	loc_49730
 ; ---------------------------------------------------------------------------
 
-loc_49724:
++ ;loc_49724:
 		sub.w	d1,d0
-		bcs.s	loc_4972C
+		bcs.s	+ ;loc_4972C
 		move.w	#0,d0
 
-loc_4972C:
++ ;loc_4972C:
 		move.w	d0,y_vel(a1)
 
 loc_49730:

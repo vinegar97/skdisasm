@@ -18,7 +18,7 @@ Init_Controllers:
 Poll_Controllers:
 		lea	(Ctrl_1).w,a0
 		lea	(HW_Port_1_Data).l,a1
-		bsr.s	Poll_Controller	; poll first controller
+		bsr.s	+ ;Poll_Controller	; poll first controller
 		addq.w	#2,a1	; poll second controller
 ; End of function Poll_Controllers
 
@@ -26,7 +26,7 @@ Poll_Controllers:
 ; =============== S U B R O U T I N E =======================================
 
 
-Poll_Controller:
++ ;Poll_Controller:
 		move.b	#0,(a1)			; Poll controller data port
 		nop
 		nop
@@ -58,9 +58,9 @@ Init_VDP:
 		lea	(VDP_register_values).l,a2
 		moveq	#19-1,d7
 
-$$setRegisters:
+- ;$$setRegisters:
 		move.w	(a2)+,(a0)
-		dbf	d7,$$setRegisters
+		dbf	d7,- ;$$setRegisters
 		move.w	(VDP_register_values+2).l,d0	; get command for register #1
 		move.w	d0,(VDP_reg_1_command).w	; and store it in RAM (for easy display blanking/enabling)
 		move.w	#$8ADF,(H_int_counter_command).w
@@ -71,9 +71,9 @@ $$setRegisters:
 		move.l	#vdpComm($0000,CRAM,WRITE),(VDP_control_port).l
 		move.w	#bytesToWcnt($80),d7
 
-$$clearCRAM:
+- ;$$clearCRAM:
 		move.w	d0,(a1)
-		dbf	d7,$$clearCRAM
+		dbf	d7,- ;$$clearCRAM
 		clr.l	(V_scroll_value).w
 		clr.l	(_unkF61A).w
 		move.l	d1,-(sp)
@@ -217,7 +217,7 @@ Play_Music:
 
 Play_SFX_Local:
 		tst.b	render_flags(a0)
-		bpl.s	Play_SFX_Done
+		bpl.s	Play_SFX.Done
 
 ; ---------------------------------------------------------------------------
 ; Can handle up to two different indexes in one frame
@@ -242,7 +242,7 @@ Play_SFX:
 +
 		startZ80
 
-Play_SFX_Done:
+.Done:
 		rts
 ; End of function Play_SFX
 
@@ -595,7 +595,7 @@ Nem_Process_Compressed_Data:
 Nem_PCD_GetRepeatCount:
 		lsr.w	#4,d0	; get repeat count
 
-Nem_PCD_WritePixel:
+- ;Nem_PCD_WritePixel:
 		lsl.l	#4,d4	; shift up by a nybble
 		or.b	d1,d4	; write pixel
 		subq.w	#1,d3	; has an entire 8-pixel row been written?
@@ -608,7 +608,7 @@ Nem_PCD_NewRow:
 		moveq	#8,d3	; reset nybble counter
 
 Nem_PCD_WritePixel_Loop:
-		dbf	d0,Nem_PCD_WritePixel
+		dbf	d0,- ;Nem_PCD_WritePixel
 		bra.s	Nem_Process_Compressed_Data
 ; ---------------------------------------------------------------------------
 
@@ -722,10 +722,10 @@ Nem_BCT_ShortCode:
 		lsl.w	d1,d5
 		subq.w	#1,d5	; d5 = 2^d1 - 1
 
-Nem_BCT_ShortCode_Loop:
+- ;Nem_BCT_ShortCode_Loop:
 		move.w	d7,(a1,d0.w)	; store entry
 		addq.w	#2,d0	; increment index
-		dbf	d5,Nem_BCT_ShortCode_Loop	; repeat for required number of entries
+		dbf	d5,- ;Nem_BCT_ShortCode_Loop	; repeat for required number of entries
 		bra.s	Nem_BCT_Loop
 ; End of function Nem_Build_Code_Table
 
@@ -970,9 +970,9 @@ Process_Nem_Queue_ShiftUp:
 		lea	(Nem_decomp_queue).w,a0
 		moveq	#$16-1,d0
 
-.loop:
+- ;.loop:
 		move.l	6(a0),(a0)+
-		dbf	d0,.loop
+		dbf	d0,- ;.loop
 		rts
 ; End of function Process_Nem_Queue_Main
 

@@ -1,29 +1,29 @@
 Obj_TwistedRamp:
 		lea	(Player_1).w,a1
-		bsr.s	sub_24D9A
+		bsr.s	+++ ;sub_24D9A
 		lea	(Player_2).w,a1
-		bsr.s	sub_24D9A
+		bsr.s	+++ ;sub_24D9A
 		move.w	x_pos(a0),d0
 		andi.w	#$FF80,d0
 		sub.w	(Camera_X_pos_coarse_back).w,d0
 		cmpi.w	#$280,d0
-		bhi.s	loc_24D88
+		bhi.s	+ ;loc_24D88
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_24D88:
++ ;loc_24D88:
 		move.w	respawn_addr(a0),d0
-		beq.s	loc_24D94
+		beq.s	+ ;loc_24D94
 		movea.w	d0,a2
 		bclr	#7,(a2)
 
-loc_24D94:
++ ;loc_24D94:
 		jmp	(Delete_Current_Sprite).l
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_24D9A:
++ ;sub_24D9A:
 		btst	#Status_InAir,status(a1)
 		bne.w	locret_24E32
 		move.w	x_pos(a1),d0
@@ -41,19 +41,19 @@ sub_24D9A:
 		tst.b	object_control(a1)
 		bne.s	locret_24E32
 		btst	#0,status(a0)
-		bne.s	loc_24DEE
+		bne.s	+ ;loc_24DEE
 		cmpi.w	#$400,x_vel(a1)
 		blt.s	locret_24E32
 		addi.w	#$400,x_vel(a1)
-		bra.s	loc_24DFC
+		bra.s	++ ;loc_24DFC
 ; ---------------------------------------------------------------------------
 
-loc_24DEE:
++ ;loc_24DEE:
 		cmpi.w	#-$400,x_vel(a1)
 		bgt.s	locret_24E32
 		subi.w	#$400,x_vel(a1)
 
-loc_24DFC:
++ ;loc_24DFC:
 		move.w	#-$700,y_vel(a1)
 		bset	#Status_InAir,status(a1)
 		move.b	#2,routine(a1)

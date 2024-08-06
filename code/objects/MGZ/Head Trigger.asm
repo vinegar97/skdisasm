@@ -15,20 +15,20 @@ Obj_MGZHeadTrigger:
 		move.w	y_pos(a0),(a2)+
 		move.w	#6,(a2)+
 		btst	#0,status(a0)
-		bne.s	loc_34364
+		bne.s	+ ;loc_34364
 		move.w	#$C0,$30(a0)
 
-loc_34364:
++ ;loc_34364:
 		move.b	subtype(a0),d0
 		andi.w	#$F,d0
 		lea	(Level_trigger_array).w,a3
 		tst.b	(a3,d0.w)
-		beq.s	loc_34388
+		beq.s	+ ;loc_34388
 		move.b	#1,$34(a0)
 		move.b	#0,mapping_frame(a0)
 		move.b	#0,collision_flags(a0)
 
-loc_34388:
++ ;loc_34388:
 		move.l	#loc_3438E,(a0)
 
 loc_3438E:
@@ -38,34 +38,34 @@ loc_3438E:
 		sub.w	x_pos(a0),d0
 		add.w	$30(a0),d0
 		cmpi.w	#$C0,d0
-		bhs.s	loc_343C6
+		bhs.s	+ ;loc_343C6
 		move.w	(Player_1+y_pos).w,d0
 		sub.w	y_pos(a0),d0
 		addi.w	#$80,d0
 		cmpi.w	#$C0,d0
-		bhs.s	loc_343C6
+		bhs.s	+ ;loc_343C6
 		tst.b	anim(a0)
-		bne.s	loc_343C6
+		bne.s	+ ;loc_343C6
 		move.w	#1<<8,anim(a0)	; and prev_anim
 
-loc_343C6:
++ ;loc_343C6:
 		tst.b	collision_flags(a0)
 		bne.w	loc_3447C
 		tst.w	$32(a0)
-		beq.s	loc_343E6
+		beq.s	+ ;loc_343E6
 		subq.w	#1,$32(a0)
 		bne.w	loc_3447C
 		move.b	#$17,collision_flags(a0)
 		bra.w	loc_3447C
 ; ---------------------------------------------------------------------------
 
-loc_343E6:
++ ;loc_343E6:
 		move.w	#60,$32(a0)
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_34474
+		bne.w	++ ;loc_34474
 		move.l	#loc_34536,(a1)
 		tst.b	collision_property(a0)
-		bne.s	loc_34432
+		bne.s	+ ;loc_34432
 		move.l	#Obj_Explosion,(a1)
 		move.w	#make_art_tile($000,0,1),art_tile(a1)
 		move.b	#2,routine(a1)
@@ -76,7 +76,7 @@ loc_343E6:
 		lea	(Level_trigger_array).w,a3
 		move.b	#1,(a3,d0.w)
 
-loc_34432:
++ ;loc_34432:
 		move.w	x_pos(a0),x_pos(a1)
 		move.w	y_pos(a0),y_pos(a1)
 		move.b	render_flags(a0),render_flags(a1)
@@ -89,7 +89,7 @@ loc_34432:
 		move.b	#8,height_pixels(a1)
 		move.b	#2,anim(a1)
 
-loc_34474:
++ ;loc_34474:
 		moveq	#signextendB(sfx_BossHit),d0
 		jsr	(Play_SFX).l
 
@@ -117,11 +117,11 @@ loc_3447C:
 		move.b	#$9B,collision_flags(a1)
 		move.w	#-$400,x_vel(a1)
 		btst	#0,status(a0)
-		beq.s	loc_3450A
+		beq.s	+ ;loc_3450A
 		neg.w	x_vel(a1)
 		subi.w	#$20,x_pos(a1)
 
-loc_3450A:
++ ;loc_3450A:
 		moveq	#signextendB(sfx_LevelProjectile),d0
 		jsr	(Play_SFX).l
 
@@ -131,13 +131,13 @@ loc_34512:
 
 loc_34518:
 		tst.b	render_flags(a0)
-		bpl.s	loc_34530
+		bpl.s	+ ;loc_34530
 		jsr	(MoveSprite2).l
 		jsr	(Add_SpriteToCollisionResponseList).l
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_34530:
++ ;loc_34530:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 

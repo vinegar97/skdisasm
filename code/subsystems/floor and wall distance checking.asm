@@ -10,10 +10,10 @@
 CalcRoomOverHead:
 		move.l	(Primary_collision_addr).w,(Collision_addr).w
 		cmpi.b	#$C,top_solid_bit(a0)
-		beq.s	loc_F742
+		beq.s	+ ;loc_F742
 		move.l	(Secondary_collision_addr).w,(Collision_addr).w
 
-loc_F742:
++ ;loc_F742:
 		move.b	lrb_solid_bit(a0),d5
 		move.b	d0,(Primary_Angle).w
 		move.b	d0,(Secondary_Angle).w
@@ -38,10 +38,10 @@ loc_F742:
 Sonic_CheckFloor:
 		move.l	(Primary_collision_addr).w,(Collision_addr).w
 		cmpi.b	#$C,top_solid_bit(a0)
-		beq.s	loc_F782
+		beq.s	+ ;loc_F782
 		move.l	(Secondary_collision_addr).w,(Collision_addr).w
 
-loc_F782:
++ ;loc_F782:
 		move.b	top_solid_bit(a0),d5
 		move.w	y_pos(a0),d2
 		move.w	x_pos(a0),d3
@@ -76,11 +76,11 @@ loc_F782:
 loc_F7E2:
 		move.b	(Secondary_Angle).w,d3
 		cmp.w	d0,d1
-		ble.s	loc_F7F0
+		ble.s	+ ;loc_F7F0
 		move.b	(Primary_Angle).w,d3
 		exg	d0,d1
 
-loc_F7F0:
++ ;loc_F7F0:
 		btst	#0,d3
 		beq.s	locret_F7F8
 		move.b	d2,d3
@@ -148,10 +148,10 @@ sub_F846:
 		subq.w	#4,d2
 		move.l	(Primary_collision_addr).w,(Collision_addr).w
 		cmpi.b	#$D,lrb_solid_bit(a0)
-		beq.s	loc_F864
+		beq.s	+ ;loc_F864
 		move.l	(Secondary_collision_addr).w,(Collision_addr).w
 
-loc_F864:
++ ;loc_F864:
 		lea	(Primary_Angle).w,a4
 		move.b	#0,(a4)
 		movea.w	#$10,a3
@@ -186,10 +186,10 @@ ChkFloorEdge_Part2:
 ChkFloorEdge_Part3:
 		move.l	(Primary_collision_addr).w,(Collision_addr).w
 		cmpi.b	#$C,top_solid_bit(a0)
-		beq.s	loc_F8BA
+		beq.s	+ ;loc_F8BA
 		move.l	(Secondary_collision_addr).w,(Collision_addr).w
 
-loc_F8BA:
++ ;loc_F8BA:
 		lea	(Primary_Angle).w,a4
 		move.b	#0,(a4)
 		movea.w	#$10,a3
@@ -220,10 +220,10 @@ SonicOnObjHitFloor:
 		add.w	d0,d2
 		move.l	(Primary_collision_addr).w,(Collision_addr).w
 		cmpi.b	#$C,top_solid_bit(a1)
-		beq.s	loc_F910
+		beq.s	+ ;loc_F910
 		move.l	(Secondary_collision_addr).w,(Collision_addr).w
 
-loc_F910:
++ ;loc_F910:
 		lea	(Primary_Angle).w,a4
 		move.b	#0,(a4)
 		movea.w	#$10,a3
@@ -582,10 +582,10 @@ ChkFloorEdge_ReverseGravity:
 ChkFloorEdge_ReverseGravity_Part2:
 		move.l	(Primary_collision_addr).w,(Collision_addr).w
 		cmpi.b	#$C,top_solid_bit(a0)
-		beq.s	loc_FC70
+		beq.s	+ ;loc_FC70
 		move.l	(Secondary_collision_addr).w,(Collision_addr).w
 
-loc_FC70:
++ ;loc_FC70:
 		lea	(Primary_Angle).w,a4
 		move.b	#0,(a4)
 		movea.w	#-$10,a3
@@ -738,10 +738,10 @@ loc_FDC8:
 sub_FDEC:
 		move.l	(Primary_collision_addr).w,(Collision_addr).w
 		cmpi.b	#$C,top_solid_bit(a0)
-		beq.s	loc_FE00
+		beq.s	+ ;loc_FE00
 		move.l	(Secondary_collision_addr).w,(Collision_addr).w
 
-loc_FE00:
++ ;loc_FE00:
 		move.w	x_pos(a0),d3
 		move.w	y_pos(a0),d2
 		move.b	y_radius(a0),d0

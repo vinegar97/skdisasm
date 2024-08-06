@@ -86,7 +86,7 @@ loc_79054:
 
 loc_79072:
 		tst.b	render_flags(a0)
-		bpl.s	loc_790A6
+		bpl.s	++ ;loc_790A6
 		moveq	#signextendB(sfx_RobotnikSiren),d0
 		jsr	(Play_SFX_Continuous).l
 		jsr	(Swing_UpAndDown).l
@@ -95,14 +95,14 @@ loc_79072:
 		addq.w	#1,d0
 		move.w	d0,$2E(a0)
 		cmpi.w	#$1B0,d0
-		blo.s	loc_790A0
+		blo.s	+ ;loc_790A0
 		addq.w	#1,y_pos(a0)
 
-loc_790A0:
++ ;loc_790A0:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_790A6:
++ ;loc_790A6:
 		jmp	(Go_Delete_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -127,11 +127,11 @@ loc_790D8:
 		move.w	(Camera_X_pos).w,d0
 		addi.w	#$120,d0
 		cmp.w	x_pos(a0),d0
-		bhs.s	loc_790E8
+		bhs.s	+ ;loc_790E8
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_790E8:
++ ;loc_790E8:
 		move.l	#loc_7910A,(a0)
 		moveq	#signextendB(sfx_Targeting),d0
 		jsr	(Play_SFX).l
@@ -143,11 +143,11 @@ loc_790E8:
 
 loc_7910A:
 		btst	#1,$38(a0)
-		bne.s	loc_79118
+		bne.s	+ ;loc_79118
 		jmp	(Sprite_CheckDelete).l
 ; ---------------------------------------------------------------------------
 
-loc_79118:
++ ;loc_79118:
 		move.w	x_pos(a0),d0
 		subi.w	#$40,d0
 		move.w	d0,(Events_bg+$0C).w
@@ -188,23 +188,23 @@ word_79182:
 loc_79192:
 		jsr	(MoveSprite2).l
 		subq.w	#1,$2E(a0)
-		bpl.s	loc_791AA
+		bpl.s	+ ;loc_791AA
 		move.l	#loc_791B0,(a0)
 		move.w	#$F,$2E(a0)
 
-loc_791AA:
++ ;loc_791AA:
 		jmp	(Child_Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
 loc_791B0:
 		subq.w	#1,$2E(a0)
-		bpl.s	loc_791CE
+		bpl.s	+ ;loc_791CE
 		move.l	#loc_79192,(a0)
 		move.w	$3A(a0),x_pos(a0)
 		move.w	$3C(a0),y_pos(a0)
 		move.w	#$B,$2E(a0)
 
-loc_791CE:
++ ;loc_791CE:
 		jmp	(Child_CheckParent).l
 ; ---------------------------------------------------------------------------
 
@@ -228,11 +228,11 @@ loc_791FE:
 		move.w	y_pos(a1),d0
 		subi.w	#$10,d0
 		cmp.w	y_pos(a0),d0
-		bls.s	loc_7921A
+		bls.s	+ ;loc_7921A
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_7921A:
++ ;loc_7921A:
 		move.l	#loc_79266,(a0)
 		bclr	#7,render_flags(a0)
 		move.b	#$91,collision_flags(a0)
@@ -254,11 +254,11 @@ locret_79264:
 
 loc_79266:
 		subq.w	#1,$2E(a0)
-		bmi.s	loc_79272
+		bmi.s	+ ;loc_79272
 		jmp	(Add_SpriteToCollisionResponseList).l
 ; ---------------------------------------------------------------------------
 
-loc_79272:
++ ;loc_79272:
 		jmp	(Go_Delete_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -294,12 +294,12 @@ word_792E0:
 
 loc_792F0:
 		btst	#1,(_unkFAB8).w
-		bne.s	loc_79304
+		bne.s	+ ;loc_79304
 		jsr	(Refresh_ChildPosition).l
 		jmp	(Draw_And_Touch_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_79304:
++ ;loc_79304:
 		move.l	#loc_7931E,$34(a0)
 		jsr	(Refresh_ChildPosition).l
 		jsr	(Obj_Wait).l
@@ -387,23 +387,23 @@ loc_79416:
 		lea	(Target_palette).w,a2
 		moveq	#bytesToLcnt($20),d6
 
-loc_7943A:
+- ;loc_7943A:
 		move.l	(a1)+,(a2)+
-		dbf	d6,loc_7943A
+		dbf	d6,- ;loc_7943A
 		lea	(Pal_LRZBossFire).l,a1
 		lea	(Target_palette_line_2).w,a2
 		moveq	#bytesToLcnt($60),d6
 
-loc_7944C:
+- ;loc_7944C:
 		move.l	(a1)+,(a2)+
-		dbf	d6,loc_7944C
+		dbf	d6,- ;loc_7944C
 		jsr	(AllocateObject).l
-		bne.s	loc_7946A
+		bne.s	+ ;loc_7946A
 		move.l	#loc_85E64,(a1)
 		move.w	a1,$44(a0)
 		move.w	#3,$3A(a1)
 
-loc_7946A:
++ ;loc_7946A:
 		lea	(ArtKosM_LRZ3Autoscroll).l,a1
 		move.w	#tiles_to_bytes($424),d2
 		jsr	(Queue_Kos_Module).l
@@ -421,18 +421,18 @@ loc_79486:
 		moveq	#signextendB(sfx_SuperEmerald),d0
 		jsr	(Play_SFX).l
 		jsr	(AllocateObject).l
-		bne.s	loc_794BE
+		bne.s	+ ;loc_794BE
 		move.l	#loc_85EE6,(a1)
 		move.w	a1,$44(a0)
 
-loc_794BE:
++ ;loc_794BE:
 		jsr	(AllocateObject).l
-		bne.s	loc_794D8
+		bne.s	+ ;loc_794D8
 		move.l	#Obj_CollapsingBridge,(a1)
 		move.w	#$60,x_pos(a1)
 		move.w	#$4D0,y_pos(a1)
 
-loc_794D8:
++ ;loc_794D8:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 

@@ -69,10 +69,10 @@ loc_57CE6:
 		cmpi.w	#$28,d2
 		blo.w	locret_57CCA
 		btst	#0,render_flags(a0)
-		beq.s	loc_57D00
+		beq.s	+ ;loc_57D00
 		subq.w	#2,d0
 
-loc_57D00:
++ ;loc_57D00:
 		tst.w	d0
 		beq.s	locret_57CCA
 
@@ -91,10 +91,10 @@ loc_57D14:
 		move.w	y_vel(a0),d0
 		addi.w	#-$20,d0
 		cmpi.w	#-$400,d0
-		ble.s	loc_57D26
+		ble.s	+ ;loc_57D26
 		move.w	d0,y_vel(a0)
 
-loc_57D26:
++ ;loc_57D26:
 		jsr	(MoveSprite2).l
 		jsr	(ObjCheckCeilingDist).l
 		tst.w	d1
@@ -114,10 +114,10 @@ loc_57D5A:
 		move.w	y_vel(a0),d0
 		addi.w	#$20,d0
 		cmpi.w	#$400,d0
-		bgt.s	loc_57D6C
+		bgt.s	+ ;loc_57D6C
 		move.w	d0,y_vel(a0)
 
-loc_57D6C:
++ ;loc_57D6C:
 		jsr	(MoveSprite2).l
 		jsr	(ObjCheckFloorDist).l
 		tst.w	d1
@@ -152,12 +152,12 @@ loc_57DA4:
 		move.w	y_pos(a0),d0
 		subq.w	#1,d0
 		cmp.w	$3E(a0),d0
-		bls.s	loc_57DB6
+		bls.s	+ ;loc_57DB6
 		move.w	d0,y_pos(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_57DB6:
++ ;loc_57DB6:
 		move.w	#$5F,$2E(a0)
 		bra.w	loc_57CC0
 ; ---------------------------------------------------------------------------
@@ -166,12 +166,12 @@ loc_57DC0:
 		move.w	y_pos(a0),d0
 		addq.w	#1,d0
 		cmp.w	$3E(a0),d0
-		bhs.s	loc_57DD2
+		bhs.s	+ ;loc_57DD2
 		move.w	d0,y_pos(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_57DD2:
++ ;loc_57DD2:
 		move.w	#$5F,$2E(a0)
 		bra.w	loc_57CC0
 ; ---------------------------------------------------------------------------
@@ -180,10 +180,10 @@ loc_57DDC:
 		lea	(Player_1).w,a1
 		jsr	Find_OtherObject(pc)
 		btst	#0,render_flags(a0)
-		beq.s	loc_57DEE
+		beq.s	+ ;loc_57DEE
 		subq.w	#2,d0
 
-loc_57DEE:
++ ;loc_57DEE:
 		tst.w	d0
 		bne.w	locret_57CCA
 		move.b	#$12,routine(a0)

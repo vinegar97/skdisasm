@@ -2,50 +2,50 @@ Obj_SSEntryRing:
 		move.b	subtype(a0),d0
 		move.l	(Collected_special_ring_array).w,d1
 		btst	d0,d1
-		beq.s	loc_44248				; only make the ring if it hasn't already been collected
+		beq.s	+ ;loc_44248				; only make the ring if it hasn't already been collected
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_44248:
++ ;loc_44248:
 		jsr	(Obj_WaitOffscreen).l			; Don't start anything until the ring is explicitly onscreen
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	SSEntryRing_Index(pc,d0.w),d1
-		jsr	SSEntryRing_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		bra.w	SSEntryRing_Display
 ; ---------------------------------------------------------------------------
-SSEntryRing_Index:
-		dc.w SSEntryRing_Init-SSEntryRing_Index
-		dc.w SSEntryRing_Main-SSEntryRing_Index
-		dc.w SSEntryRing_Animate-SSEntryRing_Index
+.Index:
+		dc.w .Init-.Index
+		dc.w .Main-.Index
+		dc.w .Animate-.Index
 ; ---------------------------------------------------------------------------
 
-SSEntryRing_Init:
+.Init:
 		lea	ObjSlot_SSEntryRing(pc),a1
 		jsr	(SetUp_ObjAttributesSlotted).l		; Only one special stage ring can be loaded at one time, period
 		move.l	#AniRaw_SSEntryRing,$30(a0)
 
-SSEntryRing_Main:
+.Main:
 		jsr	(Animate_Raw).l
 		tst.w	(Debug_placement_mode).w
 		bne.s	.locret_4429A		; If in debug mode, don't allow collision
 		cmpi.b	#8,mapping_frame(a0)
 		blo.s	.locret_4429A		; If ring hasn't finished forming, don't allow collision
-		lea	SSEntry_Range(pc),a1
+		lea	.Range(pc),a1
 		jsr	(Check_PlayerInRange).l
 		tst.w	d0
-		bne.s	loc_4429C
+		bne.s	+ ;loc_4429C
 
 .locret_4429A:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4429C:
++ ;loc_4429C:
 		lea	(Player_1).w,a1			; If collision was made
 		cmpi.b	#6,routine(a1)
 		bhs.s	.locret_4429A		; If player has died for whatever reason, don't do anything
 		cmpi.w	#7,(Chaos_emerald_count).w	; If the emeralds are collected, go claim 50 rings
-		beq.s	loc_442FE
+		beq.s	.loc_442FE
 		move.b	#4,routine(a0)
 		move.b	#-1,(Player_prev_frame).w	; Make the player disappear and lock input
 		lea	(Player_1).w,a1
@@ -62,11 +62,11 @@ loc_4429C:
 		jsr	(Play_SFX).l		; Play the ring swish sound
 		rts
 ; ---------------------------------------------------------------------------
-SSEntry_Range:
+.Range:
 		dc.w   -$18,   $30,  -$28,   $50
 ; ---------------------------------------------------------------------------
 
-loc_442FE:
+.loc_442FE:
 		moveq	#signextendB(sfx_BigRing),d0
 		jsr	(Play_SFX).l
 		move.b	subtype(a0),d0
@@ -78,7 +78,7 @@ loc_442FE:
 		jmp	(AddRings).l
 ; ---------------------------------------------------------------------------
 
-SSEntryRing_Animate:
+.Animate:
 		jmp	(Animate_Raw).l
 ; ---------------------------------------------------------------------------
 
@@ -128,7 +128,7 @@ Obj_SSEntryFlash:
 
 .GoSS:
 		cmpi.w	#7,(Chaos_emerald_count).w
-		beq.s	loc_443E4
+		beq.s	+ ;loc_443E4
 		moveq	#signextendB(sfx_EnterSS),d0
 		jsr	(Play_SFX).l		; Play the special stage entry sound (you know the one)
 		jsr	(Clear_SpriteRingMem).l
@@ -141,37 +141,37 @@ Obj_SSEntryFlash:
 		bset	d0,d1
 		move.l	d1,(Collected_special_ring_array).w		; Set SS ring as collected
 
-loc_443E4:
++ ;loc_443E4:
 		jmp	(Go_Delete_SpriteSlotted2).l
 ; ---------------------------------------------------------------------------
 
 SSEntryRing_Display:
 		btst	#0,$38(a0)
-		bne.s	loc_4443C
+		bne.s	++ ;loc_4443C
 		tst.b	render_flags(a0)
-		bpl.s	loc_44408
+		bpl.s	+ ;loc_44408
 		lea	DPLCPtr_SSEntryRing(pc),a2
 		jsr	(Perform_DPLC).l
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_44408:
++ ;loc_44408:
 		move.w	x_pos(a0),d0					; If off-screen
 		andi.w	#$FF80,d0
 		sub.w	(Camera_X_pos_coarse_back).w,d0
 		cmpi.w	#$280,d0
-		bhi.s	loc_4443C
+		bhi.s	+ ;loc_4443C
 		move.w	y_pos(a0),d0
 		move.w	(Camera_Y_pos).w,d1
 		move.w	y_pos(a0),d0
 		sub.w	(Camera_Y_pos).w,d0
 		addi.w	#$80,d0
 		cmpi.w	#$200,d0
-		bhi.w	loc_4443C					; Jump below when far enough off-screen
+		bhi.w	+ ;loc_4443C					; Jump below when far enough off-screen
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_4443C:
++ ;loc_4443C:
 		lea	(ArtKosM_BadnikExplosion).l,a1
 		move.w	#tiles_to_bytes(ArtTile_Explosion),d2
 		jsr	(Queue_Kos_Module).l			; Restore the overwritten badnik explosion art

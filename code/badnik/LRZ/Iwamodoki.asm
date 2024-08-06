@@ -2,15 +2,15 @@ Obj_Iwamodoki:
 		jsr	(Obj_WaitOffscreen).l
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	Iwamodoki_Index(pc,d0.w),d1
-		jsr	Iwamodoki_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		move.w	x_pos(a0),d0
 		andi.w	#$FF80,d0
 		sub.w	(Camera_X_pos_coarse_back).w,d0
 		cmpi.w	#$280,d0
-		bhi.s	loc_8FB2A
+		bhi.s	+ ;loc_8FB2A
 		btst	#7,status(a0)
-		bne.s	loc_8FB36
+		bne.s	++ ;loc_8FB36
 		moveq	#$17,d1
 		moveq	#$C,d2
 		moveq	#$B,d3
@@ -19,18 +19,18 @@ Obj_Iwamodoki:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_8FB2A:
++ ;loc_8FB2A:
 		jsr	(Displace_PlayerOffObject).l
 		jmp	(loc_85088).l
 ; ---------------------------------------------------------------------------
 
-loc_8FB36:
++ ;loc_8FB36:
 		jmp	(Displace_PlayerOffObject).l
 ; ---------------------------------------------------------------------------
-Iwamodoki_Index:
-		dc.w loc_8FB42-Iwamodoki_Index
-		dc.w loc_8FB4C-Iwamodoki_Index
-		dc.w loc_8FB70-Iwamodoki_Index
+Obj_Iwamodoki.Index:
+		dc.w loc_8FB42-Obj_Iwamodoki.Index
+		dc.w loc_8FB4C-Obj_Iwamodoki.Index
+		dc.w loc_8FB70-Obj_Iwamodoki.Index
 ; ---------------------------------------------------------------------------
 
 loc_8FB42:

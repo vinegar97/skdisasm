@@ -6,11 +6,11 @@ Obj_SSZGHZBoss:
 		moveq	#signextendB(mus_FadeOut),d0
 		jsr	(Play_Music).l
 		jsr	(AllocateObject).l
-		bne.s	loc_7A244
+		bne.s	+ ;loc_7A244
 		move.l	#Obj_Song_Fade_Transition,(a1)
 		move.b	#mus_EndBoss,subtype(a1)
 
-loc_7A244:
++ ;loc_7A244:
 		move.w	(Camera_X_pos).w,d0
 		addi.w	#$110,d0
 		move.w	d0,x_pos(a0)
@@ -27,9 +27,9 @@ loc_7A244:
 		lea	(Target_palette_line_2).w,a2
 		moveq	#bytesToLcnt($20),d6
 
-loc_7A282:
+- ;loc_7A282:
 		move.l	(a1)+,(a2)+
-		dbf	d6,loc_7A282
+		dbf	d6,- ;loc_7A282
 		lea	(Pal_SSZGHZMisc).l,a1
 		jmp	(PalLoad_Line1).l
 ; ---------------------------------------------------------------------------
@@ -151,12 +151,12 @@ loc_7A3CE:
 
 loc_7A3E6:
 		subq.w	#1,$2E(a0)
-		bmi.s	loc_7A3F8
+		bmi.s	+ ;loc_7A3F8
 		jsr	(MoveSprite2).l
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_7A3F8:
++ ;loc_7A3F8:
 		clr.b	(Boss_flag).w
 		bset	#4,$38(a0)
 		st	(_unkFA89).w
@@ -165,9 +165,9 @@ loc_7A3F8:
 		lea	(Normal_palette_line_2).w,a2
 		moveq	#bytesToLcnt($20),d6
 
-loc_7A414:
+- ;loc_7A414:
 		move.l	(a1)+,(a2)+
-		dbf	d6,loc_7A414
+		dbf	d6,- ;loc_7A414
 		moveq	#$32,d0
 		jsr	(Load_PLC).l
 		jmp	(Go_Delete_Sprite).l
@@ -225,19 +225,19 @@ loc_7A496:
 		subi.b	#$40,d0
 		sls	d1
 		cmpi.b	#-$80,d0
-		bhs.s	loc_7A4C2
+		bhs.s	++ ;loc_7A4C2
 		neg.b	$3A(a0)
 		movea.w	$44(a0),a1
 		btst	#0,render_flags(a1)
-		beq.s	loc_7A4B8
+		beq.s	+ ;loc_7A4B8
 		not.b	d1
 
-loc_7A4B8:
++ ;loc_7A4B8:
 		tst.b	d1
-		bne.s	loc_7A4C2
+		bne.s	+ ;loc_7A4C2
 		bset	#3,$38(a1)
 
-loc_7A4C2:
++ ;loc_7A4C2:
 		move.b	$3A(a0),d0
 		add.b	d0,$3C(a0)
 		jmp	(Refresh_ChildPosition).l
@@ -278,10 +278,10 @@ loc_7A514:
 		jsr	off_7A53E(pc,d1.w)
 		move.b	#0,mapping_frame(a0)
 		btst	#0,(V_int_run_count+3).w
-		beq.s	loc_7A536
+		beq.s	+ ;loc_7A536
 		move.b	#1,mapping_frame(a0)
 
-loc_7A536:
++ ;loc_7A536:
 		moveq	#0,d0
 		jmp	(Child_DrawTouch_Sprite_FlickerMove).l
 ; ---------------------------------------------------------------------------
@@ -306,7 +306,7 @@ loc_7A558:
 loc_7A568:
 		movea.w	parent3(a0),a1
 		btst	#7,status(a1)
-		bne.s	loc_7A59A
+		bne.s	+ ;loc_7A59A
 		btst	#6,$38(a1)
 		bne.w	locret_7A29A
 		btst	#0,(V_int_run_count+3).w
@@ -316,7 +316,7 @@ loc_7A568:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_7A59A:
++ ;loc_7A59A:
 		jmp	(Delete_Current_Sprite).l
 
 ; =============== S U B R O U T I N E =======================================
@@ -326,22 +326,22 @@ sub_7A5A0:
 		tst.b	collision_flags(a0)
 		bne.s	locret_7A5EA
 		move.b	collision_property(a0),d0
-		beq.s	loc_7A5EC
+		beq.s	+++ ;loc_7A5EC
 		tst.b	$20(a0)
-		bne.s	loc_7A5C6
+		bne.s	+ ;loc_7A5C6
 		move.b	#$20,$20(a0)
 		moveq	#signextendB(sfx_BossHit),d0
 		jsr	(Play_SFX).l
 		bset	#6,status(a0)
 
-loc_7A5C6:
++ ;loc_7A5C6:
 		moveq	#0,d0
 		btst	#0,$20(a0)
-		bne.s	loc_7A5D4
+		bne.s	+ ;loc_7A5D4
 		; Bug: should be 2*3
 		addi.w	#2*2,d0
 
-loc_7A5D4:
++ ;loc_7A5D4:
 		bsr.w	sub_7A614
 		subq.b	#1,$20(a0)
 		bne.s	locret_7A5EA
@@ -352,15 +352,15 @@ locret_7A5EA:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_7A5EC:
++ ;loc_7A5EC:
 		move.l	#Wait_FadeToLevelMusic,(a0)
 		move.l	#loc_7A3CE,$34(a0)
 		lea	(Child6_CreateBossExplosion).l,a2
 		jsr	(CreateChild1_Normal).l
-		bne.s	loc_7A60E
+		bne.s	+ ;loc_7A60E
 		move.b	#4,subtype(a1)
 
-loc_7A60E:
++ ;loc_7A60E:
 		jmp	(BossDefeated).l
 ; End of function sub_7A5A0
 

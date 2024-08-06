@@ -10,20 +10,20 @@ Obj_MHZMushroomParachute:
 		move.w	#$200,ground_vel(a0)
 		move.b	#0,angle(a0)
 		tst.b	subtype(a0)
-		beq.s	loc_3F4FA
+		beq.s	+ ;loc_3F4FA
 		move.b	#$80,angle(a0)
 
-loc_3F4FA:
++ ;loc_3F4FA:
 		move.l	#loc_3F500,(a0)
 
 loc_3F500:
 		bsr.w	sub_3F5AA
 		tst.b	$30(a0)
-		beq.s	loc_3F516
+		beq.s	+ ;loc_3F516
 		move.l	#loc_3F51C,(a0)
 		move.w	#$300,y_vel(a0)
 
-loc_3F516:
++ ;loc_3F516:
 		jmp	(Sprite_OnScreen_Test).l
 ; ---------------------------------------------------------------------------
 
@@ -35,25 +35,25 @@ loc_3F51C:
 		move.w	x_vel(a0),$34(a0)
 		move.w	y_vel(a0),$36(a0)
 		tst.w	$30(a0)
-		bne.s	loc_3F544
+		bne.s	+ ;loc_3F544
 		move.l	#loc_3F572,(a0)
 
-loc_3F544:
++ ;loc_3F544:
 		tst.b	render_flags(a0)
-		bmi.s	loc_3F56C
+		bmi.s	++ ;loc_3F56C
 		move.w	#$7F00,x_pos(a0)
 		tst.b	$30(a0)
-		beq.s	loc_3F55E
+		beq.s	+ ;loc_3F55E
 		clr.w	(Player_1+interact).w
 		clr.b	(Player_1+object_control).w
 
-loc_3F55E:
++ ;loc_3F55E:
 		tst.b	$31(a0)
-		beq.s	loc_3F56C
+		beq.s	+ ;loc_3F56C
 		clr.w	(Player_2+interact).w
 		clr.b	(Player_2+object_control).w
 
-loc_3F56C:
++ ;loc_3F56C:
 		jmp	(Sprite_OnScreen_Test).l
 ; ---------------------------------------------------------------------------
 
@@ -61,20 +61,20 @@ loc_3F572:
 		bsr.w	sub_3F7E2
 		jsr	(MoveSprite2).l
 		tst.b	render_flags(a0)
-		bmi.s	loc_3F5A4
+		bmi.s	++ ;loc_3F5A4
 		move.w	#$7F00,x_pos(a0)
 		tst.b	$30(a0)
-		beq.s	loc_3F596
+		beq.s	+ ;loc_3F596
 		clr.w	(Player_1+interact).w
 		clr.b	(Player_1+object_control).w
 
-loc_3F596:
++ ;loc_3F596:
 		tst.b	$31(a0)
-		beq.s	loc_3F5A4
+		beq.s	+ ;loc_3F5A4
 		clr.w	(Player_2+interact).w
 		clr.b	(Player_2+object_control).w
 
-loc_3F5A4:
++ ;loc_3F5A4:
 		jmp	(Sprite_OnScreen_Test).l
 
 ; =============== S U B R O U T I N E =======================================
@@ -84,7 +84,7 @@ sub_3F5AA:
 		lea	$31(a0),a2
 		lea	(Player_2).w,a1
 		move.w	(Ctrl_2_logical).w,d0
-		bsr.s	sub_3F5C2
+		bsr.s	+ ;sub_3F5C2
 		lea	(Player_1).w,a1
 		subq.w	#1,a2
 		move.w	(Ctrl_1_logical).w,d0
@@ -94,7 +94,7 @@ sub_3F5AA:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_3F5C2:
++ ;sub_3F5C2:
 		tst.b	(a2)
 		beq.w	loc_3F6FE
 		tst.b	render_flags(a1)
@@ -116,20 +116,20 @@ sub_3F5C2:
 		clr.b	(a2)
 		move.b	#$12,2(a2)
 		andi.w	#(button_up_mask|button_down_mask|button_left_mask|button_right_mask)<<8,d0
-		beq.w	loc_3F61C
+		beq.w	+ ;loc_3F61C
 		move.b	#$3C,2(a2)
 
-loc_3F61C:
++ ;loc_3F61C:
 		btst	#button_left+8,d0
-		beq.s	loc_3F628
+		beq.s	+ ;loc_3F628
 		move.w	#-$200,x_vel(a1)
 
-loc_3F628:
++ ;loc_3F628:
 		btst	#button_right+8,d0
-		beq.s	loc_3F634
+		beq.s	+ ;loc_3F634
 		move.w	#$200,x_vel(a1)
 
-loc_3F634:
++ ;loc_3F634:
 		move.w	#-$380,y_vel(a1)
 		bset	#Status_InAir,status(a1)
 		move.b	#1,jumping(a1)
@@ -166,10 +166,10 @@ loc_3F6A6:
 		bclr	#Status_Facing,status(a1)
 		move.b	angle(a0),d0
 		addi.b	#$40,d0
-		bpl.s	loc_3F6BC
+		bpl.s	+ ;loc_3F6BC
 		bset	#Status_Facing,status(a1)
 
-loc_3F6BC:
++ ;loc_3F6BC:
 		move.b	status(a1),d0
 		andi.b	#1,d0
 		andi.b	#$FC,render_flags(a1)
@@ -192,11 +192,11 @@ RawAni_3F6EE:
 
 loc_3F6FE:
 		tst.b	2(a2)
-		beq.s	loc_3F70C
+		beq.s	+ ;loc_3F70C
 		subq.b	#1,2(a2)
 		bne.w	locret_3F7AC
 
-loc_3F70C:
++ ;loc_3F70C:
 		move.w	x_pos(a1),d0
 		sub.w	x_pos(a0),d0
 		addi.w	#$10,d0
@@ -247,17 +247,17 @@ locret_3F7AC:
 sub_3F7AE:
 		move.l	(Primary_collision_addr).w,(Collision_addr).w
 		cmpi.b	#$D,lrb_solid_bit(a0)
-		beq.s	loc_3F7C2
+		beq.s	+ ;loc_3F7C2
 		move.l	(Secondary_collision_addr).w,(Collision_addr).w
 
-loc_3F7C2:
++ ;loc_3F7C2:
 		moveq	#$D,d5
 		jsr	(sub_FD32).l
 		tst.w	d1
-		bpl.s	loc_3F7D2
+		bpl.s	+ ;loc_3F7D2
 		sub.w	d1,x_pos(a0)
 
-loc_3F7D2:
++ ;loc_3F7D2:
 		jsr	(sub_FA1A).l
 		tst.w	d1
 		bpl.s	locret_3F7E0
@@ -276,38 +276,38 @@ sub_3F7E2:
 		tst.b	$30(a0)
 		beq.s	loc_3F818
 		btst	#button_left,(Ctrl_1_held_logical).w
-		beq.s	loc_3F804
+		beq.s	++ ;loc_3F804
 		cmpi.b	#$80,d0
-		beq.s	loc_3F804
+		beq.s	++ ;loc_3F804
 		tst.b	d0
-		bpl.s	loc_3F800
+		bpl.s	+ ;loc_3F800
 		neg.b	d0
 
-loc_3F800:
++ ;loc_3F800:
 		addq.b	#2,d0
-		bra.s	loc_3F822
+		bra.s	+++ ;loc_3F822
 ; ---------------------------------------------------------------------------
 
-loc_3F804:
++ ;loc_3F804:
 		btst	#button_right,(Ctrl_1_held_logical).w
 		beq.s	loc_3F818
 		tst.b	d0
 		beq.s	loc_3F818
-		bmi.s	loc_3F814
+		bmi.s	+ ;loc_3F814
 		neg.b	d0
 
-loc_3F814:
++ ;loc_3F814:
 		addq.b	#2,d0
-		bra.s	loc_3F822
+		bra.s	+ ;loc_3F822
 ; ---------------------------------------------------------------------------
 
 loc_3F818:
 		move.b	d0,d1
 		andi.b	#$7F,d1
-		beq.s	loc_3F822
+		beq.s	+ ;loc_3F822
 		addq.b	#2,d0
 
-loc_3F822:
++ ;loc_3F822:
 		move.b	d0,angle(a0)
 		move.b	angle(a0),d0
 		jsr	(GetSineCosine).l
@@ -315,12 +315,12 @@ loc_3F822:
 		asr.l	#8,d1
 		move.w	d1,x_vel(a0)
 		cmpi.w	#$80,y_vel(a0)
-		blt.s	loc_3F84A
+		blt.s	+ ;loc_3F84A
 		subi.w	#$20,y_vel(a0)
 		bra.s	locret_3F850
 ; ---------------------------------------------------------------------------
 
-loc_3F84A:
++ ;loc_3F84A:
 		addi.w	#$20,y_vel(a0)
 
 locret_3F850:

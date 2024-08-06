@@ -1,12 +1,12 @@
 Obj_PachinkoEnergyTrap:
 		movea.l	a0,a1
 		moveq	#2-1,d1
-		bra.s	loc_49F20
+		bra.s	+ ;loc_49F20
 ; ---------------------------------------------------------------------------
 
-loc_49EF4:
+- ;loc_49EF4:
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_49F46
+		bne.w	++ ;loc_49F46
 		move.l	#loc_4A07A,(a1)
 		move.w	x_pos(a0),x_pos(a1)
 		addi.w	#$190,x_pos(a1)
@@ -14,7 +14,7 @@ loc_49EF4:
 		bset	#0,render_flags(a1)
 		move.w	a0,$3E(a1)
 
-loc_49F20:
++ ;loc_49F20:
 		move.l	#Map_PachinkoEnergyTrap,mappings(a1)
 		move.w	#make_art_tile($352,1,1),art_tile(a1)
 		ori.b	#4,render_flags(a1)
@@ -22,8 +22,8 @@ loc_49F20:
 		move.b	#$18,height_pixels(a1)
 		move.w	#0,priority(a1)
 
-loc_49F46:
-		dbf	d1,loc_49EF4
++ ;loc_49F46:
+		dbf	d1,- ;loc_49EF4
 		move.b	#60,$24(a0)
 		move.b	#4*60,$25(a0)
 		move.l	#loc_49F5C,(a0)
@@ -31,9 +31,9 @@ loc_49F46:
 loc_49F5C:
 		move.b	(Level_frame_counter+1).w,d0
 		andi.b	#7,d0
-		bne.s	loc_49F92
+		bne.s	+ ;loc_49F92
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_49F92
+		bne.w	+ ;loc_49F92
 		move.l	#Obj_PachinkoInvisibleUnknown,(a1)
 		move.w	x_pos(a0),x_pos(a1)
 		addi.w	#$80,x_pos(a1)
@@ -41,52 +41,52 @@ loc_49F5C:
 		move.b	angle(a0),angle(a1)
 		move.w	a0,$3E(a1)
 
-loc_49F92:
++ ;loc_49F92:
 		addi.b	#8,angle(a0)
 		tst.b	subtype(a0)
-		bne.s	loc_49FAE
+		bne.s	++ ;loc_49FAE
 		tst.b	$25(a0)
-		beq.s	loc_49FAA
+		beq.s	+ ;loc_49FAA
 		subq.b	#1,$25(a0)
-		bra.s	loc_49FAE
+		bra.s	++ ;loc_49FAE
 ; ---------------------------------------------------------------------------
 
-loc_49FAA:
++ ;loc_49FAA:
 		subq.w	#1,y_pos(a0)
 
-loc_49FAE:
++ ;loc_49FAE:
 		lea	(Player_1).w,a1
 		move.w	y_pos(a1),d0
 		sub.w	y_pos(a0),d0
 		addi.w	#$180,d0
 		cmpi.w	#$180,d0
-		bhs.s	loc_49FD6
+		bhs.s	+ ;loc_49FD6
 		move.b	(Level_frame_counter+1).w,d0
 		andi.b	#$3F,d0
-		bne.s	loc_49FD6
+		bne.s	+ ;loc_49FD6
 		moveq	#signextendB(sfx_Transporter),d0
 		jsr	(Play_SFX).l
 
-loc_49FD6:
-		bsr.s	sub_49FE4
++ ;loc_49FD6:
+		bsr.s	+ ;sub_49FE4
 		lea	(Player_2).w,a1
-		bsr.s	sub_49FE4
+		bsr.s	+ ;sub_49FE4
 		jmp	(Draw_Sprite).l
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_49FE4:
++ ;sub_49FE4:
 		move.w	y_pos(a1),d0
 		cmpi.w	#-$20,d0
-		bge.s	loc_49FFC
+		bge.s	+ ;loc_49FFC
 		cmpa.w	#Player_1,a1
-		bne.s	loc_4A024
+		bne.s	++ ;loc_4A024
 		move.b	#0,$24(a0)
-		bra.s	loc_4A024
+		bra.s	++ ;loc_4A024
 ; ---------------------------------------------------------------------------
 
-loc_49FFC:
++ ;loc_49FFC:
 		sub.w	y_pos(a0),d0
 		addi.w	#$C,d0
 		cmpi.w	#$18,d0
@@ -95,11 +95,11 @@ loc_49FFC:
 		bne.s	locret_4A078
 		move.w	y_pos(a0),y_pos(a1)
 		tst.b	$2E(a1)
-		bne.s	loc_4A024
+		bne.s	+ ;loc_4A024
 		moveq	#signextendB(sfx_Bouncy),d0
 		jsr	(Play_SFX).l
 
-loc_4A024:
++ ;loc_4A024:
 		move.b	#$81,object_control(a1)
 		bset	#Status_InAir,status(a1)
 		cmpa.w	#Player_1,a1

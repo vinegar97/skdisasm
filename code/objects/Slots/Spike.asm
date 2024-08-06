@@ -16,26 +16,26 @@ Obj_SlotSpike:
 		sub.l	d0,$38(a0)
 		move.w	$38(a0),y_pos(a0)
 		subq.w	#1,$40(a0)
-		bne.w	loc_4C3E0
+		bne.w	+++ ;loc_4C3E0
 		movea.l	$2E(a0),a1
 		subq.w	#1,(a1)
 		cmpi.w	#5,(SStage_scalar_index_2).w
-		blo.s	loc_4C3CA
+		blo.s	+ ;loc_4C3CA
 		clr.w	(SStage_scalar_index_2).w
 		moveq	#signextendB(sfx_SpikeHit),d0
 		jsr	(Play_SFX).l
 
-loc_4C3CA:
++ ;loc_4C3CA:
 		tst.w	(Ring_count).w
-		beq.s	loc_4C3DA
+		beq.s	+ ;loc_4C3DA
 		subq.w	#1,(Ring_count).w
 		ori.b	#$81,(Update_HUD_ring_count).w
 
-loc_4C3DA:
++ ;loc_4C3DA:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_4C3E0:
++ ;loc_4C3E0:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 Map_SlotSpike:

@@ -2,22 +2,22 @@ Obj_MegaChopper:
 		jsr	(Obj_WaitOffscreen).l
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	MegaChopper_Index(pc,d0.w),d1
-		jsr	MegaChopper_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		btst	#7,status(a0)
-		bne.s	 loc_87F76
+		bne.s	+ ; loc_87F76
 		jmp	Sprite_CheckDeleteTouch(pc)
 ; ---------------------------------------------------------------------------
 
- loc_87F76:
++ ; loc_87F76:
 		jsr	EnemyDefeated(pc)
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
-MegaChopper_Index:
-		dc.w loc_87F88-MegaChopper_Index
-		dc.w loc_87FAC-MegaChopper_Index
-		dc.w loc_88024-MegaChopper_Index
-		dc.w loc_88062-MegaChopper_Index
+.Index:
+		dc.w loc_87F88-.Index
+		dc.w loc_87FAC-.Index
+		dc.w loc_88024-.Index
+		dc.w loc_88062-.Index
 ; ---------------------------------------------------------------------------
 
 loc_87F88:
@@ -39,25 +39,25 @@ loc_87FAC:
 		jsr	Find_SonicTails(pc)
 		move.b	(V_int_run_count+3).w,d4
 		andi.b	#7,d4
-		bne.s	loc_87FCE
+		bne.s	++ ;loc_87FCE
 		moveq	#1,d4
 		tst.w	d1
-		bne.s	loc_87FCA
+		bne.s	+ ;loc_87FCA
 		neg.w	d4
 
-loc_87FCA:
++ ;loc_87FCA:
 		add.w	d4,y_pos(a0)
 
-loc_87FCE:
++ ;loc_87FCE:
 		move.w	y_pos(a0),d4
 		move.w	(Water_level).w,d5
 		addq.w	#8,d5
 		cmp.w	d5,d4
-		bhi.s	loc_87FE4
+		bhi.s	+ ;loc_87FE4
 		btst	#Status_Underwater,status(a1)
-		beq.s	loc_87FFC
+		beq.s	++ ;loc_87FFC
 
-loc_87FE4:
++ ;loc_87FE4:
 		move.w	#$200,d0
 		move.w	#8,d1
 		jsr	(Chase_ObjectXOnly).l
@@ -65,16 +65,16 @@ loc_87FE4:
 		jmp	(MoveSprite2).l
 ; ---------------------------------------------------------------------------
 
-loc_87FFC:
++ ;loc_87FFC:
 		move.b	#4,routine(a0)
 		move.w	#$200,d4
 		bset	#0,render_flags(a0)
 		tst.w	d0
-		bne.s	loc_88018
+		bne.s	+ ;loc_88018
 		neg.w	d4
 		bclr	#0,render_flags(a0)
 
-loc_88018:
++ ;loc_88018:
 		move.w	d4,x_vel(a0)
 		move.w	#-$400,y_vel(a0)
 		rts
@@ -84,23 +84,23 @@ loc_88024:
 		bsr.w	loc_8813A
 		jsr	Animate_Raw(pc)
 		tst.w	y_vel(a0)
-		bmi.s	loc_88052
+		bmi.s	+ ;loc_88052
 		move.w	y_pos(a0),d0
 		cmp.w	(Water_level).w,d0
-		blo.s	loc_88052
+		blo.s	+ ;loc_88052
 		move.w	y_vel(a0),d0
 		addi.w	#-$20,d0
 		move.w	d0,y_vel(a0)
-		beq.s	loc_88056
-		bmi.s	loc_88056
+		beq.s	++ ;loc_88056
+		bmi.s	++ ;loc_88056
 		jmp	(MoveSprite2).l
 ; ---------------------------------------------------------------------------
 
-loc_88052:
++ ;loc_88052:
 		jmp	MoveSprite_LightGravity(pc)
 ; ---------------------------------------------------------------------------
 
-loc_88056:
++ ;loc_88056:
 		move.b	#2,routine(a0)
 		clr.w	y_vel(a0)
 		rts
@@ -109,10 +109,10 @@ loc_88056:
 loc_88062:
 		move.b	#0,mapping_frame(a0)
 		btst	#2,(V_int_run_count+3).w
-		beq.s	loc_88076
+		beq.s	+ ;loc_88076
 		move.b	#2,mapping_frame(a0)
 
-loc_88076:
++ ;loc_88076:
 		movea.w	$44(a0),a1
 		cmpi.b	#4,routine(a1)
 		beq.w	loc_88108
@@ -123,12 +123,12 @@ loc_88076:
 		jsr	Check_LRControllerShake(pc)
 		bne.s	loc_88108
 		btst	#2,$38(a0)
-		beq.s	loc_880AE
+		beq.s	+ ;loc_880AE
 		move.w	(Ctrl_1).w,d0
 		andi.w	#($8C<<8)|$8C,d0
 		move.w	d0,(Ctrl_1_logical).w
 
-loc_880AE:
++ ;loc_880AE:
 		move.w	x_pos(a1),d0
 		move.b	child_dx(a0),d1
 		ext.w	d1
@@ -137,23 +137,23 @@ loc_880AE:
 		move.b	render_flags(a1),d3
 		andi.b	#1,d3
 		eor.b	d2,d3
-		beq.s	loc_880DC
+		beq.s	+ ;loc_880DC
 		bchg	#0,render_flags(a0)
 		bchg	#0,$38(a0)
 		neg.b	child_dx(a0)
 
-loc_880DC:
++ ;loc_880DC:
 		add.w	d1,d0
 		move.w	d0,x_pos(a0)
 		move.w	y_pos(a1),d0
 		move.b	child_dy(a0),d1
 		ext.w	d1
-		bpl.s	loc_880FA
+		bpl.s	+ ;loc_880FA
 		cmpi.b	#8,anim(a1)
-		bne.s	loc_880FA
+		bne.s	+ ;loc_880FA
 		addi.w	#$10,d1
 
-loc_880FA:
++ ;loc_880FA:
 		add.w	d1,d0
 		move.w	d0,y_pos(a0)
 		bsr.w	sub_881FE
@@ -161,18 +161,18 @@ loc_880FA:
 
 loc_88108:
 		bclr	#2,$38(a0)
-		beq.s	loc_88114
+		beq.s	+ ;loc_88114
 		clr.b	(Ctrl_1_locked).w
 
-loc_88114:
++ ;loc_88114:
 		move.l	#MoveChkDel,(a0)
 		move.b	#2,mapping_frame(a0)
 		move.w	#$200,d0
 		btst	#0,render_flags(a0)
-		beq.s	loc_8812E
+		beq.s	+ ;loc_8812E
 		neg.w	d0
 
-loc_8812E:
++ ;loc_8812E:
 		move.w	d0,x_vel(a0)
 		move.w	#-$200,y_vel(a0)
 		rts
@@ -196,14 +196,14 @@ loc_8813A:
 		cmpi.w	#$10,d1
 		bge.w	locret_87FAA
 		jsr	Check_PlayerAttack(pc)
-		bne.w	loc_881F6
+		bne.w	+++ ;loc_881F6
 		cmpi.w	#1,d2
-		bne.s	loc_88190
+		bne.s	+ ;loc_88190
 		clr.w	(Ctrl_1_logical).w
 		st	(Ctrl_1_locked).w
 		bset	#2,$38(a0)
 
-loc_88190:
++ ;loc_88190:
 		movea.w	(a2)+,a3
 		move.w	a3,$3E(a0)
 		move.w	(a3),parent3(a0)
@@ -215,10 +215,10 @@ loc_88190:
 		move.b	d0,child_dx(a0)
 		bclr	#0,render_flags(a0)
 		tst.w	d0
-		bpl.s	loc_881C8
+		bpl.s	+ ;loc_881C8
 		bset	#0,render_flags(a0)
 
-loc_881C8:
++ ;loc_881C8:
 		move.w	y_pos(a0),d0
 		sub.w	y_pos(a1),d0
 		move.b	d0,child_dy(a0)
@@ -236,7 +236,7 @@ word_881EA:
 		dc.w Player_1, Ctrl_1
 ; ---------------------------------------------------------------------------
 
-loc_881F6:
++ ;loc_881F6:
 		bset	#7,status(a0)
 		rts
 
@@ -245,35 +245,35 @@ loc_881F6:
 
 sub_881FE:
 		subq.w	#1,$2E(a0)
-		bpl.s	loc_88246
+		bpl.s	+++ ;loc_88246
 		move.w	#60-1,$2E(a0)
 		ori.b	#1,(Update_HUD_ring_count).w
 		bset	#7,$38(a0)
 		move.w	(Ring_count).w,d0
 		subq.w	#1,d0
 		bmi.s	loc_88258
-		beq.s	loc_88230
+		beq.s	+ ;loc_88230
 		cmpi.w	#10,(Ring_count).w
-		beq.s	loc_88230
+		beq.s	+ ;loc_88230
 		cmpi.w	#100,(Ring_count).w
-		bne.s	loc_88236
+		bne.s	++ ;loc_88236
 
-loc_88230:
++ ;loc_88230:
 		ori.b	#$80,(Update_HUD_ring_count).w
 
-loc_88236:
++ ;loc_88236:
 		move.w	d0,(Ring_count).w
 		moveq	#signextendB(sfx_RingRight),d0
 		jsr	(Play_SFX).l
 
-loc_88242:
+- ;loc_88242:
 		moveq	#0,d0
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_88246:
++ ;loc_88246:
 		bclr	#7,$38(a0)
-		beq.s	loc_88242
+		beq.s	- ;loc_88242
 		andi.b	#$FE,(Update_HUD_ring_count).w
 		moveq	#0,d0
 		rts

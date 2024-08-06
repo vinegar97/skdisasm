@@ -18,13 +18,13 @@ Load_SOZ_Pushable_Rock_Track_Ride_Info:
 		move.w	(a1)+,$3A(a0)
 		move.l	a1,$36(a0)
 		tst.b	subtype(a0)
-		bpl.s	loc_405A4
+		bpl.s	+ ;loc_405A4
 		move.w	a0,(_unkF7C4).w
 		move.l	#loc_405D6,(a0)
 		bra.s	loc_405D6
 ; ---------------------------------------------------------------------------
 
-loc_405A4:
++ ;loc_405A4:
 		move.l	#loc_405AA,(a0)
 
 loc_405AA:
@@ -50,11 +50,11 @@ loc_405D8:
 		move.w	(Camera_max_Y_pos).w,d0
 		addi.w	#$120,d0
 		cmp.w	y_pos(a0),d0
-		bgt.s	loc_405FA
+		bgt.s	+ ;loc_405FA
 		move.w	#$7F00,d4
 		move.w	d4,x_pos(a0)
 
-loc_405FA:
++ ;loc_405FA:
 		move.w	$3A(a0),d0
 		cmp.w	y_pos(a0),d0
 		bhs.s	loc_4063C
@@ -62,12 +62,12 @@ loc_405FA:
 		move.w	#0,y_vel(a0)
 		movea.l	$36(a0),a1
 		move.w	(a1)+,d0
-		bpl.s	loc_4061E
+		bpl.s	+ ;loc_4061E
 		move.l	#loc_406AE,(a0)
 		bra.s	loc_4063C
 ; ---------------------------------------------------------------------------
 
-loc_4061E:
++ ;loc_4061E:
 		move.w	d0,$3A(a0)
 		move.l	a1,$36(a0)
 		move.l	#loc_40654,(a0)
@@ -90,33 +90,33 @@ loc_40654:
 		move.w	(sp)+,d4
 		move.b	(Level_frame_counter+1).w,d0
 		andi.b	#$1F,d0
-		bne.s	loc_40672
+		bne.s	+ ;loc_40672
 		moveq	#signextendB(sfx_BlockConveyor),d0
 		jsr	(Play_SFX).l
 
-loc_40672:
++ ;loc_40672:
 		tst.w	x_vel(a0)
-		bmi.s	loc_40684
+		bmi.s	+ ;loc_40684
 		move.w	$3A(a0),d0
 		cmp.w	x_pos(a0),d0
 		bhi.s	loc_406AC
-		bra.s	loc_4068E
+		bra.s	++ ;loc_4068E
 ; ---------------------------------------------------------------------------
 
-loc_40684:
++ ;loc_40684:
 		move.w	$3A(a0),d0
 		cmp.w	x_pos(a0),d0
 		blo.s	loc_406AC
 
-loc_4068E:
++ ;loc_4068E:
 		movea.l	$36(a0),a1
 		move.w	(a1)+,d0
-		bpl.s	loc_4069E
+		bpl.s	+ ;loc_4069E
 		move.l	#loc_406AE,(a0)
 		bra.s	loc_4063C
 ; ---------------------------------------------------------------------------
 
-loc_4069E:
++ ;loc_4069E:
 		move.w	d0,$3A(a0)
 		move.l	a1,$36(a0)
 		move.l	#loc_405D8,(a0)
@@ -141,13 +141,13 @@ sub_406B4:
 		lea	(Player_1).w,a1
 		move.b	$30(a0),d0
 		moveq	#p1_pushing_bit,d6
-		bsr.s	sub_406E4
+		bsr.s	+ ;sub_406E4
 		tst.w	d5
 		bne.s	locret_406E2
 		lea	(Player_2).w,a1
 		move.b	$31(a0),d0
 		moveq	#p2_pushing_bit,d6
-		bsr.s	sub_406E4
+		bsr.s	+ ;sub_406E4
 
 locret_406E2:
 		rts
@@ -157,11 +157,11 @@ locret_406E2:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_406E4:
++ ;sub_406E4:
 		btst	d6,d3
 		beq.s	locret_4075C
 		cmp.w	x_pos(a1),d2
-		bhs.s	loc_40726
+		bhs.s	+ ;loc_40726
 		btst	#5,d0
 		beq.s	locret_4075C
 		subq.w	#1,$32(a0)
@@ -174,7 +174,7 @@ sub_406E4:
 		addi.w	#$10,d3
 		jsr	(ObjCheckFloorDist2).l
 		cmpi.w	#$E,d1
-		bgt.s	loc_4075E
+		bgt.s	++ ;loc_4075E
 		add.w	d1,y_pos(a0)
 
 loc_40722:
@@ -182,7 +182,7 @@ loc_40722:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_40726:
++ ;loc_40726:
 		btst	#5,d0
 		beq.s	locret_4075C
 		subq.w	#1,$32(a0)
@@ -195,7 +195,7 @@ loc_40726:
 		subi.w	#$10,d3
 		jsr	(ObjCheckFloorDist2).l
 		cmpi.w	#$E,d1
-		bgt.s	loc_4075E
+		bgt.s	+ ;loc_4075E
 		add.w	d1,y_pos(a0)
 		moveq	#1,d5
 
@@ -203,7 +203,7 @@ locret_4075C:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4075E:
++ ;loc_4075E:
 		bset	#1,status(a0)
 		move.l	#loc_405D8,(a0)
 		moveq	#1,d5

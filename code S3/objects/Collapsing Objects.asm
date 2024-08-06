@@ -2,17 +2,17 @@ Obj_CollapsingPlatform:
 		move.l	#Map_AIZCollapsingPlatform,mappings(a0)
 		move.w	#make_art_tile($001,2,0),art_tile(a0)
 		cmpi.w	#1,(Current_zone_and_act).w
-		bne.s	loc_1DE40
+		bne.s	+ ;loc_1DE40
 		move.l	#Map_AIZCollapsingPlatform2,mappings(a0)
 		move.w	#make_art_tile($001,2,0),art_tile(a0)
 
-loc_1DE40:
++ ;loc_1DE40:
 		move.l	#byte_1E49C,$30(a0)
 		move.l	#byte_1E658,$3C(a0)
 		move.b	#$3C,width_pixels(a0)
 		move.b	#$20,height_pixels(a0)
 		cmpi.b	#5,(Current_zone).w
-		bne.s	loc_1DE8E
+		bne.s	+ ;loc_1DE8E
 		move.l	#Map_ICZCollapsingBridge,mappings(a0)
 		move.w	#make_art_tile($001,2,0),art_tile(a0)
 		move.l	#byte_1E4BA,$30(a0)
@@ -20,7 +20,7 @@ loc_1DE40:
 		move.b	#$30,width_pixels(a0)
 		move.b	#$30,height_pixels(a0)
 
-loc_1DE8E:
++ ;loc_1DE8E:
 		ori.b	#4,render_flags(a0)
 		move.w	#$280,priority(a0)
 		move.b	#7,$38(a0)
@@ -30,12 +30,12 @@ loc_1DE8E:
 
 loc_1DEB2:
 		tst.b	$3A(a0)
-		beq.s	loc_1DEC4
+		beq.s	+ ;loc_1DEC4
 		tst.b	$38(a0)
 		beq.w	ObjPlatformCollapse_CreateFragments
 		subq.b	#1,$38(a0)
 
-loc_1DEC4:
++ ;loc_1DEC4:
 		move.b	status(a0),d0
 		andi.b	#standing_mask,d0
 		beq.s	sub_1DED4
@@ -57,27 +57,27 @@ sub_1DED4:
 
 loc_1DEEC:
 		tst.b	$38(a0)
-		beq.s	loc_1DF3C
+		beq.s	+++ ;loc_1DF3C
 		tst.b	$3A(a0)
-		bne.s	loc_1DF00
+		bne.s	+ ;loc_1DF00
 		subq.b	#1,$38(a0)
 		bra.w	Draw_Sprite
 ; ---------------------------------------------------------------------------
 
-loc_1DF00:
++ ;loc_1DF00:
 		bsr.w	sub_1DED4
 		subq.b	#1,$38(a0)
 		bne.s	locret_1DF3A
 		lea	(Player_1).w,a1
 		moveq	#p1_standing_bit,d6
-		bsr.s	sub_1DF18
+		bsr.s	+ ;sub_1DF18
 		lea	(Player_2).w,a1
 		moveq	#p2_standing_bit,d6
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_1DF18:
++ ;sub_1DF18:
 		btst	d6,status(a0)
 		beq.s	locret_1DF3A
 		bclr	d6,status(a0)
@@ -92,7 +92,7 @@ locret_1DF3A:
 
 ; ---------------------------------------------------------------------------
 
-loc_1DF3C:
++ ;loc_1DF3C:
 		bsr.w	MoveSprite
 		tst.b	render_flags(a0)
 		bpl.w	Delete_Current_Sprite
@@ -104,49 +104,49 @@ Obj_CollapsingBridge:
 		ori.b	#4,render_flags(a0)
 		move.w	#$280,priority(a0)
 		cmpi.b	#6,(Current_zone).w
-		bne.s	loc_1DFD4
+		bne.s	+++ ;loc_1DFD4
 		move.b	subtype(a0),d0
 		andi.w	#$3F,d0
 		add.w	d0,d0
 		add.w	d0,d0
 		addq.w	#8,d0
-		bcc.s	loc_1DF7A
+		bcc.s	+ ;loc_1DF7A
 		move.b	#-1,d0
 
-loc_1DF7A:
++ ;loc_1DF7A:
 		move.b	d0,$38(a0)
 		btst	#6,subtype(a0)
-		bne.s	loc_1DFB2
+		bne.s	+ ;loc_1DFB2
 		move.l	#Map_LBZCollapsingBridge,mappings(a0)
 		move.w	#make_art_tile($001,2,0),art_tile(a0)
 		move.b	#$40,width_pixels(a0)
 		move.b	#$10,height_pixels(a0)
 		move.l	#LBZBridgeCollapse_TimerArray,$30(a0)
 		move.l	#LBZBridgeCollapse_TimerFlipArray,$34(a0)
-		bra.s	loc_1DFD4
+		bra.s	++ ;loc_1DFD4
 ; ---------------------------------------------------------------------------
 
-loc_1DFB2:
++ ;loc_1DFB2:
 		move.l	#Map_LBZCollapsingLedge,mappings(a0)
 		move.w	#make_art_tile($001,2,0),art_tile(a0)
 		move.b	#$20,width_pixels(a0)
 		move.b	#$30,height_pixels(a0)
 		move.l	#LBZLedgeCollapse_TimerArray,$30(a0)
 
-loc_1DFD4:
++ ;loc_1DFD4:
 		cmpi.b	#1,(Current_zone).w
-		bne.w	loc_1E06E
+		bne.w	++ ;loc_1E06E
 		move.l	#Map_HCZCollapsingBridge,mappings(a0)
 		move.w	#make_art_tile($001,2,1),art_tile(a0)
 		move.b	subtype(a0),d0
-		bpl.s	loc_1E006
+		bpl.s	+ ;loc_1E006
 		move.b	d0,d1
 		andi.b	#$F,d1
 		move.b	d1,$40(a0)
 		move.l	#loc_1E2E8,(a0)
 		andi.b	#$70,d0
 
-loc_1E006:
++ ;loc_1E006:
 		move.b	d0,d1
 		andi.w	#$F,d0
 		lsl.w	#4,d0
@@ -163,7 +163,7 @@ loc_1E006:
 		lea	off_1E04E(pc,d1.w),a1
 		move.l	(a1)+,$30(a0)
 		move.l	(a1)+,$34(a0)
-		bra.s	loc_1E06E
+		bra.s	+ ;loc_1E06E
 ; ---------------------------------------------------------------------------
 byte_1E03E:
 		dc.b $40, $10, 0, $80
@@ -177,9 +177,9 @@ off_1E04E:
 		dc.l byte_1E55F, byte_1E577
 ; ---------------------------------------------------------------------------
 
-loc_1E06E:
++ ;loc_1E06E:
 		cmpi.b	#2,(Current_zone).w
-		bne.s	loc_1E0F0
+		bne.s	+ ;loc_1E0F0
 		move.l	#Map_MGZCollapsingBridge,mappings(a0)
 		move.w	#make_art_tile($001,2,0),art_tile(a0)
 		move.b	subtype(a0),d0
@@ -200,7 +200,7 @@ loc_1E06E:
 		move.l	(a1)+,$30(a0)
 		move.l	(a1)+,$34(a0)
 		cmpi.w	#$10,d1
-		bne.s	loc_1E0F0
+		bne.s	+ ;loc_1E0F0
 		move.l	#loc_1E1C2,(a0)
 		rts
 ; ---------------------------------------------------------------------------
@@ -214,18 +214,18 @@ off_1E0D8:
 		dc.l byte_1E58F, byte_1E5AF
 ; ---------------------------------------------------------------------------
 
-loc_1E0F0:
++ ;loc_1E0F0:
 		cmpi.b	#5,(Current_zone).w
 		bne.s	loc_1E150
 		move.b	subtype(a0),d0
-		bpl.s	loc_1E112
+		bpl.s	+ ;loc_1E112
 		move.b	d0,d1
 		andi.b	#$F,d1
 		move.b	d1,$40(a0)
 		move.l	#loc_1E2E8,(a0)
 		andi.b	#$70,d0
 
-loc_1E112:
++ ;loc_1E112:
 		move.b	d0,d1
 		andi.w	#$F,d0
 		lsl.w	#4,d0
@@ -243,30 +243,30 @@ loc_1E150:
 		tst.b	$3A(a0)
 		beq.s	loc_1E19A
 		tst.b	$38(a0)
-		bne.s	loc_1E196
+		bne.s	+++ ;loc_1E196
 		movea.l	$30(a0),a4
 		tst.b	subtype(a0)	; does this object have a subtype?
-		bpl.s	loc_1E192	; if yes, branch to here
+		bpl.s	++ ;loc_1E192	; if yes, branch to here
 		move.b	status(a0),d0		; if bit 7 of subtype set, collapse platform in direction dependent on player position
 		andi.b	#standing_mask,d0
-		beq.s	loc_1E192
+		beq.s	++ ;loc_1E192
 		move.w	(Player_1+x_pos).w,d1
 		andi.b	#8,d0
-		bne.s	loc_1E17E
+		bne.s	+ ;loc_1E17E
 		move.w	(Player_2+x_pos).w,d1
 
-loc_1E17E:
++ ;loc_1E17E:
 		cmp.w	x_pos(a0),d1	; compare object x pos with player's x pos (Sonic, Tails)
-		bhs.s	loc_1E192	; if it's higher whan player's x pos (x coordinates), then branch
+		bhs.s	+ ;loc_1E192	; if it's higher whan player's x pos (x coordinates), then branch
 		movea.l	$34(a0),a4	; if it's less, get pointer to a4
 		bchg	#0,status(a0)	; reverse status (flipping for this case)
 		addq.b	#1,mapping_frame(a0)	; add 1 to mapping frame
 
-loc_1E192:
++ ;loc_1E192:
 		bra.w	CollapsingPtfmHandlePlayerAndSmash
 ; ---------------------------------------------------------------------------
 
-loc_1E196:
++ ;loc_1E196:
 		subq.b	#1,$38(a0)
 
 loc_1E19A:
@@ -295,36 +295,36 @@ loc_1E1C2:
 		beq.s	loc_1E244
 		move.b	(Player_1+status_tertiary).w,d1
 		andi.b	#8,d0
-		bne.s	loc_1E1EE
+		bne.s	+ ;loc_1E1EE
 		move.b	(Player_2+status_tertiary).w,d1
 
-loc_1E1EE:
++ ;loc_1E1EE:
 		tst.b	d1
 		bpl.s	loc_1E244
 		bclr	#p1_standing_bit,status(a0)
-		beq.s	loc_1E204
+		beq.s	+ ;loc_1E204
 		lea	(Player_1).w,a1
 		bclr	#Status_OnObj,status(a1)
 
-loc_1E204:
++ ;loc_1E204:
 		bclr	#p2_standing_bit,status(a0)
-		beq.s	loc_1E216
+		beq.s	+ ;loc_1E216
 		lea	(Player_2).w,a1
 		bclr	#Status_OnObj,status(a1)
 
-loc_1E216:
++ ;loc_1E216:
 		lea	(word_1E268).l,a4
 		addq.b	#1,mapping_frame(a0)
 		move.w	#$80,priority(a0)
 		move.l	#loc_1E248,(a0)
 		jsr	(BreakObjectToPieces).l
 		move.w	respawn_addr(a0),d0	; was obj spawned by layout?
-		beq.s	loc_1E242	; if not, branch to function
+		beq.s	+ ;loc_1E242	; if not, branch to function
 		movea.w	d0,a1	; if yes, get addr of respawn_table
 		bclr	#7,(a1)	; set as unloaded
 		clr.w	respawn_addr(a0)	; clear that addr
 
-loc_1E242:
++ ;loc_1E242:
 		bra.s	loc_1E248
 ; ---------------------------------------------------------------------------
 
@@ -336,11 +336,11 @@ loc_1E248:
 		jsr	(MoveSprite2).l
 		addi.w	#$18,y_vel(a0)	; make object fall
 		tst.b	render_flags(a0)	; is sprite on screen?
-		bpl.w	loc_1E262	; no delete
+		bpl.w	+ ;loc_1E262	; no delete
 		jmp	(Draw_Sprite).l	; if yes, then display
 ; ---------------------------------------------------------------------------
 
-loc_1E262:
++ ;loc_1E262:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 word_1E268:
@@ -382,30 +382,30 @@ loc_1E2E8:
 		tst.b	$3A(a0)
 		beq.s	loc_1E332
 		tst.b	$38(a0)
-		bne.s	loc_1E32E
+		bne.s	+++ ;loc_1E32E
 		movea.l	$30(a0),a4
 		tst.b	subtype(a0)
-		bpl.s	loc_1E32A
+		bpl.s	++ ;loc_1E32A
 		move.b	status(a0),d0
 		andi.b	#standing_mask,d0
-		beq.s	loc_1E32A
+		beq.s	++ ;loc_1E32A
 		move.w	(Player_1+x_pos).w,d1
 		andi.b	#8,d0
-		bne.s	loc_1E316
+		bne.s	+ ;loc_1E316
 		move.w	(Player_2+x_pos).w,d1
 
-loc_1E316:
++ ;loc_1E316:
 		cmp.w	x_pos(a0),d1
-		bhs.s	loc_1E32A
+		bhs.s	+ ;loc_1E32A
 		movea.l	$34(a0),a4
 		bchg	#0,status(a0)
 		addq.b	#1,mapping_frame(a0)
 
-loc_1E32A:
++ ;loc_1E32A:
 		bra.w	CollapsingPtfmHandlePlayerAndSmash
 ; ---------------------------------------------------------------------------
 
-loc_1E32E:
++ ;loc_1E32E:
 		subq.b	#1,$38(a0)
 
 loc_1E332:
@@ -414,11 +414,11 @@ loc_1E332:
 		lea	(Level_trigger_array).w,a3
 		lea	(a3,d0.w),a3
 		tst.b	(a3)
-		beq.s	loc_1E350
+		beq.s	+ ;loc_1E350
 		move.b	#1,$3A(a0)
 		clr.w	respawn_addr(a0)
 
-loc_1E350:
++ ;loc_1E350:
 		bra.w	loc_1E1AA
 ; ---------------------------------------------------------------------------
 
@@ -434,11 +434,11 @@ Obj_PlatformCollapseWait:
 Obj_PlatformCollapseFall:
 		jsr	(MoveSprite).l
 		tst.b	render_flags(a0)	; is obj on screen?
-		bpl.s	loc_1E37E	; if not, delete
+		bpl.s	+ ;loc_1E37E	; if not, delete
 		jmp	(Draw_Sprite).l	; if yes, display
 ; ---------------------------------------------------------------------------
 
-loc_1E37E:
++ ;loc_1E37E:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -465,26 +465,26 @@ Check_CollapsePlayerRelease:
 		move.w	d1,d2
 		add.w	d2,d2
 		btst	#Status_InAir,status(a1)
-		bne.s	loc_1E3E4
+		bne.s	++ ;loc_1E3E4
 		move.w	x_pos(a1),d0	; gets player's range from object
 		sub.w	x_pos(a0),d0
 		add.w	d1,d0
-		bmi.s	loc_1E3E4
+		bmi.s	++ ;loc_1E3E4
 		cmp.w	d2,d0
-		bhs.s	loc_1E3E4
+		bhs.s	++ ;loc_1E3E4
 		btst	#0,status(a0)
-		beq.s	loc_1E3D8
+		beq.s	+ ;loc_1E3D8
 		neg.w	d0
 		add.w	d2,d0
 
-loc_1E3D8:
++ ;loc_1E3D8:
 		lsr.w	#4,d0
 		move.b	(a2),d2
 		sub.b	(a2,d0.w),d2
 		cmp.b	d2,d3
 		bhi.s	locret_1E400
 
-loc_1E3E4:
++ ;loc_1E3E4:
 		bclr	d6,status(a0)
 		bclr	#Status_OnObj,status(a1)
 		bclr	#Status_Push,status(a1)
@@ -523,7 +523,7 @@ ObjPlatformCollapse_SmashObject:
 		bra.s	GetFragmentsSpriteProperties
 ; ---------------------------------------------------------------------------
 
-GetFragmentsSlotsloop:
+- ;GetFragmentsSlotsloop:
 		bsr.w	AllocateObjectAfterCurrent
 		bne.s	FragmentsDrawAndPlaySfx
 		addq.w	#6,a3	; in Sonic 2's mapping format, this is just addq.w #8,a3 due to different mapping format sizes (addq.w #5,a3 for Sonic 1)
@@ -539,7 +539,7 @@ GetFragmentsSpriteProperties:
 		move.b	width_pixels(a0),width_pixels(a1)
 		move.b	height_pixels(a0),height_pixels(a1)
 		move.b	(a4)+,$38(a1)
-		dbf	d1,GetFragmentsSlotsloop
+		dbf	d1,- ;GetFragmentsSlotsloop
 
 FragmentsDrawAndPlaySfx:
 		jsr	(Draw_Sprite).l

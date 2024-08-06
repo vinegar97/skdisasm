@@ -2,39 +2,39 @@ Obj_DEZTunnelControl:
 		move.b	#$A,$31(a0)
 		move.b	#$A,$39(a0)
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_484E2
+		bne.w	+ ;loc_484E2
 		move.l	#Obj_DEZTransRingSpawner,(a1)
 		move.w	x_pos(a0),x_pos(a1)
 		move.w	y_pos(a0),y_pos(a1)
 		move.w	a1,objoff_2E(a0)
 		move.b	#2,$40(a0)
 
-loc_484E2:
++ ;loc_484E2:
 		move.l	#Obj_DEZTunnelControl_Main,(a0)
 
 Obj_DEZTunnelControl_Main:
 		lea	(Player_1).w,a1
 		lea	$30(a0),a4
-		bsr.s	sub_48518
+		bsr.s	++ ;sub_48518
 		lea	(Player_2).w,a1
 		lea	$38(a0),a4
-		bsr.s	sub_48518
+		bsr.s	++ ;sub_48518
 		movea.w	objoff_2E(a0),a1
 		lea	$40(a0),a4
-		bsr.s	sub_48518
+		bsr.s	++ ;sub_48518
 		move.b	$30(a0),d0
 		add.b	$38(a0),d0
-		beq.s	loc_48512
+		beq.s	+ ;loc_48512
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_48512:
++ ;loc_48512:
 		jmp	(Delete_Sprite_If_Not_In_Range).l
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_48518:
++ ;sub_48518:
 		moveq	#0,d0
 		move.b	dezTunnel_routine(a4),d0
 		move.w	off_48524(pc,d0.w),d0
@@ -101,12 +101,12 @@ DEZTunnelControl_ReadWaypoint:
 		move.b	(a2)+,d4
 		andi.w	#$7F,d4
 		cmpi.l	#Obj_DEZTransRingSpawner_Main,(a1)
-		bne.s	loc_485D0
+		bne.s	+ ;loc_485D0
 		moveq	#0,d0
 		move.b	DEZTunnelControl_WaitTimers(pc,d4.w),d0
 		move.w	d0,objoff_30(a1)
 
-loc_485D0:
++ ;loc_485D0:
 		add.b	d4,d4
 		move.w	DEZTunnelControl_ScaleFactors(pc,d4.w),d2
 		addq.b	#2,d4
@@ -205,13 +205,13 @@ DEZTunnelControl_DoCircle:
 		move.w	(a2)+,d4
 		move.w	(a2)+,d5
 		cmp.b	dezTunnel_angle(a4),d5
-		bne.s	loc_486BE
+		bne.s	+ ;loc_486BE
 		move.b	#4,dezTunnel_routine(a4)
 		move.l	a2,dezTunnel_currentWaypoint(a4)
 		bra.w	DEZTunnelControl_ReadWaypoint
 ; ---------------------------------------------------------------------------
 
-loc_486BE:
++ ;loc_486BE:
 		add.b	d4,dezTunnel_angle(a4)
 		rts
 ; ---------------------------------------------------------------------------
@@ -243,14 +243,14 @@ DEZTunnelControl_DoSine:
 		move.w	(a2)+,d4
 		move.w	(a2)+,d5
 		cmp.b	dezTunnel_angle(a4),d5
-		bne.s	loc_48726
+		bne.s	+ ;loc_48726
 		move.b	#4,dezTunnel_routine(a4)
 		move.w	#0,angle(a1)
 		move.l	a2,dezTunnel_currentWaypoint(a4)
 		bra.w	DEZTunnelControl_ReadWaypoint
 ; ---------------------------------------------------------------------------
 
-loc_48726:
++ ;loc_48726:
 		add.b	d4,dezTunnel_angle(a4)
 		rts
 
@@ -281,19 +281,19 @@ DEZLightTunnel_SetupWaypoint:
 		move.w	d2,d3
 		move.w	d4,d0
 		sub.w	x_pos(a1),d0
-		bge.s	loc_48772
+		bge.s	+ ;loc_48772
 		neg.w	d0
 		neg.w	d2
 
-loc_48772:
++ ;loc_48772:
 		moveq	#0,d1
 		move.w	d5,d1
 		sub.w	y_pos(a1),d1
-		bge.s	loc_48780
+		bge.s	+ ;loc_48780
 		neg.w	d1
 		neg.w	d3
 
-loc_48780:
++ ;loc_48780:
 		cmp.w	d0,d1
 		blo.s	DEZLightTunnel_SetupHorizontal
 		moveq	#0,d1
@@ -304,18 +304,18 @@ loc_48780:
 		moveq	#0,d0
 		move.w	d4,d0
 		sub.w	x_pos(a1),d0
-		beq.s	loc_4879E
+		beq.s	+ ;loc_4879E
 		swap	d0
 		divs.w	d1,d0
 
-loc_4879E:
++ ;loc_4879E:
 		move.w	d0,x_vel(a1)
 		move.w	d3,y_vel(a1)
 		tst.w	d1
-		bpl.s	loc_487AC
+		bpl.s	+ ;loc_487AC
 		neg.w	d1
 
-loc_487AC:
++ ;loc_487AC:
 		lsr.w	#8,d1
 		move.b	d1,dezTunnel_timer(a4)
 		rts
@@ -330,18 +330,18 @@ DEZLightTunnel_SetupHorizontal:
 		moveq	#0,d1
 		move.w	d5,d1
 		sub.w	y_pos(a1),d1
-		beq.s	loc_487CE
+		beq.s	+ ;loc_487CE
 		swap	d1
 		divs.w	d0,d1
 
-loc_487CE:
++ ;loc_487CE:
 		move.w	d1,y_vel(a1)
 		move.w	d2,x_vel(a1)
 		tst.w	d0
-		bpl.s	loc_487DC
+		bpl.s	+ ;loc_487DC
 		neg.w	d0
 
-loc_487DC:
++ ;loc_487DC:
 		lsr.w	#8,d0
 		move.b	d0,dezTunnel_timer(a4)
 		rts

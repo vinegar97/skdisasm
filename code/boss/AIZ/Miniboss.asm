@@ -27,11 +27,11 @@ loc_6852C:
 		move.w	(Camera_X_pos).w,d0
 		move.w	#$2F10,d5
 		cmp.w	d5,d0
-		bhs.s	loc_6853A
+		bhs.s	+ ;loc_6853A
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_6853A:
++ ;loc_6853A:
 		move.l	#loc_6857A,$34(a0)
 		lea	ChildObjDat_6906A(pc),a2
 		jsr	(CreateChild3_NormalRepeated).l
@@ -109,10 +109,10 @@ loc_685FC:
 		jmp	(MoveWaitTouch).l
 ; ---------------------------------------------------------------------------
 		subq.b	#1,$39(a0)
-		bpl.s	loc_68616
+		bpl.s	+ ;loc_68616
 		move.l	#loc_6862E,$34(a0)
 
-loc_68616:
++ ;loc_68616:
 		move.w	#$40,$2E(a0)
 		moveq	#signextendB(sfx_FlamethrowerQuiet),d0
 		jsr	(Play_SFX).l
@@ -138,10 +138,10 @@ loc_68646:
 		clr.w	y_vel(a0)
 		move.w	#$40,$2E(a0)
 		cmpi.w	#0,(Current_zone_and_act).w
-		bne.s	loc_68682
+		bne.s	+ ;loc_68682
 		move.w	#$120,$2E(a0)
 
-loc_68682:
++ ;loc_68682:
 		move.l	#Go_Delete_Sprite,$34(a0)
 		st	(Events_fg_5).w
 		rts
@@ -150,11 +150,11 @@ loc_68682:
 loc_68690:
 		jsr	(MoveSprite2).l
 		subq.w	#1,$2E(a0)
-		bmi.s	loc_686A2
+		bmi.s	+ ;loc_686A2
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_686A2:
++ ;loc_686A2:
 		clr.b	(Boss_flag).w
 		jsr	(Restore_LevelMusic).l
 		lea	(PLC_Monitors).l,a1
@@ -177,10 +177,10 @@ loc_686E8:
 		jsr	(Animate_Raw).l
 		movea.w	parent3(a0),a1
 		btst	#7,status(a1)
-		beq.s	loc_68704
+		beq.s	+ ;loc_68704
 		clr.b	collision_flags(a0)
 
-loc_68704:
++ ;loc_68704:
 		jmp	(Child_DrawTouch_Sprite2).l
 ; ---------------------------------------------------------------------------
 
@@ -222,11 +222,11 @@ loc_68754:
 loc_6875E:
 		movea.w	parent3(a0),a1
 		btst	#1,$38(a1)
-		bne.s	loc_6876C
+		bne.s	+ ;loc_6876C
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_6876C:
++ ;loc_6876C:
 		move.b	#4,routine(a0)
 		move.l	#loc_68784,$34(a0)
 		bra.w	loc_68EC0
@@ -258,12 +258,12 @@ loc_687B6:
 		move.w	#$1C,$2E(a0)
 		subq.b	#1,$39(a0)
 		cmpi.b	#1,$39(a0)
-		beq.s	loc_687D2
+		beq.s	+ ;loc_687D2
 		lea	ChildObjDat_6909A(pc),a2
 		jmp	(CreateChild1_Normal).l
 ; ---------------------------------------------------------------------------
 
-loc_687D2:
++ ;loc_687D2:
 		lea	ChildObjDat_690A8(pc),a2
 		jmp	(CreateChild1_Normal).l
 ; ---------------------------------------------------------------------------
@@ -271,11 +271,11 @@ loc_687D2:
 loc_687DC:
 		jsr	(Obj_Wait).l
 		tst.b	$39(a0)
-		bmi.s	loc_687EA
+		bmi.s	+ ;loc_687EA
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_687EA:
++ ;loc_687EA:
 		move.b	#$A,routine(a0)
 		move.l	#byte_69136,$30(a0)
 		move.l	#loc_68802,$34(a0)
@@ -448,11 +448,11 @@ loc_689AC:
 		move.w	y_pos(a1),y_pos(a0)
 		move.w	#-$60,d0
 		btst	#0,render_flags(a1)
-		beq.s	loc_689EC
+		beq.s	+ ;loc_689EC
 		neg.w	d0
 		bset	#0,render_flags(a0)
 
-loc_689EC:
++ ;loc_689EC:
 		move.w	x_pos(a1),d1
 		add.w	d0,d1
 		move.w	d1,x_pos(a0)
@@ -466,10 +466,10 @@ loc_689F8:
 		bmi.s	locret_68A16
 		move.w	word_68A18(pc,d0.w),d0
 		btst	#0,render_flags(a0)
-		bne.s	loc_68A12
+		bne.s	+ ;loc_68A12
 		neg.w	d0
 
-loc_68A12:
++ ;loc_68A12:
 		add.w	d0,x_pos(a0)
 
 locret_68A16:
@@ -517,16 +517,16 @@ loc_68A6E:
 		move.w	(Camera_X_pos).w,d0
 		move.w	#$10E0,d5
 		cmpi.b	#2,(Player_1+character_id).w
-		bne.s	loc_68A82
+		bne.s	+ ;loc_68A82
 		move.w	#$10C0,d5
 
-loc_68A82:
++ ;loc_68A82:
 		cmp.w	d5,d0
-		bhs.s	loc_68A88
+		bhs.s	+ ;loc_68A88
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_68A88:
++ ;loc_68A88:
 		move.l	#loc_68A94,$34(a0)
 		bra.w	loc_68556
 ; ---------------------------------------------------------------------------
@@ -573,11 +573,11 @@ loc_68AFE:
 
 loc_68B1C:
 		jsr	(Swing_UpAndDown_Count).l
-		beq.s	loc_68B28
+		beq.s	+ ;loc_68B28
 		tst.w	d1
 		bmi.s	loc_68B34
 
-loc_68B28:
++ ;loc_68B28:
 		jsr	(MoveSprite2).l
 		jmp	(Draw_And_Touch_Sprite).l
 ; ---------------------------------------------------------------------------
@@ -588,11 +588,11 @@ loc_68B34:
 		move.l	#loc_68B74,$34(a0)
 		move.w	#-$100,d0
 		bchg	#2,$38(a0)
-		beq.s	loc_68B5E
+		beq.s	+ ;loc_68B5E
 		neg.w	d0
 		move.l	#loc_68ACC,$34(a0)
 
-loc_68B5E:
++ ;loc_68B5E:
 		move.w	d0,y_vel(a0)
 		jmp	(Draw_And_Touch_Sprite).l
 ; ---------------------------------------------------------------------------
@@ -619,22 +619,22 @@ loc_68B92:
 		move.l	#loc_68BDC,$34(a0)
 		move.w	#$100,d0
 		bchg	#3,$38(a0)
-		bne.s	loc_68BB4
+		bne.s	+ ;loc_68BB4
 		neg.w	d0
 
-loc_68BB4:
++ ;loc_68BB4:
 		move.w	d0,x_vel(a0)
 		bra.w	Swing_Setup1
 ; ---------------------------------------------------------------------------
 
 loc_68BBC:
 		jsr	(Swing_UpAndDown_Count).l
-		bne.s	loc_68BD0
+		bne.s	+ ;loc_68BD0
 		jsr	(MoveSprite2).l
 		jmp	(Draw_And_Touch_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_68BD0:
++ ;loc_68BD0:
 		movea.l	$34(a0),a1
 		jsr	(a1)
 		jmp	(Draw_And_Touch_Sprite).l
@@ -678,11 +678,11 @@ off_68C2C:
 loc_68C38:
 		movea.w	parent3(a0),a1
 		btst	#1,$38(a1)
-		bne.s	loc_68C46
+		bne.s	+ ;loc_68C46
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_68C46:
++ ;loc_68C46:
 		move.b	#4,routine(a0)
 		move.l	#loc_68C58,$34(a0)
 		bra.w	loc_68EC0
@@ -716,12 +716,12 @@ loc_68C96:
 		movea.w	parent3(a0),a1
 		movea.w	parent3(a1),a1
 		btst	#7,status(a1)
-		bne.s	loc_68CC0
+		bne.s	+ ;loc_68CC0
 		jsr	(Add_SpriteToCollisionResponseList).l
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_68CC0:
++ ;loc_68CC0:
 		jmp	(Go_Delete_Sprite).l
 ; ---------------------------------------------------------------------------
 off_68CC6:
@@ -736,10 +736,10 @@ loc_68CD0:
 		bsr.w	sub_6885A
 		movea.w	parent3(a0),a1
 		cmpi.l	#loc_6872C,(a1)
-		bne.s	loc_68CE4
+		bne.s	+ ;loc_68CE4
 		clr.b	collision_flags(a0)
 
-loc_68CE4:
++ ;loc_68CE4:
 		move.l	#loc_68D06,$34(a0)
 		move.b	#8,y_radius(a0)
 		rts
@@ -810,16 +810,16 @@ loc_68D9C:
 		lea	ObjDat3_69032(pc),a1
 		jsr	(SetUp_ObjAttributes).l
 		cmpi.b	#0,(Current_zone).w
-		beq.s	loc_68DB4
+		beq.s	+ ;loc_68DB4
 		move.w	#make_art_tile($500,0,0),art_tile(a0)
 
-loc_68DB4:
++ ;loc_68DB4:
 		movea.w	parent3(a0),a1
 		tst.b	collision_flags(a1)
-		bne.s	loc_68DC2
+		bne.s	+ ;loc_68DC2
 		clr.b	collision_flags(a0)
 
-loc_68DC2:
++ ;loc_68DC2:
 		move.l	#AniRaw_BossExplosion,$30(a0)
 		move.l	#loc_68DDE,$34(a0)
 		moveq	#$C,d1
@@ -955,11 +955,11 @@ sub_68EE4:
 		lea	byte_68F2E(pc),a2
 		lea	word_68F4E(pc),a3
 		btst	#0,render_flags(a1)
-		beq.s	loc_68F0E
+		beq.s	+ ;loc_68F0E
 		lea	byte_68F3E(pc),a2
 		lea	word_68F58(pc),a3
 
-loc_68F0E:
++ ;loc_68F0E:
 		move.b	(a2,d0.w),d0
 		add.w	d0,d0
 		move.w	(a3,d0.w),d0
@@ -1027,21 +1027,21 @@ loc_68F62:
 		tst.b	collision_flags(a0)
 		bne.s	locret_68FB4
 		tst.b	collision_property(a0)
-		beq.s	loc_68FB6
+		beq.s	+++ ;loc_68FB6
 		tst.b	$20(a0)
-		bne.s	loc_68F88
+		bne.s	+ ;loc_68F88
 		move.b	#$20,$20(a0)
 		moveq	#signextendB(sfx_BossHit),d0
 		jsr	(Play_SFX).l
 		bset	#6,status(a0)
 
-loc_68F88:
++ ;loc_68F88:
 		moveq	#0,d0
 		btst	#0,$20(a0)
-		bne.s	loc_68F94
+		bne.s	+ ;loc_68F94
 		addq.w	#2*4,d0
 
-loc_68F94:
++ ;loc_68F94:
 		lea	word_68FE6(pc),a1
 		lea	word_68FEE(pc,d0.w),a2
 		jsr	(CopyWordData_4).l
@@ -1054,17 +1054,17 @@ locret_68FB4:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_68FB6:
++ ;loc_68FB6:
 		move.l	#Wait_FadeToLevelMusic,(a0)
 		move.l	#loc_68C02,$34(a0)
 		clr.w	x_vel(a0)
 		clr.w	y_vel(a0)
 		lea	(Child6_CreateBossExplosion).l,a2
 		jsr	(CreateChild6_Simple).l
-		bne.s	loc_68FE0
+		bne.s	+ ;loc_68FE0
 		move.b	#$10,subtype(a1)
 
-loc_68FE0:
++ ;loc_68FE0:
 		jmp	(BossDefeated_StopTimer).l
 ; ---------------------------------------------------------------------------
 word_68FE6:

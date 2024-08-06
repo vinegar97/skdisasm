@@ -8,23 +8,23 @@ Obj_EMZDripper:
 		move.b	#4,x_radius(a0)
 		move.b	#4,y_radius(a0)
 		btst	#0,status(a0)
-		beq.s	loc_376DC
+		beq.s	+ ;loc_376DC
 		move.w	#make_art_tile($300,2,1),art_tile(a0)
 		move.b	#3,mapping_frame(a0)
 		move.l	#Draw_Sprite,(a0)
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_376DC:
++ ;loc_376DC:
 		move.l	#loc_376E2,(a0)
 
 loc_376E2:
 		move.b	(Level_frame_counter+1).w,d0
 		add.b	subtype(a0),d0
 		andi.b	#$7F,d0
-		bne.s	loc_3771A
+		bne.s	+ ;loc_3771A
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_3771A
+		bne.w	+ ;loc_3771A
 		moveq	#subtype,d0
 
 loc_376FC:
@@ -36,7 +36,7 @@ loc_376FC:
 		move.b	#1,mapping_frame(a1)
 		moveq	#0,d0
 
-loc_3771A:
++ ;loc_3771A:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -45,7 +45,7 @@ loc_37720:
 		addi.w	#8,y_vel(a0)
 		jsr	(ObjCheckFloorDist).l
 		tst.w	d1
-		bpl.s	loc_3775A
+		bpl.s	+ ;loc_3775A
 		move.l	#loc_377C6,(a0)
 		move.w	#$100,x_vel(a0)
 		neg.w	y_vel(a0)
@@ -56,21 +56,21 @@ loc_37720:
 		bsr.s	sub_37784
 		bsr.s	sub_37784
 
-loc_3775A:
++ ;loc_3775A:
 		cmpi.w	#-$100,(Camera_min_Y_pos).w
-		bne.s	loc_3776A
+		bne.s	+ ;loc_3776A
 		move.w	(Screen_Y_wrap_value).w,d0
 		and.w	d0,y_pos(a0)
 
-loc_3776A:
++ ;loc_3776A:
 		move.w	(Camera_max_Y_pos).w,d0
 		addi.w	#$60,d0
 		cmp.w	y_pos(a0),d0
-		bge.s	loc_3777E
+		bge.s	+ ;loc_3777E
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_3777E:
++ ;loc_3777E:
 		jmp	(Draw_Sprite).l
 
 ; =============== S U B R O U T I N E =======================================
@@ -107,11 +107,11 @@ loc_377C6:
 		jsr	(MoveSprite2).l
 		addi.w	#8,y_vel(a0)
 		subq.b	#1,$3C(a0)
-		bne.s	loc_377DE
+		bne.s	+ ;loc_377DE
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_377DE:
++ ;loc_377DE:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 Map_EMZDripper:

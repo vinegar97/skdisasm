@@ -24,24 +24,24 @@ loc_88FDC:
 
 loc_88FEC:
 		btst	#0,$38(a0)
-		bne.s	loc_89014
+		bne.s	+++ ;loc_89014
 		jsr	Find_SonicTails(pc)
 		cmpi.w	#$60,d2
-		bhs.s	loc_8900C
+		bhs.s	++ ;loc_8900C
 		btst	#0,render_flags(a0)
-		beq.s	loc_89008
+		beq.s	+ ;loc_89008
 		subq.w	#2,d0
 
-loc_89008:
++ ;loc_89008:
 		tst.w	d0
-		beq.s	loc_89036
+		beq.s	+++ ;loc_89036
 
-loc_8900C:
++ ;loc_8900C:
 		lea	byte_89170(pc),a1
 		jmp	Animate_RawNoSSTMultiDelay(pc)
 ; ---------------------------------------------------------------------------
 
-loc_89014:
++ ;loc_89014:
 		move.b	#4,routine(a0)
 		clr.b	collision_flags(a0)
 		bclr	#0,$38(a0)
@@ -51,7 +51,7 @@ loc_89014:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_89036:
++ ;loc_89036:
 		move.b	#6,routine(a0)
 		move.l	#loc_89056,$34(a0)
 		clr.b	anim_frame(a0)
@@ -97,23 +97,23 @@ loc_8908C:
 
 loc_890AA:
 		bsr.w	Check_PlayerCollision
-		beq.s	loc_890C4
+		beq.s	+ ;loc_890C4
 		move.l	#loc_890C8,(a0)
 		bsr.w	sub_890D8
 		movea.w	parent3(a0),a1
 		bset	#0,$38(a1)
 
-loc_890C4:
++ ;loc_890C4:
 		jmp	Child_DrawTouch_Sprite(pc)
 ; ---------------------------------------------------------------------------
 
 loc_890C8:
 		subq.w	#1,$2E(a0)
-		bmi.s	loc_890D0
+		bmi.s	+ ;loc_890D0
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_890D0:
++ ;loc_890D0:
 		move.l	#loc_890AA,(a0)
 		rts
 
@@ -124,11 +124,11 @@ sub_890D8:
 		move.w	#$800,d0
 		bclr	#Status_Facing,status(a1)
 		btst	#0,render_flags(a0)
-		beq.s	loc_890F2
+		beq.s	+ ;loc_890F2
 		neg.w	d0
 		bset	#Status_Facing,status(a1)
 
-loc_890F2:
++ ;loc_890F2:
 		move.w	d0,x_vel(a1)
 		move.w	d0,ground_vel(a1)
 		move.w	#-$800,y_vel(a1)

@@ -15,22 +15,22 @@ loc_49ADA:
 		jsr	(SolidObjectFull2).l
 		swap	d6
 		andi.w	#1|2,d6
-		beq.s	loc_49B16
+		beq.s	++ ;loc_49B16
 		move.w	d6,d0
 		andi.w	#1,d0
-		beq.s	loc_49B08
+		beq.s	+ ;loc_49B08
 		lea	(Player_1).w,a1
 		moveq	#p1_pushing_bit,d5
 		bsr.s	sub_49B76
 
-loc_49B08:
++ ;loc_49B08:
 		andi.w	#2,d6
-		beq.s	loc_49B16
+		beq.s	+ ;loc_49B16
 		lea	(Player_2).w,a1
 		moveq	#p2_pushing_bit,d5
 		bsr.s	sub_49B76
 
-loc_49B16:
++ ;loc_49B16:
 		lea	(Ani_PachinkoTriangleBumper).l,a1
 		jsr	(Animate_Sprite).l
 
@@ -39,17 +39,17 @@ loc_49B22:
 		andi.w	#$FF80,d0
 		sub.w	(Camera_Y_pos_coarse_back).w,d0
 		cmpi.w	#$200,d0
-		bhi.w	loc_49B3C
+		bhi.w	+ ;loc_49B3C
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_49B3C:
++ ;loc_49B3C:
 		move.w	respawn_addr(a0),d0
-		beq.s	loc_49B48
+		beq.s	+ ;loc_49B48
 		movea.w	d0,a2
 		bclr	#7,(a2)
 
-loc_49B48:
++ ;loc_49B48:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -58,17 +58,17 @@ loc_49B4E:
 		andi.w	#$FF80,d0
 		sub.w	(Camera_Y_pos_coarse_back).w,d0
 		cmpi.w	#$200,d0
-		bhi.w	loc_49B64
+		bhi.w	+ ;loc_49B64
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_49B64:
++ ;loc_49B64:
 		move.w	respawn_addr(a0),d0
-		beq.s	loc_49B70
+		beq.s	+ ;loc_49B70
 		movea.w	d0,a2
 		bclr	#7,(a2)
 
-loc_49B70:
++ ;loc_49B70:
 		jmp	(Delete_Current_Sprite).l
 
 ; =============== S U B R O U T I N E =======================================
@@ -81,11 +81,11 @@ sub_49B76:
 		move.w	#$800,x_vel(a1)
 		move.w	x_pos(a1),d0
 		sub.w	x_pos(a0),d0
-		bcc.s	loc_49B9E
+		bcc.s	+ ;loc_49B9E
 		bset	#Status_Facing,status(a1)
 		neg.w	x_vel(a1)
 
-loc_49B9E:
++ ;loc_49B9E:
 		bclr	d5,status(a0)
 		bset	#Status_InAir,status(a1)
 		bclr	#Status_Push,status(a1)
@@ -94,18 +94,18 @@ loc_49B9E:
 		clr.b	jumping(a1)
 		move.w	#1,ground_vel(a1)
 		tst.b	flip_angle(a1)
-		bne.s	loc_49BD0
+		bne.s	+ ;loc_49BD0
 		move.b	#1,flip_angle(a1)
 
-loc_49BD0:
++ ;loc_49BD0:
 		move.b	#0,anim(a1)
 		move.b	#-1,flips_remaining(a1)
 		move.b	#4,flip_speed(a1)
 		btst	#Status_Facing,status(a1)
-		beq.s	loc_49BEE
+		beq.s	+ ;loc_49BEE
 		neg.w	ground_vel(a1)
 
-loc_49BEE:
++ ;loc_49BEE:
 		move.b	#1,anim(a0)
 		rts
 ; End of function sub_49B76

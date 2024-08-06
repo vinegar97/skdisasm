@@ -4,7 +4,7 @@ Obj_SOZSolidSprites:
 		ori.b	#4,render_flags(a0)
 		move.w	#$200,priority(a0)
 		tst.b	subtype(a0)
-		beq.s	loc_41F7E
+		beq.s	+ ;loc_41F7E
 		move.b	#$20,width_pixels(a0)
 		move.b	#8,height_pixels(a0)
 		move.b	#1,mapping_frame(a0)
@@ -12,7 +12,7 @@ Obj_SOZSolidSprites:
 		bra.s	loc_41FAC
 ; ---------------------------------------------------------------------------
 
-loc_41F7E:
++ ;loc_41F7E:
 		move.b	#$10,width_pixels(a0)
 		move.b	#$18,height_pixels(a0)
 		move.l	#loc_41F90,(a0)

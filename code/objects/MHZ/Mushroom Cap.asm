@@ -2,23 +2,23 @@ Obj_MHZMushroomCap:
 		; init routine
 		move.w	#$80,priority(a0)
 		move.b	subtype(a0),d0		; If bit 7 set...
-		bpl.s	.highspritepriority
+		bpl.s	+ ;.highspritepriority
 		move.w	#$300,priority(a0)
 
-	.highspritepriority:
++ ;	.highspritepriority:
 		move.b	d0,d1
 		move.w	#make_art_tile($369,2,1),art_tile(a0)	; Dark-spotted mushroom
 		andi.b	#1,d0			; If bit 0 set...
-		beq.s	.lightmushroom
+		beq.s	+ ;.lightmushroom
 		move.w	#make_art_tile($399,2,1),art_tile(a0)	; Light-spotted mushroom
 		move.b	#$14,$36(a0)		; Change animation timing a little, so not all mushrooms are synchronised
 
-	.lightmushroom:
++ ;	.lightmushroom:
 		add.b	d1,d1			; If bit 6 set...
-		bpl.s	.highplanepriority
+		bpl.s	+ ;.highplanepriority
 		andi.w	#drawing_mask,art_tile(a0)	; Strip 'high priority' bit
 
-	.highplanepriority:
++ ;	.highplanepriority:
 		move.l	#Map_MHZMushroomCap,mappings(a0)
 		ori.b	#4,render_flags(a0)
 		move.b	#$20,width_pixels(a0)
@@ -33,12 +33,12 @@ Obj_MHZMushroomCap:
 		lea	(Ani_MHZMushroomCap).l,a1
 		jsr	(Animate_Sprite).l
 		tst.b	routine(a0)		; Has animation byte_3E1E1 ended?
-		beq.s	.animstillgoing
+		beq.s	+ ;.animstillgoing
 		move.w	#0,anim(a0)		; and prev_anim
 		move.b	#0,anim_frame(a0)
 		clr.b	routine(a0)
 
-	.animstillgoing:
++ ;	.animstillgoing:
 		bsr.s	MHZMushroomCap_UpdatePosition
 		move.w	#$18,d1
 		moveq	#0,d3
@@ -148,11 +148,11 @@ MHZMushroomCap_Positions:
 
 MHZMushroomCap_BounceCharacter:
 		btst	d6,status(a0)		; Is character standing on object?
-		bne.s	.characteronmushroom	; If so, prepare to bounce them
+		bne.s	+ ;.characteronmushroom	; If so, prepare to bounce them
 		move.w	y_vel(a1),(a0,d5.w)	; If not, just store character's y_vel
 		rts
 
-	.characteronmushroom:
++ ;	.characteronmushroom:
 		move.b	#1,anim(a0)		; Set mushroom to 'spring' animation
 		cmpi.b	#3,mapping_frame(a0)	; Are we at an actual 'spring up' frame?
 		bne.s	.return			; If not, return and don't do anything else to the character
@@ -160,13 +160,13 @@ MHZMushroomCap_BounceCharacter:
 		; These checks make the character bounce higher if they hit the mushroom at a high speed
 		move.w	#$660,d1
 		cmp.w	d1,d0			; Is character going slow?
-		blt.s	.bouncecharacter	; If so, make them bounce low
+		blt.s	+ ;.bouncecharacter	; If so, make them bounce low
 		move.w	#$760,d1
 		cmp.w	d1,d0			; Is character going faster?
-		blt.s	.bouncecharacter	; If so, make them bounce high
+		blt.s	+ ;.bouncecharacter	; If so, make them bounce high
 		move.w	#$860,d1		; Otherwise, they're going really fast; make them bounce really high
 
-	.bouncecharacter:
++ ;	.bouncecharacter:
 		addi.w	#$20,d1
 		neg.w	d1
 		move.w	d1,y_vel(a1)		; Set caracter's y_vel, bouncing them

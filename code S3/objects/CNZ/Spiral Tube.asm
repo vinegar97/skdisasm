@@ -3,23 +3,23 @@
 Obj_CNZSpiralTube:
 		lea	(Player_1).w,a1
 		lea	$30(a0),a4
-		bsr.s	sub_32328
+		bsr.s	++ ;sub_32328
 		lea	(Player_2).w,a1
 		lea	$3A(a0),a4
-		bsr.s	sub_32328
+		bsr.s	++ ;sub_32328
 		move.b	$30(a0),d0
 		add.b	$3A(a0),d0
-		beq.s	loc_32322
+		beq.s	+ ;loc_32322
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_32322:
++ ;loc_32322:
 		jmp	(Delete_Sprite_If_Not_In_Range).l
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_32328:
++ ;sub_32328:
 		moveq	#0,d0
 		move.b	(a4),d0
 		move.w	off_32334(pc,d0.w),d0
@@ -60,11 +60,11 @@ loc_3233C:
 		clr.b	1(a4)
 		moveq	#$30,d1
 		cmpi.w	#$40,d0
-		bhs.s	loc_323AE
+		bhs.s	+ ;loc_323AE
 		neg.w	d1
 		move.b	#$80,1(a4)
 
-loc_323AE:
++ ;loc_323AE:
 		add.w	x_pos(a0),d1
 		move.w	d1,x_pos(a1)
 		move.w	y_pos(a0),$14(a1)
@@ -87,10 +87,10 @@ loc_323C8:
 		move.w	d0,x_pos(a1)
 		moveq	#0,d0
 		btst	#0,(Ring_count+1).w
-		beq.s	loc_323F4
+		beq.s	+ ;loc_323F4
 		move.w	#$80,d0
 
-loc_323F4:
++ ;loc_323F4:
 		cmp.b	1(a4),d0
 		bne.s	locret_32402
 		addq.b	#2,(a4)
@@ -116,12 +116,12 @@ loc_32404:
 		moveq	#0,d0
 		move.w	x_pos(a0),d1
 		sub.w	x_pos(a1),d1
-		bcc.s	loc_3243C
+		bcc.s	+ ;loc_3243C
 		moveq	#1,d0
 
-loc_3243C:
++ ;loc_3243C:
 		add.b	subtype(a0),d0
-		bsr.w	sub_324AC
+		bsr.w	++ ;sub_324AC
 		addq.b	#2,(a4)
 
 locret_32446:
@@ -138,11 +138,11 @@ loc_32448:
 		move.w	d5,y_pos(a1)
 		move.l	a2,6(a4)
 		subq.w	#4,4(a4)
-		beq.s	loc_3249A
+		beq.s	+ ;loc_3249A
 		move.w	(a2)+,d4
 		move.w	(a2)+,d5
 		move.w	#$C00,d2
-		bra.w	loc_324DC
+		bra.w	+++ ;loc_324DC
 ; ---------------------------------------------------------------------------
 
 loc_32474:
@@ -161,7 +161,7 @@ loc_32474:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_3249A:
++ ;loc_3249A:
 		andi.w	#$FFF,y_pos(a1)
 		clr.b	(a4)
 		clr.b	object_control(a1)
@@ -171,7 +171,7 @@ loc_3249A:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_324AC:
++ ;sub_324AC:
 		andi.w	#$F,d0
 		add.w	d0,d0
 		lea	(off_3255A).l,a2
@@ -187,26 +187,26 @@ sub_324AC:
 		move.w	(a2)+,d5
 		move.w	#$C00,d2
 
-loc_324DC:
++ ;loc_324DC:
 		moveq	#0,d0
 		move.w	d2,d3
 		move.w	d4,d0
 		sub.w	x_pos(a1),d0
-		bge.s	loc_324EC
+		bge.s	+ ;loc_324EC
 		neg.w	d0
 		neg.w	d2
 
-loc_324EC:
++ ;loc_324EC:
 		moveq	#0,d1
 		move.w	d5,d1
 		sub.w	y_pos(a1),d1
-		bge.s	loc_324FA
+		bge.s	+ ;loc_324FA
 		neg.w	d1
 		neg.w	d3
 
-loc_324FA:
++ ;loc_324FA:
 		cmp.w	d0,d1
-		blo.s	loc_3252C
+		blo.s	+++ ;loc_3252C
 		moveq	#0,d1
 		move.w	d5,d1
 		sub.w	y_pos(a1),d1
@@ -215,23 +215,23 @@ loc_324FA:
 		moveq	#0,d0
 		move.w	d4,d0
 		sub.w	x_pos(a1),d0
-		beq.s	loc_32518
+		beq.s	+ ;loc_32518
 		swap	d0
 		divs.w	d1,d0
 
-loc_32518:
++ ;loc_32518:
 		move.w	d0,x_vel(a1)
 		move.w	d3,y_vel(a1)
 		tst.w	d1
-		bpl.s	loc_32526
+		bpl.s	+ ;loc_32526
 		neg.w	d1
 
-loc_32526:
++ ;loc_32526:
 		move.w	d1,2(a4)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_3252C:
++ ;loc_3252C:
 		moveq	#0,d0
 		move.w	d4,d0
 		sub.w	x_pos(a1),d0
@@ -240,18 +240,18 @@ loc_3252C:
 		moveq	#0,d1
 		move.w	d5,d1
 		sub.w	y_pos(a1),d1
-		beq.s	loc_32546
+		beq.s	+ ;loc_32546
 		swap	d1
 		divs.w	d0,d1
 
-loc_32546:
++ ;loc_32546:
 		move.w	d1,y_vel(a1)
 		move.w	d2,x_vel(a1)
 		tst.w	d0
-		bpl.s	loc_32554
+		bpl.s	+ ;loc_32554
 		neg.w	d0
 
-loc_32554:
++ ;loc_32554:
 		move.w	d0,2(a4)
 		rts
 ; End of function sub_324AC

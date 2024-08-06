@@ -1,18 +1,18 @@
 Obj_HCZWaterWall:
 		tst.b	subtype(a0)
-		beq.s	loc_2E794
+		beq.s	+ ;loc_2E794
 		move.l	#loc_2EB24,(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_2E794:
++ ;loc_2E794:
 		move.w	(Player_1+y_pos).w,d0
 		cmpi.w	#$500,d0
-		bhs.s	loc_2E7A4
+		bhs.s	+ ;loc_2E7A4
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_2E7A4:
++ ;loc_2E7A4:
 		lea	(ArtKosM_HCZGeyserHorz).l,a1
 		move.w	#tiles_to_bytes($500),d2
 		jsr	(Queue_Kos_Module).l
@@ -20,11 +20,11 @@ loc_2E7A4:
 
 loc_2E7BA:
 		tst.b	(Kos_modules_left).w
-		beq.s	loc_2E7C2
+		beq.s	+ ;loc_2E7C2
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_2E7C2:
++ ;loc_2E7C2:
 		ori.b	#4,render_flags(a0)
 		move.w	#$300,priority(a0)
 		move.l	#Map_HCZWaterWall,mappings(a0)
@@ -43,7 +43,7 @@ loc_2E80C:
 		move.w	(Player_1+x_pos).w,d0
 		subi.w	#$60,d0
 		cmp.w	x_pos(a0),d0
-		blo.w	loc_2E896
+		blo.w	+ ;loc_2E896
 		move.l	#loc_2E8CC,(a0)
 		moveq	#signextendB(sfx_Geyser),d0
 		jsr	(Play_SFX).l
@@ -53,9 +53,9 @@ loc_2E80C:
 		move.w	y_pos(a0),d3
 		moveq	#8-1,d1
 
-loc_2E83E:
+- ;loc_2E83E:
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.s	loc_2E896
+		bne.s	+ ;loc_2E896
 		move.l	#loc_2E9AA,(a1)
 		move.l	#Map_HCZWaterWallDebris,mappings(a1)
 		move.w	#make_art_tile($558,2,0),art_tile(a1)
@@ -74,9 +74,9 @@ loc_2E83E:
 		move.w	(a3)+,x_vel(a1)
 		move.w	(a3)+,y_vel(a1)
 		move.b	d1,mapping_frame(a1)
-		dbf	d1,loc_2E83E
+		dbf	d1,- ;loc_2E83E
 
-loc_2E896:
++ ;loc_2E896:
 		jmp	(Sprite_OnScreen_Test).l
 ; ---------------------------------------------------------------------------
 byte_2E89C:
@@ -100,13 +100,13 @@ byte_2E89C:
 
 loc_2E8CC:
 		tst.w	$30(a0)
-		beq.s	loc_2E8DA
+		beq.s	+ ;loc_2E8DA
 		subq.w	#1,$30(a0)
 		addq.w	#8,x_pos(a0)
 
-loc_2E8DA:
++ ;loc_2E8DA:
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_2E958
+		bne.w	++ ;loc_2E958
 		move.l	#loc_2EA6E,(a1)
 		move.l	mappings(a0),mappings(a1)
 		move.b	#$84,render_flags(a1)
@@ -123,10 +123,10 @@ loc_2E8DA:
 		move.w	#make_art_tile($530,2,0),art_tile(a1)
 		lsr.w	#4,d1
 		andi.w	#3,d1
-		bne.s	loc_2E936
+		bne.s	+ ;loc_2E936
 		move.w	#make_art_tile($45C,0,0),art_tile(a1)
 
-loc_2E936:
++ ;loc_2E936:
 		move.b	d1,anim(a1)
 		move.w	#$380,priority(a1)
 		move.b	#$18,width_pixels(a1)
@@ -134,12 +134,12 @@ loc_2E936:
 		move.w	#$400,x_vel(a1)
 		move.w	#0,y_vel(a1)
 
-loc_2E958:
++ ;loc_2E958:
 		lea	sub2_x_pos(a0),a2
 		move.w	x_pos(a0),(a2)+
 		move.w	y_pos(a0),(a2)+
 		tst.b	render_flags(a0)
-		bmi.s	loc_2E990
+		bmi.s	+ ;loc_2E990
 		clr.b	(Palette_cycle_counters+$00).w
 		move.w	#signextendB(mus_MutePSG),d0
 		jsr	(Play_SFX).l
@@ -150,40 +150,40 @@ loc_2E958:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_2E990:
++ ;loc_2E990:
 		jmp	(Sprite_OnScreen_Test).l
 ; ---------------------------------------------------------------------------
 
 loc_2E996:
 		subq.w	#1,$30(a0)
-		bmi.s	loc_2E99E
+		bmi.s	+ ;loc_2E99E
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_2E99E:
++ ;loc_2E99E:
 		jsr	(LoadEnemyArt).l
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
 loc_2E9AA:
 		subq.b	#1,anim_frame_timer(a0)
-		bpl.s	loc_2E9C0
+		bpl.s	+ ;loc_2E9C0
 		move.b	#2,anim_frame_timer(a0)
 		addq.b	#1,mapping_frame(a0)
 		andi.b	#7,mapping_frame(a0)
 
-loc_2E9C0:
++ ;loc_2E9C0:
 		jsr	(MoveSprite2).l
 		addi.w	#$38,y_vel(a0)
 		move.w	(Water_level).w,d0
 		cmp.w	y_pos(a0),d0
-		bhs.s	loc_2EA32
+		bhs.s	+ ;loc_2EA32
 		move.w	#0,y_vel(a0)
 		asr	x_vel(a0)
 		asr	x_vel(a0)
 		move.l	#loc_2EA38,(a0)
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_2EA32
+		bne.w	+ ;loc_2EA32
 		move.l	#loc_2EACE,(a1)
 		move.l	#Map_HCZWaterWall,mappings(a1)
 		move.w	#make_art_tile($530,1,0),art_tile(a1)
@@ -195,18 +195,18 @@ loc_2E9C0:
 		move.b	#$18,height_pixels(a1)
 		move.b	#8,anim(a1)
 
-loc_2EA32:
++ ;loc_2EA32:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
 loc_2EA38:
 		subq.b	#1,anim_frame_timer(a0)
-		bpl.s	loc_2EA4E
+		bpl.s	+ ;loc_2EA4E
 		move.b	#9,anim_frame_timer(a0)
 		addq.b	#1,mapping_frame(a0)
 		andi.b	#7,mapping_frame(a0)
 
-loc_2EA4E:
++ ;loc_2EA4E:
 		jsr	(MoveSprite2).l
 		addi.w	#8,y_vel(a0)
 		tst.b	render_flags(a0)
@@ -223,12 +223,12 @@ loc_2EA6E:
 		addi.w	#$28,y_vel(a0)
 		move.w	(Water_level).w,d0
 		cmp.w	y_pos(a0),d0
-		bhs.s	loc_2EA92
+		bhs.s	+ ;loc_2EA92
 		move.w	d0,y_pos(a0)
 		move.l	#loc_2EAAC,(a0)
 		addq.b	#4,anim(a0)
 
-loc_2EA92:
++ ;loc_2EA92:
 		tst.b	render_flags(a0)
 		bpl.w	loc_2EA68
 		lea	(Ani_HCZWaterWall).l,a1
@@ -264,18 +264,18 @@ loc_2EB24:
 		addi.w	#$30,d0
 		sub.w	x_pos(a0),d0
 		cmpi.w	#$60,d0
-		bhs.s	loc_2EB48
+		bhs.s	+ ;loc_2EB48
 		move.w	(Player_1+y_pos).w,d0
 		addi.w	#$40,d0
 		sub.w	y_pos(a0),d0
 		cmpi.w	#$10,d0
-		blo.s	loc_2EB4E
+		blo.s	++ ;loc_2EB4E
 
-loc_2EB48:
++ ;loc_2EB48:
 		jmp	(Delete_Sprite_If_Not_In_Range).l
 ; ---------------------------------------------------------------------------
 
-loc_2EB4E:
++ ;loc_2EB4E:
 		lea	(ArtKosM_HCZGeyserVert).l,a1
 		move.w	#tiles_to_bytes($500),d2
 		jsr	(Queue_Kos_Module).l
@@ -286,13 +286,13 @@ loc_2EB4E:
 
 loc_2EB76:
 		tst.b	(Kos_modules_left).w
-		beq.s	loc_2EB8A
+		beq.s	+ ;loc_2EB8A
 		subi.w	#8,(Player_1+y_pos).w
 		subi.w	#8,(Player_2+y_pos).w
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_2EB8A:
++ ;loc_2EB8A:
 		ori.b	#4,render_flags(a0)
 		move.w	#$300,priority(a0)
 		move.l	#Map_HCZWaterWall,mappings(a0)
@@ -306,11 +306,11 @@ loc_2EB8A:
 
 loc_2EBC8:
 		tst.w	$30(a0)
-		beq.s	loc_2EBD6
+		beq.s	+ ;loc_2EBD6
 		subq.w	#1,$30(a0)
 		subq.w	#8,y_pos(a0)
 
-loc_2EBD6:
++ ;loc_2EBD6:
 		subi.w	#8,(Player_1+y_pos).w
 		subi.w	#8,(Player_2+y_pos).w
 		cmpi.w	#$28,$30(a0)
@@ -327,7 +327,7 @@ loc_2EBD6:
 		subi.w	#$80,d3
 		moveq	#8-1,d1
 
-loc_2EC20:
+- ;loc_2EC20:
 		jsr	(AllocateObjectAfterCurrent).l
 		bne.s	locret_2EC78
 		move.l	#loc_2E9AA,(a1)
@@ -348,7 +348,7 @@ loc_2EC20:
 		move.w	(a3)+,x_vel(a1)
 		move.w	(a3)+,y_vel(a1)
 		move.b	d1,mapping_frame(a1)
-		dbf	d1,loc_2EC20
+		dbf	d1,- ;loc_2EC20
 
 locret_2EC78:
 		rts
@@ -374,10 +374,10 @@ byte_2EC7A:
 
 loc_2ECAA:
 		tst.w	$30(a0)
-		beq.s	loc_2ED00
+		beq.s	+ ;loc_2ED00
 		move.w	#-$A00,y_vel(a0)
 		subq.w	#1,$30(a0)
-		bne.s	loc_2ED00
+		bne.s	+ ;loc_2ED00
 		move.l	#loc_2EDBA,(a0)
 		lea	(Player_1).w,a1
 		move.b	#0,object_control(a1)
@@ -391,17 +391,17 @@ loc_2ECAA:
 		move.b	#0,jumping(a1)
 		move.w	#-$800,y_vel(a0)
 
-loc_2ED00:
++ ;loc_2ED00:
 		subi.w	#$A,(Player_1+y_pos).w
 		subi.w	#$A,(Player_2+y_pos).w
 		jsr	(MoveSprite2).l
 		addi.w	#$48,y_vel(a0)
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_2ED64
+		bne.w	+ ;loc_2ED64
 		jsr	(Random_Number).l
 		move.w	d0,d1
 		move.w	d0,d2
-		bsr.s	sub_2ED6A
+		bsr.s	++ ;sub_2ED6A
 		addi.w	#$10,x_pos(a1)
 		andi.w	#$F,d1
 		lsl.w	#6,d1
@@ -409,20 +409,20 @@ loc_2ED00:
 		move.w	#-$700,y_vel(a1)
 		move.w	d0,d2
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_2ED64
-		bsr.s	sub_2ED6A
+		bne.w	+ ;loc_2ED64
+		bsr.s	++ ;sub_2ED6A
 		subi.w	#$10,x_pos(a1)
 		neg.w	d1
 		move.w	d1,x_vel(a1)
 		move.w	#-$700,y_vel(a1)
 
-loc_2ED64:
++ ;loc_2ED64:
 		jmp	(Sprite_OnScreen_Test).l
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_2ED6A:
++ ;sub_2ED6A:
 		move.l	#loc_2EA6E,(a1)
 		move.l	mappings(a0),mappings(a1)
 		move.b	#$84,render_flags(a1)
@@ -435,10 +435,10 @@ sub_2ED6A:
 		move.w	#make_art_tile($530,2,0),art_tile(a1)
 		lsr.w	#4,d2
 		andi.w	#3,d2
-		bne.s	loc_2EDB4
+		bne.s	+ ;loc_2EDB4
 		move.w	#make_art_tile($45C,0,0),art_tile(a1)
 
-loc_2EDB4:
++ ;loc_2EDB4:
 		move.b	d2,anim(a1)
 		rts
 ; End of function sub_2ED6A
@@ -447,7 +447,7 @@ loc_2EDB4:
 
 loc_2EDBA:
 		tst.b	render_flags(a0)
-		bmi.s	loc_2EDFE
+		bmi.s	++ ;loc_2EDFE
 		move.w	#signextendB(mus_StopSFX),d0
 		jsr	(Play_SFX).l
 		move.w	#signextendB(mus_MutePSG),d0
@@ -456,17 +456,17 @@ loc_2EDBA:
 		jsr	(Play_SFX).l
 		move.b	#0,(Palette_cycle_counters+$00).w
 		move.w	respawn_addr(a0),d0
-		beq.s	loc_2EDF0
+		beq.s	+ ;loc_2EDF0
 		movea.w	d0,a2
 		bclr	#7,(a2)
 
-loc_2EDF0:
++ ;loc_2EDF0:
 		move.w	#$1E,$30(a0)
 		move.l	#loc_2E996,(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_2EDFE:
++ ;loc_2EDFE:
 		jsr	(MoveSprite2).l
 		addi.w	#$48,y_vel(a0)
 		jmp	(Sprite_OnScreen_Test).l

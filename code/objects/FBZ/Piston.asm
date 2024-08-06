@@ -18,21 +18,21 @@ Obj_FBZPiston:
 loc_3C2A6:
 		move.w	x_pos(a0),-(sp)
 		tst.b	$30(a0)
-		beq.s	loc_3C2BE
+		beq.s	+ ;loc_3C2BE
 		subq.w	#2,$32(a0)
-		bne.s	loc_3C2D2
+		bne.s	++ ;loc_3C2D2
 		move.b	#0,$30(a0)
-		bra.s	loc_3C2D2
+		bra.s	++ ;loc_3C2D2
 ; ---------------------------------------------------------------------------
 
-loc_3C2BE:
++ ;loc_3C2BE:
 		addq.w	#2,$32(a0)
 		move.w	$34(a0),d0
 		cmp.w	$32(a0),d0
-		bne.s	loc_3C2D2
+		bne.s	+ ;loc_3C2D2
 		move.b	#1,$30(a0)
 
-loc_3C2D2:
++ ;loc_3C2D2:
 		move.w	$32(a0),d0
 		neg.w	d0
 		add.w	$44(a0),d0
@@ -50,11 +50,11 @@ loc_3C2D2:
 		andi.w	#$FF80,d0
 		sub.w	(Camera_X_pos_coarse_back).w,d0
 		cmp.w	$36(a0),d0
-		bhi.w	loc_3C316
+		bhi.w	+ ;loc_3C316
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_3C316:
++ ;loc_3C316:
 		move.w	respawn_addr(a0),d0
 		beq.s	loc_3C322
 		movea.w	d0,a2

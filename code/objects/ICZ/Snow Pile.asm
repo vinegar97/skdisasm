@@ -14,18 +14,18 @@ loc_8B56E:
 		lea	word_8B590(pc),a1
 		jsr	Check_PlayerInRange(pc)
 		tst.l	d0
-		beq.s	loc_8B58C
+		beq.s	++ ;loc_8B58C
 		tst.w	d0
-		beq.s	loc_8B582
+		beq.s	+ ;loc_8B582
 		bsr.w	sub_8B598
 
-loc_8B582:
++ ;loc_8B582:
 		swap	d0
 		tst.w	d0
-		beq.s	loc_8B58C
+		beq.s	+ ;loc_8B58C
 		bsr.w	sub_8B598
 
-loc_8B58C:
++ ;loc_8B58C:
 		jmp	Sprite_CheckDeleteTouch(pc)
 ; ---------------------------------------------------------------------------
 word_8B590:
@@ -38,17 +38,17 @@ sub_8B598:
 		movea.w	d0,a3
 		move.w	d0,$44(a0)
 		cmpi.b	#9,anim(a3)
-		beq.s	loc_8B5C6
+		beq.s	++ ;loc_8B5C6
 		btst	#Status_InAir,status(a3)
 		bne.s	locret_8B5C4
 		move.w	x_vel(a3),d2
 		move.w	d2,d3
-		bpl.s	loc_8B5B8
+		bpl.s	+ ;loc_8B5B8
 		neg.w	d2
 
-loc_8B5B8:
++ ;loc_8B5B8:
 		cmpi.w	#$600,d2
-		bhs.s	loc_8B5C6
+		bhs.s	+ ;loc_8B5C6
 		asr.w	#1,d3
 		move.w	d3,ground_vel(a3)
 
@@ -56,7 +56,7 @@ locret_8B5C4:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_8B5C6:
++ ;loc_8B5C6:
 		move.w	a3,$44(a0)
 		lea	ChildObjDat_8B84C(pc),a2
 		jsr	CreateChild1_Normal(pc)
@@ -73,20 +73,20 @@ loc_8B5DC:
 		lea	word_8B60E(pc),a1
 		jsr	Check_PlayerInRange(pc)
 		tst.w	d0
-		bne.s	loc_8B5EC
+		bne.s	+ ;loc_8B5EC
 		jmp	Sprite_CheckDelete(pc)
 ; ---------------------------------------------------------------------------
 
-loc_8B5EC:
++ ;loc_8B5EC:
 		move.w	d0,$44(a0)
-		beq.s	loc_8B608
+		beq.s	+ ;loc_8B608
 		movea.w	d0,a1
 		move.w	#$800,x_vel(a1)
 		move.w	#$800,ground_vel(a1)
 		lea	ChildObjDat_8B872(pc),a2
 		jsr	CreateChild1_Normal(pc)
 
-loc_8B608:
++ ;loc_8B608:
 		jmp	(Go_Delete_Sprite).l
 ; ---------------------------------------------------------------------------
 word_8B60E:
@@ -97,24 +97,24 @@ loc_8B616:
 		lea	word_8B658(pc),a1
 		jsr	Check_PlayerInRange(pc)
 		tst.w	d0
-		bne.s	loc_8B626
+		bne.s	+ ;loc_8B626
 		jmp	Sprite_CheckDeleteTouch(pc)
 ; ---------------------------------------------------------------------------
 
-loc_8B626:
++ ;loc_8B626:
 		move.w	d0,$44(a0)
-		beq.s	loc_8B652
+		beq.s	+ ;loc_8B652
 		movea.w	d0,a1
 		move.w	#$800,x_vel(a1)
 		move.w	#$800,ground_vel(a1)
 		lea	ChildObjDat_8B880(pc),a2
 		jsr	CreateChild1_Normal(pc)
 		btst	#7,subtype(a0)
-		beq.s	loc_8B652
+		beq.s	+ ;loc_8B652
 		move.w	#$600,d0
 		jsr	StartNewLevel(pc)
 
-loc_8B652:
++ ;loc_8B652:
 		jmp	(Go_Delete_Sprite).l
 ; ---------------------------------------------------------------------------
 word_8B658:
@@ -124,7 +124,7 @@ word_8B658:
 loc_8B660:
 		move.w	a0,(_unkFAAE).w
 		btst	#5,$38(a0)
-		bne.s	loc_8B6A8
+		bne.s	+ ;loc_8B6A8
 		move.w	(Camera_X_pos_copy).w,x_pos(a0)
 		move.w	(Camera_Y_pos_copy).w,y_pos(a0)
 		subq.w	#8,y_pos(a0)
@@ -144,7 +144,7 @@ locret_8B6A6:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_8B6A8:
++ ;loc_8B6A8:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -155,14 +155,14 @@ loc_8B6AE:
 		jsr	(Random_Number).l
 		andi.w	#$1FF,d0
 		cmpi.w	#$140,d0
-		blo.s	loc_8B6D2
+		blo.s	+ ;loc_8B6D2
 		andi.w	#$3F,d0
 		lsl.w	#2,d0
 
-loc_8B6D2:
++ ;loc_8B6D2:
 		add.w	(Camera_X_pos).w,d0
 		cmpi.w	#$380,d0
-		blo.s	loc_8B756
+		blo.s	++ ;loc_8B756
 		move.w	d0,x_pos(a0)
 		move.w	(Camera_Y_pos).w,d0
 		subq.w	#4,d0
@@ -192,11 +192,11 @@ word_8B718:
 loc_8B720:
 		jsr	(MoveSprite2).l
 		tst.b	render_flags(a0)
-		bmi.s	loc_8B732
+		bmi.s	+ ;loc_8B732
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_8B732:
++ ;loc_8B732:
 		move.l	#loc_8B73A,(a0)
 		rts
 ; ---------------------------------------------------------------------------
@@ -204,19 +204,19 @@ loc_8B732:
 loc_8B73A:
 		jsr	(MoveSprite2).l
 		tst.b	render_flags(a0)
-		bpl.s	loc_8B756
+		bpl.s	+ ;loc_8B756
 		bchg	#0,$38(a0)
 		bne.w	locret_8B5DA
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_8B756:
++ ;loc_8B756:
 		move.b	(_unkFAAD).w,d0
 		subq.b	#1,d0
-		bmi.s	loc_8B762
+		bmi.s	+ ;loc_8B762
 		move.b	d0,(_unkFAAD).w
 
-loc_8B762:
++ ;loc_8B762:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -225,7 +225,7 @@ loc_8B768:
 		jsr	SetUp_ObjAttributes2(pc)
 		move.l	#loc_8B786,(a0)
 		move.l	#loc_8B790,$34(a0)
-		bsr.w	sub_8B7A0
+		bsr.w	+ ;sub_8B7A0
 		jsr	Refresh_ChildPositionAdjusted(pc)
 
 loc_8B786:
@@ -245,7 +245,7 @@ loc_8B798:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_8B7A0:
++ ;sub_8B7A0:
 		movea.w	parent3(a0),a1
 		move.w	$44(a1),d0
 		beq.s	locret_8B7DA

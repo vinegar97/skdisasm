@@ -6,16 +6,16 @@ Obj_LBZCupElevator:
 		move.b	#$20,width_pixels(a0)
 		move.b	#$10,height_pixels(a0)
 		btst	#6,subtype(a0)			; BIT 6
-		beq.s	loc_2698A
+		beq.s	+ ;loc_2698A
 		cmpi.w	#3,(Player_mode).w
-		bne.s	loc_2698A
+		bne.s	+ ;loc_2698A
 		move.w	#$7F00,x_pos(a0)		; Set this object to be deleted if bit 6 is set and Knuckles is playing
 
-loc_2698A:
++ ;loc_2698A:
 		move.w	x_pos(a0),$30(a0)
 		move.w	y_pos(a0),$32(a0)
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_26A50
+		bne.w	++ ;loc_26A50
 		move.l	#Obj_LBZCupElevatorAttach,(a1)
 		move.l	#Map_LBZCupElevator,mappings(a1)
 		move.w	#make_art_tile($40D,2,0),art_tile(a1)
@@ -29,14 +29,14 @@ loc_2698A:
 		move.b	#1,mapping_frame(a1)
 		addi.w	#$18,x_pos(a1)
 		btst	#0,status(a0)
-		bne.s	loc_269F8
+		bne.s	+ ;loc_269F8
 		subi.w	#2*$18,x_pos(a1)		; Set position based on orientation of original object
 
-loc_269F8:
++ ;loc_269F8:
 		move.w	a0,$40(a1)
 		move.w	a1,$42(a0)
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_26A50
+		bne.w	+ ;loc_26A50
 		move.l	#Obj_LBZCupElevatorBase,(a1)
 		move.l	#Map_LBZCupElevator,mappings(a1)
 		move.w	#make_art_tile($40D,2,0),art_tile(a1)
@@ -50,7 +50,7 @@ loc_269F8:
 		move.w	a0,$40(a1)
 		move.w	a1,$40(a0)
 
-loc_26A50:
++ ;loc_26A50:
 		moveq	#0,d0
 		move.b	subtype(a0),d0		; BITS 3-0
 		andi.w	#$F,d0
@@ -62,26 +62,26 @@ loc_26A50:
 		move.w	#0,angle(a0)
 		addi.w	#$40,x_pos(a0)
 		btst	#0,status(a0)
-		bne.s	loc_26A86
+		bne.s	+ ;loc_26A86
 		subi.w	#$80,x_pos(a0)
 		move.w	#$8080,angle(a0)
 
-loc_26A86:
++ ;loc_26A86:
 		move.b	subtype(a0),d1		; BITS 5-4
 		andi.w	#$30,d1
-		beq.s	loc_26AAC
+		beq.s	+ ;loc_26AAC
 		move.w	d0,$3A(a0)		; If any bit set, elevator is moving downward
 		add.w	d0,$32(a0)
 		move.w	#6,$36(a0)
 		btst	#0,subtype(a0)
-		beq.s	loc_26AAC
+		beq.s	+ ;loc_26AAC
 		addi.b	#$80,angle+1(a0)
 
-loc_26AAC:
-		move.l	#Obj_LBZCupElevatorMain,(a0)
++ ;loc_26AAC:
+		move.l	#.Main,(a0)
 
-Obj_LBZCupElevatorMain:
-		bsr.w	LBZCupElevator_Action
+.Main:
+		bsr.w	.Action
 		move.w	x_pos(a0),d4
 		move.b	angle(a0),d0
 		jsr	(GetSineCosine).l
@@ -112,25 +112,25 @@ Obj_LBZCupElevatorMain:
 ; =============== S U B R O U T I N E =======================================
 
 
-LBZCupElevator_Action:
+.Action:
 		move.w	$36(a0),d0
-		move.w	LBZCupElevator_Action_Index(pc,d0.w),d1
-		jmp	LBZCupElevator_Action_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jmp	.Index(pc,d1.w)
 ; End of function LBZCupElevator_Action
 
 ; ---------------------------------------------------------------------------
-LBZCupElevator_Action_Index:
-		dc.w LBZCupElev_WaitEnter-LBZCupElevator_Action_Index	; 0
-		dc.w LBZCupElev_MoveUp-LBZCupElevator_Action_Index	; 2
-		dc.w LBZCupElev_WaitExit1-LBZCupElevator_Action_Index	; 4
-		dc.w LBZCupElev_WaitEnter-LBZCupElevator_Action_Index	; 6
-		dc.w LBZCupElev_MoveDown-LBZCupElevator_Action_Index	; 8
-		dc.w LBZCupElev_WaitExit2-LBZCupElevator_Action_Index	; A
-		dc.w LBZCupElev_Spin1-LBZCupElevator_Action_Index	; C
-		dc.w LBZCupElev_Fling1-LBZCupElevator_Action_Index	; E
-		dc.w LBZCupElev_Fling2-LBZCupElevator_Action_Index	; 10
-		dc.w LBZCupElev_Spin2-LBZCupElevator_Action_Index	; 12
-		dc.w LBZCupElev_Fling3-LBZCupElevator_Action_Index	; 14
+.Index:
+		dc.w LBZCupElev_WaitEnter-.Index	; 0
+		dc.w LBZCupElev_MoveUp-.Index	; 2
+		dc.w LBZCupElev_WaitExit1-.Index	; 4
+		dc.w LBZCupElev_WaitEnter-.Index	; 6
+		dc.w LBZCupElev_MoveDown-.Index	; 8
+		dc.w LBZCupElev_WaitExit2-.Index	; A
+		dc.w LBZCupElev_Spin1-.Index	; C
+		dc.w LBZCupElev_Fling1-.Index	; E
+		dc.w LBZCupElev_Fling2-.Index	; 10
+		dc.w LBZCupElev_Spin2-.Index	; 12
+		dc.w LBZCupElev_Fling3-.Index	; 14
 ; ---------------------------------------------------------------------------
 
 LBZCupElev_WaitEnter:
@@ -146,22 +146,22 @@ locret_26B44:
 LBZCupElev_MoveUp:
 		move.w	$3A(a0),d0
 		cmp.w	$38(a0),d0
-		bne.s	loc_26B78
+		bne.s	++ ;loc_26B78
 		tst.b	subtype(a0)
-		bpl.s	loc_26B66
+		bpl.s	+ ;loc_26B66
 		move.w	#$C,$36(a0)
 		move.w	#$600,$2E(a0)
 		bra.w	LBZCupElev_Spin1
 ; ---------------------------------------------------------------------------
 
-loc_26B66:
++ ;loc_26B66:
 		move.w	#$80,priority(a0)
 		move.w	#0,$34(a0)
 		addq.w	#2,$36(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_26B78:
++ ;loc_26B78:
 		addq.w	#4,$3A(a0)
 		move.w	$3A(a0),d0
 		move.w	d0,d1
@@ -173,7 +173,7 @@ loc_26B78:
 		sub.w	d1,d0
 		move.w	d0,y_pos(a0)
 		cmpi.w	#$200,priority(a0)
-		bne.s	loc_26BB8
+		bne.s	+ ;loc_26BB8
 		tst.b	angle(a0)
 		bpl.s	locret_26BB6
 		move.w	#$80,priority(a0)
@@ -184,7 +184,7 @@ locret_26BB6:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_26BB8:
++ ;loc_26BB8:
 		tst.b	angle(a0)
 		bmi.s	locret_26BCC
 		move.w	#$200,priority(a0)
@@ -206,22 +206,22 @@ locret_26BD8:
 
 LBZCupElev_MoveDown:
 		tst.w	$3A(a0)
-		bne.s	loc_26C08
+		bne.s	++ ;loc_26C08
 		tst.b	subtype(a0)
-		bpl.s	loc_26BF6
+		bpl.s	+ ;loc_26BF6
 		move.w	#$12,$36(a0)
 		move.w	#$600,$2E(a0)
 		bra.w	LBZCupElev_Spin1
 ; ---------------------------------------------------------------------------
 
-loc_26BF6:
++ ;loc_26BF6:
 		move.w	#$80,priority(a0)
 		move.w	#0,$34(a0)
 		addq.w	#2,$36(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_26C08:
++ ;loc_26C08:
 		subq.w	#4,$3A(a0)
 		move.w	$3A(a0),d0
 		move.w	d0,d1
@@ -233,7 +233,7 @@ loc_26C08:
 		sub.w	d1,d0
 		move.w	d0,y_pos(a0)
 		cmpi.w	#$200,priority(a0)
-		bne.s	loc_26C48
+		bne.s	+ ;loc_26C48
 		tst.b	angle(a0)
 		bpl.s	locret_26C46
 		move.w	#$80,priority(a0)
@@ -244,7 +244,7 @@ locret_26C46:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_26C48:
++ ;loc_26C48:
 		tst.b	angle(a0)
 		bmi.s	locret_26C5C
 		move.w	#$200,priority(a0)
@@ -266,13 +266,13 @@ locret_26C6A:
 
 LBZCupElev_Spin1:
 		cmpi.w	#$1000,$2E(a0)
-		bne.s	loc_26CC4
+		bne.s	++ ;loc_26CC4
 		btst	#0,status(a0)
-		bne.s	loc_26CA0
+		bne.s	+ ;loc_26CA0
 		move.b	angle(a0),d0
 		addi.b	#$40,d0
 		cmpi.b	#$F0,d0
-		blo.s	loc_26CCA
+		blo.s	+++ ;loc_26CCA
 		move.b	#$C0,angle(a0)
 		movea.w	$42(a0),a1
 		move.w	#$7FFF,$30(a1)
@@ -280,11 +280,11 @@ LBZCupElev_Spin1:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_26CA0:
++ ;loc_26CA0:
 		move.b	angle(a0),d0
 		addi.b	#$C0,d0
 		cmpi.b	#$F0,d0
-		blo.s	loc_26CCA
+		blo.s	++ ;loc_26CCA
 		move.b	#$40,angle(a0)
 		movea.w	$42(a0),a1
 		move.w	#$7FFF,$30(a1)
@@ -292,14 +292,14 @@ loc_26CA0:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_26CC4:
++ ;loc_26CC4:
 		addi.w	#$10,$2E(a0)
 
-loc_26CCA:
++ ;loc_26CCA:
 		move.b	$2E(a0),d0
 		add.b	d0,angle(a0)
 		cmpi.w	#$200,priority(a0)
-		bne.s	loc_26CF0
+		bne.s	+ ;loc_26CF0
 		tst.b	angle(a0)
 		bpl.s	locret_26CEE
 		move.w	#$80,priority(a0)
@@ -310,7 +310,7 @@ locret_26CEE:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_26CF0:
++ ;loc_26CF0:
 		tst.b	angle(a0)
 		bmi.s	locret_26D04
 		move.w	#$200,priority(a0)
@@ -323,11 +323,11 @@ locret_26D04:
 
 LBZCupElev_Spin2:
 		cmpi.w	#$1000,$2E(a0)
-		bne.s	loc_26D32
+		bne.s	+ ;loc_26D32
 		move.b	angle(a0),d0
 		addi.b	#$B0,d0
 		cmpi.b	#$F0,d0
-		blo.s	loc_26D38
+		blo.s	++ ;loc_26D38
 		move.b	#$40,angle(a0)
 		movea.w	$42(a0),a1
 		move.w	#$7FFF,$30(a1)
@@ -335,14 +335,14 @@ LBZCupElev_Spin2:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_26D32:
++ ;loc_26D32:
 		addi.w	#$10,$2E(a0)
 
-loc_26D38:
++ ;loc_26D38:
 		move.b	$2E(a0),d0
 		sub.b	d0,angle(a0)
 		cmpi.w	#$200,priority(a0)
-		bne.s	loc_26D5E
+		bne.s	+ ;loc_26D5E
 		tst.b	angle(a0)
 		bpl.s	locret_26D5C
 		move.w	#$80,priority(a0)
@@ -353,7 +353,7 @@ locret_26D5C:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_26D5E:
++ ;loc_26D5E:
 		tst.b	angle(a0)
 		bmi.s	locret_26D72
 		move.w	#$200,priority(a0)
@@ -366,42 +366,42 @@ locret_26D72:
 
 LBZCupElev_Fling1:
 		cmpi.w	#$16C0,$30(a0)
-		blo.s	loc_26D90
+		blo.s	+ ;loc_26D90
 		move.w	#$16C0,$30(a0)
 		move.w	#-$200,x_vel(a0)
 		move.w	#0,y_vel(a0)
 		bra.s	loc_26DE0
 ; ---------------------------------------------------------------------------
 
-loc_26D90:
++ ;loc_26D90:
 		addi.w	#$10,$30(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
 LBZCupElev_Fling2:
 		cmpi.w	#$2AE0,$30(a0)
-		bhi.s	loc_26DB4
+		bhi.s	+ ;loc_26DB4
 		move.w	#$2AE0,$30(a0)
 		move.w	#$200,x_vel(a0)
 		move.w	#0,y_vel(a0)
 		bra.s	loc_26DE0
 ; ---------------------------------------------------------------------------
 
-loc_26DB4:
++ ;loc_26DB4:
 		subi.w	#$10,$30(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
 LBZCupElev_Fling3:
 		cmpi.w	#$2B20,$30(a0)
-		blo.s	loc_26DD8
+		blo.s	+ ;loc_26DD8
 		move.w	#$2B20,$30(a0)
 		move.w	#-$200,x_vel(a0)
 		move.w	#0,y_vel(a0)
 		bra.s	loc_26DE0
 ; ---------------------------------------------------------------------------
 
-loc_26DD8:
++ ;loc_26DD8:
 		addi.w	#$10,$30(a0)
 		rts
 ; ---------------------------------------------------------------------------
@@ -413,7 +413,7 @@ loc_26DE0:
 		lea	$3C(a0),a2
 		lea	(Player_1).w,a1
 		move.w	#-$300,d0
-		bsr.s	sub_26E08
+		bsr.s	+ ;sub_26E08
 		lea	$3D(a0),a2
 		lea	(Player_2).w,a1
 		move.w	#-$400,d0
@@ -421,7 +421,7 @@ loc_26DE0:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_26E08:
++ ;sub_26E08:
 		move.b	#$12,2(a2)
 		tst.b	(a2)
 		beq.s	locret_26E52
@@ -432,11 +432,11 @@ sub_26E08:
 		move.w	d0,y_vel(a1)
 		move.w	#-$200,x_vel(a1)	; Set speed of player
 		btst	#0,status(a0)
-		beq.s	loc_26E46
+		beq.s	+ ;loc_26E46
 		neg.w	x_vel(a1)		; Reverse direction depending on flip
 		bset	#Status_Facing,status(a1)
 
-loc_26E46:
++ ;loc_26E46:
 		move.w	#0,ground_vel(a1)	; Zero out inertia
 		move.b	#$1A,anim(a1)	; Set falling animation
 
@@ -449,10 +449,10 @@ locret_26E52:
 Obj_LBZElevatorCupFlicker:
 		jsr	(MoveSprite).l
 		tst.b	render_flags(a0)
-		bmi.s	loc_26E66
+		bmi.s	+ ;loc_26E66
 		move.w	#$7FFF,x_pos(a0)
 
-loc_26E66:
++ ;loc_26E66:
 		move.b	(Level_frame_counter+1).w,d0
 		andi.b	#1,d0
 		beq.s	locret_26E76
@@ -468,17 +468,17 @@ loc_26E78:
 		andi.w	#$FF80,d0
 		sub.w	(Camera_X_pos_coarse_back).w,d0
 		cmpi.w	#$280,d0
-		bhi.w	loc_26E92
+		bhi.w	+ ;loc_26E92
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_26E92:
++ ;loc_26E92:
 		move.w	respawn_addr(a0),d0
-		beq.s	loc_26E9E
+		beq.s	+ ;loc_26E9E
 		movea.w	d0,a2
 		bclr	#7,(a2)
 
-loc_26E9E:
++ ;loc_26E9E:
 		lea	(Player_1).w,a1
 		moveq	#p1_standing_bit,d6
 		bsr.s	LBZCupElevator_ReleasePlayer
@@ -511,12 +511,12 @@ LBZCupElevator_PlayerControl:
 		tst.b	(a2)
 		bne.s	loc_26F46	; If player is inside cup, branch
 		tst.b	2(a2)
-		beq.s	loc_26EEA	; If timer has run out, branch
+		beq.s	+ ;loc_26EEA	; If timer has run out, branch
 		subq.b	#1,2(a2)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_26EEA:
++ ;loc_26EEA:
 		move.b	angle(a0),d0
 		subi.b	#$20,d0
 		cmpi.b	#$40,d0
@@ -525,7 +525,7 @@ loc_26EEA:
 		btst	d6,status(a0)
 		beq.w	locret_2702C	; If player is not standing on elevator, don't bother
 		tst.w	$34(a0)
-		bne.s	loc_26F26	; If $34 is set, then initiate elevator regardless of proximity to center
+		bne.s	+ ;loc_26F26	; If $34 is set, then initiate elevator regardless of proximity to center
 		move.w	x_pos(a1),d0
 		sub.w	x_pos(a0),d0
 		addi.w	#8,d0
@@ -533,7 +533,7 @@ loc_26EEA:
 		cmpi.w	#$10,d0
 		bhs.w	locret_2702C	; Otherwise only initiate elevator when close to center
 
-loc_26F26:
++ ;loc_26F26:
 		move.b	#1,(a2)			; Elevator on
 		move.b	#3,object_control(a1)	; Sonic is under control of object and is not animated by normal function
 		clr.w	x_vel(a1)
@@ -545,9 +545,9 @@ loc_26F26:
 
 loc_26F46:
 		tst.b	render_flags(a1)
-		bpl.w	loc_26FD4		; If player is offscreen somehow, branch
+		bpl.w	+++ ;loc_26FD4		; If player is offscreen somehow, branch
 		cmpi.b	#4,routine(a1)
-		bhs.s	loc_26FD4		; If player is in hit routine, branch
+		bhs.s	+++ ;loc_26FD4		; If player is in hit routine, branch
 		andi.b	#button_A_mask|button_B_mask|button_C_mask,d0
 		beq.w	loc_26FF4		; If jump hasn't been pressed, branch
 		tst.b	(_unkFAA9).w
@@ -567,20 +567,20 @@ loc_26F46:
 		move.b	#0,(a2)			; Turn off elevator
 		move.b	#$12,2(a2)		; Set cooldown timer so that elevator won't restart instantly
 		btst	#button_left+8,d0
-		beq.s	loc_26FC0
+		beq.s	+ ;loc_26FC0
 		move.w	#-$200,x_vel(a1)	; Set left speed if holding left on controller
 
-loc_26FC0:
++ ;loc_26FC0:
 		btst	#button_right+8,d0
-		beq.s	loc_26FCC
+		beq.s	+ ;loc_26FCC
 		move.w	#$200,x_vel(a1)		; Set right speed if holding right on controller
 
-loc_26FCC:
++ ;loc_26FCC:
 		move.w	#-$480,y_vel(a1)	; Set jump speed regardless
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_26FD4:
++ ;loc_26FD4:
 		bclr	d6,status(a0)		; Release player if offscreen somehow
 		bclr	#Status_OnObj,status(a1)
 		move.w	#$100,priority(a1)
@@ -599,10 +599,10 @@ loc_26FF4:
 		move.b	angle(a0),d0
 		addi.b	#$20,d0
 		cmpi.b	#$C0,d0
-		blo.s	loc_27020
+		blo.s	+ ;loc_27020
 		move.w	#$100,priority(a1)	; If correct angle range, set priority higher
 
-loc_27020:
++ ;loc_27020:
 		moveq	#0,d0
 		move.b	angle(a0),d0
 		jmp	(loc_32610).l
@@ -626,16 +626,16 @@ Obj_LBZCupElevatorAttach:
 		move.b	angle(a1),angle(a0)	; Match angle and Y position to parent object
 		move.w	#$180,priority(a0)
 		move.b	angle(a0),d0		; If angle is positive object has lower priority
-		bpl.s	loc_27060
+		bpl.s	+ ;loc_27060
 		move.w	#$100,priority(a0)
 
-loc_27060:
++ ;loc_27060:
 		andi.b	#$FE,render_flags(a0)
 		subi.b	#$40,d0
-		bpl.s	loc_27072
+		bpl.s	+ ;loc_27072
 		ori.b	#1,render_flags(a0)	; Flip object if angle-$40 is negative
 
-loc_27072:
++ ;loc_27072:
 		move.b	angle(a0),d0
 		jsr	(GetSineCosine).l
 		move.w	d1,d2
@@ -659,19 +659,19 @@ Obj_LBZCupElevatorPole:
 		move.w	y_pos(a0),$32(a0)
 		move.b	#3,mapping_frame(a0)
 		btst	#6,subtype(a0)
-		beq.s	loc_270E4
+		beq.s	+ ;loc_270E4
 		cmpi.w	#3,(Player_mode).w
-		bne.s	loc_270E4
+		bne.s	+ ;loc_270E4
 		move.w	#$7F00,x_pos(a0)
 
-loc_270E4:
++ ;loc_270E4:
 		move.b	subtype(a0),d0
 		andi.b	#$3F,d0
-		beq.s	loc_270FA
+		beq.s	+ ;loc_270FA
 		move.b	#$60,height_pixels(a0)
 		move.b	#4,mapping_frame(a0)
 
-loc_270FA:
++ ;loc_270FA:
 		move.l	#loc_27100,(a0)
 
 loc_27100:

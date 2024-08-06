@@ -20,14 +20,14 @@ Obj_LBZGateLaser:
 
 loc_282D4:
 		subq.w	#1,$30(a0)
-		bpl.s	loc_28318
+		bpl.s	+ ;loc_28318
 		move.w	$32(a0),$30(a0)
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_28318
-		bsr.s	sub_2831E
+		bne.w	+ ;loc_28318
+		bsr.s	++ ;sub_2831E
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_28318
-		bsr.s	sub_2831E
+		bne.w	+ ;loc_28318
+		bsr.s	++ ;sub_2831E
 		move.w	#$80,priority(a1)
 		move.b	#2,mapping_frame(a1)
 		move.b	#$98,collision_flags(a1)
@@ -35,13 +35,13 @@ loc_282D4:
 		moveq	#signextendB(sfx_EnergyZap),d0
 		jsr	(Play_SFX).l
 
-loc_28318:
++ ;loc_28318:
 		jmp	(Delete_Sprite_If_Not_In_Range).l
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_2831E:
++ ;sub_2831E:
 		move.l	#loc_2836A,(a1)
 		move.w	x_pos(a0),x_pos(a1)
 		move.w	y_pos(a0),y_pos(a1)
@@ -64,17 +64,17 @@ loc_28364:
 loc_2836A:
 		move.b	(Level_frame_counter+1).w,d0
 		andi.b	#1,d0
-		bne.s	loc_2837A
+		bne.s	+ ;loc_2837A
 		bchg	#1,render_flags(a0)
 
-loc_2837A:
++ ;loc_2837A:
 		move.w	y_pos(a0),d0
 		addq.w	#4,y_pos(a0)
 		cmp.w	$2E(a0),d0
-		blo.s	loc_2838E
+		blo.s	+ ;loc_2838E
 		move.w	#$7FF0,x_pos(a0)
 
-loc_2838E:
++ ;loc_2838E:
 		jmp	(Sprite_OnScreen_Test).l
 ; ---------------------------------------------------------------------------
 Map_LBZGateLaser:

@@ -24,10 +24,10 @@ loc_8E0DA:
 		jsr	(Find_SonicTails).l
 		bclr	#0,render_flags(a0)
 		tst.w	d0
-		beq.s	loc_8E0F0
+		beq.s	+ ;loc_8E0F0
 		bset	#0,render_flags(a0)
 
-loc_8E0F0:
++ ;loc_8E0F0:
 		move.w	#$100,d0
 		move.w	#4,d1
 		jsr	(Chase_Object).l

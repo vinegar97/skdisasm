@@ -14,21 +14,21 @@ Obj_AIZRideVine:
 		moveq	#3,d1
 		addq.w	#1,d1
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_2013E
+		bne.w	++ ;loc_2013E
 		move.w	a1,$3E(a0)
 		move.l	#loc_203C0,(a1)
 		move.w	a0,$3C(a1)
-		bra.s	loc_20110
+		bra.s	+ ;loc_20110
 ; ---------------------------------------------------------------------------
 
-loc_200F8:
+- ;loc_200F8:
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_2013E
+		bne.w	++ ;loc_2013E
 		move.l	#loc_20454,(a1)
 		move.w	a2,$3C(a1)
 		move.w	a1,$3E(a2)
 
-loc_20110:
++ ;loc_20110:
 		movea.l	a1,a2
 		bsr.s	sub_20140
 		move.w	d2,x_pos(a1)
@@ -36,12 +36,12 @@ loc_20110:
 		addi.w	#$10,d3
 		addq.w	#1,$36(a0)
 		move.w	$36(a0),$36(a1)
-		dbf	d1,loc_200F8
+		dbf	d1,- ;loc_200F8
 		move.l	#Obj_AIZRideVineHandle,(a1)
 		move.b	#$20,mapping_frame(a1)
 		move.w	a1,$40(a0)
 
-loc_2013E:
++ ;loc_2013E:
 		bra.s	loc_20168
 
 ; =============== S U B R O U T I N E =======================================
@@ -62,13 +62,13 @@ sub_20140:
 loc_20168:
 		movea.w	$40(a0),a1
 		tst.w	$32(a1)
-		beq.s	loc_20188
+		beq.s	+ ;loc_20188
 		move.l	#loc_2018C,(a0)
 		movea.w	$3E(a0),a1
 		move.w	#1,$2E(a1)
 		move.w	#0,$38(a1)
 
-loc_20188:
++ ;loc_20188:
 		bra.w	loc_20378
 ; ---------------------------------------------------------------------------
 
@@ -79,7 +79,7 @@ loc_2018C:
 		cmp.w	$46(a0),d0
 		blo.w	loc_2022E
 		tst.b	subtype(a0)
-		bpl.s	loc_20202
+		bpl.s	+++ ;loc_20202
 		move.l	#loc_20232,(a0)
 		move.w	#$800,x_vel(a0)
 		move.w	#$200,y_vel(a0)
@@ -92,20 +92,20 @@ loc_2018C:
 		movea.w	$40(a0),a1
 		lea	$32(a1),a2
 		tst.b	(a2)
-		beq.s	loc_201F6
+		beq.s	+ ;loc_201F6
 		move.b	#$81,(a2)
 
-loc_201F6:
++ ;loc_201F6:
 		addq.w	#1,a2
 		tst.b	(a2)
-		beq.s	loc_20200
+		beq.s	+ ;loc_20200
 		move.b	#$81,(a2)
 
-loc_20200:
++ ;loc_20200:
 		bra.s	loc_2022E
 ; ---------------------------------------------------------------------------
 
-loc_20202:
++ ;loc_20202:
 		move.l	#loc_20254,(a0)
 		movea.w	$3E(a0),a1
 		move.l	#loc_20428,(a1)
@@ -122,10 +122,10 @@ loc_2022E:
 loc_20232:
 		jsr	(MoveSprite).l
 		tst.b	render_flags(a0)
-		bmi.s	loc_20244
+		bmi.s	+ ;loc_20244
 		move.w	#$7FF0,x_pos(a0)
 
-loc_20244:
++ ;loc_20244:
 		lea	(Ani_AnimatedStillSprites).l,a1
 		jsr	(Animate_Sprite).l
 		bra.w	loc_20378
@@ -136,19 +136,19 @@ loc_20254:
 		move.w	$3A(a0),d0
 		move.b	angle(a0),d1
 		ext.w	d1
-		bpl.s	loc_20266
+		bpl.s	+ ;loc_20266
 		neg.w	d1
 
-loc_20266:
++ ;loc_20266:
 		add.w	d1,d1
 		sub.w	d1,d0
 		sub.w	d0,angle(a0)
 		tst.w	$32(a1)
-		bne.s	loc_202A8
+		bne.s	+ ;loc_202A8
 		move.b	angle(a0),d0
 		addq.b	#8,d0
 		cmpi.b	#$10,d0
-		bhs.s	loc_202A8
+		bhs.s	+ ;loc_202A8
 		move.l	#loc_202AC,(a0)
 		move.w	#0,$42(a0)
 		move.w	#-$300,$44(a0)
@@ -157,7 +157,7 @@ loc_20266:
 		movea.w	$40(a0),a1
 		move.w	#2,$30(a1)
 
-loc_202A8:
++ ;loc_202A8:
 		bra.w	loc_20378
 ; ---------------------------------------------------------------------------
 
@@ -167,19 +167,19 @@ loc_202AC:
 		move.w	$44(a0),d0
 		move.w	#0,d1
 		tst.w	$2E(a0)
-		bne.s	loc_20304
+		bne.s	+ ;loc_20304
 		add.w	d2,d0
 		move.w	d0,$44(a0)
 		add.w	d0,$42(a0)
 		cmp.b	$42(a0),d1
-		bgt.s	loc_2032E
+		bgt.s	++ ;loc_2032E
 		asr.w	#4,d0
 		sub.w	d0,$44(a0)
 		move.w	#1,$2E(a0)
 		cmpi.w	#$C00,$38(a0)
 		beq.s	loc_202EC
 		subi.w	#$40,$38(a0)
-		bra.s	loc_2032E
+		bra.s	++ ;loc_2032E
 ; ---------------------------------------------------------------------------
 
 loc_202EC:
@@ -187,15 +187,15 @@ loc_202EC:
 		move.w	#0,$38(a0)
 		movea.w	$40(a0),a1
 		move.w	#0,$30(a1)
-		bra.s	loc_2032E
+		bra.s	++ ;loc_2032E
 ; ---------------------------------------------------------------------------
 
-loc_20304:
++ ;loc_20304:
 		sub.w	d2,d0
 		move.w	d0,$44(a0)
 		add.w	d0,$42(a0)
 		cmp.b	$42(a0),d1
-		ble.s	loc_2032E
+		ble.s	+ ;loc_2032E
 		asr.w	#4,d0
 		sub.w	d0,$44(a0)
 		move.w	#0,$2E(a0)
@@ -203,7 +203,7 @@ loc_20304:
 		beq.s	loc_202EC
 		subi.w	#$40,$38(a0)
 
-loc_2032E:
++ ;loc_2032E:
 		move.w	$42(a0),d0
 		move.w	d0,angle(a0)
 		asr.w	#3,d0
@@ -219,10 +219,10 @@ loc_2034A:
 		jsr	(GetSineCosine).l
 		asl.w	#2,d0
 		cmpi.w	#$400,d0
-		bne.s	loc_20366
+		bne.s	+ ;loc_20366
 		move.w	#$3FF,d0
 
-loc_20366:
++ ;loc_20366:
 		move.w	d0,angle(a0)
 		move.w	d0,$3A(a0)
 		movea.w	$3E(a0),a1
@@ -233,56 +233,56 @@ loc_20378:
 		andi.w	#$FF80,d0
 		sub.w	(Camera_X_pos_coarse_back).w,d0
 		cmpi.w	#$280,d0
-		bhi.w	loc_20392
+		bhi.w	+ ;loc_20392
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_20392:
++ ;loc_20392:
 		move.w	$36(a0),d2
 		subq.w	#1,d2
-		bcs.s	loc_203AE
+		bcs.s	+ ;loc_203AE
 		movea.w	$3E(a0),a2
 
-loc_2039E:
+- ;loc_2039E:
 		movea.l	a2,a1
 		movea.w	$3E(a1),a2
 		jsr	(Delete_Referenced_Sprite).l
-		dbf	d2,loc_2039E
+		dbf	d2,- ;loc_2039E
 
-loc_203AE:
++ ;loc_203AE:
 		move.w	respawn_addr(a0),d0
-		beq.s	loc_203BA
+		beq.s	+ ;loc_203BA
 		movea.w	d0,a2
 		bclr	#7,(a2)
 
-loc_203BA:
++ ;loc_203BA:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
 loc_203C0:
 		tst.w	$2E(a0)
-		bne.s	loc_203E8
+		bne.s	++ ;loc_203E8
 		move.b	$38(a0),d0
 		addi.w	#$200,$38(a0)
 		jsr	(GetSineCosine).l
 		asl.w	#2,d0
 		cmpi.w	#$400,d0
-		bne.s	loc_203E2
+		bne.s	+ ;loc_203E2
 		move.w	#$3FF,d0
 
-loc_203E2:
++ ;loc_203E2:
 		move.w	d0,$3A(a0)
-		bra.s	loc_203FE
+		bra.s	++ ;loc_203FE
 ; ---------------------------------------------------------------------------
 
-loc_203E8:
++ ;loc_203E8:
 		move.b	$38(a0),d0
 		addi.w	#$100,$38(a0)
 		jsr	(GetSineCosine).l
 		asl.w	#3,d0
 		move.w	d0,$3A(a0)
 
-loc_203FE:
++ ;loc_203FE:
 		move.w	$3A(a0),d0
 		move.w	d0,angle(a0)
 		move.b	angle(a0),d0
@@ -349,15 +349,15 @@ Obj_AIZRideVineHandle:
 		move.w	y_pos(a0),d5
 		bsr.w	sub_20480
 		cmp.w	x_pos(a0),d4
-		beq.s	loc_204CA
+		beq.s	+ ;loc_204CA
 		move.w	d4,$42(a0)
 
-loc_204CA:
++ ;loc_204CA:
 		cmp.w	y_pos(a0),d5
-		beq.s	loc_204D4
+		beq.s	+ ;loc_204D4
 		move.w	d5,$44(a0)
 
-loc_204D4:
++ ;loc_204D4:
 		lea	$32(a0),a2
 		lea	(Player_1).w,a1
 		move.w	(Ctrl_1_logical).w,d0
@@ -367,11 +367,11 @@ loc_204D4:
 		move.w	(Ctrl_2_logical).w,d0
 		bsr.s	sub_20502
 		tst.w	$32(a0)
-		beq.s	loc_204FA
+		beq.s	+ ;loc_204FA
 		tst.w	$30(a0)
 		bne.s	locret_20500
 
-loc_204FA:
++ ;loc_204FA:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -394,7 +394,7 @@ sub_20502:
 		clr.b	object_control(a1)
 		clr.b	(a2)
 		cmpi.w	#1,$30(a0)
-		beq.s	loc_2059A
+		beq.s	+++ ;loc_2059A
 		move.w	x_pos(a0),d1
 		sub.w	$42(a0),d1
 		asl.w	#7,d1
@@ -405,15 +405,15 @@ sub_20502:
 		move.w	d1,y_vel(a1)
 		move.b	#$3C,2(a2)
 		btst	#button_left+8,d0
-		beq.s	loc_20562
+		beq.s	+ ;loc_20562
 		move.w	#-$200,x_vel(a1)
 
-loc_20562:
++ ;loc_20562:
 		btst	#button_right+8,d0
-		beq.s	loc_2056E
+		beq.s	+ ;loc_2056E
 		move.w	#$200,x_vel(a1)
 
-loc_2056E:
++ ;loc_2056E:
 		addi.w	#-$380,y_vel(a1)
 
 loc_20574:
@@ -426,7 +426,7 @@ loc_20574:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_2059A:
++ ;loc_2059A:
 		move.b	#$3C,2(a2)
 		movea.w	$3C(a0),a3
 		move.b	angle(a3),d0
@@ -454,7 +454,7 @@ loc_205CE:
 
 loc_205DC:
 		tst.w	$30(a0)
-		bne.s	loc_20634
+		bne.s	++ ;loc_20634
 		move.w	x_pos(a0),x_pos(a1)
 		move.w	y_pos(a0),y_pos(a1)
 		addi.w	#$14,y_pos(a1)
@@ -462,10 +462,10 @@ loc_205DC:
 		moveq	#0,d0
 		move.b	angle(a3),d0
 		btst	#Status_Facing,status(a1)
-		beq.s	loc_20608
+		beq.s	+ ;loc_20608
 		neg.b	d0
 
-loc_20608:
++ ;loc_20608:
 		addq.b	#8,d0
 		lsr.w	#4,d0
 		move.b	byte_20624(pc,d0.w),mapping_frame(a1)
@@ -481,15 +481,15 @@ byte_20624:
 		even
 ; ---------------------------------------------------------------------------
 
-loc_20634:
++ ;loc_20634:
 		movea.w	$3C(a0),a3
 		moveq	#0,d0
 		move.b	angle(a3),d0
 		btst	#Status_Facing,status(a1)
-		beq.s	loc_20648
+		beq.s	+ ;loc_20648
 		neg.b	d0
 
-loc_20648:
++ ;loc_20648:
 		addi.b	#$10,d0
 		lsr.w	#5,d0
 		add.w	d0,d0
@@ -501,10 +501,10 @@ loc_20648:
 		ext.w	d2
 		ext.w	d3
 		btst	#Status_Facing,status(a1)
-		beq.s	loc_20676
+		beq.s	+ ;loc_20676
 		neg.w	d2
 
-loc_20676:
++ ;loc_20676:
 		movea.w	$3C(a0),a3
 		move.b	angle(a3),d0
 		addq.b	#4,d0
@@ -559,11 +559,11 @@ byte_206CE:
 
 loc_206DE:
 		tst.b	2(a2)
-		beq.s	loc_206EC
+		beq.s	+ ;loc_206EC
 		subq.b	#1,2(a2)
 		bne.w	locret_20766
 
-loc_206EC:
++ ;loc_206EC:
 		move.w	x_pos(a1),d0
 		sub.w	x_pos(a0),d0
 		addi.w	#$10,d0
@@ -607,7 +607,7 @@ Obj_AIZGiantRideVine:
 		move.b	subtype(a0),d1
 		andi.w	#$F,d1
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_20802
+		bne.w	++ ;loc_20802
 		move.w	#-$1B0,$44(a1)
 		move.w	#$800,$38(a1)
 		move.w	a1,$3E(a0)
@@ -616,17 +616,17 @@ Obj_AIZGiantRideVine:
 		move.b	subtype(a0),d0
 		andi.b	#$F0,d0
 		move.b	d0,$42(a1)
-		bra.s	loc_207D4
+		bra.s	+ ;loc_207D4
 ; ---------------------------------------------------------------------------
 
-loc_207BC:
+- ;loc_207BC:
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_20802
+		bne.w	++ ;loc_20802
 		move.l	#loc_20908,(a1)
 		move.w	a2,$3C(a1)
 		move.w	a1,$3E(a2)
 
-loc_207D4:
++ ;loc_207D4:
 		movea.l	a1,a2
 		bsr.s	sub_20804
 		move.w	d2,x_pos(a1)
@@ -634,12 +634,12 @@ loc_207D4:
 		addi.w	#$10,d3
 		addq.w	#1,$36(a0)
 		move.w	$36(a0),$36(a1)
-		dbf	d1,loc_207BC
+		dbf	d1,- ;loc_207BC
 		move.l	#loc_20968,(a1)
 		move.b	#$20,mapping_frame(a1)
 		move.w	a1,$40(a0)
 
-loc_20802:
++ ;loc_20802:
 		bra.s	loc_2082C
 
 ; =============== S U B R O U T I N E =======================================
@@ -662,35 +662,35 @@ loc_2082C:
 		andi.w	#$FF80,d0
 		sub.w	(Camera_X_pos_coarse_back).w,d0
 		cmpi.w	#$280,d0
-		bhi.w	loc_20846
+		bhi.w	+ ;loc_20846
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_20846:
++ ;loc_20846:
 		move.w	$36(a0),d2
 		subq.w	#1,d2
-		bcs.s	loc_20862
+		bcs.s	+ ;loc_20862
 		movea.w	$3E(a0),a2
 
-loc_20852:
+- ;loc_20852:
 		movea.l	a2,a1
 		movea.w	$3E(a1),a2
 		jsr	(Delete_Referenced_Sprite).l
-		dbf	d2,loc_20852
+		dbf	d2,- ;loc_20852
 
-loc_20862:
++ ;loc_20862:
 		move.w	respawn_addr(a0),d0
-		beq.s	loc_2086E
+		beq.s	+ ;loc_2086E
 		movea.w	d0,a2
 		bclr	#7,(a2)
 
-loc_2086E:
++ ;loc_2086E:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
 loc_20874:
 		tst.b	(a0)
-		bne.s	loc_208A6
+		bne.s	+ ;loc_208A6
 		move.b	(AIZ_vine_angle).w,d0
 		add.b	$42(a0),d0
 		jsr	(GetSineCosine).l
@@ -705,31 +705,31 @@ loc_20874:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_208A6:
++ ;loc_208A6:
 		moveq	#0,d2
 		move.b	$38(a0),d2
 		move.w	$44(a0),d0
 		move.w	#0,d1
 		tst.w	$2E(a0)
-		bne.s	loc_208D2
+		bne.s	+ ;loc_208D2
 		add.w	d2,d0
 		move.w	d0,$44(a0)
 		add.w	d0,$42(a0)
 		cmp.b	$42(a0),d1
-		bgt.s	loc_208E8
+		bgt.s	++ ;loc_208E8
 		move.w	#1,$2E(a0)
-		bra.s	loc_208E8
+		bra.s	++ ;loc_208E8
 ; ---------------------------------------------------------------------------
 
-loc_208D2:
++ ;loc_208D2:
 		sub.w	d2,d0
 		move.w	d0,$44(a0)
 		add.w	d0,$42(a0)
 		cmp.b	$42(a0),d1
-		ble.s	loc_208E8
+		ble.s	+ ;loc_208E8
 		move.w	#0,$2E(a0)
 
-loc_208E8:
++ ;loc_208E8:
 		move.w	$42(a0),d0
 		move.w	d0,angle(a0)
 		asr.w	#3,d0
@@ -782,15 +782,15 @@ loc_20968:
 		move.w	y_pos(a0),d5
 		bsr.w	sub_20934
 		cmp.w	x_pos(a0),d4
-		beq.s	loc_2097E
+		beq.s	+ ;loc_2097E
 		move.w	d4,$42(a0)
 
-loc_2097E:
++ ;loc_2097E:
 		cmp.w	y_pos(a0),d5
-		beq.s	loc_20988
+		beq.s	+ ;loc_20988
 		move.w	d5,$44(a0)
 
-loc_20988:
++ ;loc_20988:
 		lea	$32(a0),a2
 		lea	(Player_1).w,a1
 		move.w	(Ctrl_1_logical).w,d0
@@ -800,11 +800,11 @@ loc_20988:
 		move.w	(Ctrl_2_logical).w,d0
 		bsr.w	sub_20502
 		tst.w	$32(a0)
-		beq.s	loc_209B2
+		beq.s	+ ;loc_209B2
 		tst.w	$30(a0)
 		bne.s	locret_209B8
 
-loc_209B2:
++ ;loc_209B2:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 

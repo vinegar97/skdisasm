@@ -29,10 +29,10 @@ loc_5978A:
 		move.b	#$1A,collision_flags(a0)
 		clr.b	collision_property(a0)
 		btst	#1,$38(a0)
-		bne.s	loc_597A2
+		bne.s	+ ;loc_597A2
 		move.b	#$7F,collision_property(a0)
 
-loc_597A2:
++ ;loc_597A2:
 		jmp	Obj_Wait(pc)
 ; ---------------------------------------------------------------------------
 
@@ -68,22 +68,22 @@ loc_597EA:
 		beq.s	locret_59820
 		moveq	#3,d0
 		tst.w	$40(a0)
-		bmi.s	loc_5980C
+		bmi.s	+ ;loc_5980C
 		moveq	#4,d0
 
-loc_5980C:
++ ;loc_5980C:
 		cmp.b	mapping_frame(a0),d0
 		bne.s	locret_59820
 		move.w	$40(a0),d0
 		add.w	d0,y_pos(a0)
 		subq.b	#1,$39(a0)
-		bmi.s	loc_59822
+		bmi.s	+ ;loc_59822
 
 locret_59820:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_59822:
++ ;loc_59822:
 		move.b	#2,routine(a0)
 		move.w	#$90,$2E(a0)
 		bset	#1,$38(a0)
@@ -95,11 +95,11 @@ loc_59822:
 loc_59842:
 		move.b	#$7F,collision_property(a0)
 		subq.b	#1,mapping_frame(a0)
-		beq.s	loc_59850
+		beq.s	+ ;loc_59850
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_59850:
++ ;loc_59850:
 		move.b	#$A,routine(a0)
 		move.b	#$7F,collision_property(a0)
 		move.w	#60-1,$2E(a0)
@@ -158,11 +158,11 @@ loc_598D2:
 loc_598DA:
 		movea.w	parent3(a0),a1
 		btst	#1,$38(a1)
-		bne.s	loc_598E8
+		bne.s	+ ;loc_598E8
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_598E8:
++ ;loc_598E8:
 		move.b	#4,routine(a0)
 		move.l	#byte_59A57,$30(a0)
 		move.l	#loc_59900,$34(a0)
@@ -199,18 +199,18 @@ loc_59930:
 loc_59938:
 		movea.w	parent3(a0),a1
 		btst	#1,$38(a1)
-		bne.s	loc_59946
+		bne.s	+ ;loc_59946
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_59946:
++ ;loc_59946:
 		move.b	#4,routine(a0)
 		move.l	#byte_59A62,$30(a0)
 		tst.b	subtype(a0)
-		beq.s	loc_59962
+		beq.s	+ ;loc_59962
 		move.l	#byte_59A6B,$30(a0)
 
-loc_59962:
++ ;loc_59962:
 		move.l	#loc_599B0,$34(a0)
 		rts
 ; ---------------------------------------------------------------------------
@@ -230,10 +230,10 @@ loc_5996C:
 		jsr	CreateChild2_Complex(pc)
 		movea.w	parent3(a0),a2
 		btst	#0,render_flags(a2)
-		beq.s	loc_599A4
+		beq.s	+ ;loc_599A4
 		neg.w	x_vel(a1)
 
-loc_599A4:
++ ;loc_599A4:
 		tst.b	subtype(a0)
 		beq.s	locret_599AE
 		neg.w	y_vel(a1)
@@ -250,11 +250,11 @@ loc_599B0:
 loc_599B8:
 		movea.w	parent3(a0),a1
 		btst	#1,$38(a1)
-		beq.s	loc_599C6
+		beq.s	+ ;loc_599C6
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_599C6:
++ ;loc_599C6:
 		move.b	#2,routine(a0)
 		rts
 
@@ -268,13 +268,13 @@ sub_599CE:
 		cmpi.w	#$30,d3
 		bhs.s	locret_599E6
 		cmpi.b	#2,anim(a1)
-		beq.s	loc_599E8
+		beq.s	+ ;loc_599E8
 
 locret_599E6:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_599E8:
++ ;loc_599E8:
 		move.b	#8,routine(a0)
 		move.b	#3,mapping_frame(a0)
 		addq.w	#4,sp

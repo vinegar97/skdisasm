@@ -3,17 +3,17 @@ Obj_LRZWallRide:
 		move.l	#loc_42556,(a0)
 
 loc_42556:
-		bsr.s	sub_4255E
+		bsr.s	+ ;sub_4255E
 		jmp	(Delete_Sprite_If_Not_In_Range).l
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_4255E:
++ ;sub_4255E:
 		lea	(Player_1).w,a1
 		lea	$30(a0),a2
 		moveq	#p1_standing_bit,d6
-		bsr.s	sub_42574
+		bsr.s	+ ;sub_42574
 		lea	(Player_2).w,a1
 		lea	$34(a0),a2
 		; Bug: if player 1 was riding the object, then d6 may have become dirty from
@@ -25,7 +25,7 @@ sub_4255E:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_42574:
++ ;sub_42574:
 		btst	d6,status(a0)
 		bne.w	loc_426B0
 		move.w	x_pos(a1),d0
@@ -39,7 +39,7 @@ sub_42574:
 		cmpi.w	#$20,d0
 		bhs.s	locret_425E8
 		btst	#0,status(a0)
-		bne.s	loc_425EA
+		bne.s	++ ;loc_425EA
 		tst.b	object_control(a1)
 		bne.s	locret_425E8
 		btst	#Status_InAir,status(a1)
@@ -47,11 +47,11 @@ sub_42574:
 		tst.w	ground_vel(a1)
 		bmi.w	locret_425E8
 		cmpi.w	#$400,ground_vel(a1)
-		bge.w	loc_425CE
+		bge.w	+ ;loc_425CE
 		move.w	#$400,ground_vel(a1)
 
-loc_425CE:
-		bsr.s	sub_42636
++ ;loc_425CE:
+		bsr.s	+++ ;sub_42636
 		move.l	#0,(a2)
 		bclr	#Status_Facing,status(a1)
 		andi.b	#$FC,render_flags(a1)
@@ -61,7 +61,7 @@ locret_425E8:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_425EA:
++ ;loc_425EA:
 		tst.b	object_control(a1)
 		bne.s	locret_425E8
 		btst	#Status_InAir,status(a1)
@@ -69,11 +69,11 @@ loc_425EA:
 		tst.w	ground_vel(a1)
 		bpl.w	locret_425E8
 		cmpi.w	#-$400,ground_vel(a1)
-		ble.w	loc_42610
+		ble.w	+ ;loc_42610
 		move.w	#-$400,ground_vel(a1)
 
-loc_42610:
-		bsr.s	sub_42636
++ ;loc_42610:
+		bsr.s	+ ;sub_42636
 		move.l	#0,(a2)
 		neg.w	ground_vel(a1)
 		bset	#Status_Facing,status(a1)
@@ -87,13 +87,13 @@ loc_42610:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_42636:
++ ;sub_42636:
 		btst	#Status_OnObj,status(a1)
-		beq.s	loc_42646
+		beq.s	+ ;loc_42646
 		movea.w	interact(a1),a3
 		bclr	d6,status(a3)
 
-loc_42646:
++ ;loc_42646:
 		move.w	a0,interact(a1)
 		bset	d6,status(a0)
 		move.w	#0,x_vel(a1)
@@ -119,18 +119,18 @@ loc_42646:
 
 loc_426B0:
 		tst.w	(Debug_placement_mode).w
-		beq.s	loc_426F8
+		beq.s	++ ;loc_426F8
 
 loc_426B6:
 		andi.b	#$80,status(a1)
 		bset	#Status_InAir,status(a1)
 		btst	#Status_Facing,status(a0)
-		bne.s	loc_426DA
+		bne.s	+ ;loc_426DA
 		bclr	#Status_InAir,status(a1)
 		bset	#Status_Facing,status(a1)
 		neg.w	ground_vel(a1)
 
-loc_426DA:
++ ;loc_426DA:
 		bclr	d6,status(a0)
 		move.w	#1,anim(a1)	; and prev_anim
 		move.b	#0,object_control(a1)
@@ -139,7 +139,7 @@ loc_426DA:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_426F8:
++ ;loc_426F8:
 		move.w	ground_vel(a1),d0
 		ext.l	d0
 		lsl.l	#7,d0
@@ -148,10 +148,10 @@ loc_426F8:
 		cmpi.w	#$100,(a2)
 		bhs.s	loc_426B6
 		cmpi.w	#$1000,ground_vel(a1)
-		bge.s	loc_42718
+		bge.s	+ ;loc_42718
 		addi.w	#$10,ground_vel(a1)
 
-loc_42718:
++ ;loc_42718:
 		move.w	x_pos(a1),d2
 		move.w	(a2),d0
 		lsr.w	#1,d0
@@ -161,11 +161,11 @@ loc_42718:
 		swap	d0
 		move.w	#$165,d2
 		btst	#0,status(a0)
-		beq.s	loc_42740
+		beq.s	+ ;loc_42740
 		move.w	#$142,d2
 		neg.w	d0
 
-loc_42740:
++ ;loc_42740:
 		add.w	x_pos(a0),d0
 		move.w	d0,x_pos(a1)
 		sub.w	d2,d0

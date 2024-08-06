@@ -26,16 +26,16 @@ loc_88E98:
 		jsr	Find_SonicTails(pc)
 		bclr	#0,render_flags(a0)
 		tst.w	d0
-		beq.s	loc_88EAC
+		beq.s	+ ;loc_88EAC
 		bset	#0,render_flags(a0)
 
-loc_88EAC:
++ ;loc_88EAC:
 		cmpi.w	#$40,d2
-		blo.s	loc_88EB4
+		blo.s	+ ;loc_88EB4
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_88EB4:
++ ;loc_88EB4:
 		move.b	#4,routine(a0)
 		move.l	#loc_88EE8,$34(a0)
 		rts

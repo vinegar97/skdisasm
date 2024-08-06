@@ -21,11 +21,11 @@ loc_91C62:
 		move.w	#-$1200,d0
 		move.w	#$180,d1
 		btst	#0,render_flags(a0)
-		beq.s	loc_91C80
+		beq.s	+ ;loc_91C80
 		neg.w	d0
 		neg.w	d1
 
-loc_91C80:
++ ;loc_91C80:
 		move.w	d0,$3E(a0)
 		move.w	d1,$3C(a0)
 		move.l	#loc_91CA6,$34(a0)
@@ -52,26 +52,26 @@ loc_91CC2:
 		move.w	x_vel(a0),d0
 		moveq	#$C,d2
 		move.w	$40(a0),d1
-		bmi.s	loc_91CD6
+		bmi.s	+ ;loc_91CD6
 		neg.w	d2
 
-loc_91CD6:
++ ;loc_91CD6:
 		add.w	d2,d1
 		move.w	d1,$40(a0)
 		add.w	d1,d0
 		smi	d2
 		tst.w	$3E(a0)
-		bpl.s	loc_91CE8
+		bpl.s	+ ;loc_91CE8
 		not.b	d2
 
-loc_91CE8:
++ ;loc_91CE8:
 		tst.b	d2
-		bne.s	loc_91CF6
+		bne.s	+ ;loc_91CF6
 		move.w	d0,x_vel(a0)
 		jmp	(MoveSprite2).l
 ; ---------------------------------------------------------------------------
 
-loc_91CF6:
++ ;loc_91CF6:
 		move.b	#2,routine(a0)
 		move.w	#(2*60)-1,$2E(a0)
 		neg.w	$3E(a0)
@@ -143,10 +143,10 @@ loc_91D8C:
 		btst	#1,render_flags(a1)
 		sne	d0
 		tst.b	subtype(a0)
-		beq.s	loc_91DAE
+		beq.s	+ ;loc_91DAE
 		not.b	d0
 
-loc_91DAE:
++ ;loc_91DAE:
 		tst.b	d0
 		bne.s	locret_91DE0
 		move.b	#4,routine(a0)
@@ -154,10 +154,10 @@ loc_91DAE:
 		move.b	#-1,collision_property(a0)
 		moveq	#8,d0
 		btst	#1,render_flags(a1)
-		beq.s	loc_91DD0
+		beq.s	+ ;loc_91DD0
 		neg.w	d0
 
-loc_91DD0:
++ ;loc_91DD0:
 		move.w	d0,y_vel(a0)
 		move.w	y_pos(a0),$3A(a0)
 		move.w	#$17,$2E(a0)
@@ -172,27 +172,27 @@ loc_91DE2:
 		move.w	d0,y_pos(a0)
 		bsr.w	sub_91EB0
 		cmp.w	$3A(a0),d0
-		beq.s	loc_91E22
+		beq.s	+++ ;loc_91E22
 		btst	#1,render_flags(a0)
 		sne	d0
 		tst.w	y_vel(a0)
-		bmi.s	loc_91E08
+		bmi.s	+ ;loc_91E08
 		not.b	d0
 
-loc_91E08:
++ ;loc_91E08:
 		tst.b	d0
-		beq.s	loc_91E1C
+		beq.s	+ ;loc_91E1C
 		jsr	(ObjCheckFloorDist).l
 		tst.w	d1
 		bmi.s	loc_91E46
 		tst.b	collision_flags(a0)
-		beq.s	loc_91E40
+		beq.s	+++ ;loc_91E40
 
-loc_91E1C:
++ ;loc_91E1C:
 		jmp	(Obj_Wait).l
 ; ---------------------------------------------------------------------------
 
-loc_91E22:
++ ;loc_91E22:
 		move.b	#2,routine(a0)
 		move.b	#$98,collision_flags(a0)
 		move.b	#2,mapping_frame(a0)
@@ -201,7 +201,7 @@ loc_91E22:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_91E40:
++ ;loc_91E40:
 		move.b	#$18,collision_flags(a0)
 
 loc_91E46:
@@ -248,22 +248,22 @@ locret_91EAE:
 sub_91EB0:
 		move.w	$3A(a0),d1
 		sub.w	d0,d1
-		bpl.s	loc_91EBA
+		bpl.s	+ ;loc_91EBA
 		neg.w	d1
 
-loc_91EBA:
++ ;loc_91EBA:
 		moveq	#0,d2
 		moveq	#$18,d3
 		moveq	#4-1,d4
 
-loc_91EC0:
+- ;loc_91EC0:
 		add.w	d3,d2
 		cmp.w	d2,d1
-		bls.s	loc_91ECC
-		dbf	d4,loc_91EC0
+		bls.s	+ ;loc_91ECC
+		dbf	d4,- ;loc_91EC0
 		moveq	#0,d4
 
-loc_91ECC:
++ ;loc_91ECC:
 		move.b	RawAni_91ED4(pc,d4.w),mapping_frame(a0)
 		rts
 ; End of function sub_91EB0

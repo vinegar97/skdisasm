@@ -54,9 +54,9 @@ LevelSelect_S2Options:
 		lea	(RAM_start+$498).l,a2
 		moveq	#$10-1,d1
 
-loc_626C:
+- ;loc_626C:
 		move.w	#make_art_tile($07B,1,0),(a2)+
-		dbf	d1,loc_626C
+		dbf	d1,- ;loc_626C
 		bsr.w	Update2PLevSelSelection
 		addq.b	#1,(Current_zone_2P).w
 		andi.b	#3,(Current_zone_2P).w
@@ -83,10 +83,10 @@ loc_626C:
 		lea	(Target_palette_line_3).w,a2
 		moveq	#bytesToLcnt($20),d1
 
-loc_62E0:
+- ;loc_62E0:
 		move.l	(a1),(a2)+
 		clr.l	(a1)+
-		dbf	d1,loc_62E0
+		dbf	d1,- ;loc_62E0
 		moveq	#signextendB(mus_DataSelect),d0
 		bsr.w	Play_Music
 		move.w	#(30*60)-1,(Demo_timer).w
@@ -119,13 +119,13 @@ LevelSelect2P_Main:
 
 LevelSelect2P_PressStart:
 		bsr.w	Chk2PZoneCompletion
-		bmi.s	loc_6368
+		bmi.s	+ ;loc_6368
 		moveq	#signextendB(sfx_Error),d0
 		bsr.w	Play_SFX
 		bra.w	LevelSelect2P_Main
 ; ---------------------------------------------------------------------------
 
-loc_6368:
++ ;loc_6368:
 		move.b	#0,(Game_mode).w
 		rts
 ; ---------------------------------------------------------------------------
@@ -133,7 +133,7 @@ loc_6368:
 		move.b	(Current_zone_2P).w,d0
 		add.w	d0,d0
 		move.w	LevelSelect2P_LevelOrder(pc,d0.w),d0
-		bmi.s	loc_63BE
+		bmi.s	+ ;loc_63BE
 		move.w	d0,(Current_zone_and_act).w
 		move.w	d0,(Apparent_zone_and_act).w
 		move.w	d0,(Saved_zone_and_act).w
@@ -149,7 +149,7 @@ loc_6368:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_63BE:
++ ;loc_63BE:
 		move.b	#4,(Current_special_stage).w
 		move.b	#$10,(Game_mode).w
 		moveq	#1,d0
@@ -171,10 +171,10 @@ LevelSelect2P_Controls:
 		or.b	(Ctrl_2_pressed).w,d0
 		move.b	d0,d1
 		andi.b	#button_up_mask|button_down_mask,d0
-		beq.s	loc_63F4
+		beq.s	+ ;loc_63F4
 		bchg	#1,(Current_zone_2P).w
 
-loc_63F4:
++ ;loc_63F4:
 		andi.b	#button_left_mask|button_right_mask,d1
 		beq.s	locret_6400
 		bchg	#0,(Current_zone_2P).w
@@ -203,17 +203,17 @@ Update2PLevSelSelection:
 		lea	(RAM_start+$D8).l,a2
 		movea.l	4(a3),a1
 		bsr.w	Chk2PZoneCompletion
-		bmi.s	loc_6446
+		bmi.s	+ ;loc_6446
 		lea	(RAM_start+$468).l,a1
 
-loc_6446:
++ ;loc_6446:
 		moveq	#3-1,d1
 
-loc_6448:
+- ;loc_6448:
 		move.l	(a1)+,(a2)+
 		move.l	(a1)+,(a2)+
 		lea	$1A(a2),a2
-		dbf	d1,loc_6448
+		dbf	d1,- ;loc_6448
 		lea	(RAM_start).l,a1
 		move.l	(a3)+,d0
 		moveq	#$11-1,d1
@@ -227,9 +227,9 @@ loc_6448:
 		lea	(Normal_palette_line_3).w,a2
 		moveq	#bytesToLcnt($20),d1
 
-loc_647A:
+- ;loc_647A:
 		move.l	(a1)+,(a2)+
-		dbf	d1,loc_647A
+		dbf	d1,- ;loc_647A
 		rts
 ; End of function Update2PLevSelSelection
 
@@ -270,17 +270,17 @@ ClearOld2PLevSelSelection:
 		lea	(RAM_start+$270).l,a2
 		lea	(RAM_start+$498).l,a1
 		bsr.w	Chk2PZoneCompletion
-		bmi.s	loc_64E0
+		bmi.s	+ ;loc_64E0
 		lea	(RAM_start+$468).l,a1
 
-loc_64E0:
++ ;loc_64E0:
 		moveq	#3-1,d1
 
-loc_64E2:
+- ;loc_64E2:
 		move.l	(a1)+,(a2)+
 		move.l	(a1)+,(a2)+
 		lea	$1A(a2),a2
-		dbf	d1,loc_64E2
+		dbf	d1,- ;loc_64E2
 		lea	(RAM_start+$198).l,a1
 		move.l	(a3)+,d0
 		moveq	#$11-1,d1
@@ -314,10 +314,10 @@ MenuScreenTextToRAM:
 		moveq	#0,d1
 		move.b	(a1)+,d1
 
-.loop:
+- ;.loop:
 		move.b	(a1)+,d0
 		move.w	d0,(a2)+
-		dbf	d1,.loop
+		dbf	d1,- ;.loop
 		rts
 ; End of function MenuScreenTextToRAM
 
@@ -372,13 +372,13 @@ OptionScreen_Main:
 		move.b	(Ctrl_1_pressed).w,d0
 		or.b	(Ctrl_2_pressed).w,d0
 		andi.b	#button_start_mask,d0
-		bne.s	OptionScreen_Select
+		bne.s	+ ;OptionScreen_Select
 		bra.w	OptionScreen_Main
 ; ---------------------------------------------------------------------------
 
-OptionScreen_Select:
++ ;OptionScreen_Select:
 		move.b	(Options_menu_box).w,d0
-		bne.s	OptionScreen_Select_Not1P
+		bne.s	+ ;OptionScreen_Select_Not1P
 		moveq	#0,d0
 		move.w	d0,(Competition_mode).w
 		move.w	d0,(Competition_settings).w
@@ -389,7 +389,7 @@ OptionScreen_Select:
 		rts
 ; ---------------------------------------------------------------------------
 
-OptionScreen_Select_Not1P:
++ ;OptionScreen_Select_Not1P:
 		subq.b	#1,d0
 		bne.s	OptionScreen_Select_Other
 		moveq	#1,d0
@@ -414,48 +414,48 @@ OptionScreen_Controls:
 		move.b	(Ctrl_1_pressed).w,d0
 		or.b	(Ctrl_2_pressed).w,d0
 		btst	#button_up,d0
-		beq.s	loc_6686
+		beq.s	+ ;loc_6686
 		subq.b	#1,d2
-		bcc.s	loc_6686
+		bcc.s	+ ;loc_6686
 		move.b	#2,d2
 
-loc_6686:
++ ;loc_6686:
 		btst	#button_down,d0
-		beq.s	loc_6696
+		beq.s	+ ;loc_6696
 		addq.b	#1,d2
 		cmpi.b	#3,d2
-		bcs.s	loc_6696
+		bcs.s	+ ;loc_6696
 		moveq	#0,d2
 
-loc_6696:
++ ;loc_6696:
 		move.b	d2,(Options_menu_box).w
 		lsl.w	#2,d2
 		move.b	OptionScreen_Choices(pc,d2.w),d3
 		movea.l	OptionScreen_Choices(pc,d2.w),a1
 		move.w	(a1),d2
 		btst	#button_left,d0
-		beq.s	loc_66B2
+		beq.s	+ ;loc_66B2
 		subq.b	#1,d2
-		bcc.s	loc_66B2
+		bcc.s	+ ;loc_66B2
 		move.b	d3,d2
 
-loc_66B2:
++ ;loc_66B2:
 		btst	#button_right,d0
-		beq.s	loc_66C0
+		beq.s	+ ;loc_66C0
 		addq.b	#1,d2
 		cmp.b	d3,d2
-		bls.s	loc_66C0
+		bls.s	+ ;loc_66C0
 		moveq	#0,d2
 
-loc_66C0:
++ ;loc_66C0:
 		btst	#button_A,d0
-		beq.s	loc_66D0
+		beq.s	+ ;loc_66D0
 		addi.b	#$10,d2
 		cmp.b	d3,d2
-		bls.s	loc_66D0
+		bls.s	+ ;loc_66D0
 		moveq	#0,d2
 
-loc_66D0:
++ ;loc_66D0:
 		move.w	d2,(a1)
 		cmpi.b	#2,(Options_menu_box).w
 		bne.s	locret_66FE
@@ -496,7 +496,7 @@ OptionScreen_DrawSelected:
 		lea	(RAM_start+$0B6).l,a2
 		moveq	#0,d1
 		cmpi.b	#2,(Options_menu_box).w
-		beq.s	loc_6754
+		beq.s	+ ;loc_6754
 		move.b	(Options_menu_box).w,d1
 		lsl.w	#2,d1
 		lea	OptionScreen_Choices(pc),a1
@@ -504,15 +504,15 @@ OptionScreen_DrawSelected:
 		move.w	(a1),d1
 		lsl.w	#2,d1
 
-loc_6754:
++ ;loc_6754:
 		movea.l	(a4,d1.w),a1
 		bsr.w	MenuScreenTextToRAM
 		cmpi.b	#2,(Options_menu_box).w
-		bne.s	loc_676E
+		bne.s	+ ;loc_676E
 		lea	(RAM_start+$0C2).l,a2
 		bsr.w	OptionScreen_HexDumpSoundTest
 
-loc_676E:
++ ;loc_676E:
 		lea	(RAM_start).l,a1
 		move.l	(a3)+,d0
 		moveq	#$16-1,d1
@@ -538,7 +538,7 @@ OptionScreen_DrawUnselected:
 		lea	(RAM_start+$216).l,a2
 		moveq	#0,d1
 		cmpi.b	#2,(Options_menu_box).w
-		beq.s	loc_67C4
+		beq.s	+ ;loc_67C4
 		move.b	(Options_menu_box).w,d1
 		lsl.w	#2,d1
 		lea	OptionScreen_Choices(pc),a1
@@ -546,15 +546,15 @@ OptionScreen_DrawUnselected:
 		move.w	(a1),d1
 		lsl.w	#2,d1
 
-loc_67C4:
++ ;loc_67C4:
 		movea.l	(a4,d1.w),a1
 		bsr.w	MenuScreenTextToRAM
 		cmpi.b	#2,(Options_menu_box).w
-		bne.s	loc_67DE
+		bne.s	+ ;loc_67DE
 		lea	(RAM_start+$222).l,a2
 		bsr.w	OptionScreen_HexDumpSoundTest
 
-loc_67DE:
++ ;loc_67DE:
 		lea	(RAM_start+$160).l,a1
 		move.l	(a3)+,d0
 		moveq	#$16-1,d1
@@ -569,15 +569,15 @@ loc_67DE:
 OptionScreen_SelectTextPtr:
 		lea	(off_6858).l,a4
 		tst.b	(Graphics_flags).w
-		bpl.s	loc_6800
+		bpl.s	+ ;loc_6800
 		lea	(off_6864).l,a4
 
-loc_6800:
++ ;loc_6800:
 		tst.b	(Options_menu_box).w
-		beq.s	loc_680C
+		beq.s	+ ;loc_680C
 		lea	(off_6870).l,a4
 
-loc_680C:
++ ;loc_680C:
 		cmpi.b	#2,(Options_menu_box).w
 		bne.s	locret_681A
 		lea	(off_6878).l,a4
@@ -594,7 +594,7 @@ OptionScreen_HexDumpSoundTest:
 		move.w	(Sound_test_sound).w,d1
 		move.b	d1,d2
 		lsr.b	#4,d1
-		bsr.s	sub_6828
+		bsr.s	+ ;sub_6828
 		move.b	d2,d1
 ; End of function OptionScreen_HexDumpSoundTest
 
@@ -602,13 +602,13 @@ OptionScreen_HexDumpSoundTest:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_6828:
++ ;sub_6828:
 		andi.w	#$F,d1
 		cmpi.b	#$A,d1
-		bcs.s	loc_6836
+		bcs.s	+ ;loc_6836
 		addi.b	#4,d1
 
-loc_6836:
++ ;loc_6836:
 		addi.b	#$10,d1
 		move.b	d1,d0
 		move.w	d0,(a2)+
@@ -650,17 +650,17 @@ MenuScreen_LevelSelect:
 		; Only clear 1600 bytes, in order to preserve the level icon emblem
 		move.w	#bytesToWcnt($320*2),d1
 
-	.clearloop:
+-	;.clearloop:
 		move.w	#0,(a3)+
-		dbf	d1,.clearloop
+		dbf	d1,- ;.clearloop
 
 		; S3 would remove the one zone name that wasn't cleared: Oil Ocean
 		lea	(RAM_start+planeLocH28(3,$15)).l,a3
 		move.w	#bytesToWcnt($20),d1
 
-	.loop:
+-	;.loop:
 		move.w	#0,(a3)+
-		dbf	d1,.loop
+		dbf	d1,- ;.loop
 
 		; Build new plane map from LevelSelectText and LevSel_MappingOffsets
 		save
@@ -672,32 +672,32 @@ MenuScreen_LevelSelect:
 		moveq	#0,d0
 		move.w	#$F-1,d1		; This is how many entries there are in LevelSelectText
 
-	.writezone:
+-	;.writezone:
 		move.w	(a5)+,d3	; Get relative address in plane map to write to
 		lea	(a3,d3.w),a2	; Get absolute address
 		moveq	#0,d2
 		move.b	(a1)+,d2	; Get length of string
 		move.w	d2,d3		; Store it
 
-	.writeletter:
+-	;.writeletter:
 		move.b	(a1)+,d0	; Get character from string
 		;ori.w	#make_art_tile($000,0,0),d0
 		move.w	d0,(a2)+	; Send it to plane map
-		dbf	d2,.writeletter	; Loop for entire string
+		dbf	d2,- ;.writeletter	; Loop for entire string
 
 		move.w	#$D,d2		; Maximum length of string
 		sub.w	d3,d2		; Get remaining space in string
 		bcs.s	.stringfull	; If there is none, skip ahead
 
-	.blankloop:
+-	;.blankloop:
 		move.w	#make_art_tile(' ',0,0),(a2)+	; Full the remaining space with blank characters
-		dbf	d2,.blankloop
+		dbf	d2,- ;.blankloop
 
 	.stringfull:
 		move.w	#make_art_tile('1',0,0),(a2)	; Write (act) '1'
 		lea	$28*2(a2),a2	; Next line
 		move.w	#make_art_tile('2',0,0),(a2)	; Write (act) '2'
-		dbf	d1,.writezone
+		dbf	d1,--- ;.writezone
 
 		; Assuming the last line was the sound test...
 		move.w	#make_art_tile(' ',0,0),(a2)	; Get rid of (act) '2'
@@ -734,10 +734,10 @@ MenuScreen_LevelSelect:
 		lea	(Target_palette_line_3).w,a2
 		moveq	#bytesToLcnt($20),d1
 
-loc_696C:
+- ;loc_696C:
 		move.l	(a1),(a2)+
 		clr.l	(a1)+
-		dbf	d1,loc_696C
+		dbf	d1,- ;loc_696C
 		moveq	#signextendB(mus_DataSelect),d0
 		jsr	(Play_Music).l
 		move.w	#(30*60)-1,(Demo_timer).w
@@ -772,11 +772,11 @@ LevelSelect_Main:	; routine running during level select
 		move.b	(Ctrl_1_pressed).w,d0
 		or.b	(Ctrl_2_pressed).w,d0
 		andi.b	#button_start_mask,d0
-		bne.s	LevelSelect_PressStart
+		bne.s	+ ;LevelSelect_PressStart
 		bra.w	LevelSelect_Main
 ; ---------------------------------------------------------------------------
 
-LevelSelect_PressStart:
++ ;LevelSelect_PressStart:
 		move.w	(Level_select_option).w,d0
 		add.w	d0,d0
 		move.w	LS_Level_Order(pc,d0.w),d0
@@ -888,31 +888,31 @@ locret_6B48:
 LevSelControls:
 		move.b	(Ctrl_1_pressed).w,d1
 		andi.b	#button_up_mask|button_down_mask,d1
-		bne.s	loc_6B5A	; up/down pressed
+		bne.s	+ ;loc_6B5A	; up/down pressed
 		subq.w	#1,(Level_select_repeat).w
 		bpl.s	LevSelControls_CheckLR
 
-loc_6B5A:
++ ;loc_6B5A:
 		move.w	#$B,(Level_select_repeat).w
 		move.b	(Ctrl_1_held).w,d1
 		andi.b	#button_up_mask|button_down_mask,d1
 		beq.s	LevSelControls_CheckLR	; up/down not pressed, check for left & right
 		move.w	(Level_select_option).w,d0
 		btst	#button_up,d1
-		beq.s	loc_6B7A
+		beq.s	+ ;loc_6B7A
 		subq.w	#1,d0		; decrease by 1
-		bcc.s	loc_6B7A	; >= 0?
+		bcc.s	+ ;loc_6B7A	; >= 0?
 		moveq	#$1C,d0		; set to $1C
 
-loc_6B7A:
++ ;loc_6B7A:
 		btst	#button_down,d1
-		beq.s	loc_6B8A
+		beq.s	+ ;loc_6B8A
 		addq.w	#1,d0		; yes, add 1
 		cmpi.w	#$1D,d0
-		blo.s	loc_6B8A	; smaller than $1D?
+		blo.s	+ ;loc_6B8A	; smaller than $1D?
 		moveq	#0,d0		; if not, set to 0
 
-loc_6B8A:
++ ;loc_6B8A:
 		move.w	d0,(Level_select_option).w
 		rts
 ; ---------------------------------------------------------------------------
@@ -923,29 +923,29 @@ LevSelControls_CheckLR:
 		move.w	(Sound_test_sound).w,d0
 		move.b	(Ctrl_1_pressed).w,d1
 		btst	#button_left,d1
-		beq.s	loc_6BAC
+		beq.s	+ ;loc_6BAC
 		subq.b	#1,d0
-		bcc.s	loc_6BAC
+		bcc.s	+ ;loc_6BAC
 		moveq	#0,d0
 
-loc_6BAC:
++ ;loc_6BAC:
 		btst	#button_right,d1
-		beq.s	loc_6BBC
+		beq.s	+ ;loc_6BBC
 		addq.b	#1,d0
 		cmpi.w	#$100,d0
-		blo.s	loc_6BBC
+		blo.s	+ ;loc_6BBC
 		moveq	#0,d0
 
-loc_6BBC:
++ ;loc_6BBC:
 		btst	#button_A,d1
-		beq.s	loc_6BCA
+		beq.s	+ ;loc_6BCA
 		addi.b	#$10,d0
 		andi.b	#$FF,d0
 
-loc_6BCA:
++ ;loc_6BCA:
 		move.w	d0,(Sound_test_sound).w
 		btst	#button_C,d1
-		beq.s	loc_6BF4
+		beq.s	+ ;loc_6BF4
 		move.w	(Sound_test_sound).w,d0
 		jsr	(Play_Music).l
 		lea	(DebugCodeDat).l,a0
@@ -955,7 +955,7 @@ loc_6BCA:
 		bra.w	CheckCheats
 ; ---------------------------------------------------------------------------
 
-loc_6BF4:
++ ;loc_6BF4:
 		btst	#button_B,d1
 		beq.s	locret_6C02
 		moveq	#signextendB(mus_MutePSG),d0
@@ -968,12 +968,12 @@ locret_6C02:
 LevSelControls_SwitchSide:
 		move.b	(Ctrl_1_pressed).w,d1
 		andi.b	#button_left_mask|button_right_mask,d1
-		beq.s	loc_6C1A
+		beq.s	+ ;loc_6C1A
 		move.w	(Level_select_option).w,d0
 		move.b	LevelSelect_SwitchTable(pc,d0.w),d0
 		move.w	d0,(Level_select_option).w
 
-loc_6C1A:
++ ;loc_6C1A:
 		bra.s	LevelSelect_PickCharacterNumber
 ; ---------------------------------------------------------------------------
 		rts
@@ -1013,13 +1013,13 @@ LevelSelect_SwitchTable:
 
 LevelSelect_PickCharacterNumber:
 		btst	#button_C,(Ctrl_1_pressed).w
-		beq.s	loc_6C56
+		beq.s	+ ;loc_6C56
 		addq.b	#1,(P1_character).w
 		cmpi.b	#3,(P1_character).w
-		blo.s	loc_6C56
+		blo.s	+ ;loc_6C56
 		move.b	#0,(P1_character).w
 
-loc_6C56:
++ ;loc_6C56:
 		btst	#button_C,(Ctrl_2_pressed).w
 		beq.s	locret_6C70
 		addq.b	#1,(P2_character).w
@@ -1062,15 +1062,15 @@ LevelSelect_MarkFields:
 		move.l	d1,VDP_control_port-VDP_data_port(a6)
 		moveq	#$F-1,d2
 
-loc_6CC2:
+- ;loc_6CC2:
 		move.w	(a1)+,d0
 		add.w	d3,d0
 		move.w	d0,(a6)
-		dbf	d2,loc_6CC2
+		dbf	d2,- ;loc_6CC2
 		addq.w	#2,a3
 		moveq	#0,d0
 		move.b	(a3),d0
-		beq.s	loc_6D06
+		beq.s	+ ;loc_6D06
 		mulu.w	#$50,d0
 		moveq	#0,d1
 		move.b	1(a3),d1
@@ -1090,7 +1090,7 @@ loc_6CC2:
 		add.w	d3,d0
 		move.w	d0,(a6)
 
-loc_6D06:
++ ;loc_6D06:
 		cmpi.w	#$1C,(Level_select_option).w
 		bne.s	LevelSelect_DrawCharacterNumber
 		bra.w	LevelSelect_DrawSoundNumber
@@ -1116,16 +1116,16 @@ LevelSelect_DrawSoundNumber:
 LevelSelect_DrawContinued:
 		move.b	d0,d2
 		lsr.b	#4,d0
-		bsr.s	sub_6D48
+		bsr.s	+ ;sub_6D48
 		move.b	d2,d0
 
-sub_6D48:
++ ;sub_6D48:
 		andi.w	#$F,d0
 		cmpi.b	#$A,d0
-		blo.s	loc_6D56
+		blo.s	+ ;loc_6D56
 		addi.b	#4,d0
 
-loc_6D56:
++ ;loc_6D56:
 		addi.b	#$10,d0
 		add.w	d3,d0
 		move.w	d0,(a6)
@@ -1160,9 +1160,9 @@ LevelSelect_DrawIcon:
 		lea	(Normal_palette_line_3).w,a2
 		moveq	#bytesToLcnt($20),d1
 
-loc_6DAA:
+- ;loc_6DAA:
 		move.l	(a1)+,(a2)+
-		dbf	d1,loc_6DAA
+		dbf	d1,- ;loc_6DAA
 		rts
 ; End of function LevelSelect_DrawIcon
 
@@ -1241,40 +1241,40 @@ CheckCheats:
 		adda.w	d0,a0
 		move.w	(Sound_test_sound).w,d0
 		cmp.b	(a0),d0
-		bne.s	loc_6E88
+		bne.s	+ ;loc_6E88
 		addq.w	#1,(Level_select_cheat_counter).w
 		tst.b	1(a0)
-		bne.s	loc_6E8E
+		bne.s	++ ;loc_6E8E
 		move.w	#(1<<8)|1,(a1)
 		moveq	#signextendB(sfx_RingRight),d0
 		jsr	(Play_SFX).l
 
-loc_6E88:
++ ;loc_6E88:
 		move.w	#0,(Level_select_cheat_counter).w
 
-loc_6E8E:
++ ;loc_6E8E:
 		move.w	(Debug_mode_cheat_counter).w,d0
 		adda.w	d0,a2
 		move.w	(Sound_test_sound).w,d0
 		cmp.b	(a2),d0
-		bne.s	loc_6EC8
+		bne.s	++ ;loc_6EC8
 		addq.w	#1,(Debug_mode_cheat_counter).w
 		tst.b	1(a2)
 		bne.s	locret_6ECE
 		tst.w	d2
-		bne.s	loc_6EBA
+		bne.s	+ ;loc_6EBA
 		move.b	#$F,(Continue_count).w
 		moveq	#signextendB(mus_Continue),d0
 		jsr	(Play_Music).l
-		bra.s	loc_6EC8
+		bra.s	++ ;loc_6EC8
 ; ---------------------------------------------------------------------------
 
-loc_6EBA:
++ ;loc_6EBA:
 		move.w	#7,(Chaos_emerald_count).w
 		moveq	#signextendB(mus_Emerald),d0
 		jsr	(Play_Music).l
 
-loc_6EC8:
++ ;loc_6EC8:
 		move.w	#0,(Debug_mode_cheat_counter).w
 
 locret_6ECE:

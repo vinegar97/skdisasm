@@ -4,10 +4,10 @@ Obj_MHZMiniboss:
 		move.w	MHZMiniboss_Index(pc,d0.w),d1
 		jsr	MHZMiniboss_Index(pc,d1.w)
 		move.w	(Level_repeat_offset).w,d0
-		beq.s	loc_751E2
+		beq.s	+ ;loc_751E2
 		sub.w	d0,x_pos(a0)
 
-loc_751E2:
++ ;loc_751E2:
 		bsr.w	sub_75D80
 		bsr.w	sub_75D50
 		jmp	(Draw_And_Touch_Sprite).l
@@ -61,11 +61,11 @@ loc_75220:
 		lea	ChildObjDat_75E84(pc),a2
 		jsr	(CreateChild1_Normal).l
 		jsr	(AllocateObject).l
-		bne.s	loc_7529E
+		bne.s	+ ;loc_7529E
 		move.l	#Obj_Song_Fade_Transition,(a1)
 		move.b	#mus_Miniboss,subtype(a1)
 
-loc_7529E:
++ ;loc_7529E:
 		lea	(ArtKosM_MHZMiniboss).l,a1
 		move.w	#tiles_to_bytes($3AD),d2
 		jsr	(Queue_Kos_Module).l
@@ -153,11 +153,11 @@ loc_753B6:
 		move.w	x_vel(a0),d0
 		addi.w	#-$20,d0
 		move.w	d0,x_vel(a0)
-		beq.s	loc_753CA
+		beq.s	+ ;loc_753CA
 		jmp	(MoveSprite2).l
 ; ---------------------------------------------------------------------------
 
-loc_753CA:
++ ;loc_753CA:
 		move.b	#$C,routine(a0)
 		move.b	$3A(a0),x_pos+1(a0)
 		clr.w	x_vel(a0)
@@ -170,11 +170,11 @@ loc_753DE:
 		move.w	x_pos(a0),d0
 		sub.w	(Camera_X_pos).w,d0
 		cmpi.w	#$110,d0
-		bls.s	loc_753FA
+		bls.s	+ ;loc_753FA
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_753FA:
++ ;loc_753FA:
 		move.b	#$E,routine(a0)
 		move.l	#byte_75EBB,$30(a0)
 		move.l	#loc_75444,$34(a0)
@@ -206,11 +206,11 @@ loc_75444:
 loc_7544C:
 		jsr	(Swing_UpAndDown).l
 		tst.w	d3
-		bne.s	loc_7545C
+		bne.s	+ ;loc_7545C
 		jmp	(MoveSprite2).l
 ; ---------------------------------------------------------------------------
 
-loc_7545C:
++ ;loc_7545C:
 		move.b	#$12,routine(a0)
 		move.w	#$200,y_vel(a0)
 		cmpi.b	#1,$42(a0)
@@ -258,11 +258,11 @@ loc_754E0:
 		jsr	(Animate_RawMultiDelay).l
 		beq.s	locret_75506
 		cmpi.b	#$12,mapping_frame(a0)
-		bne.s	loc_754F8
+		bne.s	+ ;loc_754F8
 		moveq	#signextendB(sfx_ChopStuck),d0
 		jsr	(Play_SFX).l
 
-loc_754F8:
++ ;loc_754F8:
 		cmpi.b	#$C,anim_frame(a0)
 		bne.s	locret_75506
 		subi.w	#$20,x_pos(a0)
@@ -289,13 +289,13 @@ loc_75532:
 		bmi.s	locret_7554E
 		jsr	(ObjCheckFloorDist).l
 		tst.w	d1
-		bmi.s	loc_75550
+		bmi.s	+ ;loc_75550
 
 locret_7554E:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_75550:
++ ;loc_75550:
 		move.b	#$18,routine(a0)
 		move.w	#-$200,x_vel(a0)
 		move.w	#-$300,y_vel(a0)
@@ -307,13 +307,13 @@ loc_75564:
 		move.w	y_vel(a0),d0
 		bmi.s	locret_75576
 		cmpi.w	#$100,d0
-		bhs.s	loc_75578
+		bhs.s	+ ;loc_75578
 
 locret_75576:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_75578:
++ ;loc_75578:
 		move.b	#$1A,routine(a0)
 		bclr	#6,$38(a0)
 		move.w	#$100,x_vel(a0)
@@ -335,13 +335,13 @@ loc_755AE:
 		bmi.s	locret_755C4
 		move.w	y_pos(a0),d0
 		cmp.w	$3C(a0),d0
-		bhs.s	loc_755C6
+		bhs.s	+ ;loc_755C6
 
 locret_755C4:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_755C6:
++ ;loc_755C6:
 		move.b	#$1E,routine(a0)
 		move.b	#5,mapping_frame(a0)
 		bclr	#6,$38(a0)
@@ -401,11 +401,11 @@ loc_75694:
 		jsr	(Swing_UpAndDown).l
 		jsr	(MoveSprite2).l
 		btst	#2,$38(a0)
-		bne.s	loc_756AA
+		bne.s	+ ;loc_756AA
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_756AA:
++ ;loc_756AA:
 		move.b	#$28,routine(a0)
 		move.b	#0,mapping_frame(a0)
 		move.w	#-$200,y_vel(a0)
@@ -419,11 +419,11 @@ loc_756C6:
 		move.w	(Camera_Y_pos).w,d0
 		addi.w	#$30,d0
 		cmp.w	y_pos(a0),d0
-		bhs.s	loc_756E2
+		bhs.s	+ ;loc_756E2
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_756E2:
++ ;loc_756E2:
 		move.b	#$2A,routine(a0)
 		move.w	d0,y_pos(a0)
 		move.w	#$1F,$2E(a0)
@@ -448,19 +448,19 @@ loc_7571C:
 		move.w	y_vel(a0),d0
 		addi.w	#-$48,d0
 		cmpi.w	#-$700,d0
-		blt.s	loc_75734
+		blt.s	+ ;loc_75734
 		move.w	d0,y_vel(a0)
 
-loc_75734:
++ ;loc_75734:
 		jsr	(MoveSprite2).l
 		move.w	(Camera_Y_pos).w,d0
 		subi.w	#$80,d0
 		cmp.w	y_pos(a0),d0
-		bhs.s	loc_7574A
+		bhs.s	+ ;loc_7574A
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_7574A:
++ ;loc_7574A:
 		move.b	#$2E,routine(a0)
 		move.b	#5,mapping_frame(a0)
 		move.w	(Camera_X_pos_copy).w,d0
@@ -483,10 +483,10 @@ loc_7574A:
 loc_757A0:
 		move.w	y_vel(a0),d0
 		addi.w	#-$10,d0
-		bmi.s	loc_757AE
+		bmi.s	+ ;loc_757AE
 		move.w	d0,y_vel(a0)
 
-loc_757AE:
++ ;loc_757AE:
 		jsr	(MoveSprite2).l
 		jmp	(Obj_Wait).l
 ; ---------------------------------------------------------------------------
@@ -507,32 +507,32 @@ loc_757D6:
 		jsr	(Refresh_ChildPositionAdjusted).l
 		movea.w	parent3(a0),a1
 		btst	#6,$38(a1)
-		bne.w	loc_7582A
+		bne.w	++ ;loc_7582A
 		move.b	(V_int_run_count+3).w,d0
 		btst	#0,d0
-		bne.w	loc_7582A
+		bne.w	++ ;loc_7582A
 		andi.b	#$F,d0
-		bne.s	loc_75824
+		bne.s	+ ;loc_75824
 		tst.b	render_flags(a0)
-		bpl.s	loc_75824
+		bpl.s	+ ;loc_75824
 		jsr	(AllocateObject).l
-		bne.s	loc_75824
+		bne.s	+ ;loc_75824
 		move.l	#loc_759FC,(a1)
 		move.w	a0,parent3(a1)
 		move.w	x_pos(a0),x_pos(a1)
 		move.w	y_pos(a0),y_pos(a1)
 
-loc_75824:
++ ;loc_75824:
 		jmp	(Child_DrawTouch_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_7582A:
++ ;loc_7582A:
 		btst	#7,status(a1)
-		bne.s	loc_75834
+		bne.s	+ ;loc_75834
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_75834:
++ ;loc_75834:
 		jmp	(Go_Delete_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -562,31 +562,31 @@ loc_7585A:
 		lea	(Player_1).w,a1
 		move.w	x_pos(a1),d0
 		sub.w	x_pos(a0),d0
-		beq.s	loc_7589A
+		beq.s	++ ;loc_7589A
 		smi	d1
-		bpl.s	loc_7588E
+		bpl.s	+ ;loc_7588E
 		neg.w	d0
 
-loc_7588E:
++ ;loc_7588E:
 		swap	d0
 		divu.w	#$3800,d0
 		tst.b	d1
-		beq.s	loc_7589A
+		beq.s	+ ;loc_7589A
 		neg.w	d0
 
-loc_7589A:
++ ;loc_7589A:
 		move.w	d0,x_vel(a0)
 
 loc_7589E:
 		jsr	(MoveSprite_LightGravity).l
 		tst.w	y_vel(a0)
-		bmi.s	loc_758B8
+		bmi.s	+ ;loc_758B8
 		jsr	(ObjCheckFloorDist).l
 		tst.w	d1
-		bpl.s	loc_758B8
+		bpl.s	+ ;loc_758B8
 		bsr.w	sub_758BE
 
-loc_758B8:
++ ;loc_758B8:
 		jmp	(Animate_RawMultiDelay).l
 
 ; =============== S U B R O U T I N E =======================================
@@ -651,17 +651,17 @@ loc_7594C:
 		subq.w	#6,d0
 		sub.w	x_pos(a0),d0
 		smi	d1
-		bpl.s	loc_75974
+		bpl.s	+ ;loc_75974
 		neg.w	d0
 
-loc_75974:
++ ;loc_75974:
 		swap	d0
 		divu.w	#$6100,d0
 		tst.b	d1
-		beq.s	loc_75980
+		beq.s	+ ;loc_75980
 		neg.w	d0
 
-loc_75980:
++ ;loc_75980:
 		move.w	d0,x_vel(a0)
 		rts
 ; ---------------------------------------------------------------------------
@@ -670,18 +670,18 @@ loc_75986:
 		addi.w	#$10,y_vel(a0)
 		jsr	(MoveSprite2).l
 		tst.w	y_vel(a0)
-		bmi.s	loc_759AA
+		bmi.s	+ ;loc_759AA
 		movea.w	parent3(a0),a1
 		move.w	y_pos(a1),d0
 		addi.w	#-8,d0
 		cmp.w	y_pos(a0),d0
-		bls.s	loc_759B0
+		bls.s	++ ;loc_759B0
 
-loc_759AA:
++ ;loc_759AA:
 		jmp	(Animate_RawMultiDelay).l
 ; ---------------------------------------------------------------------------
 
-loc_759B0:
++ ;loc_759B0:
 		movea.w	parent3(a0),a1
 		bset	#2,$38(a1)
 		jmp	(Go_Delete_Sprite).l
@@ -696,18 +696,18 @@ loc_759D0:
 		movea.w	parent3(a0),a1
 		move.b	(V_int_run_count+3).w,d0
 		btst	#0,d0
-		bne.w	loc_759EC
+		bne.w	+ ;loc_759EC
 		jsr	(Refresh_ChildPosition).l
 		jmp	(Child_DrawTouch_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_759EC:
++ ;loc_759EC:
 		btst	#7,status(a1)
-		bne.s	loc_759F6
+		bne.s	+ ;loc_759F6
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_759F6:
++ ;loc_759F6:
 		jmp	(Go_Delete_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -726,39 +726,39 @@ loc_75A24:
 		move.w	x_vel(a0),d0
 		add.w	$40(a0),d0
 		cmpi.w	#-$100,d0
-		ble.s	loc_75A44
+		ble.s	+ ;loc_75A44
 		cmpi.w	#$100,d0
 		bge.s	loc_75A48
 		move.l	#loc_75A48,(a0)
 		bset	#0,$38(a0)
 
-loc_75A44:
++ ;loc_75A44:
 		move.w	d0,x_vel(a0)
 
 loc_75A48:
 		move.w	y_vel(a0),d0
 		move.w	$3E(a0),d1
 		btst	#0,$38(a0)
-		beq.s	loc_75A5A
+		beq.s	+ ;loc_75A5A
 		moveq	#-1,d1
 
-loc_75A5A:
++ ;loc_75A5A:
 		sub.w	d1,d0
 		cmpi.w	#$80,d0
-		blt.s	loc_75A68
+		blt.s	+ ;loc_75A68
 		move.l	#loc_75A6C,(a0)
 
-loc_75A68:
++ ;loc_75A68:
 		move.w	d0,y_vel(a0)
 
 loc_75A6C:
 		jsr	(MoveSprite2).l
 		tst.b	render_flags(a0)
-		bpl.s	loc_75A7E
+		bpl.s	+ ;loc_75A7E
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_75A7E:
++ ;loc_75A7E:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -769,25 +769,25 @@ Obj_MHZMinibossTree:
 
 loc_75A94:
 		move.w	(_unkFAA4).w,d0
-		beq.s	loc_75ACE
+		beq.s	++ ;loc_75ACE
 		movea.w	d0,a1
 		cmpi.l	#Obj_MHZMiniboss,(a1)
-		bne.s	loc_75ACE
+		bne.s	++ ;loc_75ACE
 		tst.b	render_flags(a0)
-		bmi.s	loc_75AB0
+		bmi.s	+ ;loc_75AB0
 		move.b	#5,$42(a1)
 
-loc_75AB0:
++ ;loc_75AB0:
 		move.b	$42(a1),d0
 		cmp.b	mapping_frame(a0),d0
-		beq.s	loc_75ACE
+		beq.s	+ ;loc_75ACE
 		move.b	d0,mapping_frame(a0)
 		cmpi.b	#5,d0
-		bhs.s	loc_75ACE
+		bhs.s	+ ;loc_75ACE
 		lea	ChildObjDat_75E98(pc),a2
 		jsr	(CreateChild6_Simple).l
 
-loc_75ACE:
++ ;loc_75ACE:
 		jmp	(Sprite_CheckDelete).l
 ; ---------------------------------------------------------------------------
 
@@ -804,19 +804,19 @@ loc_75AD4:
 		add.w	d3,y_pos(a0)
 		jsr	(Random_Number).l
 		cmpi.b	#2,(Player_1+character_id).w
-		beq.s	loc_75B0E
+		beq.s	+ ;loc_75B0E
 		moveq	#0,d0
 
-loc_75B0E:
++ ;loc_75B0E:
 		move.w	#-$400,d1
 		btst	#0,d0
-		beq.s	loc_75B24
+		beq.s	+ ;loc_75B24
 		tst.b	d2
-		beq.s	loc_75B24
+		beq.s	+ ;loc_75B24
 		move.w	#-$200,d1
 		sne	$3A(a0)
 
-loc_75B24:
++ ;loc_75B24:
 		move.w	d1,x_vel(a0)
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
@@ -829,14 +829,14 @@ loc_75B34:
 		lea	byte_75F12(pc),a1
 		jsr	(Animate_RawNoSST).l
 		tst.b	$3A(a0)
-		beq.s	loc_75B58
+		beq.s	+ ;loc_75B58
 		addi.w	#$20,y_vel(a0)
 		jsr	(ObjCheckFloorDist).l
 		tst.w	d1
-		bpl.s	loc_75B58
+		bpl.s	+ ;loc_75B58
 		neg.w	y_vel(a0)
 
-loc_75B58:
++ ;loc_75B58:
 		jsr	(MoveSprite2).l
 		jmp	(Sprite_CheckDeleteTouch).l
 ; ---------------------------------------------------------------------------
@@ -858,10 +858,10 @@ sub_75B6E:
 		ext.w	d0
 		move.w	x_pos(a1),d1
 		btst	#0,render_flags(a1)
-		beq.s	loc_75B90
+		beq.s	+ ;loc_75B90
 		neg.w	d0
 
-loc_75B90:
++ ;loc_75B90:
 		add.w	d0,d1
 		move.w	d1,x_pos(a0)
 		move.b	(a2)+,d0
@@ -915,11 +915,11 @@ sub_75C06:
 		add.w	d0,d3
 		moveq	#-$C,d4
 		btst	#1,d0
-		beq.s	loc_75C34
+		beq.s	+ ;loc_75C34
 		neg.w	d3
 		neg.w	d4
 
-loc_75C34:
++ ;loc_75C34:
 		move.w	d3,x_vel(a0)
 		move.w	d4,$40(a0)
 		swap	d0
@@ -1106,22 +1106,22 @@ sub_75D80:
 		tst.b	collision_flags(a0)
 		bne.s	locret_75DCA
 		move.b	collision_property(a0),d0
-		beq.s	loc_75DCC
+		beq.s	+++ ;loc_75DCC
 		tst.b	$20(a0)
-		bne.s	loc_75DA0
+		bne.s	+ ;loc_75DA0
 		move.b	#$20,$20(a0)
 		moveq	#signextendB(sfx_BossHit),d0
 		jsr	(Play_SFX).l
 
 
-loc_75DA0:
++ ;loc_75DA0:
 		bset	#6,status(a0)
 		moveq	#0,d0
 		btst	#0,$20(a0)
-		bne.s	loc_75DB4
+		bne.s	+ ;loc_75DB4
 		addi.w	#2*4,d0
 
-loc_75DB4:
++ ;loc_75DB4:
 		bsr.w	sub_75DF4
 		subq.b	#1,$20(a0)
 		bne.s	locret_75DCA
@@ -1132,15 +1132,15 @@ locret_75DCA:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_75DCC:
++ ;loc_75DCC:
 		move.l	#Wait_FadeToLevelMusic,(a0)
 		move.l	#loc_757BA,$34(a0)
 		lea	(Child6_CreateBossExplosion).l,a2
 		jsr	(CreateChild6_Simple).l
-		bne.s	loc_75DEE
+		bne.s	+ ;loc_75DEE
 		move.b	#$10,subtype(a1)
 
-loc_75DEE:
++ ;loc_75DEE:
 		jmp	(BossDefeated_StopTimer).l
 ; End of function sub_75D80
 
@@ -1165,23 +1165,23 @@ word_75E0A:
 loc_75E1A:
 		move.w	(Camera_max_X_pos).w,d0
 		cmp.w	$34(a0),d0
-		bne.s	loc_75E4C
+		bne.s	++ ;loc_75E4C
 		move.l	$30(a0),d1
 		addi.l	#$4000,d1
 		move.l	d1,$30(a0)
 		swap	d1
 		add.w	d1,d0
 		cmp.w	(Camera_stored_max_X_pos).w,d0
-		bhs.s	loc_75E46
+		bhs.s	+ ;loc_75E46
 		move.w	d0,(Camera_max_X_pos).w
 		move.w	d0,$34(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_75E46:
++ ;loc_75E46:
 		move.w	(Camera_stored_max_X_pos).w,(Camera_max_X_pos).w
 
-loc_75E4C:
++ ;loc_75E4C:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 ObjDat_MHZMiniboss:

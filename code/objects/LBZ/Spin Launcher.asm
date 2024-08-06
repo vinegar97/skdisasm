@@ -14,60 +14,60 @@ loc_28DE4:
 		lea	(byte_28FF4).l,a2
 		lea	$2E(a0),a4
 		tst.b	(a4)
-		beq.s	loc_28E02
+		beq.s	+ ;loc_28E02
 		subq.b	#1,(a4)
-		bra.s	loc_28E1E
+		bra.s	+++ ;loc_28E1E
 ; ---------------------------------------------------------------------------
 
-loc_28E02:
++ ;loc_28E02:
 		lea	(Player_1).w,a1
 		moveq	#p1_standing_bit,d6
 		movem.l	d1-d4,-(sp)
 		jsr	(sub_1DD24).l
 		cmpi.w	#-2,d4
-		bne.s	loc_28E1A
+		bne.s	+ ;loc_28E1A
 		bsr.s	sub_28E76
 
-loc_28E1A:
++ ;loc_28E1A:
 		movem.l	(sp)+,d1-d4
 
-loc_28E1E:
++ ;loc_28E1E:
 		addq.w	#1,a4
 		tst.b	(a4)
-		beq.s	loc_28E28
+		beq.s	+ ;loc_28E28
 		subq.b	#1,(a4)
-		bra.s	loc_28E3C
+		bra.s	++ ;loc_28E3C
 ; ---------------------------------------------------------------------------
 
-loc_28E28:
++ ;loc_28E28:
 		lea	(Player_2).w,a1
 		moveq	#p2_standing_bit,d6
 		jsr	(sub_1DD24).l
 		cmpi.w	#-2,d4
-		bne.s	loc_28E3C
+		bne.s	+ ;loc_28E3C
 		bsr.s	sub_28E76
 
-loc_28E3C:
++ ;loc_28E3C:
 		move.b	status(a0),d6
 		andi.b	#standing_mask,d6
-		beq.s	loc_28E70
+		beq.s	++ ;loc_28E70
 		move.b	d6,d0
 		andi.b	#p1_standing,d0
-		beq.s	loc_28E5C
+		beq.s	+ ;loc_28E5C
 		lea	$2E(a0),a4
 		lea	(Player_1).w,a1
 		moveq	#p1_standing_bit,d6
 		bsr.w	sub_28F40
 
-loc_28E5C:
++ ;loc_28E5C:
 		andi.b	#p2_standing,d6
-		beq.s	loc_28E70
+		beq.s	+ ;loc_28E70
 		lea	$2F(a0),a4
 		lea	(Player_2).w,a1
 		moveq	#p2_standing_bit,d6
 		bsr.w	sub_28F40
 
-loc_28E70:
++ ;loc_28E70:
 		jmp	(Sprite_OnScreen_Test).l
 
 ; =============== S U B R O U T I N E =======================================
@@ -75,7 +75,7 @@ loc_28E70:
 
 sub_28E76:
 		btst	#0,status(a0)
-		bne.s	loc_28EDE
+		bne.s	+ ;loc_28EDE
 		move.w	x_pos(a1),d0
 		sub.w	x_pos(a0),d0
 		addi.w	#$18,d0
@@ -100,7 +100,7 @@ locret_28EDC:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_28EDE:
++ ;loc_28EDE:
 		move.w	x_pos(a1),d0
 		sub.w	x_pos(a0),d0
 		neg.w	d0
@@ -130,7 +130,7 @@ loc_28EDE:
 
 sub_28F40:
 		btst	#0,status(a0)
-		bne.s	loc_28F9C
+		bne.s	+ ;loc_28F9C
 		move.w	x_pos(a1),d0
 		sub.w	x_pos(a0),d0
 		cmpi.w	#$20,d0
@@ -151,7 +151,7 @@ sub_28F40:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_28F9C:
++ ;loc_28F9C:
 		move.w	x_pos(a1),d0
 		sub.w	x_pos(a0),d0
 		neg.w	d0

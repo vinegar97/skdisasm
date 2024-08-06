@@ -36,14 +36,14 @@ loc_3A5DA:
 		move.w	(sp)+,d4
 		jsr	SolidObjectFull_Offset
 		subq.b	#1,anim_frame_timer(a0)
-		bpl.s	loc_3A616
+		bpl.s	+ ;loc_3A616
 		move.b	#1,anim_frame_timer(a0)
 		addq.b	#1,mapping_frame(a0)
 		cmpi.b	#3,mapping_frame(a0)
-		blo.s	loc_3A616
+		blo.s	+ ;loc_3A616
 		move.b	#0,mapping_frame(a0)
 
-loc_3A616:
++ ;loc_3A616:
 		move.w	$44(a0),d0
 		jmp	(loc_1B666).l
 ; ---------------------------------------------------------------------------
@@ -62,7 +62,7 @@ loc_3A63A:
 		moveq	#0,d0
 		move.b	(Oscillating_table+$0A).w,d0
 		subi.w	#$20,d0
-		bra.s	loc_3A650
+		bra.s	+ ;loc_3A650
 ; ---------------------------------------------------------------------------
 
 loc_3A646:
@@ -70,12 +70,12 @@ loc_3A646:
 		move.b	(Oscillating_table+$1E).w,d0
 		subi.w	#$40,d0
 
-loc_3A650:
++ ;loc_3A650:
 		btst	#0,status(a0)
-		beq.s	loc_3A65A
+		beq.s	+ ;loc_3A65A
 		neg.w	d0
 
-loc_3A65A:
++ ;loc_3A65A:
 		add.w	$46(a0),d0
 		move.w	d0,y_pos(a0)
 		rts
@@ -84,10 +84,10 @@ loc_3A65A:
 loc_3A664:
 		move.b	(Level_frame_counter+1).w,d0
 		btst	#0,status(a0)
-		beq.s	loc_3A672
+		beq.s	+ ;loc_3A672
 		neg.b	d0
 
-loc_3A672:
++ ;loc_3A672:
 		add.b	angle(a0),d0
 		jsr	(GetSineCosine).l
 		asr.w	#2,d0
@@ -121,35 +121,35 @@ loc_3A6D0:
 		move.w	$36(a0),d2
 		subq.w	#1,d2
 		tst.b	$30(a0)
-		bne.s	loc_3A6F8
+		bne.s	+ ;loc_3A6F8
 		move.w	$34(a0),d1
 		addq.w	#4,d1
 		move.w	d1,$34(a0)
 		add.w	d1,$32(a0)
 		cmp.b	$32(a0),d2
-		bhi.s	loc_3A712
+		bhi.s	++ ;loc_3A712
 		move.b	#1,$30(a0)
-		bra.s	loc_3A712
+		bra.s	++ ;loc_3A712
 ; ---------------------------------------------------------------------------
 
-loc_3A6F8:
++ ;loc_3A6F8:
 		move.w	$34(a0),d1
 		subq.w	#4,d1
 		move.w	d1,$34(a0)
 		add.w	d1,$32(a0)
 		cmp.b	$32(a0),d2
-		bls.s	loc_3A712
+		bls.s	+ ;loc_3A712
 		move.b	#0,$30(a0)
 
-loc_3A712:
++ ;loc_3A712:
 		moveq	#0,d0
 		move.w	$32(a0),d0
 		lsr.w	#6,d0
 		btst	#0,status(a0)
-		beq.s	loc_3A724
+		beq.s	+ ;loc_3A724
 		neg.w	d0
 
-loc_3A724:
++ ;loc_3A724:
 		add.w	$46(a0),d0
 		move.w	d0,y_pos(a0)
 		tst.w	$34(a0)

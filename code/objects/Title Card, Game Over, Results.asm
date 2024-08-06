@@ -1,22 +1,22 @@
 Obj_GameOver:
 		tst.l	(Nem_decomp_queue).w
-		beq.s	loc_2D5CE
+		beq.s	+ ;loc_2D5CE
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_2D5CE:
++ ;loc_2D5CE:
 		tst.b	mapping_frame(a0)
-		bne.s	loc_2D5DE
+		bne.s	+ ;loc_2D5DE
 		st	(SRAM_mask_interrupts_flag).w
 		jsr	(SaveGame_LivesContinues).l
 
-loc_2D5DE:
++ ;loc_2D5DE:
 		move.w	#$50,x_pos(a0)
 		btst	#0,mapping_frame(a0)
-		beq.s	loc_2D5F2
+		beq.s	+ ;loc_2D5F2
 		move.w	#$1F0,x_pos(a0)
 
-loc_2D5F2:
++ ;loc_2D5F2:
 		move.w	#$F0,y_pos(a0)
 		move.l	#Map_GameOver,mappings(a0)
 		move.w	#make_art_tile(ArtTile_Shield,0,1),art_tile(a0)
@@ -26,16 +26,16 @@ loc_2D5F2:
 loc_2D612:
 		moveq	#$10,d1
 		cmpi.w	#$120,x_pos(a0)
-		beq.s	loc_2D62A
-		bcs.s	loc_2D620
+		beq.s	++ ;loc_2D62A
+		bcs.s	+ ;loc_2D620
 		neg.w	d1
 
-loc_2D620:
++ ;loc_2D620:
 		add.w	d1,x_pos(a0)
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_2D62A:
++ ;loc_2D62A:
 		move.w	#8*60,anim_frame_timer(a0)
 		move.l	#loc_2D638,(a0)
 		rts
@@ -44,32 +44,32 @@ loc_2D62A:
 loc_2D638:
 		move.w	#0,(Collision_response_list).w
 		btst	#0,mapping_frame(a0)
-		bne.w	loc_2D68A
+		bne.w	+++ ;loc_2D68A
 		move.b	(Ctrl_1_pressed).w,d0
 		or.b	(Ctrl_2_pressed).w,d0
 		andi.b	#button_A_mask|button_B_mask|button_C_mask|button_start_mask,d0
-		bne.s	loc_2D666
+		bne.s	+ ;loc_2D666
 		tst.w	anim_frame_timer(a0)
-		beq.s	loc_2D666
+		beq.s	+ ;loc_2D666
 		subq.w	#1,anim_frame_timer(a0)
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_2D666:
++ ;loc_2D666:
 		tst.b	(Time_over_flag).w
-		bne.s	loc_2D680
+		bne.s	+ ;loc_2D680
 		move.b	#$14,(Game_mode).w
 		tst.b	(Continue_count).w
-		bne.s	loc_2D68A
+		bne.s	++ ;loc_2D68A
 		move.b	#0,(Game_mode).w
-		bra.s	loc_2D68A
+		bra.s	++ ;loc_2D68A
 ; ---------------------------------------------------------------------------
 
-loc_2D680:
++ ;loc_2D680:
 		clr.l	(Saved_timer).w
 		move.w	#1,(Restart_level_flag).w
 
-loc_2D68A:
++ ;loc_2D68A:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -88,54 +88,54 @@ Obj_TitleCard:
 
 .Init:
 		cmpi.w	#$D01,(Current_zone_and_act).w
-		beq.s	loc_2D6C2			; if we're in the ending, don't show title card
+		beq.s	+ ;loc_2D6C2			; if we're in the ending, don't show title card
 		cmpi.b	#$E,(Current_zone).w
-		blo.s	loc_2D6C8			; If in any of the 2P stages, don't show title card
+		blo.s	++ ;loc_2D6C8			; If in any of the 2P stages, don't show title card
 		cmpi.b	#$12,(Current_zone).w
-		bhi.s	loc_2D6C8
+		bhi.s	++ ;loc_2D6C8
 		st	$44(a0)
 
-loc_2D6C2:
++ ;loc_2D6C2:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_2D6C8:
++ ;loc_2D6C8:
 		lea	(ArtKosM_TitleCardRedAct).l,a1
 		move.w	#tiles_to_bytes($500),d2
 		jsr	(Queue_Kos_Module).l
 		lea	(ArtKosM_TitleCardSKZone).l,a1
 		tst.w	(SK_alone_flag).w
-		bne.s	loc_2D6EA
+		bne.s	+ ;loc_2D6EA
 		lea	(ArtKosM_TitleCardS3KZone).l,a1
 
-loc_2D6EA:
++ ;loc_2D6EA:
 		move.w	#tiles_to_bytes($510),d2
 		jsr	(Queue_Kos_Module).l
 		lea	(ArtKosM_TitleCardNum2).l,a1
 		cmpi.w	#$1600,(Current_zone_and_act).w
-		beq.s	loc_2D716
+		beq.s	+ ;loc_2D716
 		cmpi.w	#$1700,(Current_zone_and_act).w
-		beq.s	loc_2D716		; Death Egg Boss and LRZ Boss show act 2
+		beq.s	+ ;loc_2D716		; Death Egg Boss and LRZ Boss show act 2
 		tst.b	(Apparent_act).w
-		bne.s	loc_2D716
+		bne.s	+ ;loc_2D716
 		lea	(ArtKosM_TitleCardNum1).l,a1
 
-loc_2D716:
++ ;loc_2D716:
 		move.w	#tiles_to_bytes($53D),d2
 		jsr	(Queue_Kos_Module).l
 		lea	TitleCard_LevelGfx(pc),a1
 		moveq	#9,d0
 		cmpi.w	#$1600,(Current_zone_and_act).w	; If in LRZ's boss, set it to Lava Reef's card
-		beq.s	loc_2D746
+		beq.s	+ ;loc_2D746
 		moveq	#$D,d0
 		cmpi.w	#$1601,(Current_zone_and_act).w	; If in Hidden Palace, set it to its card
-		beq.s	loc_2D746
+		beq.s	+ ;loc_2D746
 		moveq	#$B,d0
 		cmpi.w	#$1700,(Current_zone_and_act).w	; If in Death Egg boss, set it to Death Egg's card
-		beq.s	loc_2D746
+		beq.s	+ ;loc_2D746
 		move.b	(Apparent_zone_and_act).w,d0		; Otherwise, just use current zone
 
-loc_2D746:
++ ;loc_2D746:
 		lsl.w	#2,d0
 		movea.l	(a1,d0.w),a1
 		move.w	#tiles_to_bytes($54D),d2
@@ -153,23 +153,23 @@ Obj_TitleCard.Create:
 		jsr	(AllocateObjectAfterCurrent).l
 		bne.w	locret_2D802
 		cmpi.b	#$16,(Current_zone).w
-		beq.s	loc_2D79A
+		beq.s	+ ;loc_2D79A
 		cmpi.w	#$1700,(Current_zone_and_act).w
-		beq.s	loc_2D79A
+		beq.s	+ ;loc_2D79A
 		lea	ObjArray_TtlCardBonus(pc),a2
 		moveq	#1,d1
 		cmpi.b	#$13,(Current_zone).w
-		bhs.s	loc_2D7AC
+		bhs.s	++ ;loc_2D7AC
 
-loc_2D79A:
++ ;loc_2D79A:
 		lea	ObjArray_TtlCard(pc),a2
 		moveq	#3,d1
 		tst.b	$44(a0)
-		beq.s	loc_2D7AC
+		beq.s	+ ;loc_2D7AC
 		lea	ObjArray_TtlCard2(pc),a2
 		moveq	#0,d1
 
-loc_2D7AC:
+/ ;loc_2D7AC:
 		addq.w	#1,$30(a0)
 		move.l	(a2)+,(a1)
 		move.w	(a2)+,$46(a1)
@@ -183,15 +183,15 @@ loc_2D7AC:
 		move.l	#Map_TitleCard,mappings(a1)
 		move.w	a0,parent2(a1)
 		jsr	(CreateNewSprite4).l
-		dbne	d1,loc_2D7AC
+		dbne	d1,- ;loc_2D7AC
 		tst.b	$3E(a0)
-		beq.s	loc_2D7FE
+		beq.s	+ ;loc_2D7FE
 		cmpi.b	#6,(Current_zone).w
-		bne.s	loc_2D7FE
+		bne.s	+ ;loc_2D7FE
 		moveq	#$25,d0			; If title card is mid-level and it's in LBZ, load the LBZ 2 misc art
 		jsr	(Load_PLC).l
 
-loc_2D7FE:
++ ;loc_2D7FE:
 		addq.b	#2,routine(a0)
 
 locret_2D802:
@@ -200,14 +200,14 @@ locret_2D802:
 
 Obj_TitleCard.Wait:
 		tst.w	$34(a0)
-		beq.s	loc_2D810
+		beq.s	+ ;loc_2D810
 		clr.w	$34(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_2D810:
++ ;loc_2D810:
 		tst.w	$3E(a0)
-		beq.s	loc_2D84C
+		beq.s	+ ;loc_2D84C
 		clr.l	(Timer).w			; If using in-level title card
 		clr.w	(Ring_count).w			; Reset HUD rings and timer
 		clr.w	(Total_ring_count).w		; Reset number of collected rings
@@ -221,7 +221,7 @@ loc_2D810:
 		move.b	#30,(Player_2+air_left).w	; Reset air
 		jsr	(Restore_LevelMusic).l		; Play music
 
-loc_2D84C:
++ ;loc_2D84C:
 		clr.w	$48(a0)
 		addq.b	#2,routine(a0)
 		rts
@@ -229,43 +229,43 @@ loc_2D84C:
 
 Obj_TitleCard.Wait2:
 		tst.w	$2E(a0)
-		beq.s	loc_2D862
+		beq.s	+ ;loc_2D862
 		subq.w	#1,$2E(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_2D862:
++ ;loc_2D862:
 		tst.w	$30(a0)
-		beq.s	loc_2D86E
+		beq.s	+ ;loc_2D86E
 		addq.w	#1,$32(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_2D86E:
++ ;loc_2D86E:
 		tst.b	$44(a0)
 		bne.s	loc_2D8DC
 		cmpi.w	#$801,(Current_zone_and_act).w
-		bne.s	loc_2D88A
+		bne.s	+ ;loc_2D88A
 		jsr	(AllocateObject).l
-		bne.s	loc_2D88A
+		bne.s	+ ;loc_2D88A
 		move.l	#Obj_SOZGhosts,(a1)	; If new level is Sandopolis 2, then load the ghosts
 
-loc_2D88A:
++ ;loc_2D88A:
 		cmpi.b	#$16,(Current_zone).w
-		beq.s	loc_2D8A2
+		beq.s	+ ;loc_2D8A2
 		cmpi.w	#$1700,(Current_zone_and_act).w
-		beq.s	loc_2D8A2
+		beq.s	+ ;loc_2D8A2
 		cmpi.b	#$13,(Current_zone).w
 		bhs.s	loc_2D8DC
 
-loc_2D8A2:
++ ;loc_2D8A2:
 		tst.w	$3E(a0)
-		beq.s	loc_2D8AE
+		beq.s	+ ;loc_2D8AE
 		st	(End_of_level_flag).w	; If in-level, set end of title card flag. No need to reload PLCs
-		bra.s	loc_2D8CA
+		bra.s	++ ;loc_2D8CA
 ; ---------------------------------------------------------------------------
 
-loc_2D8AE:
++ ;loc_2D8AE:
 		cmpi.b	#$C,(Current_zone).w
 		beq.s	loc_2D8DC
 		cmpi.w	#$1700,(Current_zone_and_act).w
@@ -273,7 +273,7 @@ loc_2D8AE:
 		lea	(PLC_SpikesSprings).l,a1	; Reload spikes in all but DEZ boss and Doomsday
 		jsr	(Load_PLC_Raw).l
 
-loc_2D8CA:
++ ;loc_2D8CA:
 		cmpi.w	#$1700,(Current_zone_and_act).w
 		beq.s	loc_2D8DC
 		jsr	LoadEnemyArt(pc)		; Load animals and enemies in all but DEZ boss
@@ -286,29 +286,29 @@ loc_2D8DC:
 Obj_TitleCardRedBanner:
 		movea.w	parent2(a0),a1
 		move.w	$32(a1),d0
-		beq.s	loc_2D90A
+		beq.s	++ ;loc_2D90A
 		tst.b	render_flags(a0)
-		bmi.s	loc_2D8FC
+		bmi.s	+ ;loc_2D8FC
 		subq.w	#1,$30(a1)
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_2D8FC:
++ ;loc_2D8FC:
 		cmp.b	$28(a0),d0
-		blo.s	loc_2D920
+		blo.s	++ ;loc_2D920
 		subi.w	#$20,y_pos(a0)
-		bra.s	loc_2D920
+		bra.s	++ ;loc_2D920
 ; ---------------------------------------------------------------------------
 
-loc_2D90A:
++ ;loc_2D90A:
 		move.w	y_pos(a0),d0
 		cmp.w	$46(a0),d0
-		beq.s	loc_2D920
+		beq.s	+ ;loc_2D920
 		addi.w	#$10,d0
 		move.w	d0,y_pos(a0)
 		st	$34(a1)
 
-loc_2D920:
++ ;loc_2D920:
 		move.b	#$70,height_pixels(a0)
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
@@ -318,59 +318,59 @@ Obj_TitleCardName:
 		add.b	d0,mapping_frame(a0)
 		moveq	#$D,d0
 		cmpi.w	#$1600,(Current_zone_and_act).w
-		beq.s	loc_2D952
+		beq.s	+ ;loc_2D952
 		moveq	#$11,d0
 		cmpi.w	#$1601,(Current_zone_and_act).w
-		beq.s	loc_2D952
+		beq.s	+ ;loc_2D952
 		moveq	#$F,d0
 		cmpi.w	#$1700,(Current_zone_and_act).w
-		bne.s	loc_2D956
+		bne.s	++ ;loc_2D956
 
-loc_2D952:
++ ;loc_2D952:
 		move.b	d0,mapping_frame(a0)
 
-loc_2D956:
++ ;loc_2D956:
 		move.l	#Obj_TitleCardElement,(a0)
 
 Obj_TitleCardElement:
 		movea.w	parent2(a0),a1
 		move.w	$32(a1),d0
-		beq.s	loc_2D984
+		beq.s	++ ;loc_2D984
 		tst.b	render_flags(a0)
-		bmi.s	loc_2D976
+		bmi.s	+ ;loc_2D976
 		subq.w	#1,$30(a1)
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_2D976:
++ ;loc_2D976:
 		cmp.b	$28(a0),d0
-		blo.s	loc_2D99A
+		blo.s	++ ;loc_2D99A
 		addi.w	#$20,x_pos(a0)
-		bra.s	loc_2D99A
+		bra.s	++ ;loc_2D99A
 ; ---------------------------------------------------------------------------
 
-loc_2D984:
++ ;loc_2D984:
 		move.w	x_pos(a0),d0
 		cmp.w	$46(a0),d0
-		beq.s	loc_2D99A
+		beq.s	+ ;loc_2D99A
 		subi.w	#$10,d0
 		move.w	d0,x_pos(a0)
 		st	$34(a1)
 
-loc_2D99A:
++ ;loc_2D99A:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
 Obj_TitleCardAct:
 		move.l	#Obj_TitleCardElement,(a0)
 		cmpi.b	#$A,(Current_zone).w
-		beq.s	loc_2D9BE
+		beq.s	+ ;loc_2D9BE
 		cmpi.b	#$C,(Current_zone).w
-		beq.s	loc_2D9BE
+		beq.s	+ ;loc_2D9BE
 		cmpi.w	#$1601,(Current_zone_and_act).w
 		bne.s	Obj_TitleCardElement
 
-loc_2D9BE:
++ ;loc_2D9BE:
 		movea.w	parent2(a0),a1		; Sky Sanctuary, Doomsday, and Hidden Palace do not have act numbers
 		subq.w	#1,$30(a1)
 		jmp	(Delete_Current_Sprite).l
@@ -380,29 +380,29 @@ Obj_TitleCardElement2:
 		clr.b	render_flags(a0)	; I'm not entirely sure what this is used for
 		movea.w	parent2(a0),a1
 		move.w	$32(a1),d0
-		beq.s	loc_2D9FA
+		beq.s	++ ;loc_2D9FA
 		cmpi.w	#$20C,x_pos(a0)
-		blo.s	loc_2D9EC
+		blo.s	+ ;loc_2D9EC
 		subq.w	#1,$30(a1)
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_2D9EC:
++ ;loc_2D9EC:
 		cmp.b	$28(a0),d0
-		blo.s	loc_2DA10
+		blo.s	++ ;loc_2DA10
 		addi.w	#$20,x_pos(a0)
-		bra.s	loc_2DA10
+		bra.s	++ ;loc_2DA10
 ; ---------------------------------------------------------------------------
 
-loc_2D9FA:
++ ;loc_2D9FA:
 		move.w	x_pos(a0),d0
 		cmp.w	$46(a0),d0
-		beq.s	loc_2DA10
+		beq.s	+ ;loc_2DA10
 		subi.w	#$10,d0
 		move.w	d0,x_pos(a0)
 		st	$34(a1)
 
-loc_2DA10:
++ ;loc_2DA10:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 TitleCard_LevelGfx:
@@ -504,34 +504,34 @@ Obj_LevelResultsInit:
 		lea	(ArtKosM_TitleCardNum2).l,a1
 		moveq	#-1,d0
 		cmpi.w	#$1600,(Current_zone_and_act).w
-		beq.s	loc_2DB1C				; If this is the LRZ2 boss, use the 2 digit
+		beq.s	+ ;loc_2DB1C				; If this is the LRZ2 boss, use the 2 digit
 		tst.b	(Apparent_act).w
-		bne.s	loc_2DB1C
+		bne.s	+ ;loc_2DB1C
 		lea	(ArtKosM_TitleCardNum1).l,a1	; Otherwise, use the 1 digit if internal act number is 0
 		moveq	#0,d0
 
-loc_2DB1C:
++ ;loc_2DB1C:
 		move.w	d0,subtype(a0)
 		move.w	#tiles_to_bytes($568),d2
 		jsr	(Queue_Kos_Module).l
 		lea	(ArtKosM_ResultsSONIC).l,a1		; Select character name to use based on character of course
 		cmpi.w	#1,(Player_mode).w
-		bls.s	loc_2DB58
+		bls.s	+ ;loc_2DB58
 		lea	(ArtKosM_ResultsKNUCKLES).l,a1
 		cmpi.w	#3,(Player_mode).w
-		beq.s	loc_2DB58
+		beq.s	+ ;loc_2DB58
 		lea	(ArtKosM_ResultsMILES).l,a1
 		tst.b	(Graphics_flags).w
-		bpl.s	loc_2DB58
+		bpl.s	+ ;loc_2DB58
 		lea	(ArtKosM_ResultsTAILS).l,a1
 
-loc_2DB58:
++ ;loc_2DB58:
 		move.w	#tiles_to_bytes($578),d2
 		tst.w	subtype(a0)
-		beq.s	loc_2DB66
+		beq.s	+ ;loc_2DB66
 		move.w	#tiles_to_bytes(ArtTile_Explosion),d2
 
-loc_2DB66:
++ ;loc_2DB66:
 		jsr	(Queue_Kos_Module).l		; Load character name graphics
 		clr.b	(Update_HUD_timer).w		; Ensure timer isn't being updated currently
 		moveq	#0,d0
@@ -541,24 +541,24 @@ loc_2DB66:
 		move.b	(Timer_second).w,d1
 		add.w	d1,d0
 		cmpi.w	#600-1,d0
-		bne.s	loc_2DB90
+		bne.s	+ ;loc_2DB90
 		move.w	#10000,(Time_bonus_countdown).w	; If clock is at 9:59, give an automatic 100000 point time bonus
-		bra.s	loc_2DBA8
+		bra.s	+++ ;loc_2DBA8
 ; ---------------------------------------------------------------------------
 
-loc_2DB90:
++ ;loc_2DB90:
 		divu.w	#30,d0		; Divide time by 30
 		moveq	#7,d1
 		cmp.w	d1,d0		; If result is above 7, make it 7
-		blo.s	loc_2DB9C
+		blo.s	+ ;loc_2DB9C
 		move.w	d1,d0
 
-loc_2DB9C:
++ ;loc_2DB9C:
 		add.w	d0,d0
 		lea	TimeBonus(pc),a1
 		move.w	(a1,d0.w),(Time_bonus_countdown).w	; Get the time bonus
 
-loc_2DBA8:
++ ;loc_2DBA8:
 		move.w	(Ring_count).w,d0
 		mulu.w	#10,d0
 		move.w	d0,(Ring_bonus_countdown).w	; Get the ring bonus
@@ -577,7 +577,7 @@ Obj_LevelResultsCreate:
 		lea	ObjArray_LevResults(pc),a2
 		moveq	#$C-1,d1		; Make 12 objects
 
-loc_2DBDE:
+- ;loc_2DBDE:
 		move.l	(a2)+,(a1)
 		move.w	(a2)+,$46(a1)
 		move.w	(a2)+,x_pos(a1)
@@ -591,7 +591,7 @@ loc_2DBDE:
 		move.l	#Map_Results,mappings(a1)
 		move.w	a0,parent2(a1)
 		jsr	(CreateNewSprite4).l
-		dbne	d1,loc_2DBDE
+		dbne	d1,- ;loc_2DBDE
 		addq.b	#2,routine(a0)
 		tst.b	(Apparent_act).w
 		bne.s	locret_2DC34		; If this is act 2, branch
@@ -607,7 +607,7 @@ locret_2DC34:
 
 Obj_LevelResultsWait:
 		tst.w	$2E(a0)
-		beq.s	loc_2DC5C
+		beq.s	+ ;loc_2DC5C
 		subq.w	#1,$2E(a0)
 		cmpi.w	#289,$2E(a0)
 		bne.s	locret_2DC9E			; Play after eh, a second or so
@@ -617,23 +617,23 @@ Obj_LevelResultsWait:
 		jmp	(Play_Music).l			; Play level complete theme
 ; ---------------------------------------------------------------------------
 
-loc_2DC5C:
++ ;loc_2DC5C:
 		moveq	#0,d0
 		tst.w	(Time_bonus_countdown).w
-		beq.s	loc_2DC6E
+		beq.s	+ ;loc_2DC6E
 		addi.w	#10,d0
 		subi.w	#10,(Time_bonus_countdown).w	; Get 100 points from the time bonus
 
-loc_2DC6E:
++ ;loc_2DC6E:
 		tst.w	(Ring_bonus_countdown).w
-		beq.s	loc_2DC7E
+		beq.s	+ ;loc_2DC7E
 		addi.w	#10,d0
 		subi.w	#10,(Ring_bonus_countdown).w	; Get 100 points from the ring bonus
 
-loc_2DC7E:
++ ;loc_2DC7E:
 		add.w	d0,(Total_bonus_countup).w	; Add to total score for level
 		tst.w	d0
-		beq.s	loc_2DCA0			; Branch once score has finished counting down
+		beq.s	+ ;loc_2DCA0			; Branch once score has finished counting down
 		jsr	(HUD_AddToScore).l		; Add to actual score
 		move.w	(Level_frame_counter).w,d0
 		andi.w	#3,d0
@@ -646,101 +646,101 @@ locret_2DC9E:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_2DCA0:
++ ;loc_2DCA0:
 		moveq	#signextendB(sfx_Register),d0	; Play the cash register sound
 		jsr	(Play_SFX).l
 		cmpi.w	#$A00,(Current_zone_and_act).w
-		beq.s	loc_2DCB6
+		beq.s	+ ;loc_2DCB6
 		tst.w	subtype(a0)
-		beq.s	loc_2DCC0
+		beq.s	++ ;loc_2DCC0
 
-loc_2DCB6:
++ ;loc_2DCB6:
 		st	(SRAM_mask_interrupts_flag).w	; If in act 2 or Sky Sanctuary, save the game
 		jsr	(SaveGame).l
 
-loc_2DCC0:
++ ;loc_2DCC0:
 		move.w	#90,$2E(a0)	; Set wait amount
 		addq.b	#2,routine(a0)
 
 Obj_LevelResultsWait2:
 		tst.w	$2E(a0)
-		beq.s	loc_2DCD6
+		beq.s	+ ;loc_2DCD6
 		subq.w	#1,$2E(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_2DCD6:
++ ;loc_2DCD6:
 		tst.w	$30(a0)			; Wait for title screen objects to disappear
-		beq.s	loc_2DCE2
+		beq.s	+ ;loc_2DCE2
 		addq.w	#1,$32(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_2DCE2:
++ ;loc_2DCE2:
 		move.b	(Current_zone).w,d0
 		cmpi.b	#$A,d0
-		beq.s	loc_2DCF8
+		beq.s	+ ;loc_2DCF8
 		cmpi.b	#$16,d0
-		beq.s	loc_2DCF8
+		beq.s	+ ;loc_2DCF8
 		tst.b	(Apparent_act).w
-		beq.s	loc_2DD06
+		beq.s	++ ;loc_2DD06
 
-loc_2DCF8:
++ ;loc_2DCF8:
 		clr.b	(_unkFAA8).w		; Act 2 (or Sky Sanctuary or LRZ boss)
 		st	(End_of_level_flag).w	; Stop level results flag and set title card finished flag
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_2DD06:
++ ;loc_2DD06:
 		move.b	#1,(Apparent_act).w	; Change to act 2 if in act 1
 		clr.b	(Last_star_post_hit).w
 		clr.b	(Special_bonus_entry_flag).w
 		clr.b	(_unkFAA8).w
 		cmpi.b	#8,(Current_zone).w
-		beq.s	loc_2DD38
+		beq.s	+ ;loc_2DD38
 		cmpi.b	#$B,(Current_zone).w
-		beq.s	loc_2DD38			; Neither Sandopolis 1 nor Death Egg 1 immediately show title cards
+		beq.s	+ ;loc_2DD38			; Neither Sandopolis 1 nor Death Egg 1 immediately show title cards
 		move.l	#Obj_TitleCard,(a0)	; Change current object to title card
 		clr.b	routine(a0)
 		st	$3E(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_2DD38:
++ ;loc_2DD38:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
 Obj_LevResultsCharName:
 		cmpi.w	#2,(Player_mode).w
-		beq.s	loc_2DD62
+		beq.s	+ ;loc_2DD62
 		cmpi.w	#3,(Player_mode).w
-		bne.s	loc_2DD7E
+		bne.s	++ ;loc_2DD7E
 		addq.b	#3,mapping_frame(a0)	; Knuckles frame
 		moveq	#$30,d0
 		sub.w	d0,x_pos(a0)
 		sub.w	d0,$46(a0)		; Sprite is offset slightly to the left
 		add.b	d0,width_pixels(a0)	; Increase width by said amount
-		bra.s	loc_2DD7E
+		bra.s	++ ;loc_2DD7E
 ; ---------------------------------------------------------------------------
 
-loc_2DD62:
++ ;loc_2DD62:
 		addq.b	#1,mapping_frame(a0)	; Miles frame
 		tst.b	(Graphics_flags).w
-		bpl.s	loc_2DD7E
+		bpl.s	+ ;loc_2DD7E
 		addq.b	#1,mapping_frame(a0)	; Tails frame
 		moveq	#8,d0
 		add.w	d0,x_pos(a0)
 		add.w	d0,$46(a0)
 		sub.b	d0,width_pixels(a0)	; Offset like above
 
-loc_2DD7E:
++ ;loc_2DD7E:
 		moveq	#0,d0
 		movea.w	parent2(a0),a1
 		tst.w	subtype(a1)
-		beq.s	loc_2DD8E
+		beq.s	+ ;loc_2DD8E
 		move.w	#$28,d0
 
-loc_2DD8E:
++ ;loc_2DD8E:
 		move.w	d0,art_tile(a0)		; Offset VRAM depending on act number
 		move.l	#Obj_LevResultsGeneral,(a0)
 
@@ -752,20 +752,20 @@ Obj_LevResultsGeneral:
 Obj_LevelResultsTimeBonus:
 		jsr	LevelResults_MoveElement(pc)
 		move.w	(Time_bonus_countdown).w,d0
-		bra.s	loc_2DDBE
+		bra.s	+ ;loc_2DDBE
 ; ---------------------------------------------------------------------------
 
 Obj_LevelResultsRingBonus:
 		jsr	LevelResults_MoveElement(pc)
 		move.w	(Ring_bonus_countdown).w,d0
-		bra.s	loc_2DDBE
+		bra.s	+ ;loc_2DDBE
 ; ---------------------------------------------------------------------------
 
 Obj_LevelResultsTotal:
 		jsr	LevelResults_MoveElement(pc)
 		move.w	(Total_bonus_countup).w,d0
 
-loc_2DDBE:
++ ;loc_2DDBE:
 		bsr.s	LevResults_DisplayScore
 		jmp	(Draw_Sprite).l
 
@@ -783,21 +783,21 @@ LevResults_DisplayScore:
 		moveq	#0,d4
 		moveq	#7-1,d5
 
-loc_2DDE6:
+- ;loc_2DDE6:
 		move.w	d2,(a1)+
 		move.w	d3,(a1)+
 		addq.w	#1,a1
 		rol.l	#4,d1
 		move.w	d1,d0
 		andi.w	#$F,d0
-		beq.s	loc_2DDF8
+		beq.s	+ ;loc_2DDF8
 		moveq	#1,d4
 
-loc_2DDF8:
++ ;loc_2DDF8:
 		add.w	d4,d0
 		move.b	d0,(a1)+
 		addq.w	#8,d2
-		dbf	d5,loc_2DDE6
+		dbf	d5,- ;loc_2DDE6
 		rts
 ; End of function LevResults_DisplayScore
 
@@ -808,39 +808,39 @@ loc_2DDF8:
 LevelResults_MoveElement:
 		movea.w	parent2(a0),a1
 		move.w	$32(a1),d0
-		beq.s	loc_2DE38
+		beq.s	+++ ;loc_2DE38
 		tst.b	render_flags(a0)
-		bmi.s	loc_2DE20
+		bmi.s	+ ;loc_2DE20
 		subq.w	#1,$30(a1)			; If offscreen, subtract from number of elements and delete
 		addq.w	#4,sp
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_2DE20:
++ ;loc_2DE20:
 		cmp.b	$28(a0),d0		; Level element moving out. Test if value of parent queue matches given queue value
 		blo.s	locret_2DE4E
 		move.w	#-$20,d0		; If so, move out
 		tst.b	routine(a0)
-		beq.s	loc_2DE32
+		beq.s	+ ;loc_2DE32
 		neg.w	d0				; Change direction depending on where it came from
 
-loc_2DE32:
++ ;loc_2DE32:
 		add.w	x_pos(a0),d0
-		bra.s	loc_2DE4A
+		bra.s	+++ ;loc_2DE4A
 ; ---------------------------------------------------------------------------
 
-loc_2DE38:
++ ;loc_2DE38:
 		moveq	#$10,d1			; Level element moving in
 		move.w	x_pos(a0),d0
 		cmp.w	$46(a0),d0
-		beq.s	loc_2DE4A		; If X position has reached destination, don't do anything else
-		blt.s	loc_2DE48		; See which direction it needs to go
+		beq.s	++ ;loc_2DE4A		; If X position has reached destination, don't do anything else
+		blt.s	+ ;loc_2DE48		; See which direction it needs to go
 		neg.w	d1
 
-loc_2DE48:
++ ;loc_2DE48:
 		add.w	d1,d0			; Add speed to X amount
 
-loc_2DE4A:
++ ;loc_2DE4A:
 		move.w	d0,x_pos(a0)
 
 locret_2DE4E:
@@ -856,22 +856,22 @@ LevResults_GetDecimalScore:
 		lea	TimeBonus(pc),a1
 		moveq	#$10-1,d2
 
-loc_2DE5A:
+- ;loc_2DE5A:
 		ror.w	#1,d0
-		bcs.s	loc_2DE62
+		bcs.s	+ ;loc_2DE62
 		subq.w	#3,a1
-		bra.s	loc_2DE70
+		bra.s	++ ;loc_2DE70
 ; ---------------------------------------------------------------------------
 
-loc_2DE62:
++ ;loc_2DE62:
 		lea	(_unkEF44_2).w,a2
 		addi.w	#0,d0
 		abcd	-(a1),-(a2)
 		abcd	-(a1),-(a2)
 		abcd	-(a1),-(a2)
 
-loc_2DE70:
-		dbf	d2,loc_2DE5A
++ ;loc_2DE70:
+		dbf	d2,- ;loc_2DE5A
 		move.l	(_unkEF40_1).w,d1
 		rts
 ; End of function LevResults_GetDecimalScore
@@ -999,19 +999,19 @@ SpecialStage_Results:
 		move.b	(Current_special_stage).w,d0
 		move.b	d0,(Current_special_stage_2).w
 		move.b	(HPZ_current_special_stage).w,d1
-		beq.s	loc_2DF82
+		beq.s	+ ;loc_2DF82
 		andi.b	#$7F,d1
 		move.b	d1,d0
-		bra.s	loc_2DF8C
+		bra.s	++ ;loc_2DF8C
 ; ---------------------------------------------------------------------------
 
-loc_2DF82:
++ ;loc_2DF82:
 		addq.b	#1,d0
 		cmpi.b	#7,d0
-		blo.s	loc_2DF8C
+		blo.s	+ ;loc_2DF8C
 		moveq	#0,d0
 
-loc_2DF8C:
++ ;loc_2DF8C:
 		move.b	d0,(Current_special_stage).w
 		move	#$2700,sr
 		move.w	(VDP_reg_1_command).w,d0
@@ -1043,37 +1043,37 @@ loc_2DF8C:
 		move.w	#tiles_to_bytes($5B8),d2
 		jsr	(Queue_Kos_Module).l
 		cmpi.w	#3,(Player_mode).w
-		bne.s	loc_2E04E
+		bne.s	+ ;loc_2E04E
 		lea	(ArtKosM_SSResultsSUPERk).l,a1
 		cmpi.b	#7,(Super_emerald_count).w
-		blo.s	loc_2E06A
+		blo.s	++ ;loc_2E06A
 		lea	(ArtKosM_SSResultsHYPERk).l,a1
-		bra.s	loc_2E06A
+		bra.s	++ ;loc_2E06A
 ; ---------------------------------------------------------------------------
 
-loc_2E04E:
++ ;loc_2E04E:
 		lea	(ArtKosM_SSResultsSUPER).l,a1
 		cmpi.w	#2,(Player_mode).w
-		beq.s	loc_2E06A
+		beq.s	+ ;loc_2E06A
 		cmpi.b	#7,(Super_emerald_count).w
-		blo.s	loc_2E06A
+		blo.s	+ ;loc_2E06A
 		lea	(ArtKosM_SSResultsHYPER).l,a1
 
-loc_2E06A:
++ ;loc_2E06A:
 		move.w	#tiles_to_bytes($50F),d2
 		jsr	(Queue_Kos_Module).l
 		lea	(ArtKosM_ResultsSONIC).l,a1
 		cmpi.w	#1,(Player_mode).w
-		bls.s	loc_2E0A2
+		bls.s	+ ;loc_2E0A2
 		lea	(ArtKosM_ResultsKNUCKLES).l,a1
 		cmpi.w	#3,(Player_mode).w
-		beq.s	loc_2E0A2
+		beq.s	+ ;loc_2E0A2
 		lea	(ArtKosM_ResultsMILES).l,a1
 		tst.b	(Graphics_flags).w
-		bpl.s	loc_2E0A2
+		bpl.s	+ ;loc_2E0A2
 		lea	(ArtKosM_ResultsTAILS).l,a1
 
-loc_2E0A2:
++ ;loc_2E0A2:
 		move.w	#tiles_to_bytes($4F1),d2
 		jsr	(Queue_Kos_Module).l
 		lea	(ArtKosM_SSResults).l,a1
@@ -1097,42 +1097,42 @@ loc_2E0C4:
 		lea	(Normal_palette).w,a1
 		moveq	#bytesToLcnt($80),d0
 
-loc_2E104:
+- ;loc_2E104:
 		move.l	(a0),(a1)+
 		move.l	(a0)+,Target_palette-Normal_palette-4(a1)
-		dbf	d0,loc_2E104
+		dbf	d0,- ;loc_2E104
 		jsr	sub_2E2C0(pc)
 		tst.w	(SK_alone_flag).w
-		bne.w	loc_2E226
+		bne.w	+ ;loc_2E226
 		tst.b	(SK_special_stage_flag).w
-		beq.w	loc_2E226
+		beq.w	+ ;loc_2E226
 		lea	Pal_Results(pc),a0
 		lea	(Normal_palette).w,a1
 		moveq	#bytesToLcnt($20),d0
 
-loc_2E12C:
+- ;loc_2E12C:
 		move.l	(a0)+,d1
 		move.l	d1,Target_palette_line_2-Normal_palette(a1)
 		move.l	d1,Normal_palette_line_2-Normal_palette(a1)
 		move.l	d1,Target_palette-Normal_palette(a1)
 		move.l	d1,(a1)+
-		dbf	d0,loc_2E12C
+		dbf	d0,- ;loc_2E12C
 		jsr	sub_2E2C0(pc)
 		lea	(Pal_HPZIntro+$20).l,a0
 		lea	(Normal_palette_line_3).w,a1
 		moveq	#bytesToLcnt($40),d0
 
-loc_2E150:
+- ;loc_2E150:
 		move.l	#$CCC0CCC,(a1)+
 		move.l	(a0)+,Target_palette_line_3-Normal_palette_line_3-4(a1)
-		dbf	d0,loc_2E150
+		dbf	d0,- ;loc_2E150
 		lea	(Layout_HPZ).l,a0
 		lea	(Level_layout_header).w,a1
 		move.w	#bytesToLcnt($1000),d0
 
-loc_2E16C:
+- ;loc_2E16C:
 		move.l	(a0)+,(a1)+
-		dbf	d0,loc_2E16C
+		dbf	d0,- ;loc_2E16C
 		lea	(HPZ_128x128_Primary_Kos).l,a0
 		lea	(RAM_start).l,a1
 		jsr	(Kos_Decomp).l
@@ -1166,13 +1166,13 @@ loc_2E16C:
 		jsr	(j_LevelSetup).l
 		move	#$2300,sr
 		tst.w	(Special_stage_spheres_left).w
-		bne.s	loc_2E226
+		bne.s	+ ;loc_2E226
 		move.b	(Current_special_stage_2).w,d0
 		ori.b	#$80,d0
 		move.b	d0,(_unkFAC0).w
 		st	(_unkFAC1).w
 
-loc_2E226:
++ ;loc_2E226:
 		jsr	(Init_SpriteTable).l
 		move.w	#$98,(_unkEF68).w
 		st	(HPZ_special_stage_completed).w
@@ -1189,29 +1189,29 @@ loc_2E24C:
 		move.w	(Emerald_flicker_flag).w,d1
 		addq.w	#1,d1
 		cmpi.w	#3,d1
-		blo.s	loc_2E270
+		blo.s	+ ;loc_2E270
 		moveq	#0,d1
 
-loc_2E270:
++ ;loc_2E270:
 		move.w	d1,(Emerald_flicker_flag).w
 		jsr	(Process_Sprites).l
 		tst.w	(SK_alone_flag).w
-		bne.s	loc_2E28C
+		bne.s	+ ;loc_2E28C
 		tst.b	(SK_special_stage_flag).w
-		beq.s	loc_2E28C
+		beq.s	+ ;loc_2E28C
 		jsr	(ScreenEvents).l
 
-loc_2E28C:
++ ;loc_2E28C:
 		jsr	(Render_Sprites).l
 		jsr	(Process_Nem_Queue_Init).l
 		jsr	(Process_Kos_Module_Queue).l
 		tst.w	(Palette_fade_timer).w
-		beq.s	loc_2E2B0
-		bmi.s	loc_2E2B0
+		beq.s	+ ;loc_2E2B0
+		bmi.s	+ ;loc_2E2B0
 		subq.w	#1,(Palette_fade_timer).w
 		jsr	(Pal_FromWhite).l
 
-loc_2E2B0:
++ ;loc_2E2B0:
 		cmpi.b	#$48,(Game_mode).w
 		beq.s	loc_2E24C
 		move.w	(Special_stage_zone_and_act).w,(Current_zone_and_act).w
@@ -1222,25 +1222,25 @@ loc_2E2B0:
 
 sub_2E2C0:
 		cmpi.w	#3,(Player_mode).w
-		bne.s	loc_2E2F6
+		bne.s	++ ;loc_2E2F6
 		lea	(Normal_palette+$4).w,a0
 		move.l	#$84E040C,d0
 		move.l	d0,Target_palette-Normal_palette(a0)
 		move.l	d0,(a0)+
 		move.l	#$2060080,d0
 		tst.w	(SK_alone_flag).w
-		bne.s	loc_2E2EE
+		bne.s	+ ;loc_2E2EE
 		tst.b	(SK_special_stage_flag).w
-		beq.s	loc_2E2EE
+		beq.s	+ ;loc_2E2EE
 		move.w	#$EE,d0
 
-loc_2E2EE:
++ ;loc_2E2EE:
 		move.l	d0,Target_palette-Normal_palette(a0)
 		move.l	d0,(a0)
 		bra.s	locret_2E30E
 ; ---------------------------------------------------------------------------
 
-loc_2E2F6:
++ ;loc_2E2F6:
 		tst.w	(SK_alone_flag).w
 		bne.s	locret_2E30E
 		tst.b	(SK_special_stage_flag).w
@@ -1308,10 +1308,10 @@ loc_2E3DA:
 		move.w	d0,(Ring_bonus_countdown).w
 		clr.w	(Time_bonus_countdown).w
 		tst.w	(Special_stage_rings_left).w
-		bne.s	loc_2E404
+		bne.s	+ ;loc_2E404
 		move.w	#5000,(Time_bonus_countdown).w
 
-loc_2E404:
++ ;loc_2E404:
 		move.w	#6*60,$2E(a0)
 		addq.b	#2,routine(a0)
 		rts
@@ -1319,15 +1319,15 @@ loc_2E404:
 
 loc_2E410:
 		tst.w	$2E(a0)
-		beq.s	loc_2E484
+		beq.s	++ ;loc_2E484
 		subq.w	#1,$2E(a0)
-		bne.s	loc_2E474
+		bne.s	+ ;loc_2E474
 		tst.w	(SK_alone_flag).w
-		bne.s	loc_2E474
+		bne.s	+ ;loc_2E474
 		tst.b	(SK_special_stage_flag).w
-		beq.s	loc_2E474
+		beq.s	+ ;loc_2E474
 		tst.w	(Special_stage_spheres_left).w
-		bne.s	loc_2E474
+		bne.s	+ ;loc_2E474
 		move.w	#$40-1,(Palette_fade_info).w
 		move.w	#$16,(Palette_fade_timer).w
 		lea	(Normal_palette).w,a1
@@ -1341,29 +1341,29 @@ loc_2E410:
 		move.w	#$EEE,$7C(a1)
 		move.w	#$EEE,$7E(a1)
 
-loc_2E474:
++ ;loc_2E474:
 		cmpi.w	#289,$2E(a0)
 		bne.s	locret_2E4C2
 		moveq	#signextendB(mus_GotThroughAct),d0
 		jmp	(Play_Music).l
 ; ---------------------------------------------------------------------------
 
-loc_2E484:
++ ;loc_2E484:
 		moveq	#0,d0
 		tst.w	(Time_bonus_countdown).w
-		beq.s	loc_2E496
+		beq.s	+ ;loc_2E496
 		addi.w	#10,d0
 		subi.w	#10,(Time_bonus_countdown).w
 
-loc_2E496:
++ ;loc_2E496:
 		tst.w	(Ring_bonus_countdown).w
-		beq.s	loc_2E4A6
+		beq.s	+ ;loc_2E4A6
 		addi.w	#10,d0
 		subi.w	#10,(Ring_bonus_countdown).w
 
-loc_2E4A6:
++ ;loc_2E4A6:
 		tst.w	d0
-		beq.s	loc_2E4C4
+		beq.s	+ ;loc_2E4C4
 		jsr	(HUD_AddToScore).l
 		move.w	(Level_frame_counter).w,d0
 		andi.w	#3,d0
@@ -1376,7 +1376,7 @@ locret_2E4C2:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_2E4C4:
++ ;loc_2E4C4:
 		moveq	#signextendB(sfx_Register),d0
 		jsr	(Play_SFX).l
 		move.w	#2*60,$2E(a0)
@@ -1384,80 +1384,80 @@ loc_2E4C4:
 
 loc_2E4D6:
 		cmpi.w	#50,(Special_stage_ring_count).w
-		blo.s	loc_2E50E
+		blo.s	++ ;loc_2E50E
 		tst.w	$2E(a0)
-		beq.s	loc_2E4EA
+		beq.s	+ ;loc_2E4EA
 		subq.w	#1,$2E(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_2E4EA:
++ ;loc_2E4EA:
 		clr.w	(SStage_results_object_addr).w
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.s	loc_2E50E
+		bne.s	+ ;loc_2E50E
 		move.w	a1,(SStage_results_object_addr).w
 		move.l	#loc_2EBE8,(a1)
 		move.w	#270,$2E(a0)
 		moveq	#signextendB(sfx_Continue),d0
 		jsr	(Play_SFX).l
 
-loc_2E50E:
++ ;loc_2E50E:
 		addq.b	#2,routine(a0)
 
 loc_2E512:
 		tst.w	(SK_alone_flag).w
-		bne.s	loc_2E534
+		bne.s	+ ;loc_2E534
 		tst.b	(SK_special_stage_flag).w
-		beq.s	loc_2E534
+		beq.s	+ ;loc_2E534
 		tst.w	(Special_stage_spheres_left).w
-		bne.s	loc_2E534
+		bne.s	+ ;loc_2E534
 		move.w	#60,$2E(a0)
 		move.b	#$E,routine(a0)
 		bra.w	loc_2E616
 ; ---------------------------------------------------------------------------
 
-loc_2E534:
++ ;loc_2E534:
 		tst.w	$2E(a0)
-		beq.s	loc_2E540
+		beq.s	+ ;loc_2E540
 		subq.w	#1,$2E(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_2E540:
++ ;loc_2E540:
 		tst.w	(Special_stage_spheres_left).w
 		bne.s	loc_2E5B8
 		cmpi.b	#7,(Chaos_emerald_count).w
 		blo.s	loc_2E5B8
 		cmpi.w	#3,(Player_mode).w
-		beq.s	loc_2E570
+		beq.s	+ ;loc_2E570
 		cmpi.w	#1,(Player_mode).w
-		bls.s	loc_2E570
+		bls.s	+ ;loc_2E570
 		cmpi.b	#4,(Special_stage_zone_and_act).w
-		beq.s	loc_2E586
+		beq.s	++ ;loc_2E586
 		cmpi.b	#7,(Special_stage_zone_and_act).w
 		blo.s	loc_2E5B8
-		bra.s	loc_2E586
+		bra.s	++ ;loc_2E586
 ; ---------------------------------------------------------------------------
 
-loc_2E570:
++ ;loc_2E570:
 		tst.w	(SK_alone_flag).w
-		bne.s	loc_2E58C
+		bne.s	++ ;loc_2E58C
 		cmpi.b	#4,(Special_stage_zone_and_act).w
-		beq.s	loc_2E586
+		beq.s	+ ;loc_2E586
 		cmpi.b	#7,(Special_stage_zone_and_act).w
-		blo.s	loc_2E58C
+		blo.s	++ ;loc_2E58C
 
-loc_2E586:
++ ;loc_2E586:
 		move.b	#$A,routine(a0)
 
-loc_2E58C:
++ ;loc_2E58C:
 		lea	(Dynamic_object_RAM+(object_size*44)).w,a1
 		moveq	#4,d0
 
-loc_2E592:
+- ;loc_2E592:
 		move.l	#loc_2EC1E,(a1)
 		lea	next_object(a1),a1
-		dbf	d0,loc_2E592
+		dbf	d0,- ;loc_2E592
 		move.w	#4,(Dynamic_object_RAM+(object_size*46)+objoff_2E).w
 		move.w	#4,(Dynamic_object_RAM+(object_size*48)+objoff_2E).w
 		move.w	#5,$30(a0)
@@ -1486,12 +1486,12 @@ locret_2E5DE:
 
 loc_2E5E0:
 		tst.w	$2E(a0)
-		beq.s	loc_2E5EC
+		beq.s	+ ;loc_2E5EC
 		subq.w	#1,$2E(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_2E5EC:
++ ;loc_2E5EC:
 		move.b	#$C,(Game_mode).w
 		rts
 ; ---------------------------------------------------------------------------
@@ -1512,12 +1512,12 @@ locret_2E614:
 
 loc_2E616:
 		tst.w	$2E(a0)
-		beq.s	loc_2E622
+		beq.s	+ ;loc_2E622
 		subq.w	#1,$2E(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_2E622:
++ ;loc_2E622:
 		move.w	(Camera_Y_pos).w,d0
 		cmpi.w	#$320,d0
 		bhs.w	loc_2E6EA
@@ -1527,37 +1527,37 @@ loc_2E622:
 		bne.w	locret_2E744
 		moveq	#4,d0
 		cmpi.w	#50,(Special_stage_ring_count).w
-		blo.s	loc_2E65C
+		blo.s	++ ;loc_2E65C
 		move.w	(SStage_results_object_addr).w,d1
-		beq.s	loc_2E65A
+		beq.s	+ ;loc_2E65A
 		movea.w	d1,a1
 		move.l	#loc_2EC4A,(a1)
 		move.w	#20,$2E(a1)
 
-loc_2E65A:
++ ;loc_2E65A:
 		addq.w	#1,d0
 
-loc_2E65C:
++ ;loc_2E65C:
 		move.w	d0,$30(a0)
 		lea	(Dynamic_object_RAM+(object_size*30)).w,a1
 
-loc_2E664:
+- ;loc_2E664:
 		move.l	#loc_2EC1E,(a1)
 		lea	next_object(a1),a1
-		dbf	d0,loc_2E664
+		dbf	d0,- ;loc_2E664
 		moveq	#2,d0
 		cmpi.b	#7,(Super_emerald_count).w
-		blo.s	loc_2E67E
+		blo.s	+ ;loc_2E67E
 		addq.w	#2,d0
 
-loc_2E67E:
++ ;loc_2E67E:
 		add.w	d0,$30(a0)
 		lea	(Dynamic_object_RAM+(object_size*44)).w,a1
 
-loc_2E686:
+- ;loc_2E686:
 		move.l	#loc_2EC1E,(a1)
 		lea	next_object(a1),a1
-		dbf	d0,loc_2E686
+		dbf	d0,- ;loc_2E686
 		addq.w	#2,$30(a0)
 		lea	(Dynamic_object_RAM+(object_size*30)).w,a1
 		move.w	#8,$2E(a1)
@@ -1566,19 +1566,19 @@ loc_2E686:
 		move.w	#16,(next_object*3)+$2E(a1)
 		move.w	#16,(next_object*4)+$2E(a1)
 		cmpi.w	#50,(Special_stage_ring_count).w
-		blo.s	loc_2E6C8
+		blo.s	+ ;loc_2E6C8
 		move.w	#20,(next_object*5)+$2E(a1)
 
-loc_2E6C8:
++ ;loc_2E6C8:
 		clr.w	(next_object*2)+mainspr_childsprites(a1)
 		clr.w	(next_object*4)+mainspr_childsprites(a1)
 		lea	(Dynamic_object_RAM+(object_size*44)).w,a1
 		move.w	#4,(next_object*2)+$2E(a1)
 		cmpi.b	#7,(Super_emerald_count).w
-		blo.s	loc_2E6E8
+		blo.s	+ ;loc_2E6E8
 		move.w	#4,(next_object*4)+$2E(a1)
 
-loc_2E6E8:
++ ;loc_2E6E8:
 		bra.s	locret_2E744
 ; ---------------------------------------------------------------------------
 
@@ -1588,12 +1588,12 @@ loc_2E6EA:
 		move.w	#$200,d3
 		jsr	(Add_To_DMA_Queue).l
 		jsr	(AllocateObject).l
-		bne.s	loc_2E72E
+		bne.s	+ ;loc_2E72E
 		moveq	#0,d1
 		moveq	#0,d2
 		moveq	#7,d3
 
-loc_2E70C:
+- ;loc_2E70C:
 		move.l	#loc_2ECD0,(a1)
 		move.w	d1,$2E(a1)
 		move.w	d2,$30(a1)
@@ -1601,9 +1601,9 @@ loc_2E70C:
 		addi.w	#$10,d1
 		addq.w	#1,d2
 		jsr	(CreateNewSprite4).l
-		dbne	d3,loc_2E70C
+		dbne	d3,- ;loc_2E70C
 
-loc_2E72E:
++ ;loc_2E72E:
 		move.w	#30,$2E(a0)
 		clr.w	$30(a0)
 		addq.b	#2,routine(a0)
@@ -1618,46 +1618,46 @@ locret_2E744:
 loc_2E746:
 		tst.w	$30(a0)
 		beq.w	locret_2E7D8
-		bmi.s	loc_2E75C
+		bmi.s	+ ;loc_2E75C
 		st	$30(a0)
 		moveq	#signextendB(sfx_SuperEmerald),d0
 		jsr	(Play_SFX).l
 
-loc_2E75C:
++ ;loc_2E75C:
 		cmpi.b	#7,(Super_emerald_count).w
-		bhs.s	loc_2E772
+		bhs.s	+ ;loc_2E772
 		move.w	#60,$2E(a0)
 		move.b	#$A,routine(a0)
 		bra.s	locret_2E7D8
 ; ---------------------------------------------------------------------------
 
-loc_2E772:
++ ;loc_2E772:
 		tst.w	$2E(a0)
-		beq.s	loc_2E77E
+		beq.s	+ ;loc_2E77E
 		subq.w	#1,$2E(a0)
 		bra.s	locret_2E7D8
 ; ---------------------------------------------------------------------------
 
-loc_2E77E:
++ ;loc_2E77E:
 		moveq	#1,d0
 		cmpi.w	#$15A0,(Camera_X_pos).w
-		beq.s	loc_2E792
-		bcs.s	loc_2E78C
+		beq.s	++ ;loc_2E792
+		bcs.s	+ ;loc_2E78C
 		neg.w	d0
 
-loc_2E78C:
++ ;loc_2E78C:
 		add.w	d0,(Camera_X_pos).w
 		bra.s	locret_2E7D8
 ; ---------------------------------------------------------------------------
 
-loc_2E792:
++ ;loc_2E792:
 		jsr	(AllocateObject).l
-		bne.s	loc_2E7C6
+		bne.s	+ ;loc_2E7C6
 		moveq	#0,d1
 		moveq	#0,d2
 		moveq	#7,d3
 
-loc_2E7A0:
+- ;loc_2E7A0:
 		move.l	#loc_2ECD0,(a1)
 		move.w	d1,$2E(a1)
 		move.w	d2,$30(a1)
@@ -1666,9 +1666,9 @@ loc_2E7A0:
 		addi.w	#$10,d1
 		addq.w	#1,d2
 		jsr	(CreateNewSprite4).l
-		dbne	d3,loc_2E7A0
+		dbne	d3,- ;loc_2E7A0
 
-loc_2E7C6:
++ ;loc_2E7C6:
 		move.w	#2*60,$2E(a0)
 		addq.b	#2,routine(a0)
 		moveq	#signextendB(sfx_Signpost),d0
@@ -1681,12 +1681,12 @@ locret_2E7D8:
 
 loc_2E7DA:
 		tst.w	$2E(a0)
-		beq.s	loc_2E7E6
+		beq.s	+ ;loc_2E7E6
 		subq.w	#1,$2E(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_2E7E6:
++ ;loc_2E7E6:
 		lea	(Dynamic_object_RAM+(object_size*61)).w,a1
 		lea	ObjDat2_2E984(pc),a2
 		moveq	#7-1,d1
@@ -1883,14 +1883,14 @@ loc_2EA50:
 loc_2EA5A:
 		jsr	LevelResults_MoveElement(pc)
 		move.w	(Ring_bonus_countdown).w,d0
-		bra.s	loc_2EA6C
+		bra.s	+ ;loc_2EA6C
 ; ---------------------------------------------------------------------------
 
 loc_2EA64:
 		jsr	LevelResults_MoveElement(pc)
 		move.w	(Time_bonus_countdown).w,d0
 
-loc_2EA6C:
++ ;loc_2EA6C:
 		jsr	LevResults_DisplayScore(pc)
 		move.w	(_unkEF68).w,art_tile(a0)			; this is not here in Sonic 3. _unkEF68 is always set to $98. What does this do?!?!?!
 		jmp	(Draw_Sprite).l
@@ -1977,17 +1977,17 @@ loc_2EB64:
 		bne.w	loc_2EC7A
 		jsr	sub_2ECBC(pc)
 		tst.w	(SK_alone_flag).w
-		bne.s	loc_2EB7C
+		bne.s	+ ;loc_2EB7C
 		tst.b	(SK_special_stage_flag).w
-		bne.s	loc_2EB88
+		bne.s	++ ;loc_2EB88
 
-loc_2EB7C:
++ ;loc_2EB7C:
 		cmpi.b	#7,(Chaos_emerald_count).w
 		blo.w	loc_2EA4A
 		bra.s	loc_2EB98
 ; ---------------------------------------------------------------------------
 
-loc_2EB88:
++ ;loc_2EB88:
 		move.b	#$30,mapping_frame(a0)
 		cmpi.b	#7,(Super_emerald_count).w
 		blo.w	loc_2EA4A
@@ -2027,10 +2027,10 @@ loc_2EBE8:
 		move.w	#$14C,y_pos(a0)
 		move.w	(Player_mode).w,d0
 		subq.w	#1,d0
-		bcc.s	loc_2EC06
+		bcc.s	+ ;loc_2EC06
 		moveq	#0,d0
 
-loc_2EC06:
++ ;loc_2EC06:
 		addi.w	#$29,d0
 		move.b	d0,mapping_frame(a0)
 		btst	#3,(Level_frame_counter+1).w
@@ -2044,43 +2044,43 @@ locret_2EC1C:
 
 loc_2EC1E:
 		tst.w	$2E(a0)
-		beq.s	loc_2EC2A
+		beq.s	+ ;loc_2EC2A
 		subq.w	#1,$2E(a0)
-		bra.s	loc_2EC44
+		bra.s	+++ ;loc_2EC44
 ; ---------------------------------------------------------------------------
 
-loc_2EC2A:
++ ;loc_2EC2A:
 		tst.b	render_flags(a0)
-		bmi.s	loc_2EC3E
+		bmi.s	+ ;loc_2EC3E
 		movea.w	parent2(a0),a1
 		subq.w	#1,$30(a1)
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_2EC3E:
++ ;loc_2EC3E:
 		addi.w	#$20,x_pos(a0)
 
-loc_2EC44:
++ ;loc_2EC44:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
 loc_2EC4A:
 		tst.w	$2E(a0)
-		beq.s	loc_2EC56
+		beq.s	+ ;loc_2EC56
 		subq.w	#1,$2E(a0)
-		bra.s	loc_2EC6A
+		bra.s	+++ ;loc_2EC6A
 ; ---------------------------------------------------------------------------
 
-loc_2EC56:
++ ;loc_2EC56:
 		cmpi.w	#$1CC,x_pos(a0)
-		blo.s	loc_2EC64
+		blo.s	+ ;loc_2EC64
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_2EC64:
++ ;loc_2EC64:
 		addi.w	#$20,x_pos(a0)
 
-loc_2EC6A:
++ ;loc_2EC6A:
 		btst	#3,(Level_frame_counter+1).w
 		beq.s	locret_2EC78
 		jmp	(Draw_Sprite).l
@@ -2138,11 +2138,11 @@ sub_2ECA8:
 
 sub_2ECBC:
 		tst.w	(SK_alone_flag).w
-		bne.s	loc_2ECC8
+		bne.s	+ ;loc_2ECC8
 		tst.b	(SK_special_stage_flag).w
 		bne.s	locret_2ECCE
 
-loc_2ECC8:
++ ;loc_2ECC8:
 		move.w	#make_art_tile($000,3,0),art_tile(a0)
 
 locret_2ECCE:
@@ -2178,37 +2178,37 @@ loc_2ED2A:
 		move.w	$32(a0),d2
 		tst.w	d1
 		smi	d3
-		bpl.s	loc_2ED40
+		bpl.s	+ ;loc_2ED40
 		neg.w	d1
 
-loc_2ED40:
++ ;loc_2ED40:
 		mulu.w	d2,d1
 		swap	d1
 		tst.b	d3
-		beq.s	loc_2ED4A
+		beq.s	+ ;loc_2ED4A
 		neg.w	d1
 
-loc_2ED4A:
++ ;loc_2ED4A:
 		tst.w	d0
 		smi	d3
-		bpl.s	loc_2ED52
+		bpl.s	+ ;loc_2ED52
 		neg.w	d0
 
-loc_2ED52:
++ ;loc_2ED52:
 		mulu.w	d2,d0
 		swap	d0
 		tst.b	d3
-		beq.s	loc_2ED5C
+		beq.s	+ ;loc_2ED5C
 		neg.w	d0
 
-loc_2ED5C:
++ ;loc_2ED5C:
 		move.w	$30(a0),d2
 		addq.w	#1,d2
 		cmpi.w	#8,d2
-		bls.s	loc_2ED6A
+		bls.s	+ ;loc_2ED6A
 		moveq	#0,d2
 
-loc_2ED6A:
++ ;loc_2ED6A:
 		move.w	d2,$30(a0)
 		lea	sub2_x_pos(a0),a1
 		move.w	x_pos(a0),d3
@@ -2227,26 +2227,26 @@ loc_2ED6A:
 		move.w	d2,(a1)+
 		addq.w	#2,$2E(a0)
 		tst.w	$36(a0)
-		bne.s	loc_2EDBC
+		bne.s	++ ;loc_2EDBC
 		subi.w	#$100,$32(a0)
-		bcs.s	loc_2EDAE
+		bcs.s	+ ;loc_2EDAE
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_2EDAE:
++ ;loc_2EDAE:
 		movea.w	$34(a0),a1
 		st	$31(a1)
 		clr.b	(_unkFAC0).w
-		bra.s	loc_2EDCA
+		bra.s	++ ;loc_2EDCA
 ; ---------------------------------------------------------------------------
 
-loc_2EDBC:
++ ;loc_2EDBC:
 		addi.w	#$100,$32(a0)
-		bcs.s	loc_2EDCA
+		bcs.s	+ ;loc_2EDCA
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_2EDCA:
++ ;loc_2EDCA:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 Map_GameOver:
@@ -2263,31 +2263,31 @@ LoadEnemyArt:
 		lea	Offs_LoadEnemyArt(pc),a6
 		move.w	#$D00,d0
 		cmpi.b	#$16,(Current_zone).w
-		beq.s	loc_2F798
+		beq.s	+ ;loc_2F798
 		move.w	#$E00,d0
 		cmpi.w	#$1700,(Current_zone_and_act).w
-		bne.s	loc_2F79E
+		bne.s	++ ;loc_2F79E
 
-loc_2F798:
++ ;loc_2F798:
 		move.b	(Current_act).w,d0
-		bra.s	loc_2F7A2
+		bra.s	++ ;loc_2F7A2
 ; ---------------------------------------------------------------------------
 
-loc_2F79E:
++ ;loc_2F79E:
 		move.w	(Current_zone_and_act).w,d0
 
-loc_2F7A2:
++ ;loc_2F7A2:
 		ror.b	#1,d0
 		lsr.w	#6,d0
 		adda.w	(a6,d0.w),a6
 		move.w	(a6)+,d6
 		bmi.s	.return
 
-.loop:
+- ;.loop:
 		movea.l	(a6)+,a1
 		move.w	(a6)+,d2
 		jsr	(Queue_Kos_Module).l
-		dbf	d6,.loop
+		dbf	d6,- ;.loop
 
 .return:
 		rts

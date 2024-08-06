@@ -9,11 +9,11 @@ Obj_DEZLightning:
 
 loc_478BE:
 		tst.b	render_flags(a0)
-		bpl.s	loc_478CC
+		bpl.s	+ ;loc_478CC
 		moveq	#signextendB(sfx_Lightning),d0
 		jsr	(Play_SFX).l
 
-loc_478CC:
++ ;loc_478CC:
 		moveq	#0,d0
 		move.b	subtype(a0),d0
 		move.w	d0,$30(a0)
@@ -24,18 +24,18 @@ loc_478E2:
 		lea	(Ani_DEZLightning).l,a1
 		jsr	(Animate_Sprite).l
 		tst.b	routine(a0)
-		beq.s	loc_47906
+		beq.s	+ ;loc_47906
 		move.b	#0,routine(a0)
 		move.b	#0,mapping_frame(a0)
 		move.l	#loc_4791A,(a0)
 
-loc_47906:
++ ;loc_47906:
 		cmpi.b	#3,mapping_frame(a0)
-		bne.s	loc_47914
+		bne.s	+ ;loc_47914
 		jmp	(Sprite_CheckDeleteTouch3).l
 ; ---------------------------------------------------------------------------
 
-loc_47914:
++ ;loc_47914:
 		jmp	(Sprite_OnScreen_Test).l
 ; ---------------------------------------------------------------------------
 

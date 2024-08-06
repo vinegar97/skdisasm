@@ -12,15 +12,15 @@ Obj_WaterDrop:
 
 loc_382BA:
 		subq.w	#1,$30(a0)
-		bpl.s	loc_382F6
+		bpl.s	+ ;loc_382F6
 		moveq	#0,d0
 		move.b	subtype(a0),d0
 		lsl.w	#2,d0
 		move.w	d0,$30(a0)
 		tst.b	4(a0)
-		bpl.s	loc_382F6
+		bpl.s	+ ;loc_382F6
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_382F6
+		bne.w	+ ;loc_382F6
 		moveq	#subtype,d0
 
 loc_382DE:
@@ -31,7 +31,7 @@ loc_382DE:
 		move.b	#$C7,collision_flags(a1)
 		moveq	#0,d0
 
-loc_382F6:
++ ;loc_382F6:
 		jmp	(Sprite_OnScreen_Test).l
 ; ---------------------------------------------------------------------------
 
@@ -54,28 +54,28 @@ loc_38336:
 		lea	(Ani_HCZWaterDrop).l,a1
 		jsr	(Animate_Sprite).l
 		cmpi.b	#4,routine(a0)
-		bne.s	loc_38350
+		bne.s	+ ;loc_38350
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_38350:
++ ;loc_38350:
 		tst.b	collision_property(a0)
-		beq.s	loc_38376
+		beq.s	+++ ;loc_38376
 		lea	(Player_1).w,a2
 		bclr	#0,collision_property(a0)
-		beq.s	loc_38364
+		beq.s	+ ;loc_38364
 		bsr.s	sub_38382
 
-loc_38364:
++ ;loc_38364:
 		lea	(Player_2).w,a2
 		bclr	#1,collision_property(a0)
-		beq.s	loc_38372
+		beq.s	+ ;loc_38372
 		bsr.s	sub_38382
 
-loc_38372:
++ ;loc_38372:
 		clr.b	collision_property(a0)
 
-loc_38376:
++ ;loc_38376:
 		jsr	(Add_SpriteToCollisionResponseList).l
 		jmp	(Draw_Sprite).l
 
@@ -84,10 +84,10 @@ loc_38376:
 
 sub_38382:
 		cmpi.b	#5,anim(a2)
-		bne.s	loc_38390
+		bne.s	+ ;loc_38390
 		move.b	#0,prev_anim(a2)
 
-loc_38390:
++ ;loc_38390:
 		move.b	#1,anim(a0)
 		move.l	#loc_38336,(a0)
 		move.b	#0,collision_flags(a0)

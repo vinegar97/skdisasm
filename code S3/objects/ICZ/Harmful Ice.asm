@@ -3,22 +3,22 @@ Obj_ICZHarmfulIce:
 		lea	ObjDat3_58CCA(pc),a1
 		move.l	#Sprite_CheckDeleteTouch,(a0)
 		tst.b	subtype(a0)
-		beq.s	loc_58C88
+		beq.s	+ ;loc_58C88
 		lea	ObjDat3_58CD6(pc),a1
 		move.l	#loc_58C8C,(a0)
 
-loc_58C88:
++ ;loc_58C88:
 		jmp	SetUp_ObjAttributes(pc)
 ; ---------------------------------------------------------------------------
 
 loc_58C8C:
 		moveq	#0,d0
 		move.b	collision_property(a0),d0
-		bne.s	loc_58C98
+		bne.s	+ ;loc_58C98
 		jmp	Sprite_CheckDeleteTouch(pc)
 ; ---------------------------------------------------------------------------
 
-loc_58C98:
++ ;loc_58C98:
 		add.w	d0,d0
 		movea.w	word_58CC4-2(pc,d0.w),a1
 		; Bug: no invincibility or invulnerability checks are performed,

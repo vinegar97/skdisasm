@@ -30,9 +30,9 @@ sub_C02A:
 		move.l	#vdpComm(VRAM_Plane_A_Name_Table,VRAM,WRITE),(VDP_control_port).l
 		lea	(VDP_data_port).l,a6
 
-.loop:
+- ;.loop:
 		move.l	d0,(a6)
-		dbf	d1,.loop
+		dbf	d1,- ;.loop
 		rts
 ; End of function sub_C02A
 
@@ -45,12 +45,12 @@ sub_C04C:
 		lea	(VDP_data_port).l,a6
 		moveq	#0,d1
 
-.loop:
+- ;.loop:
 		move.w	d0,d3
-		bsr.s	sub_C068
+		bsr.s	+ ;sub_C068
 		addi.w	#$80,d0
 		andi.w	#$DFFF,d0
-		dbf	d2,.loop
+		dbf	d2,- ;.loop
 		rts
 ; End of function sub_C04C
 
@@ -58,7 +58,7 @@ sub_C04C:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_C068:
++ ;sub_C068:
 		swap	d3
 		clr.w	d3
 		swap	d3
@@ -82,7 +82,7 @@ sub_C068:
 Copy_Listed_Data_To_VRAM:
 		move.w	(a0)+,d7
 
-.loop:
+- ;.loop:
 		movea.l	(a0)+,a1
 		move.w	(a0)+,d0
 		swap	d0
@@ -95,7 +95,7 @@ Copy_Listed_Data_To_VRAM:
 		move.w	(a0)+,d1
 		move.w	(a0)+,d2
 		jsr	(Plane_Map_To_VRAM).l
-		dbf	d7,.loop
+		dbf	d7,- ;.loop
 		rts
 ; End of function Copy_Listed_Data_To_VRAM
 
@@ -105,7 +105,7 @@ Copy_Listed_Data_To_VRAM:
 
 sub_C0AE:
 		lea	(Dynamic_object_RAM).w,a0
-		bsr.s	sub_C0B8
+		bsr.s	+ ;sub_C0B8
 		lea	(Dynamic_object_RAM+(object_size*5)).w,a0
 ; End of function sub_C0AE
 
@@ -113,11 +113,11 @@ sub_C0AE:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_C0B8:
++ ;sub_C0B8:
 		lea	next_object(a0),a1
 		lea	next_object(a1),a2
-		bsr.s	sub_C0EA
-		bsr.s	sub_C0EA
+		bsr.s	+ ;sub_C0EA
+		bsr.s	+ ;sub_C0EA
 		move.w	#$80,priority(a0)
 		move.w	#$100,priority(a1)
 		move.w	#$180,priority(a2)
@@ -131,13 +131,13 @@ sub_C0B8:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_C0EA:
++ ;sub_C0EA:
 		move.w	y_pos(a0),d0
 		cmp.w	y_pos(a1),d0
-		bgt.s	loc_C0F6
+		bgt.s	+ ;loc_C0F6
 		exg	a0,a1
 
-loc_C0F6:
++ ;loc_C0F6:
 		move.w	y_pos(a1),d0
 		cmp.w	y_pos(a2),d0
 		bgt.s	locret_C102
@@ -153,13 +153,13 @@ locret_C102:
 
 sub_C104:
 		move.w	#1,(Competition_mode).w
-		bra.s	loc_C110
+		bra.s	+ ;loc_C110
 ; ---------------------------------------------------------------------------
 
 Set_Lives_and_Continues:
 		clr.w	(Competition_mode).w
 
-loc_C110:
++ ;loc_C110:
 		move.b	#3,(Life_count).w
 		move.b	#3,(Life_count_P2).w
 		moveq	#0,d0
@@ -191,56 +191,56 @@ SRAM_Load:
 		moveq	#$29,d0
 		move.w	#$4C44,d1		; RAM integrity value
 		jsr	Get_From_SRAM(pc)
-		beq.s	loc_C190		; If the data read was successful, branch
+		beq.s	+ ;loc_C190		; If the data read was successful, branch
 		lea	SaveData_GeneralDefault(pc),a0
 		lea	(Competition_saved_data).w,a1
 		moveq	#$29-1,d0
 
-loc_C186:
+- ;loc_C186:
 		move.w	(a0)+,(a1)+		; Reset the general save data to the default
-		dbf	d0,loc_C186
+		dbf	d0,- ;loc_C186
 		jsr	Write_SaveGeneral2(pc)	; Write default data back to SRAM
 
-loc_C190:
++ ;loc_C190:
 		lea	($200281).l,a0
 		lea	($20032D).l,a1
 		lea	(Saved_data).w,a2
 		moveq	#$29,d0
 		move.w	#$4244,d1		; RAM integrity value for save game data
 		jsr	Get_From_SRAM(pc)
-		bne.s	loc_C1C0		; If the data read was not successful, branch
+		bne.s	+ ;loc_C1C0		; If the data read was not successful, branch
 		lea	(Saved_data).w,a0
 		moveq	#8-1,d0
 
-loc_C1B2:
+- ;loc_C1B2:
 		tst.b	(a0)
 		bpl.w	loc_C256		; If any of the save files are active, then we're done here
 		lea	$A(a0),a0
-		dbf	d0,loc_C1B2			; if not then we load them up with default data
+		dbf	d0,- ;loc_C1B2			; if not then we load them up with default data
 
-loc_C1C0:
++ ;loc_C1C0:
 		lea	SaveData_GameDefault(pc),a0
 		lea	(Saved_data).w,a1
 		moveq	#bytesToWcnt(($A*8)+2),d0
 
-loc_C1CA:
+- ;loc_C1CA:
 		move.w	(a0)+,(a1)+
-		dbf	d0,loc_C1CA			; Write default game data
+		dbf	d0,- ;loc_C1CA			; Write default game data
 		lea	($200169).l,a0
 		lea	($2001F5).l,a1
 		lea	($FF0000).l,a2		; Attempt to see if there's any existing S3 save data
 		moveq	#$19,d0
 		move.w	#$4244,d1
 		jsr	Get_From_SRAM(pc)
-		bne.s	loc_C252		; If write was not successful, branch
+		bne.s	+++ ;loc_C252		; If write was not successful, branch
 		lea	(Saved_data).w,a0	; If there's valid data from Sonic 3, we'll now go through the process of migrating it to SK
 		lea	($FF0000).l,a1
 		lea	SaveData_S3LevRef(pc),a2
 		moveq	#6-1,d0
 
-loc_C1FE:
+- ;loc_C1FE:
 		tst.b	(a1)
-		bmi.s	loc_C248		; If not an active save slot, branch
+		bmi.s	++ ;loc_C248		; If not an active save slot, branch
 		clr.b	(a0)
 		move.b	1(a1),4(a0)		; Special stage ring memory migration
 		move.b	7(a1),5(a0)
@@ -256,22 +256,22 @@ loc_C1FE:
 		moveq	#0,d2
 		moveq	#7-1,d3
 
-loc_C236:
+- ;loc_C236:
 		lsl.b	#1,d1
-		bcc.s	loc_C23E
+		bcc.s	+ ;loc_C23E
 		ori.w	#1,d2
 
-loc_C23E:
++ ;loc_C23E:
 		lsl.w	#2,d2
-		dbf	d3,loc_C236
+		dbf	d3,- ;loc_C236
 		move.w	d2,6(a0)	; The chaos/super emerald data is interleaved in SK and needs to be converted
 
-loc_C248:
++ ;loc_C248:
 		lea	$A(a0),a0
 		addq.w	#8,a1
-		dbf	d0,loc_C1FE
+		dbf	d0,-- ;loc_C1FE
 
-loc_C252:
++ ;loc_C252:
 		jsr	Write_SaveGame(pc)
 
 loc_C256:
@@ -317,12 +317,12 @@ SaveData_S3LevRef:
 Get_From_SRAM:
 		movea.l	a2,a3
 		move.w	d0,d2
-		bsr.s	Read_SRAM
+		bsr.s	+ ;Read_SRAM
 		beq.s	.end
 		movea.l	a1,a0
 		movea.l	a3,a2
 		move.w	d2,d0
-		bsr.s	Read_SRAM
+		bsr.s	+ ;Read_SRAM
 
 .end:
 		rts
@@ -332,27 +332,27 @@ Get_From_SRAM:
 ; =============== S U B R O U T I N E =======================================
 
 
-Read_SRAM:
++ ;Read_SRAM:
 		tst.w	(SRAM_mask_interrupts_flag).w
-		beq.s	loc_C32A
+		beq.s	+ ;loc_C32A
 		move	#$2700,sr		; Disable interrupts if EF56 is set
 
-loc_C32A:
++ ;loc_C32A:
 		move.b	#1,(SRAM_access_flag).l	; Access SRAM
 		movea.l	a2,a6
 		move.w	d0,d6
 
-loc_C336:
+- ;loc_C336:
 		movep.w	0(a0),d3
 		move.w	d3,(a2)+		; Read data from SRAM
 		addq.w	#4,a0
-		dbf	d0,loc_C336
+		dbf	d0,- ;loc_C336
 		move.b	#0,(SRAM_access_flag).l	; No longer access SRAM
 		tst.w	(SRAM_mask_interrupts_flag).w
-		beq.s	loc_C354
+		beq.s	+ ;loc_C354
 		move	#$2300,sr		; Restore interrupts if EF56 is set
 
-loc_C354:
++ ;loc_C354:
 		subq.w	#1,d6
 		bsr.s	Create_SRAMChecksum	; Get the checksum of the given data
 		cmp.w	(a6),d7		; Compare the result
@@ -370,7 +370,7 @@ locret_C360:
 Create_SRAMChecksum:
 		moveq	#0,d7
 
-.loop:
+- ;.loop:
 		move.w	(a6)+,d5
 		eor.w	d5,d7
 		lsr.w	#1,d7
@@ -378,7 +378,7 @@ Create_SRAMChecksum:
 		eori.w	#$8810,d7
 
 .skip:
-		dbf	d6,.loop
+		dbf	d6,- ;.loop
 		rts
 ; End of function Create_SRAMChecksum
 
@@ -393,25 +393,25 @@ Write_SRAM:
 		bsr.s	Create_SRAMChecksum
 		move.w	d7,(a6)
 		tst.w	(SRAM_mask_interrupts_flag).w
-		beq.s	loc_C38A
+		beq.s	+ ;loc_C38A
 		move	#$2700,sr		; If EF56 is set, disable interrupts while saving is occuring
 
-loc_C38A:
++ ;loc_C38A:
 		move.b	#1,(SRAM_access_flag).l	; Send I/O signal to SRAM, mapping it to $200001
 		movea.l	a2,a3
 		move.w	d0,d1
 
-loc_C396:
+- ;loc_C396:
 		move.w	(a2)+,d2
 		movep.w	d2,0(a0)	; Copy data to SRAM
 		addq.w	#4,a0
-		dbf	d0,loc_C396
+		dbf	d0,- ;loc_C396
 
-loc_C3A2:
+- ;loc_C3A2:
 		move.w	(a3)+,d2
 		movep.w	d2,0(a1)	; Copy data to backup SRAM
 		addq.w	#4,a1
-		dbf	d1,loc_C3A2
+		dbf	d1,- ;loc_C3A2
 		move.b	#0,(SRAM_access_flag).l	; Stop SRAM access
 		tst.w	(SRAM_mask_interrupts_flag).w
 		beq.s	locret_C3C0
@@ -506,45 +506,45 @@ SaveGame:
 		move.b	SaveGame_NextLevel(pc,d0.w),d0
 		move.b	(a1),d1
 		andi.w	#3,d1
-		beq.s	loc_C464
+		beq.s	+ ;loc_C464
 		cmp.b	3(a1),d0		; If game is complete, make it uncomplete if last level is less than the current level
 		blo.s	loc_C4B4		; Think of, say, getting all the super emeralds then going to Doomsday on a completed save file
 		andi.b	#$FC,(a1)
 
-loc_C464:
++ ;loc_C464:
 		move.b	d0,3(a1)			; Move next level into current level
 		cmpi.w	#3,(Player_mode).w
-		bne.s	loc_C478
+		bne.s	+ ;loc_C478
 		cmpi.b	#$C,d0
 		blo.s	loc_C4B0
-		bra.s	loc_C498		; If playing as Knuckles and level code is Death Egg or higher, make it a completed save file
+		bra.s	+++ ;loc_C498		; If playing as Knuckles and level code is Death Egg or higher, make it a completed save file
 ; ---------------------------------------------------------------------------
 
-loc_C478:
++ ;loc_C478:
 		cmpi.w	#2,(Player_mode).w
-		bne.s	loc_C488
+		bne.s	+ ;loc_C488
 		cmpi.b	#$D,d0
 		blo.s	loc_C4B0
-		bra.s	loc_C498		; If playing as Tails and level code is Doomsday or higher, make it a completed save file
+		bra.s	++ ;loc_C498		; If playing as Tails and level code is Doomsday or higher, make it a completed save file
 ; ---------------------------------------------------------------------------
 
-loc_C488:
++ ;loc_C488:
 		cmpi.b	#$D,d0
-		bhi.s	loc_C498			; If next level above Doomsday's code, make it a completed save file
+		bhi.s	+ ;loc_C498			; If next level above Doomsday's code, make it a completed save file
 		bne.s	loc_C4B0
 		cmpi.b	#7,(Chaos_emerald_count).w	; If next level IS Doomsday but the emeralds aren't collected, make it a completed save file
 		bhs.s	loc_C4B0
 
-loc_C498:
++ ;loc_C498:
 		moveq	#1,d0
 		cmpi.b	#7,(Chaos_emerald_count).w
-		blo.s	loc_C4AE		; code 1 is completed without all emeralds
+		blo.s	+ ;loc_C4AE		; code 1 is completed without all emeralds
 		addq.b	#1,d0
 		cmpi.b	#7,(Super_emerald_count).w
-		blo.s	loc_C4AE		; code 2 is completed with all chaos emeralds
+		blo.s	+ ;loc_C4AE		; code 2 is completed with all chaos emeralds
 		addq.b	#1,d0			; code 3 is completed with all super emeralds
 
-loc_C4AE:
++ ;loc_C4AE:
 		move.b	d0,(a1)
 
 loc_C4B0:
@@ -553,10 +553,10 @@ loc_C4B0:
 loc_C4B4:
 		move.b	(Life_count).w,d0		; Get number of lives
 		cmpi.b	#99,d0
-		bls.s	loc_C4C0
+		bls.s	+ ;loc_C4C0
 		moveq	#99,d0
 
-loc_C4C0:
++ ;loc_C4C0:
 		move.b	d0,8(a1)				; Put number of lives into memory
 		move.b	d0,(Life_count).w
 		jsr	Write_SaveGame(pc)
@@ -577,31 +577,31 @@ SaveGame_SpecialStage:
 		beq.s	locret_C530
 		movea.l	d0,a1				; Get address of save slot
 		tst.b	(SK_special_stage_flag).w
-		bne.s	loc_C4F8
+		bne.s	+ ;loc_C4F8
 		andi.b	#$F0,2(a1)
 		move.b	(Current_special_stage).w,d0
 		andi.b	#$F,d0
 		or.b	d0,2(a1)			; Write last played special stage only if Sonic 3 special stages are in effect
 
-loc_C4F8:
++ ;loc_C4F8:
 		lea	(Collected_emeralds_array).w,a2
 		moveq	#0,d0
 		moveq	#7-1,d1
 
-loc_C500:
+- ;loc_C500:
 		move.b	(a2)+,d2
 		andi.b	#3,d2
 		or.b	d2,d0
 		lsl.w	#2,d0
-		dbf	d1,loc_C500
+		dbf	d1,- ;loc_C500
 		move.w	d0,6(a1)		; Compress emerald collection RAM and put it into Save Game
 		move.w	(Collected_special_ring_array+2).w,4(a1)	; Special stage entry ring memory is copied as well
 		move.b	(Continue_count).w,d0
 		cmpi.b	#99,d0
-		bls.s	loc_C524
+		bls.s	+ ;loc_C524
 		moveq	#99,d0
 
-loc_C524:
++ ;loc_C524:
 		move.b	d0,9(a1)		; Save number of continues
 		move.b	d0,(Continue_count).w
 		jmp	Write_SaveGame(pc)
@@ -623,18 +623,18 @@ SaveGame_LivesContinues:
 		movea.l	d0,a1
 		move.b	(Life_count).w,d0
 		cmpi.b	#99,d0
-		bls.s	loc_C54C
+		bls.s	+ ;loc_C54C
 		moveq	#99,d0
 
-loc_C54C:
++ ;loc_C54C:
 		move.b	d0,8(a1)		; Save number of lives
 		move.b	d0,(Life_count).w
 		move.b	(Continue_count).w,d0
 		cmpi.b	#99,d0
-		bls.s	loc_C560
+		bls.s	+ ;loc_C560
 		moveq	#99,d0
 
-loc_C560:
++ ;loc_C560:
 		move.b	d0,9(a1)		; Save number of continues
 		move.b	d0,(Continue_count).w
 		jmp	Write_SaveGame(pc)
@@ -725,21 +725,21 @@ SaveScreen:
 		lea	(Target_palette).w,a1
 		moveq	#bytesToLcnt($20),d0
 
-loc_C710:
+- ;loc_C710:
 		move.l	(a0)+,(a1)+
-		dbf	d0,loc_C710
+		dbf	d0,- ;loc_C710
 		lea	Pal_Save_Chars(pc),a0
 		moveq	#bytesToLcnt($40),d0
 
-loc_C71C:
+- ;loc_C71C:
 
 		move.l	(a0)+,(a1)+
-		dbf	d0,loc_C71C
+		dbf	d0,- ;loc_C71C
 		lea	(Object_RAM).w,a0
 		lea	ObjDat_SaveScreen(pc),a1
 		moveq	#$C-1,d0
 
-loc_C72C:
+- ;loc_C72C:
 		move.l	(a1)+,(a0)
 		move.w	#make_art_tile(ArtTile_ArtKos_Save_Misc,0,1),art_tile(a0)
 		move.l	#Map_SaveScreen,mappings(a0)
@@ -750,7 +750,7 @@ loc_C72C:
 		move.b	(a1)+,objoff_2E(a0)	; used for save slot id
 		move.b	#$40,render_flags(a0)	; sets multi-sprite flag
 		lea	next_object(a0),a0
-		dbf	d0,loc_C72C
+		dbf	d0,- ;loc_C72C
 		jsr	(Init_SpriteTable).l
 		jsr	(Process_Sprites).l
 		jsr	(Render_Sprites).l
@@ -758,10 +758,10 @@ loc_C72C:
 		lea	(Target_palette_line_4).w,a1
 		moveq	#8-1,d0
 
-loc_C77A:
+- ;loc_C77A:
 		move.l	(a0),(a1)+
 		clr.l	(a0)+
-		dbf	d0,loc_C77A
+		dbf	d0,- ;loc_C77A
 		lea	(ArtKos_SaveScreenS3Zone).l,a0
 		lea	(RAM_start).l,a1
 		jsr	(Kos_Decomp).l
@@ -769,10 +769,10 @@ loc_C77A:
 		lea	(RAM_start+$2300).l,a1
 		move.w	#$230-1,d0
 
-loc_C7A4:
+- ;loc_C7A4:
 		move.l	(a0)+,(a1)+
 		move.l	(a0)+,(a1)+
-		dbf	d0,loc_C7A4
+		dbf	d0,- ;loc_C7A4
 		lea	(ArtKos_SaveScreenSKZone).l,a0
 		jsr	(Kos_Decomp).l
 		lea	(ArtKos_SaveScreenPortrait).l,a0
@@ -780,9 +780,9 @@ loc_C7A4:
 		lea	-$8C0(a1),a0
 		move.w	#$150-1,d0
 
-loc_C7CC:
+- ;loc_C7CC:
 		move.l	(a0)+,(a1)+
-		dbf	d0,loc_C7CC
+		dbf	d0,- ;loc_C7CC
 		moveq	#signextendB(mus_DataSelect),d0
 		jsr	(Play_Music).l
 		move.l	#loc_C890,(_unkEF44_1).w
@@ -807,25 +807,25 @@ SaveScreen_MainLoop:
 		move.w	(Emerald_flicker_flag).w,d1
 		addq.w	#1,d1
 		cmpi.w	#3,d1
-		blo.s	loc_C83C
+		blo.s	+ ;loc_C83C
 		moveq	#0,d1
 
-loc_C83C:
++ ;loc_C83C:
 		move.w	d1,(Emerald_flicker_flag).w
-		beq.s	loc_C84E
+		beq.s	+ ;loc_C84E
 		lea	Pal_Save_Emeralds(pc),a1
 
-loc_C846:
+- ;loc_C846:
 		move.w	(a1)+,(a0)+
-		dbf	d0,loc_C846
-		bra.s	loc_C856
+		dbf	d0,- ;loc_C846
+		bra.s	++ ;loc_C856
 ; ---------------------------------------------------------------------------
 
-loc_C84E:
+/ ;loc_C84E:
 		move.w	#$EEE,(a0)+
-		dbf	d0,loc_C84E
+		dbf	d0,- ;loc_C84E
 
-loc_C856:
++ ;loc_C856:
 		cmpi.b	#$4C,(Game_mode).w	; are we still in the savescreen mode?
 		beq.s	SaveScreen_MainLoop	; if so, loop
 		moveq	#signextendB(sfx_EnterSS),d0
@@ -837,14 +837,14 @@ loc_C856:
 sub_C866:
 		move.w	(a0)+,d7
 
-.loop:
+- ;.loop:
 		movea.l	(a0)+,a1
 		move.w	(a0)+,d0
 		bsr.s	sub_C87E
 		move.w	(a0)+,d1
 		move.w	(a0)+,d2
 		jsr	(Plane_Map_To_VRAM_2).l
-		dbf	d7,.loop
+		dbf	d7,- ;.loop
 		rts
 ; End of function sub_C866
 
@@ -880,13 +880,13 @@ loc_C890:
 		lea	(Saved_data).w,a0
 		moveq	#8-1,d6
 
-loc_C8B2:
+- ;loc_C8B2:
 		lea	(MapUnc_SaveScreenNEW).l,a1
 		tst.b	(a0)		; is a game in progress?
-		bmi.s	loc_C8BE
+		bmi.s	+ ;loc_C8BE
 		movea.l	a2,a1
 
-loc_C8BE:
++ ;loc_C8BE:
 		move.w	d7,d0
 		bsr.s	sub_C87E
 		moveq	#$A-1,d1
@@ -894,13 +894,13 @@ loc_C8BE:
 		jsr	(Plane_Map_To_VRAM_2).l
 		addi.w	#$1A,d7
 		lea	next_SaveSlot(a0),a0
-		dbf	d6,loc_C8B2
+		dbf	d6,- ;loc_C8B2
 		lea	(Dynamic_object_RAM+object_size).w,a3	; load the first save slot object
 		move.w	#VRAM_Plane_A_Name_Table+$A20,d7
 		lea	(Saved_data).w,a0
 		moveq	#8-1,d3
 
-loc_C8E6:
+- ;loc_C8E6:
 		move.w	d7,d0
 		subq.w	#2,d0
 		jsr	sub_C87E(pc)
@@ -912,11 +912,11 @@ loc_C8E6:
 		lea	byte_DB36(pc),a1
 		move.b	objoff_3A(a3),d0
 		cmp.b	objoff_37(a3),d0
-		bne.s	loc_C912
+		bne.s	+ ;loc_C912
 		tst.b	objoff_3B(a3)
 		bne.s	loc_C946
 
-loc_C912:
++ ;loc_C912:
 		lea	byte_DB31(pc),a1
 		move.w	d7,d0
 		subq.w	#2,d0
@@ -925,33 +925,33 @@ loc_C912:
 		add.w	d0,d0
 		moveq	#0,d1
 		move.b	byte_C95E(pc,d0.w),d1
-		bpl.s	loc_C932
+		bpl.s	+ ;loc_C932
 		move.w	#high_priority,d1
-		bra.s	loc_C936
+		bra.s	++ ;loc_C936
 ; ---------------------------------------------------------------------------
 
-loc_C932:
++ ;loc_C932:
 		addi.w	#make_art_tile($562,1,1),d1
 
-loc_C936:
++ ;loc_C936:
 		move.w	d1,(a6)
 		moveq	#0,d1
 		move.b	byte_C95E+1(pc,d0.w),d1
 		addi.w	#make_art_tile($562,1,1),d1
 		move.w	d1,(a6)
-		bra.s	loc_C94C
+		bra.s	+ ;loc_C94C
 ; ---------------------------------------------------------------------------
 
 loc_C946:
 		move.w	d7,d0
 		jsr	sub_D9F4(pc)
 
-loc_C94C:
++ ;loc_C94C:
 		addi.w	#$1A,d7
 		lea	next_SaveSlot(a0),a0
 		lea	next_object(a3),a3
-		dbf	d3,loc_C8E6
-		bra.s	loc_C97A
+		dbf	d3,- ;loc_C8E6
+		bra.s	+ ;loc_C97A
 ; ---------------------------------------------------------------------------
 ; shows level number 1-14
 ; NOTE: $FF acts as zero
@@ -972,24 +972,24 @@ byte_C95E:
 		dc.b    1,   4	; 14
 ; ---------------------------------------------------------------------------
 
-loc_C97A:
++ ;loc_C97A:
 		lea	word_DA8A(pc),a2
 		lea	(Dynamic_object_RAM+object_size).w,a3
 		move.w	#VRAM_Plane_A_Name_Table+$1220,d7
 		lea	(Saved_data).w,a0
 		moveq	#8-1,d6
 
-loc_C98C:
+- ;loc_C98C:
 		move.w	objoff_34(a3),d0
-		bne.s	loc_C994
+		bne.s	+ ;loc_C994
 		moveq	#1,d0
 
-loc_C994:
++ ;loc_C994:
 		tst.b	(a0)
-		bpl.s	loc_C99A
+		bpl.s	+ ;loc_C99A
 		moveq	#0,d0
 
-loc_C99A:
++ ;loc_C99A:
 		lsl.w	#5,d0
 		movea.l	a2,a1
 		adda.w	d0,a1
@@ -999,7 +999,7 @@ loc_C99A:
 		moveq	#5-1,d2
 		jsr	(Plane_Map_To_VRAM_2).l
 		tst.b	(a0)
-		bpl.s	loc_C9CC
+		bpl.s	+ ;loc_C9CC
 		lea	word_DB08(pc),a1
 		move.w	d7,d0
 		addq.w	#6,d0
@@ -1007,10 +1007,10 @@ loc_C99A:
 		moveq	#2-1,d1
 		moveq	#5-1,d2
 		jsr	(Plane_Map_To_VRAM_2).l
-		bra.s	loc_CA02
+		bra.s	++ ;loc_CA02
 ; ---------------------------------------------------------------------------
 
-loc_C9CC:
++ ;loc_C9CC:
 		move.b	objoff_3E(a3),d0
 		jsr	sub_CA14(pc)
 		move.w	d7,d0
@@ -1028,11 +1028,11 @@ loc_C9CC:
 		moveq	#2-1,d2
 		jsr	(Plane_Map_To_VRAM_2).l
 
-loc_CA02:
++ ;loc_CA02:
 		addi.w	#$1A,d7
 		lea	next_SaveSlot(a0),a0
 		lea	next_object(a3),a3
-		dbf	d6,loc_C98C
+		dbf	d6,- ;loc_C98C
 		rts
 
 ; =============== S U B R O U T I N E =======================================
@@ -1049,10 +1049,10 @@ loc_CA16:
 		addi.b	#$A,d0
 		lea	(_unkEEEA).w,a1
 		lsl.w	#2,d1
-		bne.s	loc_CA2E
+		bne.s	+ ;loc_CA2E
 		moveq	#$28,d1
 
-loc_CA2E:
++ ;loc_CA2E:
 		move.w	word_CA4C(pc,d1.w),(a1)
 		move.w	word_CA4C+2(pc,d1.w),4(a1)
 		andi.w	#$FF,d0
@@ -1253,27 +1253,27 @@ Obj_SaveScreen_Selector:
 		moveq	#0,d2
 		move.b	(Dataselect_entry).w,d2
 		subq.w	#1,d2
-		bcs.s	loc_D1E6
+		bcs.s	++ ;loc_D1E6
 
-loc_D1C6:
+- ;loc_D1C6:
 		moveq	#$D-1,d4
 
-loc_D1C8:
+- ;loc_D1C8:
 		addq.w	#8,d0
 		cmpi.w	#$120,d0
-		bls.s	loc_D1DE
+		bls.s	+ ;loc_D1DE
 		subq.w	#8,d0
 		addq.w	#8,d1
 		cmpi.w	#$2C0,d1
-		bls.s	loc_D1DE
+		bls.s	+ ;loc_D1DE
 		subq.w	#8,d1
 		addq.w	#8,d0
 
-loc_D1DE:
-		dbf	d4,loc_D1C8
-		dbf	d2,loc_D1C6
++ ;loc_D1DE:
+		dbf	d4,- ;loc_D1C8
+		dbf	d2,-- ;loc_D1C6
 
-loc_D1E6:
++ ;loc_D1E6:
 		move.w	d0,$12(a0)
 		move.w	d1,(Camera_X_pos_copy).w
 		neg.w	d1
@@ -1282,62 +1282,62 @@ loc_D1E6:
 
 loc_D1FA:
 		tst.w	(Events_bg+$12).w
-		bne.s	loc_D212
+		bne.s	+ ;loc_D212
 		btst	#button_B,(Ctrl_1_pressed).w
-		beq.s	loc_D212
+		beq.s	+ ;loc_D212
 		move.b	#4,(Game_mode).w
 		bra.w	loc_D2CE
 ; ---------------------------------------------------------------------------
 
-loc_D212:
++ ;loc_D212:
 		tst.w	(Events_bg+$10).w
 		bne.w	loc_D2CE
 		tst.w	$30(a0)
 		bne.s	loc_D28A
 		moveq	#0,d0
 		btst	#button_left,(Ctrl_1_pressed).w
-		beq.s	loc_D254
+		beq.s	+++ ;loc_D254
 		tst.w	(Events_bg+$12).w
-		beq.s	loc_D238
+		beq.s	+ ;loc_D238
 		cmpi.b	#1,(Dataselect_entry).w
-		beq.s	loc_D254
+		beq.s	+++ ;loc_D254
 
-loc_D238:
++ ;loc_D238:
 		tst.b	(Dataselect_entry).w
-		beq.s	loc_D254
+		beq.s	++ ;loc_D254
 		subq.b	#1,(Dataselect_entry).w
 		moveq	#signextendB(sfx_SlotMachine),d0
 		tst.w	(Events_bg+$12).w
-		beq.s	loc_D24C
+		beq.s	+ ;loc_D24C
 		moveq	#signextendB(sfx_SmallBumpers),d0
 
-loc_D24C:
++ ;loc_D24C:
 		jsr	(Play_SFX).l
 		moveq	#-8,d0
 
-loc_D254:
++ ;loc_D254:
 		btst	#button_right,(Ctrl_1_pressed).w
-		beq.s	loc_D27A
+		beq.s	++ ;loc_D27A
 		cmpi.b	#9,(Dataselect_entry).w
-		beq.s	loc_D27A
+		beq.s	++ ;loc_D27A
 		addq.b	#1,(Dataselect_entry).w
 		moveq	#signextendB(sfx_SlotMachine),d0
 		tst.w	(Events_bg+$12).w
-		beq.s	loc_D272
+		beq.s	+ ;loc_D272
 		moveq	#signextendB(sfx_SmallBumpers),d0
 
-loc_D272:
++ ;loc_D272:
 		jsr	(Play_SFX).l
 		moveq	#8,d0
 
-loc_D27A:
++ ;loc_D27A:
 		move.w	d0,$2E(a0)
-		beq.s	loc_D288
+		beq.s	+ ;loc_D288
 		move.w	#$D,$30(a0)
 		bra.s	loc_D28A
 ; ---------------------------------------------------------------------------
 
-loc_D288:
++ ;loc_D288:
 		bra.s	loc_D2CE
 ; ---------------------------------------------------------------------------
 
@@ -1345,30 +1345,30 @@ loc_D28A:
 		move.w	$12(a0),d0
 		move.w	(Camera_X_pos_copy).w,d1
 		move.w	$2E(a0),d2
-		bmi.s	loc_D2B0
+		bmi.s	+ ;loc_D2B0
 		add.w	d2,d0
 		cmpi.w	#$120,d0
-		bls.s	loc_D2C2
+		bls.s	++ ;loc_D2C2
 		sub.w	d2,d0
 		add.w	d2,d1
 		cmpi.w	#$2C0,d1
-		bls.s	loc_D2C2
+		bls.s	++ ;loc_D2C2
 		sub.w	d2,d1
 		add.w	d2,d0
-		bra.s	loc_D2C2
+		bra.s	++ ;loc_D2C2
 ; ---------------------------------------------------------------------------
 
-loc_D2B0:
++ ;loc_D2B0:
 		add.w	d2,d0
 		cmpi.w	#$120,d0
-		bhs.s	loc_D2C2
+		bhs.s	+ ;loc_D2C2
 		sub.w	d2,d0
 		add.w	d2,d1
-		bpl.s	loc_D2C2
+		bpl.s	+ ;loc_D2C2
 		sub.w	d2,d1
 		add.w	d2,d0
 
-loc_D2C2:
++ ;loc_D2C2:
 		move.w	d0,$12(a0)
 		move.w	d1,(Camera_X_pos_copy).w
 		subq.w	#1,$30(a0)
@@ -1376,23 +1376,23 @@ loc_D2C2:
 loc_D2CE:
 		moveq	#8,d2
 		move.b	(Dataselect_entry).w,d1
-		beq.s	loc_D2E0
+		beq.s	+ ;loc_D2E0
 		neg.w	d2
 		cmpi.b	#9,d1
-		beq.s	loc_D2E0
+		beq.s	+ ;loc_D2E0
 		moveq	#0,d2
 
-loc_D2E0:
++ ;loc_D2E0:
 		add.w	$12(a0),d2
 		move.w	d2,x_pos(a0)
 		moveq	#2,d0
 		cmpi.w	#$F0,d2
-		blo.s	loc_D2F8
+		blo.s	+ ;loc_D2F8
 		cmpi.w	#$148,d2
-		bhi.s	loc_D2F8
+		bhi.s	+ ;loc_D2F8
 		moveq	#1,d0
 
-loc_D2F8:
++ ;loc_D2F8:
 		move.b	d0,mapping_frame(a0)
 		btst	#2,(Level_frame_counter+1).w
 		beq.s	locret_D30A
@@ -1409,13 +1409,13 @@ Obj_SaveScreen_NoSave_Slot:
 		addq.w	#4,d0
 		move.b	d0,mapping_frame(a0)
 		tst.b	(Dataselect_entry).w
-		bne.s	loc_D396
+		bne.s	++ ;loc_D396
 		move.w	(Player_2+object_control).w,d0
 		or.w	(Events_bg+$12).w,d0
-		bne.s	loc_D396
+		bne.s	++ ;loc_D396
 		move.b	(Ctrl_1_pressed).w,d0
 		andi.w	#button_A_mask|button_C_mask|button_start_mask,d0
-		beq.s	loc_D376
+		beq.s	+ ;loc_D376
 		move.b	#$C,(Game_mode).w
 		move.w	(Dataselect_nosave_player).w,(Player_option).w
 		clr.w	(Current_zone_and_act).w
@@ -1432,7 +1432,7 @@ Obj_SaveScreen_NoSave_Slot:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_D376:
++ ;loc_D376:
 		move.w	(Dataselect_nosave_player).w,d0
 		jsr	sub_D6D0(pc)
 		move.w	d0,(Dataselect_nosave_player).w
@@ -1440,22 +1440,22 @@ loc_D376:
 		move.b	d0,mapping_frame(a0)
 		move.w	#1,mainspr_childsprites(a0)
 		btst	#4,(Level_frame_counter+1).w
-		bne.s	loc_D39A
+		bne.s	++ ;loc_D39A
 
-loc_D396:
++ ;loc_D396:
 		clr.w	mainspr_childsprites(a0)
 
-loc_D39A:
++ ;loc_D39A:
 		bra.w	Set_ChildSprites
 ; ---------------------------------------------------------------------------
 
 Obj_SaveScreen_Save_Slot:
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.s	loc_D3B0
+		bne.s	+ ;loc_D3B0
 		move.l	#Obj_SaveScreen_Emeralds,(a1)
 		move.w	a0,parent2(a1)
 
-loc_D3B0:
++ ;loc_D3B0:
 		moveq	#0,d0
 		move.b	$2E(a0),d0
 		mulu.w	#$A,d0
@@ -1477,16 +1477,16 @@ loc_D3B0:
 		move.b	d1,$3C(a0)
 		move.b	d2,$3D(a0)
 		tst.b	9(a1)
-		bne.s	loc_D41A
+		bne.s	+ ;loc_D41A
 		cmpi.b	#3,8(a1)
-		bhs.s	loc_D41A
+		bhs.s	+ ;loc_D41A
 		move.b	#3,8(a1)
 		move.l	a1,-(sp)
 		st	(SRAM_mask_interrupts_flag).w
 		jsr	Write_SaveGame(pc)
 		movea.l	(sp)+,a1
 
-loc_D41A:
++ ;loc_D41A:
 		move.b	8(a1),$3E(a0)
 		move.b	9(a1),$3F(a0)
 		move.l	#loc_D42C,(a0)
@@ -1521,87 +1521,87 @@ Load_Level_Icons:
 		beq.s	loc_D4A4
 		addq.b	#1,sub3_mapframe(a0)
 		cmpi.b	#1,d0
-		beq.s	loc_D496
+		beq.s	+ ;loc_D496
 		addq.b	#1,sub3_mapframe(a0)
 		cmpi.b	#2,d0
-		beq.s	loc_D496
+		beq.s	+ ;loc_D496
 		addq.b	#2,sub3_mapframe(a0)
 		bra.s	loc_D4A4
 ; ---------------------------------------------------------------------------
 
-loc_D496:
++ ;loc_D496:
 		cmpi.w	#1,$34(a0)
 		bls.s	loc_D4A4
 		move.b	#$23,sub3_mapframe(a0)
 
 loc_D4A4:
 		tst.w	$38(a0)
-		bne.s	loc_D4B6
+		bne.s	+ ;loc_D4B6
 		tst.b	$3B(a0)
 		beq.w	loc_D534
 		st	$38(a0)
 
-loc_D4B6:
++ ;loc_D4B6:
 		tst.w	(Player_2+object_control).w
 		bne.s	loc_D44A
 		tst.w	(Events_bg+$12).w
-		beq.s	loc_D4D0
+		beq.s	+ ;loc_D4D0
 		clr.b	sub2_mapframe(a0)
 		move.w	#2,mainspr_childsprites(a0)
 		bra.w	loc_D44A
 ; ---------------------------------------------------------------------------
 
-loc_D4D0:
++ ;loc_D4D0:
 		moveq	#$B,d6
 		cmpi.w	#3,$34(a0)
-		beq.s	loc_D4EE
+		beq.s	+ ;loc_D4EE
 		moveq	#$C,d6
 		cmpi.w	#2,$34(a0)
-		beq.s	loc_D4EE
+		beq.s	+ ;loc_D4EE
 		cmpi.b	#2,$3B(a0)
-		blo.s	loc_D4EE
+		blo.s	+ ;loc_D4EE
 		moveq	#$D,d6
 
-loc_D4EE:
++ ;loc_D4EE:
 		moveq	#0,d2
 		move.w	$36(a0),d1
 		move.b	(Ctrl_1_pressed).w,d0
 		btst	#1,d0
-		beq.s	loc_D508
+		beq.s	+ ;loc_D508
 		moveq	#signextendB(sfx_Switch),d2
 		subq.w	#1,d1
-		bpl.s	loc_D518
+		bpl.s	++ ;loc_D518
 		move.w	d6,d1
-		bra.s	loc_D518
+		bra.s	++ ;loc_D518
 ; ---------------------------------------------------------------------------
 
-loc_D508:
++ ;loc_D508:
 		btst	#0,d0
-		beq.s	loc_D518
+		beq.s	+ ;loc_D518
 		moveq	#signextendB(sfx_Switch),d2
 		addq.w	#1,d1
 		cmp.w	d6,d1
-		bls.s	loc_D518
+		bls.s	+ ;loc_D518
 		moveq	#0,d1
 
-loc_D518:
++ ;loc_D518:
 		move.w	d1,$36(a0)
 		move.l	d2,d0
 		jsr	(Play_SFX).l
 		move.b	#$1A,sub2_mapframe(a0)
 		btst	#4,(Level_frame_counter+1).w
-		beq.s	loc_D53C
-		bra.s	loc_D540
+		beq.s	+ ;loc_D53C
+		bra.s	++ ;loc_D540
 ; ---------------------------------------------------------------------------
 
 loc_D534:
 		tst.w	(Player_2+object_control).w
 		bne.w	loc_D44A
 
-loc_D53C:
++ ;loc_D53C:
 		clr.b	sub2_mapframe(a0)
 
-loc_D540:
++ ;loc_D540:
 		move.w	#2,mainspr_childsprites(a0)
 		tst.w	(Events_bg+$12).w
 		bne.w	loc_D44A
@@ -1611,13 +1611,13 @@ loc_D540:
 		move.w	4(a1),(Collected_special_ring_array+2).w
 		move.b	3(a1),d0
 		tst.b	$3B(a0)
-		beq.s	loc_D57A
+		beq.s	+ ;loc_D57A
 		move.w	$36(a0),d0
 		cmp.b	$3A(a0),d0
 		bhs.w	loc_D44A
 		clr.l	(Collected_special_ring_array).w
 
-loc_D57A:
++ ;loc_D57A:
 		jsr	sub_DA4E(pc)
 		move.w	d0,(Current_zone_and_act).w
 		move.w	d0,(Apparent_zone_and_act).w
@@ -1636,19 +1636,19 @@ loc_D57A:
 		move.l	a1,(Save_pointer).w
 		jsr	(Set_Lives_and_Continues).l
 		move.b	8(a1),d0
-		beq.s	loc_D5CE
+		beq.s	+ ;loc_D5CE
 		cmpi.b	#3,d0
-		bhs.s	loc_D5DE
+		bhs.s	++ ;loc_D5DE
 		tst.b	9(a1)
-		bne.s	loc_D5DE
+		bne.s	++ ;loc_D5DE
 
-loc_D5CE:
++ ;loc_D5CE:
 		move.b	#3,8(a1)
 		subq.b	#1,9(a1)
-		bcc.s	loc_D5DE
+		bcc.s	+ ;loc_D5DE
 		clr.b	9(a1)
 
-loc_D5DE:
++ ;loc_D5DE:
 		move.b	8(a1),(Life_count).w
 		move.b	9(a1),(Continue_count).w
 		st	(SRAM_mask_interrupts_flag).w
@@ -1665,7 +1665,7 @@ loc_D5FE:
 		bne.w	loc_D44A
 		move.b	(Ctrl_1_pressed).w,d0
 		andi.w	#button_A_mask|button_C_mask|button_start_mask,d0
-		beq.s	loc_D67A
+		beq.s	+ ;loc_D67A
 		move.b	#$C,(Game_mode).w
 		clr.l	(a1)
 		clr.l	4(a1)
@@ -1690,7 +1690,7 @@ loc_D5FE:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_D67A:
++ ;loc_D67A:
 		move.w	$34(a0),d0
 		jsr	sub_D6D0(pc)
 		move.w	d0,$34(a0)
@@ -1711,10 +1711,10 @@ Set_ChildSprites:
 		move.w	d0,sub3_x_pos(a0)
 		move.w	d1,sub3_y_pos(a0)
 		cmpi.b	#$1A,sub2_mapframe(a0)
-		bne.s	loc_D6CA
+		bne.s	+ ;loc_D6CA
 		subq.w	#8,sub2_y_pos(a0)
 
-loc_D6CA:
++ ;loc_D6CA:
 		jmp	(Draw_Sprite).l
 
 ; =============== S U B R O U T I N E =======================================
@@ -1723,27 +1723,27 @@ loc_D6CA:
 sub_D6D0:
 		moveq	#0,d2
 		tst.w	(Player_2+objoff_30).w
-		bne.s	loc_D6FA
+		bne.s	++ ;loc_D6FA
 		move.b	(Ctrl_1_pressed).w,d1
 		lsr.w	#1,d1
-		bcc.s	loc_D6EE
+		bcc.s	+ ;loc_D6EE
 		moveq	#signextendB(sfx_Switch),d2
 		addq.w	#1,d0
 		cmpi.w	#3,d0
-		bls.s	loc_D6FA
+		bls.s	++ ;loc_D6FA
 		moveq	#0,d0
-		bra.s	loc_D6FA
+		bra.s	++ ;loc_D6FA
 ; ---------------------------------------------------------------------------
 
-loc_D6EE:
++ ;loc_D6EE:
 		lsr.w	#1,d1
-		bcc.s	loc_D6FA
+		bcc.s	+ ;loc_D6FA
 		moveq	#signextendB(sfx_Switch),d2
 		subq.w	#1,d0
-		bpl.s	loc_D6FA
+		bpl.s	+ ;loc_D6FA
 		moveq	#3,d0
 
-loc_D6FA:
++ ;loc_D6FA:
 		tst.w	d2
 		beq.s	locret_D70A
 		move.l	d0,-(sp)
@@ -1774,27 +1774,27 @@ Obj_SaveScreen_Emeralds:
 		moveq	#$10,d2
 		moveq	#7-1,d3
 
-loc_D750:
+- ;loc_D750:
 		clr.b	5(a1)
 		moveq	#0,d6
 		rol.w	#2,d4
 		move.w	d4,d5
 		andi.w	#3,d5
-		beq.s	loc_D774
+		beq.s	++ ;loc_D774
 		cmpi.w	#3,d5
-		bne.s	loc_D768
+		bne.s	+ ;loc_D768
 		moveq	#$C,d6
 
-loc_D768:
++ ;loc_D768:
 		add.b	d2,d6
 		move.w	d0,(a1)
 		move.w	d1,sub2_y_pos-sub2_x_pos(a1)
 		move.b	d6,sub2_mapframe-sub2_x_pos(a1)
 
-loc_D774:
++ ;loc_D774:
 		addq.w	#1,d2
 		addq.w	#6,a1
-		dbf	d3,loc_D750
+		dbf	d3,- ;loc_D750
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -1842,12 +1842,12 @@ loc_D7EA:
 		jsr	sub_D912(pc)
 		jsr	sub_D94A(pc)
 		tst.w	(Player_2+object_control).w
-		bne.s	loc_D83C
+		bne.s	+ ;loc_D83C
 		move.b	(Ctrl_1_pressed).w,d0
 		btst	#button_B,d0
 		bne.s	loc_D854
 		andi.w	#button_A_mask|button_C_mask|button_start_mask,d0
-		beq.s	loc_D83C
+		beq.s	+ ;loc_D83C
 		cmpi.b	#9,(Dataselect_entry).w
 		beq.s	loc_D854
 		moveq	#0,d0
@@ -1864,7 +1864,7 @@ loc_D7EA:
 		st	(Events_bg+$10).w
 		addq.b	#8,routine(a0)
 
-loc_D83C:
++ ;loc_D83C:
 		move.w	(Player_2+x_pos).w,d0
 		move.w	d0,x_pos(a0)
 		move.w	d0,sub2_x_pos(a0)
@@ -1890,12 +1890,12 @@ loc_D884:
 		clr.w	(Events_bg+$12).w
 		move.w	$12(a0),d0
 		cmpi.w	#$448,d0
-		blo.s	loc_D89A
+		blo.s	+ ;loc_D89A
 		move.b	#4,routine(a0)
 		bra.s	loc_D8A0
 ; ---------------------------------------------------------------------------
 
-loc_D89A:
++ ;loc_D89A:
 		addq.w	#8,d0
 		move.w	d0,$12(a0)
 
@@ -1907,20 +1907,20 @@ loc_D8A4:
 		jsr	sub_D912(pc)
 		jsr	sub_D94A(pc)
 		cmpi.b	#$B,sub2_mapframe(a0)
-		bne.s	loc_D8BE
+		bne.s	+ ;loc_D8BE
 		move.b	#$C,sub2_mapframe(a0)
 		addq.b	#4,routine(a0)
 
-loc_D8BE:
++ ;loc_D8BE:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
 loc_D8C4:
 		jsr	sub_D912(pc)
 		btst	#button_right,(Ctrl_1_pressed).w
-		bne.s	loc_D8FE
+		bne.s	+ ;loc_D8FE
 		btst	#button_left,(Ctrl_1_pressed).w
-		beq.s	loc_D90C
+		beq.s	++ ;loc_D90C
 		moveq	#signextendB(sfx_Perfect),d0
 		jsr	(Play_SFX).l
 		movea.l	$2E(a0),a1
@@ -1931,13 +1931,13 @@ loc_D8C4:
 		st	(SRAM_mask_interrupts_flag).w
 		jsr	Write_SaveGame(pc)
 
-loc_D8FE:
++ ;loc_D8FE:
 		move.b	#8,routine(a0)
 		clr.w	(Events_bg+$10).w
 		bra.w	loc_D854
 ; ---------------------------------------------------------------------------
 
-loc_D90C:
++ ;loc_D90C:
 		jmp	(Draw_Sprite).l
 
 ; =============== S U B R O U T I N E =======================================
@@ -1953,12 +1953,12 @@ loc_D91E:
 		move.b	anim_frame(a0),d0
 		addq.b	#1,anim_frame(a0)
 		move.b	byte_D93A(pc,d0.w),d0
-		bpl.s	loc_D934
+		bpl.s	+ ;loc_D934
 		clr.b	anim_frame(a0)
 		bra.s	loc_D91E
 ; ---------------------------------------------------------------------------
 
-loc_D934:
++ ;loc_D934:
 		move.b	d0,mapping_frame(a0)
 
 locret_D938:
@@ -1993,32 +1993,32 @@ locret_D968:
 
 Load_Icon_Art:
 		cmp.b	$3A(a0),d1
-		bne.s	loc_D9A2
+		bne.s	+++ ;loc_D9A2
 		tst.b	$3B(a0)
-		beq.s	loc_D9A2
+		beq.s	+++ ;loc_D9A2
 		cmpi.w	#1,$34(a0)
 		bls.s	loc_D9C8
 		cmpi.b	#3,$3B(a0)
 		beq.s	loc_D9C8
 		moveq	#$E,d1
 		cmpi.w	#3,$34(a0)
-		beq.s	loc_D992
+		beq.s	+ ;loc_D992
 		addq.w	#2,d1
 
-loc_D992:
++ ;loc_D992:
 		cmpi.b	#1,$3B(a0)
-		beq.s	loc_D99C
+		beq.s	+ ;loc_D99C
 		addq.w	#1,d1
 
-loc_D99C:
++ ;loc_D99C:
 		move.w	#tiles_to_bytes($51C),d2
-		bra.s	loc_D9A6
+		bra.s	++ ;loc_D9A6
 ; ---------------------------------------------------------------------------
 
-loc_D9A2:
++ ;loc_D9A2:
 		move.w	#tiles_to_bytes($5BA),d2
 
-loc_D9A6:
++ ;loc_D9A6:
 		move.l	a1,-(sp)
 		move.w	d1,-(sp)
 		mulu.w	#$8C0,d1
@@ -2028,28 +2028,28 @@ loc_D9A6:
 		move.w	(sp)+,d0
 		movea.l	(sp)+,a1
 		lea	Pal_Save_ZoneCard1(pc),a2
-		bra.s	loc_D9E2
+		bra.s	+ ;loc_D9E2
 ; ---------------------------------------------------------------------------
 
 loc_D9C8:
 		lea	Pal_Save_FinishCard1(pc),a2
 		moveq	#0,d0
 		cmpi.b	#1,$3B(a0)
-		beq.s	loc_D9E2
+		beq.s	+ ;loc_D9E2
 		addq.w	#1,d0
 		cmpi.b	#2,$3B(a0)
-		beq.s	loc_D9E2
+		beq.s	+ ;loc_D9E2
 		addq.w	#1,d0
 
-loc_D9E2:
++ ;loc_D9E2:
 		lsl.w	#5,d0
 		adda.w	d0,a2
 		lea	(Normal_palette_line_4).w,a3
 		moveq	#bytesToLcnt($20),d0
 
-loc_D9EC:
+- ;loc_D9EC:
 		move.l	(a2)+,(a3)+
-		dbf	d0,loc_D9EC
+		dbf	d0,- ;loc_D9EC
 		rts
 ; End of function Load_Icon_Art
 
@@ -2066,12 +2066,12 @@ sub_D9F4:
 
 loc_DA08:
 		move.b	(a1)+,d6
-		bne.s	loc_DA12
+		bne.s	+ ;loc_DA12
 		move.w	#$8000,(a6)
 		bra.s	loc_DA08
 ; ---------------------------------------------------------------------------
 
-loc_DA12:
++ ;loc_DA12:
 		bmi.s	locret_DA1C
 		move.w	d5,d4
 		add.w	d6,d4
@@ -2093,24 +2093,24 @@ sub_DA1E:
 		moveq	#0,d2
 		moveq	#7-1,d3
 
-loc_DA28:
+- ;loc_DA28:
 		rol.w	#2,d0
 		move.w	d0,d4
 		andi.w	#3,d4
 		move.b	d4,(a2)+
-		beq.s	loc_DA3E
+		beq.s	+ ;loc_DA3E
 		addq.w	#1,d1
 		cmpi.w	#3,d4
-		bne.s	loc_DA3E
+		bne.s	+ ;loc_DA3E
 		addq.w	#1,d2
 
-loc_DA3E:
++ ;loc_DA3E:
 		cmpi.w	#2,d4
-		blo.s	loc_DA48
+		blo.s	+ ;loc_DA48
 		st	(Emeralds_converted_flag).w
 
-loc_DA48:
-		dbf	d3,loc_DA28
++ ;loc_DA48:
+		dbf	d3,- ;loc_DA28
 		rts
 ; End of function sub_DA1E
 
@@ -2120,14 +2120,14 @@ loc_DA48:
 
 sub_DA4E:
 		cmpi.w	#3,$34(a0)
-		bne.s	loc_DA62
+		bne.s	+ ;loc_DA62
 		cmpi.b	#$B,d0
-		bne.s	loc_DA62
+		bne.s	+ ;loc_DA62
 		move.w	#$A01,d0
 		bra.s	locret_DA6C
 ; ---------------------------------------------------------------------------
 
-loc_DA62:
++ ;loc_DA62:
 		andi.w	#$F,d0
 		add.w	d0,d0
 		move.w	LevelList_DA6E(pc,d0.w),d0

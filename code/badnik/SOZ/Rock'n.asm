@@ -17,13 +17,13 @@ loc_8EDC0:
 		jsr	(SetUp_ObjAttributes).l
 		move.b	#7,y_radius(a0)
 		move.b	subtype(a0),d0
-		bne.s	loc_8EDE4
+		bne.s	+ ;loc_8EDE4
 		clr.w	$3A(a0)
 		move.w	#$7FFF,$3C(a0)
-		bra.w	loc_8EE02
+		bra.w	++ ;loc_8EE02
 ; ---------------------------------------------------------------------------
 
-loc_8EDE4:
++ ;loc_8EDE4:
 		move.b	d0,d1
 		andi.w	#$F0,d0
 		neg.w	d0
@@ -34,13 +34,13 @@ loc_8EDE4:
 		add.w	x_pos(a0),d1
 		move.w	d1,$3C(a0)
 
-loc_8EE02:
++ ;loc_8EE02:
 		moveq	#-$80,d0
 		btst	#0,render_flags(a0)
-		beq.s	loc_8EE0E
+		beq.s	+ ;loc_8EE0E
 		neg.w	d0
 
-loc_8EE0E:
++ ;loc_8EE0E:
 		move.w	d0,x_vel(a0)
 		lea	ChildObjDat_8F072(pc),a2
 		jmp	(CreateChild1_Normal).l
@@ -64,59 +64,59 @@ loc_8EE3A:
 		lea	(Player_1).w,a1
 		move.w	x_pos(a1),d0
 		cmp.w	$3A(a0),d0
-		blo.s	loc_8EE86
+		blo.s	+++ ;loc_8EE86
 		cmp.w	$3C(a0),d0
-		bhs.s	loc_8EE86
+		bhs.s	+++ ;loc_8EE86
 		move.w	y_pos(a1),d1
 		sub.w	y_pos(a0),d1
-		bpl.s	loc_8EE6C
+		bpl.s	+ ;loc_8EE6C
 		neg.w	d1
 
-loc_8EE6C:
++ ;loc_8EE6C:
 		cmpi.w	#$10,d1
-		bhs.s	loc_8EE86
+		bhs.s	++ ;loc_8EE86
 		bset	#0,$38(a0)
 		moveq	#-$80,d1
 		sub.w	x_pos(a0),d0
-		bcs.s	loc_8EE82
+		bcs.s	+ ;loc_8EE82
 		neg.w	d1
 
-loc_8EE82:
++ ;loc_8EE82:
 		move.w	d1,x_vel(a0)
 
-loc_8EE86:
++ ;loc_8EE86:
 		tst.w	x_vel(a0)
-		beq.s	loc_8EE92
+		beq.s	+ ;loc_8EE92
 		jsr	(ObjHitFloor2_DoRoutine).l
 
-loc_8EE92:
++ ;loc_8EE92:
 		move.w	x_pos(a0),d0
 		move.w	x_vel(a0),d1
-		bne.s	loc_8EEA6
+		bne.s	+ ;loc_8EEA6
 		btst	#0,$38(a0)
 		bne.s	loc_8EEDC
 		tst.w	d1
 
-loc_8EEA6:
-		bmi.s	loc_8EEBC
++ ;loc_8EEA6:
+		bmi.s	+ ;loc_8EEBC
 		move.w	#$80,d1
 		bset	#0,render_flags(a0)
 		cmp.w	$3C(a0),d0
-		bhs.s	loc_8EECA
-		bra.w	loc_8EED2
+		bhs.s	++ ;loc_8EECA
+		bra.w	+++ ;loc_8EED2
 ; ---------------------------------------------------------------------------
 
-loc_8EEBC:
++ ;loc_8EEBC:
 		moveq	#-$80,d1
 		bclr	#0,render_flags(a0)
 		cmp.w	$3A(a0),d0
-		bhs.s	loc_8EED2
+		bhs.s	++ ;loc_8EED2
 
-loc_8EECA:
++ ;loc_8EECA:
 		neg.w	d1
 		bchg	#0,render_flags(a0)
 
-loc_8EED2:
++ ;loc_8EED2:
 		move.w	d1,x_vel(a0)
 		jsr	(MoveSprite2).l
 
@@ -124,10 +124,10 @@ loc_8EEDC:
 		lea	word_8EF14(pc),a1
 		jsr	(Check_PlayerInRange).l
 		tst.w	d0
-		beq.s	loc_8EEEE
+		beq.s	+ ;loc_8EEEE
 		bsr.w	sub_8EEF4
 
-loc_8EEEE:
++ ;loc_8EEEE:
 		swap	d0
 		tst.w	d0
 		beq.s	locret_8EF12
@@ -156,18 +156,18 @@ word_8EF14:
 
 loc_8EF1C:
 		btst	#0,$38(a0)
-		bne.s	loc_8EF36
+		bne.s	++ ;loc_8EF36
 		moveq	#-$80,d0
 		bchg	#0,render_flags(a0)
-		bne.s	loc_8EF30
+		bne.s	+ ;loc_8EF30
 		neg.w	d0
 
-loc_8EF30:
++ ;loc_8EF30:
 		move.w	d0,x_vel(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_8EF36:
++ ;loc_8EF36:
 		clr.w	x_vel(a0)
 		rts
 ; ---------------------------------------------------------------------------
@@ -184,12 +184,12 @@ loc_8EF3C:
 		move.w	(sp)+,d4
 		movea.w	parent3(a0),a1
 		btst	#7,status(a1)
-		bne.s	loc_8EF6E
+		bne.s	+ ;loc_8EF6E
 		jsr	(SolidObjectFull).l
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_8EF6E:
++ ;loc_8EF6E:
 		jsr	(Displace_PlayerOffObject).l
 		jmp	(Go_Delete_Sprite).l
 ; ---------------------------------------------------------------------------
@@ -233,11 +233,11 @@ locret_8EFD6:
 loc_8EFD8:
 		subq.w	#2,y_pos(a0)
 		subq.w	#1,$2E(a0)
-		bmi.s	loc_8EFE4
+		bmi.s	+ ;loc_8EFE4
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_8EFE4:
++ ;loc_8EFE4:
 		move.b	#8,routine(a0)
 		movea.w	parent3(a0),a1
 		bset	#2,$38(a1)
@@ -248,10 +248,10 @@ loc_8EFF6:
 		movea.w	parent3(a0),a1
 		moveq	#-$18,d0
 		tst.b	mapping_frame(a1)
-		beq.s	loc_8F004
+		beq.s	+ ;loc_8F004
 		moveq	#-$17,d0
 
-loc_8F004:
++ ;loc_8F004:
 		move.b	d0,child_dy(a0)
 		jmp	(Refresh_ChildPositionAdjusted).l
 ; ---------------------------------------------------------------------------
@@ -264,11 +264,11 @@ loc_8F00E:
 
 loc_8F024:
 		subq.w	#1,$2E(a0)
-		bpl.s	loc_8F036
+		bpl.s	+ ;loc_8F036
 		move.l	#loc_8F042,(a0)
 		move.b	#3,mapping_frame(a0)
 
-loc_8F036:
++ ;loc_8F036:
 		jsr	(Refresh_ChildPositionAdjusted).l
 		jmp	(Child_Draw_Sprite).l
 ; ---------------------------------------------------------------------------

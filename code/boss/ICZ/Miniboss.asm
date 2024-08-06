@@ -9,13 +9,13 @@ word_71152:
 
 Obj_ICZMiniboss:
 		cmpi.w	#$501,(Apparent_zone_and_act).w
-		beq.s	loc_711AA
+		beq.s	++ ;loc_711AA
 		lea	word_71142(pc),a1
 		tst.b	subtype(a0)
-		beq.s	loc_71178
+		beq.s	+ ;loc_71178
 		lea	word_71152(pc),a1
 
-loc_71178:
++ ;loc_71178:
 		jsr	(Check_CameraInRange).l
 		move.b	#mus_Miniboss,$26(a0)
 		jsr	(sub_85D6A).l
@@ -27,7 +27,7 @@ loc_71178:
 		jmp	(PalLoad_Line1).l
 ; ---------------------------------------------------------------------------
 
-loc_711AA:
++ ;loc_711AA:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -154,12 +154,12 @@ loc_712DA:
 loc_71300:
 		jsr	(Run_PalRotationScript).l
 		subq.w	#1,$2E(a0)
-		bmi.s	loc_71318
+		bmi.s	+ ;loc_71318
 		addi.w	#-$10,y_vel(a0)
 		jmp	(MoveSprite2).l
 ; ---------------------------------------------------------------------------
 
-loc_71318:
++ ;loc_71318:
 		move.b	#$C,routine(a0)
 		move.w	#$3F,$2E(a0)
 		move.l	#loc_7133A,$34(a0)
@@ -183,11 +183,11 @@ loc_7133A:
 
 loc_7135E:
 		btst	#1,$38(a0)
-		beq.s	loc_7136C
+		beq.s	+ ;loc_7136C
 		jmp	(Run_PalRotationScript).l
 ; ---------------------------------------------------------------------------
 
-loc_7136C:
++ ;loc_7136C:
 		move.b	#$10,routine(a0)
 		bclr	#2,$38(a0)
 		move.l	#loc_71390,(Palette_rotation_custom).w
@@ -231,17 +231,17 @@ loc_713E8:
 		jsr	(Obj_EndSignControl).l
 		movea.w	(_unkFAAE).w,a1
 		cmpi.l	#loc_8B660,(a1)
-		bne.s	loc_71400
+		bne.s	+ ;loc_71400
 		bset	#5,$38(a1)
 
-loc_71400:
++ ;loc_71400:
 		cmpi.b	#2,(Player_1+character_id).w
-		beq.s	loc_71416
+		beq.s	+ ;loc_71416
 		jsr	(AllocateObject).l
-		bne.s	loc_71416
+		bne.s	+ ;loc_71416
 		move.l	#loc_71420,(a1)
 
-loc_71416:
++ ;loc_71416:
 		lea	ChildObjDat_719B0(pc),a2
 		jmp	(CreateChild1_Normal).l
 ; ---------------------------------------------------------------------------
@@ -286,11 +286,11 @@ loc_7146A:
 loc_71478:
 		movea.w	parent3(a0),a1
 		btst	#3,$38(a1)
-		bne.s	loc_71486
+		bne.s	+ ;loc_71486
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_71486:
++ ;loc_71486:
 		move.b	#4,routine(a0)
 		move.l	#loc_714AE,$34(a0)
 		bra.w	loc_716C8
@@ -345,11 +345,11 @@ loc_714E6:
 loc_714F4:
 		movea.w	parent3(a0),a1
 		btst	#2,$38(a1)
-		bne.s	loc_71502
+		bne.s	+ ;loc_71502
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_71502:
++ ;loc_71502:
 		move.b	#4,routine(a0)
 		move.w	#-$40,y_vel(a0)
 		move.w	#$3F,$2E(a0)
@@ -360,10 +360,10 @@ loc_71502:
 loc_7151E:
 		moveq	#1,d0
 		btst	#0,(V_int_run_count+3).w
-		beq.s	loc_7152A
+		beq.s	+ ;loc_7152A
 		neg.w	d0
 
-loc_7152A:
++ ;loc_7152A:
 		add.w	d0,x_pos(a0)
 		jsr	(MoveSprite2).l
 		jmp	(Obj_Wait).l
@@ -394,11 +394,11 @@ loc_71566:
 loc_7157C:
 		movea.w	parent3(a0),a1
 		btst	#1,$38(a1)
-		bne.s	loc_7158C
+		bne.s	+ ;loc_7158C
 		bra.w	loc_7179E
 ; ---------------------------------------------------------------------------
 
-loc_7158C:
++ ;loc_7158C:
 		move.b	#$A,routine(a0)
 		rts
 ; ---------------------------------------------------------------------------
@@ -407,16 +407,16 @@ loc_71594:
 		movea.w	parent3(a0),a1
 		moveq	#0,d0
 		tst.b	$43(a1)
-		bne.s	loc_715A2
+		bne.s	+ ;loc_715A2
 		moveq	#-$80,d0
 
-loc_715A2:
++ ;loc_715A2:
 		cmp.b	$3D(a0),d0
-		beq.s	loc_715AC
+		beq.s	+ ;loc_715AC
 		bra.w	loc_7179E
 ; ---------------------------------------------------------------------------
 
-loc_715AC:
++ ;loc_715AC:
 		move.b	#$C,routine(a0)
 		rts
 ; ---------------------------------------------------------------------------
@@ -429,19 +429,19 @@ loc_715B4:
 		bsr.w	sub_717B8
 		movea.w	parent3(a0),a1
 		btst	#1,$38(a1)
-		beq.s	loc_715F0
+		beq.s	++ ;loc_715F0
 		tst.b	subtype(a0)
 		bne.w	locret_711BC
 		moveq	#0,d0
 		tst.b	$43(a1)
-		bne.s	loc_715E8
+		bne.s	+ ;loc_715E8
 		moveq	#-$80,d0
 
-loc_715E8:
++ ;loc_715E8:
 		cmp.b	$3C(a0),d0
 		bne.w	locret_711BC
 
-loc_715F0:
++ ;loc_715F0:
 		move.b	#$E,routine(a0)
 		bclr	#1,$38(a1)
 		bra.w	loc_7186A
@@ -450,7 +450,7 @@ loc_715F0:
 loc_71600:
 		move.b	$3C(a0),d0
 		cmp.b	$42(a0),d0
-		beq.s	loc_71620
+		beq.s	+ ;loc_71620
 		addq.b	#4,$3C(a0)
 		lea	(ICZMiniboss_OrbAngleLookup).l,a2
 		jsr	(MoveSprite_AtAngleLookup).l
@@ -458,7 +458,7 @@ loc_71600:
 		bra.w	sub_717B8
 ; ---------------------------------------------------------------------------
 
-loc_71620:
++ ;loc_71620:
 		move.b	#$10,routine(a0)
 		move.w	#$3F,$2E(a0)
 		move.l	#loc_71636,$34(a0)
@@ -619,60 +619,60 @@ loc_7179E:
 sub_717B8:
 		jsr	(GetSineCosine).l
 		tst.w	d1
-		bpl.s	loc_717C4
+		bpl.s	+ ;loc_717C4
 		neg.w	d1
 
-loc_717C4:
++ ;loc_717C4:
 		move.w	y_pos(a0),d2
 		move.w	y_pos(a1),d4
 		sub.w	d4,d2
 		scs	d3
-		bcc.s	loc_717D4
+		bcc.s	+ ;loc_717D4
 		neg.w	d2
 
-loc_717D4:
++ ;loc_717D4:
 		mulu.w	d1,d2
 		lsr.l	#8,d2
 		cmpi.b	#$40,$3D(a0)
-		blo.s	loc_717EA
+		blo.s	+ ;loc_717EA
 		cmpi.b	#-$40,$3D(a0)
-		bhs.s	loc_717EA
+		bhs.s	+ ;loc_717EA
 		not.b	d3
 
-loc_717EA:
++ ;loc_717EA:
 		tst.b	d3
-		beq.s	loc_717F0
+		beq.s	+ ;loc_717F0
 		neg.w	d2
 
-loc_717F0:
++ ;loc_717F0:
 		add.w	d2,d4
 		move.w	d4,y_pos(a0)
 		move.b	$3D(a0),d0
 		spl	d3
 		cmpi.b	#$40,$3C(a0)
-		blo.s	loc_7180E
+		blo.s	+ ;loc_7180E
 		cmpi.b	#-$40,$3C(a0)
-		bhs.s	loc_7180E
+		bhs.s	+ ;loc_7180E
 		not.b	d3
 
-loc_7180E:
++ ;loc_7180E:
 		move.b	#6,mapping_frame(a0)
 		cmpi.b	#$20,d0
-		blo.s	loc_7183C
+		blo.s	++ ;loc_7183C
 		cmpi.b	#$60,d0
-		blo.s	loc_7182C
+		blo.s	+ ;loc_7182C
 		cmpi.b	#-$60,d0
-		blo.s	loc_7183C
+		blo.s	++ ;loc_7183C
 		cmpi.b	#-$20,d0
-		bhs.s	loc_7183C
+		bhs.s	++ ;loc_7183C
 
-loc_7182C:
++ ;loc_7182C:
 		move.b	#5,mapping_frame(a0)
 		tst.b	d3
-		bne.s	loc_7183C
+		bne.s	+ ;loc_7183C
 		move.b	#8,mapping_frame(a0)
 
-loc_7183C:
++ ;loc_7183C:
 		move.w	#$180,priority(a0)
 		tst.b	d3
 		bne.s	locret_7184C
@@ -707,10 +707,10 @@ loc_7186A:
 		move.w	d0,d1
 		lsr.w	#1,d1
 		tst.b	$43(a1)
-		bne.s	loc_71880
+		bne.s	+ ;loc_71880
 		addq.w	#8,d1
 
-loc_71880:
++ ;loc_71880:
 		move.b	byte_7189A(pc,d1.w),$42(a0)
 		add.w	d0,d0
 		move.l	word_718AA(pc,d0.w),x_vel(a0)	; and y_vel
@@ -751,19 +751,19 @@ sub_718DA:
 		tst.b	collision_property(a0)
 		beq.s	loc_71926
 		tst.b	$20(a0)
-		bne.s	loc_718FA
+		bne.s	+ ;loc_718FA
 		move.b	#$20,$20(a0)
 		moveq	#signextendB(sfx_BossHit),d0
 		jsr	(Play_SFX).l
 
-loc_718FA:
++ ;loc_718FA:
 		bset	#6,status(a0)
 		moveq	#0,d0
 		btst	#0,$20(a0)
-		bne.s	loc_7190E
+		bne.s	+ ;loc_7190E
 		addi.w	#2*2,d0
 
-loc_7190E:
++ ;loc_7190E:
 		bsr.w	sub_71946
 		subq.b	#1,$20(a0)
 		bne.s	locret_71924

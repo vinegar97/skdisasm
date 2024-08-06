@@ -12,19 +12,19 @@ Obj_DEZTunnelLauncher:
 		move.w	x_pos(a0),d2
 		addi.w	#$38,d2
 		btst	#0,status(a0)
-		beq.s	loc_48242
+		beq.s	+ ;loc_48242
 		subi.w	#2*$38,d2
 
-loc_48242:
++ ;loc_48242:
 		move.w	d2,(a2)+
 		move.w	y_pos(a0),d3
 		subi.w	#$2C,d3
 		btst	#1,status(a0)
-		beq.s	loc_4825E
+		beq.s	+ ;loc_4825E
 		addi.w	#2*$2C,d3
 		bset	#0,render_flags(a0)
 
-loc_4825E:
++ ;loc_4825E:
 		move.w	d3,(a2)+
 		move.w	#0,(a2)+
 		move.b	#0,mapping_frame(a0)
@@ -40,22 +40,22 @@ Obj_DEZTunnelLauncher_Main:
 		tst.w	$2E(a0)
 		beq.w	loc_48316
 		subq.b	#1,$2E(a0)
-		bne.s	loc_482F4
+		bne.s	+++ ;loc_482F4
 		move.b	#60,$2E(a0)
 		tst.b	$2F(a0)
-		beq.s	loc_482F4
+		beq.s	+++ ;loc_482F4
 		subq.b	#1,$2F(a0)
 		moveq	#signextendB(sfx_LaunchGo),d0
 		cmpi.b	#7,$2F(a0)
-		beq.s	loc_482B2
+		beq.s	+ ;loc_482B2
 		moveq	#signextendB(sfx_LaunchReady),d0
 
-loc_482B2:
++ ;loc_482B2:
 		jsr	(Play_SFX).l
 		cmpi.b	#7,$2F(a0)
-		bne.s	loc_482F4
+		bne.s	++ ;loc_482F4
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_482EE
+		bne.w	+ ;loc_482EE
 		move.l	#Obj_DEZTunnelControl,(a1)
 		move.w	x_pos(a0),x_pos(a1)
 		move.w	y_pos(a0),y_pos(a1)
@@ -63,15 +63,15 @@ loc_482B2:
 		move.b	$30(a0),$30(a1)
 		move.b	$38(a0),$38(a1)
 
-loc_482EE:
++ ;loc_482EE:
 		move.l	#Obj_DEZTunnelLauncher_Countdown,(a0)
 
-loc_482F4:
++ ;loc_482F4:
 		subq.b	#1,mapping_frame(a0)
-		bne.s	loc_48300
+		bne.s	+ ;loc_48300
 		move.b	#2,mapping_frame(a0)
 
-loc_48300:
++ ;loc_48300:
 		move.b	#0,sub2_mapframe(a0)
 		move.b	$2E(a0),d0
 		andi.b	#1,d0
@@ -91,22 +91,22 @@ Obj_DEZTunnelLauncher_Countdown:
 		move.b	#0,$30(a0)
 		move.b	#0,$38(a0)
 		move.l	#Obj_DEZTunnelLauncher_Main,(a0)
-		bra.s	loc_4836A
+		bra.s	++ ;loc_4836A
 ; ---------------------------------------------------------------------------
 
 loc_48348:
 		move.b	#0,sub2_mapframe(a0)
 		move.b	$2E(a0),d0
 		andi.b	#1,d0
-		beq.s	loc_4835E
+		beq.s	+ ;loc_4835E
 		move.b	$2F(a0),sub2_mapframe(a0)
 
-loc_4835E:
++ ;loc_4835E:
 		cmpi.b	#6,mapping_frame(a0)
-		beq.s	loc_4836A
+		beq.s	+ ;loc_4836A
 		addq.b	#1,mapping_frame(a0)
 
-loc_4836A:
++ ;loc_4836A:
 		jmp	(Sprite_OnScreen_Test).l
 
 ; =============== S U B R O U T I N E =======================================

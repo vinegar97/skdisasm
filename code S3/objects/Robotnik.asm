@@ -28,7 +28,7 @@ Obj_RobotnikHeadMain:
 		jsr	(Animate_RawNoSST).l
 		movea.w	$44(a0),a1
 		btst	#7,status(a1)
-		bne.s	loc_45F08
+		bne.s	+ ;loc_45F08
 		btst	#6,status(a1)
 		beq.s	locret_45F06
 		move.b	#2,mapping_frame(a0)		; Use hurt mapping frame if parent boss object is currently hurt
@@ -37,7 +37,7 @@ locret_45F06:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_45F08:
++ ;loc_45F08:
 		move.b	#4,routine(a0)
 		move.b	#3,mapping_frame(a0)		; Use defeated head frame if parent boss object is defeated
 		rts
@@ -91,20 +91,20 @@ Obj_FBZRobotnikHeadMain:
 		move.w	x_pos(a0),d0
 		bclr	#0,render_flags(a0)
 		cmp.w	(Player_1+x_pos).w,d0
-		bhs.s	loc_45F9A
+		bhs.s	+ ;loc_45F9A
 		bset	#0,render_flags(a0)
 
-loc_45F9A:
++ ;loc_45F9A:
 		clr.b	mapping_frame(a0)
 		movea.w	$44(a0),a1
 		; Bug: this should check bit 2 of $38(a1)
 		btst	#2,$38(a0)
-		beq.s	loc_45FB0
+		beq.s	+ ;loc_45FB0
 		move.b	#1,mapping_frame(a0)
 
-loc_45FB0:
++ ;loc_45FB0:
 		btst	#7,status(a1)
-		bne.s	loc_45FC8
+		bne.s	+ ;loc_45FC8
 		btst	#6,status(a1)
 		beq.s	locret_45FC6
 		move.b	#2,mapping_frame(a0)
@@ -113,7 +113,7 @@ locret_45FC6:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_45FC8:
++ ;loc_45FC8:
 		move.b	#4,routine(a0)
 		move.b	#3,mapping_frame(a0)
 		rts
@@ -150,7 +150,7 @@ Obj_RobotnikHead3Main:
 		jsr	(Animate_RawNoSST).l
 		movea.w	parent3(a0),a1
 		btst	#7,status(a1)
-		bne.s	loc_4603A
+		bne.s	+ ;loc_4603A
 		btst	#6,status(a1)
 		beq.s	locret_46038
 		move.b	#2,mapping_frame(a0)
@@ -159,7 +159,7 @@ locret_46038:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4603A:
++ ;loc_4603A:
 		move.b	#4,routine(a0)
 		move.b	#3,mapping_frame(a0)
 		rts
@@ -174,11 +174,11 @@ Obj_RobotnikHead4:
 		jsr	RobotnikHead4_Index(pc,d1.w)
 		movea.w	parent3(a0),a1
 		btst	#5,$38(a1)
-		bne.s	loc_46074
+		bne.s	+ ;loc_46074
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_46074:
++ ;loc_46074:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 RobotnikHead4_Index:
@@ -216,11 +216,11 @@ loc_460C2:
 		jsr	(Child_SyncDraw).l
 		movea.w	parent3(a0),a1
 		btst	#7,status(a1)
-		bne.s	loc_460DC
+		bne.s	+ ;loc_460DC
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_460DC:
++ ;loc_460DC:
 		move.b	#4,routine(a0)
 		lea	(Child6_CreateBossExplosion).l,a2
 		jsr	(CreateChild1_Normal).l
@@ -234,12 +234,12 @@ locret_460F6:
 loc_460F8:
 		movea.w	parent3(a0),a1
 		btst	#4,$38(a1)
-		bne.s	loc_46110
+		bne.s	+ ;loc_46110
 		jsr	(Child_SyncDraw).l
 		jmp	(Refresh_ChildPositionAdjusted).l
 ; ---------------------------------------------------------------------------
 
-loc_46110:
++ ;loc_46110:
 		move.b	#6,routine(a0)
 		move.b	#5,mapping_frame(a0)
 		move.w	#-$200,y_vel(a0)
@@ -250,11 +250,11 @@ loc_46110:
 loc_4612A:
 		jsr	(MoveSprite).l
 		subq.w	#1,$2E(a0)
-		bmi.s	loc_46138
+		bmi.s	+ ;loc_46138
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_46138:
++ ;loc_46138:
 		bset	#5,$38(a0)
 		clr.b	(Boss_flag).w
 		jmp	(Go_Delete_Sprite_2).l
@@ -278,11 +278,11 @@ Obj_RobotnikShip2:
 Obj_RobotnikShip2Wait:
 		movea.w	parent3(a0),a1
 		btst	#4,$38(a1)
-		bne.s	loc_46174
+		bne.s	+ ;loc_46174
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_46174:
++ ;loc_46174:
 		move.b	#6,routine(a0)
 		move.b	#5,mapping_frame(a0)
 		rts
@@ -295,7 +295,7 @@ Obj_RobotnikShip3:
 		jsr	.Index(pc,d1.w)
 		movea.w	parent3(a0),a1
 		btst	#5,$38(a1)
-		bne.s	loc_461AC
+		bne.s	+ ;loc_461AC
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 .Index:
@@ -306,7 +306,7 @@ Obj_RobotnikShip3:
 		dc.w Obj_RobotnikShipEscape-.Index
 ; ---------------------------------------------------------------------------
 
-loc_461AC:
++ ;loc_461AC:
 		jmp	(Go_Delete_Sprite_2).l
 ; ---------------------------------------------------------------------------
 
@@ -323,11 +323,11 @@ Obj_RobotnikShipMain:
 		jsr	(Refresh_ChildPositionAdjusted).l
 		movea.w	parent3(a0),a1
 		btst	#7,status(a1)
-		bne.s	loc_461E8
+		bne.s	+ ;loc_461E8
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_461E8:
++ ;loc_461E8:
 		move.b	#4,routine(a0)
 		lea	(Child6_CreateBossExplosion).l,a2
 		jsr	(CreateChild1_Normal).l
@@ -341,11 +341,11 @@ locret_46202:
 Obj_RobotnikShipWait:
 		movea.w	parent3(a0),a1
 		btst	#4,$38(a1)
-		bne.s	loc_46216
+		bne.s	+ ;loc_46216
 		jmp	(Refresh_ChildPositionAdjusted).l
 ; ---------------------------------------------------------------------------
 
-loc_46216:
++ ;loc_46216:
 		move.b	#6,routine(a0)
 		move.b	#$A,mapping_frame(a0)
 		rts
@@ -355,12 +355,12 @@ Obj_RobotnikShipReady:
 		move.w	(Camera_Y_pos).w,d0
 		addi.w	#$40,d0
 		cmp.w	y_pos(a0),d0
-		bhs.s	loc_46238
+		bhs.s	+ ;loc_46238
 		subq.w	#1,y_pos(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_46238:
++ ;loc_46238:
 		move.b	#8,routine(a0)
 
 loc_4623E:
@@ -375,11 +375,11 @@ loc_4623E:
 Obj_RobotnikShipEscape:
 		jsr	(MoveSprite2).l
 		subq.w	#1,$2E(a0)
-		bmi.s	loc_4626C
+		bmi.s	+ ;loc_4626C
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4626C:
++ ;loc_4626C:
 		bset	#5,$38(a0)
 		clr.b	(Boss_flag).w
 		jmp	(Go_Delete_Sprite_2).l
@@ -429,11 +429,11 @@ Obj_FBZRobotnikShipMain:
 		jsr	(Child_GetPriority).l
 		movea.w	parent3(a0),a1
 		btst	#7,status(a1)
-		bne.s	loc_462F0
+		bne.s	+ ;loc_462F0
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_462F0:
++ ;loc_462F0:
 		move.b	#4,routine(a0)
 		lea	(Child6_CreateBossExplosion).l,a2
 		jsr	(CreateChild1_Normal).l
@@ -447,12 +447,12 @@ locret_4630A:
 Obj_FBZRobotnikShipWait:
 		movea.w	parent3(a0),a1
 		btst	#4,$38(a1)
-		bne.s	loc_46324
+		bne.s	+ ;loc_46324
 		jsr	(Child_GetPriority).l
 		jmp	(Refresh_ChildPosition).l
 ; ---------------------------------------------------------------------------
 
-loc_46324:
++ ;loc_46324:
 		move.b	#6,routine(a0)
 		move.b	#5,mapping_frame(a0)
 		clr.w	x_vel(a0)
@@ -477,12 +477,12 @@ Obj_FBZRobotnikShipRise:
 		move.w	(Camera_Y_pos).w,d0
 		addi.w	#$C0,d0
 		cmp.w	y_pos(a0),d0
-		bhs.s	loc_46378
+		bhs.s	+ ;loc_46378
 		subq.w	#1,y_pos(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_46378:
++ ;loc_46378:
 		move.b	#$A,routine(a0)
 		bra.w	loc_4623E
 ; ---------------------------------------------------------------------------
@@ -497,14 +497,14 @@ Obj_RobotnikShipFlame:
 Obj_RobotnikShipFlameMain:
 		movea.w	parent3(a0),a1
 		btst	#4,$38(a1)
-		bne.s	loc_463B6
+		bne.s	+ ;loc_463B6
 		jsr	(Refresh_ChildPositionAdjusted).l
 		btst	#0,(V_int_run_count+3).w
 		bne.w	locret_45EE0
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_463B6:
++ ;loc_463B6:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 ObjDat_RobotnikHead:

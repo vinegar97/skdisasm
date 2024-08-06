@@ -18,13 +18,13 @@ loc_8B8C2:
 		jsr	SetUp_ObjAttributes2(pc)
 		move.l	#loc_8B8F2,(a0)
 		tst.b	subtype(a0)
-		beq.s	loc_8B8DC
+		beq.s	+ ;loc_8B8DC
 		bset	#0,render_flags(a0)
 
-loc_8B8DC:
++ ;loc_8B8DC:
 		bset	#6,render_flags(a0)
 		move.w	#2,mainspr_childsprites(a0)
-		bsr.w	sub_8B8FA
+		bsr.w	+ ;sub_8B8FA
 		move.b	#8,mapping_frame(a0)
 
 loc_8B8F2:
@@ -34,27 +34,27 @@ loc_8B8F2:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_8B8FA:
++ ;sub_8B8FA:
 		lea	sub2_x_pos(a0),a1
 		move.w	x_pos(a0),d0
 		move.w	y_pos(a0),d1
 		moveq	#0,d2
 		moveq	#1,d3
 
-loc_8B90A:
+- ;loc_8B90A:
 		move.w	d0,d4
 		move.w	word_8B92C(pc,d2.w),d5
 		btst	#0,render_flags(a0)
-		beq.s	loc_8B91A
+		beq.s	+ ;loc_8B91A
 		neg.w	d5
 
-loc_8B91A:
++ ;loc_8B91A:
 		add.w	d5,d4
 		move.w	d4,(a1)+
 		move.w	d1,(a1)+
 		move.w	#8,(a1)+
 		addq.w	#2,d2
-		dbf	d3,loc_8B90A
+		dbf	d3,- ;loc_8B90A
 		rts
 ; End of function sub_8B8FA
 
@@ -93,51 +93,51 @@ sub_8B950:
 		move.b	$39(a0),d3
 		sub.w	$32(a0),d1
 		scs	$39(a0)
-		bcs.s	loc_8B978
+		bcs.s	+ ;loc_8B978
 		neg.w	d0
-		bra.w	loc_8B97A
+		bra.w	++ ;loc_8B97A
 ; ---------------------------------------------------------------------------
 
-loc_8B978:
++ ;loc_8B978:
 		neg.w	d1
 
-loc_8B97A:
++ ;loc_8B97A:
 		cmp.b	$39(a0),d3
-		beq.s	loc_8B9AA
+		beq.s	++ ;loc_8B9AA
 		add.w	d0,d2
 		add.w	d0,d2
 		cmpi.w	#-$80,d2
-		bge.s	loc_8B998
+		bge.s	+ ;loc_8B998
 		cmpi.w	#-$400,d2
-		bgt.s	loc_8B9AA
+		bgt.s	++ ;loc_8B9AA
 		bsr.w	sub_8B9D8
-		bra.w	loc_8B9AA
+		bra.w	++ ;loc_8B9AA
 ; ---------------------------------------------------------------------------
 
-loc_8B998:
++ ;loc_8B998:
 		cmpi.w	#$80,d2
-		bgt.s	loc_8B9AA
+		bgt.s	+ ;loc_8B9AA
 		cmpi.w	#1,d1
-		bhi.s	loc_8B9AA
+		bhi.s	+ ;loc_8B9AA
 		bclr	#2,$38(a0)
 
-loc_8B9AA:
++ ;loc_8B9AA:
 		add.w	d0,d2
 		move.w	#-$900,d3
 		cmp.w	d3,d2
-		bge.s	loc_8B9B8
-		bra.w	loc_8B9BE
+		bge.s	+ ;loc_8B9B8
+		bra.w	++ ;loc_8B9BE
 ; ---------------------------------------------------------------------------
 
-loc_8B9B8:
++ ;loc_8B9B8:
 		neg.w	d3
 		cmp.w	d3,d2
-		ble.s	loc_8B9C0
+		ble.s	++ ;loc_8B9C0
 
-loc_8B9BE:
++ ;loc_8B9BE:
 		move.w	d3,d2
 
-loc_8B9C0:
++ ;loc_8B9C0:
 		move.w	d2,y_vel(a0)
 		jsr	(MoveSprite2).l
 		cmpi.w	#$50,d1
@@ -157,11 +157,11 @@ sub_8B9D8:
 		andi.b	#standing_mask,d3
 		beq.s	locret_8BA1A
 		btst	#p1_standing_bit,d3
-		beq.s	loc_8B9F0
+		beq.s	+ ;loc_8B9F0
 		lea	(Player_1).w,a1
-		bsr.w	sub_8B9FA
+		bsr.w	++ ;sub_8B9FA
 
-loc_8B9F0:
++ ;loc_8B9F0:
 		btst	#p2_standing_bit,d3
 		beq.s	locret_8BA1A
 		lea	(Player_2).w,a1
@@ -171,7 +171,7 @@ loc_8B9F0:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_8B9FA:
++ ;sub_8B9FA:
 		move.w	d2,y_vel(a1)
 		bset	#Status_InAir,status(a1)
 		bclr	#Status_OnObj,status(a1)
@@ -208,17 +208,17 @@ sub_8BA1C:
 		clr.b	$39(a0)
 		moveq	#p1_standing_bit,d4
 		btst	d4,d2
-		beq.s	loc_8BA6C
+		beq.s	+ ;loc_8BA6C
 		lea	(Player_1).w,a1
-		bsr.w	sub_8BA7E
+		bsr.w	++ ;sub_8BA7E
 
-loc_8BA6C:
++ ;loc_8BA6C:
 		moveq	#p2_standing_bit,d4
 		btst	d4,d2
 		beq.s	locret_8BA7C
 		swap	d0
 		lea	(Player_2).w,a1
-		bsr.w	sub_8BA7E
+		bsr.w	+ ;sub_8BA7E
 
 locret_8BA7C:
 		rts
@@ -228,16 +228,16 @@ locret_8BA7C:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_8BA7E:
++ ;sub_8BA7E:
 		move.w	y_vel(a0),d5
 		btst	d4,d1
-		bne.s	loc_8BA90
+		bne.s	+ ;loc_8BA90
 		tst.w	d0
-		bpl.s	loc_8BA90
+		bpl.s	+ ;loc_8BA90
 		add.w	d5,y_vel(a1)
 		neg.w	d0
 
-loc_8BA90:
++ ;loc_8BA90:
 		add.w	d0,d5
 		move.w	d5,d6
 		asr.w	#2,d6
@@ -253,15 +253,15 @@ loc_8BA90:
 sub_8BA9E:
 		moveq	#0,d5
 		btst	#3,d1
-		beq.s	loc_8BAA8
+		beq.s	+ ;loc_8BAA8
 		addq.w	#8,d5
 
-loc_8BAA8:
++ ;loc_8BAA8:
 		btst	#4,d1
-		beq.s	loc_8BAB0
+		beq.s	+ ;loc_8BAB0
 		addq.w	#8,d5
 
-loc_8BAB0:
++ ;loc_8BAB0:
 		move.w	$30(a0),d3
 		add.w	d5,d3
 		move.w	d3,$32(a0)

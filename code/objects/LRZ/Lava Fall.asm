@@ -8,20 +8,20 @@ loc_436A8:
 		move.w	(Level_frame_counter).w,d0
 		andi.w	#$FF,d0
 		cmp.w	$30(a0),d0
-		blo.w	loc_43746
+		blo.w	++ ;loc_43746
 		subq.b	#1,anim_frame_timer(a0)
-		bpl.w	loc_43746
+		bpl.w	++ ;loc_43746
 		move.b	#5,anim_frame_timer(a0)
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_43746
+		bne.w	++ ;loc_43746
 		move.l	#loc_43764,(a1)
 		addq.b	#1,$25(a0)
 		cmpi.b	#2,$25(a0)
-		blo.s	loc_436EE
+		blo.s	+ ;loc_436EE
 		move.b	#0,$25(a0)
 		move.l	#loc_4374C,(a1)
 
-loc_436EE:
++ ;loc_436EE:
 		move.w	x_pos(a0),x_pos(a1)
 		move.w	y_pos(a0),y_pos(a1)
 		move.l	#Map_LRZLavaFall,mappings(a1)
@@ -35,10 +35,10 @@ loc_436EE:
 		move.w	#$800,y_vel(a1)
 		move.w	#$1C,$2E(a1)
 		btst	#0,status(a0)
-		beq.s	loc_43746
+		beq.s	+ ;loc_43746
 		move.w	#$24,$2E(a1)
 
-loc_43746:
++ ;loc_43746:
 		jmp	(Delete_Sprite_If_Not_In_Range).l
 ; ---------------------------------------------------------------------------
 
@@ -53,13 +53,13 @@ loc_4374C:
 
 loc_43764:
 		subq.w	#1,$2E(a0)
-		bmi.s	loc_4377C
+		bmi.s	+ ;loc_4377C
 		jsr	(MoveSprite2).l
 		jsr	(Add_SpriteToCollisionResponseList).l
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_4377C:
++ ;loc_4377C:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 Map_LRZLavaFall:

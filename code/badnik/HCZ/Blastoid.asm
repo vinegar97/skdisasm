@@ -21,11 +21,11 @@ loc_8794A:
 loc_87952:
 		jsr	Find_SonicTails(pc)
 		cmpi.w	#$80,d2
-		blo.s	loc_8795E
+		blo.s	+ ;loc_8795E
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_8795E:
++ ;loc_8795E:
 		move.b	#4,routine(a0)
 		move.l	#byte_87A10,$30(a0)
 		move.l	#loc_879A0,$34(a0)
@@ -60,13 +60,13 @@ sub_879A8:
 		jsr	Check_PlayerCollision(pc)
 		beq.w	locret_87974
 		jsr	Check_PlayerAttack(pc)
-		bne.s	loc_879C4
+		bne.s	+ ;loc_879C4
 		tst.b	invulnerability_timer(a1)
 		bne.w	locret_87974
 		jmp	(HurtCharacter_Directly).l
 ; ---------------------------------------------------------------------------
 
-loc_879C4:
++ ;loc_879C4:
 		addq.w	#4,sp
 		move.b	subtype(a0),d0
 		andi.w	#$F,d0

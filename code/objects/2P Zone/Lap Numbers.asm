@@ -7,19 +7,19 @@ loc_3703A:
 		move.w	#$190,x_pos(a0)
 		move.w	#$98,y_pos(a0)
 		tst.b	subtype(a0)
-		beq.s	loc_37086
+		beq.s	++ ;loc_37086
 		tst.b	(Not_ghost_flag).w
-		bne.s	loc_37078
+		bne.s	+ ;loc_37078
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_37078:
++ ;loc_37078:
 		bset	#4,render_flags(a0)
 		move.l	#loc_370B4,(a0)
 		bra.s	loc_370B4
 ; ---------------------------------------------------------------------------
 
-loc_37086:
++ ;loc_37086:
 		bset	#3,render_flags(a0)
 		move.l	#loc_37092,(a0)
 

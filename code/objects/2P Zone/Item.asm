@@ -12,10 +12,10 @@ Obj_2PItem:
 		move.b	subtype(a0),angle(a0)
 		moveq	#1,d0
 		bclr	#0,status(a0)
-		beq.s	loc_363B4
+		beq.s	+ ;loc_363B4
 		neg.b	d0
 
-loc_363B4:
++ ;loc_363B4:
 		move.b	d0,$27(a0)
 		move.b	#3,anim(a0)
 		move.b	#7,anim(a0)
@@ -66,16 +66,16 @@ sub_3643C:
 		beq.s	locret_36462
 		lea	(Player_1).w,a2
 		bclr	#0,collision_property(a0)
-		beq.s	loc_36450
+		beq.s	+ ;loc_36450
 		bsr.s	sub_36464
 
-loc_36450:
++ ;loc_36450:
 		lea	(Player_2).w,a2
 		bclr	#1,collision_property(a0)
-		beq.s	loc_3645E
+		beq.s	+ ;loc_3645E
 		bsr.s	sub_36464
 
-loc_3645E:
++ ;loc_3645E:
 		clr.b	collision_property(a0)
 
 locret_36462:
@@ -111,19 +111,19 @@ loc_36486:
 		bset	#Status_SpeedShoes,status_secondary(a2)
 		move.b	#(10*60)/8,speed_shoes_timer(a2)
 		cmpa.w	#Player_1,a2
-		bne.s	loc_364AC
+		bne.s	+ ;loc_364AC
 		move.w	#$C00,(Max_speed).w
 		move.w	#$18,(Acceleration).w
 		move.w	#$80,(Deceleration).w
-		bra.s	loc_364BE
+		bra.s	++ ;loc_364BE
 ; ---------------------------------------------------------------------------
 
-loc_364AC:
++ ;loc_364AC:
 		move.w	#$C00,(Max_speed_P2).w
 		move.w	#$18,(Acceleration_P2).w
 		move.w	#$80,(Deceleration_P2).w
 
-loc_364BE:
++ ;loc_364BE:
 		move.b	#7,anim(a0)
 		move.b	#0,collision_flags(a0)
 		move.l	#loc_36A1A,d1
@@ -136,19 +136,19 @@ loc_364D8:
 		bset	#Status_SpeedShoes,status_secondary(a2)
 		move.b	#(10*60)/8,speed_shoes_timer(a2)
 		cmpa.w	#Player_1,a2
-		bne.s	loc_364FE
+		bne.s	+ ;loc_364FE
 		move.w	#$300,(Max_speed).w
 		move.w	#8,(Acceleration).w
 		move.w	#$20,(Deceleration).w
-		bra.s	loc_36510
+		bra.s	++ ;loc_36510
 ; ---------------------------------------------------------------------------
 
-loc_364FE:
++ ;loc_364FE:
 		move.w	#$300,(Max_speed_P2).w
 		move.w	#8,(Acceleration_P2).w
 		move.w	#$20,(Deceleration_P2).w
 
-loc_36510:
++ ;loc_36510:
 		move.b	#7,anim(a0)
 		move.b	#0,collision_flags(a0)
 		move.l	#loc_36A1A,d1
@@ -191,19 +191,19 @@ loc_3652A:
 		move.w	(a1)+,(Deceleration_P2).w
 		move.w	(sp)+,d0
 		btst	#Status_SpeedShoes,status_secondary(a2)
-		beq.s	loc_365BA
+		beq.s	+ ;loc_365BA
 		move.w	d3,(Max_speed).w
 		move.w	d4,(Acceleration).w
 		move.w	d5,(Deceleration).w
 
-loc_365BA:
++ ;loc_365BA:
 		btst	#Status_SpeedShoes,status_secondary(a3)
-		beq.s	loc_365CE
+		beq.s	+ ;loc_365CE
 		move.w	d0,(Max_speed_P2).w
 		move.w	d1,(Acceleration_P2).w
 		move.w	d2,(Deceleration_P2).w
 
-loc_365CE:
++ ;loc_365CE:
 		move.b	#7,anim(a0)
 		move.b	#0,collision_flags(a0)
 		move.l	#loc_36A1A,d1
@@ -219,11 +219,11 @@ loc_365E8:
 		moveq	#8,d2
 		bsr.w	sub_36A38
 		cmpa.w	#Player_1,a2
-		bne.s	loc_3660C
+		bne.s	+ ;loc_3660C
 		jmp	(GiveRing).l
 ; ---------------------------------------------------------------------------
 
-loc_3660C:
++ ;loc_3660C:
 		jmp	(GiveRing_Tails).l
 ; ---------------------------------------------------------------------------
 
@@ -287,72 +287,72 @@ loc_3669C:
 		move.b	#0,angle(a0)
 		move.b	#0,status(a0)
 		move.l	#loc_368AA,d2
-		bra.s	loc_366C4
+		bra.s	+ ;loc_366C4
 ; ---------------------------------------------------------------------------
 
 loc_366B6:
 		move.l	#loc_367C2,d2
-		bra.s	loc_366C4
+		bra.s	+ ;loc_366C4
 ; ---------------------------------------------------------------------------
 
 loc_366BE:
 		move.l	#loc_3670C,d2
 
-loc_366C4:
++ ;loc_366C4:
 		move.l	d2,-(sp)
 		jsr	(MoveSprite).l
 		jsr	(ObjCheckFloorDist).l
 		move.l	(sp)+,d2
 		tst.w	d1
-		bpl.s	loc_366E4
+		bpl.s	+ ;loc_366E4
 		add.w	d1,y_pos(a0)
 		move.l	d2,(a0)
 		move.b	#$C7,collision_flags(a0)
 
-loc_366E4:
++ ;loc_366E4:
 		cmpi.w	#-$100,(Camera_min_Y_pos).w
-		bne.s	loc_366F4
+		bne.s	+ ;loc_366F4
 		move.w	(Screen_Y_wrap_value).w,d0
 		and.w	d0,y_pos(a0)
 
-loc_366F4:
++ ;loc_366F4:
 		move.w	(Camera_max_Y_pos).w,d0
 		addi.w	#$60,d0
 		cmp.w	y_pos(a0),d0
-		bge.s	loc_36708
+		bge.s	+ ;loc_36708
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_36708:
++ ;loc_36708:
 		bra.w	loc_36A1A
 ; ---------------------------------------------------------------------------
 
 loc_3670C:
 		tst.b	collision_property(a0)
-		beq.s	loc_36732
+		beq.s	+++ ;loc_36732
 		lea	(Player_1).w,a2
 		bclr	#0,collision_property(a0)
-		beq.s	loc_36720
+		beq.s	+ ;loc_36720
 		bsr.s	sub_3675E
 
-loc_36720:
++ ;loc_36720:
 		lea	(Player_2).w,a2
 		bclr	#1,collision_property(a0)
-		beq.s	loc_3672E
+		beq.s	+ ;loc_3672E
 		bsr.s	sub_3675E
 
-loc_3672E:
++ ;loc_3672E:
 		clr.b	collision_property(a0)
 
-loc_36732:
++ ;loc_36732:
 		lea	(Ani_2PItem).l,a1
 		jsr	(Animate_Sprite).l
 		tst.b	routine(a0)
-		beq.s	loc_3674A
+		beq.s	+ ;loc_3674A
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_3674A:
++ ;loc_3674A:
 		cmpi.b	#9,anim(a0)
 		beq.s	loc_36758
 		jsr	(Add_SpriteToCollisionResponseList).l
@@ -366,11 +366,11 @@ loc_36758:
 sub_3675E:
 		move.w	top_solid_bit(a2),d0
 		cmp.w	top_solid_bit(a0),d0
-		beq.s	loc_3676A
+		beq.s	+ ;loc_3676A
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_3676A:
++ ;loc_3676A:
 		move.b	#$A,anim(a0)
 		move.w	#-$A00,y_vel(a2)
 		bset	#Status_InAir,status(a2)
@@ -383,11 +383,11 @@ loc_3676A:
 		move.b	#0,flips_remaining(a2)
 		move.b	#4,flip_speed(a2)
 		btst	#Status_Facing,status(a2)
-		beq.s	loc_367BA
+		beq.s	+ ;loc_367BA
 		neg.b	flip_angle(a2)
 		neg.w	ground_vel(a2)
 
-loc_367BA:
++ ;loc_367BA:
 		moveq	#signextendB(sfx_SmallBumpers),d0
 		jmp	(Play_SFX).l
 ; End of function sub_3675E
@@ -396,48 +396,48 @@ loc_367BA:
 
 loc_367C2:
 		tst.b	collision_property(a0)
-		beq.s	loc_367E8
+		beq.s	+++ ;loc_367E8
 		lea	(Player_1).w,a2
 		bclr	#0,collision_property(a0)
-		beq.s	loc_367D6
+		beq.s	+ ;loc_367D6
 		bsr.s	sub_3684C
 
-loc_367D6:
++ ;loc_367D6:
 		lea	(Player_2).w,a2
 		bclr	#1,collision_property(a0)
-		beq.s	loc_367E4
+		beq.s	+ ;loc_367E4
 		bsr.s	sub_3684C
 
-loc_367E4:
++ ;loc_367E4:
 		clr.b	collision_property(a0)
 
-loc_367E8:
++ ;loc_367E8:
 		lea	(Ani_2PItem).l,a1
 		jsr	(Animate_Sprite).l
 		tst.b	$3C(a0)
-		beq.s	loc_36834
+		beq.s	+++ ;loc_36834
 		movea.w	$3E(a0),a1
 		subq.b	#1,$3C(a0)
-		beq.s	loc_36828
+		beq.s	++ ;loc_36828
 		move.w	#$20,d1
 		move.w	ground_vel(a1),d0
-		bpl.s	loc_3681C
+		bpl.s	+ ;loc_3681C
 		add.w	d1,ground_vel(a1)
 		bcc.s	loc_36840
 		move.w	#0,ground_vel(a1)
-		bra.s	loc_36828
+		bra.s	++ ;loc_36828
 ; ---------------------------------------------------------------------------
 
-loc_3681C:
++ ;loc_3681C:
 		sub.w	d1,ground_vel(a1)
 		bcc.s	loc_36840
 		move.w	#0,ground_vel(a1)
 
-loc_36828:
++ ;loc_36828:
 		move.w	#5,move_lock(a1)
 		andi.b	#$7F,status_secondary(a1)
 
-loc_36834:
++ ;loc_36834:
 		tst.b	routine(a0)
 		beq.s	loc_36840
 		jmp	(Delete_Current_Sprite).l
@@ -464,16 +464,16 @@ sub_3684C:
 		move.b	#0,collision_flags(a0)
 		move.w	#$200,d1
 		move.w	ground_vel(a2),d0
-		bpl.s	loc_36884
+		bpl.s	+ ;loc_36884
 		neg.w	d0
 		neg.w	d1
 
-loc_36884:
++ ;loc_36884:
 		cmpi.w	#$200,d0
-		bhs.s	loc_3688E
+		bhs.s	+ ;loc_3688E
 		add.w	d1,ground_vel(a2)
 
-loc_3688E:
++ ;loc_3688E:
 		asl	ground_vel(a2)
 		move.b	#$1B,anim(a2)
 		ori.b	#$80,status_secondary(a2)
@@ -488,22 +488,22 @@ locret_368A8:
 
 loc_368AA:
 		tst.b	collision_property(a0)
-		beq.s	loc_368D0
+		beq.s	+++ ;loc_368D0
 		lea	(Player_1).w,a2
 		bclr	#0,collision_property(a0)
-		beq.s	loc_368BE
+		beq.s	+ ;loc_368BE
 		bsr.s	sub_36906
 
-loc_368BE:
++ ;loc_368BE:
 		lea	(Player_2).w,a2
 		bclr	#1,collision_property(a0)
-		beq.s	loc_368CC
+		beq.s	+ ;loc_368CC
 		bsr.s	sub_36906
 
-loc_368CC:
++ ;loc_368CC:
 		clr.b	collision_property(a0)
 
-loc_368D0:
++ ;loc_368D0:
 		bsr.w	sub_36926
 		move.b	angle(a0),d0
 		addi.b	#$10,d0
@@ -513,11 +513,11 @@ loc_368D0:
 		move.w	(Camera_max_Y_pos).w,d0
 		addi.w	#$60,d0
 		cmp.w	y_pos(a0),d0
-		bge.s	loc_368FA
+		bge.s	+ ;loc_368FA
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_368FA:
++ ;loc_368FA:
 		jsr	(Add_SpriteToCollisionResponseList).l
 		jmp	(Draw_Sprite).l
 
@@ -527,11 +527,11 @@ loc_368FA:
 sub_36906:
 		move.w	top_solid_bit(a2),d0
 		cmp.w	top_solid_bit(a0),d0
-		beq.s	loc_36912
+		beq.s	+ ;loc_36912
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_36912:
++ ;loc_36912:
 		move.l	#loc_36A1A,(a0)
 		move.b	#$B,anim(a0)
 		movea.l	a2,a1
@@ -544,7 +544,7 @@ loc_36912:
 
 sub_36926:
 		btst	#1,status(a0)
-		bne.s	loc_36990
+		bne.s	+ ;loc_36990
 		move.b	angle(a0),d0
 		jsr	(GetSineCosine).l
 		muls.w	ground_vel(a0),d1
@@ -573,13 +573,13 @@ locret_3698E:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_36990:
++ ;loc_36990:
 		subi.w	#$10,x_vel(a0)
 		cmpi.w	#-$400,x_vel(a0)
-		bgt.s	loc_369A4
+		bgt.s	+ ;loc_369A4
 		move.w	#-$400,x_vel(a0)
 
-loc_369A4:
++ ;loc_369A4:
 		jsr	(MoveSprite).l
 		move.w	(Screen_Y_wrap_value).w,d0
 		and.w	d0,y_pos(a0)
@@ -588,32 +588,32 @@ loc_369A4:
 		addi.w	#$400,x_pos(a0)
 		jsr	(ChkFloorEdge).l
 		tst.w	d1
-		bpl.s	loc_369DC
+		bpl.s	+ ;loc_369DC
 		add.w	d1,y_pos(a0)
 		bclr	#1,status(a0)
 		move.b	#0,angle(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_369DC:
++ ;loc_369DC:
 		move.b	angle(a0),d0
-		beq.s	loc_369F6
-		bpl.s	loc_369EC
+		beq.s	+++ ;loc_369F6
+		bpl.s	+ ;loc_369EC
 		addq.b	#2,d0
-		bcc.s	loc_369F2
+		bcc.s	++ ;loc_369F2
 		moveq	#0,d0
-		bra.s	loc_369F2
+		bra.s	++ ;loc_369F2
 ; ---------------------------------------------------------------------------
 
-loc_369EC:
++ ;loc_369EC:
 		subq.b	#2,d0
-		bcc.s	loc_369F2
+		bcc.s	+ ;loc_369F2
 		moveq	#0,d0
 
-loc_369F2:
++ ;loc_369F2:
 		move.b	d0,angle(a0)
 
-loc_369F6:
++ ;loc_369F6:
 		move.b	angle(a0),d0
 		bne.s	locret_36A18
 		jsr	(sub_FDEC).l
@@ -633,11 +633,11 @@ loc_36A1A:
 		lea	(Ani_2PItem).l,a1
 		jsr	(Animate_Sprite).l
 		tst.b	routine(a0)
-		beq.s	loc_36A32
+		beq.s	+ ;loc_36A32
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_36A32:
++ ;loc_36A32:
 		jmp	(Draw_Sprite).l
 ; End of function sub_36926
 

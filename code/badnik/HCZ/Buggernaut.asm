@@ -81,17 +81,17 @@ loc_87AE6:
 		jsr	Animate_Raw(pc)
 		movea.w	parent3(a0),a1
 		cmpi.l	#Obj_Buggernaut_2,(a1)
-		beq.s	loc_87AFC
+		beq.s	+ ;loc_87AFC
 		bsr.w	sub_87B56
-		beq.s	loc_87B24
+		beq.s	+++ ;loc_87B24
 
-loc_87AFC:
++ ;loc_87AFC:
 		bclr	#0,render_flags(a0)
 		btst	#0,render_flags(a1)
-		beq.s	loc_87B10
+		beq.s	+ ;loc_87B10
 		bset	#0,render_flags(a0)
 
-loc_87B10:
++ ;loc_87B10:
 		move.w	#$200,d0
 		moveq	#$20,d1
 		jsr	Chase_Object(pc)
@@ -99,17 +99,17 @@ loc_87B10:
 		jmp	(MoveSprite2).l
 ; ---------------------------------------------------------------------------
 
-loc_87B24:
++ ;loc_87B24:
 		move.b	#4,routine(a0)
 		move.w	x_pos(a0),d0
 		move.w	#$200,d1
 		bset	#0,render_flags(a0)
 		cmp.w	(Player_1+x_pos).w,d0
-		bhs.s	loc_87B46
+		bhs.s	+ ;loc_87B46
 		neg.w	d1
 		bclr	#0,render_flags(a0)
 
-loc_87B46:
++ ;loc_87B46:
 		move.w	d1,x_vel(a0)
 		rts
 ; ---------------------------------------------------------------------------
@@ -125,22 +125,22 @@ sub_87B56:
 		lea	(Dynamic_object_RAM+object_size).w,a2
 		move.w	#((Breathing_bubbles)-(Dynamic_object_RAM+object_size))/object_size-1,d0
 
-loc_87B5E:
+- ;loc_87B5E:
 		cmpi.l	#Obj_Buggernaut_2,(a2)
-		beq.s	loc_87B72
+		beq.s	+ ;loc_87B72
 
-loc_87B66:
+- ;loc_87B66:
 		lea	next_object(a2),a2
-		dbf	d0,loc_87B5E
+		dbf	d0,-- ;loc_87B5E
 		moveq	#0,d0
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_87B72:
++ ;loc_87B72:
 		move.b	$39(a2),d1
 		addq.b	#1,d1
 		cmpi.b	#4,d1
-		bhi.s	loc_87B66
+		bhi.s	- ;loc_87B66
 		move.b	d1,$39(a2)
 		move.w	a2,parent3(a0)
 		rts

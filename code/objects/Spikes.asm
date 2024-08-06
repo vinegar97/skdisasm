@@ -25,29 +25,29 @@ Obj_Spikes:
 		move.l	#Map_Spikes,mappings(a0)
 		move.w	#make_art_tile($49C,0,0),art_tile(a0)
 		cmpi.b	#4,(Current_zone).w
-		bne.s	loc_23FD0
+		bne.s	+ ;loc_23FD0
 		move.w	#make_art_tile($200,0,0),art_tile(a0)
 
-loc_23FD0:
++ ;loc_23FD0:
 		lsr.w	#1,d0
 		move.b	d0,mapping_frame(a0)
 		cmpi.b	#4,d0
-		blo.s	loc_23FE8
+		blo.s	+ ;loc_23FE8
 		move.l	#loc_240E2,(a0)
 		move.w	#make_art_tile($494,0,0),art_tile(a0)
 
-loc_23FE8:
++ ;loc_23FE8:
 		move.b	status(a0),d0
 		tst.b	(Reverse_gravity_flag).w
-		beq.s	loc_23FF6
+		beq.s	+ ;loc_23FF6
 		eori.b	#2,d0
 
-loc_23FF6:
++ ;loc_23FF6:
 		andi.b	#2,d0
-		beq.s	loc_24002
+		beq.s	+ ;loc_24002
 		move.l	#loc_2413E,(a0)
 
-loc_24002:
++ ;loc_24002:
 		move.w	#$20,$3C(a0)
 		move.w	x_pos(a0),$30(a0)
 		move.w	y_pos(a0),$32(a0)
@@ -78,15 +78,15 @@ loc_24034:
 		lsr.w	#1,d0
 		move.b	d0,mapping_frame(a0)
 		cmpi.b	#4,d0
-		blo.s	loc_24066
+		blo.s	+ ;loc_24066
 		move.l	#loc_241DC,(a0)
 
-loc_24066:
++ ;loc_24066:
 		btst	#1,status(a0)
-		beq.s	loc_24074
+		beq.s	+ ;loc_24074
 		move.l	#loc_24234,(a0)
 
-loc_24074:
++ ;loc_24074:
 		move.w	x_pos(a0),$30(a0)
 		move.w	y_pos(a0),$32(a0)
 		move.b	subtype(a0),d0
@@ -109,20 +109,20 @@ loc_24090:
 		bsr.w	SolidObjectFull
 		move.b	status(a0),d6
 		andi.b	#standing_mask,d6
-		beq.s	loc_240D8
+		beq.s	++ ;loc_240D8
 		move.b	d6,d0
 		andi.b	#p1_standing,d0
-		beq.s	loc_240CA
+		beq.s	+ ;loc_240CA
 		lea	(Player_1).w,a1
 		bsr.w	sub_24280
 
-loc_240CA:
++ ;loc_240CA:
 		andi.b	#p2_standing,d6
-		beq.s	loc_240D8
+		beq.s	+ ;loc_240D8
 		lea	(Player_2).w,a1
 		bsr.w	sub_24280
 
-loc_240D8:
++ ;loc_240D8:
 		move.w	$30(a0),d0
 		jmp	(Sprite_OnScreen_Test2).l
 ; ---------------------------------------------------------------------------
@@ -140,22 +140,22 @@ loc_240E2:
 		bsr.w	SolidObjectFull
 		swap	d6
 		andi.w	#1|2,d6
-		beq.s	loc_24134
+		beq.s	++ ;loc_24134
 		move.b	d6,d0
 		andi.b	#1,d0
-		beq.s	loc_24120
+		beq.s	+ ;loc_24120
 		lea	(Player_1).w,a1
 		bsr.w	sub_24280
 		bclr	#p1_pushing_bit,status(a0)
 
-loc_24120:
++ ;loc_24120:
 		andi.b	#2,d6
-		beq.s	loc_24134
+		beq.s	+ ;loc_24134
 		lea	(Player_2).w,a1
 		bsr.w	sub_24280
 		bclr	#p2_pushing_bit,status(a0)
 
-loc_24134:
++ ;loc_24134:
 		move.w	$30(a0),d0
 		jmp	(Sprite_OnScreen_Test2).l
 ; ---------------------------------------------------------------------------
@@ -173,20 +173,20 @@ loc_2413E:
 		bsr.w	SolidObjectFull
 		swap	d6
 		andi.w	#4|8,d6
-		beq.s	loc_24184
+		beq.s	++ ;loc_24184
 		move.b	d6,d0
 		andi.b	#4,d0
-		beq.s	loc_24176
+		beq.s	+ ;loc_24176
 		lea	(Player_1).w,a1
 		bsr.w	sub_24280
 
-loc_24176:
++ ;loc_24176:
 		andi.b	#8,d6
-		beq.s	loc_24184
+		beq.s	+ ;loc_24184
 		lea	(Player_2).w,a1
 		bsr.w	sub_24280
 
-loc_24184:
++ ;loc_24184:
 		move.w	$30(a0),d0
 		jmp	(Sprite_OnScreen_Test2).l
 ; ---------------------------------------------------------------------------
@@ -204,20 +204,20 @@ loc_2418E:
 		bsr.w	SolidObjectFull
 		move.b	status(a0),d6
 		andi.b	#standing_mask,d6
-		beq.s	loc_241D6
+		beq.s	++ ;loc_241D6
 		move.b	d6,d0
 		andi.b	#p1_standing,d0
-		beq.s	loc_241C8
+		beq.s	+ ;loc_241C8
 		lea	(Player_1).w,a1
 		bsr.w	sub_24280
 
-loc_241C8:
++ ;loc_241C8:
 		andi.b	#p2_standing,d6
-		beq.s	loc_241D6
+		beq.s	+ ;loc_241D6
 		lea	(Player_2).w,a1
 		bsr.w	sub_24280
 
-loc_241D6:
++ ;loc_241D6:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -234,22 +234,22 @@ loc_241DC:
 		bsr.w	SolidObjectFull
 		swap	d6
 		andi.w	#1|2,d6
-		beq.s	loc_2422E
+		beq.s	++ ;loc_2422E
 		move.b	d6,d0
 		andi.b	#1,d0
-		beq.s	loc_2421A
+		beq.s	+ ;loc_2421A
 		lea	(Player_1).w,a1
 		bsr.w	sub_24280
 		bclr	#p1_pushing_bit,status(a0)
 
-loc_2421A:
++ ;loc_2421A:
 		andi.b	#2,d6
-		beq.s	loc_2422E
+		beq.s	+ ;loc_2422E
 		lea	(Player_2).w,a1
 		bsr.w	sub_24280
 		bclr	#p2_pushing_bit,status(a0)
 
-loc_2422E:
++ ;loc_2422E:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -266,20 +266,20 @@ loc_24234:
 		bsr.w	SolidObjectFull
 		swap	d6
 		andi.w	#4|8,d6
-		beq.s	loc_2427A
+		beq.s	++ ;loc_2427A
 		move.b	d6,d0
 		andi.b	#4,d0
-		beq.s	loc_2426C
+		beq.s	+ ;loc_2426C
 		lea	(Player_1).w,a1
 		bsr.w	sub_24280
 
-loc_2426C:
++ ;loc_2426C:
 		andi.b	#8,d6
-		beq.s	loc_2427A
+		beq.s	+ ;loc_2427A
 		lea	(Player_2).w,a1
 		bsr.w	sub_24280
 
-loc_2427A:
++ ;loc_2427A:
 		jmp	(Draw_Sprite).l
 
 ; =============== S U B R O U T I N E =======================================
@@ -352,7 +352,7 @@ loc_242E2:
 
 sub_242F6:
 		tst.w	$38(a0)
-		beq.s	loc_24312
+		beq.s	+ ;loc_24312
 		subq.w	#1,$38(a0)
 		bne.s	locret_24354
 		tst.b	render_flags(a0)
@@ -362,9 +362,9 @@ sub_242F6:
 		bra.s	locret_24354
 ; ---------------------------------------------------------------------------
 
-loc_24312:
++ ;loc_24312:
 		tst.w	$36(a0)
-		beq.s	loc_24334
+		beq.s	+ ;loc_24334
 		subi.w	#$800,$34(a0)
 		bcc.s	locret_24354
 		move.w	#0,$34(a0)
@@ -373,7 +373,7 @@ loc_24312:
 		bra.s	locret_24354
 ; ---------------------------------------------------------------------------
 
-loc_24334:
++ ;loc_24334:
 		addi.w	#$800,$34(a0)
 		cmpi.w	#$2000,$34(a0)
 		blo.s	locret_24354
@@ -390,18 +390,18 @@ locret_24354:
 loc_24356:
 		move.b	status(a0),d3
 		andi.b	#pushing_mask,d3
-		beq.s	loc_2437C
+		beq.s	+ ;loc_2437C
 		move.w	x_pos(a0),d2
 		lea	(Player_1).w,a1
 		move.b	$3E(a0),d0
 		moveq	#5,d6
-		bsr.s	sub_2438A
+		bsr.s	++ ;sub_2438A
 		lea	(Player_2).w,a1
 		move.b	$3F(a0),d0
 		moveq	#6,d6
-		bsr.s	sub_2438A
+		bsr.s	++ ;sub_2438A
 
-loc_2437C:
++ ;loc_2437C:
 		move.b	(Player_1+status).w,$3E(a0)
 		move.b	(Player_2+status).w,$3F(a0)
 		rts
@@ -409,7 +409,7 @@ loc_2437C:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_2438A:
++ ;sub_2438A:
 		btst	d6,d3
 		beq.s	locret_243B8
 		cmp.w	x_pos(a1),d2
@@ -469,7 +469,7 @@ loc_243E2:
 
 sub_243F6:
 		tst.w	$38(a0)
-		beq.s	loc_24412
+		beq.s	+ ;loc_24412
 		subq.w	#1,$38(a0)
 		bne.s	locret_24454
 		tst.b	render_flags(a0)
@@ -479,9 +479,9 @@ sub_243F6:
 		bra.s	locret_24454
 ; ---------------------------------------------------------------------------
 
-loc_24412:
++ ;loc_24412:
 		tst.w	$36(a0)
-		beq.s	loc_24434
+		beq.s	+ ;loc_24434
 		subi.w	#$800,$34(a0)
 		bcc.s	locret_24454
 		move.w	#0,$34(a0)
@@ -490,7 +490,7 @@ loc_24412:
 		bra.s	locret_24454
 ; ---------------------------------------------------------------------------
 
-loc_24434:
++ ;loc_24434:
 		addi.w	#$800,$34(a0)
 		cmpi.w	#$1800,$34(a0)
 		blo.s	locret_24454

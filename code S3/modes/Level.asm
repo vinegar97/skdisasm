@@ -29,11 +29,11 @@ LevelMusic_Playlist:
 Level:
 		bset	#7,(Game_mode).w		; Set bit 7 of F600 is indicate that we're loading the level
 		tst.w	(Demo_mode_flag).w
-		bmi.s	loc_46C2
+		bmi.s	+ ;loc_46C2
 		moveq	#signextendB(mus_FadeOut),d0		; If a demo
 		bsr.w	Play_SFX
 
-loc_46C2:
++ ;loc_46C2:
 		clr.w	(Kos_decomp_queue_count).w
 		clearRAM	Kos_decomp_stored_registers,$6C	; Clear the KosM bytes
 		bsr.w	Clear_Nem_Queue				; Clear PLCs
@@ -46,32 +46,32 @@ loc_46C2:
 		moveq	#0,d0
 		move.w	d0,(Level_frame_counter).w
 		tst.b	(Last_star_post_hit).w
-		beq.s	loc_471E				; If no lampost was set, branch
+		beq.s	++ ;loc_471E				; If no lampost was set, branch
 		tst.b	(Special_bonus_entry_flag).w
-		bne.s	loc_4712				; Otherwise, ensure that the proper level ID is set to account for levels that use multiple ones in an act
+		bne.s	+ ;loc_4712				; Otherwise, ensure that the proper level ID is set to account for levels that use multiple ones in an act
 		move.w	(Saved_zone_and_act).w,(Current_zone_and_act).w
 		move.w	(Saved_apparent_zone_and_act).w,(Apparent_zone_and_act).w
-		bra.s	loc_471E
+		bra.s	++ ;loc_471E
 ; ---------------------------------------------------------------------------
 
-loc_4712:
++ ;loc_4712:
 		move.w	(Saved2_zone_and_act).w,(Current_zone_and_act).w
 		move.w	(Saved2_apparent_zone_and_act).w,(Apparent_zone_and_act).w
 
-loc_471E:
++ ;loc_471E:
 		move.w	(Current_zone_and_act).w,d0
 
 		; Useless code. Player_mode has not been set yet, and level $D00 has the same PLCs as level 0
-		bne.s	loc_4736
+		bne.s	++ ;loc_4736
 		cmpi.w	#2,(Player_mode).w		; If level is Angel Island 1
-		beq.s	loc_4732
+		beq.s	+ ;loc_4732
 		tst.b	(Last_star_post_hit).w			; If character is Sonic
-		beq.s	loc_4736				; And no lamppost is set
+		beq.s	++ ;loc_4736				; And no lamppost is set
 
-loc_4732:
++ ;loc_4732:
 		move.w	#$D00,d0				; Set the level ID to skip the intro
 
-loc_4736:
++ ;loc_4736:
 		ror.b	#1,d0
 		lsr.w	#4,d0
 		andi.w	#$1F8,d0
@@ -81,17 +81,17 @@ loc_4736:
 		lea	(LevelLoadBlock).l,a2
 		moveq	#0,d0
 		move.b	(a2,d1.w),d0			; Get the first PLC number for the level
-		beq.s	loc_4756
+		beq.s	+ ;loc_4756
 		bsr.w	Load_PLC
 
-loc_4756:
++ ;loc_4756:
 		bsr.w	LevelLoad_ActiveCharacter
 		tst.b	(Last_star_post_hit).w
-		bne.w	loc_4782
+		bne.w	+ ;loc_4782
 		cmpi.w	#0,(Current_zone_and_act).w
-		bne.s	loc_4782
+		bne.s	+ ;loc_4782
 		cmpi.w	#2,(Player_mode).w
-		beq.s	loc_4782
+		beq.s	+ ;loc_4782
 		moveq	#1,d0					; If in AIZ intro
 		jsr	(Load_PLC_2).l
 		moveq	#$A,d0
@@ -99,16 +99,16 @@ loc_4756:
 		bra.s	loc_479A
 ; ---------------------------------------------------------------------------
 
-loc_4782:
++ ;loc_4782:
 		moveq	#6,d0
 		tst.w	(Competition_mode).w
-		bne.s	loc_4796
+		bne.s	+ ;loc_4796
 		moveq	#1,d0
 		cmpi.w	#2,(Player_mode).w
-		bne.s	loc_4796
+		bne.s	+ ;loc_4796
 		moveq	#7,d0
 
-loc_4796:
++ ;loc_4796:
 		bsr.w	Load_PLC
 
 loc_479A:
@@ -130,20 +130,20 @@ loc_479A:
 		move.w	#$8720,(a6)
 		move.w	#$8C81,(a6)			; Command $8C81 - 40cell screen size, no interlacing, no s/h
 		tst.b	(Debug_cheat_flag).w
-		beq.s	loc_484A
+		beq.s	++ ;loc_484A
 		btst	#button_C,(Ctrl_1_held).w
-		beq.s	loc_483C
+		beq.s	+ ;loc_483C
 		move.w	#$8C89,(a6)
 
-loc_483C:
++ ;loc_483C:
 		btst	#button_A,(Ctrl_1_held).w
-		beq.s	loc_484A
+		beq.s	+ ;loc_484A
 		move.b	#1,(Debug_mode_flag).w
 
-loc_484A:
++ ;loc_484A:
 		move.w	#$8AFF,(H_int_counter_command).w
 		tst.w	(Competition_mode).w
-		beq.s	loc_4886
+		beq.s	+ ;loc_4886
 		move.w	#$4EF9,(H_int_jump).w
 		move.l	#HInt,(H_int_addr).w
 		move.w	#$8014,(a6)
@@ -152,10 +152,10 @@ loc_484A:
 		move.w	#$8A6B,(H_int_counter_command).w
 		move.w	#$9003,(a6)
 		cmpi.b	#$F,(Current_zone).w
-		bne.s	loc_4886
+		bne.s	+ ;loc_4886
 		move.w	#$9011,(a6)			; 128-cell hScroll table size: 64x64
 
-loc_4886:
++ ;loc_4886:
 		move.w	(H_int_counter_command).w,(a6)
 		clr.w	(DMA_queue).w
 		move.l	#DMA_queue,(DMA_queue_slot).w
@@ -164,10 +164,10 @@ loc_4886:
 		bsr.w	CheckLevelForWater
 		clearRAM	Water_palette_line_2,$60
 		tst.b	(Water_flag).w
-		beq.s	loc_48BA
+		beq.s	+ ;loc_48BA
 		move.w	#$8014,(a6)
 
-loc_48BA:
++ ;loc_48BA:
 		tst.w	(Demo_mode_flag).w
 		bmi.w	loc_4942
 		moveq	#0,d0
@@ -179,15 +179,15 @@ loc_48BA:
 		move.w	d0,(Current_music).w
 		bsr.w	Play_Music
 		tst.w	(Current_zone_and_act).w
-		bne.s	loc_48F2
+		bne.s	+ ;loc_48F2
 		cmpi.w	#2,(Player_mode).w
-		beq.s	loc_48F2
+		beq.s	+ ;loc_48F2
 		tst.b	(Last_star_post_hit).w
-		beq.s	loc_4934
+		beq.s	++ ;loc_4934
 
-loc_48F2:
++ ;loc_48F2:
 		cmpi.b	#$15,(Current_zone).w
-		bhi.s	loc_4934
+		bhi.s	+ ;loc_4934
 		move.l	#Obj_TitleCard,(Dynamic_object_RAM+(object_size*5)).w
 
 loc_4902:
@@ -203,7 +203,7 @@ loc_4902:
 		tst.l	(Nem_decomp_queue).w
 		bne.s	loc_4902
 
-loc_4934:
++ ;loc_4934:
 		move	#$2700,sr
 		jsr	(HUD_DrawInitial).l
 		move	#$2300,sr
@@ -231,21 +231,21 @@ loc_4942:
 		move.b	#1,(Ctrl_2_locked).w
 		move.b	#0,(Level_started_flag).w
 		tst.b	(Water_flag).w
-		beq.s	loc_49DC
+		beq.s	++ ;loc_49DC
 		cmpi.b	#1,(Current_zone).w
-		beq.s	loc_49C6
+		beq.s	+ ;loc_49C6
 		cmpi.b	#1,(Current_zone).w
-		bne.s	loc_49DC
+		bne.s	++ ;loc_49DC
 
-loc_49C6:
++ ;loc_49C6:
 		move.l	#Obj_HCZWaveSplash,(Wave_Splash).w
 		move.l	#Obj_HCZWaterSplash,(Dynamic_object_RAM+(object_size*2)).w
 		move.b	#1,(Dynamic_object_RAM+(object_size*2)+subtype).w
 
-loc_49DC:
++ ;loc_49DC:
 		moveq	#0,d0
 		tst.b	(Last_star_post_hit).w
-		bne.s	loc_4A0C
+		bne.s	+ ;loc_4A0C
 		move.w	d0,(Ring_count).w
 		move.l	d0,(Timer).w
 		move.b	d0,(Extra_life_flags).w
@@ -254,10 +254,10 @@ loc_49DC:
 		move.b	d0,(Saved2_status_secondary).w
 		move.b	d0,(Saved_status_secondary).w
 		cmpi.b	#$13,(Current_zone).w
-		bhs.s	loc_4A0C
+		bhs.s	+ ;loc_4A0C
 		move.b	d0,(Respawn_table_keep).w
 
-loc_4A0C:
++ ;loc_4A0C:
 		move.b	d0,(Time_over_flag).w
 		move.w	d0,(Debug_placement_mode).w
 		move.w	d0,(Restart_level_flag).w
@@ -284,13 +284,13 @@ loc_4A0C:
 		jsr	(Animate_Tiles).l
 		move.w	#1800,(Demo_timer).w
 		tst.w	(Demo_mode_flag).w
-		bpl.s	loc_4AA2
+		bpl.s	+ ;loc_4AA2
 		move.w	#540,(Demo_timer).w
 		cmpi.w	#4,(Ending_demo_number).w
-		bne.s	loc_4AA2
+		bne.s	+ ;loc_4AA2
 		move.w	#510,(Demo_timer).w
 
-loc_4AA2:
++ ;loc_4AA2:
 		bsr.w	LoadWaterPalette
 		clearRAM	Water_palette_line_2,$60
 		move.b	#0,(Ctrl_1_locked).w
@@ -299,16 +299,16 @@ loc_4AA2:
 		tst.w	(Competition_mode).w
 		bne.w	loc_4C1C
 		tst.w	(Current_zone_and_act).w
-		bne.s	loc_4ADA
+		bne.s	+ ;loc_4ADA
 		tst.b	(Last_star_post_hit).w
-		beq.s	loc_4AE8
+		beq.s	++ ;loc_4AE8
 
-loc_4ADA:
++ ;loc_4ADA:
 		cmpi.b	#$E,(Current_zone).w
-		bhs.s	loc_4AE8
+		bhs.s	+ ;loc_4AE8
 		jsr	(PLCLoad_AnimalsAndExplosion).l
 
-loc_4AE8:
++ ;loc_4AE8:
 		move.w	#$2030-1,(Palette_fade_info).w
 		jsr	(Pal_FillBlack).l
 		move.w	#$16,(Palette_fade_timer).w
@@ -341,31 +341,31 @@ LevelLoop:
 		jsr	(Render_Sprites).l
 		jsr	(Load_Sprites).l
 		cmpi.b	#8,(Game_mode).w
-		beq.s	DemoMode
+		beq.s	+ ;DemoMode
 		cmpi.b	#$C,(Game_mode).w
 		beq.w	LevelLoop
 		rts
 ; ---------------------------------------------------------------------------
 
-DemoMode:
++ ;DemoMode:
 		tst.w	(Restart_level_flag).w
-		bne.s	loc_4BB2
+		bne.s	+ ;loc_4BB2
 		tst.w	(Demo_timer).w
-		beq.s	loc_4BB2
+		beq.s	+ ;loc_4BB2
 		cmpi.b	#8,(Game_mode).w
 		beq.w	LevelLoop
 		move.b	#0,(Game_mode).w
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4BB2:
++ ;loc_4BB2:
 		cmpi.b	#8,(Game_mode).w
-		bne.s	loc_4BC2
+		bne.s	+ ;loc_4BC2
 		move.b	#0,(Game_mode).w
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4BC2:
++ ;loc_4BC2:
 		move.w	#60,(Demo_timer).w
 		move.w	#$40-1,(Palette_fade_info).w
 		clr.w	(Pal_fade_delay).w
@@ -381,11 +381,11 @@ loc_4BD2:
 		jsr	(Load_Sprites).l
 		jsr	(Process_Kos_Module_Queue).l
 		subq.w	#1,(Pal_fade_delay).w
-		bpl.s	loc_4C14
+		bpl.s	+ ;loc_4C14
 		move.w	#2,(Pal_fade_delay).w
 		bsr.w	Pal_ToBlack
 
-loc_4C14:
++ ;loc_4C14:
 		tst.w	(Demo_timer).w
 		bne.s	loc_4BD2
 		rts
@@ -394,15 +394,15 @@ loc_4C14:
 loc_4C1C:
 		move.w	#0,(_unkFF7E).w
 		tst.b	(Debug_cheat_flag).w
-		beq.s	loc_4C3C
+		beq.s	+ ;loc_4C3C
 		move.b	(_unkFF7C).w,d0
 		cmpi.b	#$A0,d0
-		bne.s	loc_4C3C
+		bne.s	+ ;loc_4C3C
 		move.w	(Sound_test_sound).w,d0
 		lsl.w	#8,d0
 		move.w	d0,(_unkFF7E).w
 
-loc_4C3C:
++ ;loc_4C3C:
 		move.w	#$40-1,(Palette_fade_info).w
 		jsr	(Pal_FillBlack).l
 		move.w	#$16,(Palette_fade_timer).w
@@ -416,7 +416,7 @@ loc_4C5A:
 		bsr.w	Wait_VSync
 		addq.w	#1,(Level_frame_counter).w
 		move.w	#4,-(sp)
-		bra.s	loc_4CBC
+		bra.s	+ ;loc_4CBC
 ; ---------------------------------------------------------------------------
 
 loc_4C78:
@@ -437,7 +437,7 @@ loc_4CAC:
 		cmpa.l	#Player_1,a5
 		blo.s	loc_4CAC
 
-loc_4CBC:
++ ;loc_4CBC:
 		bsr.w	Demo_PlayRecord
 		jsr	(Process_Sprites).l
 		jsr	(DeformBgLayer).l
@@ -455,31 +455,31 @@ loc_4CCC:
 		bsr.w	Process_Nem_Queue_Init
 		jsr	(Process_Kos_Module_Queue).l
 		cmpi.b	#8,(Game_mode).w
-		beq.s	loc_4D10
+		beq.s	+ ;loc_4D10
 		cmpi.b	#$C,(Game_mode).w
 		beq.w	loc_4C5A
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4D10:
++ ;loc_4D10:
 		tst.w	(Restart_level_flag).w
-		bne.s	loc_4D2E
+		bne.s	+ ;loc_4D2E
 		tst.w	(Demo_timer).w
-		beq.s	loc_4D2E
+		beq.s	+ ;loc_4D2E
 		cmpi.b	#8,(Game_mode).w
 		beq.w	loc_4C5A
 		move.b	#0,(Game_mode).w
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4D2E:
++ ;loc_4D2E:
 		cmpi.b	#8,(Game_mode).w
-		bne.s	loc_4D3E
+		bne.s	+ ;loc_4D3E
 		move.b	#0,(Game_mode).w
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4D3E:
++ ;loc_4D3E:
 		move.w	#60,(Demo_timer).w
 		move.w	#$40-1,(Palette_fade_info).w
 		clr.w	(Pal_fade_delay).w
@@ -495,11 +495,11 @@ loc_4D4E:
 		jsr	(Load_Sprites).l
 		jsr	(Process_Kos_Module_Queue).l
 		subq.w	#1,(Pal_fade_delay).w
-		bpl.s	loc_4D90
+		bpl.s	+ ;loc_4D90
 		move.w	#2,(Pal_fade_delay).w
 		bsr.w	Pal_ToBlack
 
-loc_4D90:
++ ;loc_4D90:
 		tst.w	(Demo_timer).w
 		bne.s	loc_4D4E
 		rts
@@ -509,14 +509,14 @@ loc_4D90:
 
 LevelLoad_ActiveCharacter:
 		cmpi.b	#$88,(Game_mode).w
-		beq.s	loc_4DAE
+		beq.s	+ ;loc_4DAE
 		tst.w	(Competition_mode).w
-		bne.s	loc_4DAE
+		bne.s	+ ;loc_4DAE
 		move.w	(Player_option).w,(Player_mode).w		; Move selected character to active character
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4DAE:
++ ;loc_4DAE:
 		move.w	#0,(Player_mode).w
 		rts
 ; End of function LevelLoad_ActiveCharacter
@@ -536,7 +536,7 @@ SpawnLevelMainSprites:
 		lea	(Player_1).w,a1
 		lea	(Player_2).w,a2
 		cmpi.w	#0,(Current_zone_and_act).w
-		bne.s	loc_4DFE
+		bne.s	+ ;loc_4DFE
 		cmpi.w	#2,(Player_mode).w
 		beq.s	locret_4DFC
 		move.l	#Obj_AIZPlaneIntro,(Dynamic_object_RAM+(object_size*2)).w
@@ -548,62 +548,62 @@ locret_4DFC:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4DFE:
++ ;loc_4DFE:
 		cmpi.w	#$100,(Current_zone_and_act).w
-		bne.s	loc_4E36
+		bne.s	++ ;loc_4E36
 		move.b	#$1B,anim(a1)
 		bset	#Status_InAir,status(a1)
 		cmpi.w	#2,(Player_mode).w
-		bne.s	loc_4E20
+		bne.s	+ ;loc_4E20
 		move.b	#1,jumping(a1)
 
-loc_4E20:
++ ;loc_4E20:
 		tst.l	(a2)
-		beq.s	loc_4E36
+		beq.s	+ ;loc_4E36
 		move.b	#$1B,anim(a2)
 		bset	#Status_InAir,status(a2)
 		move.b	#1,jumping(a2)
 
-loc_4E36:
++ ;loc_4E36:
 		cmpi.w	#$200,(Current_zone_and_act).w
-		bne.s	loc_4E5A
+		bne.s	+ ;loc_4E5A
 		move.b	#$1B,anim(a1)
 		bset	#Status_InAir,status(a1)
 		tst.l	(a2)
-		beq.s	loc_4E5A
+		beq.s	+ ;loc_4E5A
 		move.b	#$1B,anim(a2)
 		bset	#Status_InAir,status(a2)
 
-loc_4E5A:
++ ;loc_4E5A:
 		cmpi.w	#$300,(Current_zone_and_act).w
-		bne.s	loc_4E94
+		bne.s	++ ;loc_4E94
 		cmpi.w	#1,(Player_mode).w
-		bne.s	loc_4E86
+		bne.s	+ ;loc_4E86
 		move.l	#Obj_Tails,(Player_2).w
 		move.w	(Player_1+x_pos).w,(Player_2+x_pos).w
 		move.w	(Player_1+y_pos).w,(Player_2+y_pos).w
 		move.w	#0,(Tails_CPU_routine).w
-		bra.s	loc_4E94
+		bra.s	++ ;loc_4E94
 ; ---------------------------------------------------------------------------
 
-loc_4E86:
++ ;loc_4E86:
 		cmpi.w	#2,(Player_mode).w
-		bne.s	loc_4E94
+		bne.s	+ ;loc_4E94
 		move.w	#$20,(Tails_CPU_routine).w
 
-loc_4E94:
++ ;loc_4E94:
 		cmpi.w	#$500,(Current_zone_and_act).w
-		bne.s	loc_4EB6
+		bne.s	++ ;loc_4EB6
 		cmpi.w	#2,(Player_mode).w
-		blo.s	loc_4EAE
+		blo.s	+ ;loc_4EAE
 		move.l	#Obj_LevelIntroICZ1Tails,(Dynamic_object_RAM+(object_size*2)).w
-		bra.s	loc_4EB6
+		bra.s	++ ;loc_4EB6
 ; ---------------------------------------------------------------------------
 
-loc_4EAE:
++ ;loc_4EAE:
 		move.l	#Obj_LevelIntroICZ1,(Dynamic_object_RAM+(object_size*2)).w
 
-loc_4EB6:
++ ;loc_4EB6:
 		cmpi.w	#$600,(Current_zone_and_act).w
 		bne.s	locret_4EC6
 		move.l	#Obj_LevelIntro_PlayerLaunchFromGround,(Dynamic_object_RAM+(object_size*2)).w
@@ -623,19 +623,19 @@ SpawnLevelMainSprites_SpawnPowerup:
 		move.b	(Saved_status_secondary).w,d0
 		clr.b	(Saved_status_secondary).w
 		andi.b	#(1<<Status_FireShield)|(1<<Status_LtngShield)|(1<<Status_BublShield),d0
-		bne.s	loc_4EF2
+		bne.s	+ ;loc_4EF2
 		move.b	(Saved2_status_secondary).w,d0
 		clr.b	(Saved2_status_secondary).w
 		andi.b	#(1<<Status_FireShield)|(1<<Status_LtngShield)|(1<<Status_BublShield),d0
-		bne.s	loc_4EF2
+		bne.s	+ ;loc_4EF2
 
 locret_4EF0:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4EF2:
++ ;loc_4EF2:
 		btst	#Status_FireShield,d0
-		beq.s	loc_4F18
+		beq.s	+ ;loc_4F18
 		andi.b	#$8E,status_secondary(a1)
 		bset	#Status_Shield,status_secondary(a1)
 		bset	#Status_FireShield,status_secondary(a1)
@@ -644,9 +644,9 @@ loc_4EF2:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4F18:
++ ;loc_4F18:
 		btst	#Status_LtngShield,d0
-		beq.s	loc_4F3E
+		beq.s	+ ;loc_4F3E
 		andi.b	#$8E,status_secondary(a1)
 		bset	#Status_Shield,status_secondary(a1)
 		bset	#Status_LtngShield,status_secondary(a1)
@@ -655,7 +655,7 @@ loc_4F18:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4F3E:
++ ;loc_4F3E:
 		btst	#Status_BublShield,d0
 		beq.s	locret_4F64
 		andi.b	#$8E,status_secondary(a1)
@@ -695,7 +695,7 @@ SpawnLevelMainSprites_SpawnPlayers:
 
 loc_4FC2:
 		subq.w	#1,d0
-		bne.s	loc_4FE6
+		bne.s	+ ;loc_4FE6
 		move.l	#Obj_Sonic,(Player_1).w
 		move.l	#Obj_DashDust,(Dust).w
 		move.l	#Obj_InstaShield,(Shield).w
@@ -703,9 +703,9 @@ loc_4FC2:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4FE6:
++ ;loc_4FE6:
 		subq.w	#1,d0
-		bne.s	loc_5008
+		bne.s	+ ;loc_5008
 		move.l	#Obj_Tails,(Player_1).w
 		move.l	#Obj_DashDust,(Dust_P2).w
 		addi.w	#4,(Player_1+y_pos).w
@@ -713,7 +713,7 @@ loc_4FE6:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_5008:
++ ;loc_5008:
 		move.l	#Obj_Sonic,(Player_1).w
 		move.l	#Obj_DashDust,(Dust).w
 		rts
@@ -728,15 +728,15 @@ loc_501A:
 		move.w	(Player_1+y_pos).w,(Player_2+y_pos).w
 		move.l	#Obj_DashDust2P,(Dust).w
 		tst.b	(Not_ghost_flag).w
-		beq.s	loc_505C
+		beq.s	+ ;loc_505C
 		move.b	(P2_character).w,d0
 		bsr.s	sub_505E
 		move.l	d1,(Player_2).w
 		move.b	(P2_character).w,(Player_2+character_id).w
 		move.l	#Obj_DashDust2P,(Dust_P2).w
 
-loc_505C:
-		bra.s	loc_507C
++ ;loc_505C:
+		bra.s	+++ ;loc_507C
 ; End of function SpawnLevelMainSprites_SpawnPlayers
 
 
@@ -745,31 +745,31 @@ loc_505C:
 
 sub_505E:
 		tst.b	d0
-		bne.s	loc_5068
+		bne.s	+ ;loc_5068
 		move.l	#Obj_Sonic2P,d1
 
-loc_5068:
++ ;loc_5068:
 		subq.b	#1,d0
-		bne.s	loc_5074
+		bne.s	+ ;loc_5074
 		move.l	#Obj_Tails2P,d1
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_5074:
++ ;loc_5074:
 		move.l	#Obj_Sonic2P,d1
 		rts
 ; End of function sub_505E
 
 ; ---------------------------------------------------------------------------
 
-loc_507C:
++ ;loc_507C:
 		lea	(Target_palette_line_2).w,a2
 		lea	(Pal_Level_2P).l,a1
 		move.w	#bytesToWcnt($20),d0
 
-loc_508A:
+- ;loc_508A:
 		move.w	(a1)+,(a2)+
-		dbf	d0,loc_508A
+		dbf	d0,- ;loc_508A
 		rts
 ; ---------------------------------------------------------------------------
 Pal_Level_2P:
@@ -811,44 +811,44 @@ Handle_Onscreen_Water_Height:
 		tst.b	(Water_flag).w
 		beq.w	loc_5146
 		tst.b	(Deform_lock).w
-		bne.s	loc_50FC
+		bne.s	+ ;loc_50FC
 		cmpi.b	#6,(Player_1+routine).w
-		bhs.s	loc_50FC
+		bhs.s	+ ;loc_50FC
 		bsr.w	sub_539A
 		bsr.w	DynamicWaterHeight
 
-loc_50FC:
++ ;loc_50FC:
 		clr.b	(Water_full_screen_flag).w
 		moveq	#0,d0
 		add.w	(Mean_water_level).w,d0
 		move.w	d0,(Water_level).w
 		cmpi.w	#$100,(Current_zone_and_act).w
-		bne.s	loc_511A
+		bne.s	+ ;loc_511A
 		cmpi.w	#$900,(Camera_X_pos).w
-		blo.s	loc_5130
+		blo.s	+++ ;loc_5130
 
-loc_511A:
++ ;loc_511A:
 		move.w	(Water_level).w,d0
 		sub.w	(Camera_Y_pos).w,d0
-		beq.s	loc_512A
-		bcc.s	loc_5138
+		beq.s	+ ;loc_512A
+		bcc.s	+++ ;loc_5138
 		tst.w	d0
-		bpl.s	loc_5138
+		bpl.s	+++ ;loc_5138
 
-loc_512A:
++ ;loc_512A:
 		move.b	#1,(Water_full_screen_flag).w
 
-loc_5130:
++ ;loc_5130:
 		move.b	#-1,(H_int_counter).w
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_5138:
++ ;loc_5138:
 		cmpi.w	#$DF,d0
-		blo.s	loc_5142
+		blo.s	+ ;loc_5142
 		move.w	#$FF,d0
 
-loc_5142:
++ ;loc_5142:
 		move.b	d0,(H_int_counter).w
 
 loc_5146:
@@ -861,52 +861,52 @@ loc_5146:
 		move.w	(Mean_water_level).w,(Water_level).w
 		move.l	#HInt3,(H_int_addr).w
 		cmpi.w	#$1000,(V_blank_cycles).w
-		blo.s	loc_516E
+		blo.s	+ ;loc_516E
 		move.l	#HInt4,(H_int_addr).w
 
-loc_516E:
++ ;loc_516E:
 		move.w	(Water_level).w,d0
 		sub.w	(Camera_Y_pos).w,d0
-		beq.s	loc_5186
+		beq.s	+ ;loc_5186
 		bcc.s	loc_51C2
 		tst.w	d0
 		bpl.s	loc_51C2
 		addi.w	#$1E0,d0
-		beq.s	loc_5186
-		bcs.s	loc_5194
+		beq.s	+ ;loc_5186
+		bcs.s	++ ;loc_5194
 
-loc_5186:
++ ;loc_5186:
 		move.b	#1,(Water_full_screen_flag).w
 		move.b	#-1,(H_int_counter).w
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_5194:
++ ;loc_5194:
 		cmpi.w	#$DF,d0
-		blo.s	loc_519E
+		blo.s	+ ;loc_519E
 		move.w	#$FF,d0
 
-loc_519E:
++ ;loc_519E:
 		move.b	d0,(H_int_counter).w
 		move.b	#1,(Water_full_screen_flag).w
 		move.l	#HInt5,(H_int_addr).w
 		cmpi.w	#$1000,(V_blank_cycles).w
-		blo.s	loc_51C0
+		blo.s	+ ;loc_51C0
 		move.l	#HInt_6,(H_int_addr).w
 
-loc_51C0:
-		bra.s	loc_51D0
++ ;loc_51C0:
+		bra.s	++ ;loc_51D0
 ; ---------------------------------------------------------------------------
 
 loc_51C2:
 		cmpi.w	#$DF,d0
-		blo.s	loc_51CC
+		blo.s	+ ;loc_51CC
 		move.w	#$FF,d0
 
-loc_51CC:
++ ;loc_51CC:
 		move.b	d0,(H_int_counter).w
 
-loc_51D0:
++ ;loc_51D0:
 		bsr.w	sub_5598
 		rts
 ; ---------------------------------------------------------------------------
@@ -930,10 +930,10 @@ DynamicWaterHeight:
 		move.w	(Target_water_level).w,d0
 		sub.w	(Mean_water_level).w,d0
 		beq.s	.locret_5244
-		bcc.s	loc_5240
+		bcc.s	+ ;loc_5240
 		neg.w	d1
 
-loc_5240:
++ ;loc_5240:
 		add.w	d1,(Mean_water_level).w
 
 .locret_5244:
@@ -984,7 +984,7 @@ DynamicWaterHeight_AIZ2:
 		cmpi.w	#$820,(Camera_target_max_Y_pos).w
 		beq.s	locret_5306
 		cmpi.w	#$2440,(Camera_X_pos).w
-		bhs.s	loc_52AE
+		bhs.s	+ ;loc_52AE
 		cmpi.w	#$618,(Target_water_level).w
 		bne.s	locret_5306
 		move.w	#$528,(Target_water_level).w
@@ -992,33 +992,33 @@ DynamicWaterHeight_AIZ2:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_52AE:
++ ;loc_52AE:
 		tst.b	(Level_trigger_array).w
-		bne.s	loc_52C2
+		bne.s	+ ;loc_52C2
 		cmpi.w	#$2850,(Camera_X_pos).w
 		blo.s	locret_5306
 		move.b	#1,(Level_trigger_array).w
 
-loc_52C2:
++ ;loc_52C2:
 		cmpi.w	#$618,(Target_water_level).w
 		beq.s	locret_5306
 		cmpi.w	#$2900,(Camera_X_pos).w
-		bhs.s	loc_52EC
+		bhs.s	+ ;loc_52EC
 		move.w	#-1,(Screen_shake_flag).w
 		jsr	(AllocateObject).l
-		bne.s	loc_52EC
+		bne.s	+ ;loc_52EC
 		move.l	#Obj_5308,(a1)
 		move.b	#180,anim_frame_timer(a1)
 
-loc_52EC:
++ ;loc_52EC:
 		lea	(Level_layout_main+$1C).w,a3
 		moveq	#4-1,d1
 
-loc_52F2:
+- ;loc_52F2:
 		movea.w	(a3),a1
 		move.b	#0,$4E(a1)
 		addq.w	#4,a3
-		dbf	d1,loc_52F2
+		dbf	d1,- ;loc_52F2
 		move.w	#$618,(Target_water_level).w
 
 locret_5306:
@@ -1027,11 +1027,11 @@ locret_5306:
 
 Obj_5308:
 		subq.b	#1,anim_frame_timer(a0)
-		beq.s	loc_5310
+		beq.s	+ ;loc_5310
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_5310:
++ ;loc_5310:
 		move.w	#0,(Screen_shake_flag).w
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
@@ -1049,11 +1049,11 @@ word_5324:
 
 DynamicWaterHeight_HCZ2:
 		tst.b	(_unkFAA2).w
-		beq.s	loc_533C
+		beq.s	+ ;loc_533C
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_533C:
++ ;loc_533C:
 		lea	(word_5344).l,a1
 		bra.s	loc_537C
 ; ---------------------------------------------------------------------------
@@ -1100,11 +1100,11 @@ loc_5380:
 		bhi.s	loc_5380
 		swap	d1
 		tst.w	d1
-		bpl.s	loc_5394
+		bpl.s	+ ;loc_5394
 		andi.w	#$7FFF,d1
 		move.w	d1,(Mean_water_level).w
 
-loc_5394:
++ ;loc_5394:
 		move.w	d1,(Target_water_level).w
 		rts
 
@@ -1117,20 +1117,20 @@ sub_539A:
 		cmpi.b	#1,(Current_zone).w
 		bne.w	locret_54A4
 		cmpi.w	#2,(Player_mode).w
-		beq.s	loc_53D2
+		beq.s	+ ;loc_53D2
 		lea	(WindTunnel_flag).w,a3
 		lea	(Player_1).w,a1
 		move.b	(Ctrl_1_held_logical).w,d6
 		moveq	#0,d5
-		bsr.s	HCZ_WaterTunnels
+		bsr.s	++ ;HCZ_WaterTunnels
 		addq.w	#1,a3
 		lea	(Player_2).w,a1
 		move.b	(Ctrl_2_held_logical).w,d6
 		moveq	#1,d5
-		bra.s	HCZ_WaterTunnels
+		bra.s	++ ;HCZ_WaterTunnels
 ; ---------------------------------------------------------------------------
 
-loc_53D2:
++ ;loc_53D2:
 		lea	(WindTunnel_flag_P2).w,a3
 		lea	(Player_1).w,a1
 		move.b	(Ctrl_1_held_logical).w,d6
@@ -1141,16 +1141,16 @@ loc_53D2:
 ; =============== S U B R O U T I N E =======================================
 
 
-HCZ_WaterTunnels:
++ ;HCZ_WaterTunnels:
 		lea	(HCZ1_WaterTunLocs).l,a2
 		tst.b	(Current_act).w
-		beq.s	loc_53F2
+		beq.s	+ ;loc_53F2
 		lea	(HCZ2_WaterTunLocs).l,a2
 
-loc_53F2:
++ ;loc_53F2:
 		move.w	(a2)+,d2
 
-loc_53F4:
+- ;loc_53F4:
 		move.w	x_pos(a1),d0
 		cmp.w	(a2),d0
 		blo.w	loc_5490
@@ -1181,12 +1181,12 @@ loc_53F4:
 		move.b	#$F,anim(a1)
 		bset	#1,status(a1)
 		tst.b	$C(a2)
-		bne.s	loc_547A
+		bne.s	++ ;loc_547A
 		btst	#button_up,d6
-		beq.s	loc_546E
+		beq.s	+ ;loc_546E
 		subq.w	#1,y_pos(a1)
 
-loc_546E:
++ ;loc_546E:
 		btst	#button_down,d6
 		beq.s	locret_5478
 		addq.w	#1,y_pos(a1)
@@ -1195,12 +1195,12 @@ locret_5478:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_547A:
++ ;loc_547A:
 		btst	#button_left,d6
-		beq.s	loc_5484
+		beq.s	+ ;loc_5484
 		subq.w	#1,x_pos(a1)
 
-loc_5484:
++ ;loc_5484:
 		btst	#button_right,d6
 		beq.s	locret_548E
 		addq.w	#1,x_pos(a1)
@@ -1211,7 +1211,7 @@ locret_548E:
 
 loc_5490:
 		adda.w	#$E,a2
-		dbf	d2,loc_53F4
+		dbf	d2,- ;loc_53F4
 		tst.b	(a3)
 		beq.s	locret_54A4
 		move.b	#$1A,anim(a1)
@@ -1260,7 +1260,7 @@ sub_5598:
 loc_55AA:
 		lea	(Player_1).w,a1
 		move.b	(Ctrl_1_held_logical).w,d2
-		bsr.s	sub_55BC
+		bsr.s	+ ;sub_55BC
 		lea	(Player_2).w,a1
 		move.b	(Ctrl_2_held_logical).w,d2
 ; End of function sub_5598
@@ -1269,11 +1269,11 @@ loc_55AA:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_55BC:
++ ;sub_55BC:
 		btst	#Status_InAir,status(a1)
-		bne.s	loc_55F8
+		bne.s	+ ;loc_55F8
 		cmpi.b	#$C,top_solid_bit(a1)
-		beq.s	loc_55F8
+		beq.s	+ ;loc_55F8
 		lea	(Level_layout_header).w,a2
 		move.w	y_pos(a1),d0
 		lsr.w	#5,d0
@@ -1287,12 +1287,12 @@ sub_55BC:
 		lea	byte_574E(pc),a2
 		moveq	#$A-1,d1
 
-loc_55F0:
+- ;loc_55F0:
 		cmp.b	-(a2),d0
-		dbeq	d1,loc_55F0
-		beq.s	loc_560C
+		dbeq	d1,- ;loc_55F0
+		beq.s	++ ;loc_560C
 
-loc_55F8:
++ ;loc_55F8:
 		tst.b	status_secondary(a1)
 		bpl.s	locret_560A
 		move.w	#5,move_lock(a1)
@@ -1302,7 +1302,7 @@ locret_560A:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_560C:
++ ;loc_560C:
 		moveq	#-8,d0
 		bra.w	loc_567E
 ; End of function sub_55BC
@@ -1312,18 +1312,18 @@ loc_560C:
 loc_5612:
 		lea	(Player_1).w,a1
 		move.b	(Ctrl_1_held_logical).w,d2
-		bsr.s	sub_5624
+		bsr.s	+ ;sub_5624
 		lea	(Player_2).w,a1
 		move.b	(Ctrl_2_held_logical).w,d2
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_5624:
++ ;sub_5624:
 		btst	#Status_InAir,status(a1)
-		bne.s	loc_5660
+		bne.s	+ ;loc_5660
 		btst	#Status_OnObj,status(a1)
-		bne.s	loc_5660
+		bne.s	+ ;loc_5660
 		lea	(Level_layout_header).w,a2
 		move.w	y_pos(a1),d0
 		lsr.w	#5,d0
@@ -1337,12 +1337,12 @@ sub_5624:
 		lea	WaterTransition_AIZ1(pc),a2
 		moveq	#$A-1,d1
 
-loc_5658:
+- ;loc_5658:
 		cmp.b	-(a2),d0
-		dbeq	d1,loc_5658
-		beq.s	loc_5674
+		dbeq	d1,- ;loc_5658
+		beq.s	++ ;loc_5674
 
-loc_5660:
++ ;loc_5660:
 		tst.b	status_secondary(a1)
 		bpl.s	locret_5672
 		move.w	#5,move_lock(a1)
@@ -1352,7 +1352,7 @@ locret_5672:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_5674:
++ ;loc_5674:
 		lea	(byte_573A).l,a2
 		move.b	(a2,d1.w),d0
 
@@ -1360,31 +1360,31 @@ loc_567E:
 		beq.s	loc_56CA
 		move.b	ground_vel(a1),d1
 		tst.b	d0
-		bpl.s	loc_5694
+		bpl.s	+ ;loc_5694
 		cmp.b	d0,d1
-		ble.s	loc_569E
+		ble.s	++ ;loc_569E
 		subi.w	#$40,ground_vel(a1)
-		bra.s	loc_569E
+		bra.s	++ ;loc_569E
 ; ---------------------------------------------------------------------------
 
-loc_5694:
++ ;loc_5694:
 		cmp.b	d0,d1
-		bge.s	loc_569E
+		bge.s	+ ;loc_569E
 		addi.w	#$40,ground_vel(a1)
 
-loc_569E:
++ ;loc_569E:
 		bclr	#Status_Facing,status(a1)
 		tst.b	d1
-		bpl.s	loc_56AE
+		bpl.s	+ ;loc_56AE
 		bset	#Status_Facing,status(a1)
 
-loc_56AE:
++ ;loc_56AE:
 		move.b	#$1B,anim(a1)
 		cmpi.b	#5,(Current_zone).w
-		bne.s	loc_56C2
+		bne.s	+ ;loc_56C2
 		move.b	#$19,anim(a1)
 
-loc_56C2:
++ ;loc_56C2:
 		ori.b	#$80,status_secondary(a1)
 		rts
 ; ---------------------------------------------------------------------------
@@ -1393,45 +1393,45 @@ loc_56CA:
 		move.w	#4,d1
 		move.w	ground_vel(a1),d0
 		btst	#button_left,d2
-		beq.s	loc_56EC
+		beq.s	+ ;loc_56EC
 		move.b	#0,anim(a1)
 		bset	#Status_Facing,status(a1)
 		sub.w	d1,d0
 		tst.w	d0
-		bpl.s	loc_56EC
+		bpl.s	+ ;loc_56EC
 		sub.w	d1,d0
 
-loc_56EC:
++ ;loc_56EC:
 		btst	#button_right,d2
-		beq.s	loc_5706
+		beq.s	+ ;loc_5706
 		move.b	#0,anim(a1)
 		bclr	#Status_Facing,status(a1)
 		add.w	d1,d0
 		tst.w	d0
-		bmi.s	loc_5706
+		bmi.s	+ ;loc_5706
 		add.w	d1,d0
 
-loc_5706:
++ ;loc_5706:
 		move.w	#4,d1
 		tst.w	d0
-		beq.s	loc_572E
-		bmi.s	loc_5720
+		beq.s	+++ ;loc_572E
+		bmi.s	++ ;loc_5720
 		sub.w	d1,d0
-		bhi.s	loc_571E
+		bhi.s	+ ;loc_571E
 		move.w	#0,d0
 		move.b	#5,anim(a1)
 
-loc_571E:
-		bra.s	loc_572E
++ ;loc_571E:
+		bra.s	++ ;loc_572E
 ; ---------------------------------------------------------------------------
 
-loc_5720:
++ ;loc_5720:
 		add.w	d1,d0
-		bhi.s	loc_572E
+		bhi.s	+ ;loc_572E
 		move.w	#0,d0
 		move.b	#5,anim(a1)
 
-loc_572E:
++ ;loc_572E:
 		move.w	d0,ground_vel(a1)
 		ori.b	#$80,status_secondary(a1)
 		rts
@@ -1613,18 +1613,18 @@ DemoPtrs:
 
 Demo_PlayRecord:
 		tst.w	(Demo_mode_flag).w
-		bne.s	loc_587C
+		bne.s	+ ;loc_587C
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_587C:
++ ;loc_587C:
 		move.b	(Ctrl_1_pressed).w,d0
 		or.b	(Ctrl_2_pressed).w,d0
 		andi.b	#button_start_mask,d0
-		beq.s	loc_5890
+		beq.s	+ ;loc_5890
 		move.b	#4,(Game_mode).w
 
-loc_5890:
++ ;loc_5890:
 		movea.l	(Demo_data_addr).w,a0
 		move.b	(Demo_start_button).w,d1
 		andi.b	#button_start_mask,d1
@@ -1671,9 +1671,9 @@ OscillateNumInit:
 		lea	(Osc_Data).l,a2
 		moveq	#(Oscillating_table_end-Oscillating_table)/2-1,d1
 
-Osc_Loop:
+- ;Osc_Loop:
 		move.w	(a2)+,(a1)+
-		dbf	d1,Osc_Loop
+		dbf	d1,- ;Osc_Loop
 		rts
 ; End of function OscillateNumInit
 
@@ -1702,43 +1702,43 @@ Osc_Data:
 
 OscillateNumDo:
 		tst.w	(Competition_mode).w
-		bne.s	loc_5958
+		bne.s	+ ;loc_5958
 		cmpi.b	#6,(Player_1+routine).w
 		bhs.s	OscillateNumDo_Return
 
-loc_5958:
++ ;loc_5958:
 		lea	(Oscillating_table).w,a1
 		lea	(Osc_Data2).l,a2
 		move.w	(a1)+,d3
 		moveq	#$10-1,d1
 
-loc_5966:
+- ;loc_5966:
 		move.w	(a2)+,d2
 		move.w	(a2)+,d4
 		btst	d1,d3
-		bne.s	loc_5982
+		bne.s	+ ;loc_5982
 		move.w	2(a1),d0
 		add.w	d2,d0
 		move.w	d0,2(a1)
 		add.w	d0,(a1)
 		cmp.b	(a1),d4
-		bhi.s	loc_5994
+		bhi.s	++ ;loc_5994
 		bset	d1,d3
-		bra.s	loc_5994
+		bra.s	++ ;loc_5994
 ; ---------------------------------------------------------------------------
 
-loc_5982:
++ ;loc_5982:
 		move.w	2(a1),d0
 		sub.w	d2,d0
 		move.w	d0,2(a1)
 		add.w	d0,(a1)
 		cmp.b	(a1),d4
-		bls.s	loc_5994
+		bls.s	+ ;loc_5994
 		bclr	d1,d3
 
-loc_5994:
++ ;loc_5994:
 		addq.w	#4,a1
-		dbf	d1,loc_5966
+		dbf	d1,- ;loc_5966
 		move.w	d3,(Oscillating_table).w
 
 OscillateNumDo_Return:
@@ -1769,14 +1769,14 @@ Osc_Data2:
 
 ChangeRingFrame:
 		subq.b	#1,(Rings_frame_timer).w
-		bpl.s	loc_59F6
+		bpl.s	+ ;loc_59F6
 		move.b	#7,(Rings_frame_timer).w
 		addq.b	#1,(Rings_frame).w
 		andi.b	#3,(Rings_frame).w
 
-loc_59F6:
++ ;loc_59F6:
 		tst.b	(Ring_spill_anim_counter).w
-		beq.s	loc_5A18
+		beq.s	+ ;loc_5A18
 		moveq	#0,d0
 		move.b	(Ring_spill_anim_counter).w,d0
 		add.w	(Ring_spill_anim_accum).w,d0
@@ -1786,7 +1786,7 @@ loc_59F6:
 		move.b	d0,(Ring_spill_anim_frame).w
 		subq.b	#1,(Ring_spill_anim_counter).w
 
-loc_5A18:
++ ;loc_5A18:
 		addi.w	#$180,(AIZ_vine_angle).w
 		rts
 ; End of function ChangeRingFrame
@@ -1801,16 +1801,16 @@ S2_DemoDat_AIZ:
 
 LoadLevelLoadBlock:
 		move.w	(Current_zone_and_act).w,d0
-		bne.s	loc_5E38
+		bne.s	++ ;loc_5E38
 		cmpi.w	#2,(Player_mode).w
-		beq.s	loc_5E34
+		beq.s	+ ;loc_5E34
 		tst.b	(Last_star_post_hit).w
-		beq.s	loc_5E38
+		beq.s	++ ;loc_5E38
 
-loc_5E34:
++ ;loc_5E34:
 		move.w	#$D00,d0
 
-loc_5E38:
++ ;loc_5E38:
 		ror.b	#1,d0
 		lsr.w	#4,d0
 		andi.w	#$1F8,d0
@@ -1851,33 +1851,33 @@ loc_5E7E:
 
 CheckLevelForWater:
 		cmpi.b	#0,(Current_zone).w
-		beq.s	loc_5EC8
+		beq.s	+ ;loc_5EC8
 		cmpi.b	#1,(Current_zone).w
-		beq.s	loc_5EC8
+		beq.s	+ ;loc_5EC8
 		cmpi.w	#$301,(Current_zone_and_act).w
-		beq.s	loc_5EC8
+		beq.s	+ ;loc_5EC8
 		cmpi.w	#$501,(Current_zone_and_act).w
-		beq.s	loc_5EC8
+		beq.s	+ ;loc_5EC8
 		cmpi.w	#$601,(Current_zone_and_act).w
-		bne.s	loc_5ED4
+		bne.s	++ ;loc_5ED4
 
-loc_5EC8:
++ ;loc_5EC8:
 		move.b	#1,(Water_flag).w
 		move.w	#0,(Competition_mode).w
 
-loc_5ED4:
++ ;loc_5ED4:
 		tst.b	(Water_flag).w
 		beq.s	LoadWaterPalette
 		move.w	#$4EF9,(H_int_jump).w
 		move.l	#HInt2,(H_int_addr).w
 		cmpi.b	#1,(Current_zone).w
-		beq.s	loc_5F08
+		beq.s	+ ;loc_5F08
 		move.l	#HInt3,(H_int_addr).w
 		cmpi.w	#$1000,(V_blank_cycles).w
-		blo.s	loc_5F08
+		blo.s	+ ;loc_5F08
 		move.l	#HInt4,(H_int_addr).w
 
-loc_5F08:
++ ;loc_5F08:
 		move.l	#WaterTransition_AIZ1,(Water_palette_data_addr).w
 		moveq	#0,d0
 		move.w	(Current_zone_and_act).w,d0
@@ -1903,38 +1903,38 @@ LoadWaterPalette:
 		beq.w	locret_5FEE
 		moveq	#$2B,d0
 		cmpi.w	#0,(Current_zone_and_act).w
-		beq.w	loc_5FD6
+		beq.w	+ ;loc_5FD6
 		moveq	#$2C,d0
 		move.l	#WaterTransition_AIZ2,(Water_palette_data_addr).w
 		cmpi.w	#1,(Current_zone_and_act).w
-		beq.s	loc_5FD6
+		beq.s	+ ;loc_5FD6
 		moveq	#$31,d0
 		move.l	#WaterTransition_HCZLBZ1,(Water_palette_data_addr).w
 		cmpi.w	#$100,(Current_zone_and_act).w
-		beq.s	loc_5FD6
+		beq.s	+ ;loc_5FD6
 		moveq	#$32,d0
 		move.l	#WaterTransition_HCZLBZ1,(Water_palette_data_addr).w
 		cmpi.w	#$101,(Current_zone_and_act).w
-		beq.s	loc_5FD6
+		beq.s	+ ;loc_5FD6
 		moveq	#$3A,d0
 		move.l	#WaterTransition_CNZ2ICZ2,(Water_palette_data_addr).w
 		cmpi.w	#$301,(Current_zone_and_act).w
-		beq.s	loc_5FD6
+		beq.s	+ ;loc_5FD6
 		moveq	#$39,d0
 		move.l	#WaterTransition_CNZ2ICZ2,(Water_palette_data_addr).w
 		cmpi.w	#$501,(Current_zone_and_act).w
-		beq.s	loc_5FD6
+		beq.s	+ ;loc_5FD6
 		moveq	#$2D,d0
 		move.l	#WaterTransition_HCZLBZ1,(Water_palette_data_addr).w
 		cmpi.w	#$600,(Current_zone_and_act).w
-		beq.s	loc_5FD6
+		beq.s	+ ;loc_5FD6
 		moveq	#$2E,d0
 		move.l	#WaterTransition_LBZ2,(Water_palette_data_addr).w
 		cmpi.w	#$601,(Current_zone_and_act).w
-		beq.s	loc_5FD6
+		beq.s	+ ;loc_5FD6
 		nop
 
-loc_5FD6:
++ ;loc_5FD6:
 		move.w	d0,d1
 		bsr.w	LoadPalette2
 		move.w	d1,d0
@@ -1955,42 +1955,42 @@ locret_5FEE:
 		move.b	$2E(a0),d0
 		addq.b	#1,$2E(a0)
 		move.b	byte_6074(pc,d0.w),d0
-		bne.s	loc_6016
+		bne.s	+ ;loc_6016
 		move.b	#1,$2E(a0)
 		move.b	byte_6074(pc),d0
 
-loc_6016:
++ ;loc_6016:
 		lsl.w	#7,d0
 		lea	(RAM_start).l,a1
 		lea	(a1,d0.w),a1
 		lea	(RAM_start+$200).l,a2
 		move.w	#bytesToWcnt($100),d0
 
-loc_602C:
+- ;loc_602C:
 		move.w	(a1)+,(a2)+
-		dbf	d0,loc_602C
+		dbf	d0,- ;loc_602C
 		moveq	#0,d0
 		move.b	$2F(a0),d0
 		addq.b	#1,$2F(a0)
 		move.b	byte_608E(pc,d0.w),d0
-		bne.s	loc_604C
+		bne.s	+ ;loc_604C
 		move.b	#1,$2F(a0)
 		move.b	byte_608E(pc),d0
 
-loc_604C:
++ ;loc_604C:
 		lsl.w	#7,d0
 		lea	(RAM_start).l,a1
 		lea	(a1,d0.w),a1
 		lea	(RAM_start+$F00).l,a2
 		move.w	#bytesToWcnt($80),d0
 
-loc_6062:
+- ;loc_6062:
 		move.w	(a1)+,(a2)+
-		dbf	d0,loc_6062
+		dbf	d0,- ;loc_6062
 
 loc_6068:
 		cmpi.w	#6,$24(a0)
-		beq.w	loc_6110
+		beq.w	+ ;loc_6110
 		rts
 ; ---------------------------------------------------------------------------
 byte_6074:
@@ -2009,7 +2009,7 @@ byte_608E:
 		even
 ; ---------------------------------------------------------------------------
 
-loc_6110:
++ ;loc_6110:
 		move	#$2700,sr
 		movem.l	d0-a6,-(sp)
 		lea	(Plane_buffer).w,a0

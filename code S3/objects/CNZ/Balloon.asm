@@ -17,28 +17,28 @@ Obj_CNZBalloon:
 
 loc_303B8:
 		tst.b	collision_property(a0)
-		beq.s	loc_303DA
+		beq.s	++ ;loc_303DA
 		lea	(Player_1).w,a1
 		bclr	#0,collision_property(a0)
-		beq.s	loc_303CC
+		beq.s	+ ;loc_303CC
 		bsr.s	sub_30412
 
-loc_303CC:
++ ;loc_303CC:
 		lea	(Player_2).w,a1
 		bclr	#1,collision_property(a0)
-		beq.s	loc_303DA
+		beq.s	+ ;loc_303DA
 		bsr.s	sub_30412
 
-loc_303DA:
++ ;loc_303DA:
 		lea	(Ani_CNZBalloon).l,a1
 		jsr	(Animate_Sprite).l
 		; Bug: probably meant to be 5(a0), and at some point the animation terminated
 		; with code $FC (increment routine counter) rather than $FB (move offscreen)
 		tst.b	5
-		beq.s	loc_303F2
+		beq.s	+ ;loc_303F2
 		move.w	#$7F00,x_pos(a0)
 
-loc_303F2:
++ ;loc_303F2:
 		moveq	#0,d0
 		move.b	angle(a0),d0
 		addq.b	#1,angle(a0)
@@ -60,10 +60,10 @@ sub_30412:
 		move.b	#0,object_control(a1)
 		bset	#0,anim(a0)
 		tst.b	subtype(a0)
-		bpl.s	loc_30466
+		bpl.s	+ ;loc_30466
 		move.w	#-$380,y_vel(a1)
 		tst.b	$34(a0)
-		bne.s	loc_30466
+		bne.s	+ ;loc_30466
 		lea	(byte_304B8).l,a2
 		bsr.s	sub_3047C
 		bsr.s	sub_3047C
@@ -72,7 +72,7 @@ sub_30412:
 		move.w	x_pos(a0),x_pos(a1)
 		move.w	y_pos(a0),y_pos(a1)
 
-loc_30466:
++ ;loc_30466:
 		tst.b	$34(a0)
 		bne.s	locret_3047A
 		moveq	#signextendB(sfx_Balloon),d0

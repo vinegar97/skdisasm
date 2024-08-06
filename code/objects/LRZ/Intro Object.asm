@@ -16,11 +16,11 @@ loc_44A26:
 		move.w	(Player_1+x_pos).w,d0
 		addi.w	#$10,d0
 		cmp.w	$30(a0),d0
-		bhs.s	loc_44A56
+		bhs.s	+ ;loc_44A56
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_44A56:
++ ;loc_44A56:
 		move.b	#0,(Ctrl_1_locked).w
 		move.b	#0,(Ctrl_2_locked).w
 		jmp	(Delete_Current_Sprite).l

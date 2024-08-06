@@ -3,17 +3,17 @@ Obj_LRZCorkscrew:
 		move.l	#loc_4225A,(a0)
 
 loc_4225A:
-		bsr.s	sub_42262
+		bsr.s	+ ;sub_42262
 		jmp	(Delete_Sprite_If_Not_In_Range).l
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_42262:
++ ;sub_42262:
 		lea	(Player_1).w,a1
 		lea	$30(a0),a2
 		moveq	#p1_standing_bit,d6
-		bsr.s	sub_42278
+		bsr.s	+ ;sub_42278
 		lea	(Player_2).w,a1
 		lea	$34(a0),a2
 		; Bug: if player 1 was riding the object, then d6 may have become dirty from
@@ -25,9 +25,9 @@ sub_42262:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_42278:
++ ;sub_42278:
 		btst	d6,status(a0)
-		bne.w	loc_42362
+		bne.w	+++ ;loc_42362
 		move.w	x_pos(a1),d0
 		addi.w	#$10,d0
 		sub.w	x_pos(a0),d0
@@ -46,16 +46,16 @@ sub_42278:
 		tst.w	ground_vel(a1)
 		bmi.w	locret_42360
 		cmpi.w	#$600,ground_vel(a1)
-		bge.w	loc_422D6
+		bge.w	+ ;loc_422D6
 		move.w	#$600,ground_vel(a1)
 
-loc_422D6:
++ ;loc_422D6:
 		btst	#Status_OnObj,status(a1)
-		beq.s	loc_422E6
+		beq.s	+ ;loc_422E6
 		movea.w	interact(a1),a3
 		bclr	d6,status(a3)
 
-loc_422E6:
++ ;loc_422E6:
 		move.w	a0,interact(a1)
 		bset	d6,status(a0)
 		move.w	#0,x_vel(a1)
@@ -82,9 +82,9 @@ locret_42360:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_42362:
++ ;loc_42362:
 		tst.w	(Debug_placement_mode).w
-		beq.s	loc_423D0
+		beq.s	+ ;loc_423D0
 
 loc_42368:
 		andi.b	#$81,status(a1)
@@ -112,7 +112,7 @@ loc_42396:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_423D0:
++ ;loc_423D0:
 		move.w	ground_vel(a1),d0
 		ext.l	d0
 		lsl.l	#8,d0
@@ -121,18 +121,18 @@ loc_423D0:
 		cmpi.w	#$700,(a2)
 		bhs.s	loc_42396
 		cmpi.w	#$1000,ground_vel(a1)
-		bge.s	loc_423F0
+		bge.s	+ ;loc_423F0
 		addi.w	#$10,ground_vel(a1)
 
-loc_423F0:
++ ;loc_423F0:
 		bclr	#7,art_tile(a1)
 		move.w	(a2),d0
 		lsr.w	#1,d0
 		addi.b	#$40,d0
-		bmi.s	loc_42406
+		bmi.s	+ ;loc_42406
 		bset	#7,art_tile(a1)
 
-loc_42406:
++ ;loc_42406:
 		move.w	x_pos(a1),d2
 		move.w	(a2),d0
 		lsr.w	#1,d0
@@ -146,10 +146,10 @@ loc_42406:
 		move.w	d0,x_vel(a1)
 		lea	byte_4248A(pc),a3
 		cmpi.w	#$600,(a2)
-		blo.s	loc_42438
+		blo.s	+ ;loc_42438
 		lea	byte_4250A(pc),a3
 
-loc_42438:
++ ;loc_42438:
 		move.w	y_pos(a1),d2
 		move.w	(a2),d0
 		lsr.w	#2,d0

@@ -27,7 +27,7 @@ Init_Controllers:
 Poll_Controllers:
 		lea	(Ctrl_1).w,a0
 		lea	(HW_Port_1_Data).l,a1
-		bsr.s	Poll_Controller	; poll first controller
+		bsr.s	+ ;Poll_Controller	; poll first controller
 		addq.w	#2,a1	; poll second controller
 ; End of function Poll_Controllers
 
@@ -35,7 +35,7 @@ Poll_Controllers:
 ; =============== S U B R O U T I N E =======================================
 
 
-Poll_Controller:
++ ;Poll_Controller:
 		move.b	#0,(a1)			; Poll controller data port
 		nop
 		nop
@@ -67,9 +67,9 @@ Init_VDP:
 		lea	(VDP_register_values).l,a2
 		moveq	#19-1,d7
 
-$$setRegisters:
+- ;$$setRegisters:
 		move.w	(a2)+,(a0)
-		dbf	d7,$$setRegisters
+		dbf	d7,- ;$$setRegisters
 		move.w	(VDP_register_values+2).l,d0	; get command for register #1
 		move.w	d0,(VDP_reg_1_command).w	; and store it in RAM (for easy display blanking/enabling)
 		move.w	#$8ADF,(H_int_counter_command).w
@@ -80,9 +80,9 @@ $$setRegisters:
 		move.l	#vdpComm($0000,CRAM,WRITE),(VDP_control_port).l
 		move.w	#bytesToWcnt($80),d7
 
-$$clearCRAM:
+- ;$$clearCRAM:
 		move.w	d0,(a1)
-		dbf	d7,$$clearCRAM
+		dbf	d7,- ;$$clearCRAM
 		clr.l	(V_scroll_value).w
 		clr.l	(_unkF61A).w
 		move.l	d1,-(sp)
@@ -156,23 +156,23 @@ SndDrvInit:
 		lea	(Z80_RAM).l,a1
 		move.w	#$1C00-2,d0
 
-loc_1584:
+- ;loc_1584:
 		move.b	(a0)+,(a1)+
-		dbf	d0,loc_1584
+		dbf	d0,- ;loc_1584
 		; Load default variables
 		lea	(Z80_DefaultVariables).l,a0
 		lea	(Z80_RAM+$1C00).l,a1
 		move.w	#Z80_DefaultVariables.end-Z80_DefaultVariables-1,d0
 
-loc_159A:
+- ;loc_159A:
 		move.b	(a0)+,(a1)+
-		dbf	d0,loc_159A
+		dbf	d0,- ;loc_159A
 		; Detect PAL region consoles
 		btst	#6,(Graphics_flags).w
-		beq.s	loc_15B0
+		beq.s	+ ;loc_15B0
 		move.b	#1,(Z80_RAM+$1C02).l
 
-loc_15B0:
++ ;loc_15B0:
 		move.w	#0,(Z80_reset).l	; reset Z80
 		nop
 		nop
@@ -226,7 +226,7 @@ Play_Music:
 
 Play_SFX_Local:
 		tst.b	render_flags(a0)
-		bpl.s	Play_SFX_Done
+		bpl.s	Play_SFX.Done
 
 ; ---------------------------------------------------------------------------
 ; Can handle up to two different indexes in one frame
@@ -238,20 +238,20 @@ Play_SFX_Local:
 Play_SFX:
 		stopZ80
 		cmp.b	(Z80_RAM+$1C0B).l,d0
-		beq.s	loc_1642
+		beq.s	++ ;loc_1642
 		tst.b	(Z80_RAM+$1C0B).l
-		bne.s	loc_163C
+		bne.s	+ ;loc_163C
 		move.b	d0,(Z80_RAM+$1C0B).l
 		startZ80
 		rts
 
-loc_163C:
++ ;loc_163C:
 		move.b	d0,(Z80_RAM+$1C0C).l
 
-loc_1642:
++ ;loc_1642:
 		startZ80
 
-Play_SFX_Done:
+.Done:
 		rts
 ; End of function Play_SFX
 
@@ -275,13 +275,13 @@ Pause_Game:
 		tst.b	(Life_count).w
 		beq.w	Pause_Unpause
 		tst.w	(Game_paused).w
-		bne.s	loc_168E
+		bne.s	+ ;loc_168E
 		move.b	(Ctrl_1_pressed).w,d0
 		or.b	(Ctrl_2_pressed).w,d0
 		andi.b	#$80,d0	; is Start pressed?
 		beq.w	Pause_NoPause	; if not, branch
 
-loc_168E:
++ ;loc_168E:
 		move.w	#1,(Game_paused).w
 		stopZ80
 		move.b	#1,(Z80_RAM+$1C10).l	; Pause the music
@@ -360,15 +360,15 @@ Plane_Map_To_VRAM:
 		lea	(VDP_data_port).l,a6
 		move.l	#$80<<16,d4	; row increment value
 
-loc_177C:
+- ;loc_177C:
 		move.l	d0,VDP_control_port-VDP_data_port(a6)
 		move.w	d1,d3
 
-loc_1782:
+- ;loc_1782:
 		move.w	(a1)+,(a6)
-		dbf	d3,loc_1782	; copy one row
+		dbf	d3,- ;loc_1782	; copy one row
 		add.l	d4,d0	; move onto next row
-		dbf	d2,loc_177C	; and copy it
+		dbf	d2,-- ;loc_177C	; and copy it
 		rts
 ; End of function Plane_Map_To_VRAM
 
@@ -388,15 +388,15 @@ Plane_Map_To_VRAM_2:
 		lea	(VDP_data_port).l,a6
 		move.l	#$100<<16,d4	; row increment value
 
-loc_179C:
+- ;loc_179C:
 		move.l	d0,VDP_control_port-VDP_data_port(a6)
 		move.w	d1,d3
 
-loc_17A2:
+- ;loc_17A2:
 		move.w	(a1)+,(a6)
-		dbf	d3,loc_17A2	; copy one row
+		dbf	d3,- ;loc_17A2	; copy one row
 		add.l	d4,d0	; move onto next row
-		dbf	d2,loc_179C	; and copy it
+		dbf	d2,-- ;loc_179C	; and copy it
 		rts
 ; End of function Plane_Map_To_VRAM_2
 
@@ -523,10 +523,10 @@ Nem_Decomp_Main:
 		lea	(Nem_code_table).w,a1
 		move.w	(a0)+,d2	; get number of patterns
 		lsl.w	#1,d2
-		bcc.s	loc_186E	; branch if the sign bit isn't set
+		bcc.s	+ ;loc_186E	; branch if the sign bit isn't set
 		adda.w	#Nem_PCD_WriteRowToVDP_XOR-Nem_PCD_WriteRowToVDP,a3	; otherwise the file uses XOR mode
 
-loc_186E:
++ ;loc_186E:
 		lsl.w	#2,d2	; get number of 8-pixel rows in the uncompressed data
 		movea.w	d2,a5	; and store it in a5 because there aren't any spare data registers
 		moveq	#8,d3	; 8 pixels in a pattern row
@@ -561,12 +561,12 @@ Nem_Process_Compressed_Data:
 		ext.w	d0
 		sub.w	d0,d6	; subtract from shift value so that the next code is read next time around
 		cmpi.w	#9,d6	; does a new byte need to be read?
-		bhs.s	loc_18B6	; if not, branch
+		bhs.s	+ ;loc_18B6	; if not, branch
 		addq.w	#8,d6
 		asl.w	#8,d5
 		move.b	(a0)+,d5	; read next byte
 
-loc_18B6:
++ ;loc_18B6:
 		move.b	1(a1,d1.w),d1
 		move.w	d1,d0
 		andi.w	#$F,d1	; get palette index for pixel
@@ -575,7 +575,7 @@ loc_18B6:
 Nem_PCD_GetRepeatCount:
 		lsr.w	#4,d0	; get repeat count
 
-Nem_PCD_WritePixel:
+- ;Nem_PCD_WritePixel:
 		lsl.l	#4,d4	; shift up by a nybble
 		or.b	d1,d4	; write pixel
 		subq.w	#1,d3	; has an entire 8-pixel row been written?
@@ -588,19 +588,19 @@ Nem_PCD_NewRow:
 		moveq	#8,d3	; reset nybble counter
 
 Nem_PCD_WritePixel_Loop:
-		dbf	d0,Nem_PCD_WritePixel
+		dbf	d0,- ;Nem_PCD_WritePixel
 		bra.s	Nem_Process_Compressed_Data
 ; ---------------------------------------------------------------------------
 
 Nem_PCD_InlineData:
 		subq.w	#6,d6	; 6 bits needed to signal inline data
 		cmpi.w	#9,d6
-		bhs.s	loc_18E8
+		bhs.s	+ ;loc_18E8
 		addq.w	#8,d6
 		asl.w	#8,d5
 		move.b	(a0)+,d5
 
-loc_18E8:
++ ;loc_18E8:
 		subq.w	#7,d6	; and 7 bits needed for the inline data itself
 		move.w	d5,d1
 		lsr.w	d6,d1	; shift so that low bit of the code is in bit position 0
@@ -702,10 +702,10 @@ Nem_BCT_ShortCode:
 		lsl.w	d1,d5
 		subq.w	#1,d5	; d5 = 2^d1 - 1
 
-Nem_BCT_ShortCode_Loop:
+- ;Nem_BCT_ShortCode_Loop:
 		move.w	d7,(a1,d0.w)	; store entry
 		addq.w	#2,d0	; increment index
-		dbf	d5,Nem_BCT_ShortCode_Loop	; repeat for required number of entries
+		dbf	d5,- ;Nem_BCT_ShortCode_Loop	; repeat for required number of entries
 		bra.s	Nem_BCT_Loop
 ; End of function Nem_Build_Code_Table
 
@@ -841,10 +841,10 @@ Process_Nem_Queue_Init:
 		nop
 		lea	(Nem_code_table).w,a1
 		move.w	(a0)+,d2
-		bpl.s	loc_1A2E
+		bpl.s	+ ;loc_1A2E
 		adda.w	#Nem_PCD_WriteRowToVDP_XOR-Nem_PCD_WriteRowToVDP,a3
 
-loc_1A2E:
++ ;loc_1A2E:
 		andi.w	#$7FFF,d2
 		bsr.w	Nem_Build_Code_Table
 		move.b	(a0)+,d5
@@ -950,9 +950,9 @@ Process_Nem_Queue_ShiftUp:
 		lea	(Nem_decomp_queue).w,a0
 		moveq	#$16-1,d0
 
-.loop:
+- ;.loop:
 		move.l	6(a0),(a0)+
-		dbf	d0,.loop
+		dbf	d0,- ;.loop
 		rts
 ; End of function Process_Nem_Queue_Main
 
@@ -1024,11 +1024,11 @@ Eni_Decomp_Loop:
 		andi.w	#$7F,d1	; get format list entry
 		move.w	d1,d2	; and copy it
 		cmpi.w	#$40,d1	; is the high bit of the entry set?
-		bhs.s	loc_1B78
+		bhs.s	+ ;loc_1B78
 		moveq	#6,d0	; if it isn't, the entry is actually 6 bits
 		lsr.w	#1,d2
 
-loc_1B78:
++ ;loc_1B78:
 		bsr.w	Eni_Decomp_FetchByte
 		andi.w	#$F,d2	; get repeat count
 		lsr.w	#4,d1
@@ -1110,16 +1110,16 @@ Eni_Decomp_Index:
 Eni_Decomp_Done:
 		subq.w	#1,a0	; go back by one byte
 		cmpi.w	#$10,d6
-		bne.s	loc_1BEE
+		bne.s	+ ;loc_1BEE
 		subq.w	#1,a0	; and another one if needed
 
-loc_1BEE:
++ ;loc_1BEE:
 		move.w	a0,d0
 		lsr.w	#1,d0
-		bcc.s	loc_1BF6
+		bcc.s	+ ;loc_1BF6
 		addq.w	#1,a0	; make sure it's an even address
 
-loc_1BF6:
++ ;loc_1BF6:
 		movem.l	(sp)+,d0-d7/a1-a5
 		rts
 ; End of function Eni_Decomp
@@ -1136,45 +1136,45 @@ Eni_Decomp_FetchInlineValue:
 		move.w	a3,d3	; copy starting art tile
 		move.b	d4,d1	; copy PCCVH bitfield
 		add.b	d1,d1	; is the priority bit set?
-		bcc.s	loc_1C0E	; if not, branch
+		bcc.s	+ ;loc_1C0E	; if not, branch
 		subq.w	#1,d6
 		btst	d6,d5	; is the priority bit set in the inline render flags?
-		beq.s	loc_1C0E	; if not, branch
+		beq.s	+ ;loc_1C0E	; if not, branch
 		ori.w	#$8000,d3	; otherwise set priority bit in art tile
 
-loc_1C0E:
++ ;loc_1C0E:
 		add.b	d1,d1	; is the high palette line bit set?
-		bcc.s	loc_1C1C	; if not, branch
+		bcc.s	+ ;loc_1C1C	; if not, branch
 		subq.w	#1,d6
 		btst	d6,d5
-		beq.s	loc_1C1C
+		beq.s	+ ;loc_1C1C
 		addi.w	#$4000,d3
 
-loc_1C1C:
++ ;loc_1C1C:
 		add.b	d1,d1	; is the low palette line bit set?
-		bcc.s	loc_1C2A	; if not, branch
+		bcc.s	+ ;loc_1C2A	; if not, branch
 		subq.w	#1,d6
 		btst	d6,d5
-		beq.s	loc_1C2A
+		beq.s	+ ;loc_1C2A
 		addi.w	#$2000,d3
 
-loc_1C2A:
++ ;loc_1C2A:
 		add.b	d1,d1	; is the vertical flip flag set?
-		bcc.s	loc_1C38	; if not, branch
+		bcc.s	+ ;loc_1C38	; if not, branch
 		subq.w	#1,d6
 		btst	d6,d5
-		beq.s	loc_1C38
+		beq.s	+ ;loc_1C38
 		ori.w	#$1000,d3
 
-loc_1C38:
++ ;loc_1C38:
 		add.b	d1,d1	; is the horizontal flip flag set?
-		bcc.s	loc_1C46	; if not, branch
+		bcc.s	+ ;loc_1C46	; if not, branch
 		subq.w	#1,d6
 		btst	d6,d5
-		beq.s	loc_1C46
+		beq.s	+ ;loc_1C46
 		ori.w	#$800,d3
 
-loc_1C46:
++ ;loc_1C46:
 		move.w	d5,d1
 		move.w	d6,d7
 		sub.w	a5,d7	; subtract length in bits of inline copy value
@@ -1301,22 +1301,22 @@ Kos_Decomp_ChkBit2:
 		move	d6,ccr	; was the bit set?
 		bcs.s	Kos_Decomp_FullMatch	; if it was, branch
 		lsr.w	#1,d5	; bit which is shifted out goes into X flag
-		dbf	d4,loc_1D0A
+		dbf	d4,+ ;loc_1D0A
 		move.b	(a0)+,1(sp)
 		move.b	(a0)+,(sp)
 		move.w	(sp),d5
 		moveq	#$F,d4
 
-loc_1D0A:
++ ;loc_1D0A:
 		roxl.w	#1,d3	; get high repeat count bit (shift X flag in)
 		lsr.w	#1,d5
-		dbf	d4,loc_1D1C
+		dbf	d4,+ ;loc_1D1C
 		move.b	(a0)+,1(sp)
 		move.b	(a0)+,(sp)
 		move.w	(sp),d5
 		moveq	#$F,d4
 
-loc_1D1C:
++ ;loc_1D1C:
 		roxl.w	#1,d3	; get low repeat count bit
 		addq.w	#1,d3	; increment repeat count
 		moveq	#-1,d2
@@ -1396,21 +1396,21 @@ $$freeSlotFound:
 Process_Kos_Module_Queue_Init:
 		move.w	(a1)+,d3	; get uncompressed size
 		cmpi.w	#$A000,d3
-		bne.s	loc_1D80
+		bne.s	+ ;loc_1D80
 		move.w	#$8000,d3	; $A000 means $8000 for some reason
 
-loc_1D80:
++ ;loc_1D80:
 		lsr.w	#1,d3
 		move.w	d3,d0
 		rol.w	#5,d0
 		andi.w	#$1F,d0	; get number of complete modules
 		move.b	d0,(Kos_modules_left).w
 		andi.l	#$7FF,d3	; get size of last module in words
-		bne.s	loc_1DA0	; branch if it's non-zero
+		bne.s	+ ;loc_1DA0	; branch if it's non-zero
 		subq.b	#1,(Kos_modules_left).w	; otherwise decrement the number of modules
 		move.l	#$800,d3	; and take the size of the last module to be $800 words
 
-loc_1DA0:
++ ;loc_1DA0:
 		move.w	d3,(Kos_last_module_size).w
 		move.w	d2,(Kos_module_destination).w
 		move.l	a1,(Kos_module_queue).w
@@ -1452,10 +1452,10 @@ $$decompressionStarted:
 		andi.b	#$7F,(Kos_modules_left).w
 		move.l	#$800,d3
 		subq.b	#1,(Kos_modules_left).w
-		bne.s	loc_1DF4	; branch if it isn't the last module
+		bne.s	+ ;loc_1DF4	; branch if it isn't the last module
 		move.w	(Kos_last_module_size).w,d3
 
-loc_1DF4:
++ ;loc_1DF4:
 		move.w	(Kos_module_destination).w,d2
 		move.w	d2,d0
 		add.w	d3,d0
@@ -1586,22 +1586,22 @@ Process_Kos_Queue_ChkBit2:
 		move	d6,ccr
 		bcs.s	Process_Kos_Queue_SeparateRLE
 		lsr.w	#1,d5
-		dbf	d4,loc_1F0E
+		dbf	d4,+ ;loc_1F0E
 		move.b	(a0)+,1(a2)
 		move.b	(a0)+,(a2)
 		move.w	(a2),d5
 		moveq	#$F,d4
 
-loc_1F0E:
++ ;loc_1F0E:
 		roxl.w	#1,d3
 		lsr.w	#1,d5
-		dbf	d4,loc_1F20
+		dbf	d4,+ ;loc_1F20
 		move.b	(a0)+,1(a2)
 		move.b	(a0)+,(a2)
 		move.w	(a2),d5
 		moveq	#$F,d4
 
-loc_1F20:
++ ;loc_1F20:
 		roxl.w	#1,d3
 		addq.w	#1,d3
 		moveq	#-1,d2

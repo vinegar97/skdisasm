@@ -12,7 +12,7 @@ Obj_LBZLoweringGrapple:
 		move.w	d0,$2E(a0)
 		move.w	#2,$3A(a0)
 		move.b	subtype(a0),d0
-		bpl.s	loc_29080
+		bpl.s	+ ;loc_29080
 		move.w	$2E(a0),d0
 		move.w	d0,$38(a0)
 		move.b	#1,$36(a0)
@@ -21,62 +21,62 @@ Obj_LBZLoweringGrapple:
 		addq.w	#1,d0
 		move.b	d0,mapping_frame(a0)
 
-loc_29080:
++ ;loc_29080:
 		move.l	#loc_29086,(a0)
 
 loc_29086:
 		tst.b	$36(a0)
-		beq.s	loc_29094
+		beq.s	+ ;loc_29094
 		tst.w	$30(a0)
-		bne.s	loc_290AA
-		bra.s	loc_2909A
+		bne.s	+++ ;loc_290AA
+		bra.s	++ ;loc_2909A
 ; ---------------------------------------------------------------------------
 
-loc_29094:
++ ;loc_29094:
 		tst.w	$30(a0)
-		beq.s	loc_290AA
+		beq.s	++ ;loc_290AA
 
-loc_2909A:
++ ;loc_2909A:
 		move.w	$38(a0),d2
 		cmp.w	$2E(a0),d2
 		beq.s	loc_290CE
 		add.w	$3A(a0),d2
-		bra.s	loc_290B4
+		bra.s	++ ;loc_290B4
 ; ---------------------------------------------------------------------------
 
-loc_290AA:
++ ;loc_290AA:
 		move.w	$38(a0),d2
 		beq.s	loc_290CE
 		sub.w	$3A(a0),d2
 
-loc_290B4:
++ ;loc_290B4:
 		move.w	d2,$38(a0)
 		move.w	$3C(a0),d0
 		add.w	d2,d0
 		move.w	d0,y_pos(a0)
 		move.w	d2,d0
-		beq.s	loc_290CA
+		beq.s	+ ;loc_290CA
 		lsr.w	#4,d0
 		addq.w	#1,d0
 
-loc_290CA:
++ ;loc_290CA:
 		move.b	d0,mapping_frame(a0)
 
 loc_290CE:
 		lea	$30(a0),a2
 		lea	(Player_1).w,a1
 		move.w	(Ctrl_1_logical).w,d0
-		bsr.w	sub_290F2
+		bsr.w	+ ;sub_290F2
 		lea	(Player_2).w,a1
 		addq.w	#1,a2
 		move.w	(Ctrl_2_logical).w,d0
-		bsr.w	sub_290F2
+		bsr.w	+ ;sub_290F2
 		jmp	(Sprite_OnScreen_Test).l
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_290F2:
++ ;sub_290F2:
 		tst.b	(a2)
 		beq.w	loc_29194
 		tst.b	render_flags(a1)
@@ -89,20 +89,20 @@ sub_290F2:
 		clr.b	(a2)
 		move.b	#$12,2(a2)
 		andi.w	#(button_up_mask|button_down_mask|button_left_mask|button_right_mask)<<8,d0
-		beq.w	loc_29128
+		beq.w	+ ;loc_29128
 		move.b	#$3C,2(a2)
 
-loc_29128:
++ ;loc_29128:
 		btst	#button_left+8,d0
-		beq.s	loc_29134
+		beq.s	+ ;loc_29134
 		move.w	#-$200,x_vel(a1)
 
-loc_29134:
++ ;loc_29134:
 		btst	#button_right+8,d0
-		beq.s	loc_29140
+		beq.s	+ ;loc_29140
 		move.w	#$200,x_vel(a1)
 
-loc_29140:
++ ;loc_29140:
 		move.w	#-$380,y_vel(a1)
 		bset	#Status_InAir,status(a1)
 		move.b	#1,jumping(a1)
@@ -130,11 +130,11 @@ loc_29186:
 
 loc_29194:
 		tst.b	2(a2)
-		beq.s	loc_291A2
+		beq.s	+ ;loc_291A2
 		subq.b	#1,2(a2)
 		bne.w	locret_29214
 
-loc_291A2:
++ ;loc_291A2:
 		move.w	x_pos(a1),d0
 		sub.w	x_pos(a0),d0
 		addi.w	#$10,d0

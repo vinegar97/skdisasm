@@ -56,10 +56,10 @@ loc_4ED5A:
 		move.l	#loc_4EDA0,$34(a0)
 		lea	(ChildObjDat_4F3CA).l,a2
 		jsr	CreateChild1_Normal(pc)
-		bne.s	loc_4ED8E
+		bne.s	+ ;loc_4ED8E
 		move.b	#9,subtype(a1)
 
-loc_4ED8E:
++ ;loc_4ED8E:
 		lea	ChildObjDat_4F3D2(pc),a2
 		jmp	CreateChild1_Normal(pc)
 ; ---------------------------------------------------------------------------
@@ -81,12 +81,12 @@ loc_4EDA0:
 loc_4EDC0:
 		jsr	Swing_UpAndDown(pc)
 		subq.w	#1,$44(a0)
-		bpl.s	loc_4EDDA
+		bpl.s	+ ;loc_4EDDA
 		neg.w	x_vel(a0)
 		bchg	#0,render_flags(a0)
 		move.w	#$17F,$44(a0)
 
-loc_4EDDA:
++ ;loc_4EDDA:
 		jsr	(MoveSprite2).l
 		jmp	Obj_Wait(pc)
 ; ---------------------------------------------------------------------------
@@ -129,12 +129,12 @@ loc_4EE3C:
 
 loc_4EE5A:
 		subq.w	#1,$3C(a0)
-		bmi.s	loc_4EE6C
+		bmi.s	+ ;loc_4EE6C
 		addi.l	#$8000,y_pos(a0)
 		jmp	Obj_Wait(pc)
 ; ---------------------------------------------------------------------------
 
-loc_4EE6C:
++ ;loc_4EE6C:
 		move.b	#4,routine(a0)
 		rts
 ; ---------------------------------------------------------------------------
@@ -203,11 +203,11 @@ loc_4EF28:
 loc_4EF30:
 		movea.w	parent3(a0),a1
 		tst.b	$3B(a1)
-		bne.s	loc_4EF3C
+		bne.s	+ ;loc_4EF3C
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4EF3C:
++ ;loc_4EF3C:
 		move.b	#4,routine(a0)
 		move.b	#4,mapping_frame(a0)
 		move.w	#$E,$2E(a0)
@@ -314,11 +314,11 @@ loc_4F010:
 		moveq	#0,d0
 		movea.w	parent3(a0),a1
 		tst.b	$3B(a1)
-		bne.s	loc_4F046
+		bne.s	+ ;loc_4F046
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_4F046:
++ ;loc_4F046:
 		jsr	Displace_PlayerOffObject(pc)
 		jmp	loc_5312A(pc)
 ; ---------------------------------------------------------------------------
@@ -354,7 +354,7 @@ loc_4F076:
 loc_4F08C:
 		movea.w	parent3(a0),a1
 		btst	#2,$38(a1)
-		beq.s	loc_4F0B8
+		beq.s	+ ;loc_4F0B8
 		btst	#1,$38(a1)
 		beq.s	locret_4F0B6
 		move.w	$26(a1),d0
@@ -368,7 +368,7 @@ locret_4F0B6:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4F0B8:
++ ;loc_4F0B8:
 		move.b	#8,routine(a0)
 		move.w	#$42,$2E(a0)
 		move.l	#loc_4F008,$34(a0)
@@ -387,10 +387,10 @@ loc_4F0E8:
 		movea.w	parent3(a0),a1
 		move.l	#loc_4F10A,(a0)
 		cmpi.w	#6,$26(a1)
-		bne.s	loc_4F100
+		bne.s	+ ;loc_4F100
 		move.l	#loc_4F138,(a0)
 
-loc_4F100:
++ ;loc_4F100:
 		move.l	#Go_Delete_Sprite,$34(a0)
 		rts
 ; ---------------------------------------------------------------------------
@@ -399,13 +399,13 @@ loc_4F10A:
 		jsr	Refresh_ChildPosition(pc)
 		jsr	Animate_RawMultiDelay(pc)
 		cmpi.b	#4,anim_frame(a0)
-		blo.s	loc_4F12C
+		blo.s	+ ;loc_4F12C
 		cmpi.b	#8,anim_frame(a0)
-		bhi.s	loc_4F12C
+		bhi.s	+ ;loc_4F12C
 		lea	word_4F130(pc),a1
 		jsr	(sub_5819C).l
 
-loc_4F12C:
++ ;loc_4F12C:
 		jmp	Child_Draw_Sprite(pc)
 ; ---------------------------------------------------------------------------
 word_4F130:
@@ -416,13 +416,13 @@ loc_4F138:
 		jsr	Refresh_ChildPositionAdjusted(pc)
 		jsr	Animate_RawMultiDelay(pc)
 		cmpi.b	#4,anim_frame(a0)
-		blo.s	loc_4F15A
+		blo.s	+ ;loc_4F15A
 		cmpi.b	#8,anim_frame(a0)
-		bhi.s	loc_4F15A
+		bhi.s	+ ;loc_4F15A
 		lea	word_4F15E(pc),a1
 		jsr	(sub_5819C).l
 
-loc_4F15A:
++ ;loc_4F15A:
 		jmp	Child_Draw_Sprite(pc)
 ; ---------------------------------------------------------------------------
 word_4F15E:
@@ -439,11 +439,11 @@ loc_4F174:
 		jsr	Refresh_ChildPosition(pc)
 		movea.w	parent3(a0),a1
 		btst	#7,status(a1)
-		bne.s	loc_4F18A
+		bne.s	+ ;loc_4F18A
 		jmp	(Add_SpriteToCollisionResponseList).l
 ; ---------------------------------------------------------------------------
 
-loc_4F18A:
++ ;loc_4F18A:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -515,13 +515,13 @@ loc_4F200:
 		adda.w	d2,a2
 		move.w	(a2,d1.w),$2E(a0)
 		cmpi.b	#6,d0
-		beq.s	loc_4F250
+		beq.s	+ ;loc_4F250
 		add.w	d1,d1
 		move.l	off_4F270(pc,d1.w),$30(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4F250:
++ ;loc_4F250:
 		move.l	#byte_4F430,$30(a0)
 		rts
 ; ---------------------------------------------------------------------------
@@ -622,26 +622,26 @@ sub_4F2F4:
 		move.b	collision_property(a0),d0
 		beq.s	loc_4F35E
 		tst.b	$20(a0)
-		bne.s	loc_4F32A
+		bne.s	++ ;loc_4F32A
 		cmpi.b	#2,d0
-		bne.s	loc_4F31C
+		bne.s	+ ;loc_4F31C
 		st	$3B(a0)
 		move.b	#6,routine(a0)
 		move.w	#$7F,$3C(a0)
 
-loc_4F31C:
++ ;loc_4F31C:
 		move.b	#$20,$20(a0)
 		moveq	#signextendB(sfx_BossHit),d0
 		jsr	(Play_SFX).l
 
-loc_4F32A:
++ ;loc_4F32A:
 		bset	#6,status(a0)
 		moveq	#0,d0
 		btst	#0,$20(a0)
-		bne.s	loc_4F33E
+		bne.s	+ ;loc_4F33E
 		addi.w	#2*2,d0
 
-loc_4F33E:
++ ;loc_4F33E:
 		bsr.w	sub_4F382
 		subq.b	#1,$20(a0)
 		bne.s	locret_4F35C
@@ -659,10 +659,10 @@ loc_4F35E:
 		move.l	#loc_4EE74,$34(a0)
 		movea.w	(_unkFAAE).w,a1
 		cmpi.l	#loc_58DF8,(a1)
-		bne.s	loc_4F37E
+		bne.s	+ ;loc_4F37E
 		bset	#5,$38(a1)
 
-loc_4F37E:
++ ;loc_4F37E:
 		jmp	BossDefeated_StopTimer(pc)
 ; End of function sub_4F2F4
 

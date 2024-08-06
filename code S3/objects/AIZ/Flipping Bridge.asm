@@ -8,10 +8,10 @@ Obj_AIZFlippingBridge:
 		move.w	y_pos(a0),$30(a0)
 		move.l	#word_2A126,$32(a0)
 		move.b	subtype(a0),d0
-		bpl.s	loc_29FC2
+		bpl.s	+ ;loc_29FC2
 		move.l	#word_2A1A6,$32(a0)
 
-loc_29FC2:
++ ;loc_29FC2:
 		move.b	d0,d1
 		andi.w	#$F,d0
 		addi.w	#$10,d0
@@ -21,14 +21,14 @@ loc_29FC2:
 		move.b	d1,$25(a0)
 		moveq	#1,d1
 		btst	#0,status(a0)
-		beq.s	loc_29FEA
+		beq.s	+ ;loc_29FEA
 		moveq	#-1,d1
 		subq.b	#1,$37(a0)
 
-loc_29FEA:
++ ;loc_29FEA:
 		move.b	d1,$36(a0)
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_2A084
+		bne.w	++ ;loc_2A084
 		move.l	#loc_2A0AC,(a1)
 		move.l	#Map_AIZFlippingBridge,mappings(a1)
 		move.w	#make_art_tile($2E9,2,0),art_tile(a1)
@@ -46,17 +46,17 @@ loc_29FEA:
 		addi.w	#$20,d2
 		move.w	#8,d4
 		tst.b	subtype(a0)
-		bpl.s	loc_2A05E
+		bpl.s	+ ;loc_2A05E
 		subi.w	#$10,d2
 		move.w	#4,d4
 
-loc_2A05E:
++ ;loc_2A05E:
 		moveq	#0,d1
 		lea	sub2_x_pos(a1),a2
 		move.w	mainspr_childsprites(a1),d6
 		subq.w	#1,d6
 
-loc_2A06A:
+- ;loc_2A06A:
 		move.w	d3,(a2)+
 		move.w	d2,(a2)+
 		move.w	d1,(a2)+
@@ -64,10 +64,10 @@ loc_2A06A:
 		andi.w	#$F,d1
 		addi.w	#$20,d3
 		sub.w	d4,d2
-		dbf	d6,loc_2A06A
+		dbf	d6,- ;loc_2A06A
 		move.w	a1,$3C(a0)
 
-loc_2A084:
++ ;loc_2A084:
 		move.l	#loc_2A08A,(a0)
 
 loc_2A08A:
@@ -96,17 +96,17 @@ sub_2A0B2:
 		subq.w	#1,d6
 		move.b	$37(a0),d2
 		move.b	$36(a0),d1
-		bmi.s	loc_2A0FE
+		bmi.s	++ ;loc_2A0FE
 
-loc_2A0D2:
+- ;loc_2A0D2:
 		add.b	d1,(a2)
 		cmp.b	(a2),d2
-		bhi.s	loc_2A0DC
+		bhi.s	+ ;loc_2A0DC
 		move.b	#0,(a2)
 
-loc_2A0DC:
++ ;loc_2A0DC:
 		addq.w	#next_subspr,a2
-		dbf	d6,loc_2A0D2
+		dbf	d6,- ;loc_2A0D2
 		tst.b	render_flags(a3)
 		bpl.s	locret_2A0FC
 		move.b	(Level_frame_counter+1).w,d0
@@ -120,14 +120,14 @@ locret_2A0FC:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_2A0FE:
+/ ;loc_2A0FE:
 		add.b	d1,(a2)
-		bcs.s	loc_2A104
+		bcs.s	+ ;loc_2A104
 		move.b	d2,(a2)
 
-loc_2A104:
++ ;loc_2A104:
 		addq.w	#next_subspr,a2
-		dbf	d6,loc_2A0FE
+		dbf	d6,- ;loc_2A0FE
 		tst.b	render_flags(a3)
 		bpl.s	locret_2A124
 		move.b	(Level_frame_counter+1).w,d0
@@ -229,7 +229,7 @@ sub_2A226:
 
 sub_2A23C:
 		btst	d6,status(a0)
-		beq.s	loc_2A292
+		beq.s	++ ;loc_2A292
 		move.w	d1,d2
 		add.w	d2,d2
 		btst	#Status_InAir,status(a1)
@@ -239,7 +239,7 @@ sub_2A23C:
 		add.w	d1,d0
 		bmi.s	loc_2A25E
 		cmp.w	d2,d0
-		blo.s	loc_2A272
+		blo.s	+ ;loc_2A272
 
 loc_2A25E:
 		bclr	#Status_OnObj,status(a1)
@@ -249,7 +249,7 @@ loc_2A25E:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_2A272:
++ ;loc_2A272:
 		lsr.w	#5,d0
 		add.w	d0,d0
 		move.w	d0,d3
@@ -264,7 +264,7 @@ loc_2A272:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_2A292:
++ ;loc_2A292:
 		tst.w	y_vel(a1)
 		bmi.s	locret_2A30E
 		move.w	x_pos(a1),d0
@@ -275,11 +275,11 @@ loc_2A292:
 		cmp.w	d1,d0
 		bhs.s	locret_2A30E
 		btst	#0,render_flags(a0)
-		beq.s	loc_2A2B6
+		beq.s	+ ;loc_2A2B6
 		not.w	d0
 		add.w	d1,d0
 
-loc_2A2B6:
++ ;loc_2A2B6:
 		move.w	d0,d4
 		lsr.w	#1,d0
 		move.b	(a2,d0.w),d3

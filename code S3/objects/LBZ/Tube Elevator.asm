@@ -8,16 +8,16 @@ Obj_LBZTubeElevator:
 		move.w	x_pos(a0),$44(a0)
 		move.w	y_pos(a0),$46(a0)
 		btst	#6,subtype(a0)
-		beq.s	loc_28C5E
+		beq.s	+ ;loc_28C5E
 		move.b	#0,mapping_frame(a0)			; If BIT 6 of subtype set, the elevator remains closed
 		move.b	#0,angle(a0)
 		move.l	#Obj_LBZTubeElevatorClosed,(a0)
 		bra.s	Obj_LBZTubeElevatorClosed
 ; ---------------------------------------------------------------------------
 
-loc_28C5E:
++ ;loc_28C5E:
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_28CAA
+		bne.w	+ ;loc_28CAA
 		move.l	#loc_28D5E,(a1)
 		move.w	x_pos(a0),x_pos(a1)
 		move.w	y_pos(a0),y_pos(a1)
@@ -30,7 +30,7 @@ loc_28C5E:
 		move.b	#6,mapping_frame(a1)
 		move.w	a0,parent(a1)
 
-loc_28CAA:
++ ;loc_28CAA:
 		move.b	#2,mapping_frame(a0)
 		move.b	#2,angle(a0)
 		move.l	#Obj_LBZTubeElevatorActive,(a0)
@@ -49,32 +49,32 @@ Obj_LBZTubeElevatorActive:
 Obj_LBZTubeElevatorClosed:
 		lea	(Player_1).w,a1
 		btst	#Status_OnObj,status(a1)
-		beq.s	loc_28D00
+		beq.s	+ ;loc_28D00
 		tst.b	object_control(a1)
-		beq.s	loc_28D00
+		beq.s	+ ;loc_28D00
 		movea.w	interact(a1),a2
 		cmpi.l	#Obj_LBZTubeElevatorActive,(a2)
-		bne.s	loc_28D00
+		bne.s	+ ;loc_28D00
 		move.w	#$7FF0,x_pos(a0)
 
-loc_28D00:
++ ;loc_28D00:
 		lea	$2E(a0),a4
 		addq.b	#2,1(a4)
 		move.b	1(a4),d0
 		cmpi.b	#$B0,d0
-		blo.s	loc_28D1C
+		blo.s	+ ;loc_28D1C
 		cmpi.b	#$D0,d0
-		bhs.s	loc_28D1C
+		bhs.s	+ ;loc_28D1C
 		addi.b	#$20,d0
 
-loc_28D1C:
++ ;loc_28D1C:
 		move.b	d0,1(a4)
 		jsr	(GetSineCosine).l
 		cmpi.w	#$100,d0
-		bne.s	loc_28D2E
+		bne.s	+ ;loc_28D2E
 		subq.w	#1,d0
 
-loc_28D2E:
++ ;loc_28D2E:
 		asr.w	#6,d0
 		move.w	$46(a0),d2
 		sub.w	d0,d2
@@ -96,7 +96,7 @@ loc_28D5E:
 		move.w	x_pos(a1),x_pos(a0)
 		move.w	y_pos(a1),y_pos(a0)
 		tst.b	render_flags(a1)
-		bpl.s	loc_28D88
+		bpl.s	+ ;loc_28D88
 		moveq	#0,d0
 		move.b	mapping_frame(a1),d0
 		move.b	byte_28D8E(pc,d0.w),d0
@@ -104,7 +104,7 @@ loc_28D5E:
 		add.w	x_pos(a1),d0
 		move.w	d0,x_pos(a0)
 
-loc_28D88:
++ ;loc_28D88:
 		jmp	(Sprite_OnScreen_Test).l
 ; ---------------------------------------------------------------------------
 byte_28D8E:
@@ -119,51 +119,51 @@ LBZTubeElevator_Action:
 		movea.l	a0,a1
 		moveq	#0,d0
 		move.b	(a4),d0
-		move.w	LBZTubeElevator_Index(pc,d0.w),d0
-		jmp	LBZTubeElevator_Index(pc,d0.w)
+		move.w	.Index(pc,d0.w),d0
+		jmp	.Index(pc,d0.w)
 ; End of function LBZTubeElevator_Action
 
 ; ---------------------------------------------------------------------------
-LBZTubeElevator_Index:
-		dc.w LBZTubeElevator_WaitPlayer-LBZTubeElevator_Index
-		dc.w LBZTubeElevator_StartSpin-LBZTubeElevator_Index
-		dc.w LBZTubeElevator_MovePath-LBZTubeElevator_Index
-		dc.w LBZTubeElevator_SlowSpin-LBZTubeElevator_Index
-		dc.w LBZTubeElevator_WaitExit-LBZTubeElevator_Index
-		dc.w LBZTubeElevator_EndSpin-LBZTubeElevator_Index
-		dc.w LBZTubeElevator_Closed-LBZTubeElevator_Index
+.Index:
+		dc.w LBZTubeElevator_WaitPlayer-.Index
+		dc.w LBZTubeElevator_StartSpin-.Index
+		dc.w LBZTubeElevator_MovePath-.Index
+		dc.w LBZTubeElevator_SlowSpin-.Index
+		dc.w LBZTubeElevator_WaitExit-.Index
+		dc.w LBZTubeElevator_EndSpin-.Index
+		dc.w LBZTubeElevator_Closed-.Index
 ; ---------------------------------------------------------------------------
 
 LBZTubeElevator_WaitPlayer:
 		cmpi.w	#$200,$38(a0)
-		beq.s	loc_28DC4
+		beq.s	+ ;loc_28DC4
 		cmpi.w	#$202,$38(a0)
-		bne.s	loc_28DD0
+		bne.s	++ ;loc_28DD0
 
-loc_28DC4:
++ ;loc_28DC4:
 		addq.b	#2,(a4)
 		moveq	#signextendB(sfx_Roll),d0
 		jsr	(Play_SFX).l
 		bra.s	LBZTubeElevator_StartSpin
 ; ---------------------------------------------------------------------------
 
-loc_28DD0:
++ ;loc_28DD0:
 		addq.b	#2,1(a4)
 		move.b	1(a4),d0
 		cmpi.b	#$B0,d0
-		blo.s	loc_28DE8
+		blo.s	+ ;loc_28DE8
 		cmpi.b	#$D0,d0
-		bhs.s	loc_28DE8
+		bhs.s	+ ;loc_28DE8
 		addi.b	#$20,d0
 
-loc_28DE8:
++ ;loc_28DE8:
 		move.b	d0,1(a4)
 		jsr	(GetSineCosine).l
 		cmpi.w	#$100,d0
-		bne.s	loc_28DFA
+		bne.s	+ ;loc_28DFA
 		subq.w	#1,d0
 
-loc_28DFA:
++ ;loc_28DFA:
 		asr.w	#6,d0
 		move.w	$46(a0),d2
 		sub.w	d0,d2
@@ -181,20 +181,20 @@ loc_28DFA:
 LBZTubeElevator_StartSpin:
 		move.w	mapping_frame(a0),d0	; Get current mapping frame +
 		sub.w	$3C(a0),d0
-		bcc.s	loc_28E32
+		bcc.s	+ ;loc_28E32
 		addi.w	#$600,d0
 
-loc_28E32:
++ ;loc_28E32:
 		move.w	d0,mapping_frame(a0)
 		move.w	angle(a0),d0
 		sub.w	$3C(a0),d0
-		bcc.s	loc_28E44
+		bcc.s	+ ;loc_28E44
 		addi.w	#$C00,d0
 
-loc_28E44:
++ ;loc_28E44:
 		move.w	d0,$26(a0)
 		cmpi.w	#$180,$3C(a0)	; Accelerate speed of spinning
-		bhs.s	loc_28E8E		; When maxed out, branch
+		bhs.s	+ ;loc_28E8E		; When maxed out, branch
 		addq.w	#2,$3C(a0)
 
 loc_28E54:
@@ -217,7 +217,7 @@ loc_28E54:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_28E8E:
++ ;loc_28E8E:
 		addq.b	#2,(a4)			; Next routine
 		move.w	#$180,$3C(a0)
 		clr.b	1(a4)
@@ -229,20 +229,20 @@ loc_28E8E:
 LBZTubeElevator_MovePath:
 		move.w	mapping_frame(a0),d0		; Continuing spinning mapping frame
 		sub.w	$3C(a0),d0
-		bcc.s	loc_28EB4
+		bcc.s	+ ;loc_28EB4
 		addi.w	#$600,d0
 
-loc_28EB4:
++ ;loc_28EB4:
 		move.w	d0,mapping_frame(a0)
 		move.w	angle(a0),d0
 		sub.w	$3C(a0),d0
-		bcc.s	loc_28EC6
+		bcc.s	+ ;loc_28EC6
 		addi.w	#$C00,d0
 
-loc_28EC6:
++ ;loc_28EC6:
 		move.w	d0,angle(a0)
 		subq.b	#1,2(a4)
-		bhi.w	loc_28F18
+		bhi.w	++ ;loc_28F18
 		movea.l	6(a4),a2		; Check for new path
 		move.w	(a2)+,d4
 		move.w	d4,x_pos(a1)
@@ -250,14 +250,14 @@ loc_28EC6:
 		move.w	d5,y_pos(a1)
 		move.l	a2,6(a4)
 		subq.w	#4,4(a4)
-		beq.s	loc_28EF8
+		beq.s	+ ;loc_28EF8
 		move.w	(a2)+,d4
 		move.w	(a2)+,d5
 		move.w	#$1000,d2
 		bra.w	AutoTunnel_CalcSpeed	; Recalc speed
 ; ---------------------------------------------------------------------------
 
-loc_28EF8:
++ ;loc_28EF8:
 		addq.b	#2,(a4)				; If end of path reached, next routine
 		move.w	#0,x_vel(a1)
 		move.w	#0,y_vel(a1)			; Null momentum of player
@@ -267,7 +267,7 @@ loc_28EF8:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_28F18:
++ ;loc_28F18:
 		move.l	x_pos(a1),d2			; Move tube elevator based on autotunnel speed
 		move.l	y_pos(a1),d3
 		move.w	x_vel(a1),d0
@@ -286,53 +286,53 @@ loc_28F18:
 LBZTubeElevator_SlowSpin:
 		move.w	mapping_frame(a0),d0
 		sub.w	$3C(a0),d0
-		bcc.s	loc_28F4C
+		bcc.s	+ ;loc_28F4C
 		addi.w	#$600,d0
 
-loc_28F4C:
++ ;loc_28F4C:
 		move.w	d0,mapping_frame(a0)
 		move.w	angle(a0),d0
 		sub.w	$3C(a0),d0		; Spin spin spinning
-		bcc.s	loc_28F5E
+		bcc.s	+ ;loc_28F5E
 		addi.w	#$C00,d0
 
-loc_28F5E:
++ ;loc_28F5E:
 		move.w	d0,angle(a0)
 		cmpi.w	#8,$3C(a0)
-		bne.s	loc_28F86
+		bne.s	++ ;loc_28F86
 		cmpi.b	#2,mapping_frame(a0)		; When minimum speed reached and correct rotation on tube
 		bne.s	LBZTubeElevator_WaitExit
 		addq.b	#2,(a4)			; Next routine
 		move.w	respawn_addr(a0),d0
-		beq.s	loc_28F84
+		beq.s	+ ;loc_28F84
 		movea.w	d0,a2
 		bclr	#7,(a2)			; Restore jump control on player
 		clr.w	respawn_addr(a0)
 
-loc_28F84:
++ ;loc_28F84:
 		bra.s	LBZTubeElevator_WaitExit
 ; ---------------------------------------------------------------------------
 
-loc_28F86:
++ ;loc_28F86:
 		subq.w	#4,$3C(a0)	; Subtract spin speed
 
 LBZTubeElevator_WaitExit:
 		addq.b	#2,1(a4)	; Change bobbing angle
 		move.b	1(a4),d0
 		cmpi.b	#$B0,d0
-		blo.s	loc_28FA2
+		blo.s	+ ;loc_28FA2
 		cmpi.b	#$D0,d0
-		bhs.s	loc_28FA2
+		bhs.s	+ ;loc_28FA2
 		addi.b	#$20,d0
 
-loc_28FA2:
++ ;loc_28FA2:
 		move.b	d0,1(a4)
 		jsr	(GetSineCosine).l
 		cmpi.w	#$100,d0
-		bne.s	loc_28FB4
+		bne.s	+ ;loc_28FB4
 		subq.w	#1,d0
 
-loc_28FB4:
++ ;loc_28FB4:
 		asr.w	#6,d0
 		move.w	$46(a0),d2
 		sub.w	d0,d2
@@ -360,11 +360,11 @@ LBZTubeElevator_EndSpin:
 		move.b	#$F,anim_frame_timer(a0)
 		addq.b	#1,mapping_frame(a0)	; Spin object until closed frame is on
 		cmpi.b	#6,mapping_frame(a0)
-		blo.s	loc_29010
+		blo.s	+ ;loc_29010
 		move.b	#0,mapping_frame(a0)
 		addq.b	#2,(a4)
 
-loc_29010:
++ ;loc_29010:
 		addq.b	#1,angle(a0)
 		cmpi.b	#6,angle(a0)
 		blo.s	LBZTubeElevator_Closed
@@ -374,19 +374,19 @@ LBZTubeElevator_Closed:
 		addq.b	#2,1(a4)	; Add to bobbing angle
 		move.b	1(a4),d0
 		cmpi.b	#$B0,d0
-		blo.s	loc_2903A
+		blo.s	+ ;loc_2903A
 		cmpi.b	#$D0,d0
-		bhs.s	loc_2903A
+		bhs.s	+ ;loc_2903A
 		addi.b	#$20,d0
 
-loc_2903A:
++ ;loc_2903A:
 		move.b	d0,1(a4)
 		jsr	(GetSineCosine).l
 		cmpi.w	#$100,d0
-		bne.s	loc_2904C
+		bne.s	+ ;loc_2904C
 		subq.w	#1,d0
 
-loc_2904C:
++ ;loc_2904C:
 		asr.w	#6,d0
 		move.w	$46(a0),d2
 		sub.w	d0,d2
@@ -411,21 +411,21 @@ LBZTubeElevator_CheckPlayer:
 		tst.w	(Debug_placement_mode).w
 		bne.w	locret_29126	; Do nothing if currently in debug state
 		cmpa.w	#Player_2,a1
-		bne.s	loc_2909A
+		bne.s	+ ;loc_2909A
 		btst	#p2_standing_bit,status(a0)
-		beq.s	loc_2909A
+		beq.s	+ ;loc_2909A
 		tst.b	-1(a2)
-		bne.s	loc_290D6
+		bne.s	+++ ;loc_290D6
 
-loc_2909A:
++ ;loc_2909A:
 		move.w	x_pos(a1),d0
 		sub.w	x_pos(a0),d0
 		addq.w	#3,d0
 		btst	#0,status(a0)
-		beq.s	loc_290B0
+		beq.s	+ ;loc_290B0
 		addi.w	#$A,d0
 
-loc_290B0:
++ ;loc_290B0:
 		cmpi.w	#$10,d0
 		bhs.s	locret_29126
 		move.w	y_pos(a1),d1
@@ -438,7 +438,7 @@ loc_290B0:
 		btst	#Status_InAir,status(a1)
 		bne.s	locret_29126	; If player is in the air, skip all this
 
-loc_290D6:
++ ;loc_290D6:
 		addq.b	#2,(a2)
 		move.b	#$83,object_control(a1)	; Object control of player, control of animation too
 		move.b	#0,anim(a1)		; Clear player animation
@@ -472,12 +472,12 @@ loc_29128:
 		sub.w	d1,d0
 		move.w	d0,y_pos(a1)		; Match player position
 		cmpi.b	#8,$2E(a0)
-		bne.s	loc_2915E
+		bne.s	+ ;loc_2915E
 		bset	#Status_Facing,status(a1)
 		move.b	#0,object_control(a1)
 		addq.b	#2,(a2)
 
-loc_2915E:
++ ;loc_2915E:
 		moveq	#0,d0
 		move.b	angle(a0),d0
 		move.b	LBZTubeElevator_PlayerFrame(pc,d0.w),mapping_frame(a1)

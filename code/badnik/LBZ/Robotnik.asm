@@ -1,6 +1,6 @@
 Obj_LBZ1Robotnik:
 		cmpi.b	#2,(Player_1+character_id).w
-		beq.s	loc_8CB90
+		beq.s	+ ;loc_8CB90
 		lea	word_8CB96(pc),a1
 		jsr	Check_CameraInRange(pc)
 		moveq	#0,d0
@@ -21,7 +21,7 @@ Obj_LBZ1Robotnik:
 		dc.w loc_8CD30-.Index
 ; ---------------------------------------------------------------------------
 
-loc_8CB90:
++ ;loc_8CB90:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 word_8CB96:
@@ -51,20 +51,20 @@ loc_8CBF2:
 		lea	(Player_1).w,a1
 		jsr	(Find_OtherObject).l
 		tst.w	d1
-		beq.s	loc_8CC20
+		beq.s	++ ;loc_8CC20
 		cmpi.w	#$70,d2
-		bhs.s	loc_8CC14
+		bhs.s	+ ;loc_8CC14
 		cmpi.w	#$60,d3
-		bhs.s	loc_8CC14
+		bhs.s	+ ;loc_8CC14
 		btst	#Status_InAir,status(a1)
-		beq.s	loc_8CC20
+		beq.s	++ ;loc_8CC20
 
-loc_8CC14:
++ ;loc_8CC14:
 		jsr	(Swing_UpAndDown).l
 		jmp	(MoveSprite2).l
 ; ---------------------------------------------------------------------------
 
-loc_8CC20:
++ ;loc_8CC20:
 		move.b	#4,routine(a0)
 		move.w	#-$400,y_vel(a0)
 		rts
@@ -72,11 +72,11 @@ loc_8CC20:
 
 loc_8CC2E:
 		cmpi.w	#$300,y_pos(a0)
-		blo.s	loc_8CC3C
+		blo.s	+ ;loc_8CC3C
 		jmp	(MoveSprite2).l
 ; ---------------------------------------------------------------------------
 
-loc_8CC3C:
++ ;loc_8CC3C:
 		move.b	#6,routine(a0)
 		bset	#0,render_flags(a0)
 		move.w	#$3EC0,x_pos(a0)
@@ -91,13 +91,13 @@ loc_8CC5A:
 		cmpi.w	#$1C0,y_pos(a1)
 		blo.s	locret_8CC76
 		btst	#Status_InAir,status(a1)
-		beq.s	loc_8CC78
+		beq.s	+ ;loc_8CC78
 
 locret_8CC76:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_8CC78:
++ ;loc_8CC78:
 		move.b	#8,routine(a0)
 		st	(Events_fg_4).w
 		rts
@@ -105,11 +105,11 @@ loc_8CC78:
 
 loc_8CC84:
 		tst.w	(Events_fg_4).w
-		beq.s	loc_8CC8C
+		beq.s	+ ;loc_8CC8C
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_8CC8C:
++ ;loc_8CC8C:
 		move.b	#$A,routine(a0)
 		lea	(ArtKosM_LBZMinibossBox).l,a1
 		move.w	#tiles_to_bytes($456),d2
@@ -122,18 +122,18 @@ loc_8CC8C:
 loc_8CCB4:
 		move.w	(Camera_X_pos).w,d0
 		cmpi.w	#$3E50,d0
-		bhs.s	loc_8CCC2
+		bhs.s	+ ;loc_8CCC2
 		move.w	d0,(Camera_min_X_pos).w
 
-loc_8CCC2:
++ ;loc_8CCC2:
 		jsr	(Find_SonicTails).l
 		cmpi.w	#$60,d2
-		blo.s	loc_8CCDA
+		blo.s	+ ;loc_8CCDA
 		jsr	(Swing_UpAndDown).l
 		jmp	(MoveSprite2).l
 ; ---------------------------------------------------------------------------
 
-loc_8CCDA:
++ ;loc_8CCDA:
 		move.b	#$C,routine(a0)
 		move.w	#-$400,y_vel(a0)
 		rts
@@ -141,11 +141,11 @@ loc_8CCDA:
 
 loc_8CCE8:
 		cmpi.w	#$12C,y_pos(a0)
-		bls.s	loc_8CCF6
+		bls.s	+ ;loc_8CCF6
 		jmp	(MoveSprite2).l
 ; ---------------------------------------------------------------------------
 
-loc_8CCF6:
++ ;loc_8CCF6:
 		move.b	#$E,routine(a0)
 		move.w	#$12C,y_pos(a0)
 		bset	#1,$38(a0)
@@ -161,11 +161,11 @@ loc_8CCF6:
 loc_8CD30:
 		jsr	(MoveSprite2).l
 		cmpi.w	#$1B8,y_pos(a0)
-		bhs.s	loc_8CD40
+		bhs.s	+ ;loc_8CD40
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_8CD40:
++ ;loc_8CD40:
 		move.l	#loc_8CD4C,(a0)
 		clr.w	y_vel(a0)
 		rts
@@ -186,13 +186,13 @@ loc_8CD5C:
 loc_8CD6C:
 		movea.w	parent3(a0),a1
 		btst	#1,$38(a1)
-		beq.s	loc_8CD92
+		beq.s	+ ;loc_8CD92
 		move.l	#Obj_Wait,(a0)
 		move.w	#$1F,$2E(a0)
 		move.l	#loc_8CD98,$34(a0)
 		move.w	#$160,y_pos(a0)
 
-loc_8CD92:
++ ;loc_8CD92:
 		jmp	(Refresh_ChildPosition).l
 ; ---------------------------------------------------------------------------
 
@@ -210,9 +210,9 @@ loc_8CD9C:
 
 Obj_LBZMinibossBox:
 		cmpi.b	#2,(Player_1+character_id).w
-		beq.s	loc_8CDEA
+		beq.s	+ ;loc_8CDEA
 		tst.b	(_unkFAAB).w
-		bne.s	loc_8CDEA
+		bne.s	+ ;loc_8CDEA
 		move.l	#loc_8CDF2,(a0)
 		move.w	#$3EA0,(Camera_max_X_pos).w
 		move.w	#$3C00,(Camera_min_X_pos).w
@@ -222,7 +222,7 @@ Obj_LBZMinibossBox:
 		bra.w	sub_8D0EA
 ; ---------------------------------------------------------------------------
 
-loc_8CDEA:
++ ;loc_8CDEA:
 		move.l	#Delete_Sprite_If_Not_In_Range,(a0)
 		rts
 ; ---------------------------------------------------------------------------
@@ -231,22 +231,22 @@ loc_8CDF2:
 		lea	(Player_1).w,a1
 		jsr	(Find_OtherObject).l
 		cmpi.w	#$70,d2
-		bhs.s	loc_8CE1C
+		bhs.s	+ ;loc_8CE1C
 		move.l	#Obj_Wait,(a0)
 		move.w	#$3DA0,(Camera_min_X_pos).w
 		move.w	#$1F,$2E(a0)
 		move.l	#loc_8CD9C,$34(a0)
 
-loc_8CE1C:
++ ;loc_8CE1C:
 		move.w	x_pos(a0),d0
 		andi.w	#$FF80,d0
 		sub.w	(Camera_X_pos_coarse_back).w,d0
 		cmpi.w	#$280,d0
-		bhi.s	loc_8CE30
+		bhi.s	+ ;loc_8CE30
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_8CE30:
++ ;loc_8CE30:
 		jmp	loc_85088(pc)
 ; ---------------------------------------------------------------------------
 
@@ -257,11 +257,11 @@ loc_8CE34:
 		jsr	off_8CE58(pc,d1.w)
 		movea.w	parent3(a0),a1
 		btst	#7,status(a1)
-		bne.s	loc_8CE54
+		bne.s	+ ;loc_8CE54
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_8CE54:
++ ;loc_8CE54:
 		jmp	Go_Delete_Sprite(pc)
 ; ---------------------------------------------------------------------------
 off_8CE58:
@@ -282,11 +282,11 @@ loc_8CE64:
 loc_8CE72:
 		movea.w	parent3(a0),a1
 		btst	#3,$38(a1)
-		bne.s	loc_8CE84
+		bne.s	+ ;loc_8CE84
 		jmp	(Refresh_ChildPosition).l
 ; ---------------------------------------------------------------------------
 
-loc_8CE84:
++ ;loc_8CE84:
 		move.b	#4,routine(a0)
 		cmpi.b	#2,(Player_1+character_id).w
 		beq.s	locret_8CE98
@@ -333,11 +333,11 @@ word_8CEEC:
 loc_8CEF4:
 		jsr	(MoveSprite2).l
 		subq.w	#1,$2E(a0)
-		bmi.s	loc_8CF02
+		bmi.s	+ ;loc_8CF02
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_8CF02:
++ ;loc_8CF02:
 		move.b	#$A,routine(a0)
 
 locret_8CF08:
@@ -359,23 +359,23 @@ loc_8CF1E:
 		andi.w	#$FF80,d0
 		sub.w	(Camera_X_pos_coarse_back).w,d0
 		cmpi.w	#$280,d0
-		bhi.s	loc_8CF36
+		bhi.s	+ ;loc_8CF36
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_8CF36:
++ ;loc_8CF36:
 		cmpi.b	#2,(Player_1+character_id).w
-		beq.s	loc_8CF52
+		beq.s	+ ;loc_8CF52
 		cmpi.b	#$C,subtype(a0)
-		bne.s	loc_8CF5C
+		bne.s	++ ;loc_8CF5C
 		lea	(PLC_MonitorsSpikesSprings).l,a1
 		jsr	(Load_PLC_Raw).l
 
-loc_8CF52:
++ ;loc_8CF52:
 		lea	PLC_LBZRobotnikAfter(pc),a1
 		jsr	(Load_PLC_Raw).l
 
-loc_8CF5C:
++ ;loc_8CF5C:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 PLC_LBZRobotnikAfter: plrlistheader
@@ -422,10 +422,10 @@ loc_8CFC8:
 		move.w	d0,(Camera_stored_max_Y_pos).w
 		move.w	d0,(Camera_target_max_Y_pos).w
 		jsr	(AllocateObject).l
-		bne.s	loc_8CFFE
+		bne.s	+ ;loc_8CFFE
 		move.l	#Obj_Song_Fade_ToLevelMusic,(a1)
 
-loc_8CFFE:
++ ;loc_8CFFE:
 		clr.b	(Update_HUD_timer).w
 		lea	(Child6_IncLevY).l,a2
 		jsr	(CreateChild6_Simple).l
@@ -435,11 +435,11 @@ loc_8CFFE:
 
 loc_8D018:
 		subq.w	#1,$2E(a0)
-		bmi.s	loc_8D020
+		bmi.s	+ ;loc_8D020
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_8D020:
++ ;loc_8D020:
 		move.l	#loc_8D02E,(a0)
 		move.w	#$55,(Events_fg_4).w
 		rts
@@ -482,12 +482,12 @@ loc_8D082:
 		jsr	(Play_SFX).l
 		lea	ChildObjDat_8D264(pc),a2
 		jsr	(CreateChild1_Normal).l
-		bne.s	loc_8D0AA
+		bne.s	+ ;loc_8D0AA
 		movea.w	parent3(a0),a2
 		move.w	a2,parent3(a1)
 		move.b	subtype(a0),subtype(a1)
 
-loc_8D0AA:
++ ;loc_8D0AA:
 		jmp	Go_Delete_Sprite_2(pc)
 ; ---------------------------------------------------------------------------
 
@@ -610,13 +610,13 @@ sub_8D1FC:
 		tst.b	collision_flags(a0)
 		bne.s	locret_8D22E
 		tst.b	$20(a0)
-		bne.s	loc_8D21C
+		bne.s	+ ;loc_8D21C
 		move.b	#$20,$20(a0)
 		moveq	#signextendB(sfx_BossHit),d0
 		jsr	(Play_SFX).l
 		bset	#6,status(a0)
 
-loc_8D21C:
++ ;loc_8D21C:
 		subq.b	#1,$20(a0)
 		bne.s	locret_8D22E
 		bclr	#6,status(a0)
@@ -688,13 +688,13 @@ Obj_LBZ2RobotnikShip:
 loc_8D2B6:
 		moveq	#0,d0
 		move.b	collision_property(a0),d0
-		beq.w	loc_8D33E
+		beq.w	+ ;loc_8D33E
 		clr.b	collision_property(a0)
 		cmpi.b	#2,d0
-		beq.w	loc_8D33E
+		beq.w	+ ;loc_8D33E
 		lea	(Player_1).w,a1
 		tst.b	object_control(a1)
-		bne.w	loc_8D33E
+		bne.w	+ ;loc_8D33E
 		move.l	#loc_8D370,(a0)
 		move.b	#$83,object_control(a1)
 		bclr	#0,render_flags(a1)
@@ -714,7 +714,7 @@ loc_8D2B6:
 		jsr	(CreateChild1_Normal).l
 		jsr	sub_8D53E(pc)
 
-loc_8D33E:
++ ;loc_8D33E:
 		jmp	(Sprite_CheckDeleteTouch).l
 ; ---------------------------------------------------------------------------
 
@@ -760,13 +760,13 @@ loc_8D3AC:
 		move.w	x_pos(a1),d0
 		sub.w	x_pos(a0),d0
 		cmpi.w	#$50,d0
-		bhs.s	loc_8D3E8
+		bhs.s	+ ;loc_8D3E8
 		bset	#1,$38(a1)
 		move.l	#loc_8D36A,(a0)
 		move.w	#$1F,$2E(a0)
 		move.l	#loc_8D3F2,$34(a0)
 
-loc_8D3E8:
++ ;loc_8D3E8:
 		jsr	sub_8D53E(pc)
 		jmp	(Sprite_CheckDeleteTouch).l
 ; ---------------------------------------------------------------------------
@@ -784,17 +784,17 @@ loc_8D40E:
 		jsr	(MoveSprite_LightGravity).l
 		bsr.w	sub_8D506
 		tst.w	y_vel(a0)
-		bmi.s	loc_8D446
+		bmi.s	+ ;loc_8D446
 		move.w	y_pos(a0),d0
 		cmp.w	$3A(a0),d0
-		blo.s	loc_8D446
+		blo.s	+ ;loc_8D446
 		move.l	#loc_8D36A,(a0)
 		clr.w	x_vel(a0)
 		move.w	#$5F,$2E(a0)
 		move.l	#loc_8D450,$34(a0)
 		jsr	(Swing_Setup1).l
 
-loc_8D446:
++ ;loc_8D446:
 		jsr	sub_8D53E(pc)
 		jmp	(Sprite_CheckDeleteTouch).l
 ; ---------------------------------------------------------------------------
@@ -821,7 +821,7 @@ loc_8D47C:
 		jsr	(MoveSprite2).l
 		bsr.w	sub_8D506
 		cmpi.w	#$4440,x_pos(a0)
-		blo.s	loc_8D4C2
+		blo.s	+ ;loc_8D4C2
 		move.l	#loc_8D4CC,(a0)
 		clr.w	(Screen_shake_flag).w
 		lea	(Player_1).w,a1
@@ -832,20 +832,20 @@ loc_8D47C:
 		move.b	#2,anim(a1)
 		clr.b	jumping(a1)
 
-loc_8D4C2:
++ ;loc_8D4C2:
 		jsr	sub_8D53E(pc)
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
 loc_8D4CC:
 		tst.b	render_flags(a0)
-		bpl.s	loc_8D4E4
+		bpl.s	+ ;loc_8D4E4
 		jsr	(Swing_UpAndDown).l
 		jsr	(MoveSprite2).l
 		jmp	(Sprite_CheckDeleteTouch2).l
 ; ---------------------------------------------------------------------------
 
-loc_8D4E4:
++ ;loc_8D4E4:
 		jsr	(AllocateObject).l
 		bne.w	locret_8D47A
 		move.l	#Obj_LBZFinalBoss1,(a1)
@@ -872,17 +872,17 @@ sub_8D506:
 loc_8D522:	; used in Sonic 3, unused in Sonic 3 & Knuckles
 		lea	(Player_2).w,a1
 		tst.l	(a1)
-		beq.s	loc_8D538
+		beq.s	++ ;loc_8D538
 		tst.b	render_flags(a1)
-		bpl.s	loc_8D532
+		bpl.s	+ ;loc_8D532
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_8D532:
++ ;loc_8D532:
 		clr.l	(a1)
 		clr.l	(Tails_tails).w
 
-loc_8D538:
++ ;loc_8D538:
 		jmp	(Delete_Current_Sprite).l
 
 ; =============== S U B R O U T I N E =======================================

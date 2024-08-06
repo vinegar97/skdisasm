@@ -21,7 +21,7 @@ loc_2E068:
 		move.b	#$10,width_pixels(a0)
 		move.w	#$80,priority(a0)
 		move.b	subtype(a0),d0
-		bpl.s	loc_2E0AC
+		bpl.s	+ ;loc_2E0AC
 		addq.b	#8,routine(a0)
 		andi.w	#$7F,d0
 		move.b	d0,$32(a0)
@@ -30,7 +30,7 @@ loc_2E068:
 		bra.w	loc_2E166
 ; ---------------------------------------------------------------------------
 
-loc_2E0AC:
++ ;loc_2E0AC:
 		move.b	d0,anim(a0)
 		move.w	x_pos(a0),$30(a0)
 		move.w	#-$88,y_vel(a0)
@@ -47,13 +47,13 @@ loc_2E0C6:
 loc_2E0E0:
 		move.w	(Water_level).w,d0
 		cmp.w	y_pos(a0),d0
-		blo.s	loc_2E0F8
+		blo.s	+ ;loc_2E0F8
 		move.b	#6,routine(a0)
 		addq.b	#4,anim(a0)
 		bra.w	loc_2E142
 ; ---------------------------------------------------------------------------
 
-loc_2E0F8:
++ ;loc_2E0F8:
 		move.b	angle(a0),d0
 		addq.b	#1,angle(a0)
 		andi.w	#$7F,d0
@@ -63,19 +63,19 @@ loc_2E0F8:
 		add.w	$30(a0),d0
 		move.w	d0,x_pos(a0)
 		tst.b	$2E(a0)
-		beq.s	loc_2E12A
+		beq.s	+ ;loc_2E12A
 		bsr.w	sub_2E2BE
 		cmpi.b	#6,routine(a0)
 		beq.s	loc_2E142
 
-loc_2E12A:
++ ;loc_2E12A:
 		jsr	(MoveSprite2).l
 		tst.b	render_flags(a0)
-		bpl.s	loc_2E13C
+		bpl.s	+ ;loc_2E13C
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_2E13C:
++ ;loc_2E13C:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -83,11 +83,11 @@ loc_2E142:
 		lea	(Ani_Bubbler).l,a1
 		jsr	(Animate_Sprite).l
 		tst.b	render_flags(a0)
-		bpl.s	loc_2E15A
+		bpl.s	+ ;loc_2E15A
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_2E15A:
++ ;loc_2E15A:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -97,7 +97,7 @@ loc_2E160:
 
 loc_2E166:
 		tst.w	$36(a0)
-		bne.s	loc_2E1C8
+		bne.s	++ ;loc_2E1C8
 		move.w	(Water_level).w,d0
 		cmp.w	y_pos(a0),d0
 		bhs.w	loc_2E272
@@ -119,24 +119,24 @@ loc_2E18E:
 		adda.w	d1,a1
 		move.l	a1,$3C(a0)
 		subq.b	#1,$32(a0)
-		bpl.s	loc_2E1C6
+		bpl.s	+ ;loc_2E1C6
 		move.b	$33(a0),$32(a0)
 		bset	#7,$36(a0)
 
-loc_2E1C6:
-		bra.s	loc_2E1D0
++ ;loc_2E1C6:
+		bra.s	++ ;loc_2E1D0
 ; ---------------------------------------------------------------------------
 
-loc_2E1C8:
++ ;loc_2E1C8:
 		subq.w	#1,$38(a0)
 		bpl.w	loc_2E266
 
-loc_2E1D0:
++ ;loc_2E1D0:
 		jsr	(Random_Number).l
 		andi.w	#$1F,d0
 		move.w	d0,$38(a0)
 		jsr	(AllocateObject).l
-		bne.s	loc_2E24A
+		bne.s	++ ;loc_2E24A
 		move.l	(a0),(a1)
 		move.w	x_pos(a0),x_pos(a1)
 		jsr	(Random_Number).l
@@ -149,22 +149,22 @@ loc_2E1D0:
 		movea.l	$3C(a0),a2
 		move.b	(a2,d0.w),subtype(a1)
 		btst	#7,$36(a0)
-		beq.s	loc_2E24A
+		beq.s	++ ;loc_2E24A
 		jsr	(Random_Number).l
 		andi.w	#3,d0
-		bne.s	loc_2E236
+		bne.s	+ ;loc_2E236
 		bset	#6,$36(a0)
-		bne.s	loc_2E24A
+		bne.s	++ ;loc_2E24A
 		move.b	#2,subtype(a1)
 
-loc_2E236:
++ ;loc_2E236:
 		tst.b	$34(a0)
-		bne.s	loc_2E24A
+		bne.s	+ ;loc_2E24A
 		bset	#6,$36(a0)
-		bne.s	loc_2E24A
+		bne.s	+ ;loc_2E24A
 		move.b	#2,subtype(a1)
 
-loc_2E24A:
++ ;loc_2E24A:
 		subq.b	#1,$34(a0)
 		bpl.s	loc_2E266
 		jsr	(Random_Number).l
@@ -182,24 +182,24 @@ loc_2E272:
 		andi.w	#$FF80,d0
 		sub.w	(Camera_X_pos_coarse_back).w,d0
 		cmpi.w	#$280,d0
-		bhi.w	loc_2E294
+		bhi.w	+ ;loc_2E294
 		move.w	(Water_level).w,d0
 		cmp.w	y_pos(a0),d0
-		blo.w	loc_2E2A6
+		blo.w	+++ ;loc_2E2A6
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_2E294:
++ ;loc_2E294:
 		move.w	respawn_addr(a0),d0
-		beq.s	loc_2E2A0
+		beq.s	+ ;loc_2E2A0
 		movea.w	d0,a2
 		bclr	#7,(a2)
 
-loc_2E2A0:
++ ;loc_2E2A0:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_2E2A6:
++ ;loc_2E2A6:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 byte_2E2AC:
@@ -228,12 +228,12 @@ byte_2E2AC:
 
 sub_2E2BE:
 		lea	(Player_1).w,a1
-		bsr.s	sub_2E2C8
+		bsr.s	+ ;sub_2E2C8
 		lea	(Player_2).w,a1
 ; End of function sub_2E2BE
 
 
-sub_2E2C8:
++ ;sub_2E2C8:
 		tst.b	object_control(a1)
 		bmi.w	locret_2E392
 		move.w	x_pos(a1),d0
@@ -265,22 +265,22 @@ sub_2E2C8:
 		bclr	#Status_Push,status(a1)
 		bclr	#Status_RollJump,status(a1)
 		btst	#Status_Roll,status(a1)
-		beq.w	loc_2E380
+		beq.w	++ ;loc_2E380
 		cmpi.l	#Obj_Sonic,(a1)
-		bne.s	loc_2E370
+		bne.s	+ ;loc_2E370
 		bclr	#Status_Roll,status(a1)
 		move.b	#$13,y_radius(a1)
 		move.b	#9,x_radius(a1)
 		subq.w	#5,y_pos(a1)
-		bra.s	loc_2E380
+		bra.s	++ ;loc_2E380
 ; ---------------------------------------------------------------------------
 
-loc_2E370:
++ ;loc_2E370:
 		move.b	#$F,y_radius(a1)
 		move.b	#9,x_radius(a1)
 		subq.w	#1,y_pos(a1)
 
-loc_2E380:
++ ;loc_2E380:
 		cmpi.b	#6,routine(a0)
 		beq.s	locret_2E392
 		move.b	#6,routine(a0)

@@ -8,11 +8,11 @@ loc_389EC:
 		move.b	#6,mapping_frame(a0)
 		move.w	#1,anim(a0)
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_38A32
+		bne.w	+ ;loc_38A32
 		move.l	#loc_38EDE,(a1)
 		move.w	a0,$30(a1)
 
-loc_38A32:
++ ;loc_38A32:
 		move.l	#loc_38A38,(a0)
 
 loc_38A38:
@@ -20,11 +20,11 @@ loc_38A38:
 		move.w	x_pos(a1),x_pos(a0)
 		move.w	y_pos(a1),y_pos(a0)
 		btst	#Status_InAir,status(a1)
-		bne.s	loc_38A5C
+		bne.s	+ ;loc_38A5C
 		move.b	#1,anim(a0)
 		move.l	#loc_38A9E,(a0)
 
-loc_38A5C:
++ ;loc_38A5C:
 		lea	(Ani_SonicSnowboard).l,a1
 		jsr	(Animate_Sprite).l
 		jsr	(sub_38C8C).l
@@ -44,15 +44,15 @@ loc_38A9E:
 		lsr.w	#4,d0
 		move.b	byte_38AF0(pc,d0.w),anim(a0)
 		btst	#Status_InAir,status(a2)
-		beq.s	loc_38B00
+		beq.s	++ ;loc_38B00
 		move.b	#0,anim(a0)
 		tst.w	x_vel(a2)
-		beq.s	loc_38AE0
+		beq.s	+ ;loc_38AE0
 		cmpi.w	#$1000,x_vel(a2)
-		blt.s	loc_38AE0
+		blt.s	+ ;loc_38AE0
 		move.w	#$1000,x_vel(a2)
 
-loc_38AE0:
++ ;loc_38AE0:
 		cmpi.w	#-$200,y_vel(a2)
 		bge.s	loc_38B52
 		move.w	#-$200,y_vel(a2)
@@ -62,26 +62,26 @@ byte_38AF0:
 		dc.b    4,   5,   2,   1,   1,   1,   1,   1,   0,   1,   2,   0,   1,   2,   0,   4
 ; ---------------------------------------------------------------------------
 
-loc_38B00:
++ ;loc_38B00:
 		move.b	(Level_frame_counter+1).w,d0
 		andi.b	#$F,d0
-		bne.s	loc_38B12
+		bne.s	+ ;loc_38B12
 		moveq	#signextendB(sfx_SlideSkidQuiet),d0
 		jsr	(Play_SFX).l
 
-loc_38B12:
++ ;loc_38B12:
 		cmpi.w	#$1310,x_pos(a2)
 		blo.s	loc_38B52
 		moveq	#1,d0
 		cmpi.w	#$1330,x_pos(a2)
-		blo.s	loc_38B36
+		blo.s	+ ;loc_38B36
 		cmpi.w	#$2210,x_pos(a2)
 		blo.s	loc_38B52
 		cmpi.w	#$2230,x_pos(a2)
 		bhs.s	loc_38B52
 		moveq	#2,d0
 
-loc_38B36:
++ ;loc_38B36:
 		cmp.b	$36(a0),d0
 		beq.s	loc_38B52
 		move.b	d0,$36(a0)
@@ -93,23 +93,23 @@ loc_38B52:
 		lea	(Ani_SonicSnowboard).l,a1
 		jsr	(Animate_Sprite).l
 		cmpi.b	#8,mapping_frame(a0)
-		bne.s	loc_38B76
+		bne.s	+ ;loc_38B76
 		cmpi.w	#$1000,ground_vel(a2)
-		blt.s	loc_38B76
+		blt.s	+ ;loc_38B76
 		subi.w	#8,ground_vel(a2)
-		bra.s	loc_38B84
+		bra.s	++ ;loc_38B84
 ; ---------------------------------------------------------------------------
 
-loc_38B76:
++ ;loc_38B76:
 		cmpi.w	#$1000,ground_vel(a2)
-		bge.s	loc_38B84
+		bge.s	+ ;loc_38B84
 		move.w	#$1000,ground_vel(a2)
 
-loc_38B84:
++ ;loc_38B84:
 		cmpi.w	#$3880,x_pos(a2)
-		blo.s	loc_38BCA
+		blo.s	+ ;loc_38BCA
 		tst.w	x_vel(a2)
-		bne.s	loc_38BCA
+		bne.s	+ ;loc_38BCA
 		move.l	#loc_38C74,(a0)
 		bset	#Status_InAir,status(a2)
 		move.w	#-$200,x_vel(a2)
@@ -121,22 +121,22 @@ loc_38B84:
 		jsr	(Play_SFX).l
 		move.w	#2,(Tails_CPU_routine).w
 
-loc_38BCA:
++ ;loc_38BCA:
 		btst	#Status_InAir,status(a2)
-		bne.s	loc_38BF0
+		bne.s	++ ;loc_38BF0
 		move.b	mapping_frame(a0),d0
 		cmp.b	$32(a0),d0
-		beq.s	loc_38BF0
+		beq.s	++ ;loc_38BF0
 		cmpi.b	#7,d0
-		beq.s	loc_38BE8
+		beq.s	+ ;loc_38BE8
 		cmpi.b	#8,d0
-		bne.s	loc_38BF0
+		bne.s	++ ;loc_38BF0
 
-loc_38BE8:
++ ;loc_38BE8:
 		moveq	#signextendB(sfx_GroundSlide),d0
 		jsr	(Play_SFX).l
 
-loc_38BF0:
++ ;loc_38BF0:
 		jsr	(sub_38C8C).l
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
@@ -147,10 +147,10 @@ loc_38BFC:
 		addq.w	#6,$34(a0)
 		lea	(ICZSnowboard_Slope1).l,a1
 		cmpi.b	#1,$36(a0)
-		beq.s	loc_38C1C
+		beq.s	+ ;loc_38C1C
 		lea	(ICZSnowboard_Slope2).l,a1
 
-loc_38C1C:
++ ;loc_38C1C:
 		lea	(a1,d0.w),a1
 		move.w	(a1)+,d0
 		move.w	d0,x_pos(a0)
@@ -161,20 +161,20 @@ loc_38C1C:
 		move.w	(a1)+,d0
 		move.b	d0,mapping_frame(a0)
 		tst.w	(a1)
-		bpl.s	loc_38C56
+		bpl.s	+ ;loc_38C56
 		move.b	#$E,top_solid_bit(a2)
 		move.b	#$F,lrb_solid_bit(a2)
 		move.b	#2,object_control(a2)
 		move.l	#loc_38A9E,(a0)
 
-loc_38C56:
++ ;loc_38C56:
 		move.b	mapping_frame(a0),d0
 		cmp.b	$32(a0),d0
-		beq.s	loc_38C68
+		beq.s	+ ;loc_38C68
 		moveq	#signextendB(sfx_GroundSlide),d0
 		jsr	(Play_SFX).l
 
-loc_38C68:
++ ;loc_38C68:
 		jsr	(sub_38C8C).l
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
@@ -189,7 +189,7 @@ sub_38C7A:
 		move.w	#tiles_to_bytes($6A4),d4
 		move.l	#ArtUnc_Snowboard,d6
 		lea	(DPLC_Snowboard).l,a2
-		bra.s	loc_38C9C
+		bra.s	+ ;loc_38C9C
 ; End of function sub_38C7A
 
 
@@ -201,7 +201,7 @@ sub_38C8C:
 		move.l	#ArtUnc_SonicSnowboard,d6
 		lea	(DPLC_SonicSnowboard).l,a2
 
-loc_38C9C:
++ ;loc_38C9C:
 		moveq	#0,d0
 		move.b	mapping_frame(a0),d0
 		cmp.b	$32(a0),d0
@@ -213,7 +213,7 @@ loc_38C9C:
 		subq.w	#1,d5
 		bmi.s	locret_38CE0
 
-loc_38CB8:
+- ;loc_38CB8:
 		moveq	#0,d1
 		move.w	(a2)+,d1
 		move.w	d1,d3
@@ -227,7 +227,7 @@ loc_38CB8:
 		add.w	d3,d4
 		add.w	d3,d4
 		jsr	(Add_To_DMA_Queue).l
-		dbf	d5,loc_38CB8
+		dbf	d5,- ;loc_38CB8
 
 locret_38CE0:
 		rts
@@ -290,32 +290,32 @@ loc_38DD0:
 		lea	(Player_1).w,a2
 		move.w	x_pos(a2),x_pos(a0)
 		subq.b	#1,anim_frame_timer(a0)
-		bpl.s	loc_38DF8
+		bpl.s	+ ;loc_38DF8
 		move.b	#1,anim_frame_timer(a0)
 		addq.b	#1,mapping_frame(a0)
 		cmpi.b	#9,mapping_frame(a0)
-		blo.s	loc_38DF8
+		blo.s	+ ;loc_38DF8
 		move.b	#1,mapping_frame(a0)
 
-loc_38DF8:
++ ;loc_38DF8:
 		cmpi.w	#$184,x_pos(a2)
-		blo.s	loc_38E3C
+		blo.s	++ ;loc_38E3C
 		move.b	#0,mapping_frame(a2)
 		move.b	#2,object_control(a2)
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_38E34
+		bne.w	+ ;loc_38E34
 		move.l	#loc_389EC,(a1)
 		move.w	x_pos(a2),x_pos(a1)
 		move.w	y_pos(a2),y_pos(a1)
 		move.w	x_vel(a2),x_vel(a1)
 		move.w	y_vel(a2),y_vel(a1)
 
-loc_38E34:
++ ;loc_38E34:
 		move.l	#loc_38E4C,(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_38E3C:
++ ;loc_38E3C:
 		jsr	(MoveSprite2).l
 		addi.w	#$28,y_vel(a0)
 		bra.w	loc_38DC4
@@ -347,20 +347,20 @@ locret_38EA2:
 
 loc_38EA4:
 		tst.b	render_flags(a0)
-		bmi.s	loc_38EB0
+		bmi.s	+ ;loc_38EB0
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_38EB0:
++ ;loc_38EB0:
 		subq.b	#1,anim_frame_timer(a0)
-		bpl.s	loc_38ECE
+		bpl.s	+ ;loc_38ECE
 		move.b	#1,anim_frame_timer(a0)
 		addq.b	#1,mapping_frame(a0)
 		cmpi.b	#9,mapping_frame(a0)
-		blo.s	loc_38ECE
+		blo.s	+ ;loc_38ECE
 		move.b	#1,mapping_frame(a0)
 
-loc_38ECE:
++ ;loc_38ECE:
 		jsr	(MoveSprite2).l
 		addi.w	#$28,y_vel(a0)
 		bra.w	loc_38DC4
@@ -373,27 +373,27 @@ loc_38EE4:
 		movea.w	$30(a0),a3
 		lea	(Player_1).w,a2
 		tst.b	object_control(a2)
-		bne.s	loc_38EF8
+		bne.s	+ ;loc_38EF8
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_38EF8:
++ ;loc_38EF8:
 		btst	#Status_InAir,status(a2)
 		bne.s	locret_38F20
-		bsr.s	sub_38F22
-		bsr.s	sub_38F22
+		bsr.s	++ ;sub_38F22
+		bsr.s	++ ;sub_38F22
 		cmpi.b	#7,mapping_frame(a3)
-		beq.s	loc_38F14
+		beq.s	+ ;loc_38F14
 		cmpi.b	#8,mapping_frame(a3)
 		bne.s	locret_38F20
 
-loc_38F14:
-		bsr.s	sub_38F22
-		bsr.s	sub_38F22
-		bsr.s	sub_38F22
-		bsr.s	sub_38F22
-		bsr.s	sub_38F22
-		bsr.s	sub_38F22
++ ;loc_38F14:
+		bsr.s	+ ;sub_38F22
+		bsr.s	+ ;sub_38F22
+		bsr.s	+ ;sub_38F22
+		bsr.s	+ ;sub_38F22
+		bsr.s	+ ;sub_38F22
+		bsr.s	+ ;sub_38F22
 
 locret_38F20:
 		rts
@@ -401,7 +401,7 @@ locret_38F20:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_38F22:
++ ;sub_38F22:
 		jsr	(AllocateObjectAfterCurrent).l
 		bne.w	locret_38FA2
 		move.l	#loc_38FA4,(a1)
@@ -437,16 +437,16 @@ locret_38FA2:
 
 loc_38FA4:
 		tst.b	render_flags(a0)
-		bpl.s	loc_38FC8
+		bpl.s	+ ;loc_38FC8
 		jsr	(MoveSprite2).l
 		lea	(Ani_SnowboardDust).l,a1
 		jsr	(Animate_Sprite).l
 		tst.b	routine(a0)
-		bne.s	loc_38FC8
+		bne.s	+ ;loc_38FC8
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_38FC8:
++ ;loc_38FC8:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 Ani_SnowboardDust:
@@ -469,7 +469,7 @@ Obj_LevelIntro_PlayerLaunchFromGround:
 		move.w	d0,(Ctrl_2).w
 		move.b	#30,anim_frame_timer(a0)
 		lea	(Player_1).w,a1
-		bsr.s	sub_39076
+		bsr.s	+ ;sub_39076
 		lea	(Player_2).w,a1
 		tst.l	(a1)
 		beq.s	locret_3907C
@@ -477,7 +477,7 @@ Obj_LevelIntro_PlayerLaunchFromGround:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_39076:
++ ;sub_39076:
 		move.b	#3,object_control(a1)
 
 locret_3907C:
@@ -492,14 +492,14 @@ loc_3907E:
 		move.w	#0,(Ctrl_1_logical).w
 		move.w	#0,(Ctrl_2_logical).w
 		subq.b	#1,anim_frame_timer(a0)
-		beq.s	loc_3909E
+		beq.s	+ ;loc_3909E
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_3909E:
++ ;loc_3909E:
 		move.l	#loc_390D0,(a0)
 		lea	(Player_1).w,a1
-		bsr.s	sub_390B2
+		bsr.s	+ ;sub_390B2
 		lea	(Player_2).w,a1
 		tst.l	(a1)
 		beq.s	locret_390CE
@@ -507,7 +507,7 @@ loc_3909E:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_390B2:
++ ;sub_390B2:
 		move.w	#-$B00,y_vel(a1)
 		bset	#Status_InAir,status(a1)
 		clr.b	jumping(a1)
@@ -527,18 +527,18 @@ loc_390D0:
 		move.w	#0,(Ctrl_2_logical).w
 		lea	(Player_1).w,a2
 		cmpi.w	#$5C0,y_pos(a2)
-		bhs.s	loc_3913A
+		bhs.s	++ ;loc_3913A
 		move.b	#0,object_control(a2)
 		move.w	#4<<8,(Dust+anim).w	; and prev_anim
 		move.w	#$5C0,(Dust+y_pos).w
 		lea	(Player_2).w,a2
 		tst.l	(a2)
-		beq.s	loc_39120
+		beq.s	+ ;loc_39120
 		move.b	#0,object_control(a2)
 		move.w	#4<<8,(Dust_P2+anim).w	; and prev_anim
 		move.w	#$5C0,(Dust_P2+y_pos).w
 
-loc_39120:
++ ;loc_39120:
 		moveq	#signextendB(sfx_SandSplash),d0
 		jsr	(Play_SFX).l
 		move.b	#0,(Ctrl_1_locked).w
@@ -546,8 +546,8 @@ loc_39120:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_3913A:
-		bsr.s	sub_39144
++ ;loc_3913A:
+		bsr.s	+ ;sub_39144
 		lea	(Player_2).w,a2
 		tst.l	(a2)
 		beq.s	locret_39162
@@ -555,7 +555,7 @@ loc_3913A:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_39144:
++ ;sub_39144:
 		move.w	x_vel(a2),d0
 		ext.l	d0
 		lsl.l	#8,d0
@@ -595,11 +595,11 @@ loc_391C2:
 		move.w	#0,(Ctrl_1_logical).w
 		move.w	#0,(Ctrl_2_logical).w
 		subq.b	#1,anim_frame_timer(a0)
-		beq.s	loc_391DC
+		beq.s	+ ;loc_391DC
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_391DC:
++ ;loc_391DC:
 		lea	(Player_1).w,a2
 		move.b	#0,object_control(a2)
 		move.l	#loc_391EC,(a0)

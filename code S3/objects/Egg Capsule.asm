@@ -26,12 +26,12 @@ loc_54514:
 		lea	ObjDat_EggCapsule(pc),a1
 		jsr	SetUp_ObjAttributes(pc)
 		btst	#1,render_flags(a0)
-		bne.s	loc_5452C
+		bne.s	+ ;loc_5452C
 		lea	ChildObjDat_54AA6(pc),a2
 		jmp	CreateChild1_Normal(pc)
 ; ---------------------------------------------------------------------------
 
-loc_5452C:
++ ;loc_5452C:
 		move.b	#8,routine(a0)
 		move.w	(Camera_X_pos).w,d0
 		addi.w	#$A0,d0
@@ -58,10 +58,10 @@ loc_5456A:
 
 sub_54578:
 		cmpi.b	#2,(Current_zone).w
-		beq.s	loc_54584
+		beq.s	+ ;loc_54584
 		st	(Ctrl_2_locked).w
 
-loc_54584:
++ ;loc_54584:
 		move.b	#1,mapping_frame(a0)
 		move.w	#$40,$2E(a0)
 		lea	ChildObjDat_54AC4(pc),a2
@@ -90,50 +90,50 @@ loc_545BC:
 loc_545C0:
 		move.w	(Camera_X_pos).w,d0
 		move.w	$3A(a0),d1
-		bmi.s	loc_545D8
+		bmi.s	+ ;loc_545D8
 		addi.w	#$110,d0
 		cmp.w	x_pos(a0),d0
-		blo.s	loc_545E2
-		bra.w	loc_545E4
+		blo.s	++ ;loc_545E2
+		bra.w	+++ ;loc_545E4
 ; ---------------------------------------------------------------------------
 
-loc_545D8:
++ ;loc_545D8:
 		addi.w	#$30,d0
 		cmp.w	x_pos(a0),d0
-		blo.s	loc_545E4
+		blo.s	++ ;loc_545E4
 
-loc_545E2:
++ ;loc_545E2:
 		neg.w	d1
 
-loc_545E4:
++ ;loc_545E4:
 		move.w	d1,$3A(a0)
 		add.w	d1,x_pos(a0)
 		move.w	(Camera_Y_pos).w,d0
 		addi.w	#$40,d0
 		cmpi.b	#2,(Current_zone).w
-		bne.s	loc_54600
+		bne.s	+ ;loc_54600
 		subi.w	#$20,d0
 
-loc_54600:
++ ;loc_54600:
 		move.l	#$4000,d1
 		cmp.w	y_pos(a0),d0
-		bhi.s	loc_5460E
+		bhi.s	+ ;loc_5460E
 		neg.l	d1
 
-loc_5460E:
++ ;loc_5460E:
 		add.l	d1,y_pos(a0)
 		btst	#1,$38(a0)
-		beq.s	loc_54636
+		beq.s	++ ;loc_54636
 		move.b	#$A,routine(a0)
 		cmpi.b	#2,(Current_zone).w
-		bne.s	loc_5462E
+		bne.s	+ ;loc_5462E
 		move.b	#$E,routine(a0)
 
-loc_5462E:
++ ;loc_5462E:
 		move.w	a1,$44(a0)
 		bsr.w	sub_54578
 
-loc_54636:
++ ;loc_54636:
 		jsr	Swing_UpAndDown(pc)
 		jmp	(MoveSprite2).l
 ; ---------------------------------------------------------------------------
@@ -168,13 +168,13 @@ loc_54680:
 		bsr.w	sub_5499E
 		move.b	status(a0),d0
 		andi.b	#standing_mask,d0
-		beq.s	loc_546A2
+		beq.s	+ ;loc_546A2
 		move.l	#loc_546A6,(a0)
 		addq.w	#8,y_pos(a0)
 		movea.w	parent3(a0),a1
 		bset	#1,$38(a1)
 
-loc_546A2:
++ ;loc_546A2:
 		jmp	Child_Draw_Sprite2(pc)
 ; ---------------------------------------------------------------------------
 
@@ -197,30 +197,30 @@ loc_546C2:
 		lea	word_54716(pc),a1
 		jsr	Check_PlayerInRange(pc)
 		tst.l	d0
-		beq.s	loc_54712
+		beq.s	+++ ;loc_54712
 		tst.w	d0
-		beq.s	loc_546F4
+		beq.s	+ ;loc_546F4
 		movea.w	d0,a1
 		tst.w	y_vel(a1)
-		bpl.s	loc_546F4
+		bpl.s	+ ;loc_546F4
 		cmpi.b	#2,anim(a1)
-		beq.s	loc_546FE
+		beq.s	++ ;loc_546FE
 		cmpi.b	#1,character_id(a1)
-		beq.s	loc_546FE
+		beq.s	++ ;loc_546FE
 
-loc_546F4:
++ ;loc_546F4:
 		swap	d0
 		movea.w	d0,a1
 		tst.w	y_vel(a1)
-		bpl.s	loc_54712
+		bpl.s	++ ;loc_54712
 
-loc_546FE:
++ ;loc_546FE:
 		move.l	#loc_5471E,(a0)
 		subq.b	#8,child_dy(a0)
 		movea.w	parent3(a0),a1
 		bset	#1,$38(a1)
 
-loc_54712:
++ ;loc_54712:
 		jmp	Child_Draw_Sprite2(pc)
 ; ---------------------------------------------------------------------------
 word_54716:
@@ -238,10 +238,10 @@ loc_5472C:
 		lea	ObjDat3_54A8E(pc),a1
 		jsr	SetUp_ObjAttributes(pc)
 		cmpi.w	#$400,(Current_zone_and_act).w
-		bne.s	loc_54742
+		bne.s	+ ;loc_54742
 		move.w	#make_art_tile($44E,0,0),art_tile(a0)
 
-loc_54742:
++ ;loc_54742:
 		move.l	#Obj_FlickerMove,(a0)
 		bsr.w	sub_549AE
 		moveq	#4,d0
@@ -272,11 +272,11 @@ loc_54776:
 
 loc_54794:
 		subq.w	#1,$2E(a0)
-		bpl.s	loc_547A6
+		bpl.s	+ ;loc_547A6
 		move.l	#loc_547AA,(a0)
 		move.w	#$80,priority(a0)
 
-loc_547A6:
++ ;loc_547A6:
 		jmp	Sprite_CheckDelete(pc)
 ; ---------------------------------------------------------------------------
 
@@ -290,22 +290,22 @@ loc_547AA:
 		jsr	Find_SonicTails(pc)
 		move.w	#-$200,d1
 		tst.b	(_unkFAA8).w
-		beq.s	loc_547D6
+		beq.s	+ ;loc_547D6
 		tst.w	d0
-		beq.s	loc_547D6
+		beq.s	+ ;loc_547D6
 		neg.w	d1
 
-loc_547D6:
++ ;loc_547D6:
 		move.w	d1,x_vel(a0)
 		bsr.w	sub_54A68
 
 loc_547DE:
 		moveq	#0,d0
 		btst	#3,(V_int_run_count+3).w
-		bne.s	loc_547EA
+		bne.s	+ ;loc_547EA
 		moveq	#1,d0
 
-loc_547EA:
++ ;loc_547EA:
 		move.b	d0,mapping_frame(a0)
 		jmp	Sprite_CheckDelete(pc)
 ; ---------------------------------------------------------------------------
@@ -313,11 +313,11 @@ loc_547EA:
 loc_547F2:
 		jsr	Refresh_ChildPosition(pc)
 		subq.w	#1,$2E(a0)
-		bpl.s	loc_54808
+		bpl.s	+ ;loc_54808
 		move.l	#loc_5480C,(a0)
 		move.w	#$80,priority(a0)
 
-loc_54808:
++ ;loc_54808:
 		jmp	Sprite_CheckDelete(pc)
 ; ---------------------------------------------------------------------------
 
@@ -333,11 +333,11 @@ loc_5480C:
 		jsr	(MoveSprite2).l
 		bsr.w	sub_54A68
 		tst.b	(_unkFAA8).w
-		bne.s	loc_54846
+		bne.s	+ ;loc_54846
 		move.l	#loc_54848,(a0)
 		bset	#0,render_flags(a0)
 
-loc_54846:
++ ;loc_54846:
 		bra.s	loc_547DE
 ; ---------------------------------------------------------------------------
 
@@ -376,11 +376,11 @@ Check_TailsEndPose:
 		tst.b	(_unkFAA8).w
 		beq.w	locret_545B2
 		cmpi.b	#3,(Current_zone).w
-		bne.s	loc_548A0
+		bne.s	+ ;loc_548A0
 		lea	(Player_1).w,a1
 		bsr.w	Set_PlayerEndingPose
 
-loc_548A0:
++ ;loc_548A0:
 		btst	#7,$38(a0)
 		bne.w	locret_545B2
 		lea	(Player_2).w,a1
@@ -408,18 +408,18 @@ sub_548DA:
 		tst.b	render_flags(a1)
 		bpl.s	locret_5491A
 		cmpi.b	#1,$38(a1)
-		beq.s	loc_54900
+		beq.s	+ ;loc_54900
 		tst.b	(Flying_carrying_Sonic_flag).w
 		beq.s	locret_5491A
 
-loc_54900:
++ ;loc_54900:
 		move.w	#-$100,x_vel(a0)
 		move.b	d0,routine(a0)
 		jsr	(AllocateObject).l
-		bne.s	loc_54918
+		bne.s	+ ;loc_54918
 		move.l	#Obj_LevelResults,(a1)
 
-loc_54918:
++ ;loc_54918:
 		moveq	#1,d0
 
 locret_5491A:
@@ -451,10 +451,10 @@ sub_54946:
 		move.w	x_pos(a1),d6
 		add.w	d3,d6
 		cmp.w	x_pos(a0),d6
-		bhs.s	loc_54956
+		bhs.s	+ ;loc_54956
 		neg.w	d2
 
-loc_54956:
++ ;loc_54956:
 		move.w	x_vel(a0),d6
 		add.w	d2,d6
 		cmp.w	d0,d6
@@ -468,10 +468,10 @@ loc_5496A:
 		move.w	y_pos(a1),d6
 		add.w	d4,d6
 		cmp.w	y_pos(a0),d6
-		bhs.s	loc_54978
+		bhs.s	+ ;loc_54978
 		neg.w	d5
 
-loc_54978:
++ ;loc_54978:
 		move.w	y_vel(a0),d6
 		add.w	d5,d6
 		cmp.w	d1,d6
@@ -536,19 +536,19 @@ sub_549C4:
 		move.w	d2,$3E(a0)
 		movea.w	parent3(a0),a1
 		btst	#1,render_flags(a1)
-		beq.s	loc_549FA
+		beq.s	+ ;loc_549FA
 		move.l	#loc_547F2,(a0)
 		addq.b	#8,child_dy(a0)
 		clr.w	y_vel(a0)
 
-loc_549FA:
++ ;loc_549FA:
 		andi.w	#2,d0
 		move.w	d0,d2
 		cmpi.w	#$400,(Current_zone_and_act).w
-		bne.s	loc_54A0A
+		bne.s	+ ;loc_54A0A
 		addq.w	#4,d2
 
-loc_54A0A:
++ ;loc_54A0A:
 		move.w	word_54A60(pc,d2.w),art_tile(a0)
 		moveq	#0,d2
 		move.b	(Current_zone).w,d2
@@ -566,10 +566,10 @@ loc_54A0A:
 		move.w	x_pos(a0),d0
 		move.w	#$200,d1
 		cmp.w	x_pos(a1),d0
-		bhs.s	loc_54A4E
+		bhs.s	+ ;loc_54A4E
 		neg.w	d1
 
-loc_54A4E:
++ ;loc_54A4E:
 		move.w	d1,x_vel(a0)
 		bsr.w	sub_54A68
 		rts

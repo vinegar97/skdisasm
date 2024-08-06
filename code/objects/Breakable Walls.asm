@@ -3,13 +3,13 @@ Obj_BreakableWall:
 		move.w	#$280,priority(a0)
 		move.l	#loc_21568,(a0)
 		move.b	subtype(a0),d0
-		bpl.s	loc_21340
+		bpl.s	+ ;loc_21340
 		tst.b	(Level_trigger_array).w
-		beq.s	loc_21340
+		beq.s	+ ;loc_21340
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_21340:
++ ;loc_21340:
 		andi.b	#$F,d0
 		move.b	d0,mapping_frame(a0)
 		move.l	#Map_AIZBreakableWall,mappings(a0)
@@ -19,7 +19,7 @@ loc_21340:
 		move.l	#word_2193A,$34(a0)
 		move.l	#word_2196A,$38(a0)
 		cmpi.b	#1,(Current_zone).w
-		bne.s	loc_213D6
+		bne.s	+ ;loc_213D6
 		move.l	#Map_HCZBreakableWall,mappings(a0)
 		move.w	#make_art_tile($001,3,0),art_tile(a0)
 		move.b	#$10,width_pixels(a0)
@@ -27,7 +27,7 @@ loc_21340:
 		move.l	#word_2199A,$34(a0)
 		move.l	#word_219BA,$38(a0)
 		cmpi.b	#2,mapping_frame(a0)
-		bne.s	loc_213D6
+		bne.s	+ ;loc_213D6
 		move.w	#make_art_tile($350,2,0),art_tile(a0)
 		move.b	#$18,width_pixels(a0)
 		move.b	#$20,height_pixels(a0)
@@ -37,9 +37,9 @@ loc_21340:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_213D6:
++ ;loc_213D6:
 		cmpi.b	#2,(Current_zone).w
-		bne.s	loc_21428
+		bne.s	++ ;loc_21428
 		move.l	#Map_MGZBreakableWall,mappings(a0)
 		move.w	#make_art_tile($001,2,0),art_tile(a0)
 		move.b	#$20,width_pixels(a0)
@@ -47,21 +47,21 @@ loc_213D6:
 		move.l	#word_21A2A,$34(a0)
 		move.l	#word_219DA,$38(a0)
 		btst	#4,subtype(a0)
-		beq.s	loc_21418
+		beq.s	+ ;loc_21418
 		move.l	#loc_21818,(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_21418:
++ ;loc_21418:
 		cmpi.b	#2,mapping_frame(a0)
-		bne.s	loc_21428
+		bne.s	+ ;loc_21428
 		move.l	#loc_2172E,(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_21428:
++ ;loc_21428:
 		cmpi.b	#3,(Current_zone).w
-		bne.s	loc_2146A
+		bne.s	+ ;loc_2146A
 		move.l	#Map_CNZSOZBreakableWall,mappings(a0)
 		move.w	#make_art_tile($420,2,0),art_tile(a0)
 		move.b	#$10,width_pixels(a0)
@@ -69,14 +69,14 @@ loc_21428:
 		move.l	#word_21A7A,$34(a0)
 		move.l	#word_21A9A,$38(a0)
 		cmpi.b	#2,mapping_frame(a0)
-		bne.s	loc_2146A
+		bne.s	+ ;loc_2146A
 		move.l	#loc_21818,(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_2146A:
++ ;loc_2146A:
 		cmpi.b	#6,(Current_zone).w
-		bne.s	loc_214A4
+		bne.s	+ ;loc_214A4
 		move.l	#Map_LBZBreakableWall,mappings(a0)
 		move.w	#make_art_tile($2EA,1,0),art_tile(a0)
 		move.b	#$10,width_pixels(a0)
@@ -87,9 +87,9 @@ loc_2146A:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_214A4:
++ ;loc_214A4:
 		cmpi.b	#7,(Current_zone).w
-		bne.s	loc_214DE
+		bne.s	+ ;loc_214DE
 		move.l	#Map_MHZBreakableWall,mappings(a0)
 		move.w	#make_art_tile($34B,2,0),art_tile(a0)
 		move.b	#$10,width_pixels(a0)
@@ -100,9 +100,9 @@ loc_214A4:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_214DE:
++ ;loc_214DE:
 		cmpi.b	#8,(Current_zone).w
-		bne.s	loc_21536
+		bne.s	+ ;loc_21536
 		move.l	#Map_CNZSOZBreakableWall,mappings(a0)
 		move.w	#make_art_tile($48C,2,0),art_tile(a0)
 		move.b	#$10,width_pixels(a0)
@@ -120,7 +120,7 @@ locret_21534:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_21536:
++ ;loc_21536:
 		cmpi.b	#9,(Current_zone).w
 		bne.s	loc_21568
 		move.l	#Map_LRZBreakableWall,mappings(a0)
@@ -143,48 +143,48 @@ loc_21568:
 		move.w	x_pos(a0),d4
 		jsr	(SolidObjectFull).l
 		tst.b	subtype(a0)
-		bpl.s	loc_215A4
+		bpl.s	+ ;loc_215A4
 		tst.b	(Level_trigger_array).w
 		beq.s	loc_215AC
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_215A4:
++ ;loc_215A4:
 		swap	d6
 		andi.w	#3,d6
-		bne.s	loc_215B2
+		bne.s	+ ;loc_215B2
 
 loc_215AC:
 		jmp	(Sprite_OnScreen_Test).l
 ; ---------------------------------------------------------------------------
 
-loc_215B2:
++ ;loc_215B2:
 		lea	(Player_1).w,a1
 		move.w	$30(a0),d1
 		move.w	d6,d0
 		andi.w	#1,d0
 		beq.s	loc_2162A
 		tst.b	(Super_Sonic_Knux_flag).w
-		bne.s	loc_215F4
+		bne.s	+++ ;loc_215F4
 		cmpi.b	#2,character_id(a1)
-		beq.s	loc_215F4
+		beq.s	+++ ;loc_215F4
 		btst	#Status_FireShield,status_secondary(a1)
-		bne.s	loc_215E0
+		bne.s	+ ;loc_215E0
 		btst	#p1_pushing_bit,status(a0)
 		beq.s	loc_2162A
 
-loc_215E0:
++ ;loc_215E0:
 		cmpi.b	#2,anim(a1)
 		bne.s	loc_2162A
 		move.w	d1,d0
-		bpl.s	loc_215EE
+		bpl.s	+ ;loc_215EE
 		neg.w	d0
 
-loc_215EE:
++ ;loc_215EE:
 		cmpi.w	#$480,d0
 		blo.s	loc_2162A
 
-loc_215F4:
++ ;loc_215F4:
 		bclr	#p1_pushing_bit,status(a0)
 		bsr.s	sub_2165A
 		btst	#p2_pushing_bit,status(a0)
@@ -207,10 +207,10 @@ loc_2162A:
 		cmpi.b	#2,anim(a1)
 		bne.w	loc_215AC
 		move.w	d1,d0
-		bpl.s	loc_2164C
+		bpl.s	+ ;loc_2164C
 		neg.w	d0
 
-loc_2164C:
++ ;loc_2164C:
 		cmpi.w	#$480,d0
 		blo.w	loc_215AC
 		bclr	#p2_pushing_bit,status(a0)
@@ -224,11 +224,11 @@ sub_2165A:
 		movea.l	$34(a0),a4
 		move.w	x_pos(a0),d0
 		cmp.w	x_pos(a1),d0
-		blo.s	loc_2167A
+		blo.s	+ ;loc_2167A
 		subi.w	#8,x_pos(a1)
 		movea.l	$38(a0),a4
 
-loc_2167A:
++ ;loc_2167A:
 		move.w	x_vel(a1),ground_vel(a1)
 		bclr	#Status_Push,status(a1)	; set Sonic as not pushing an object
 		move.l	#loc_21692,(a0)
@@ -239,11 +239,11 @@ loc_21692:
 		jsr	(MoveSprite2).l
 		addi.w	#$70,y_vel(a0)	; make obj fall
 		tst.b	render_flags(a0)
-		bpl.s	loc_216AA
+		bpl.s	+ ;loc_216AA
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_216AA:
++ ;loc_216AA:
 		jmp	(Delete_Current_Sprite).l
 ; End of function sub_2165A
 
@@ -271,7 +271,7 @@ BreakObjectToPieces2:
 		bra.s	BreakObjectToPieces_InitObject
 ; ---------------------------------------------------------------------------
 ; loc_216E2:
-BreakObjectToPieces_Loop:
+- ;BreakObjectToPieces_Loop:
 		jsr	(AllocateObjectAfterCurrent).l
 		bne.s	locret_2172C
 		addq.w	#6,a3	; add to mappings
@@ -290,7 +290,7 @@ BreakObjectToPieces_InitObject:
 		move.b	height_pixels(a0),height_pixels(a1)
 		move.w	(a4)+,x_vel(a1)
 		move.w	(a4)+,y_vel(a1)
-		dbf	d1,BreakObjectToPieces_Loop
+		dbf	d1,- ;BreakObjectToPieces_Loop
 
 locret_2172C:
 		rts
@@ -312,43 +312,43 @@ loc_2172E:
 		jsr	(SolidObjectFull).l
 		swap	d6
 		andi.b	#3,d6
-		beq.w	loc_217E8
+		beq.w	++ ;loc_217E8
 		move.b	d6,d0
 		andi.b	#1,d0
-		beq.s	loc_217BC
+		beq.s	+ ;loc_217BC
 		lea	(Player_1).w,a1
 		bclr	#6,$37(a1)
-		beq.s	loc_217BC
+		beq.s	+ ;loc_217BC
 		move.w	$30(a0),x_vel(a1)
 		move.w	x_vel(a1),ground_vel(a1)
 		bclr	#Status_Push,status(a1)
 		bclr	#p1_pushing_bit,status(a0)
 		bsr.s	sub_217EE
 		andi.b	#2,d6
-		beq.s	loc_217E8
+		beq.s	++ ;loc_217E8
 		lea	(Player_2).w,a1
 		bclr	#6,$37(a1)
-		beq.s	loc_217E8
+		beq.s	++ ;loc_217E8
 		move.w	$32(a0),x_vel(a1)
 		move.w	x_vel(a1),ground_vel(a1)
 		bclr	#Status_Push,status(a1)
 		bclr	#p2_pushing_bit,status(a0)
-		bra.s	loc_217E8
+		bra.s	++ ;loc_217E8
 ; ---------------------------------------------------------------------------
 
-loc_217BC:
++ ;loc_217BC:
 		andi.b	#2,d6
-		beq.s	loc_217E8
+		beq.s	+ ;loc_217E8
 		lea	(Player_2).w,a1
 		bclr	#6,$37(a1)
-		beq.s	loc_217E8
+		beq.s	+ ;loc_217E8
 		move.w	$32(a0),x_vel(a1)
 		move.w	x_vel(a1),ground_vel(a1)
 		bclr	#Status_Push,status(a1)
 		bclr	#p2_pushing_bit,status(a0)
 		bsr.s	sub_217EE
 
-loc_217E8:
++ ;loc_217E8:
 		jmp	(Sprite_OnScreen_Test).l
 
 ; =============== S U B R O U T I N E =======================================
@@ -358,11 +358,11 @@ sub_217EE:
 		movea.l	$34(a0),a4
 		move.w	x_pos(a0),d0
 		cmp.w	x_pos(a1),d0
-		blo.s	loc_21806
+		blo.s	+ ;loc_21806
 		subi.w	#8,x_pos(a1)
 		movea.l	$38(a0),a4
 
-loc_21806:
++ ;loc_21806:
 		move.l	#loc_21692,(a0)
 		addq.b	#1,mapping_frame(a0)
 		bsr.w	BreakObjectToPieces
@@ -384,29 +384,29 @@ loc_21818:
 		move.w	x_pos(a0),d4
 		jsr	(SolidObjectFull).l
 		tst.b	subtype(a0)
-		bpl.s	loc_21854
+		bpl.s	+ ;loc_21854
 		tst.b	(Level_trigger_array).w
 		beq.s	loc_2185C
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_21854:
++ ;loc_21854:
 		swap	d6
 		andi.w	#3,d6
-		bne.s	loc_21862
+		bne.s	+ ;loc_21862
 
 loc_2185C:
 		jmp	(Sprite_OnScreen_Test).l
 ; ---------------------------------------------------------------------------
 
-loc_21862:
++ ;loc_21862:
 		lea	(Player_1).w,a1
 		move.w	$30(a0),d1
 		move.w	d6,d0
 		andi.w	#1,d0
-		beq.s	loc_218B0
+		beq.s	+ ;loc_218B0
 		cmpi.b	#2,character_id(a1)
-		bne.s	loc_218B0
+		bne.s	+ ;loc_218B0
 		bclr	#p1_pushing_bit,status(a0)
 		bsr.s	sub_218CE
 		btst	#p2_pushing_bit,status(a0)
@@ -421,7 +421,7 @@ loc_21862:
 		bra.s	loc_2185C
 ; ---------------------------------------------------------------------------
 
-loc_218B0:
++ ;loc_218B0:
 		lea	(Player_2).w,a1
 		move.w	$32(a0),d1
 		btst	#p2_pushing_bit,status(a0)
@@ -439,25 +439,25 @@ sub_218CE:
 		movea.l	$34(a0),a4
 		move.w	x_pos(a0),d0
 		cmp.w	x_pos(a1),d0
-		blo.s	loc_218EE
+		blo.s	+ ;loc_218EE
 		subi.w	#8,x_pos(a1)
 		movea.l	$38(a0),a4
 
-loc_218EE:
++ ;loc_218EE:
 		move.w	x_vel(a1),ground_vel(a1)
 		bclr	#Status_Push,status(a1)
 		cmpi.b	#2,character_id(a1)
-		bne.s	loc_21928
+		bne.s	+ ;loc_21928
 		cmpi.b	#1,double_jump_flag(a1)
-		bne.s	loc_21928
+		bne.s	+ ;loc_21928
 		move.b	#2,double_jump_flag(a1)
 		move.b	#$21,anim(a1)
 		bclr	#Status_Facing,status(a1)
 		tst.w	x_vel(a1)
-		bpl.s	loc_21928
+		bpl.s	+ ;loc_21928
 		bset	#Status_Facing,status(a1)
 
-loc_21928:
++ ;loc_21928:
 		move.l	#loc_21692,(a0)
 		addq.b	#1,mapping_frame(a0)
 		bsr.w	BreakObjectToPieces

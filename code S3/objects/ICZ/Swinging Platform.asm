@@ -10,13 +10,13 @@ Obj_ICZSwingingPlatform:
 
 loc_584D8:
 		btst	#3,$38(a0)
-		beq.s	loc_584F4
+		beq.s	+ ;loc_584F4
 		move.l	#loc_584F8,(a0)
 		btst	#0,render_flags(a0)
-		beq.s	loc_584F4
+		beq.s	+ ;loc_584F4
 		move.l	#loc_58582,(a0)
 
-loc_584F4:
++ ;loc_584F4:
 		jmp	Sprite_CheckDeleteTouch2(pc)
 ; ---------------------------------------------------------------------------
 
@@ -28,26 +28,26 @@ loc_584F8:
 		add.w	d0,d1
 		scc	d2
 		tst.w	d0
-		bpl.s	loc_58514
+		bpl.s	+ ;loc_58514
 		tst.b	d2
 		bne.s	loc_5853A
 
-loc_58514:
++ ;loc_58514:
 		move.w	d1,$3C(a0)
 		tst.b	subtype(a0)
-		beq.s	loc_5852A
+		beq.s	+ ;loc_5852A
 		cmpi.w	#$4800,d1
-		blo.s	loc_5852A
+		blo.s	+ ;loc_5852A
 		cmpi.w	#$200,d0
 		bhs.s	loc_58554
 
-loc_5852A:
++ ;loc_5852A:
 		cmpi.w	#$6E00,d1
-		bhs.s	loc_58536
+		bhs.s	+ ;loc_58536
 		moveq	#1,d2
 		jsr	MoveSprite_CircularSimple(pc)
 
-loc_58536:
++ ;loc_58536:
 		jmp	Sprite_CheckDeleteTouch2(pc)
 ; ---------------------------------------------------------------------------
 
@@ -66,10 +66,10 @@ loc_58554:
 		move.b	#$10,y_radius(a0)
 		move.w	#$400,d0
 		btst	#0,render_flags(a0)
-		beq.s	loc_58574
+		beq.s	+ ;loc_58574
 		neg.w	d0
 
-loc_58574:
++ ;loc_58574:
 		move.w	d0,x_vel(a0)
 		move.w	#-$600,y_vel(a0)
 		jmp	Sprite_CheckDeleteTouch2(pc)
@@ -83,36 +83,36 @@ loc_58582:
 		add.w	d0,d1
 		scs	d2
 		tst.w	d0
-		bmi.s	loc_5859E
+		bmi.s	+ ;loc_5859E
 		tst.b	d2
 		bne.s	loc_5853A
 
-loc_5859E:
++ ;loc_5859E:
 		move.w	d1,$3C(a0)
 		tst.b	subtype(a0)
-		beq.s	loc_585B4
+		beq.s	+ ;loc_585B4
 		cmpi.w	#-$4800,d1
-		bhi.s	loc_585B4
+		bhi.s	+ ;loc_585B4
 		cmpi.w	#$200,d0
 		bhs.s	loc_58554
 
-loc_585B4:
++ ;loc_585B4:
 		cmpi.w	#-$6E00,d1
-		bls.s	loc_585C0
+		bls.s	+ ;loc_585C0
 		moveq	#1,d2
 		jsr	MoveSprite_CircularSimple(pc)
 
-loc_585C0:
++ ;loc_585C0:
 		jmp	Sprite_CheckDeleteTouch2(pc)
 ; ---------------------------------------------------------------------------
 
 loc_585C4:
 		jsr	(MoveSprite).l
 		tst.w	y_vel(a0)
-		bmi.s	loc_585F8
+		bmi.s	+ ;loc_585F8
 		jsr	(ObjCheckFloorDist).l
 		tst.w	d1
-		bpl.s	loc_585F8
+		bpl.s	+ ;loc_585F8
 		add.w	d1,y_pos(a0)
 		move.w	y_vel(a0),d0
 		cmpi.w	#$100,d0
@@ -123,7 +123,7 @@ loc_585C4:
 		lea	ChildObjDat_58936(pc),a2
 		jsr	CreateChild1_Normal(pc)
 
-loc_585F8:
++ ;loc_585F8:
 		jmp	Sprite_CheckDeleteTouch2(pc)
 ; ---------------------------------------------------------------------------
 
@@ -131,10 +131,10 @@ loc_585FC:
 		move.l	#loc_5861A,(a0)
 		move.w	#$10,d0
 		tst.w	x_vel(a0)
-		bmi.s	loc_5860E
+		bmi.s	+ ;loc_5860E
 		neg.w	d0
 
-loc_5860E:
++ ;loc_5860E:
 		move.w	d0,$40(a0)
 		clr.w	y_vel(a0)
 		jmp	Sprite_CheckDeleteTouch2(pc)
@@ -145,22 +145,22 @@ loc_5861A:
 		move.w	d0,d1
 		add.w	$40(a0),d0
 		eor.w	d0,d1
-		bmi.s	loc_5864E
+		bmi.s	++ ;loc_5864E
 		move.w	d0,x_vel(a0)
 		move.w	x_pos(a0),d1
 		jsr	(MoveSprite2).l
 		move.w	x_pos(a0),d0
 		eor.w	d0,d1
 		btst	#3,d1
-		beq.s	loc_5864A
+		beq.s	+ ;loc_5864A
 		lea	ChildObjDat_58944(pc),a2
 		jsr	CreateChild1_Normal(pc)
 
-loc_5864A:
++ ;loc_5864A:
 		jmp	Sprite_CheckDeleteTouch2(pc)
 ; ---------------------------------------------------------------------------
 
-loc_5864E:
++ ;loc_5864E:
 		move.l	#loc_58658,(a0)
 		jmp	Sprite_CheckDeleteTouch2(pc)
 ; ---------------------------------------------------------------------------
@@ -182,10 +182,10 @@ loc_5866A:
 loc_58672:
 		movea.w	parent3(a0),a1
 		btst	#3,$38(a1)
-		bne.s	loc_58684
+		bne.s	+ ;loc_58684
 		move.l	#loc_5866A,(a0)
 
-loc_58684:
++ ;loc_58684:
 		bsr.w	sub_5880C
 		jmp	Child_Draw_Sprite2(pc)
 ; ---------------------------------------------------------------------------
@@ -207,19 +207,19 @@ loc_586A2:
 		subi.w	#$80,y_pos(a0)
 		movea.w	parent3(a0),a1
 		btst	#0,render_flags(a1)
-		beq.s	loc_586C8
+		beq.s	+ ;loc_586C8
 		bset	#0,render_flags(a0)
 
-loc_586C8:
++ ;loc_586C8:
 		bset	#6,render_flags(a0)
 		move.w	#7,mainspr_childsprites(a0)
 		lea	sub2_mapframe-1(a0),a1
 		moveq	#7-1,d6
 
-loc_586DA:
+- ;loc_586DA:
 		move.w	#8,(a1)
 		addq.w	#next_subspr,a1
-		dbf	d6,loc_586DA
+		dbf	d6,- ;loc_586DA
 		move.b	#8,mapping_frame(a0)
 
 loc_586EA:
@@ -239,10 +239,10 @@ loc_586F6:
 		move.w	d1,y_vel(a0)
 		movea.w	parent3(a0),a1
 		btst	#0,render_flags(a1)
-		bne.s	loc_58722
+		bne.s	+ ;loc_58722
 		neg.w	d1
 
-loc_58722:
++ ;loc_58722:
 		move.w	d1,x_vel(a0)
 		lsr.w	#1,d0
 		move.b	byte_5874E(pc,d0.w),d0
@@ -292,7 +292,7 @@ sub_5875A:
 		moveq	#0,d5
 		moveq	#6,d6
 
-loc_5877E:
+- ;loc_5877E:
 		move.l	d1,d2
 		move.w	off_58798(pc,d5.w),d4
 		jsr	off_58798(pc,d4.w)
@@ -301,7 +301,7 @@ loc_5877E:
 		add.l	d2,(a2)+
 		addq.w	#2,a2
 		addq.w	#2,d5
-		dbf	d6,loc_5877E
+		dbf	d6,- ;loc_5877E
 		rts
 ; End of function sub_5875A
 
@@ -449,39 +449,39 @@ sub_58868:
 		move.w	x_vel(a1),d3
 		smi	d4
 		cmpi.w	#-$200,d3
-		ble.s	loc_5887E
+		ble.s	+ ;loc_5887E
 		cmpi.w	#$200,d3
 		blt.s	locret_58866
 
-loc_5887E:
++ ;loc_5887E:
 		btst	d2,d0
-		beq.s	loc_58884
+		beq.s	+ ;loc_58884
 		asr.w	#1,d3
 
-loc_58884:
++ ;loc_58884:
 		btst	#0,render_flags(a2)
-		beq.s	loc_5888E
+		beq.s	+ ;loc_5888E
 		not.b	d4
 
-loc_5888E:
++ ;loc_5888E:
 		tst.b	d4
 		bne.s	locret_58866
 		move.l	#loc_58672,(a0)
 		bset	#3,$38(a2)
 		asr.w	#1,d3
-		bmi.s	loc_588B0
+		bmi.s	+ ;loc_588B0
 		cmpi.w	#$400,d3
-		ble.s	loc_588BA
+		ble.s	++ ;loc_588BA
 		move.w	#$400,d3
-		bra.w	loc_588BA
+		bra.w	++ ;loc_588BA
 ; ---------------------------------------------------------------------------
 
-loc_588B0:
++ ;loc_588B0:
 		cmpi.w	#-$400,d3
-		bge.s	loc_588BA
+		bge.s	+ ;loc_588BA
 		move.w	#-$400,d3
 
-loc_588BA:
++ ;loc_588BA:
 		move.w	d3,$3E(a2)
 		asl.w	#1,d3
 		move.w	d3,x_vel(a1)

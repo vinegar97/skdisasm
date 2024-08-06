@@ -57,9 +57,9 @@ Title_Screen:
 		lea	(Target_palette).w,a1
 		moveq	#bytesToLcnt($20),d0
 
-loc_36AE:
+- ;loc_36AE:
 		move.l	(a0)+,(a1)+				; Fill 2 palette lines with title screen data
-		dbf	d0,loc_36AE
+		dbf	d0,- ;loc_36AE
 		move.w	#4*60,(Demo_timer).w
 		move.w	(VDP_reg_1_command).w,d0
 		ori.b	#$40,d0
@@ -75,11 +75,11 @@ Wait_Sega:
 		move.b	(Ctrl_1_pressed).w,d0
 		or.b	(Ctrl_2_pressed).w,d0
 		andi.b	#button_start_mask,d0
-		bne.w	loc_36F8				; If start was pressed, skip ahead
+		bne.w	+ ;loc_36F8				; If start was pressed, skip ahead
 		tst.w	(Demo_timer).w
 		bne.s	Wait_Sega
 
-loc_36F8:
++ ;loc_36F8:
 		moveq	#signextendB(mus_StopSEGA),d0
 		bsr.w	Play_Music				; Stop SEGA sound
 		lea	(Pal_Title).l,a1
@@ -120,18 +120,18 @@ Wait_Title:
 		move.b	(Ctrl_1_pressed).w,d0
 		or.b	(Ctrl_2_pressed).w,d0
 		andi.b	#button_start_mask,d0
-		bne.w	loc_379E			; If start was pressed, skip straight to title
+		bne.w	+ ;loc_379E			; If start was pressed, skip straight to title
 		cmpi.w	#$C,(Title_anim_frame).w
 		blo.s	Wait_Title		; If last frame was reached, don't repeat
 
-loc_379E:
++ ;loc_379E:
 		move.w	#$C,(Title_anim_frame).w
 		lea	(Normal_palette).w,a1
 		moveq	#$40-1,d1
 
-loc_37AA:
+- ;loc_37AA:
 		move.w	#$EEE,(a1)+
-		dbf	d1,loc_37AA				; Flash palette white
+		dbf	d1,- ;loc_37AA				; Flash palette white
 		move.b	#3,(Title_anim_delay).w
 		move.b	#4,(V_int_routine).w
 		bsr.w	Wait_VSync
@@ -168,9 +168,9 @@ loc_37AA:
 		lea	(Target_palette).w,a1
 		moveq	#bytesToLcnt($80),d0
 
-loc_384E:
+- ;loc_384E:
 		move.l	(a0)+,(a1)+
-		dbf	d0,loc_384E
+		dbf	d0,- ;loc_384E
 		move.l	#vdpComm(tiles_to_bytes($500),VRAM,WRITE),(VDP_control_port).l	; to VRAM $A000
 		lea	(ArtNem_Title_S3Banner).l,a0
 		bsr.w	Nem_Decomp
@@ -205,7 +205,7 @@ loc_38D8:
 		tst.l	(Reserved_object_3).w
 		beq.s	loc_38D8			; Don't do anything at all until banner has finished moving
 		tst.w	(Demo_timer).w
-		beq.w	loc_3978			; If the timer has run out, go do the level demos
+		beq.w	+++ ;loc_3978			; If the timer has run out, go do the level demos
 		move.b	(Ctrl_1_pressed).w,d0
 		andi.b	#button_start_mask,d0
 		beq.w	loc_38D8			; Repeat until start has been pressed
@@ -226,24 +226,24 @@ loc_38D8:
 		bsr.w	Play_SFX			; Fade out the title screen music
 		moveq	#0,d0
 		move.b	(Title_screen_option).w,d0		; Selection is stored here
-		bne.w	loc_3964
+		bne.w	+ ;loc_3964
 		move.b	#$4C,(Game_mode).w		; Game Mode 4C is the save select
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_3964:
++ ;loc_3964:
 		subq.b	#1,d0
-		bne.s	loc_3970
+		bne.s	+ ;loc_3970
 		move.b	#$38,(Game_mode).w		; Game Mode 38 is Competition mode
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_3970:
++ ;loc_3970:
 		move.b	#$28,(Game_mode).w		; Game Mode 28 is the level select
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_3978:
++ ;loc_3978:
 		moveq	#signextendB(mus_FadeOut),d0
 		bsr.w	Play_SFX			; Fade out music
 		move.w	(Next_demo_number).w,d0		; Get index of current demo to run
@@ -255,10 +255,10 @@ loc_3978:
 		move.w	d0,(Saved_zone_and_act).w
 		addq.w	#1,(Next_demo_number).w
 		cmpi.w	#3,(Next_demo_number).w
-		bcs.s	loc_39AA
+		bcs.s	+ ;loc_39AA
 		move.w	#0,(Next_demo_number).w
 
-loc_39AA:
++ ;loc_39AA:
 		move.w	#1,(Demo_mode_flag).w
 		move.b	#8,(Game_mode).w	; We're about to perform a level demo
 		move.b	#3,(Life_count).w
@@ -283,45 +283,45 @@ DemoLevels:
 
 TitleAnim_FlipBuffer:
 		tst.b	(Title_anim_delay).w
-		bne.s	loc_3A4E
+		bne.s	++ ;loc_3A4E
 		move.b	#4-1,(Title_anim_delay).w
 		cmpi.w	#$C,(Title_anim_frame).w
-		bhs.s	loc_3A54
+		bhs.s	+++ ;loc_3A54
 		move.b	#4-1,(Title_anim_delay).w
 		lea	(Target_palette).w,a0
 		lea	(Normal_palette).w,a1
 		moveq	#bytesToLcnt($40),d0
 
-loc_3A18:
+- ;loc_3A18:
 		move.l	(a0)+,(a1)+
-		dbf	d0,loc_3A18
+		dbf	d0,- ;loc_3A18
 		eori.b	#-1,(Title_anim_buffer).w
 		tst.b	(Title_anim_buffer).w
-		beq.s	loc_3A3C
+		beq.s	+ ;loc_3A3C
 		move.w	#$8406,(VDP_control_port).l		; Nametable B Address $C000
 		move.w	#$8230,(VDP_control_port).l		; Nametable A Address $C000
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_3A3C:
++ ;loc_3A3C:
 		move.w	#$8407,(VDP_control_port).l		; Nametable B Address $E000
 		move.w	#$8238,(VDP_control_port).l		; Nametable A Address $E000
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_3A4E:
++ ;loc_3A4E:
 		subq.b	#1,(Title_anim_delay).w
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_3A54:
++ ;loc_3A54:
 		lea	(Target_palette).w,a0
 		lea	(Normal_palette).w,a1
 		moveq	#bytesToLcnt($80),d0
 
-loc_3A5E:
+- ;loc_3A5E:
 		move.l	(a0)+,(a1)+
-		dbf	d0,loc_3A5E
+		dbf	d0,- ;loc_3A5E
 		move.w	#$8407,(VDP_control_port).l		; Nametable B Address $E000
 		move.w	#$8230,(VDP_control_port).l		; Nametable A Address $C000
 		rts
@@ -336,7 +336,7 @@ Iterate_TitleSonicFrame:
 		move.w	(Title_anim_frame).w,d0
 		move.b	SonicFrameIndex(pc,d0.w),d0
 		ext.w	d0
-		bmi.s	loc_3A94
+		bmi.s	+ ;loc_3A94
 		bsr.w	TitleSonic_LoadFrame
 		addq.w	#1,(Title_anim_frame).w
 
@@ -344,7 +344,7 @@ locret_3A92:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_3A94:
++ ;loc_3A94:
 		move.w	#$C,(Title_anim_frame).w
 		move.b	#3,(Title_anim_delay).w
 		bra.w	locret_3AB0
@@ -369,19 +369,19 @@ locret_3AB0:
 		move.b	#0,(Title_anim_buffer).w
 		move.w	#$40,d1
 		cmpi.w	#0,d0
-		blt.s	loc_3AFC
-		bne.s	loc_3AF2
+		blt.s	++ ;loc_3AFC
+		bne.s	+ ;loc_3AF2
 		cmpi.w	#-$5B,(V_scroll_amount).w
-		bne.s	loc_3AF2
+		bne.s	+ ;loc_3AF2
 		move.b	#1,(Title_anim_buffer).w
 		bra.s	locret_3B0A
 ; ---------------------------------------------------------------------------
 
-loc_3AF2:
++ ;loc_3AF2:
 		move.b	#-1,(Title_anim_buffer).w
 		move.w	#-$40,d1
 
-loc_3AFC:
++ ;loc_3AFC:
 		add.w	d1,(V_scroll_amount).w
 		cmp.b	(Title_anim_buffer).w,d2
 		beq.s	locret_3B0A
@@ -406,8 +406,8 @@ TitleSonic_LoadFrame:
 		move.w	#$2C60,d3
 		move.l	(a2)+,d0				; Art data
 		cmpi.w	#7,d7
-		beq.s	loc_3B46
-		bcs.s	loc_3B66
+		beq.s	+ ;loc_3B46
+		bcs.s	+++ ;loc_3B66
 		andi.l	#$FFFFFF,d0
 		movea.l	d0,a0
 		lea	(RAM_start).l,a1
@@ -415,27 +415,27 @@ TitleSonic_LoadFrame:
 		move.w	a1,d3
 		lsr.w	#1,d3
 
-loc_3B46:
++ ;loc_3B46:
 		move.l	#RAM_start,d1
 		move.w	#0,d2
 		tst.b	(Title_anim_buffer).w		; FFFFBC toggles on and off so that each animation frame could alternate locations for a sort of makeshift double-buffering
-		beq.s	loc_3B5A
+		beq.s	+ ;loc_3B5A
 		move.w	#tiles_to_bytes($300),d2
 
-loc_3B5A:
++ ;loc_3B5A:
 		andi.l	#$FFFFFF,d1
 		jsr	(Add_To_DMA_Queue).l
 
-loc_3B66:
++ ;loc_3B66:
 		movea.l	(a2)+,a0			; Palette data address
 		lea	(Target_palette).w,a1
 		moveq	#bytesToLcnt($40),d0
 
-loc_3B6E:
+- ;loc_3B6E:
 		move.l	(a0)+,(a1)+
-		dbf	d0,loc_3B6E
+		dbf	d0,- ;loc_3B6E
 		tst.b	(Title_anim_buffer).w
-		bne.s	loc_3BA6
+		bne.s	+ ;loc_3BA6
 		lea	(RAM_start+$8000).w,a1			; Buffer 1
 		movea.l	(a2)+,a0				; Enigma Mappings
 		move.w	#make_art_tile($000,0,0),d0
@@ -450,15 +450,15 @@ loc_3B6E:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_3BA6:
++ ;loc_3BA6:
 		lea	(RAM_start+$8000).w,a1			; Buffer 2
 		movea.l	(a2)+,a0				; Enigma Mappings
 		move.w	#make_art_tile($300,0,0),d0
 		cmpi.w	#7,d7
-		bhs.s	loc_3BBA
+		bhs.s	+ ;loc_3BBA
 		move.w	#make_art_tile($000,0,0),d0
 
-loc_3BBA:
++ ;loc_3BBA:
 		bsr.w	Eni_Decomp
 		move	#$2700,sr
 		lea	(RAM_start+$8000).w,a1
@@ -577,26 +577,26 @@ Obj_TitleBanner_Main:
 		move.b	#0,$34(a0)
 		move.w	#$40,d1
 		cmpi.w	#0,d0
-		blt.s	loc_3F90
-		bne.s	loc_3F86
+		blt.s	++ ;loc_3F90
+		bne.s	+ ;loc_3F86
 		cmpi.w	#-$5B,y_vel(a0)
-		bne.s	loc_3F86
+		bne.s	+ ;loc_3F86
 		move.l	#Obj_TitleBanner_Display,(a0)
 		move.l	#Obj_TitleTM,(Reserved_object_3).w
-		bra.s	loc_3F9E
+		bra.s	+++ ;loc_3F9E
 ; ---------------------------------------------------------------------------
 
-loc_3F86:
++ ;loc_3F86:
 		move.b	#-1,$34(a0)
 		move.w	#-$40,d1
 
-loc_3F90:
++ ;loc_3F90:
 		add.w	d1,y_vel(a0)
 		cmp.b	$34(a0),d2
-		beq.s	loc_3F9E
+		beq.s	+ ;loc_3F9E
 		asr	y_vel(a0)
 
-loc_3F9E:
++ ;loc_3F9E:
 		move.w	$30(a0),d0
 		neg.w	d0
 		addi.w	#$F0,d0
@@ -604,12 +604,12 @@ loc_3F9E:
 
 Obj_TitleBanner_Display:
 		subq.b	#1,anim_frame_timer(a0)
-		bpl.s	loc_3FC2
+		bpl.s	+ ;loc_3FC2
 		move.b	#9,anim_frame_timer(a0)
 		addq.b	#4,anim_frame(a0)
 		andi.b	#$1C,anim_frame(a0)
 
-loc_3FC2:
++ ;loc_3FC2:
 		moveq	#0,d0
 		move.b	anim_frame(a0),d0
 		move.l	Pal_TitleWaterRot(pc,d0.w),(Target_palette_line_3+$1A).w
@@ -645,7 +645,7 @@ OldDebugCode:
 		beq.s	locret_406C
 		move.b	(Ctrl_1_held_title).w,d0
 		cmp.b	(a1),d0
-		bne.s	loc_4066
+		bne.s	+ ;loc_4066
 		addq.w	#1,(Debug_mode_cheat_counter).w
 		tst.b	1(a1)
 		bne.s	locret_406C
@@ -653,7 +653,7 @@ OldDebugCode:
 		moveq	#signextendB(sfx_RingLoss),d0
 		bsr.w	Play_SFX
 
-loc_4066:
++ ;loc_4066:
 		move.w	#0,(Debug_mode_cheat_counter).w
 
 locret_406C:
@@ -705,36 +705,36 @@ Obj_TitleSelection_Main:
 		move.b	(Ctrl_1_pressed).w,d0
 		or.b	(Ctrl_2_pressed).w,d0
 		btst	#0,d0
-		beq.s	loc_410A
+		beq.s	+ ;loc_410A
 		subq.b	#1,d2
-		bcc.s	loc_410A
+		bcc.s	+ ;loc_410A
 		move.b	#2,d2
 		tst.b	(Level_select_flag).w		; If level select is on, maximum choices are 3
-		bne.s	loc_410A
+		bne.s	+ ;loc_410A
 		move.b	#1,d2
 
-loc_410A:
++ ;loc_410A:
 		btst	#1,d0
-		beq.s	loc_4124
+		beq.s	++ ;loc_4124
 		addq.b	#1,d2
 		tst.b	(Level_select_flag).w		; See above
-		bne.s	loc_411C
+		bne.s	+ ;loc_411C
 		andi.b	#1,d2
 
-loc_411C:
++ ;loc_411C:
 		cmpi.b	#3,d2
-		blo.s	loc_4124
+		blo.s	+ ;loc_4124
 		moveq	#0,d2
 
-loc_4124:
++ ;loc_4124:
 		move.b	d2,mapping_frame(a0)
 		move.b	d2,(Title_screen_option).w
 		andi.b	#3,d0
-		beq.s	loc_413A
+		beq.s	+ ;loc_413A
 		moveq	#signextendB(sfx_Switch),d0
 		jsr	(Play_SFX).l		; Only play sound if selection was changed
 
-loc_413A:
++ ;loc_413A:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -788,27 +788,27 @@ Obj_TitleTailsPlane:
 
 Obj_TitleTailsPlane_Main:
 		tst.b	$30(a0)
-		bne.s	loc_424E
+		bne.s	++ ;loc_424E
 		addq.w	#1,x_pos(a0)
 		cmpi.w	#$240,x_pos(a0)
-		bne.s	loc_424C
+		bne.s	+ ;loc_424C
 		move.b	#1,$30(a0)
 		bset	#0,status(a0)
 		move.w	#$D0,y_pos(a0)
 
-loc_424C:
-		bra.s	loc_426C
++ ;loc_424C:
+		bra.s	++ ;loc_426C
 ; ---------------------------------------------------------------------------
 
-loc_424E:
++ ;loc_424E:
 		subq.w	#1,x_pos(a0)
 		cmpi.w	#0,x_pos(a0)
-		bne.s	loc_426C
+		bne.s	+ ;loc_426C
 		move.b	#0,$30(a0)
 		bclr	#0,status(a0)
 		move.w	#$C0,y_pos(a0)
 
-loc_426C:
++ ;loc_426C:
 		lea	(Ani_TitleTailsPlane).l,a1
 		jsr	(Animate_Sprite).l
 		jmp	(Draw_Sprite).l
@@ -828,7 +828,7 @@ S3_Level_Select_Code:
 		beq.s	locret_42C8
 		move.b	(Ctrl_1_held_title).w,d0
 		cmp.b	(a1),d0
-		bne.s	loc_42C2
+		bne.s	+ ;loc_42C2
 		addq.w	#1,(Level_select_cheat_counter).w
 		tst.b	1(a1)
 		bne.s	locret_42C8
@@ -837,7 +837,7 @@ S3_Level_Select_Code:
 		moveq	#signextendB(sfx_RingRight),d0
 		bsr.w	Play_SFX
 
-loc_42C2:
++ ;loc_42C2:
 		move.w	#0,(Level_select_cheat_counter).w
 
 locret_42C8:

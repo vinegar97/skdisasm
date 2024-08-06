@@ -34,12 +34,12 @@ loc_554FE:
 
 loc_55524:
 		jsr	Swing_UpAndDown_Count(pc)
-		bne.s	loc_55534
+		bne.s	+ ;loc_55534
 		jsr	(MoveSprite2).l
 		bra.w	loc_5563A
 ; ---------------------------------------------------------------------------
 
-loc_55534:
++ ;loc_55534:
 		move.b	#6,routine(a0)
 		move.w	#$100,d0
 		move.w	d0,$3E(a0)
@@ -52,12 +52,12 @@ loc_55534:
 loc_55554:
 		jsr	Swing_UpAndDown(pc)
 		tst.w	d3
-		beq.s	loc_5556C
+		beq.s	+ ;loc_5556C
 		move.b	#8,routine(a0)
 		neg.w	x_vel(a0)
 		bchg	#0,render_flags(a0)
 
-loc_5556C:
++ ;loc_5556C:
 		jsr	(MoveSprite2).l
 		bra.w	loc_5563A
 ; ---------------------------------------------------------------------------
@@ -109,11 +109,11 @@ byte_555CE:
 
 loc_555D4:
 		subq.w	#1,$2E(a0)
-		bmi.s	loc_555DC
+		bmi.s	+ ;loc_555DC
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_555DC:
++ ;loc_555DC:
 		move.b	#4,routine(a0)
 		moveq	#$40,d1
 		moveq	#0,d0

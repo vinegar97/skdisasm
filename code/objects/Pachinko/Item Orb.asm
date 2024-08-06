@@ -10,11 +10,11 @@ Obj_PachinkoItemOrb:
 
 loc_4A218:
 		tst.b	collision_property(a0)
-		beq.s	loc_4A228
+		beq.s	+ ;loc_4A228
 		clr.b	collision_property(a0)
 		move.l	#loc_4A238,(a0)
 
-loc_4A228:
++ ;loc_4A228:
 		lea	(Ani_PachinkoItemOrb).l,a1
 		jsr	(Animate_Sprite).l
 		bra.w	loc_4A31A
@@ -22,7 +22,7 @@ loc_4A228:
 
 loc_4A238:
 		tst.b	collision_property(a0)
-		bne.s	loc_4A274
+		bne.s	+ ;loc_4A274
 		clr.b	mapping_frame(a0)
 		moveq	#signextendB(sfx_BlueSphere),d0
 		jsr	(Play_SFX).l
@@ -38,7 +38,7 @@ loc_4A238:
 		bra.w	loc_4A2CC
 ; ---------------------------------------------------------------------------
 
-loc_4A274:
++ ;loc_4A274:
 		clr.b	collision_property(a0)
 		lea	(Ani_PachinkoItemOrb).l,a1
 		jsr	(Animate_Sprite).l

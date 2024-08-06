@@ -69,9 +69,9 @@ AfterBoss_AIZ1:
 		lea	(Normal_palette_line_2).w,a2
 		moveq	#bytesToLcnt($60),d0
 
-.loop:
+- ;.loop:
 		move.l	(a1)+,(a2)+
-		dbf	d0,.loop
+		dbf	d0,- ;.loop
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -242,12 +242,12 @@ Obj_WaitForParent:
 
 Obj_BossExpControl1:
 		move.b	$39(a0),d0
-		bmi.s	loc_83E7E		; If negative, explosions are constantly created every three frames
+		bmi.s	+ ;loc_83E7E		; If negative, explosions are constantly created every three frames
 		subq.b	#1,d0
 		move.b	d0,$39(a0)		; Otherwise, continue making explosions until timer runs out
 		beq.s	loc_83EC2
 
-loc_83E7E:
++ ;loc_83E7E:
 		move.w	#2,$2E(a0)
 
 ; =============== S U B R O U T I N E =======================================

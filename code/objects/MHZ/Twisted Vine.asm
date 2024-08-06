@@ -1,36 +1,36 @@
 Obj_MHZTwistedVine:
 		move.b	#$D0,width_pixels(a0)
 		btst	#0,status(a0)
-		beq.s	loc_3DCB4
+		beq.s	+ ;loc_3DCB4
 		move.l	#loc_3DE6A,(a0)
 		bra.w	loc_3DE6A
 ; ---------------------------------------------------------------------------
 
-loc_3DCB4:
++ ;loc_3DCB4:
 		move.l	#loc_3DCBA,(a0)
 
 loc_3DCBA:
 		lea	(Player_1).w,a1
 		moveq	#p1_standing_bit,d6
-		bsr.s	sub_3DCD0
+		bsr.s	+ ;sub_3DCD0
 		lea	(Player_2).w,a1
 		addq.b	#p2_standing_bit-p1_standing_bit,d6
-		bsr.s	sub_3DCD0
+		bsr.s	+ ;sub_3DCD0
 		jmp	(Delete_Sprite_If_Not_In_Range).l
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_3DCD0:
++ ;sub_3DCD0:
 		btst	d6,status(a0)
-		bne.w	loc_3DD9E
+		bne.w	++ ;loc_3DD9E
 		btst	#Status_InAir,status(a1)
 		bne.w	locret_3DD9C
 		move.w	x_pos(a1),d0
 		sub.w	x_pos(a0),d0
 		tst.w	x_vel(a1)
 		beq.w	locret_3DD9C
-		bmi.s	loc_3DD48
+		bmi.s	+ ;loc_3DD48
 		cmpi.w	#-$30,d0
 		bgt.w	locret_3DD9C
 		cmpi.w	#-$40,d0
@@ -53,7 +53,7 @@ sub_3DCD0:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_3DD48:
++ ;loc_3DD48:
 		cmpi.w	#$30,d0
 		blt.s	locret_3DD9C
 		cmpi.w	#$40,d0
@@ -80,12 +80,12 @@ locret_3DD9C:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_3DD9E:
++ ;loc_3DD9E:
 		move.w	ground_vel(a1),d0
-		bpl.s	loc_3DDA6
+		bpl.s	+ ;loc_3DDA6
 		neg.w	d0
 
-loc_3DDA6:
++ ;loc_3DDA6:
 		cmpi.w	#$500,d0
 		blo.s	loc_3DE12
 		btst	#Status_InAir,status(a1)
@@ -152,25 +152,25 @@ loc_3DE36:
 loc_3DE6A:
 		lea	(Player_1).w,a1
 		moveq	#p1_standing_bit,d6
-		bsr.s	sub_3DE80
+		bsr.s	+ ;sub_3DE80
 		lea	(Player_2).w,a1
 		addq.b	#p2_standing_bit-p1_standing_bit,d6
-		bsr.s	sub_3DE80
+		bsr.s	+ ;sub_3DE80
 		jmp	(Delete_Sprite_If_Not_In_Range).l
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_3DE80:
++ ;sub_3DE80:
 		btst	d6,status(a0)
-		bne.w	loc_3DF48
+		bne.w	++ ;loc_3DF48
 		btst	#Status_InAir,status(a1)
 		bne.w	locret_3DEF2
 		move.w	x_pos(a1),d0
 		sub.w	x_pos(a0),d0
 		tst.w	x_vel(a1)
 		beq.w	locret_3DEF2
-		bpl.s	loc_3DEF4
+		bpl.s	+ ;loc_3DEF4
 		cmpi.w	#$30,d0
 		blt.s	locret_3DEF2
 		cmpi.w	#$40,d0
@@ -196,7 +196,7 @@ locret_3DEF2:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_3DEF4:
++ ;loc_3DEF4:
 		cmpi.w	#-$30,d0
 		bgt.s	locret_3DEF2
 		cmpi.w	#-$40,d0
@@ -220,12 +220,12 @@ loc_3DEF4:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_3DF48:
++ ;loc_3DF48:
 		move.w	ground_vel(a1),d0
-		bpl.s	loc_3DF50
+		bpl.s	+ ;loc_3DF50
 		neg.w	d0
 
-loc_3DF50:
++ ;loc_3DF50:
 		cmpi.w	#$500,d0
 		blo.s	loc_3DFBE
 		btst	#Status_InAir,status(a1)

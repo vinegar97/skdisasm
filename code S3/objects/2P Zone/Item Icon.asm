@@ -7,37 +7,37 @@ loc_37454:
 		move.w	#$120,x_pos(a0)
 		move.w	#$E0,y_pos(a0)
 		tst.b	subtype(a0)
-		beq.s	loc_374A0
+		beq.s	++ ;loc_374A0
 		tst.b	(Not_ghost_flag).w
-		bne.s	loc_37492
+		bne.s	+ ;loc_37492
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_37492:
++ ;loc_37492:
 		bset	#4,render_flags(a0)
 		move.l	#loc_374D4,(a0)
 		bra.s	loc_374D4
 ; ---------------------------------------------------------------------------
 
-loc_374A0:
++ ;loc_374A0:
 		bset	#3,render_flags(a0)
 		move.l	#loc_374AC,(a0)
 
 loc_374AC:
 		moveq	#0,d0
 		tst.w	(Ring_count).w
-		beq.s	loc_374B6
+		beq.s	+ ;loc_374B6
 		moveq	#3,d0
 
-loc_374B6:
++ ;loc_374B6:
 		btst	#Status_SpeedShoes,(Player_1+status_secondary).w
-		beq.s	loc_374CA
+		beq.s	+ ;loc_374CA
 		moveq	#1,d0
 		cmpi.w	#$C00,(Max_speed).w
-		beq.s	loc_374CA
+		beq.s	+ ;loc_374CA
 		moveq	#2,d0
 
-loc_374CA:
++ ;loc_374CA:
 		move.b	d0,mapping_frame(a0)
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
@@ -45,18 +45,18 @@ loc_374CA:
 loc_374D4:
 		moveq	#0,d0
 		tst.w	(Ring_count_P2).w
-		beq.s	loc_374DE
+		beq.s	+ ;loc_374DE
 		moveq	#3,d0
 
-loc_374DE:
++ ;loc_374DE:
 		btst	#2,(Player_2+status_secondary).w
-		beq.s	loc_374F2
+		beq.s	+ ;loc_374F2
 		moveq	#1,d0
 		cmpi.w	#$C00,(Max_speed_P2).w
-		beq.s	loc_374F2
+		beq.s	+ ;loc_374F2
 		moveq	#2,d0
 
-loc_374F2:
++ ;loc_374F2:
 		move.b	d0,mapping_frame(a0)
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------

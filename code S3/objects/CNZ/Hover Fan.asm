@@ -20,12 +20,12 @@ Obj_CNZHoverFan:
 		add.w	d1,d1
 		move.w	d1,$34(a0)
 		move.b	subtype(a0),d0
-		bmi.s	loc_30EE6
+		bmi.s	+ ;loc_30EE6
 		move.l	#loc_30F56,(a0)
 		bra.w	loc_30F56
 ; ---------------------------------------------------------------------------
 
-loc_30EE6:
++ ;loc_30EE6:
 		andi.w	#$70,d0
 		move.w	d0,d1
 		lsr.w	#4,d0
@@ -33,12 +33,12 @@ loc_30EE6:
 		addi.b	#$10,d1
 		move.b	d1,width_pixels(a0)
 		btst	#0,status(a0)
-		bne.s	loc_30F0C
+		bne.s	+ ;loc_30F0C
 		move.l	#loc_30F24,(a0)
 		bra.w	loc_30F24
 ; ---------------------------------------------------------------------------
 
-loc_30F0C:
++ ;loc_30F0C:
 		move.l	#loc_30F12,(a0)
 
 loc_30F12:
@@ -51,18 +51,18 @@ loc_30F12:
 loc_30F24:
 		moveq	#0,d6
 		lea	(Player_1).w,a1
-		bsr.w	sub_30F84
+		bsr.w	+++ ;sub_30F84
 		lea	(Player_2).w,a1
-		bsr.w	sub_30F84
+		bsr.w	+++ ;sub_30F84
 		tst.w	d6
-		beq.s	loc_30F4C
+		beq.s	+ ;loc_30F4C
 		move.b	(Level_frame_counter+1).w,d0
 		andi.b	#$1F,d0
-		bne.s	loc_30F4C
+		bne.s	+ ;loc_30F4C
 		moveq	#signextendB(sfx_Hoverpad),d0
 		jsr	(Play_SFX).l
 
-loc_30F4C:
++ ;loc_30F4C:
 		move.w	$30(a0),d0
 		jmp	(Sprite_OnScreen_Test2).l
 ; ---------------------------------------------------------------------------
@@ -70,24 +70,24 @@ loc_30F4C:
 loc_30F56:
 		moveq	#0,d6
 		lea	(Player_1).w,a1
-		bsr.w	sub_30F84
+		bsr.w	++ ;sub_30F84
 		lea	(Player_2).w,a1
-		bsr.w	sub_30F84
+		bsr.w	++ ;sub_30F84
 		tst.w	d6
-		beq.s	loc_30F7E
+		beq.s	+ ;loc_30F7E
 		move.b	(Level_frame_counter+1).w,d0
 		andi.b	#$1F,d0
-		bne.s	loc_30F7E
+		bne.s	+ ;loc_30F7E
 		moveq	#signextendB(sfx_Hoverpad),d0
 		jsr	(Play_SFX).l
 
-loc_30F7E:
++ ;loc_30F7E:
 		jmp	(Delete_Sprite_If_Not_In_Range).l
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_30F84:
++ ;sub_30F84:
 		move.w	x_pos(a1),d0
 		sub.w	x_pos(a0),d0
 		add.w	$32(a0),d0
@@ -106,11 +106,11 @@ sub_30F84:
 		tst.b	object_control(a1)
 		bne.s	locret_3100E
 		sub.w	$36(a0),d1
-		bcs.s	loc_30FCA
+		bcs.s	+ ;loc_30FCA
 		not.w	d1
 		add.w	d1,d1
 
-loc_30FCA:
++ ;loc_30FCA:
 		add.w	$36(a0),d1
 		neg.w	d1
 		asr.w	#4,d1

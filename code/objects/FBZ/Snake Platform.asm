@@ -2,16 +2,16 @@ Obj_FBZSnakePlatform:
 		moveq	#$19,d2
 		moveq	#3-1,d1
 
-loc_3B538:
+- ;loc_3B538:
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_3B556
+		bne.w	+ ;loc_3B556
 		move.l	#Obj_FBZSnakePlatformMain,(a1)
 		move.b	d2,anim_frame_timer(a1)
 		addi.b	#$18,d2
 		move.b	subtype(a0),subtype(a1)
 
-loc_3B556:
-		dbf	d1,loc_3B538
++ ;loc_3B556:
+		dbf	d1,- ;loc_3B538
 		move.b	#1,anim_frame_timer(a0)
 		move.l	#Obj_FBZSnakePlatformMain,(a0)
 
@@ -42,7 +42,7 @@ Obj_FBZSnakePlatformMain:
 
 Obj_FBZSnakePlatformWait:
 		subq.b	#1,anim_frame_timer(a0)
-		bne.s	loc_3B60E
+		bne.s	++ ;loc_3B60E
 		move.l	#Obj_FBZSnakePlatformMove,(a0)
 
 Obj_FBZSnakePlatformMove:
@@ -51,13 +51,13 @@ Obj_FBZSnakePlatformMove:
 		movea.l	$30(a0),a2
 		move.w	(a2)+,d0
 		cmp.w	x_pos(a0),d0
-		bne.s	loc_3B5FA
+		bne.s	+ ;loc_3B5FA
 		move.w	(a2)+,d0
 		cmp.w	y_pos(a0),d0
-		bne.s	loc_3B5FA
+		bne.s	+ ;loc_3B5FA
 		bsr.w	FBZSnake_ChangeDir
 
-loc_3B5FA:
++ ;loc_3B5FA:
 		move.w	(sp)+,d4
 
 loc_3B5FC:
@@ -66,22 +66,22 @@ loc_3B5FC:
 		move.w	#$D,d3
 		jsr	(SolidObjectFull).l
 
-loc_3B60E:
++ ;loc_3B60E:
 		move.w	$34(a0),d0
 		andi.w	#$FF80,d0
 		sub.w	(Camera_X_pos_coarse_back).w,d0
 		cmp.w	$36(a0),d0
-		bhi.w	loc_3B628
+		bhi.w	+ ;loc_3B628
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_3B628:
++ ;loc_3B628:
 		move.w	respawn_addr(a0),d0
-		beq.s	loc_3B634
+		beq.s	+ ;loc_3B634
 		movea.w	d0,a2
 		bclr	#7,(a2)
 
-loc_3B634:
++ ;loc_3B634:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -107,29 +107,29 @@ FBZSnake_ChangeDir:
 		move.w	(a2)+,d5
 		move.w	#$140,d0
 		cmp.w	x_pos(a0),d4
-		beq.s	loc_3B680
-		bcc.s	loc_3B674
+		beq.s	++ ;loc_3B680
+		bcc.s	+ ;loc_3B674
 		neg.w	d0
 
-loc_3B674:
++ ;loc_3B674:
 		move.w	d0,x_vel(a0)
 		move.w	#0,y_vel(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_3B680:
++ ;loc_3B680:
 		cmp.w	y_pos(a0),d5
-		beq.s	loc_3B696
-		bcc.s	loc_3B68A
+		beq.s	++ ;loc_3B696
+		bcc.s	+ ;loc_3B68A
 		neg.w	d0
 
-loc_3B68A:
++ ;loc_3B68A:
 		move.w	#0,x_vel(a0)
 		move.w	d0,y_vel(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_3B696:
++ ;loc_3B696:
 		move.w	d0,x_vel(a0)
 		move.w	d0,y_vel(a0)
 		rts
@@ -137,11 +137,11 @@ loc_3B696:
 
 loc_3B6A0:
 		move.w	(a2),d0
-		beq.s	loc_3B6AE
+		beq.s	+ ;loc_3B6AE
 		move.w	d0,$38(a0)
 		move.l	#Obj_FBZSnakePlatformStopRestart,(a0)
 
-loc_3B6AE:
++ ;loc_3B6AE:
 		move.b	subtype(a0),d0
 		andi.w	#$F,d0
 		add.w	d0,d0

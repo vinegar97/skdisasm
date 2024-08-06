@@ -14,7 +14,7 @@ Obj_SOZDoor:
 		move.w	d0,$36(a0)
 		move.b	subtype(a0),d0
 		andi.w	#$F0,d0
-		beq.s	loc_41BDA
+		beq.s	+ ;loc_41BDA
 		move.b	#1,mapping_frame(a0)
 		move.b	#$40,width_pixels(a0)
 		move.b	#$C,height_pixels(a0)
@@ -22,7 +22,7 @@ Obj_SOZDoor:
 		bra.s	loc_41C3A
 ; ---------------------------------------------------------------------------
 
-loc_41BDA:
++ ;loc_41BDA:
 		move.l	#loc_41BE0,(a0)
 
 loc_41BE0:
@@ -32,20 +32,20 @@ loc_41BE0:
 		move.b	(a3,d0.w),d0
 		moveq	#1,d1
 		cmp.w	$36(a0),d0
-		beq.s	loc_41C00
-		bcc.s	loc_41BFC
+		beq.s	++ ;loc_41C00
+		bcc.s	+ ;loc_41BFC
 		neg.w	d1
 
-loc_41BFC:
++ ;loc_41BFC:
 		add.w	d1,$36(a0)
 
-loc_41C00:
++ ;loc_41C00:
 		move.w	$36(a0),d0
 		btst	#0,status(a0)
-		bne.s	loc_41C0E
+		bne.s	+ ;loc_41C0E
 		neg.w	d0
 
-loc_41C0E:
++ ;loc_41C0E:
 		add.w	$46(a0),d0
 		move.w	d0,y_pos(a0)
 
@@ -69,20 +69,20 @@ loc_41C3A:
 		move.b	(a3,d0.w),d0
 		moveq	#1,d1
 		cmp.w	$36(a0),d0
-		beq.s	loc_41C5A
-		bcc.s	loc_41C56
+		beq.s	++ ;loc_41C5A
+		bcc.s	+ ;loc_41C56
 		neg.w	d1
 
-loc_41C56:
++ ;loc_41C56:
 		add.w	d1,$36(a0)
 
-loc_41C5A:
++ ;loc_41C5A:
 		move.w	$36(a0),d0
 		btst	#0,status(a0)
-		bne.s	loc_41C68
+		bne.s	+ ;loc_41C68
 		neg.w	d0
 
-loc_41C68:
++ ;loc_41C68:
 		add.w	$44(a0),d0
 		move.w	d0,x_pos(a0)
 		bra.s	loc_41C16

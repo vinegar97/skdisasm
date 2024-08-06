@@ -22,9 +22,9 @@ loc_263DC:
 		move.b	(V_int_run_count+3).w,d0
 		add.b	subtype(a0),d0
 		andi.b	#$7F,d0
-		bne.s	loc_2643C
+		bne.s	++ ;loc_2643C
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_2643C
+		bne.w	++ ;loc_2643C
 		move.l	#Obj_AutoSpin460,(a1)
 		bsr.s	sub_263AA
 		move.w	x_pos(a0),x_pos(a1)
@@ -34,16 +34,16 @@ loc_263DC:
 		bset	#4,shield_reaction(a1)
 		addi.w	#$40,x_pos(a1)
 		btst	#0,status(a0)
-		beq.s	loc_2642E
+		beq.s	+ ;loc_2642E
 		subi.w	#2*$40,x_pos(a1)
 
-loc_2642E:
++ ;loc_2642E:
 		tst.b	render_flags(a0)
-		bpl.s	loc_2643C
+		bpl.s	+ ;loc_2643C
 		moveq	#signextendB(sfx_FireAttack),d0
 		jsr	(Play_SFX).l
 
-loc_2643C:
++ ;loc_2643C:
 		moveq	#0,d1
 		move.b	width_pixels(a0),d1
 		addi.w	#$B,d1
@@ -60,10 +60,10 @@ Obj_AutoSpin460:
 		lea	(Ani_LBZFlameThrower).l,a1
 		jsr	(Animate_Sprite).l
 		tst.b	routine(a0)
-		beq.s	loc_26478
+		beq.s	+ ;loc_26478
 		move.w	#$7FFF,x_pos(a0)
 
-loc_26478:
++ ;loc_26478:
 		jmp	(Sprite_CheckDeleteTouch3).l
 ; ---------------------------------------------------------------------------
 Ani_LBZFlameThrower:

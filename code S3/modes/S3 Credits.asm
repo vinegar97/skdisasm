@@ -61,9 +61,9 @@ S3Credits:
 		lea	(Target_palette).w,a2
 		moveq	#bytesToLcnt($40),d6
 
-loc_404AC:
+- ;loc_404AC:
 		move.l	(a1)+,(a2)+
-		dbf	d6,loc_404AC
+		dbf	d6,- ;loc_404AC
 		moveq	#signextendB(mus_Credits3),d0
 		jsr	(Play_Music).l
 		move.w	#3*60,(_unkFA82).w
@@ -81,7 +81,7 @@ loc_404E0:
 		addq.w	#1,(Level_frame_counter).w
 		jsr	(Process_Sprites).l
 		jsr	(Render_Sprites).l
-		bsr.w	sub_4051E
+		bsr.w	+ ;sub_4051E
 		jsr	(Process_Nem_Queue_Init).l
 		jsr	(Process_Kos_Module_Queue).l
 		cmpi.b	#$20,(Game_mode).w
@@ -91,7 +91,7 @@ loc_404E0:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_4051E:
++ ;sub_4051E:
 		move.w	(_unkFA86).w,d0
 		move.w	off_4052A(pc,d0.w),d0
 		jmp	off_4052A(pc,d0.w)
@@ -106,11 +106,11 @@ off_4052A:
 
 loc_40530:
 		subq.w	#1,(_unkFA82).w
-		bmi.s	loc_40538
+		bmi.s	+ ;loc_40538
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_40538:
++ ;loc_40538:
 		move.w	#3*60,(_unkFA82).w
 		jsr	(Pal_FadeToBlack).l
 		clearRAM	RAM_start+$2000,$1000
@@ -119,7 +119,7 @@ loc_40538:
 		move.w	d0,(_unkFA84).w
 		lea	S3CreditsText_Main(pc),a1
 		move.w	(a1,d0.w),d0
-		beq.w	loc_405FA
+		beq.w	+++ ;loc_405FA
 		lea	(a1,d0.w),a1
 		bsr.w	sub_40A4A
 		move.b	#$18,(V_int_routine).w
@@ -135,9 +135,9 @@ loc_40538:
 		lea	(Normal_palette).w,a2
 		moveq	#bytesToLcnt($80),d6
 
-loc_405A2:
+- ;loc_405A2:
 		move.l	(a1)+,(a2)+
-		dbf	d6,loc_405A2
+		dbf	d6,- ;loc_405A2
 		clr.w	(_unkFA84).w
 		rts
 ; ---------------------------------------------------------------------------
@@ -147,66 +147,66 @@ loc_405AE:
 		addq.w	#1,d0
 		move.w	d0,(V_scroll_value).w
 		andi.w	#$FF,d0
-		beq.s	loc_405C0
+		beq.s	+ ;loc_405C0
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_405C0:
++ ;loc_405C0:
 		move.w	(_unkFA84).w,d0
 		addq.w	#2,d0
 		move.w	d0,(_unkFA84).w
 		lea	(RAM_start+$2000).l,a2
 		btst	#1,d0
-		bne.s	loc_405DC
+		bne.s	+ ;loc_405DC
 		lea	(RAM_start+$3000).l,a2
 
-loc_405DC:
++ ;loc_405DC:
 		moveq	#0,d2
 		move.w	#bytesToLcnt($1000),d3
 
-loc_405E2:
+- ;loc_405E2:
 		move.l	d2,(a2)+
-		dbf	d3,loc_405E2
+		dbf	d3,- ;loc_405E2
 		lea	S3CreditsText_Dummy(pc),a1
 		move.w	(a1,d0.w),d0
-		beq.s	loc_405FA
+		beq.s	+ ;loc_405FA
 		lea	(a1,d0.w),a1
 		bra.w	sub_40A4A
 ; ---------------------------------------------------------------------------
 
-loc_405FA:
++ ;loc_405FA:
 		jsr	(Pal_FadeToBlack).l
 		move.w	#4,(_unkFA86).w
 		lea	Pal_EndingEyecatchKnuckles(pc),a1
 		cmpi.w	#7,(Chaos_emerald_count).w
-		bne.s	loc_40616
+		bne.s	+ ;loc_40616
 		lea	Pal_EndingS3Logo(pc),a1
 
-loc_40616:
++ ;loc_40616:
 		lea	(Target_palette_line_3).w,a2
 		moveq	#bytesToLcnt($40),d0
 
-loc_4061C:
+- ;loc_4061C:
 		move.l	(a1)+,(a2)+
-		dbf	d0,loc_4061C
+		dbf	d0,- ;loc_4061C
 		clearRAM	RAM_start+$2000,$2000
 		bset	#0,(_unkFA88).w
 		clr.l	(V_scroll_value).w
 		lea	Child6_EndingS3Logo(pc),a1
 		cmpi.w	#7,(Chaos_emerald_count).w
-		beq.s	loc_40656
+		beq.s	+ ;loc_40656
 		lea	S3CreditsText_TryAgain(pc),a1
 		bsr.w	sub_40A4A
 		lea	Child6_EndingTryAgain(pc),a1
 
-loc_40656:
++ ;loc_40656:
 		move.w	(a1)+,d0
 		lea	(Dynamic_object_RAM+object_size).w,a2
 
-loc_4065C:
+- ;loc_4065C:
 		move.l	(a1)+,(a2)
 		lea	next_object(a2),a2
-		dbf	d0,loc_4065C
+		dbf	d0,- ;loc_4065C
 		jsr	(Process_Sprites).l
 		jsr	(Render_Sprites).l
 		move.b	#$18,(V_int_routine).w
@@ -245,45 +245,45 @@ loc_4069E:
 
 loc_406E2:
 		subq.w	#1,$2E(a0)
-		bmi.s	loc_406EA
+		bmi.s	+ ;loc_406EA
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_406EA:
++ ;loc_406EA:
 		move.l	#loc_406F0,(a0)
 
 loc_406F0:
 		jsr	(MoveSprite).l
 		cmpi.w	#$F0,y_pos(a0)
-		bcs.s	loc_40712
+		bcs.s	+ ;loc_40712
 		move.w	y_vel(a0),d0
-		bmi.s	loc_40712
+		bmi.s	+ ;loc_40712
 		asr.w	#1,d0
 		cmpi.w	#$80,d0
-		bcs.s	loc_40718
+		bcs.s	++ ;loc_40718
 		neg.w	d0
 		move.w	d0,y_vel(a0)
 
-loc_40712:
++ ;loc_40712:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_40718:
++ ;loc_40718:
 		move.l	#loc_40728,(a0)
 		move.w	#$F0,y_pos(a0)
 		clr.w	$2E(a0)
 
 loc_40728:
 		subq.w	#1,$2E(a0)
-		bmi.s	loc_40734
+		bmi.s	+ ;loc_40734
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_40734:
++ ;loc_40734:
 		move.w	#1,$2E(a0)
 		move.w	$3A(a0),d0
 		cmpi.w	#6,d0
-		bcc.s	loc_40762
+		bcc.s	+ ;loc_40762
 		addq.w	#1,$3A(a0)
 		lsl.w	#5,d0
 		lea	Pal_EndingS3LogoFlash(pc),a1
@@ -291,24 +291,24 @@ loc_40734:
 		lea	(Normal_palette_line_3).w,a2
 		moveq	#bytesToLcnt($20),d0
 
-loc_40756:
+- ;loc_40756:
 		move.l	(a1)+,(a2)+
-		dbf	d0,loc_40756
+		dbf	d0,- ;loc_40756
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_40762:
++ ;loc_40762:
 		move.l	#loc_40774,(a0)
 		move.w	#6*60,$2E(a0)
 		bset	#5,$38(a0)
 
 loc_40774:
 		subq.w	#1,$2E(a0)
-		bmi.s	loc_40780
+		bmi.s	+ ;loc_40780
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_40780:
++ ;loc_40780:
 		move.b	#0,(Game_mode).w
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
@@ -326,14 +326,14 @@ loc_4078C:
 		move.l	#AniRaw_41932,$30(a0)
 
 loc_407CC:
-		bsr.w	sub_407DC
+		bsr.w	+ ;sub_407DC
 		jsr	(Animate_Raw).l
 		jmp	(Draw_Sprite).l
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_407DC:
++ ;sub_407DC:
 		movea.w	(_unkFAA4).w,a1
 		btst	#5,$38(a1)
 		beq.s	locret_407FA
@@ -410,11 +410,11 @@ loc_408E6:
 loc_408F0:
 		movea.w	$44(a0),a1
 		btst	#7,status(a1)
-		beq.s	loc_4090A
+		beq.s	+ ;loc_4090A
 		move.l	#loc_40910,(a0)
 		move.l	#loc_40920,$34(a0)
 
-loc_4090A:
++ ;loc_4090A:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -444,26 +444,26 @@ loc_40930:
 
 loc_40962:
 		subq.w	#1,$2E(a0)
-		bpl.s	loc_40974
+		bpl.s	+ ;loc_40974
 		move.l	#loc_4097A,(a0)
 		move.w	#-$300,y_vel(a0)
 
-loc_40974:
++ ;loc_40974:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
 loc_4097A:
 		jsr	(MoveSprite_LightGravity).l
 		tst.w	y_vel(a0)
-		bmi.s	loc_4099C
+		bmi.s	+ ;loc_4099C
 		movea.w	$46(a0),a1
 		move.w	y_pos(a1),d0
 		subq.w	#4,d0
 		cmp.w	y_pos(a0),d0
-		bhi.s	loc_4099C
+		bhi.s	+ ;loc_4099C
 		jsr	(Go_Delete_Sprite).l
 
-loc_4099C:
++ ;loc_4099C:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -481,13 +481,13 @@ loc_409A2:
 
 loc_409E0:
 		subq.w	#1,$2E(a0)
-		bmi.s	loc_409F6
+		bmi.s	+ ;loc_409F6
 		lea	AniRaw_4194C(pc),a1
 		jsr	(Animate_RawNoSST).l
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_409F6:
++ ;loc_409F6:
 		move.b	#0,(Game_mode).w
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
@@ -498,11 +498,11 @@ loc_40A02:
 		moveq	#0,d2
 		moveq	#7-1,d3
 
-loc_40A0C:
+- ;loc_40A0C:
 		tst.b	(a2)+
-		bne.s	loc_40A42
+		bne.s	+ ;loc_40A42
 		jsr	(AllocateObject).l
-		bne.s	loc_40A42
+		bne.s	+ ;loc_40A42
 		move.l	#loc_40930,(a1)
 		move.b	d1,mapping_frame(a1)
 		move.b	d2,subtype(a1)
@@ -514,9 +514,9 @@ loc_40A0C:
 		addq.b	#2,d2
 		move.w	a1,$44(a0)
 
-loc_40A42:
++ ;loc_40A42:
 		addq.b	#1,d1
-		dbf	d3,loc_40A0C
+		dbf	d3,- ;loc_40A0C
 		rts
 
 ; =============== S U B R O U T I N E =======================================
@@ -525,9 +525,9 @@ loc_40A42:
 sub_40A4A:
 		move.w	(a1)+,d6
 
-loc_40A4C:
-		bsr.w	sub_40A5C
-		dbf	d6,loc_40A4C
+- ;loc_40A4C:
+		bsr.w	+ ;sub_40A5C
+		dbf	d6,- ;loc_40A4C
 		bset	#0,(_unkFA88).w
 		rts
 ; End of function sub_40A4A
@@ -536,7 +536,7 @@ loc_40A4C:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_40A5C:
++ ;sub_40A5C:
 		lea	(RAM_start+$2000).l,a2
 		move.w	(a1)+,d0
 		adda.w	d0,a2
@@ -547,7 +547,7 @@ loc_40A66:
 		beq.w	loc_40B10
 		move.w	d0,d1
 		subi.b	#"a",d0
-		bcs.s	loc_40A9A
+		bcs.s	+ ;loc_40A9A
 		lea	(S3Credits_PlaneMapSmall).l,a3
 		lsl.w	#2,d0
 		adda.w	d0,a3
@@ -561,35 +561,35 @@ loc_40A66:
 		bra.s	loc_40A66
 ; ---------------------------------------------------------------------------
 
-loc_40A9A:
++ ;loc_40A9A:
 		cmpi.b	#" ",d1
-		bne.s	loc_40AA6
+		bne.s	+ ;loc_40AA6
 		moveq	#$1D,d1
 		bra.w	loc_40ACE
 ; ---------------------------------------------------------------------------
 
-loc_40AA6:
++ ;loc_40AA6:
 		cmpi.b	#".",d1
-		bne.s	loc_40AB2
+		bne.s	+ ;loc_40AB2
 		moveq	#$1A,d1
 		bra.w	loc_40ACE
 ; ---------------------------------------------------------------------------
 
-loc_40AB2:
++ ;loc_40AB2:
 		cmpi.b	#"(",d1
-		bne.s	loc_40ABE
+		bne.s	+ ;loc_40ABE
 		moveq	#$1B,d1
 		bra.w	loc_40ACE
 ; ---------------------------------------------------------------------------
 
-loc_40ABE:
++ ;loc_40ABE:
 		cmpi.b	#")",d1
-		bne.s	loc_40ACA
+		bne.s	+ ;loc_40ACA
 		moveq	#$1C,d1
 		bra.w	loc_40ACE
 ; ---------------------------------------------------------------------------
 
-loc_40ACA:
++ ;loc_40ACA:
 		subi.b	#"A",d1
 
 loc_40ACE:
@@ -601,19 +601,19 @@ loc_40ACE:
 		movea.l	a2,a4
 		moveq	#2,d3
 
-loc_40AE4:
+- ;loc_40AE4:
 		move.w	d0,d1
 		movea.l	a4,a5
 
-loc_40AE8:
+- ;loc_40AE8:
 		move.w	(a3)+,(a5)+
-		dbf	d1,loc_40AE8
+		dbf	d1,- ;loc_40AE8
 		move.l	a4,d2
 		addi.w	#$80,d2
 		andi.l	#$FFFF3FFF,d2
 		ori.l	#$2000,d2
 		movea.l	d2,a4
-		dbf	d3,loc_40AE4
+		dbf	d3,-- ;loc_40AE4
 		addq.w	#1,d0
 		add.w	d0,d0
 		adda.w	d0,a2

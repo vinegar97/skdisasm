@@ -21,36 +21,36 @@ loc_249FA:
 		jsr	(sub_1BAC4).l
 		swap	d6
 		andi.w	#$33,d6
-		beq.s	loc_24A80
+		beq.s	++ ;loc_24A80
 		move.b	d6,d0
 		andi.b	#$11,d0
-		beq.s	loc_24A4E
+		beq.s	+ ;loc_24A4E
 		lea	(Player_1).w,a1
 		cmpi.b	#9,anim(a1)
-		bne.s	loc_24A4E
+		bne.s	+ ;loc_24A4E
 		move.w	#$3C,$30(a0)
 		move.b	#1,$32(a0)
 		move.b	status(a1),d0
 		add.b	status(a0),d0
 		andi.b	#1,d0
-		bne.s	loc_24A4E
+		bne.s	+ ;loc_24A4E
 		move.b	#-1,$32(a0)
 
-loc_24A4E:
++ ;loc_24A4E:
 		andi.b	#$22,d6
-		beq.s	loc_24A80
+		beq.s	+ ;loc_24A80
 		lea	(Player_2).w,a1
 		cmpi.b	#9,anim(a1)
-		bne.s	loc_24A80
+		bne.s	+ ;loc_24A80
 		move.w	#$3C,$30(a0)
 		move.b	#1,$32(a0)
 		move.b	status(a1),d0
 		add.b	status(a0),d0
 		andi.b	#1,d0
-		bne.s	loc_24A80
+		bne.s	+ ;loc_24A80
 		move.b	#-1,$32(a0)
 
-loc_24A80:
++ ;loc_24A80:
 		tst.w	$30(a0)
 		beq.s	loc_24AFE
 		move.b	subtype(a0),d0
@@ -58,45 +58,45 @@ loc_24A80:
 		lea	(Level_trigger_array).w,a3
 		lea	(a3,d0.w),a3
 		subq.w	#1,$30(a0)
-		bne.s	loc_24AA8
+		bne.s	+ ;loc_24AA8
 		move.b	#0,(a3)
 		move.b	#0,mapping_frame(a0)
 		bra.s	loc_24AFE
 ; ---------------------------------------------------------------------------
 
-loc_24AA8:
++ ;loc_24AA8:
 		move.b	#1,(a3)
 		move.b	status(a0),d6
 		andi.w	#standing_mask,d6
-		beq.s	loc_24AD0
+		beq.s	++ ;loc_24AD0
 		move.w	d6,d0
 		andi.w	#p1_standing,d0
-		beq.s	loc_24AC4
+		beq.s	+ ;loc_24AC4
 		lea	(Player_1).w,a1
 		bsr.s	sub_24B04
 
-loc_24AC4:
++ ;loc_24AC4:
 		andi.w	#p2_standing,d6
-		beq.s	loc_24AD0
+		beq.s	+ ;loc_24AD0
 		lea	(Player_2).w,a1
 		bsr.s	sub_24B04
 
-loc_24AD0:
++ ;loc_24AD0:
 		subq.b	#1,anim_frame_timer(a0)
-		bpl.s	loc_24AEA
+		bpl.s	+ ;loc_24AEA
 		move.b	#1,anim_frame_timer(a0)
 		move.b	$32(a0),d0
 		add.b	d0,$1D(a0)
 		andi.b	#3,$1D(a0)
 
-loc_24AEA:
++ ;loc_24AEA:
 		tst.b	mapping_frame(a0)
-		beq.s	loc_24AF8
+		beq.s	+ ;loc_24AF8
 		move.b	#0,$22(a0)
 		bra.s	loc_24AFE
 ; ---------------------------------------------------------------------------
 
-loc_24AF8:
++ ;loc_24AF8:
 		move.b	#4,$22(a0)
 
 loc_24AFE:
@@ -109,10 +109,10 @@ sub_24B04:
 		move.w	x_pos(a0),d1
 		subi.w	#$10,d1
 		btst	#0,status(a0)
-		beq.s	loc_24B18
+		beq.s	+ ;loc_24B18
 		addi.w	#2*$10,d1
 
-loc_24B18:
++ ;loc_24B18:
 		move.w	y_pos(a0),d2
 		addi.w	#$10,d2
 		sub.w	x_pos(a1),d1

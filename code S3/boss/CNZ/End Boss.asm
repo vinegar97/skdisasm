@@ -63,10 +63,10 @@ loc_4C02C:
 		jsr	Swing_Setup1(pc)
 		lea	(Child1_MakeRoboShip4).l,a2
 		jsr	CreateChild1_Normal(pc)
-		bne.s	loc_4C06A
+		bne.s	+ ;loc_4C06A
 		move.b	#9,subtype(a1)
 
-loc_4C06A:
++ ;loc_4C06A:
 		lea	ChildObjDat_4C8A2(pc),a2
 		jsr	CreateChild1_Normal(pc)
 		lea	ChildObjDat_4C8AA(pc),a2
@@ -93,18 +93,18 @@ loc_4C0A2:
 		jsr	Find_SonicTails(pc)
 		addi.w	#$10,d2
 		cmpi.w	#$20,d2
-		blo.s	loc_4C0CA
+		blo.s	++ ;loc_4C0CA
 		move.w	#$100,d1
 		bset	#0,render_flags(a0)
 		tst.w	d0
-		bne.s	loc_4C0C6
+		bne.s	+ ;loc_4C0C6
 		neg.w	d1
 		bclr	#0,render_flags(a0)
 
-loc_4C0C6:
++ ;loc_4C0C6:
 		move.w	d1,x_vel(a0)
 
-loc_4C0CA:
++ ;loc_4C0CA:
 		jmp	(Swing_MoveWaitNoFall).l
 ; ---------------------------------------------------------------------------
 
@@ -119,11 +119,11 @@ loc_4C0E2:
 		jsr	Swing_UpAndDown(pc)
 		jsr	(MoveSprite2).l
 		btst	#1,$38(a0)
-		beq.s	loc_4C0F6
+		beq.s	+ ;loc_4C0F6
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4C0F6:
++ ;loc_4C0F6:
 		move.b	#8,routine(a0)
 		clr.w	x_vel(a0)
 		rts
@@ -135,22 +135,22 @@ loc_4C102:
 		move.w	x_pos(a0),d0
 		movea.w	$44(a0),a1
 		cmp.w	x_pos(a1),d0
-		beq.s	loc_4C138
-		bhi.s	loc_4C12A
+		beq.s	++ ;loc_4C138
+		bhi.s	+ ;loc_4C12A
 		addq.w	#1,d0
 		move.w	d0,x_pos(a0)
 		bset	#0,render_flags(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4C12A:
++ ;loc_4C12A:
 		subq.w	#1,d0
 		bclr	#0,render_flags(a0)
 		move.w	d0,x_pos(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4C138:
++ ;loc_4C138:
 		move.b	#$A,routine(a0)
 		bset	#3,$38(a0)
 		move.w	#$BF,$2E(a0)
@@ -192,12 +192,12 @@ loc_4C1A4:
 		move.w	y_pos(a1),d1
 		subi.w	#$14,d1
 		cmp.w	d1,d0
-		bhs.s	loc_4C1C0
+		bhs.s	+ ;loc_4C1C0
 		move.w	d0,y_pos(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4C1C0:
++ ;loc_4C1C0:
 		move.b	#$E,routine(a0)
 		bset	#3,$38(a0)
 		rts
@@ -207,12 +207,12 @@ loc_4C1CE:
 		move.w	y_pos(a0),d0
 		subq.w	#1,d0
 		cmp.w	$3A(a0),d0
-		bls.s	loc_4C1E0
+		bls.s	+ ;loc_4C1E0
 		move.w	d0,y_pos(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4C1E0:
++ ;loc_4C1E0:
 		move.w	$3A(a0),y_pos(a0)
 		bra.w	loc_4C088
 ; ---------------------------------------------------------------------------
@@ -337,20 +337,20 @@ loc_4C376:
 		jsr	Refresh_ChildPositionAdjusted(pc)
 		movea.w	parent3(a0),a1
 		btst	#1,$38(a1)
-		bne.s	loc_4C388
+		bne.s	+ ;loc_4C388
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4C388:
++ ;loc_4C388:
 		move.b	#4,routine(a0)
 		move.l	#loc_4C3BC,$34(a0)
 		jsr	Find_SonicTails(pc)
 		move.w	#$100,d1
 		tst.w	d0
-		bne.s	loc_4C3A4
+		bne.s	+ ;loc_4C3A4
 		neg.w	d1
 
-loc_4C3A4:
++ ;loc_4C3A4:
 		move.w	d1,x_vel(a0)
 		rts
 ; ---------------------------------------------------------------------------
@@ -367,14 +367,14 @@ loc_4C3BC:
 		jsr	(Play_SFX).l
 		move.w	y_vel(a0),d0
 		cmpi.w	#$80,d0
-		blo.s	loc_4C3D8
+		blo.s	+ ;loc_4C3D8
 		asr.w	#1,d0
 		neg.w	d0
 		move.w	d0,y_vel(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4C3D8:
++ ;loc_4C3D8:
 		move.b	#6,routine(a0)
 		movea.w	parent3(a0),a1
 		move.w	a0,$44(a1)
@@ -385,11 +385,11 @@ loc_4C3D8:
 loc_4C3EE:
 		movea.w	parent3(a0),a1
 		btst	#3,$38(a1)
-		bne.s	loc_4C3FC
+		bne.s	+ ;loc_4C3FC
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4C3FC:
++ ;loc_4C3FC:
 		move.b	#8,routine(a0)
 		rts
 ; ---------------------------------------------------------------------------
@@ -397,11 +397,11 @@ loc_4C3FC:
 loc_4C404:
 		movea.w	parent3(a0),a1
 		btst	#3,$38(a1)
-		beq.s	loc_4C414
+		beq.s	+ ;loc_4C414
 		jmp	Animate_RawMultiDelay(pc)
 ; ---------------------------------------------------------------------------
 
-loc_4C414:
++ ;loc_4C414:
 		move.b	#$A,routine(a0)
 		move.b	#4,mapping_frame(a0)
 		bra.w	loc_4C5BC
@@ -410,11 +410,11 @@ loc_4C414:
 loc_4C424:
 		movea.w	parent3(a0),a1
 		bclr	#3,$38(a1)
-		bne.s	loc_4C432
+		bne.s	+ ;loc_4C432
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4C432:
++ ;loc_4C432:
 		move.b	#2,routine(a0)
 		rts
 ; ---------------------------------------------------------------------------
@@ -424,10 +424,10 @@ loc_4C43A:
 		jsr	SetUp_ObjAttributes3(pc)
 		move.l	#Obj_FlickerMove,(a0)
 		tst.b	subtype(a0)
-		beq.s	loc_4C454
+		beq.s	+ ;loc_4C454
 		bset	#0,render_flags(a0)
 
-loc_4C454:
++ ;loc_4C454:
 		moveq	#8,d0
 		jmp	(Set_IndexedVelocity).l
 ; ---------------------------------------------------------------------------
@@ -467,11 +467,11 @@ loc_4C492:
 loc_4C4AE:
 		movea.w	parent3(a0),a1
 		btst	#3,$38(a1)
-		bne.s	loc_4C4BC
+		bne.s	+ ;loc_4C4BC
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4C4BC:
++ ;loc_4C4BC:
 		move.b	#4,routine(a0)
 		move.b	#1,$40(a0)
 		move.w	#$40,$2E(a0)
@@ -483,14 +483,14 @@ loc_4C4BC:
 loc_4C4DE:
 		movea.w	parent3(a0),a1
 		btst	#2,$38(a1)
-		bne.s	loc_4C4FA
+		bne.s	+ ;loc_4C4FA
 		move.b	$40(a0),d0
 		add.b	d0,$3C(a0)
 		jsr	Animate_RawMultiDelay(pc)
 		jmp	Obj_Wait(pc)
 ; ---------------------------------------------------------------------------
 
-loc_4C4FA:
++ ;loc_4C4FA:
 		move.b	#6,routine(a0)
 		lea	ChildObjDat_4C8B2(pc),a2
 		jsr	CreateChild1_Normal(pc)
@@ -507,13 +507,13 @@ loc_4C510:
 loc_4C51C:
 		movea.w	parent3(a0),a1
 		btst	#2,$38(a1)
-		beq.s	loc_4C534
+		beq.s	+ ;loc_4C534
 		move.b	$40(a0),d0
 		add.b	d0,$3C(a0)
 		jmp	Animate_RawMultiDelay(pc)
 ; ---------------------------------------------------------------------------
 
-loc_4C534:
++ ;loc_4C534:
 		move.b	#8,routine(a0)
 		bset	#7,$38(a0)
 		move.w	#$40,$2E(a0)
@@ -530,13 +530,13 @@ loc_4C550:
 
 loc_4C560:
 		cmpi.b	#1,$40(a0)
-		beq.s	loc_4C574
+		beq.s	+ ;loc_4C574
 		subq.b	#1,$40(a0)
 		move.w	#$40,$2E(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4C574:
++ ;loc_4C574:
 		move.b	#$A,routine(a0)
 		bclr	#7,$38(a0)
 		rts
@@ -548,11 +548,11 @@ loc_4C582:
 		addq.b	#1,d0
 		move.b	d0,$3C(a0)
 		cmp.b	$3A(a0),d0
-		beq.s	loc_4C598
+		beq.s	+ ;loc_4C598
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4C598:
++ ;loc_4C598:
 		move.b	#$C,routine(a0)
 		rts
 ; ---------------------------------------------------------------------------
@@ -560,11 +560,11 @@ loc_4C598:
 loc_4C5A0:
 		movea.w	parent3(a0),a1
 		btst	#3,$38(a1)
-		beq.s	loc_4C5B0
+		beq.s	+ ;loc_4C5B0
 		jmp	Animate_RawMultiDelay(pc)
 ; ---------------------------------------------------------------------------
 
-loc_4C5B0:
++ ;loc_4C5B0:
 		move.b	#2,routine(a0)
 		move.b	#1,mapping_frame(a0)
 
@@ -615,13 +615,13 @@ loc_4C618:
 		bset	#4,shield_reaction(a0)
 		move.l	#loc_4C618,$34(a0)
 		move.b	subtype(a0),d0
-		beq.s	loc_4C666
+		beq.s	+ ;loc_4C666
 		move.l	#byte_4C911,$30(a0)
 		move.l	#loc_4C66E,(a0)
 		bra.w	sub_4C6F8
 ; ---------------------------------------------------------------------------
 
-loc_4C666:
++ ;loc_4C666:
 		move.l	#byte_4C908,$30(a0)
 
 loc_4C66E:
@@ -673,15 +673,15 @@ sub_4C6CA:
 		lea	byte_4C6EE(pc),a1
 		moveq	#5-1,d6
 
-loc_4C6DC:
+- ;loc_4C6DC:
 		cmp.b	(a1)+,d0
-		blo.s	loc_4C6E8
+		blo.s	+ ;loc_4C6E8
 		addq.w	#1,a1
-		dbf	d6,loc_4C6DC
+		dbf	d6,- ;loc_4C6DC
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4C6E8:
++ ;loc_4C6E8:
 		move.b	(a1)+,mapping_frame(a0)
 
 locret_4C6EC:
@@ -703,13 +703,13 @@ byte_4C6EE:
 sub_4C6F8:
 		movea.w	parent3(a0),a1
 		btst	#7,$38(a1)
-		bne.s	loc_4C70E
+		bne.s	+ ;loc_4C70E
 		btst	#7,status(a1)
-		bne.s	loc_4C70E
+		bne.s	+ ;loc_4C70E
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4C70E:
++ ;loc_4C70E:
 		jmp	(Go_Delete_Sprite).l
 ; End of function sub_4C6F8
 
@@ -719,11 +719,11 @@ loc_4C70E:
 
 sub_4C714:
 		btst	#2,$38(a0)
-		bne.s	loc_4C71E
+		bne.s	+ ;loc_4C71E
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4C71E:
++ ;loc_4C71E:
 		lea	(Player_1).w,a1
 		bsr.w	sub_4C72A
 		lea	(Player_2).w,a1
@@ -737,23 +737,23 @@ sub_4C72A:
 		move.w	x_pos(a0),d0
 		sub.w	x_pos(a1),d0
 		spl	d1
-		bpl.s	loc_4C738
+		bpl.s	+ ;loc_4C738
 		neg.w	d0
 
-loc_4C738:
++ ;loc_4C738:
 		andi.w	#$FFC0,d0
 		cmpi.w	#$1C0,d0
-		blo.s	loc_4C746
+		blo.s	+ ;loc_4C746
 		move.w	#$1C0,d0
 
-loc_4C746:
++ ;loc_4C746:
 		lsr.w	#4,d0
 		move.l	dword_4C758(pc,d0.w),d2
 		tst.b	d1
-		bne.s	loc_4C752
+		bne.s	+ ;loc_4C752
 		neg.l	d2
 
-loc_4C752:
++ ;loc_4C752:
 		add.l	d2,x_pos(a1)
 		rts
 ; End of function sub_4C72A
@@ -780,19 +780,19 @@ sub_4C778:
 		tst.b	collision_property(a0)
 		beq.s	loc_4C7D0
 		tst.b	$20(a0)
-		bne.s	loc_4C79C
+		bne.s	+ ;loc_4C79C
 		move.b	#$20,$20(a0)
 		moveq	#signextendB(sfx_BossHit),d0
 		jsr	(Play_SFX).l
 
-loc_4C79C:
++ ;loc_4C79C:
 		bset	#6,status(a0)
 		moveq	#0,d0
 		btst	#0,$20(a0)
-		bne.s	loc_4C7AE
+		bne.s	+ ;loc_4C7AE
 		addq.w	#2*4,d0
 
-loc_4C7AE:
++ ;loc_4C7AE:
 		lea	word_4C7E4(pc),a1
 		lea	word_4C7EC(pc,d0.w),a2
 		jsr	(CopyWordData_4).l
@@ -824,16 +824,16 @@ word_4C7EC:
 sub_4C7FC:
 		movea.w	parent3(a0),a1
 		btst	#7,status(a1)
-		beq.s	loc_4C80C
+		beq.s	+ ;loc_4C80C
 		clr.b	collision_flags(a0)
 
-loc_4C80C:
++ ;loc_4C80C:
 		btst	#4,$38(a1)
-		bne.s	loc_4C816
+		bne.s	+ ;loc_4C816
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4C816:
++ ;loc_4C816:
 		move.l	#Delete_Current_Sprite,(a0)
 		lea	ChildObjDat_4C8C8(pc),a2
 		jmp	CreateChild1_Normal(pc)
@@ -846,16 +846,16 @@ loc_4C816:
 sub_4C824:
 		movea.w	parent3(a0),a1
 		btst	#7,status(a1)
-		beq.s	loc_4C834
+		beq.s	+ ;loc_4C834
 		clr.b	collision_flags(a0)
 
-loc_4C834:
++ ;loc_4C834:
 		btst	#4,$38(a1)
-		bne.s	loc_4C83E
+		bne.s	+ ;loc_4C83E
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4C83E:
++ ;loc_4C83E:
 		bset	#7,status(a0)
 		move.b	#1,mapping_frame(a0)
 		clr.b	collision_flags(a0)

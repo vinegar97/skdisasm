@@ -23,10 +23,10 @@ loc_894B6:
 		lea	ObjDat_Blaster(pc),a1
 		jsr	SetUp_ObjAttributes(pc)
 		bclr	#1,render_flags(a0)
-		beq.s	loc_894CA
+		beq.s	+ ;loc_894CA
 		st	$3C(a0)
 
-loc_894CA:
++ ;loc_894CA:
 		move.b	#$E,y_radius(a0)
 		moveq	#0,d0
 		move.b	subtype(a0),d0
@@ -43,18 +43,18 @@ loc_894F2:
 		bsr.w	sub_896D6
 		jsr	Find_SonicTails(pc)
 		tst.w	d1
-		bne.s	loc_89512
+		bne.s	++ ;loc_89512
 		cmpi.w	#$80,d2
-		bhs.s	loc_89512
+		bhs.s	++ ;loc_89512
 		btst	#0,render_flags(a0)
-		beq.s	loc_8950E
+		beq.s	+ ;loc_8950E
 		subq.w	#2,d0
 
-loc_8950E:
++ ;loc_8950E:
 		tst.w	d0
-		beq.s	loc_89528
+		beq.s	++ ;loc_89528
 
-loc_89512:
++ ;loc_89512:
 		lea	byte_8975E(pc),a1
 		jsr	Animate_RawNoSSTMultiDelay(pc)
 		jsr	(MoveSprite2).l
@@ -62,7 +62,7 @@ loc_89512:
 		jmp	Obj_Wait(pc)
 ; ---------------------------------------------------------------------------
 
-loc_89528:
++ ;loc_89528:
 		move.b	#6,routine(a0)
 		move.b	#0,mapping_frame(a0)
 		move.b	#$10,$39(a0)
@@ -211,10 +211,10 @@ loc_8969E:
 		move.l	#loc_8953C,$34(a0)
 		move.w	#-$80,d0
 		btst	#0,render_flags(a0)
-		beq.s	loc_896CC
+		beq.s	+ ;loc_896CC
 		neg.w	d0
 
-loc_896CC:
++ ;loc_896CC:
 		move.w	d0,x_vel(a0)
 		clr.w	y_vel(a0)
 		rts

@@ -26,10 +26,10 @@ loc_307B2:
 		moveq	#p2_standing_bit,d6
 		move.w	(Ctrl_2_logical).w,d1
 		cmpi.w	#2,(Tails_CPU_routine).w
-		bne.s	loc_307DE
+		bne.s	+ ;loc_307DE
 		move.b	#0,(a2)
 
-loc_307DE:
++ ;loc_307DE:
 		bsr.w	sub_308B4
 		bsr.w	sub_309D8
 		jmp	(Sprite_OnScreen_Test).l
@@ -39,16 +39,16 @@ loc_307DE:
 
 sub_307EC:
 		move.w	$34(a0),d0
-		bne.s	loc_30804
+		bne.s	+ ;loc_30804
 		move.w	#$10,d1
 		move.w	#$29,d3
 		move.w	$10(a0),d4
 		jmp	(SolidObjectTop).l
 ; ---------------------------------------------------------------------------
 
-loc_30804:
++ ;loc_30804:
 		subq.w	#1,d0
-		bne.s	loc_30834
+		bne.s	+ ;loc_30834
 		move.b	angle(a0),d0
 		addq.b	#2,angle(a0)
 		jsr	(GetSineCosine).l
@@ -65,14 +65,14 @@ locret_30832:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_30834:
++ ;loc_30834:
 		subq.w	#1,d0
-		bne.s	loc_3088E
+		bne.s	++ ;loc_3088E
 		subq.w	#1,$36(a0)
-		bpl.s	loc_30844
+		bpl.s	+ ;loc_30844
 		move.w	#3,$34(a0)
 
-loc_30844:
++ ;loc_30844:
 		move.b	(Level_frame_counter+1).w,d0
 		andi.b	#3,d0
 		bne.s	locret_3088C
@@ -95,7 +95,7 @@ locret_3088C:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_3088E:
++ ;loc_3088E:
 		move.b	angle(a0),d0
 		addq.b	#2,angle(a0)
 		jsr	(GetSineCosine).l
@@ -116,7 +116,7 @@ locret_308B2:
 
 sub_308B4:
 		move.b	(a2),d0
-		bne.s	loc_3090C
+		bne.s	+ ;loc_3090C
 		bclr	d6,status(a0)
 		beq.s	locret_3090A
 		bclr	#Status_OnObj,status(a1)
@@ -137,9 +137,9 @@ locret_3090A:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_3090C:
++ ;loc_3090C:
 		subq.b	#1,d0
-		bne.s	loc_3093C
+		bne.s	+ ;loc_3093C
 		move.w	y_vel(a1),d0
 		addi.w	#$38,y_vel(a1)
 		ext.l	d0
@@ -156,24 +156,24 @@ locret_3093A:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_3093C:
++ ;loc_3093C:
 		subq.b	#1,d0
 		bne.w	loc_309C6
 		cmpi.w	#2,$34(a0)
-		beq.s	loc_30966
+		beq.s	+++ ;loc_30966
 		cmpi.w	#$200,$30(a0)
-		beq.s	loc_3095A
+		beq.s	+ ;loc_3095A
 		cmpi.w	#$202,$30(a0)
-		bne.s	loc_30960
+		bne.s	++ ;loc_30960
 
-loc_3095A:
++ ;loc_3095A:
 		move.w	#1,$34(a0)
 
-loc_30960:
++ ;loc_30960:
 		andi.w	#button_A_mask|button_B_mask|button_C_mask,d1
 		beq.s	locret_309C4
 
-loc_30966:
++ ;loc_30966:
 		move.b	sub2_mapframe(a0),d0
 		lsl.b	#4,d0
 		addi.b	#$80,d0
@@ -229,7 +229,7 @@ sub_309D8:
 		bmi.s	locret_30A30
 		move.w	#tiles_to_bytes($448),d4
 
-loc_30A04:
+- ;loc_30A04:
 		moveq	#0,d1
 		move.w	(a2)+,d1
 		move.w	d1,d3
@@ -243,7 +243,7 @@ loc_30A04:
 		add.w	d3,d4
 		add.w	d3,d4
 		jsr	(Add_To_DMA_Queue).l
-		dbf	d5,loc_30A04
+		dbf	d5,- ;loc_30A04
 
 locret_30A30:
 		rts

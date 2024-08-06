@@ -20,38 +20,38 @@ loc_2653A:
 		jsr	(SolidObjectFull).l
 		move.b	status(a0),d0
 		andi.b	#$60,d0
-		bne.s	loc_2656C
+		bne.s	+ ;loc_2656C
 
 loc_26566:
 		jmp	(Sprite_OnScreen_Test).l
 ; ---------------------------------------------------------------------------
 
-loc_2656C:
++ ;loc_2656C:
 		lea	(Player_1).w,a1
 		move.w	$30(a0),d1
 		btst	#p1_pushing_bit,status(a0)
-		beq.s	loc_265B8
+		beq.s	++ ;loc_265B8
 		cmpi.b	#2,anim(a1)	; check animation 2
-		bne.s	loc_265B8	; if not go to loc_265B8
+		bne.s	++ ;loc_265B8	; if not go to loc_265B8
 		move.w	d1,d0
-		bpl.s	loc_2658A
+		bpl.s	+ ;loc_2658A
 		neg.w	d0
 
-loc_2658A:
++ ;loc_2658A:
 		cmpi.w	#$480,d0
-		blo.s	loc_265B8
+		blo.s	+ ;loc_265B8
 		bclr	#p2_pushing_bit,status(a0)
-		beq.s	loc_265EC
+		beq.s	+++ ;loc_265EC
 		lea	(Player_2).w,a2
 		bclr	#Status_Push,status(a2)
 		cmpi.b	#2,anim(a2)
-		bne.s	loc_265EC
+		bne.s	+++ ;loc_265EC
 		move.w	$32(a0),x_vel(a2)
 		move.w	x_vel(a2),ground_vel(a2)
-		bra.s	loc_265EC
+		bra.s	+++ ;loc_265EC
 ; ---------------------------------------------------------------------------
 
-loc_265B8:
++ ;loc_265B8:
 		lea	(Player_2).w,a1
 		move.w	$32(a0),d1
 		btst	#p2_pushing_bit,status(a0)
@@ -59,39 +59,39 @@ loc_265B8:
 		cmpi.b	#2,anim(a1)
 		bne.s	loc_26566
 		move.w	d1,d0
-		bpl.s	loc_265D6
+		bpl.s	+ ;loc_265D6
 		neg.w	d0
 
-loc_265D6:
++ ;loc_265D6:
 		cmpi.w	#$480,d0
 		blo.w	loc_26566
 		bclr	#p2_pushing_bit,status(a0)
-		beq.s	loc_265EC
+		beq.s	+ ;loc_265EC
 		bclr	#Status_Push,(Player_2+status).w	; set Tails as not pushing against an object
 
-loc_265EC:
++ ;loc_265EC:
 		bclr	#p1_pushing_bit,status(a0)
-		beq.s	loc_265FA
+		beq.s	+ ;loc_265FA
 		bclr	#Status_Push,(Player_1+status).w
 
-loc_265FA:
++ ;loc_265FA:
 		move.w	d1,x_vel(a1)
 		addq.w	#4,x_pos(a1)
 		lea	(word_267D4).l,a4
 		move.w	x_pos(a0),d0
 		cmp.w	x_pos(a1),d0
-		blo.s	loc_2661E
+		blo.s	+ ;loc_2661E
 		subi.w	#2*4,x_pos(a1)
 		lea	(word_26814).l,a4
 
-loc_2661E:
++ ;loc_2661E:
 		move.w	x_vel(a1),ground_vel(a1)
 		move.b	subtype(a0),d1
-		beq.s	loc_26686
+		beq.s	++ ;loc_26686
 		cmpi.b	#$1F,d1
-		beq.s	loc_2665A
+		beq.s	+ ;loc_2665A
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_26686
+		bne.w	++ ;loc_26686
 		move.l	#Obj_AutomaticTunnelDelayed,(a1)
 		move.w	x_pos(a0),x_pos(a1)
 		move.w	y_pos(a0),y_pos(a1)
@@ -99,9 +99,9 @@ loc_2661E:
 		move.b	#7,anim_frame_timer(a1)	; set delay timer
 		move.b	d1,subtype(a1)
 
-loc_2665A:
++ ;loc_2665A:
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_26686
+		bne.w	+ ;loc_26686
 		move.l	#Obj_TunnelExhaustControl,(a1)
 		move.w	x_pos(a0),x_pos(a1)
 		move.w	y_pos(a0),y_pos(a1)
@@ -109,7 +109,7 @@ loc_2665A:
 		move.w	#1,y_vel(a1)	; set vertical speed to 1
 		move.b	d1,subtype(a1)	; copy subtype from d1
 
-loc_26686:
++ ;loc_26686:
 		move.l	#loc_2668E,(a0)
 		bsr.s	PipePlugSmashObject
 
@@ -130,10 +130,10 @@ loc_266AE:
 		move.b	anim_frame(a0),mapping_frame(a0)
 		addq.b	#1,anim_frame(a0)
 		cmpi.b	#6,anim_frame(a0)
-		blo.s	loc_266C8
+		blo.s	+ ;loc_266C8
 		move.b	#0,anim_frame(a0)
 
-loc_266C8:
++ ;loc_266C8:
 		jsr	(MoveSprite2).l
 		addi.w	#$18,y_vel(a0)	; make object fall
 		tst.b	render_flags(a0)
@@ -170,9 +170,9 @@ PipePlugSmashObject:
 		move.b	render_flags(a0),d5
 		moveq	#$C-1,d1	; set times to loop
 
-loc_26714:
+- ;loc_26714:
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_267CC
+		bne.w	++ ;loc_267CC
 		move.l	d4,(a1)
 		move.l	a3,mappings(a1)
 		move.b	d5,render_flags(a1)
@@ -193,7 +193,7 @@ loc_26714:
 		move.w	(a2)+,d0	; get pixels dy
 		add.w	x_pos(a0),d0
 		move.w	d0,x_pos(a1)
-		dbf	d1,loc_26714
+		dbf	d1,- ;loc_26714
 		; don't know why they didn't use the subroutine instead of making a copy
 		moveq	#0,d0
 		move.b	mapping_frame(a0),d0
@@ -207,15 +207,15 @@ loc_26714:
 		move.l	(a0),d4
 		move.b	render_flags(a0),d5
 		movea.l	a0,a1
-		bra.s	loc_26798
+		bra.s	+ ;loc_26798
 ; ---------------------------------------------------------------------------
 
-loc_2678E:
+- ;loc_2678E:
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.s	loc_267CC
+		bne.s	++ ;loc_267CC
 		addq.w	#6,a3
 
-loc_26798:
++ ;loc_26798:
 		move.l	d4,(a1)
 		move.l	a3,mappings(a1)
 		move.b	d5,render_flags(a1)
@@ -228,9 +228,9 @@ loc_26798:
 		move.b	width_pixels(a0),width_pixels(a1)	; copying height_pixels is missing
 		move.w	(a4)+,x_vel(a1)
 		move.w	(a4)+,y_vel(a1)
-		dbf	d1,loc_2678E
+		dbf	d1,- ;loc_2678E
 
-loc_267CC:
++ ;loc_267CC:
 		moveq	#signextendB(sfx_Collapse),d0
 		jmp	(Play_SFX).l
 ; End of function PipePlugSmashObject

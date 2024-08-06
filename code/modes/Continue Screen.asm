@@ -36,26 +36,26 @@ ContinueScreen:
 		lea	(Target_palette).w,a2
 		moveq	#bytesToLcnt($80),d6
 
-loc_5C3BC:
+- ;loc_5C3BC:
 		move.l	(a1)+,(a2)+
-		dbf	d6,loc_5C3BC
+		dbf	d6,- ;loc_5C3BC
 		lea	aCONTINUE(pc),a1
 		move.w	#$292,d2
 		move.w	#$8347,d6
 		jsr	(sub_5B318).l
 		cmpi.w	#3,(Player_mode).w
-		beq.s	loc_5C3FE
+		beq.s	++ ;loc_5C3FE
 		tst.w	(SK_alone_flag).w
-		beq.s	loc_5C3EE
+		beq.s	+ ;loc_5C3EE
 		move.l	#Obj_Continue_SonicAlone,(Player_1).w
-		bra.w	loc_5C3FE
+		bra.w	++ ;loc_5C3FE
 ; ---------------------------------------------------------------------------
 
-loc_5C3EE:
++ ;loc_5C3EE:
 		move.l	#Obj_Continue_SonicWTails,(Player_1).w
 		move.l	#Obj_Continue_TailsWSonic,(Player_2).w
 
-loc_5C3FE:
++ ;loc_5C3FE:
 		move.l	#loc_5C838,(Reserved_object_3).w
 		lea	(Dynamic_object_RAM).w,a1
 		move.l	#loc_5C4D6,(a1)
@@ -83,12 +83,12 @@ loc_5C454:
 		move.b	(_unkFAA9).w,d0
 		beq.s	loc_5C454
 		subq.b	#1,d0
-		beq.s	loc_5C48A
+		beq.s	+ ;loc_5C48A
 		move.b	#0,(Game_mode).w
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_5C48A:
++ ;loc_5C48A:
 		move.b	#$C,(Game_mode).w
 		move.b	#3,(Life_count).w
 		move.b	#3,(Life_count_P2).w
@@ -116,15 +116,15 @@ loc_5C4D6:
 
 loc_5C4E6:
 		btst	#button_start,(Ctrl_1_pressed).w
-		bne.s	loc_5C51C
+		bne.s	++ ;loc_5C51C
 		btst	#button_start,(Ctrl_2_pressed).w
-		bne.s	loc_5C51C
+		bne.s	++ ;loc_5C51C
 		subq.w	#1,(_unkFA82).w
 		bpl.s	locret_5C512
 		move.w	#60-1,(_unkFA82).w
 		move.b	(_unkFA84).w,d0
 		subq.b	#1,d0
-		bmi.s	loc_5C514
+		bmi.s	+ ;loc_5C514
 		move.b	d0,(_unkFA84).w
 		bsr.w	sub_5CAAE
 
@@ -132,12 +132,12 @@ locret_5C512:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_5C514:
++ ;loc_5C514:
 		move.b	#2,(_unkFAA9).w
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_5C51C:
++ ;loc_5C51C:
 		move.l	#locret_5C528,(a0)
 		bset	#3,$38(a0)
 
@@ -158,17 +158,17 @@ Obj_Continue_SonicWTails:
 loc_5C55C:
 		movea.w	(_unkFAA4).w,a1
 		btst	#3,$38(a1)
-		bne.s	loc_5C582
+		bne.s	++ ;loc_5C582
 		move.b	#0,mapping_frame(a0)
 		btst	#4,(V_int_run_count+3).w
-		beq.s	loc_5C57C
+		beq.s	+ ;loc_5C57C
 		move.b	#1,mapping_frame(a0)
 
-loc_5C57C:
++ ;loc_5C57C:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_5C582:
++ ;loc_5C582:
 		move.l	#loc_5C588,(a0)
 
 loc_5C588:
@@ -205,7 +205,7 @@ loc_5C5D0:
 		move.b	anim_frame(a0),d0
 		addq.w	#2,d0
 		cmpi.b	#$A,d0
-		bhs.s	loc_5C608
+		bhs.s	+ ;loc_5C608
 		move.b	d0,anim_frame(a0)
 		lea	RawAni_5C622(pc,d0.w),a2
 		move.b	(a2)+,mapping_frame(a0)
@@ -218,7 +218,7 @@ locret_5C606:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_5C608:
++ ;loc_5C608:
 		move.b	#4,routine(a0)
 		move.w	#1,anim(a0)
 		move.w	#$600,ground_vel(a0)
@@ -237,11 +237,11 @@ RawAni_5C622:
 loc_5C62C:
 		jsr	(Animate_Sonic).l
 		subq.w	#1,$2E(a0)
-		bmi.s	loc_5C63A
+		bmi.s	+ ;loc_5C63A
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_5C63A:
++ ;loc_5C63A:
 		move.b	#6,routine(a0)
 		rts
 ; ---------------------------------------------------------------------------
@@ -250,11 +250,11 @@ loc_5C642:
 		jsr	(Animate_Sonic).l
 		addq.w	#6,x_pos(a0)
 		cmpi.w	#$1E0,x_pos(a0)
-		bhs.s	loc_5C656
+		bhs.s	+ ;loc_5C656
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_5C656:
++ ;loc_5C656:
 		move.b	#8,routine(a0)
 		rts
 ; ---------------------------------------------------------------------------
@@ -292,12 +292,12 @@ loc_5C684:
 loc_5C6B6:
 		movea.w	(_unkFAA4).w,a1
 		btst	#2,$38(a1)
-		bne.s	loc_5C6CC
+		bne.s	+ ;loc_5C6CC
 		lea	byte_5CBC5(pc),a1
 		jmp	(Animate_RawNoSSTCheckResult).l
 ; ---------------------------------------------------------------------------
 
-loc_5C6CC:
++ ;loc_5C6CC:
 		move.b	#4,routine(a0)
 		move.b	#$BA,mapping_frame(a0)
 		move.w	#7,$2E(a0)
@@ -317,12 +317,12 @@ locret_5C6F2:
 loc_5C6F4:
 		addq.w	#6,x_pos(a0)
 		cmpi.w	#$1E0,x_pos(a0)
-		bhs.s	loc_5C70A
+		bhs.s	+ ;loc_5C70A
 		lea	byte_5CBB4(pc),a1
 		jmp	(Animate_RawNoSSTCheckResult).l
 ; ---------------------------------------------------------------------------
 
-loc_5C70A:
++ ;loc_5C70A:
 		move.b	#8,routine(a0)
 		move.b	#1,(_unkFAA9).w
 
@@ -338,42 +338,43 @@ Obj_Continue_TailsWSonic:
 		move.b	#$14,height_pixels(a0)
 		move.w	#$12C,x_pos(a0)
 		move.w	#$120,y_pos(a0)
-		move.l	#loc_5C74A,(a0)
+		move.l	#.loc_5C74A,(a0)
 
-loc_5C74A:
+.loc_5C74A:
 		movea.w	(_unkFAA4).w,a1
 		btst	#3,$38(a1)
-		bne.s	loc_5C770
+		bne.s	++ ;loc_5C770
 		move.b	#5,mapping_frame(a0)
 		btst	#5,(V_int_run_count+3).w
-		beq.s	loc_5C76A
+		beq.s	+ ;loc_5C76A
 		move.b	#6,mapping_frame(a0)
 
-loc_5C76A:
++ ;loc_5C76A:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_5C770:
-		move.l	#loc_5C790,(a0)
++ ;loc_5C770:
+		move.l	#.loc_5C790,(a0)
 		addq.w	#4,y_pos(a0)
 		lea	(Tails_tails).w,a1
 		move.l	#Obj_Tails_Tail,(a1)
 		move.w	a0,$30(a1)
 		move.l	#loc_5C82C,(Dust).w
 
-loc_5C790:
+.loc_5C790:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	off_5C7AA(pc,d0.w),d1
-		jsr	off_5C7AA(pc,d1.w)
+		move.w	.index(pc,d0.w),d1
+		jsr	.index(pc,d1.w)
 		jsr	(Tails_Load_PLC).l
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
-off_5C7AA:
-		dc.w loc_5C7B2-off_5C7AA
-		dc.w loc_5C7E2-off_5C7AA
-		dc.w loc_5C802-off_5C7AA
-		dc.w loc_5C814-off_5C7AA
+;off_5C7AA:
+.index:
+		dc.w loc_5C7B2-.index
+		dc.w loc_5C7E2-.index
+		dc.w loc_5C802-.index
+		dc.w loc_5C814-.index
 ; ---------------------------------------------------------------------------
 
 loc_5C7B2:
@@ -398,20 +399,20 @@ loc_5C7E2:
 
 loc_5C802:
 		subq.w	#1,$2E(a0)
-		bpl.s	loc_5C80E
+		bpl.s	+ ;loc_5C80E
 		move.b	#6,routine(a0)
 
-loc_5C80E:
++ ;loc_5C80E:
 		jmp	(Animate_Tails).l
 ; ---------------------------------------------------------------------------
 
 loc_5C814:
 		addq.w	#6,x_pos(a0)
 		cmpi.w	#$1E0,x_pos(a0)
-		blo.s	loc_5C826
+		blo.s	+ ;loc_5C826
 		move.b	#1,(_unkFAA9).w
 
-loc_5C826:
++ ;loc_5C826:
 		jmp	(Animate_Tails).l
 ; ---------------------------------------------------------------------------
 
@@ -422,7 +423,7 @@ loc_5C82C:
 
 loc_5C838:
 		cmpi.w	#3,(Player_mode).w
-		beq.s	loc_5C854
+		beq.s	+ ;loc_5C854
 		lea	loc_5C8C8(pc),a1
 		move.l	a1,(a0)
 		move.w	#$40,x_pos(a0)
@@ -430,7 +431,7 @@ loc_5C838:
 		jmp	(a1)
 ; ---------------------------------------------------------------------------
 
-loc_5C854:
++ ;loc_5C854:
 		lea	loc_5C85A(pc),a1
 		move.l	a1,(a0)
 
@@ -454,10 +455,10 @@ loc_5C88C:
 
 loc_5C8AC:
 		subq.w	#1,$2E(a0)
-		bpl.s	loc_5C8B8
+		bpl.s	+ ;loc_5C8B8
 		move.l	#loc_5C8C8,(a0)
 
-loc_5C8B8:
++ ;loc_5C8B8:
 		lea	byte_5CBC0(pc),a1
 		jsr	(Animate_RawNoSST).l
 		jmp	(Draw_Sprite).l
@@ -494,11 +495,11 @@ loc_5C8EA:
 loc_5C91E:
 		movea.w	(_unkFAA4).w,a1
 		btst	#3,$38(a1)
-		bne.s	loc_5C92C
+		bne.s	+ ;loc_5C92C
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_5C92C:
++ ;loc_5C92C:
 		move.b	#4,routine(a0)
 
 loc_5C932:
@@ -512,12 +513,12 @@ loc_5C932:
 
 loc_5C94C:
 		cmpi.w	#$1E0,d0
-		bhs.s	loc_5C95C
+		bhs.s	+ ;loc_5C95C
 		lea	byte_5CBB4(pc),a1
 		jmp	(Animate_RawNoSSTCheckResult).l
 ; ---------------------------------------------------------------------------
 
-loc_5C95C:
++ ;loc_5C95C:
 		move.b	#6,routine(a0)
 		cmpi.w	#3,(Player_mode).w
 		bne.s	locret_5C970
@@ -570,10 +571,10 @@ loc_5CA1A:
 		move.l	#Map_ContinueIcons,mappings(a0)
 		move.w	#make_art_tile($0D9,0,0),art_tile(a0)
 		cmpi.w	#3,(Player_mode).w
-		bne.s	loc_5CA36
+		bne.s	+ ;loc_5CA36
 		move.w	#make_art_tile($0D9,3,0),art_tile(a0)
 
-loc_5CA36:
++ ;loc_5CA36:
 		move.w	#$380,priority(a0)
 		move.b	#8,width_pixels(a0)
 		move.b	#8,height_pixels(a0)
@@ -585,10 +586,10 @@ loc_5CA36:
 loc_5CA5C:
 		moveq	#0,d0
 		btst	#4,(V_int_run_count+3).w
-		beq.s	loc_5CA68
+		beq.s	+ ;loc_5CA68
 		addq.w	#1,d0
 
-loc_5CA68:
++ ;loc_5CA68:
 		movea.l	$30(a0),a1
 		move.b	(a1,d0.w),mapping_frame(a0)
 		jmp	(Draw_Sprite).l
@@ -657,14 +658,14 @@ sub_5CAAE:
 sub_5CB1C:
 		moveq	#0,d0
 		move.b	(Continue_count).w,d0
-		beq.s	loc_5CB2A
+		beq.s	+ ;loc_5CB2A
 		cmpi.b	#$A,d0
-		bls.s	loc_5CB2C
+		bls.s	++ ;loc_5CB2C
 
-loc_5CB2A:
++ ;loc_5CB2A:
 		moveq	#$A,d0
 
-loc_5CB2C:
++ ;loc_5CB2C:
 		lea	(Dynamic_object_RAM+(object_size*2)).w,a1
 		moveq	#0,d1
 
@@ -707,11 +708,11 @@ word_5CB58:
 sub_5CB6A:
 		move.w	(Player_mode).w,d4
 		cmpi.b	#2,d4
-		bne.s	loc_5CB7E
+		bne.s	+ ;loc_5CB7E
 		lea	ChildObjDat_5CB88(pc),a2
 		jsr	(CreateChild6_Simple).l
 
-loc_5CB7E:
++ ;loc_5CB7E:
 		lsl.w	#2,d4
 		move.l	off_5CB8E(pc,d4.w),$30(a0)
 		rts

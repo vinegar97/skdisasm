@@ -25,9 +25,9 @@ SpecialStage:
 		lea	(Target_palette).w,a2
 		move.w	#bytesToWcnt($80),d0
 
-loc_7546:
+- ;loc_7546:
 		move.w	(a1)+,(a2)+
-		dbf	d0,loc_7546
+		dbf	d0,- ;loc_7546
 		move.l	#vdpComm(tiles_to_bytes($000),VRAM,WRITE),(VDP_control_port).l
 		lea	(ArtNem_SStageLayout).l,a0
 		bsr.w	Nem_Decomp
@@ -84,21 +84,21 @@ loc_7546:
 		jsr	(Plane_Map_To_VRAM).l
 		lea	(SStageLayoutPtrs).l,a2
 		tst.b	(Debug_cheat_flag).w
-		beq.s	loc_7692
+		beq.s	+ ;loc_7692
 		move.w	(Sound_test_sound).w,d0
 		btst	#button_A,(Ctrl_1_held).w
-		bne.s	loc_76B6
+		bne.s	++ ;loc_76B6
 
-loc_7692:
++ ;loc_7692:
 		moveq	#0,d0
 		move.b	(Current_special_stage).w,d0
 		cmpi.w	#7,(Chaos_emerald_count).w
-		bcc.s	loc_76B6
+		bcc.s	+ ;loc_76B6
 		lea	(Collected_emeralds_array).w,a1
 
 loc_76A4:
 		tst.b	(a1,d0.w)
-		beq.s	loc_76B6
+		beq.s	+ ;loc_76B6
 		addq.w	#1,d0
 		cmpi.w	#7,d0
 		bcs.s	loc_76A4
@@ -106,7 +106,7 @@ loc_76A4:
 		bra.s	loc_76A4
 ; ---------------------------------------------------------------------------
 
-loc_76B6:
++ ;loc_76B6:
 		andi.w	#7,d0
 		move.b	d0,(Current_special_stage).w
 		move.w	d0,d1
@@ -115,9 +115,9 @@ loc_76B6:
 		lea	(Level_layout_header).w,a3
 		move.w	#bytesToLcnt($400),d0
 
-loc_76CE:
+- ;loc_76CE:
 		move.l	(a2)+,(a3)+
-		dbf	d0,loc_76CE
+		dbf	d0,- ;loc_76CE
 		move.w	(a2)+,(Special_stage_angle).w
 		move.w	(a2)+,(Special_stage_X_pos).w
 		move.w	(a2)+,(Special_stage_Y_pos).w
@@ -146,11 +146,11 @@ loc_76CE:
 		move.l	#Obj_SStage_7F1C,(Player_1).w
 		move.l	#Obj_SStage_8380,(Dynamic_object_RAM+object_size).w
 		tst.w	(Player_option).w
-		bne.s	loc_7770
+		bne.s	+ ;loc_7770
 		move.l	#Obj_SStage_8148,(Player_2).w
 		move.l	#Obj_SStage_83E4,(Dynamic_object_RAM+(object_size*2)).w
 
-loc_7770:
++ ;loc_7770:
 		move.l	#Obj_SStage_7D70,(Reserved_object_3).w
 		move.l	#Obj_SStage_7DB8,(Dynamic_object_RAM).w
 		jsr	(Process_Sprites).l
@@ -189,10 +189,10 @@ loc_77D2:
 		cmpi.b	#$34,(Game_mode).w
 		beq.s	loc_77D2
 		tst.w	(Demo_mode_flag).w
-		beq.s	loc_7828
+		beq.s	+ ;loc_7828
 		move.b	#0,(Game_mode).w
 
-loc_7828:
++ ;loc_7828:
 		move.w	#60,(Demo_timer).w
 		move.w	#$40-1,(Palette_fade_info).w
 		clr.w	(Pal_fade_delay).w
@@ -210,11 +210,11 @@ loc_7838:
 		bsr.w	Process_Nem_Queue_Init
 		jsr	(Process_Kos_Module_Queue).l
 		subq.w	#1,(Pal_fade_delay).w
-		bpl.s	loc_787C
+		bpl.s	+ ;loc_787C
 		move.w	#2,(Pal_fade_delay).w
 		bsr.w	Pal_ToWhite
 
-loc_787C:
++ ;loc_787C:
 		tst.w	(Demo_timer).w
 		bne.s	loc_7838
 		addq.b	#1,(Current_special_stage).w
@@ -234,13 +234,13 @@ Rotate_SSPal:
 		lea	(SS_Pal_Map_Ptrs).l,a1
 		move.w	(Special_stage_anim_frame).w,d0
 		cmpi.w	#$10,d0
-		blo.s	loc_78BA
+		blo.s	+ ;loc_78BA
 		tst.b	(Special_stage_turning).w
 		bpl.s	locret_78DA
 		move.b	(Special_stage_palette_frame).w,d0
 		andi.w	#$F,d0
 
-loc_78BA:
++ ;loc_78BA:
 		andi.w	#$E,d0
 		neg.w	d0
 		addi.w	#$10,d0
@@ -249,9 +249,9 @@ loc_78BA:
 		lea	(Normal_palette_line_4+$10).w,a2
 		move.w	#bytesToWcnt($10),d0
 
-loc_78D4:
+- ;loc_78D4:
 		move.w	(a1)+,(a2)+
-		dbf	d0,loc_78D4
+		dbf	d0,- ;loc_78D4
 
 locret_78DA:
 		rts
@@ -266,7 +266,7 @@ Update_SSMap:
 		lea	(SS_Pal_Map_Ptrs).l,a1
 		move.w	(Special_stage_anim_frame).w,d0
 		cmp.b	(Special_stage_prev_anim_frame).w,d0
-		beq.s	loc_7938
+		beq.s	+ ;loc_7938
 		move.b	d0,(Special_stage_prev_anim_frame).w
 		lsl.w	#3,d0
 		movea.l	(a1,d0.w),a3
@@ -274,26 +274,26 @@ Update_SSMap:
 		move.l	#vdpComm(VRAM_Plane_A_Name_Table+$19E,VRAM,WRITE),(VDP_control_port).l	; VRAM write $C19E
 		moveq	#$A-1,d1
 
-loc_790C:
+- ;loc_790C:
 		move.w	(a1)+,(a6)
-		dbf	d1,loc_790C
+		dbf	d1,- ;loc_790C
 		lea	$140(a3),a3
 		move.l	#vdpComm(VRAM_Plane_A_Name_Table+$200,VRAM,WRITE),d0		; VRAM write $C200
 		moveq	#$28-1,d1
 		moveq	#$18-1,d2
 		move.l	#$80<<16,d4
 
-loc_7926:
+- ;loc_7926:
 		move.l	d0,VDP_control_port-VDP_data_port(a6)
 		move.w	d1,d3
 
-loc_792C:
+- ;loc_792C:
 		move.w	(a3)+,(a6)
-		dbf	d3,loc_792C
+		dbf	d3,- ;loc_792C
 		add.l	d4,d0
-		dbf	d2,loc_7926
+		dbf	d2,-- ;loc_7926
 
-loc_7938:
++ ;loc_7938:
 		tst.b	(Special_stage_sphere_HUD_flag).w
 		beq.s	loc_7952
 		move.b	#0,(Special_stage_sphere_HUD_flag).w
@@ -397,18 +397,18 @@ Draw_SSNum:
 		moveq	#3-1,d6
 		lea	MapUnc_SSNum(pc),a1
 
-loc_7BE2:
+- ;loc_7BE2:
 		moveq	#0,d2
 		move.w	(a2)+,d3
 
 loc_7BE6:
 		sub.w	d3,d1
-		bcs.s	loc_7BEE
+		bcs.s	+ ;loc_7BEE
 		addq.w	#1,d2
 		bra.s	loc_7BE6
 ; ---------------------------------------------------------------------------
 
-loc_7BEE:
++ ;loc_7BEE:
 		add.w	d3,d1
 		move.l	d0,VDP_control_port-VDP_data_port(a6)
 		add.w	d2,d2
@@ -422,7 +422,7 @@ loc_7BEE:
 		move.l	d0,VDP_control_port-VDP_data_port(a6)
 		move.l	$50(a3),(a6)
 		subi.l	#$FC<<16,d0
-		dbf	d6,loc_7BE2
+		dbf	d6,- ;loc_7BE2
 		rts
 ; End of function Draw_SSNum
 
@@ -449,10 +449,10 @@ AllocateObjectAfterCurrent_SpecialStage:
 		move.b	.lookup(pc,d0.w),d0
 		bmi.s	.return
 
-.loop:
+- ;.loop:
 		lea	next_object(a1),a1
 		tst.l	(a1)
-		dbeq	d0,.loop
+		dbeq	d0,- ;.loop
 
 .return:
 		rts
@@ -510,32 +510,32 @@ loc_7DD4:
 
 loc_7E0C:
 		tst.w	$32(a0)
-		beq.s	loc_7E1C
+		beq.s	+ ;loc_7E1C
 		subq.w	#1,$32(a0)
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_7E1C:
++ ;loc_7E1C:
 		cmpi.w	#$C0,$30(a0)
-		blo.s	loc_7E3C
+		blo.s	+ ;loc_7E3C
 		move.l	#loc_7E5E,(a0)
 		addq.b	#2,mapping_frame(a0)
 		tst.w	(Special_stage_velocity).w
-		bne.s	loc_7E42
+		bne.s	++ ;loc_7E42
 		move.b	#1,(Special_stage_advancing).w
-		bra.s	loc_7E42
+		bra.s	++ ;loc_7E42
 ; ---------------------------------------------------------------------------
 
-loc_7E3C:
++ ;loc_7E3C:
 		addi.w	#$10,$30(a0)
 
-loc_7E42:
++ ;loc_7E42:
 		move.w	$30(a0),d0
 		btst	#0,status(a0)
-		bne.s	loc_7E50
+		bne.s	+ ;loc_7E50
 		neg.w	d0
 
-loc_7E50:
++ ;loc_7E50:
 		addi.w	#$120,d0
 		move.w	d0,x_pos(a0)
 		jmp	(Draw_Sprite).l
@@ -543,23 +543,23 @@ loc_7E50:
 
 loc_7E5E:
 		tst.w	(Special_stage_rings_left).w
-		beq.s	loc_7E66
+		beq.s	+ ;loc_7E66
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_7E66:
++ ;loc_7E66:
 		subi.w	#$10,$30(a0)
-		bne.s	loc_7E7A
+		bne.s	+ ;loc_7E7A
 		move.l	#loc_7E96,(a0)
 		move.w	#180,$32(a0)
 
-loc_7E7A:
++ ;loc_7E7A:
 		move.w	$30(a0),d0
 		btst	#0,status(a0)
-		bne.s	loc_7E88
+		bne.s	+ ;loc_7E88
 		neg.w	d0
 
-loc_7E88:
++ ;loc_7E88:
 		addi.w	#$120,d0
 		move.w	d0,x_pos(a0)
 		jmp	(Draw_Sprite).l
@@ -567,23 +567,23 @@ loc_7E88:
 
 loc_7E96:
 		tst.w	$32(a0)
-		beq.s	loc_7EA6
+		beq.s	+ ;loc_7EA6
 		subq.w	#1,$32(a0)
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_7EA6:
++ ;loc_7EA6:
 		cmpi.w	#$C0,$30(a0)
-		bhs.s	loc_7EB4
+		bhs.s	+ ;loc_7EB4
 		addi.w	#$10,$30(a0)
 
-loc_7EB4:
++ ;loc_7EB4:
 		move.w	$30(a0),d0
 		btst	#0,status(a0)
-		bne.s	loc_7EC2
+		bne.s	+ ;loc_7EC2
 		neg.w	d0
 
-loc_7EC2:
++ ;loc_7EC2:
 		addi.w	#$120,d0
 		move.w	d0,x_pos(a0)
 		jmp	(Draw_Sprite).l
@@ -600,15 +600,15 @@ Obj_SStage_7F1C:
 		move.l	#Map_SStageSonic,mappings(a0)
 		move.w	#make_art_tile($7D4,0,1),art_tile(a0)
 		cmpi.w	#2,(Player_option).w
-		bne.s	loc_7F6C
+		bne.s	+ ;loc_7F6C
 		move.l	#Map_SStageTails,mappings(a0)
 		move.w	#make_art_tile($7EB,1,1),art_tile(a0)
 		jsr	(AllocateObjectAfterCurrent_SpecialStage).l
-		bne.w	loc_7F6C
+		bne.w	+ ;loc_7F6C
 		move.l	#Obj_SStage_82EE,(a1)
 		move.w	a0,$3E(a1)
 
-loc_7F6C:
++ ;loc_7F6C:
 		move.w	#$A0,$30(a0)
 		move.w	#$70,$32(a0)
 		move.w	#0,$34(a0)
@@ -620,12 +620,12 @@ loc_7F6C:
 
 loc_7F9A:
 		tst.w	(Special_stage_rate_timer).w
-		beq.s	loc_7FCE
+		beq.s	+ ;loc_7FCE
 		subq.w	#1,(Special_stage_rate_timer).w
-		bne.s	loc_7FCE
+		bne.s	+ ;loc_7FCE
 		move.w	#30*60,(Special_stage_rate_timer).w
 		cmpi.w	#$2000,(Special_stage_rate).w
-		beq.s	loc_7FCE
+		beq.s	+ ;loc_7FCE
 		addi.w	#$400,(Special_stage_rate).w
 		move.b	(Special_stage_rate).w,d0
 		subi.b	#$20,d0
@@ -634,70 +634,70 @@ loc_7F9A:
 		addq.b	#8,d0
 		jsr	(Change_Music_Tempo).l
 
-loc_7FCE:
++ ;loc_7FCE:
 		bsr.w	sub_8476
 		moveq	#$C,d0
 		move.w	(Special_stage_velocity).w,d1
-		beq.s	loc_7FF8
+		beq.s	++ ;loc_7FF8
 		asr.w	#5,d1
 		add.w	d1,anim_frame_timer(a0)
 		moveq	#0,d0
 		move.b	anim_frame_timer(a0),d0
-		bpl.s	loc_7FEE
+		bpl.s	+ ;loc_7FEE
 		addi.b	#$C,d0
-		bra.s	loc_7FF8
+		bra.s	++ ;loc_7FF8
 ; ---------------------------------------------------------------------------
 
-loc_7FEE:
++ ;loc_7FEE:
 		cmpi.b	#$C,d0
-		blo.s	loc_7FF8
+		blo.s	+ ;loc_7FF8
 		subi.b	#$C,d0
 
-loc_7FF8:
++ ;loc_7FF8:
 		move.b	d0,anim_frame_timer(a0)
 		lea	(byte_811E).l,a1
 		tst.b	(Special_stage_jumping).w
-		bpl.s	loc_801C
+		bpl.s	+ ;loc_801C
 		lea	(byte_812C).l,a1
 		move.w	(Special_stage_velocity).w,d1
-		bne.s	loc_801C
+		bne.s	+ ;loc_801C
 		move.b	(Level_frame_counter+1).w,d0
 		andi.w	#3,d0
 
-loc_801C:
++ ;loc_801C:
 		move.b	(a1,d0.w),mapping_frame(a0)
 		tst.b	(Special_stage_clear_routine).w
-		bne.s	loc_803E
+		bne.s	+ ;loc_803E
 		move.w	(Ctrl_1).w,d0
 		andi.w	#button_A_mask|button_B_mask|button_C_mask,d0
-		beq.s	loc_803E
+		beq.s	+ ;loc_803E
 		tst.b	(Special_stage_jumping).w
-		bmi.s	loc_803E
+		bmi.s	+ ;loc_803E
 		move.b	#1,(Special_stage_jumping).w
 
-loc_803E:
++ ;loc_803E:
 		move.b	(Special_stage_angle).w,d0
 		andi.b	#$3F,d0
-		bne.w	loc_80A2
+		bne.w	+++ ;loc_80A2
 		cmpi.b	#1,(Special_stage_jumping).w
-		bne.s	loc_806E
+		bne.s	+ ;loc_806E
 		move.l	#-$100000,$40(a0)
 		move.b	#$80,(Special_stage_jumping).w
 		move.b	#0,(Special_stage_turning).w
 		moveq	#signextendB(sfx_Jump),d0
 		jsr	(Play_SFX).l
 
-loc_806E:
++ ;loc_806E:
 		tst.b	(Special_stage_jumping).w
-		bpl.s	loc_80A2
+		bpl.s	++ ;loc_80A2
 		move.l	$3C(a0),d0
 		add.l	$40(a0),d0
-		bmi.s	loc_8088
+		bmi.s	+ ;loc_8088
 		moveq	#0,d0
 		move.l	d0,$40(a0)
 		move.b	d0,(Special_stage_jumping).w
 
-loc_8088:
++ ;loc_8088:
 		move.w	(Special_stage_rate).w,d1
 		ext.l	d1
 		lsl.l	#4,d1
@@ -707,7 +707,7 @@ loc_8088:
 		addi.w	#-$800,d0
 		move.w	d0,$36(a0)
 
-loc_80A2:
++ ;loc_80A2:
 		bsr.w	sub_8402
 		bsr.w	sub_8434
 		jsr	(Draw_Sprite).l
@@ -732,7 +732,7 @@ loc_80D8:
 		subq.w	#1,d5
 		bmi.s	locret_811C
 
-loc_80F4:
+- ;loc_80F4:
 		moveq	#0,d1
 		move.w	(a2)+,d1
 		move.w	d1,d3
@@ -746,7 +746,7 @@ loc_80F4:
 		add.w	d3,d4
 		add.w	d3,d4
 		jsr	(Add_To_DMA_Queue).l
-		dbf	d5,loc_80F4
+		dbf	d5,- ;loc_80F4
 
 locret_811C:
 		rts
@@ -775,63 +775,63 @@ Obj_SStage_8148:
 		move.b	#$FF,$3A(a0)
 		bsr.w	sub_82CE
 		jsr	(AllocateObjectAfterCurrent_SpecialStage).l
-		bne.w	loc_81AA
+		bne.w	+ ;loc_81AA
 		move.l	#Obj_SStage_82EE,(a1)
 		move.w	a0,$3E(a1)
 
-loc_81AA:
++ ;loc_81AA:
 		move.l	#loc_81B0,(a0)
 
 loc_81B0:
 		moveq	#$C,d0
 		move.w	(Special_stage_velocity).w,d1
-		beq.s	loc_81D6
+		beq.s	++ ;loc_81D6
 		asr.w	#5,d1
 		add.w	d1,anim_frame_timer(a0)
 		moveq	#0,d0
 		move.b	anim_frame_timer(a0),d0
-		bpl.s	loc_81CC
+		bpl.s	+ ;loc_81CC
 		addi.b	#$C,d0
-		bra.s	loc_81D6
+		bra.s	++ ;loc_81D6
 ; ---------------------------------------------------------------------------
 
-loc_81CC:
++ ;loc_81CC:
 		cmpi.b	#$C,d0
-		blo.s	loc_81D6
+		blo.s	+ ;loc_81D6
 		subi.b	#$C,d0
 
-loc_81D6:
++ ;loc_81D6:
 		move.b	d0,anim_frame_timer(a0)
 		lea	(byte_811E).l,a1
 		tst.b	(Special_stage_jumping_P2).w
-		beq.s	loc_81FA
+		beq.s	+ ;loc_81FA
 		lea	(byte_813A).l,a1
 		move.w	(Special_stage_velocity).w,d1
-		bne.s	loc_81FA
+		bne.s	+ ;loc_81FA
 		move.b	(Level_frame_counter+1).w,d0
 		andi.w	#3,d0
 
-loc_81FA:
++ ;loc_81FA:
 		move.b	(a1,d0.w),mapping_frame(a0)
 		bsr.w	sub_8272
 		andi.w	#button_A_mask|button_B_mask|button_C_mask,d0
-		beq.s	loc_8226
+		beq.s	+ ;loc_8226
 		tst.b	(Special_stage_jumping_P2).w
-		bne.s	loc_8226
+		bne.s	+ ;loc_8226
 		move.l	#$FFF00000,$40(a0)
 		move.b	#1,(Special_stage_jumping_P2).w
 		moveq	#signextendB(sfx_Jump),d0
 		jsr	(Play_SFX).l
 
-loc_8226:
++ ;loc_8226:
 		move.l	$3C(a0),d0
 		add.l	$40(a0),d0
-		bmi.s	loc_823A
+		bmi.s	+ ;loc_823A
 		moveq	#0,d0
 		move.l	d0,$40(a0)
 		move.b	d0,(Special_stage_jumping_P2).w
 
-loc_823A:
++ ;loc_823A:
 		move.w	(Special_stage_rate).w,d1
 		ext.l	d1
 		lsl.l	#4,d1
@@ -859,18 +859,18 @@ sub_8272:
 		addq.b	#4,(Pos_table_index+1).w
 		move.b	(Ctrl_2_held).w,d0
 		andi.b	#$7F,d0
-		beq.s	loc_829C
+		beq.s	+ ;loc_829C
 		move.w	#600,(Tails_CPU_idle_timer).w
 
-loc_829C:
++ ;loc_829C:
 		tst.w	(Tails_CPU_idle_timer).w
-		beq.s	loc_82AC
+		beq.s	+ ;loc_82AC
 		subq.w	#1,(Tails_CPU_idle_timer).w
 		move.w	(Ctrl_2).w,d0
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_82AC:
++ ;loc_82AC:
 		lea	(Pos_table).w,a1
 		move.w	#8,d1
 		lsl.b	#2,d1
@@ -895,9 +895,9 @@ sub_82CE:
 		lea	(Pos_table).w,a2
 		move.w	#bytesToLcnt($100),d0
 
-loc_82D6:
+- ;loc_82D6:
 		move.l	#0,(a2)+
-		dbf	d0,loc_82D6
+		dbf	d0,- ;loc_82D6
 		move.w	#0,(Pos_table_index).w
 		move.w	#0,(Tails_CPU_idle_timer).w
 		rts
@@ -924,22 +924,22 @@ loc_8332:
 		move.w	y_pos(a1),y_pos(a0)
 		move.w	#$2AAA,d0
 		move.w	(Special_stage_velocity).w,d1
-		bmi.s	loc_834E
+		bmi.s	+ ;loc_834E
 		add.w	d1,d0
 
-loc_834E:
++ ;loc_834E:
 		add.w	d0,anim_frame_timer(a0)
-		bcc.s	loc_8366
+		bcc.s	++ ;loc_8366
 		move.b	mapping_frame(a0),d0
 		addq.b	#1,d0
 		cmpi.b	#$F,d0
-		blo.s	loc_8362
+		blo.s	+ ;loc_8362
 		moveq	#1,d0
 
-loc_8362:
++ ;loc_8362:
 		move.b	d0,mapping_frame(a0)
 
-loc_8366:
++ ;loc_8366:
 		jsr	(Draw_Sprite).l
 		lea	(PLC_SStageTailstails).l,a2
 		move.l	#ArtUnc_SStageTailstails,d6
@@ -969,11 +969,11 @@ loc_8392:
 
 loc_83D6:
 		tst.b	(Special_stage_fade_timer).w
-		beq.s	loc_83DE
+		beq.s	+ ;loc_83DE
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_83DE:
++ ;loc_83DE:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -1038,36 +1038,36 @@ sub_8434:
 
 sub_8476:
 		tst.b	(Special_stage_fade_timer).w
-		beq.s	loc_84A4
+		beq.s	++ ;loc_84A4
 		cmpi.b	#$61,(Special_stage_fade_timer).w
-		bhs.s	loc_8490
+		bhs.s	+ ;loc_8490
 		moveq	#8,d1
 		add.b	d1,(Special_stage_angle).w
 		addq.b	#1,(Special_stage_fade_timer).w
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_8490:
++ ;loc_8490:
 		move.w	(Special_stage_X_pos).w,d0
 		or.w	(Special_stage_Y_pos).w,d0
 		andi.w	#$E0,d0
-		beq.s	loc_84A4
+		beq.s	+ ;loc_84A4
 		move.b	#0,(Special_stage_fade_timer).w
 
-loc_84A4:
++ ;loc_84A4:
 		move.w	(Special_stage_X_pos).w,d3
 		btst	#6,(Special_stage_angle).w
-		bne.s	loc_84B4
+		bne.s	+ ;loc_84B4
 		move.w	(Special_stage_Y_pos).w,d3
 
-loc_84B4:
++ ;loc_84B4:
 		moveq	#0,d2
 		move.b	(Special_stage_turning).w,d1
-		beq.s	loc_84F0
+		beq.s	+ ;loc_84F0
 		andi.w	#$E0,d3
-		bne.s	loc_84F0
+		bne.s	+ ;loc_84F0
 		tst.b	(Special_stage_jumping).w
-		bmi.s	loc_84FC
+		bmi.s	++ ;loc_84FC
 		add.b	d1,(Special_stage_angle).w
 		move.b	(Special_stage_angle).w,d0
 		andi.b	#$3F,d0
@@ -1075,58 +1075,58 @@ loc_84B4:
 		move.b	#0,(Special_stage_turning).w
 		move.b	#0,(Special_stage_bumper_lock).w
 		tst.w	(Special_stage_velocity).w
-		beq.s	loc_84F0
+		beq.s	+ ;loc_84F0
 		move.b	#1,(Special_stage_turn_lock).w
 
-loc_84F0:
++ ;loc_84F0:
 		andi.w	#$E0,d3
-		beq.s	loc_84FC
+		beq.s	+ ;loc_84FC
 		move.b	#0,(Special_stage_turn_lock).w
 
-loc_84FC:
++ ;loc_84FC:
 		move.b	(Ctrl_1_held).w,d1
 		move.w	(Special_stage_velocity).w,d2
 		tst.b	(Special_stage_clear_routine).w
 		bne.w	loc_85D4
 		tst.b	(Special_stage_bumper_lock).w
-		bne.s	loc_8532
+		bne.s	++ ;loc_8532
 		btst	#0,d1
-		beq.s	loc_851E
+		beq.s	+ ;loc_851E
 		move.b	#1,(Special_stage_advancing).w
 
-loc_851E:
++ ;loc_851E:
 		tst.b	(Special_stage_advancing).w
-		beq.s	loc_8532
+		beq.s	+ ;loc_8532
 		move.w	(Special_stage_rate).w,d3
 		addi.w	#$200,d2
 		cmp.w	d3,d2
-		blt.s	loc_8532
+		blt.s	+ ;loc_8532
 		move.w	d3,d2
 
-loc_8532:
++ ;loc_8532:
 		tst.b	(Special_stage_turn_lock).w
-		bne.s	loc_8550
+		bne.s	++ ;loc_8550
 		btst	#2,d1
-		beq.s	loc_8544
+		beq.s	+ ;loc_8544
 		move.b	#4,(Special_stage_turning).w
 
-loc_8544:
++ ;loc_8544:
 		btst	#3,d1
-		beq.s	loc_8550
+		beq.s	+ ;loc_8550
 		move.b	#-4,(Special_stage_turning).w
 
-loc_8550:
++ ;loc_8550:
 		move.w	d2,(Special_stage_velocity).w
 		tst.b	(Special_stage_bumper_lock).w
 		beq.s	loc_85D4
 		move.w	(Special_stage_X_pos).w,d0
 		btst	#6,(Special_stage_angle).w
-		bne.s	loc_856A
+		bne.s	+ ;loc_856A
 		move.w	(Special_stage_Y_pos).w,d0
 
-loc_856A:
++ ;loc_856A:
 		andi.w	#$E0,d0
-		bne.s	loc_85AE
+		bne.s	++ ;loc_85AE
 		move.w	(Special_stage_X_pos).w,d0
 		addi.w	#$80,d0
 		lsr.w	#8,d0
@@ -1138,34 +1138,34 @@ loc_856A:
 		lsl.w	#5,d1
 		or.b	d0,d1
 		cmp.w	(Special_stage_interact).w,d1
-		beq.s	loc_85AE
+		beq.s	++ ;loc_85AE
 		move.b	#0,(Special_stage_bumper_lock).w
 		move.w	(Special_stage_rate).w,d2
 		tst.w	(Special_stage_velocity).w
-		bmi.s	loc_85A8
+		bmi.s	+ ;loc_85A8
 		neg.w	d2
 
-loc_85A8:
++ ;loc_85A8:
 		move.w	d2,(Special_stage_velocity).w
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_85AE:
++ ;loc_85AE:
 		move.w	(Special_stage_velocity).w,d2
-		bne.s	loc_85D2
+		bne.s	++ ;loc_85D2
 		move.b	#0,(Special_stage_bumper_lock).w
 		move.b	#1,(Special_stage_advancing).w
 		move.w	(Special_stage_rate).w,d2
 		tst.w	(Special_stage_velocity).w
-		bmi.s	loc_85CC
+		bmi.s	+ ;loc_85CC
 		neg.w	d2
 
-loc_85CC:
++ ;loc_85CC:
 		move.w	d2,(Special_stage_velocity).w
 		bra.s	loc_85D4
 ; ---------------------------------------------------------------------------
 
-loc_85D2:
++ ;loc_85D2:
 		neg.w	d2
 
 loc_85D4:
@@ -1207,7 +1207,7 @@ sub_85FE:
 		move.b	(a1),d2
 		beq.w	locret_872E
 		cmpi.b	#1,d2
-		bne.s	loc_866E
+		bne.s	++ ;loc_866E
 		move.w	(Special_stage_X_pos).w,d0
 		or.w	(Special_stage_Y_pos).w,d0
 		andi.w	#$E0,d0
@@ -1217,11 +1217,11 @@ sub_85FE:
 		move.b	#1,(Special_stage_fade_timer).w
 		move.b	#$48,(Game_mode).w
 		tst.b	(Special_bonus_entry_flag).w
-		beq.s	loc_8664
+		beq.s	+ ;loc_8664
 		move.w	(Saved2_zone_and_act).w,(Current_zone_and_act).w
 		ori.b	#$80,(Last_star_post_hit).w
 
-loc_8664:
++ ;loc_8664:
 		moveq	#signextendB(sfx_Goal),d0
 		jsr	(Play_SFX).l
 
@@ -1229,25 +1229,25 @@ locret_866C:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_866E:
++ ;loc_866E:
 		cmpi.b	#2,d2
-		bne.s	loc_868C
+		bne.s	++ ;loc_868C
 		bsr.w	Find_SStageCollisionResponseSlot
-		bne.s	loc_8682
+		bne.s	+ ;loc_8682
 		move.b	#2,(a2)
 		move.l	a1,4(a2)
 
-loc_8682:
++ ;loc_8682:
 		moveq	#signextendB(sfx_BlueSphere),d0
 		jsr	(Play_SFX).l
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_868C:
++ ;loc_868C:
 		cmpi.b	#3,d2
-		bne.s	loc_86B2
+		bne.s	+ ;loc_86B2
 		tst.b	(Special_stage_bumper_lock).w
-		bne.s	loc_86B2
+		bne.s	+ ;loc_86B2
 		move.w	d1,(Special_stage_interact).w
 		move.b	#1,(Special_stage_bumper_lock).w
 		move.b	#0,(Special_stage_advancing).w
@@ -1256,48 +1256,48 @@ loc_868C:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_86B2:
++ ;loc_86B2:
 		cmpi.b	#4,d2
 		bne.s	locret_872E
 		bsr.w	Find_SStageCollisionResponseSlot
-		bne.s	loc_86C6
+		bne.s	+ ;loc_86C6
 		move.b	#1,(a2)
 		move.l	a1,4(a2)
 
-loc_86C6:
++ ;loc_86C6:
 		subq.w	#1,(Special_stage_rings_left).w
-		bne.s	loc_86D4
+		bne.s	+ ;loc_86D4
 		moveq	#signextendB(sfx_Perfect),d0
 		jsr	(Play_Music).l
 
-loc_86D4:
++ ;loc_86D4:
 		addi.w	#1,(Special_stage_ring_count).w
 		bset	#7,(Special_stage_extra_life_flags).w
 		cmpi.w	#50,(Special_stage_ring_count).w
-		blo.s	loc_86FE
+		blo.s	+ ;loc_86FE
 		bset	#0,(Special_stage_extra_life_flags).w
-		bne.s	loc_86FE
+		bne.s	+ ;loc_86FE
 		addq.b	#1,(Continue_count).w
 		move.w	#$FF00|sfx_Continue,d0
 		jmp	(Play_Music).l
 ; ---------------------------------------------------------------------------
 
-loc_86FE:
++ ;loc_86FE:
 		moveq	#signextendB(sfx_RingRight),d0
 		cmpi.w	#100,(Special_stage_ring_count).w
-		blo.s	loc_8726
+		blo.s	++ ;loc_8726
 		bset	#1,(Special_stage_extra_life_flags).w
-		beq.s	loc_8720
+		beq.s	+ ;loc_8720
 		cmpi.w	#200,(Special_stage_ring_count).w
-		blo.s	loc_8726
+		blo.s	++ ;loc_8726
 		bset	#2,(Special_stage_extra_life_flags).w
-		bne.s	loc_8726
+		bne.s	++ ;loc_8726
 
-loc_8720:
++ ;loc_8720:
 		addq.b	#1,(Life_count).w
 		moveq	#signextendB(sfx_RingLoss),d0
 
-loc_8726:
++ ;loc_8726:
 		jsr	(Play_SFX).l
 		rts
 ; ---------------------------------------------------------------------------
@@ -1357,42 +1357,42 @@ Draw_SSSprites:
 		andi.w	#$100,d2
 		add.w	d2,d0
 		btst	#6,(Special_stage_angle).w
-		bne.s	loc_87B0
+		bne.s	+ ;loc_87B0
 		move.b	(Special_stage_Y_pos).w,d1
 		move.w	(Special_stage_Y_pos).w,d0
 		move.w	(Special_stage_X_pos).w,d2
 		andi.w	#$100,d2
 		add.w	d2,d0
 
-loc_87B0:
++ ;loc_87B0:
 		tst.b	(Special_stage_angle).w
-		bmi.s	loc_87C6
+		bmi.s	+ ;loc_87C6
 		neg.w	d0
 		addi.w	#$1F,d0
 		move.w	d0,d2
 		andi.w	#$E0,d2
-		beq.s	loc_87C6
+		beq.s	+ ;loc_87C6
 		addq.b	#1,d1
 
-loc_87C6:
++ ;loc_87C6:
 		andi.w	#$1E0,d0
 		lsr.w	#5,d0
 		move.w	d0,(Special_stage_anim_frame).w
 		move.b	d0,(Special_stage_palette_frame).w
 		move.b	(Special_stage_angle).w,d0
 		andi.w	#$38,d0
-		beq.s	loc_87E8
+		beq.s	+ ;loc_87E8
 		lsr.w	#3,d0
 		addi.w	#$F,d0
 		move.w	d0,(Special_stage_anim_frame).w
 
-loc_87E8:
++ ;loc_87E8:
 		lea	(Draw_SSSprite_Normal).l,a0
 		tst.w	(Special_stage_clear_timer).w
-		beq.s	loc_87FA
+		beq.s	+ ;loc_87FA
 		lea	(Draw_SSSprite_FlyAway).l,a0
 
-loc_87FA:
++ ;loc_87FA:
 		btst	#6,(Special_stage_angle).w
 		bne.w	loc_88BC
 		move.w	2(a5),d5
@@ -1414,7 +1414,7 @@ loc_87FA:
 		adda.w	d6,a6
 		moveq	#$10-1,d2
 
-loc_883C:
+- ;loc_883C:
 		move.w	(a5),d4
 		moveq	#0,d0
 		move.b	(Special_stage_X_pos).w,d0
@@ -1422,52 +1422,52 @@ loc_883C:
 		and.w	6(a5),d4
 		moveq	#$F-1,d3
 
-loc_884C:
+- ;loc_884C:
 		move.w	d5,d0
 		lsl.w	#5,d0
 		or.b	d4,d0
 		move.b	(a2,d0.w),d0
-		beq.s	loc_88A0
+		beq.s	+++ ;loc_88A0
 		move.w	(a1),d1
 		andi.w	#$7C,d1
-		beq.s	loc_88A0
+		beq.s	+++ ;loc_88A0
 		lsr.w	#2,d1
 		subq.w	#6,d1
 		cmpi.w	#$10,d1
-		bhs.s	loc_88A0
+		bhs.s	+++ ;loc_88A0
 		add.w	d1,d1
 		andi.w	#$FF,d0
 		lsl.w	#3,d0
 		movea.l	(a4,d0.w),a3
 		move.w	4(a4,d0.w),d6
 		cmpi.w	#$54,(a1)
-		blo.s	loc_8884
+		blo.s	+ ;loc_8884
 		andi.w	#$7FFF,d6
 
-loc_8884:
++ ;loc_8884:
 		move.w	6(a4,d0.w),d0
 		add.w	d0,d0
-		bcc.s	loc_888E
+		bcc.s	+ ;loc_888E
 		moveq	#0,d1
 
-loc_888E:
++ ;loc_888E:
 		add.w	d0,d1
 		adda.w	(a3,d1.w),a3
 		move.w	(a3)+,d1
 		subq.w	#1,d1
-		bmi.s	loc_88A0
+		bmi.s	+ ;loc_88A0
 		jsr	(a0)
 		tst.w	d7
 		bmi.s	locret_88BA
 
-loc_88A0:
++ ;loc_88A0:
 		addq.w	#6,a1
 		add.w	4(a5),d4
 		and.w	6(a5),d4
-		dbf	d3,loc_884C
+		dbf	d3,- ;loc_884C
 		add.w	8(a5),d5
 		and.w	$A(a5),d5
-		dbf	d2,loc_883C
+		dbf	d2,-- ;loc_883C
 
 locret_88BA:
 		rts
@@ -1493,7 +1493,7 @@ loc_88BC:
 		adda.w	d6,a6
 		moveq	#$10-1,d2
 
-loc_88F4:
+- ;loc_88F4:
 		move.w	(a5),d4
 		moveq	#0,d0
 		move.b	(Special_stage_Y_pos).w,d0
@@ -1501,52 +1501,52 @@ loc_88F4:
 		and.w	6(a5),d4
 		moveq	#$F-1,d3
 
-loc_8904:
+- ;loc_8904:
 		move.w	d4,d0
 		lsl.w	#5,d0
 		or.b	d5,d0
 		move.b	(a2,d0.w),d0
-		beq.s	loc_8958
+		beq.s	+++ ;loc_8958
 		move.w	(a1),d1
 		andi.w	#$7C,d1
-		beq.s	loc_8958
+		beq.s	+++ ;loc_8958
 		lsr.w	#2,d1
 		subq.w	#6,d1
 		cmpi.w	#$10,d1
-		bhs.s	loc_8958
+		bhs.s	+++ ;loc_8958
 		add.w	d1,d1
 		andi.w	#$FF,d0
 		lsl.w	#3,d0
 		movea.l	(a4,d0.w),a3
 		move.w	4(a4,d0.w),d6
 		cmpi.w	#$54,(a1)
-		blo.s	loc_893C
+		blo.s	+ ;loc_893C
 		andi.w	#$7FFF,d6
 
-loc_893C:
++ ;loc_893C:
 		move.w	6(a4,d0.w),d0
 		add.w	d0,d0
-		bcc.s	loc_8946
+		bcc.s	+ ;loc_8946
 		moveq	#0,d1
 
-loc_8946:
++ ;loc_8946:
 		add.w	d0,d1
 		adda.w	(a3,d1.w),a3
 		move.w	(a3)+,d1
 		subq.w	#1,d1
-		bmi.s	loc_8958
+		bmi.s	+ ;loc_8958
 		jsr	(a0)
 		tst.w	d7
 		bmi.s	locret_8972
 
-loc_8958:
++ ;loc_8958:
 		addq.w	#6,a1
 		add.w	4(a5),d4
 		and.w	6(a5),d4
-		dbf	d3,loc_8904
+		dbf	d3,- ;loc_8904
 		add.w	8(a5),d5
 		and.w	$A(a5),d5
-		dbf	d2,loc_88F4
+		dbf	d2,-- ;loc_88F4
 
 locret_8972:
 		rts
@@ -1593,10 +1593,10 @@ Draw_SSSprite_FlyAway:
 		asr.l	#8,d0
 		addi.w	#$120,d0
 		cmpi.w	#$1D0,d0
-		blo.s	loc_89D6
+		blo.s	+ ;loc_89D6
 		move.w	#1,d0
 
-loc_89D6:
++ ;loc_89D6:
 		move.w	(sp)+,d1
 		move.w	d0,(a6)+
 		subq.w	#1,d7
@@ -1612,14 +1612,14 @@ sub_89E2:
 		subq.b	#1,d1
 		bne.w	loc_8AB6
 		cmpi.w	#$100,(Special_stage_clear_timer).w
-		bhs.s	loc_8A26
+		bhs.s	++ ;loc_8A26
 		addq.w	#2,(Special_stage_clear_timer).w
 		cmpi.w	#2,(Special_stage_clear_timer).w
-		bne.s	loc_8A0C
+		bne.s	+ ;loc_8A0C
 		moveq	#signextendB(sfx_AllSpheres),d0
 		jsr	(Play_Music).l
 
-loc_8A0C:
++ ;loc_8A0C:
 		cmpi.w	#$40,(Special_stage_clear_timer).w
 		blo.s	locret_8A24
 		addq.w	#1,(Special_stage_clear_timer).w
@@ -1631,14 +1631,14 @@ locret_8A24:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_8A26:
++ ;loc_8A26:
 		addq.b	#1,(Special_stage_clear_routine).w
 		lea	(Level_layout_header).w,a1
 		move.w	#bytesToLcnt($400),d0
 
-loc_8A32:
+- ;loc_8A32:
 		move.l	#0,(a1)+
-		dbf	d0,loc_8A32
+		dbf	d0,- ;loc_8A32
 		move.b	(Special_stage_angle).w,d0
 		jsr	(GetSineCosine).l
 		move.w	(Special_stage_X_pos).w,d2
@@ -1677,7 +1677,7 @@ loc_8A32:
 
 loc_8AB6:
 		subq.b	#1,d1
-		bne.s	loc_8ADA
+		bne.s	+ ;loc_8ADA
 		tst.b	(Kos_modules_left).w
 		bne.s	locret_8AD8
 		move.w	#0,(Special_stage_clear_timer).w
@@ -1691,7 +1691,7 @@ locret_8AD8:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_8ADA:
++ ;loc_8ADA:
 		subq.b	#1,d1
 		bne.s	locret_8B58
 		move.w	(Special_stage_X_pos).w,d0
@@ -1723,11 +1723,11 @@ loc_8B2E:
 		move.b	#1,(Special_stage_fade_timer).w
 		move.b	#$48,(Game_mode).w
 		tst.b	(Special_bonus_entry_flag).w
-		beq.s	loc_8B50
+		beq.s	+ ;loc_8B50
 		move.w	(Saved2_zone_and_act).w,(Current_zone_and_act).w
 		ori.b	#$80,(Last_star_post_hit).w
 
-loc_8B50:
++ ;loc_8B50:
 		moveq	#signextendB(sfx_Goal),d0
 		jsr	(Play_SFX).l
 
@@ -1747,16 +1747,16 @@ sub_8B9A:
 		move.w	(Special_stage_X_pos).w,d0
 		sub.w	(Special_stage_prev_X_pos).w,d0
 		btst	#6,(Special_stage_angle).w
-		bne.s	loc_8BB2
+		bne.s	+ ;loc_8BB2
 		move.w	(Special_stage_Y_pos).w,d0
 		sub.w	(Special_stage_prev_Y_pos).w,d0
 
-loc_8BB2:
++ ;loc_8BB2:
 		tst.b	(Special_stage_angle).w
-		bmi.s	loc_8BBA
+		bmi.s	+ ;loc_8BBA
 		neg.w	d0
 
-loc_8BBA:
++ ;loc_8BBA:
 		asr.w	#2,d0
 		add.w	d0,(V_scroll_value_BG).w
 		moveq	#0,d1
@@ -1775,14 +1775,14 @@ loc_8BBA:
 Animate_SSRings:
 		lea	(SStage_extra_sprites+$07).w,a1
 		subq.b	#1,(Rings_frame_timer).w
-		bpl.s	loc_8BFE
+		bpl.s	+ ;loc_8BFE
 		move.b	#7,(Rings_frame_timer).w
 		addi.b	#$10,(Rings_frame).w
 		cmpi.b	#$30,(Rings_frame).w
-		blo.s	loc_8BFE
+		blo.s	+ ;loc_8BFE
 		move.b	#0,(Rings_frame).w
 
-loc_8BFE:
++ ;loc_8BFE:
 		move.b	(Rings_frame).w,anim(a1)
 		rts
 ; End of function Animate_SSRings
@@ -1795,11 +1795,11 @@ Find_SStageCollisionResponseSlot:
 		lea	(SStage_collision_response_list).w,a2
 		move.w	#$20-1,d0
 
-loc_8C0E:
+- ;loc_8C0E:
 		tst.b	(a2)
 		beq.s	locret_8C18
 		addq.w	#8,a2
-		dbf	d0,loc_8C0E
+		dbf	d0,- ;loc_8C0E
 
 locret_8C18:
 		rts
@@ -1813,17 +1813,17 @@ Touch_SSSprites:
 		lea	(SStage_collision_response_list).w,a0
 		move.w	#$20-1,d7
 
-loc_8C22:
+- ;loc_8C22:
 		moveq	#0,d0
 		move.b	(a0),d0
-		beq.s	loc_8C30
+		beq.s	+ ;loc_8C30
 		lsl.w	#2,d0
 		movea.l	off_8C38-4(pc,d0.w),a1
 		jsr	(a1)
 
-loc_8C30:
++ ;loc_8C30:
 		addq.w	#8,a0
-		dbf	d7,loc_8C22
+		dbf	d7,- ;loc_8C22
 		rts
 ; End of function Touch_SSSprites
 
@@ -1861,7 +1861,7 @@ Touch_SSSprites_BlueSphere:
 		move.b	#9,2(a0)
 		movea.l	4(a0),a1
 		cmpi.b	#2,(a1)
-		bne.s	loc_8C9E
+		bne.s	+ ;loc_8C9E
 		bsr.w	sub_8CC4
 		move.b	#9,(a1)
 		bsr.s	sub_8CF8
@@ -1874,17 +1874,17 @@ locret_8C9C:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_8C9E:
++ ;loc_8C9E:
 		move.b	#0,2(a0)
 		move.w	(Special_stage_X_pos).w,d0
 		or.w	(Special_stage_Y_pos).w,d0
 		andi.w	#$E0,d0
 		beq.s	locret_8CC2
 		cmpi.b	#9,(a1)
-		bne.s	loc_8CBC
+		bne.s	+ ;loc_8CBC
 		move.b	#1,(a1)
 
-loc_8CBC:
++ ;loc_8CBC:
 		clr.l	(a0)
 		clr.l	4(a0)
 
@@ -1898,10 +1898,10 @@ sub_8CC4:
 		move.w	d0,-(sp)
 		move.b	#-1,(Special_stage_sphere_HUD_flag).w
 		subq.w	#1,(Special_stage_spheres_left).w
-		bne.s	loc_8CD8
+		bne.s	+ ;loc_8CD8
 		move.b	#1,(Special_stage_clear_routine).w
 
-loc_8CD8:
++ ;loc_8CD8:
 		move.w	(sp)+,d0
 		rts
 ; End of function sub_8CC4
@@ -1915,13 +1915,13 @@ sub_8CDC:
 		moveq	#0,d1
 		move.w	#$400-1,d0
 
-loc_8CE6:
+- ;loc_8CE6:
 		cmpi.b	#2,(a3)+
-		bne.s	loc_8CEE
+		bne.s	+ ;loc_8CEE
 		addq.w	#1,d1
 
-loc_8CEE:
-		dbf	d0,loc_8CE6
++ ;loc_8CEE:
+		dbf	d0,- ;loc_8CE6
 		move.w	d1,(Special_stage_spheres_left).w
 		rts
 ; End of function sub_8CDC
@@ -1946,18 +1946,18 @@ loc_8D0E:
 		lea	(word_8EDA).l,a3
 		move.w	#8-1,d0
 
-loc_8D1A:
+- ;loc_8D1A:
 		move.w	(a3)+,d2
 		add.w	d5,d2
 		cmpi.b	#2,(a2,d2.w)
-		bne.s	loc_8D34
+		bne.s	+ ;loc_8D34
 		bsr.w	sub_8CC4
 		move.b	#4,(a2,d2.w)
 		move.w	d2,(a5)+
 		addq.w	#2,d1
 
-loc_8D34:
-		dbf	d0,loc_8D1A
++ ;loc_8D34:
+		dbf	d0,- ;loc_8D1A
 		subq.w	#2,d1
 		bne.s	loc_8D0E
 		move.l	a5,d1
@@ -1970,15 +1970,15 @@ loc_8D46:
 		lea	(word_8EDA).l,a3
 		move.w	#8-1,d0
 
-loc_8D52:
+- ;loc_8D52:
 		move.w	(a3)+,d2
 		add.w	d5,d2
 		cmpi.b	#1,(a2,d2.w)
-		bne.s	loc_8D64
+		bne.s	+ ;loc_8D64
 		move.b	#4,(a2,d2.w)
 
-loc_8D64:
-		dbf	d0,loc_8D52
++ ;loc_8D64:
+		dbf	d0,- ;loc_8D52
 		subq.w	#2,d1
 		bne.s	loc_8D46
 		moveq	#signextendB(sfx_RingLoss),d0
@@ -1999,20 +1999,20 @@ sub_8D78:
 		moveq	#0,d2
 		move.w	#8-1,d0
 
-loc_8D88:
+- ;loc_8D88:
 		move.w	(a3)+,d1
 		add.w	d5,d1
 		cmpi.b	#9,(a2,d1.w)
-		bne.s	loc_8D9A
+		bne.s	+ ;loc_8D9A
 		move.b	#1,(a2,d1.w)
 
-loc_8D9A:
++ ;loc_8D9A:
 		cmpi.b	#2,(a2,d1.w)
-		bne.s	loc_8DA4
+		bne.s	+ ;loc_8DA4
 		addq.w	#1,d2
 
-loc_8DA4:
-		dbf	d0,loc_8D88
++ ;loc_8DA4:
+		dbf	d0,- ;loc_8D88
 		tst.w	d2
 		beq.w	locret_8E8A
 		moveq	#0,d2
@@ -2062,11 +2062,11 @@ loc_8E0E:
 		add.w	d0,d1
 		move.b	(a2,d1.w),d2
 		cmpi.b	#$89,d2
-		beq.s	loc_8E8C
+		beq.s	++ ;loc_8E8C
 		cmpi.b	#1,d2
 		bne.s	loc_8E68
 		cmpi.w	#2,d6
-		blo.s	loc_8E48
+		blo.s	+ ;loc_8E48
 		move.w	d1,d2
 		sub.w	-6(a4),d2
 		cmpi.w	#-1,d2
@@ -2078,7 +2078,7 @@ loc_8E0E:
 		cmpi.w	#-$20,d2
 		beq.s	loc_8E68
 
-loc_8E48:
++ ;loc_8E48:
 		ori.b	#$80,(a2,d0.w)
 		move.b	d3,(a4)+
 		move.b	d4,(a4)+
@@ -2117,7 +2117,7 @@ locret_8E8A:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_8E8C:
++ ;loc_8E8C:
 		movem.l	d0/d3/d6/a4,-(sp)
 		sub.w	d5,d0
 		move.w	d0,d2
@@ -2130,29 +2130,29 @@ loc_8E9C:
 		addq.w	#2,a4
 		sub.w	d3,d0
 		cmp.w	d2,d0
-		bne.s	loc_8EAA
+		bne.s	+ ;loc_8EAA
 		add.w	d0,d3
 		bra.s	loc_8E9C
 ; ---------------------------------------------------------------------------
 
-loc_8EAA:
++ ;loc_8EAA:
 		add.w	d5,d0
 		cmpi.b	#2,(a2,d0.w)
-		beq.s	loc_8EC8
+		beq.s	+ ;loc_8EC8
 		cmpi.b	#4,(a2,d0.w)
-		beq.s	loc_8ED4
+		beq.s	++ ;loc_8ED4
 		sub.w	d2,d0
 		cmpi.b	#2,(a2,d0.w)
-		beq.s	loc_8EC8
-		bra.s	loc_8ED4
+		beq.s	+ ;loc_8EC8
+		bra.s	++ ;loc_8ED4
 ; ---------------------------------------------------------------------------
 
-loc_8EC8:
++ ;loc_8EC8:
 		bsr.w	sub_8CC4
 		move.b	#4,(a2,d0.w)
 		move.w	d0,(a5)+
 
-loc_8ED4:
++ ;loc_8ED4:
 		movem.l	(sp)+,d0/d3/d6/a4
 		bra.s	loc_8E68
 ; End of function sub_8D78
@@ -2183,16 +2183,16 @@ Load_SSSprite_Mappings:
 		lea	(MapPtr_8F1A).l,a0
 		moveq	#$D-1,d1
 
-loc_8F02:
+- ;loc_8F02:
 		move.l	(a0)+,(a1)+
 		move.l	(a0)+,(a1)+
-		dbf	d1,loc_8F02
+		dbf	d1,- ;loc_8F02
 		lea	(SStage_collision_response_list).w,a1
 		move.w	#$40-1,d1
 
-loc_8F12:
+- ;loc_8F12:
 		clr.l	(a1)+
-		dbf	d1,loc_8F12
+		dbf	d1,- ;loc_8F12
 		rts
 ; End of function Load_SSSprite_Mappings
 

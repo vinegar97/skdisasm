@@ -17,14 +17,14 @@ Obj_BPZElephantBlock:
 		move.w	d0,$38(a0)
 		bset	#7,status(a0)
 		btst	#0,status(a0)
-		beq.s	loc_351FE
+		beq.s	+ ;loc_351FE
 		move.w	d0,$34(a0)
 		move.b	#1,$3A(a0)
 		move.l	#loc_3525C,(a0)
 		bra.w	loc_3525C
 ; ---------------------------------------------------------------------------
 
-loc_351FE:
++ ;loc_351FE:
 		move.l	#loc_35204,(a0)
 
 loc_35204:
@@ -43,10 +43,10 @@ loc_35204:
 		move.b	d1,width_pixels(a0)
 		move.w	#0,4(a2)
 		cmpi.w	#$20,d1
-		blo.s	loc_3523E
+		blo.s	+ ;loc_3523E
 		move.w	#1,4(a2)
 
-loc_3523E:
++ ;loc_3523E:
 		addi.w	#7,d1
 		moveq	#0,d2
 		move.b	height_pixels(a0),d2
@@ -73,10 +73,10 @@ loc_3525C:
 		move.b	d1,width_pixels(a0)
 		move.w	#0,4(a2)
 		cmpi.w	#$20,d1
-		blo.s	loc_35296
+		blo.s	+ ;loc_35296
 		move.w	#1,4(a2)
 
-loc_35296:
++ ;loc_35296:
 		addi.w	#7,d1
 		moveq	#0,d2
 		move.b	height_pixels(a0),d2
@@ -91,19 +91,19 @@ loc_35296:
 
 sub_352B4:
 		tst.b	$3A(a0)
-		bne.s	loc_352D6
+		bne.s	++ ;loc_352D6
 		move.w	$38(a0),d0
 		addi.w	#$80,$34(a0)
 		cmp.w	$34(a0),d0
-		bhi.s	loc_352D4
+		bhi.s	+ ;loc_352D4
 		move.w	d0,$34(a0)
 		move.b	#1,$3A(a0)
 
-loc_352D4:
++ ;loc_352D4:
 		bra.s	locret_352EA
 ; ---------------------------------------------------------------------------
 
-loc_352D6:
++ ;loc_352D6:
 		subi.w	#$80,$34(a0)
 		bhi.s	locret_352EA
 		move.w	#0,$34(a0)

@@ -19,26 +19,26 @@ loc_1AE9C:
 		addq.b	#2,(LRZ_rocks_routine).w
 		move.w	(Camera_X_pos).w,d4
 		subq.w	#8,d4
-		bhi.s	loc_1AEAE
+		bhi.s	+ ;loc_1AEAE
 		moveq	#1,d4
-		bra.s	loc_1AEAE
+		bra.s	+ ;loc_1AEAE
 ; ---------------------------------------------------------------------------
 
 loc_1AEAC:
 		addq.l	#6,a1
 
-loc_1AEAE:
++ ;loc_1AEAE:
 		cmp.w	2(a1),d4
 		bhi.s	loc_1AEAC
 		move.l	a1,(LRZ_rocks_addr_front).w
 		addi.w	#$150,d4
-		bra.s	loc_1AEC0
+		bra.s	+ ;loc_1AEC0
 ; ---------------------------------------------------------------------------
 
 loc_1AEBE:
 		addq.l	#6,a1
 
-loc_1AEC0:
++ ;loc_1AEC0:
 		cmp.w	2(a1),d4
 		bhi.s	loc_1AEBE
 		move.l	a1,(LRZ_rocks_addr_back).w
@@ -49,45 +49,45 @@ loc_1AECC:
 		movea.l	(LRZ_rocks_addr_front).w,a1
 		move.w	(Camera_X_pos).w,d4
 		subq.w	#8,d4
-		bhi.s	loc_1AEDE
+		bhi.s	+ ;loc_1AEDE
 		moveq	#1,d4
-		bra.s	loc_1AEDE
+		bra.s	+ ;loc_1AEDE
 ; ---------------------------------------------------------------------------
 
 loc_1AEDC:
 		addq.l	#6,a1
 
-loc_1AEDE:
++ ;loc_1AEDE:
 		cmp.w	2(a1),d4
 		bhi.s	loc_1AEDC
-		bra.s	loc_1AEE8
+		bra.s	+ ;loc_1AEE8
 ; ---------------------------------------------------------------------------
 
 loc_1AEE6:
 		subq.l	#6,a1
 
-loc_1AEE8:
++ ;loc_1AEE8:
 		cmp.w	-4(a1),d4
 		bls.s	loc_1AEE6
 		move.l	a1,(LRZ_rocks_addr_front).w
 		movea.l	(LRZ_rocks_addr_back).w,a2
 		addi.w	#$150,d4
-		bra.s	loc_1AEFE
+		bra.s	+ ;loc_1AEFE
 ; ---------------------------------------------------------------------------
 
 loc_1AEFC:
 		addq.l	#6,a2
 
-loc_1AEFE:
++ ;loc_1AEFE:
 		cmp.w	2(a2),d4
 		bhi.s	loc_1AEFC
-		bra.s	loc_1AF08
+		bra.s	+ ;loc_1AF08
 ; ---------------------------------------------------------------------------
 
 loc_1AF06:
 		subq.l	#6,a2
 
-loc_1AF08:
++ ;loc_1AF08:
 		cmp.w	-4(a2),d4
 		bls.s	loc_1AF06
 		move.l	a2,(LRZ_rocks_addr_back).w
@@ -113,7 +113,7 @@ loc_1AF30:
 		sub.w	d4,d1
 		addq.w	#8,d1
 		cmp.w	d5,d1
-		bhs.s	loc_1AF62
+		bhs.s	+ ;loc_1AF62
 		add.w	d3,d1
 		move.w	2(a0),d0
 		sub.w	(a3),d0
@@ -131,7 +131,7 @@ loc_1AF30:
 		move.w	d0,(a6)+
 		subq.w	#1,d7
 
-loc_1AF62:
++ ;loc_1AF62:
 		addq.l	#6,a0
 		subq.w	#6,d2
 		bne.s	loc_1AF30

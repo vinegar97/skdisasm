@@ -9,7 +9,7 @@ Obj_MGZSwingingPlatform:
 		move.w	y_pos(a0),$32(a0)
 		move.b	#2,mapping_frame(a0)
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_3401C
+		bne.w	++ ;loc_3401C
 		move.l	#loc_3406E,(a1)
 		move.l	#Map_MGZSwingingPlatform,mappings(a1)
 		move.w	#make_art_tile($35F,2,0),art_tile(a1)
@@ -20,21 +20,21 @@ Obj_MGZSwingingPlatform:
 		move.w	x_pos(a0),x_pos(a1)
 		move.w	y_pos(a0),y_pos(a1)
 		btst	#1,status(a0)
-		bne.s	loc_3400C
+		bne.s	+ ;loc_3400C
 		move.b	#1,mapping_frame(a1)
 
-loc_3400C:
++ ;loc_3400C:
 		bset	#6,render_flags(a1)
 		move.w	#4,mainspr_childsprites(a1)
 		move.w	a1,$3C(a0)
 
-loc_3401C:
++ ;loc_3401C:
 		moveq	#1,d0
 		btst	#0,status(a0)
-		beq.s	loc_34028
+		beq.s	+ ;loc_34028
 		neg.w	d0
 
-loc_34028:
++ ;loc_34028:
 		move.b	d0,$36(a0)
 		move.b	subtype(a0),d0
 		move.b	d0,$34(a0)
@@ -43,7 +43,7 @@ loc_34028:
 loc_3403A:
 		move.w	x_pos(a0),-(sp)
 		movea.w	$3C(a0),a1
-		bsr.w	sub_34074
+		bsr.w	+ ;sub_34074
 		move.b	$36(a0),d0
 		add.b	d0,$34(a0)
 		moveq	#0,d1
@@ -63,7 +63,7 @@ loc_3406E:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_34074:
++ ;sub_34074:
 		move.b	$34(a0),d0
 		jsr	(GetSineCosine).l
 		move.w	$32(a0),d2
@@ -78,7 +78,7 @@ sub_34074:
 		move.w	mainspr_childsprites(a1),d6
 		subq.w	#1,d6
 
-loc_3409C:
+- ;loc_3409C:
 		movem.l	d4-d5,-(sp)
 		swap	d4
 		swap	d5
@@ -90,7 +90,7 @@ loc_3409C:
 		add.l	d0,d4
 		add.l	d1,d5
 		addq.w	#2,a2
-		dbf	d6,loc_3409C
+		dbf	d6,- ;loc_3409C
 		swap	d4
 		swap	d5
 		add.w	d2,d4

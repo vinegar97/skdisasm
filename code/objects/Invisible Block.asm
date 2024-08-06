@@ -15,12 +15,12 @@ Obj_InvisibleBlock:
 		lsl.w	#3,d1
 		move.b	d1,height_pixels(a0)
 		tst.w	(Competition_mode).w
-		beq.s	loc_1EC66
+		beq.s	+ ;loc_1EC66
 		move.l	#loc_1ECAA,(a0)
 		bra.s	loc_1ECAA
 ; ---------------------------------------------------------------------------
 
-loc_1EC66:
++ ;loc_1EC66:
 		move.l	#loc_1EC6C,(a0)
 
 loc_1EC6C:

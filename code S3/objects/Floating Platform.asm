@@ -9,29 +9,29 @@ byte_243F0:
 
 Obj_FloatingPlatform:
 		cmpi.w	#0,(Current_zone_and_act).w
-		bne.s	loc_24412
+		bne.s	+ ;loc_24412
 		move.l	#Map_AIZFloatingPlatform,mappings(a0)
 		move.w	#make_art_tile($3F7,2,0),art_tile(a0)
 
-loc_24412:
++ ;loc_24412:
 		cmpi.w	#1,(Current_zone_and_act).w
-		bne.s	loc_24428
+		bne.s	+ ;loc_24428
 		move.l	#Map_AIZFloatingPlatform,mappings(a0)
 		move.w	#make_art_tile($440,2,0),art_tile(a0)
 
-loc_24428:
++ ;loc_24428:
 		cmpi.b	#1,(Current_zone).w
-		bne.s	loc_2443E
+		bne.s	+ ;loc_2443E
 		move.l	#Map_HCZFloatingPlatform,mappings(a0)
 		move.w	#make_art_tile($41D,2,0),art_tile(a0)
 
-loc_2443E:
++ ;loc_2443E:
 		cmpi.b	#2,(Current_zone).w
-		bne.s	loc_24454
+		bne.s	+ ;loc_24454
 		move.l	#Map_MGZFloatingPlatform,mappings(a0)
 		move.w	#make_art_tile($001,2,0),art_tile(a0)
 
-loc_24454:
++ ;loc_24454:
 		move.b	#4,render_flags(a0)
 		move.w	#$180,priority(a0)
 		moveq	#0,d0
@@ -52,23 +52,23 @@ loc_24454:
 		move.b	subtype(a0),d0
 		andi.w	#$F,d0
 		subq.w	#8,d0
-		bcs.s	loc_244D6
+		bcs.s	++ ;loc_244D6
 		cmpi.w	#4,d0
-		bhs.s	loc_244CA
+		bhs.s	+ ;loc_244CA
 		lsl.w	#2,d0
 		lea	(Oscillating_table+$2C).w,a2
 		lea	(a2,d0.w),a2
 		tst.w	(a2)
-		bpl.s	loc_244D6
+		bpl.s	++ ;loc_244D6
 		bchg	#0,$2E(a0)
-		bra.s	loc_244D6
+		bra.s	++ ;loc_244D6
 ; ---------------------------------------------------------------------------
 
-loc_244CA:
++ ;loc_244CA:
 		move.w	#$380,$42(a0)
 		addi.w	#$100,$44(a0)
 
-loc_244D6:
++ ;loc_244D6:
 		move.b	subtype(a0),d0
 		andi.b	#$F,d0
 		add.b	d0,d0
@@ -84,7 +84,7 @@ loc_244EA:
 		jsr	(a1,d1.w)
 		move.w	(sp)+,d4
 		tst.b	render_flags(a0)
-		bpl.s	loc_2451E
+		bpl.s	+ ;loc_2451E
 		moveq	#0,d1
 		move.b	width_pixels(a0),d1
 		moveq	#0,d3
@@ -92,22 +92,22 @@ loc_244EA:
 		addq.w	#1,d3
 		jsr	(SolidObjectTop).l
 
-loc_2451E:
++ ;loc_2451E:
 		move.w	$44(a0),d0
 		andi.w	#$FF80,d0
 		sub.w	(Camera_X_pos_coarse_back).w,d0
 		cmp.w	$42(a0),d0
-		bhi.w	loc_24538
+		bhi.w	+ ;loc_24538
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_24538:
++ ;loc_24538:
 		move.w	respawn_addr(a0),d0
-		beq.s	loc_24544
+		beq.s	+ ;loc_24544
 		movea.w	d0,a2
 		bclr	#7,(a2)
 
-loc_24544:
++ ;loc_24544:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 Map_MGZFloatingPlatform:
@@ -131,10 +131,10 @@ Obj_HCZSnakeBlocks:
 		move.b	status(a0),$2E(a0)
 		moveq	#1,d0
 		move.b	subtype(a0),d1
-		bpl.s	loc_245FC
+		bpl.s	+ ;loc_245FC
 		neg.w	d0
 
-loc_245FC:
++ ;loc_245FC:
 		move.b	d0,$40(a0)
 		andi.b	#$7F,d1
 		move.b	d1,angle(a0)
@@ -157,17 +157,17 @@ loc_2461A:
 		andi.w	#$FF80,d0
 		sub.w	(Camera_X_pos_coarse_back).w,d0
 		cmp.w	$42(a0),d0
-		bhi.w	loc_24654
+		bhi.w	+ ;loc_24654
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_24654:
++ ;loc_24654:
 		move.w	respawn_addr(a0),d0
-		beq.s	loc_24660
+		beq.s	+ ;loc_24660
 		movea.w	d0,a2
 		bclr	#7,(a2)
 
-loc_24660:
++ ;loc_24660:
 		jmp	(Delete_Current_Sprite).l
 
 ; =============== S U B R O U T I N E =======================================
@@ -175,40 +175,40 @@ loc_24660:
 
 sub_24666:
 		move.b	$40(a0),d0
-		bpl.s	loc_24690
+		bpl.s	++ ;loc_24690
 		add.b	d0,angle(a0)
-		bcs.s	loc_2467C
+		bcs.s	+ ;loc_2467C
 		subq.b	#1,$2E(a0)
 		andi.b	#3,$2E(a0)
 
-loc_2467C:
++ ;loc_2467C:
 		move.w	#$40,d2
 		move.b	angle(a0),d0
 		cmpi.b	#$80,d0
-		bhs.s	loc_246B2
+		bhs.s	+++ ;loc_246B2
 		move.b	#$80,d0
-		bra.s	loc_246B2
+		bra.s	+++ ;loc_246B2
 ; ---------------------------------------------------------------------------
 
-loc_24690:
++ ;loc_24690:
 		add.b	d0,angle(a0)
-		bne.s	loc_246A0
+		bne.s	+ ;loc_246A0
 		addq.b	#1,$2E(a0)
 		andi.b	#3,$2E(a0)
 
-loc_246A0:
++ ;loc_246A0:
 		move.w	#$40,d2
 		move.b	angle(a0),d0
 		cmpi.b	#$80,d0
-		bhs.s	loc_246B2
+		bhs.s	+ ;loc_246B2
 		move.b	#$80,d0
 
-loc_246B2:
++ ;loc_246B2:
 		jsr	(GetSineCosine).l
 		asr.w	#2,d1
 		move.b	$2E(a0),d3
 		andi.b	#3,d3
-		bne.s	loc_246D8
+		bne.s	+ ;loc_246D8
 		add.w	$30(a0),d1
 		move.w	d1,x_pos(a0)
 		neg.w	d2
@@ -217,9 +217,9 @@ loc_246B2:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_246D8:
++ ;loc_246D8:
 		subq.b	#1,d3
-		bne.s	loc_246EE
+		bne.s	+ ;loc_246EE
 		add.w	$34(a0),d1
 		move.w	d1,y_pos(a0)
 		add.w	$30(a0),d2
@@ -227,9 +227,9 @@ loc_246D8:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_246EE:
++ ;loc_246EE:
 		subq.b	#1,d3
-		bne.s	loc_24706
+		bne.s	+ ;loc_24706
 		neg.w	d1
 		add.w	$30(a0),d1
 		move.w	d1,x_pos(a0)
@@ -238,7 +238,7 @@ loc_246EE:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_24706:
++ ;loc_24706:
 		neg.w	d1
 		add.w	$34(a0),d1
 		move.w	d1,y_pos(a0)

@@ -3,13 +3,13 @@ Obj_BreakableWall:
 		move.w	#$280,priority(a0)
 		move.l	#loc_1F844,(a0)
 		move.b	subtype(a0),d0
-		bpl.s	loc_1F6E0
+		bpl.s	+ ;loc_1F6E0
 		tst.b	(Level_trigger_array).w
-		beq.s	loc_1F6E0
+		beq.s	+ ;loc_1F6E0
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_1F6E0:
++ ;loc_1F6E0:
 		andi.b	#$F,d0
 		move.b	d0,mapping_frame(a0)
 		move.l	#Map_AIZBreakableWall,mappings(a0)
@@ -19,7 +19,7 @@ loc_1F6E0:
 		move.l	#word_1FBE2,$34(a0)
 		move.l	#word_1FC0A,$38(a0)
 		cmpi.b	#1,(Current_zone).w
-		bne.s	loc_1F776
+		bne.s	+ ;loc_1F776
 		move.l	#Map_HCZBreakableWall,mappings(a0)
 		move.w	#make_art_tile($001,3,0),art_tile(a0)
 		move.b	#$10,width_pixels(a0)
@@ -27,7 +27,7 @@ loc_1F6E0:
 		move.l	#word_1FC32,$34(a0)
 		move.l	#word_1FC52,$38(a0)
 		cmpi.b	#2,mapping_frame(a0)
-		bne.s	loc_1F776
+		bne.s	+ ;loc_1F776
 		move.w	#make_art_tile($350,2,0),art_tile(a0)
 		move.b	#$18,width_pixels(a0)
 		move.b	#$20,height_pixels(a0)
@@ -37,9 +37,9 @@ loc_1F6E0:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_1F776:
++ ;loc_1F776:
 		cmpi.b	#2,(Current_zone).w
-		bne.s	loc_1F7C8
+		bne.s	++ ;loc_1F7C8
 		move.l	#Map_MGZBreakableWall,mappings(a0)
 		move.w	#make_art_tile($001,2,0),art_tile(a0)
 		move.b	#$20,width_pixels(a0)
@@ -47,21 +47,21 @@ loc_1F776:
 		move.l	#word_1FCC2,$34(a0)
 		move.l	#word_1FC72,$38(a0)
 		btst	#4,subtype(a0)
-		beq.s	loc_1F7B8
+		beq.s	+ ;loc_1F7B8
 		move.l	#loc_1FAEC,(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_1F7B8:
++ ;loc_1F7B8:
 		cmpi.b	#2,mapping_frame(a0)
-		bne.s	loc_1F7C8
+		bne.s	+ ;loc_1F7C8
 		move.l	#loc_1FA02,(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_1F7C8:
++ ;loc_1F7C8:
 		cmpi.b	#3,(Current_zone).w
-		bne.s	loc_1F80A
+		bne.s	+ ;loc_1F80A
 		move.l	#Map_CNZBreakableWall,mappings(a0)
 		move.w	#make_art_tile($420,2,0),art_tile(a0)
 		move.b	#$10,width_pixels(a0)
@@ -69,12 +69,12 @@ loc_1F7C8:
 		move.l	#word_1FD12,$34(a0)
 		move.l	#word_1FD32,$38(a0)
 		cmpi.b	#2,mapping_frame(a0)
-		bne.s	loc_1F80A
+		bne.s	+ ;loc_1F80A
 		move.l	#loc_1FAEC,(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_1F80A:
++ ;loc_1F80A:
 		cmpi.b	#6,(Current_zone).w
 		bne.s	loc_1F844
 		move.l	#Map_LBZBreakableWall,mappings(a0)
@@ -100,48 +100,48 @@ loc_1F844:
 		move.w	x_pos(a0),d4
 		jsr	(SolidObjectFull).l
 		tst.b	subtype(a0)
-		bpl.s	loc_1F880
+		bpl.s	+ ;loc_1F880
 		tst.b	(Level_trigger_array).w
 		beq.s	loc_1F888
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_1F880:
++ ;loc_1F880:
 		swap	d6
 		andi.w	#3,d6
-		bne.s	loc_1F88E
+		bne.s	+ ;loc_1F88E
 
 loc_1F888:
 		jmp	(Sprite_OnScreen_Test).l
 ; ---------------------------------------------------------------------------
 
-loc_1F88E:
++ ;loc_1F88E:
 		lea	(Player_1).w,a1
 		move.w	$30(a0),d1
 		move.w	d6,d0
 		andi.w	#1,d0
 		beq.s	loc_1F906
 		tst.b	(Super_Sonic_Knux_flag).w
-		bne.s	loc_1F8D0
+		bne.s	+++ ;loc_1F8D0
 		btst	#Status_FireShield,status_secondary(a1)
-		bne.s	loc_1F8BC
+		bne.s	+ ;loc_1F8BC
 		cmpi.b	#2,character_id(a1)
-		beq.s	loc_1F8D0
+		beq.s	+++ ;loc_1F8D0
 		btst	#p1_pushing_bit,status(a0)
 		beq.s	loc_1F906
 
-loc_1F8BC:
++ ;loc_1F8BC:
 		cmpi.b	#2,anim(a1)
 		bne.s	loc_1F906
 		move.w	d1,d0
-		bpl.s	loc_1F8CA
+		bpl.s	+ ;loc_1F8CA
 		neg.w	d0
 
-loc_1F8CA:
++ ;loc_1F8CA:
 		cmpi.w	#$480,d0
 		blo.s	loc_1F906
 
-loc_1F8D0:
++ ;loc_1F8D0:
 		bclr	#p1_pushing_bit,status(a0)
 		bsr.s	sub_1F936
 		btst	#p2_pushing_bit,status(a0)
@@ -164,10 +164,10 @@ loc_1F906:
 		cmpi.b	#2,anim(a1)
 		bne.w	loc_1F888
 		move.w	d1,d0
-		bpl.s	loc_1F928
+		bpl.s	+ ;loc_1F928
 		neg.w	d0
 
-loc_1F928:
++ ;loc_1F928:
 		cmpi.w	#$480,d0
 		blo.w	loc_1F888
 		bclr	#p2_pushing_bit,status(a0)
@@ -181,11 +181,11 @@ sub_1F936:
 		movea.l	$34(a0),a4
 		move.w	x_pos(a0),d0
 		cmp.w	x_pos(a1),d0
-		blo.s	loc_1F956
+		blo.s	+ ;loc_1F956
 		subi.w	#8,x_pos(a1)
 		movea.l	$38(a0),a4
 
-loc_1F956:
++ ;loc_1F956:
 		move.w	x_vel(a1),ground_vel(a1)
 		bclr	#Status_Push,status(a1)	; set Sonic as not pushing an object
 		move.l	#loc_1F96E,(a0)
@@ -196,11 +196,11 @@ loc_1F96E:
 		jsr	(MoveSprite2).l
 		addi.w	#$70,y_vel(a0)
 		tst.b	render_flags(a0)
-		bpl.s	loc_1F986
+		bpl.s	+ ;loc_1F986
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_1F986:
++ ;loc_1F986:
 		jmp	(Delete_Current_Sprite).l
 ; End of function sub_1F936
 
@@ -223,7 +223,7 @@ BreakObjectToPieces:
 		bra.s	BreakObjectToPieces_InitObject
 ; ---------------------------------------------------------------------------
 
-BreakObjectToPieces_Loop:
+- ;BreakObjectToPieces_Loop:
 		jsr	(AllocateObjectAfterCurrent).l
 		bne.s	loc_1F9FA
 		addq.w	#6,a3	; add to mappings
@@ -241,7 +241,7 @@ BreakObjectToPieces_InitObject:
 		move.b	height_pixels(a0),height_pixels(a1)
 		move.w	(a4)+,x_vel(a1)
 		move.w	(a4)+,y_vel(a1)
-		dbf	d1,BreakObjectToPieces_Loop
+		dbf	d1,- ;BreakObjectToPieces_Loop
 
 loc_1F9FA:
 		moveq	#signextendB(sfx_Collapse),d0
@@ -264,43 +264,43 @@ loc_1FA02:
 		jsr	(SolidObjectFull).l
 		swap	d6
 		andi.b	#3,d6
-		beq.w	loc_1FABC
+		beq.w	++ ;loc_1FABC
 		move.b	d6,d0
 		andi.b	#1,d0
-		beq.s	loc_1FA90
+		beq.s	+ ;loc_1FA90
 		lea	(Player_1).w,a1
 		bclr	#6,$37(a1)
-		beq.s	loc_1FA90
+		beq.s	+ ;loc_1FA90
 		move.w	$30(a0),x_vel(a1)
 		move.w	x_vel(a1),ground_vel(a1)
 		bclr	#Status_Push,status(a1)
 		bclr	#p1_pushing_bit,status(a0)
 		bsr.s	sub_1FAC2
 		andi.b	#2,d6
-		beq.s	loc_1FABC
+		beq.s	++ ;loc_1FABC
 		lea	(Player_2).w,a1
 		bclr	#6,$37(a1)
-		beq.s	loc_1FABC
+		beq.s	++ ;loc_1FABC
 		move.w	$32(a0),x_vel(a1)
 		move.w	x_vel(a1),ground_vel(a1)
 		bclr	#Status_Push,status(a1)
 		bclr	#p2_pushing_bit,status(a0)
-		bra.s	loc_1FABC
+		bra.s	++ ;loc_1FABC
 ; ---------------------------------------------------------------------------
 
-loc_1FA90:
++ ;loc_1FA90:
 		andi.b	#2,d6
-		beq.s	loc_1FABC
+		beq.s	+ ;loc_1FABC
 		lea	(Player_2).w,a1
 		bclr	#6,$37(a1)
-		beq.s	loc_1FABC
+		beq.s	+ ;loc_1FABC
 		move.w	$32(a0),x_vel(a1)
 		move.w	x_vel(a1),ground_vel(a1)
 		bclr	#Status_Push,status(a1)
 		bclr	#p2_pushing_bit,status(a0)
 		bsr.s	sub_1FAC2
 
-loc_1FABC:
++ ;loc_1FABC:
 		jmp	(Sprite_OnScreen_Test).l
 
 ; =============== S U B R O U T I N E =======================================
@@ -310,11 +310,11 @@ sub_1FAC2:
 		movea.l	$34(a0),a4
 		move.w	x_pos(a0),d0
 		cmp.w	x_pos(a1),d0
-		blo.s	loc_1FADA
+		blo.s	+ ;loc_1FADA
 		subi.w	#8,x_pos(a1)
 		movea.l	$38(a0),a4
 
-loc_1FADA:
++ ;loc_1FADA:
 		move.l	#loc_1F96E,(a0)
 		addq.b	#1,mapping_frame(a0)
 		bsr.w	BreakObjectToPieces
@@ -336,28 +336,28 @@ loc_1FAEC:
 		move.w	x_pos(a0),d4
 		jsr	(SolidObjectFull).l
 		tst.b	subtype(a0)
-		bpl.s	loc_1FB28
+		bpl.s	+ ;loc_1FB28
 		tst.b	(Level_trigger_array).w
 		beq.s	loc_1FB32
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_1FB28:
++ ;loc_1FB28:
 		move.b	status(a0),d0
 		andi.b	#$60,d0
-		bne.s	loc_1FB38
+		bne.s	+ ;loc_1FB38
 
 loc_1FB32:
 		jmp	(Sprite_OnScreen_Test).l
 ; ---------------------------------------------------------------------------
 
-loc_1FB38:
++ ;loc_1FB38:
 		lea	(Player_1).w,a1
 		move.w	$30(a0),d1
 		btst	#p1_pushing_bit,status(a0)
-		beq.s	loc_1FB86
+		beq.s	+ ;loc_1FB86
 		cmpi.b	#2,character_id(a1)
-		bne.s	loc_1FB86
+		bne.s	+ ;loc_1FB86
 		bclr	#p1_pushing_bit,status(a0)
 		bsr.s	sub_1FBA4
 		btst	#p2_pushing_bit,status(a0)
@@ -372,7 +372,7 @@ loc_1FB38:
 		bra.s	loc_1FB32
 ; ---------------------------------------------------------------------------
 
-loc_1FB86:
++ ;loc_1FB86:
 		lea	(Player_2).w,a1
 		move.w	$32(a0),d1
 		btst	#p2_pushing_bit,status(a0)
@@ -390,11 +390,11 @@ sub_1FBA4:
 		movea.l	$34(a0),a4
 		move.w	x_pos(a0),d0
 		cmp.w	x_pos(a1),d0
-		blo.s	loc_1FBC4
+		blo.s	+ ;loc_1FBC4
 		subi.w	#8,x_pos(a1)
 		movea.l	$38(a0),a4
 
-loc_1FBC4:
++ ;loc_1FBC4:
 		move.w	x_vel(a1),ground_vel(a1)
 		bclr	#Status_Push,status(a1)
 		move.l	#loc_1F96E,(a0)

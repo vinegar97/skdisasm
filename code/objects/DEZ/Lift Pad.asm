@@ -8,7 +8,7 @@ Obj_DEZLiftPad:
 		move.w	x_pos(a0),$44(a0)
 		move.w	y_pos(a0),$46(a0)
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_47422
+		bne.w	+ ;loc_47422
 		move.l	#Draw_Sprite,(a1)
 		move.l	mappings(a0),mappings(a1)
 		move.w	art_tile(a0),art_tile(a1)
@@ -27,16 +27,16 @@ Obj_DEZLiftPad:
 		move.w	d1,mainspr_childsprites(a1)
 		subq.w	#1,d1
 
-loc_47406:
+- ;loc_47406:
 		move.w	d2,(a2)+
 		move.w	d3,(a2)+
 		move.w	#1,(a2)+
-		dbf	d1,loc_47406
+		dbf	d1,- ;loc_47406
 		move.b	#2,sub2_mapframe(a1)
 		move.b	#1,mapping_frame(a1)
 		move.w	a1,$3E(a0)
 
-loc_47422:
++ ;loc_47422:
 		move.w	#0,angle(a0)
 		move.w	#0,$32(a0)
 		move.b	#-1,$36(a0)
@@ -45,7 +45,7 @@ loc_47422:
 
 loc_47440:
 		move.w	x_pos(a0),-(sp)
-		bsr.w	sub_4748E
+		bsr.w	+++ ;sub_4748E
 		move.w	#$18,d1
 		move.w	#9,d3
 		move.w	(sp)+,d4
@@ -54,17 +54,17 @@ loc_47440:
 		andi.w	#$FF80,d0
 		sub.w	(Camera_X_pos_coarse_back).w,d0
 		cmpi.w	#$280,d0
-		bhi.w	loc_47472
+		bhi.w	+ ;loc_47472
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_47472:
++ ;loc_47472:
 		move.w	respawn_addr(a0),d0
-		beq.s	loc_4747E
+		beq.s	+ ;loc_4747E
 		movea.w	d0,a2
 		bclr	#7,(a2)
 
-loc_4747E:
++ ;loc_4747E:
 		movea.w	$3E(a0),a1
 		jsr	(Delete_Referenced_Sprite).l
 		jmp	(Delete_Current_Sprite).l
@@ -72,7 +72,7 @@ loc_4747E:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_4748E:
++ ;sub_4748E:
 		moveq	#0,d0
 		moveq	#0,d1
 		bsr.w	sub_4757A
@@ -80,29 +80,29 @@ sub_4748E:
 		beq.w	locret_47578
 		move.b	d0,$36(a0)
 		btst	#4,subtype(a0)
-		beq.s	loc_474BC
+		beq.s	+ ;loc_474BC
 		neg.w	d0
 		btst	#5,subtype(a0)
-		beq.s	loc_474CA
+		beq.s	++ ;loc_474CA
 		neg.w	d0
 		addi.w	#$C0,d0
-		bra.s	loc_474CA
+		bra.s	++ ;loc_474CA
 ; ---------------------------------------------------------------------------
 
-loc_474BC:
++ ;loc_474BC:
 		btst	#5,subtype(a0)
-		beq.s	loc_474CA
+		beq.s	+ ;loc_474CA
 		neg.w	d0
 		addi.w	#$40,d0
 
-loc_474CA:
++ ;loc_474CA:
 		addi.w	#$80,d0
 		btst	#0,status(a0)
-		beq.s	loc_474DC
+		beq.s	+ ;loc_474DC
 		neg.w	d0
 		addi.w	#$80,d0
 
-loc_474DC:
++ ;loc_474DC:
 		jsr	(GetSineCosine).l
 		move.w	$46(a0),d2
 		move.w	$44(a0),d3
@@ -119,7 +119,7 @@ loc_474DC:
 		move.l	d1,d5
 		lea	sub3_x_pos(a1),a2
 
-loc_4750A:
+- ;loc_4750A:
 		movem.l	d4-d5,-(sp)
 		swap	d4
 		swap	d5
@@ -131,7 +131,7 @@ loc_4750A:
 		add.l	d0,d4
 		add.l	d1,d5
 		addq.w	#2,a2
-		dbf	d6,loc_4750A
+		dbf	d6,- ;loc_4750A
 		movem.l	d4-d5,-(sp)
 		swap	d4
 		swap	d5
@@ -153,10 +153,10 @@ loc_4750A:
 		move.w	d4,y_pos(a0)
 		subi.w	#$20,d5
 		btst	#0,status(a0)
-		beq.s	loc_47574
+		beq.s	+ ;loc_47574
 		addi.w	#$40,d5
 
-loc_47574:
++ ;loc_47574:
 		move.w	d5,x_pos(a0)
 
 locret_47578:
@@ -169,16 +169,16 @@ locret_47578:
 
 sub_4757A:
 		tst.w	$34(a0)
-		beq.s	loc_47592
+		beq.s	+ ;loc_47592
 		btst	#p1_standing_bit,status(a0)
 		bne.w	loc_4760E
 		subq.w	#1,$34(a0)
 		bra.w	loc_4760E
 ; ---------------------------------------------------------------------------
 
-loc_47592:
++ ;loc_47592:
 		tst.b	$31(a0)
-		bne.s	loc_475B6
+		bne.s	+ ;loc_475B6
 		btst	#p1_standing_bit,status(a0)
 		beq.s	loc_4760E
 		tst.w	(Debug_placement_mode).w
@@ -187,34 +187,34 @@ loc_47592:
 		moveq	#signextendB(sfx_GravityLift),d0
 		jsr	(Play_SFX).l
 
-loc_475B6:
++ ;loc_475B6:
 		tst.b	$30(a0)
-		bne.s	loc_475E6
+		bne.s	++ ;loc_475E6
 		move.w	$32(a0),d0
 		addi.w	#8,d0
 		move.w	d0,$32(a0)
 		add.w	d0,angle(a0)
 		tst.w	d0
-		bne.s	loc_475D6
+		bne.s	+ ;loc_475D6
 		move.b	#0,$31(a0)
 
-loc_475D6:
++ ;loc_475D6:
 		cmpi.b	#$20,angle(a0)
 		blo.s	loc_4760E
 		move.b	#1,$30(a0)
 		bra.s	loc_4760E
 ; ---------------------------------------------------------------------------
 
-loc_475E6:
++ ;loc_475E6:
 		move.w	$32(a0),d0
 		subi.w	#8,d0
 		move.w	d0,$32(a0)
 		add.w	d0,angle(a0)
 		tst.w	d0
-		bne.s	loc_47600
+		bne.s	+ ;loc_47600
 		move.w	#30,$34(a0)
 
-loc_47600:
++ ;loc_47600:
 		cmpi.b	#$20,angle(a0)
 		bhs.s	loc_4760E
 		move.b	#0,$30(a0)

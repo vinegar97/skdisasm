@@ -4,32 +4,32 @@ Obj_ICZPathFollowPlatform:
 Obj_ICZPathFollowPlatform_2:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	ICZPathFollowPlatform_Index(pc,d0.w),d1
+		move.w	.Index(pc,d0.w),d1
 		move.w	x_pos(a0),-(sp)
-		jsr	ICZPathFollowPlatform_Index(pc,d1.w)
+		jsr	.Index(pc,d1.w)
 		moveq	#$2B,d1
 		moveq	#$14,d2
 		moveq	#$14,d3
 		move.w	(sp)+,d4
 		btst	#7,status(a0)
-		bne.s	loc_57796
+		bne.s	+ ;loc_57796
 		jsr	(SolidObjectFull).l
 		bsr.w	sub_57BDA
 
-loc_57796:
++ ;loc_57796:
 		jmp	(Sprite_OnScreen_Test).l
 ; ---------------------------------------------------------------------------
-ICZPathFollowPlatform_Index:
-		dc.w loc_577B0-ICZPathFollowPlatform_Index
-		dc.w loc_577E8-ICZPathFollowPlatform_Index
-		dc.w loc_57808-ICZPathFollowPlatform_Index
-		dc.w loc_57824-ICZPathFollowPlatform_Index
-		dc.w loc_57868-ICZPathFollowPlatform_Index
-		dc.w loc_57942-ICZPathFollowPlatform_Index
-		dc.w locret_5799C-ICZPathFollowPlatform_Index
-		dc.w loc_5799E-ICZPathFollowPlatform_Index
-		dc.w loc_579B8-ICZPathFollowPlatform_Index
-		dc.w loc_579D4-ICZPathFollowPlatform_Index
+.Index:
+		dc.w loc_577B0-.Index
+		dc.w loc_577E8-.Index
+		dc.w loc_57808-.Index
+		dc.w loc_57824-.Index
+		dc.w loc_57868-.Index
+		dc.w loc_57942-.Index
+		dc.w locret_5799C-.Index
+		dc.w loc_5799E-.Index
+		dc.w loc_579B8-.Index
+		dc.w loc_579D4-.Index
 ; ---------------------------------------------------------------------------
 
 loc_577B0:
@@ -54,11 +54,11 @@ byte_577E4:
 
 loc_577E8:
 		btst	#p1_standing_bit,status(a0)
-		bne.s	loc_577F2
+		bne.s	+ ;loc_577F2
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_577F2:
++ ;loc_577F2:
 		move.b	#4,routine(a0)
 		move.w	#$F,$2E(a0)
 		move.l	#loc_5781C,$34(a0)
@@ -68,10 +68,10 @@ loc_577F2:
 loc_57808:
 		moveq	#1,d0
 		btst	#0,(V_int_run_count+3).w
-		beq.s	loc_57814
+		beq.s	+ ;loc_57814
 		neg.w	d0
 
-loc_57814:
++ ;loc_57814:
 		add.w	d0,x_pos(a0)
 		jmp	Obj_Wait(pc)
 ; ---------------------------------------------------------------------------
@@ -83,17 +83,17 @@ loc_5781C:
 
 loc_57824:
 		btst	#p1_pushing_bit,status(a0)
-		beq.s	loc_57836
+		beq.s	+ ;loc_57836
 		move.b	(Ctrl_1_held).w,d0
 		andi.b	#button_left_mask|button_right_mask,d0
-		bne.s	loc_5783C
+		bne.s	++ ;loc_5783C
 
-loc_57836:
++ ;loc_57836:
 		clr.b	$39(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_5783C:
++ ;loc_5783C:
 		addq.b	#1,$39(a0)
 		cmpi.b	#$10,$39(a0)
 		blo.w	locret_57866
@@ -102,10 +102,10 @@ loc_5783C:
 		jsr	Find_SonicTails(pc)
 		move.w	#$80,d1
 		tst.w	d0
-		beq.s	loc_57862
+		beq.s	+ ;loc_57862
 		neg.w	d1
 
-loc_57862:
++ ;loc_57862:
 		move.w	d1,x_vel(a0)
 
 locret_57866:
@@ -114,11 +114,11 @@ locret_57866:
 
 loc_57868:
 		cmpi.w	#-$100,(Camera_min_Y_pos).w
-		bne.s	loc_57878
+		bne.s	+ ;loc_57878
 		move.w	(Screen_Y_wrap_value).w,d0
 		and.w	d0,y_pos(a0)
 
-loc_57878:
++ ;loc_57878:
 		jsr	(MoveSprite2).l
 		jsr	(ObjCheckFloorDist).l
 		cmpi.w	#8,d1
@@ -126,12 +126,12 @@ loc_57878:
 		move.b	d3,angle(a0)
 		add.w	d1,y_pos(a0)
 		move.b	d3,d0
-		bpl.s	loc_57898
+		bpl.s	+ ;loc_57898
 		neg.b	d0
 
-loc_57898:
++ ;loc_57898:
 		andi.b	#$F8,d0
-		beq.s	loc_578AE
+		beq.s	+ ;loc_578AE
 		move.w	x_vel(a0),d0
 		add.w	d3,d3
 		ext.w	d3
@@ -139,21 +139,21 @@ loc_57898:
 		add.w	d3,d0
 		bsr.w	sub_57B70
 
-loc_578AE:
++ ;loc_578AE:
 		tst.w	x_vel(a0)
-		bmi.s	loc_578C2
+		bmi.s	+ ;loc_578C2
 		moveq	#$1C,d3
 		jsr	(ObjCheckRightWallDist).l
 		tst.w	d1
-		bmi.s	loc_578DC
+		bmi.s	++ ;loc_578DC
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_578C2:
++ ;loc_578C2:
 		moveq	#-$1C,d3
 		jsr	(ObjCheckLeftWallDist).l
 		tst.w	d1
-		bmi.s	loc_5791A
+		bmi.s	+++ ;loc_5791A
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -163,25 +163,25 @@ loc_578D0:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_578DC:
++ ;loc_578DC:
 		move.b	#$C,routine(a0)
 		tst.b	subtype(a0)
 		beq.w	locret_57866
 		lea	ChildObjDat_57C34(pc),a2
 		jsr	CreateChild6_Simple(pc)
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.s	loc_57912
+		bne.s	+ ;loc_57912
 		move.l	#Obj_Spring,(a1)
 		move.w	#$5D5A,x_pos(a1)
 		move.w	#$27A,y_pos(a1)
 		move.b	#0,subtype(a1)
 
-loc_57912:
++ ;loc_57912:
 		jsr	Displace_PlayerOffObject(pc)
 		jmp	loc_5371C(pc)
 ; ---------------------------------------------------------------------------
 
-loc_5791A:
++ ;loc_5791A:
 		move.b	#$C,routine(a0)
 		rts
 ; ---------------------------------------------------------------------------
@@ -194,24 +194,24 @@ loc_57942:
 		jsr	(MoveSprite2).l
 		jsr	(ObjCheckFloorDist).l
 		tst.w	d1
-		bmi.s	loc_57984
+		bmi.s	+++ ;loc_57984
 		tst.w	x_vel(a0)
 		beq.s	locret_57982
-		bmi.s	loc_5796E
+		bmi.s	+ ;loc_5796E
 		moveq	#$20,d3
 		jsr	(ObjCheckRightWallDist).l
 		tst.w	d1
-		bmi.s	loc_5797A
+		bmi.s	++ ;loc_5797A
 		bra.w	locret_57982
 ; ---------------------------------------------------------------------------
 
-loc_5796E:
++ ;loc_5796E:
 		moveq	#-$20,d3
 		jsr	(ObjCheckLeftWallDist).l
 		tst.w	d1
 		bpl.s	locret_57982
 
-loc_5797A:
++ ;loc_5797A:
 		add.w	d1,x_pos(a0)
 		clr.w	x_vel(a0)
 
@@ -219,14 +219,14 @@ locret_57982:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_57984:
++ ;loc_57984:
 		move.b	#8,routine(a0)
 		move.w	y_vel(a0),d0
 		btst	#6,d3
-		beq.s	loc_57996
+		beq.s	+ ;loc_57996
 		neg.w	d0
 
-loc_57996:
++ ;loc_57996:
 		move.w	d0,x_vel(a0)
 		rts
 ; ---------------------------------------------------------------------------
@@ -238,11 +238,11 @@ locret_5799C:
 loc_5799E:
 		move.b	status(a0),d0
 		andi.b	#standing_mask,d0
-		bne.s	loc_579AA
+		bne.s	+ ;loc_579AA
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_579AA:
++ ;loc_579AA:
 		move.b	#$10,routine(a0)
 		move.w	y_pos(a0),$3A(a0)
 		rts
@@ -251,12 +251,12 @@ loc_579AA:
 loc_579B8:
 		move.b	status(a0),d0
 		andi.b	#standing_mask,d0
-		beq.s	loc_579C8
+		beq.s	+ ;loc_579C8
 		addq.w	#1,y_pos(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_579C8:
++ ;loc_579C8:
 		move.b	#$12,routine(a0)
 		clr.w	y_vel(a0)
 		rts
@@ -267,11 +267,11 @@ loc_579D4:
 		jsr	(MoveSprite2).l
 		move.w	y_pos(a0),d0
 		cmp.w	$3A(a0),d0
-		bls.s	loc_579EC
+		bls.s	+ ;loc_579EC
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_579EC:
++ ;loc_579EC:
 		move.b	#$E,routine(a0)
 		move.w	$3A(a0),y_pos(a0)
 		rts
@@ -348,7 +348,7 @@ loc_57AA6:
 		jsr	(SolidObjectFull).l
 		movea.w	(_unkFAA4).w,a1
 		cmpi.l	#Obj_ICZPathFollowPlatform_2,(a1)
-		bne.s	loc_57AF2
+		bne.s	+ ;loc_57AF2
 		move.w	x_pos(a1),d0
 		move.w	y_pos(a1),d1
 		and.w	(Screen_Y_wrap_value).w,d1
@@ -357,22 +357,22 @@ loc_57AA6:
 		lea	word_57B12(pc),a2
 		add.w	(a2)+,d2
 		cmp.w	d2,d0
-		blo.s	loc_57AF2
+		blo.s	+ ;loc_57AF2
 		add.w	(a2)+,d2
 		cmp.w	d2,d0
-		bhs.s	loc_57AF2
+		bhs.s	+ ;loc_57AF2
 		add.w	(a2)+,d3
 		cmp.w	d3,d1
-		blo.s	loc_57AF2
+		blo.s	+ ;loc_57AF2
 		add.w	(a2)+,d3
 		cmp.w	d3,d1
-		blo.s	loc_57AF8
+		blo.s	++ ;loc_57AF8
 
-loc_57AF2:
++ ;loc_57AF2:
 		jmp	(Sprite_OnScreen_Test).l
 ; ---------------------------------------------------------------------------
 
-loc_57AF8:
++ ;loc_57AF8:
 		lea	ChildObjDat_57C3A(pc),a2
 		jsr	CreateChild6_Simple(pc)
 		jsr	Go_Delete_Sprite(pc)
@@ -394,10 +394,10 @@ loc_57B1A:
 loc_57B2E:
 		movea.w	parent3(a0),a1
 		btst	#p1_standing_bit,status(a1)
-		beq.s	loc_57B40
+		beq.s	+ ;loc_57B40
 		move.l	#MoveChkDel,(a0)
 
-loc_57B40:
++ ;loc_57B40:
 		jmp	(Sprite_OnScreen_Test).l
 ; ---------------------------------------------------------------------------
 
@@ -455,10 +455,10 @@ sub_57B9C:
 		lsr.b	#3,d3
 		andi.w	#$E,d3
 		move.w	x_vel(a0),d1
-		bpl.s	loc_57BAE
+		bpl.s	+ ;loc_57BAE
 		neg.w	d1
 
-loc_57BAE:
++ ;loc_57BAE:
 		move.w	off_57BB6(pc,d3.w),d0
 		jmp	off_57BB6(pc,d0.w)
 ; End of function sub_57B9C

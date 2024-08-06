@@ -234,9 +234,9 @@ VInt_VRAMWrite:
 		swap	d0
 		move.l	d0,VDP_control_port-VDP_data_port(a6)
 
-.loop:
+- ;.loop:
 		move.l	(a0)+,(a6)
-		dbf	d1,.loop
+		dbf	d1,- ;.loop
 		rts
 ; End of function VInt_VRAMWrite
 
@@ -253,9 +253,9 @@ SpecialVInt_VRAMRead:
 		swap	d0
 		move.l	d0,VDP_control_port-VDP_data_port(a6)
 
-.loop:
+- ;.loop:
 		move.l	(a6),(a0)+
-		dbf	d1,.loop
+		dbf	d1,- ;.loop
 		rts
 ; End of function SpecialVInt_VRAMRead
 
@@ -326,9 +326,9 @@ SpecialVInt_VScrollCopy:
 		move.l	#vdpComm($0000,VSRAM,WRITE),VDP_control_port-VDP_data_port(a6)
 		moveq	#$14-1,d0
 
-.loop:
+- ;.loop:
 		move.l	(a0)+,(a6)
-		dbf	d0,.loop
+		dbf	d0,- ;.loop
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -371,10 +371,10 @@ SpecialVInt_LBZ2ScrollAClear:
 		moveq	#0,d0
 		moveq	#$60-1,d1
 
-.loop:
+- ;.loop:
 		move.l	d0,(a6)				; Clear 6 cell lines from VRAM A for when it scrolls upward
 		move.l	d0,(a6)
-		dbf	d1,.loop
+		dbf	d1,- ;.loop
 		move.w	#$8320,VDP_control_port-VDP_data_port(a6)		; VRAM command $8320 - Window at base address $8000
 		move.w	#$9285,VDP_control_port-VDP_data_port(a6)		; VRAM command $9285 - Window starts 5 cells down from top
 		clr.w	(Special_V_int_routine).w
@@ -386,10 +386,10 @@ SpecialVInt_LBZ2ScrollAClear2:
 		moveq	#0,d0
 		moveq	#$60-1,d1
 
-.loop:
+- ;.loop:
 		move.l	d0,(a6)					; Erase remainder of upper area of VRAM A
 		move.l	d0,(a6)
-		dbf	d1,.loop
+		dbf	d1,- ;.loop
 		addq.w	#4,(Special_V_int_routine).w
 		rts
 ; ---------------------------------------------------------------------------
@@ -405,15 +405,15 @@ SpecialVInt_LBZ2WindowClear:
 		move.l	#vdpComm(VRAM_Plane_A_Name_Table+$900,VRAM,WRITE),(VDP_control_port).l	; VRAM position $C900
 		moveq	#6-1,d0
 
-loc_4E90C:
+- ;loc_4E90C:
 		lea	(VRAM_buffer).w,a0
 		moveq	#$10-1,d1
 
-loc_4E912:
+- ;loc_4E912:
 		move.l	(a0)+,(a6)
 		move.l	(a0)+,(a6)				; Write cell lines back to Scroll A
-		dbf	d1,loc_4E912
-		dbf	d0,loc_4E90C
+		dbf	d1,- ;loc_4E912
+		dbf	d0,-- ;loc_4E90C
 		move.w	#$9200,VDP_control_port-VDP_data_port(a6)			; VRAM command $9200 - Zero out window position
 		clr.w	(Special_V_int_routine).w
 		rts
@@ -430,12 +430,12 @@ Draw_TileColumn:
 		sub.w	d0,d2
 		beq.w	locret_4EAB6
 		tst.b	d2
-		bpl.s	loc_4E948
+		bpl.s	+ ;loc_4E948
 		neg.w	d2
 		move.w	d3,d0
 		addi.w	#$150,d0
 
-loc_4E948:
++ ;loc_4E948:
 		andi.w	#$30,d2
 		cmpi.w	#$10,d2
 		sne	(Plane_double_update_flag).w
@@ -461,13 +461,13 @@ Draw_TileColumn2:
 		sub.w	d0,d2
 		beq.w	locret_4EAB6
 		tst.b	d2
-		bpl.s	loc_4E98C
+		bpl.s	+ ;loc_4E98C
 		neg.w	d2
 		move.w	d3,d0
 		addi.w	#$150,d0
 		swap	d1
 
-loc_4E98C:
++ ;loc_4E98C:
 		andi.w	#$30,d2
 		cmpi.w	#$10,d2
 		sne	(Plane_double_update_flag).w
@@ -498,7 +498,7 @@ Setup_TileColumnDraw:
 		sub.w	d4,d5
 		move.w	d5,d4
 		sub.w	d6,d5
-		bmi.s	loc_4E9FC
+		bmi.s	+ ;loc_4E9FC
 		move.w	d0,d5
 		asr.w	#2,d5
 		andi.w	#$7C,d5
@@ -517,7 +517,7 @@ Setup_TileColumnDraw:
 		bra.s	sub_4EA4A
 ; ---------------------------------------------------------------------------
 
-loc_4E9FC:
++ ;loc_4E9FC:
 		neg.w	d5
 		move.w	d5,-(sp)
 		move.w	d0,d5
@@ -554,7 +554,7 @@ loc_4E9FC:
 sub_4EA4A:
 		swap	d7
 
-loc_4EA4C:
+- ;loc_4EA4C:
 		move.w	(a5,d2.w),d3
 		move.w	d3,d4
 		andi.w	#$3FF,d3
@@ -567,31 +567,31 @@ loc_4EA4C:
 		swap	d3
 		move.w	d7,d3
 		btst	#$B,d4
-		beq.s	loc_4EA84
+		beq.s	+ ;loc_4EA84
 		eori.l	#$10001000,d5
 		eori.l	#$10001000,d3
 		swap	d5
 		swap	d3
 
-loc_4EA84:
++ ;loc_4EA84:
 		btst	#$A,d4
-		beq.s	loc_4EA98
+		beq.s	+ ;loc_4EA98
 		eori.l	#$8000800,d5
 		eori.l	#$8000800,d3
 		exg	d3,d5
 
-loc_4EA98:
++ ;loc_4EA98:
 		move.l	d5,(a1)+
 		move.l	d3,(a0)+
 		addi.w	#$10,d2
 		andi.w	#$70,d2
-		bne.s	loc_4EAAE
+		bne.s	+ ;loc_4EAAE
 		addq.w	#4,d1
 		and.w	(Layout_row_index_mask).w,d1
 		bsr.s	Get_LevelChunkColumn
 
-loc_4EAAE:
-		dbf	d6,loc_4EA4C
++ ;loc_4EAAE:
+		dbf	d6,- ;loc_4EA4C
 		swap	d7
 		clr.w	(a0)
 
@@ -633,13 +633,13 @@ Draw_TileRow:
 		sub.w	d0,d2
 		beq.w	locret_4EC46
 		tst.b	d2
-		bpl.s	loc_4EAFA
+		bpl.s	+ ;loc_4EAFA
 		neg.w	d2
 		move.w	d3,d0
 		addi.w	#$F0,d0
 		and.w	(Camera_Y_pos_mask).w,d0
 
-loc_4EAFA:
++ ;loc_4EAFA:
 		andi.w	#$30,d2
 		cmpi.w	#$10,d2
 		sne.b	(Plane_double_update_flag).w
@@ -666,14 +666,14 @@ Draw_TileRow2:
 		sub.w	d0,d2
 		beq.w	locret_4EC46
 		tst.b	d2
-		bpl.s	loc_4EB46
+		bpl.s	+ ;loc_4EB46
 		neg.w	d2
 		move.w	d3,d0
 		addi.w	#$F0,d0
 		and.w	(Camera_Y_pos_mask).w,d0
 		swap	d1
 
-loc_4EB46:
++ ;loc_4EB46:
 		andi.w	#$30,d2
 		cmpi.w	#$10,d2
 		sne	(Plane_double_update_flag).w
@@ -705,7 +705,7 @@ Setup_TileRowDraw:
 		sub.w	d4,d5
 		move.w	d5,d4
 		sub.w	d6,d5
-		bmi.s	loc_4EBB2
+		bmi.s	+ ;loc_4EBB2
 		move.w	d0,d5
 		andi.w	#$F0,d5		; If the length of the write can fit without wrapping the nametable
 		lsl.w	#4,d5
@@ -720,10 +720,10 @@ Setup_TileRowDraw:
 		add.w	d5,d5
 		adda.w	d5,a0
 		jsr	Get_LevelAddrChunkRow(pc)
-		bra.s	loc_4EBF2
+		bra.s	++ ;loc_4EBF2
 ; ---------------------------------------------------------------------------
 
-loc_4EBB2:
++ ;loc_4EBB2:
 		neg.w	d5			; If the length of the write wraps over the length of the nametable
 		move.w	d5,-(sp)
 		move.w	d0,d5
@@ -740,7 +740,7 @@ loc_4EBB2:
 		add.w	d4,d4
 		adda.w	d4,a0
 		bsr.s	Get_LevelAddrChunkRow
-		bsr.s	loc_4EBF2
+		bsr.s	+ ;loc_4EBF2
 		move.w	(sp)+,d6	; Must place one more write command to account for rollover
 		move.w	d0,d5
 		andi.w	#$F0,d5
@@ -755,7 +755,7 @@ loc_4EBB2:
 		add.w	d5,d5
 		adda.w	d5,a0
 
-loc_4EBF2:
+/ ;loc_4EBF2:
 		move.w	(a5,d2.w),d3
 		move.w	d3,d4
 		andi.w	#$3FF,d3
@@ -763,30 +763,30 @@ loc_4EBF2:
 		move.l	(a2,d3.w),d5
 		move.l	4(a2,d3.w),d3
 		btst	#$B,d4
-		beq.s	loc_4EC1A
+		beq.s	+ ;loc_4EC1A
 		eori.l	#$10001000,d5
 		eori.l	#$10001000,d3
 		exg	d3,d5
 
-loc_4EC1A:
++ ;loc_4EC1A:
 		btst	#$A,d4
-		beq.s	loc_4EC30
+		beq.s	+ ;loc_4EC30
 		eori.l	#$8000800,d5
 		eori.l	#$8000800,d3
 		swap	d5
 		swap	d3
 
-loc_4EC30:
++ ;loc_4EC30:
 		move.l	d5,(a1)+
 		move.l	d3,(a0)+
 		addq.w	#2,d2
 		andi.w	#$E,d2
-		bne.s	loc_4EC40
+		bne.s	+ ;loc_4EC40
 		addq.w	#1,d1
 		bsr.s	Get_ChunkRow
 
-loc_4EC40:
-		dbf	d6,loc_4EBF2
++ ;loc_4EC40:
+		dbf	d6,- ;loc_4EBF2
 		clr.w	(a0)
 
 locret_4EC46:
@@ -824,17 +824,17 @@ Setup_TileRowDraw_Competition:
 		asr.w	#4,d1
 		andi.w	#$E,d2
 		cmpi.w	#$100,(_unkEEB0).w
-		beq.s	loc_4EC84
+		beq.s	+ ;loc_4EC84
 		moveq	#4,d3
 		move.w	#$1F80,d4
-		bra.s	loc_4EC8A
+		bra.s	++ ;loc_4EC8A
 ; ---------------------------------------------------------------------------
 
-loc_4EC84:
++ ;loc_4EC84:
 		moveq	#5,d3
 		move.w	#$1F00,d4
 
-loc_4EC8A:
++ ;loc_4EC8A:
 		move.w	d0,d5
 		lsl.w	d3,d5
 		and.w	d4,d5
@@ -848,7 +848,7 @@ loc_4EC8A:
 		add.w	d5,d5
 		adda.w	d5,a0
 		jsr	Get_LevelAddrChunkRow(pc)
-		bra.w	loc_4EBF2
+		bra.w	- ;loc_4EBF2
 ; End of function Setup_TileRowDraw_Competition
 
 
@@ -870,7 +870,7 @@ sub_4ECAA:
 		add.w	d5,d5
 		adda.w	d5,a0
 		jsr	Get_LevelAddrChunkRow(pc)
-		bra.w	loc_4EBF2
+		bra.w	- ;loc_4EBF2
 ; End of function sub_4ECAA
 
 
@@ -880,14 +880,14 @@ sub_4ECAA:
 Refresh_PlaneFull:
 		moveq	#$10-1,d2
 
-.loop:
+- ;.loop:
 		movem.l	d0-d2/a0,-(sp)
 		moveq	#$20,d6
 		jsr	Setup_TileRowDraw(pc)
 		jsr	VInt_DrawLevel(pc)
 		movem.l	(sp)+,d0-d2/a0
 		addi.w	#$10,d0
-		dbf	d2,.loop
+		dbf	d2,- ;.loop
 		rts
 ; End of function Refresh_PlaneFull
 
@@ -899,15 +899,15 @@ Refresh_PlaneTileDeform:
 		move.w	(a4)+,d2
 		moveq	#$10-1,d3
 
-loc_4ECF0:
+- ;loc_4ECF0:
 		cmp.w	d2,d0
-		bmi.s	loc_4ECFA
+		bmi.s	+ ;loc_4ECFA
 		add.w	(a4)+,d2
 		addq.w	#4,a5
-		bra.s	loc_4ECF0
+		bra.s	- ;loc_4ECF0
 ; ---------------------------------------------------------------------------
 
-loc_4ECFA:
++ ;loc_4ECFA:
 		move.w	(a5),d1
 		moveq	#$20,d6
 		movem.l	d0/d2-d3/a0/a4-a5,-(sp)
@@ -915,7 +915,7 @@ loc_4ECFA:
 		jsr	VInt_DrawLevel(pc)
 		movem.l	(sp)+,d0/d2-d3/a0/a4-a5
 		addi.w	#$10,d0
-		dbf	d3,loc_4ECF0
+		dbf	d3,- ;loc_4ECF0
 		rts
 ; End of function Refresh_PlaneTileDeform
 
@@ -925,15 +925,15 @@ Refresh_PlaneDirectVScroll:
 		move.w	(a4)+,d2
 		moveq	#$20-1,d3
 
-loc_4ED1C:
+- ;loc_4ED1C:
 		cmp.w	d2,d0
-		bmi.s	loc_4ED26
+		bmi.s	+ ;loc_4ED26
 		add.w	(a4)+,d2
 		addq.w	#4,a5
-		bra.s	loc_4ED1C
+		bra.s	- ;loc_4ED1C
 ; ---------------------------------------------------------------------------
 
-loc_4ED26:
++ ;loc_4ED26:
 		move.w	(a5),d1
 		moveq	#$10,d6
 		movem.l	d0/d2-d3/a0/a4-a5,-(sp)
@@ -941,17 +941,17 @@ loc_4ED26:
 		jsr	VInt_DrawLevel(pc)
 		movem.l	(sp)+,d0/d2-d3/a0/a4-a5
 		addi.w	#$10,d0
-		dbf	d3,loc_4ED1C
+		dbf	d3,- ;loc_4ED1C
 		rts
 ; ---------------------------------------------------------------------------
 
-Refresh_PlaneFull_Competition:
+- ;Refresh_PlaneFull_Competition:
 		movem.l	d0-d2/d6/a0,-(sp)
 		jsr	Setup_TileRowDraw_Competition(pc)
 		jsr	VInt_DrawLevel_Competition(pc)
 		movem.l	(sp)+,d0-d2/d6/a0
 		addi.w	#$10,d0
-		dbf	d2,Refresh_PlaneFull_Competition
+		dbf	d2,- ;Refresh_PlaneFull_Competition
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -971,13 +971,13 @@ Refresh_PlaneDirect:
 		move	#$2700,sr
 		moveq	#$F-1,d2
 
-loc_4ED72:
+- ;loc_4ED72:
 		movem.l	d0-d2/d6/a0,-(sp)		; Redraws the entire plane in one go during 68k execution
 		jsr	Setup_TileRowDraw(pc)
 		jsr	VInt_DrawLevel(pc)
 		movem.l	(sp)+,d0-d2/d6/a0
 		addi.w	#$10,d0
-		dbf	d2,loc_4ED72
+		dbf	d2,- ;loc_4ED72
 		move	#$2300,sr
 		rts
 
@@ -1047,7 +1047,7 @@ Draw_BGNoVert:
 
 loc_4EE22:
 		sub.w	(a4)+,d6
-		bmi.s	loc_4EE32
+		bmi.s	+ ;loc_4EE32
 		move.w	(a6)+,d0
 		andi.w	#$FFF0,d0
 		move.w	d0,(a6)+
@@ -1055,7 +1055,7 @@ loc_4EE22:
 		bra.s	loc_4EE22
 ; ---------------------------------------------------------------------------
 
-loc_4EE32:
++ ;loc_4EE32:
 		neg.w	d6
 		lsr.w	#4,d6
 		moveq	#$F,d4
@@ -1117,13 +1117,13 @@ Get_DeformDrawPosVert:
 
 sub_4EE8E:
 		cmp.w	d2,d0
-		bmi.s	loc_4EE98
+		bmi.s	+ ;loc_4EE98
 		add.w	(a4)+,d2
 		addq.w	#4,a5
 		bra.s	sub_4EE8E
 ; ---------------------------------------------------------------------------
 
-loc_4EE98:
++ ;loc_4EE98:
 		move.w	(a5),d1
 		swap	d1
 		rts
@@ -1139,7 +1139,7 @@ DrawTilesVDeform:
 		jsr	Draw_TileColumn2(pc)
 		movem.l	(sp)+,d5/a4/a6
 		move.w	(Camera_X_pos_rounded).w,d6
-		bra.s	loc_4EED8
+		bra.s	+ ;loc_4EED8
 
 ; ---------------------------------------------------------------------------
 
@@ -1152,12 +1152,12 @@ DrawTilesVDeform2:
 		movem.l	(sp)+,d5/a4/a6
 		move.w	(Camera_X_pos_BG_rounded).w,d6
 
-loc_4EED8:
++ ;loc_4EED8:
 		move.w	d6,d1
 
 loc_4EEDA:
 		sub.w	(a4)+,d6
-		bcs.s	loc_4EEEA
+		bcs.s	+ ;loc_4EEEA
 		move.w	(a6)+,d0
 		and.w	(Camera_Y_pos_mask).w,d0
 		move.w	d0,(a6)+
@@ -1165,7 +1165,7 @@ loc_4EEDA:
 		bra.s	loc_4EEDA
 ; ---------------------------------------------------------------------------
 
-loc_4EEEA:
++ ;loc_4EEEA:
 		neg.w	d6
 		lsr.w	#4,d6
 		moveq	#$15,d4
@@ -1226,13 +1226,13 @@ Get_XDeformRange:
 
 sub_4EF46:
 		cmp.w	d2,d0
-		blo.s	loc_4EF50
+		blo.s	+ ;loc_4EF50
 		add.w	(a4)+,d2
 		addq.w	#4,a5
 		bra.s	sub_4EF46
 ; ---------------------------------------------------------------------------
 
-loc_4EF50:
++ ;loc_4EF50:
 		move.w	(a5),d1
 		swap	d1
 		rts
@@ -1261,13 +1261,13 @@ Draw_PlaneVertSingleBottomUp:
 		and.w	(Camera_Y_pos_mask).w,d3
 		move.w	(Draw_delayed_position).w,d0
 		cmp.w	d2,d0
-		blo.s	loc_4EF84
+		blo.s	+ ;loc_4EF84
 		cmp.w	d3,d0
-		bhi.s	loc_4EF84
+		bhi.s	+ ;loc_4EF84
 		moveq	#$20,d6
 		jsr	Setup_TileRowDraw(pc)
 
-loc_4EF84:
++ ;loc_4EF84:
 		subi.w	#$10,(Draw_delayed_position).w
 		subq.w	#1,(Draw_delayed_rowcount).w
 		rts
@@ -1284,13 +1284,13 @@ Draw_PlaneVertTopDown:
 		and.w	(Camera_Y_pos_mask).w,d3
 		move.w	(Draw_delayed_position).w,d0
 		cmp.w	d2,d0
-		blo.s	loc_4EFB0
+		blo.s	+ ;loc_4EFB0
 		cmp.w	d3,d0
-		bhi.s	loc_4EFB0
+		bhi.s	+ ;loc_4EFB0
 		moveq	#$20,d6
 		jsr	Setup_TileRowDraw(pc)
 
-loc_4EFB0:
++ ;loc_4EFB0:
 		addi.w	#$10,(Draw_delayed_position).w
 		subq.w	#1,(Draw_delayed_rowcount).w
 		rts
@@ -1302,9 +1302,9 @@ loc_4EFB0:
 
 Draw_PlaneHorzRightToLeft:
 		movem.w	d1-d2,-(sp)
-		bsr.s	sub_4EFCA
+		bsr.s	+ ;sub_4EFCA
 		movem.w	(sp)+,d1-d2
-		bpl.s	sub_4EFCA
+		bpl.s	+ ;sub_4EFCA
 		rts
 ; End of function Draw_PlaneHorzRightToLeft
 
@@ -1312,20 +1312,20 @@ Draw_PlaneHorzRightToLeft:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_4EFCA:
++ ;sub_4EFCA:
 		andi.w	#$FFF0,d2
 		move.w	d2,d3
 		addi.w	#$1F0,d3
 		andi.w	#$FFF0,d3
 		move.w	(Draw_delayed_position).w,d0
 		cmp.w	d2,d0
-		blo.s	loc_4EFEA
+		blo.s	+ ;loc_4EFEA
 		cmp.w	d3,d0
-		bhi.s	loc_4EFEA
+		bhi.s	+ ;loc_4EFEA
 		moveq	#$10,d6
 		jsr	Setup_TileColumnDraw(pc)
 
-loc_4EFEA:
++ ;loc_4EFEA:
 		subi.w	#$10,(Draw_delayed_position).w
 		subq.w	#1,(Draw_delayed_rowcount).w
 		rts
@@ -1337,9 +1337,9 @@ loc_4EFEA:
 
 Draw_PlaneHorzLeftToRight:
 		movem.w	d1-d2,-(sp)
-		bsr.s	sub_4F004
+		bsr.s	+ ;sub_4F004
 		movem.w	(sp)+,d1-d2
-		bpl.s	sub_4F004
+		bpl.s	+ ;sub_4F004
 		rts
 ; End of function Draw_PlaneHorzLeftToRight
 
@@ -1347,20 +1347,20 @@ Draw_PlaneHorzLeftToRight:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_4F004:
++ ;sub_4F004:
 		andi.w	#$FFF0,d2
 		move.w	d2,d3
 		addi.w	#$1F0,d3
 		andi.w	#$FFF0,d3
 		move.w	(Draw_delayed_position).w,d0
 		cmp.w	d2,d0
-		blo.s	loc_4F024
+		blo.s	+ ;loc_4F024
 		cmp.w	d3,d0
-		bhi.s	loc_4F024
+		bhi.s	+ ;loc_4F024
 		moveq	#$10,d6
 		jsr	Setup_TileColumnDraw(pc)
 
-loc_4F024:
++ ;loc_4F024:
 		addi.w	#$10,(Draw_delayed_position).w
 		subq.w	#1,(Draw_delayed_rowcount).w
 		rts
@@ -1372,9 +1372,9 @@ loc_4F024:
 
 Draw_PlaneVertBottomUpComplex:
 		movem.l	d1/a4-a5,-(sp)
-		bsr.s	sub_4F03E
+		bsr.s	+ ;sub_4F03E
 		movem.l	(sp)+,d1/a4-a5
-		bpl.s	sub_4F03E
+		bpl.s	+ ;sub_4F03E
 		rts
 ; End of function Draw_PlaneVertBottomUpComplex
 
@@ -1382,16 +1382,16 @@ Draw_PlaneVertBottomUpComplex:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_4F03E:
++ ;sub_4F03E:
 		and.w	(Camera_Y_pos_mask).w,d1
 		move.w	d1,d2
 		addi.w	#$F0,d2
 		and.w	(Camera_Y_pos_mask).w,d2
 		move.w	(Draw_delayed_position).w,d0
 		cmp.w	d1,d0
-		blo.s	loc_4F066
+		blo.s	+ ;loc_4F066
 		cmp.w	d2,d0
-		bhi.s	loc_4F066
+		bhi.s	+ ;loc_4F066
 
 loc_4F058:
 		addq.w	#4,a5
@@ -1401,7 +1401,7 @@ loc_4F058:
 		moveq	#$20,d6
 		jsr	Setup_TileRowDraw(pc)
 
-loc_4F066:
++ ;loc_4F066:
 		subi.w	#$10,(Draw_delayed_position).w
 		subq.w	#1,(Draw_delayed_rowcount).w
 		rts
@@ -1420,12 +1420,12 @@ PlainDeformation:
 		neg.w	d0
 		moveq	#$38-1,d1
 
-loc_4F086:
+- ;loc_4F086:
 		move.l	d0,(a1)+
 		move.l	d0,(a1)+
 		move.l	d0,(a1)+
 		move.l	d0,(a1)+
-		dbf	d1,loc_4F086
+		dbf	d1,- ;loc_4F086
 		rts
 ; End of function PlainDeformation
 
@@ -1442,12 +1442,12 @@ PlainDeformation_Flipped:
 		neg.w	d0
 		moveq	#$38-1,d1
 
-loc_4F0A8:
+- ;loc_4F0A8:
 		move.l	d0,(a1)+
 		move.l	d0,(a1)+
 		move.l	d0,(a1)+
 		move.l	d0,(a1)+
-		dbf	d1,loc_4F0A8
+		dbf	d1,- ;loc_4F0A8
 		rts
 ; End of function PlainDeformation_Flipped
 
@@ -1458,18 +1458,18 @@ loc_4F0A8:
 MakeFGDeformArray:
 		move.w	d1,d0
 		lsr.w	#1,d0
-		bcc.s	loc_4F0C2
+		bcc.s	+ ;loc_4F0C2
 
-loc_4F0BC:
+- ;loc_4F0BC:
 		move.w	(a6)+,d5
 		add.w	d6,d5
 		move.w	d5,(a1)+
 
-loc_4F0C2:
++ ;loc_4F0C2:
 		move.w	(a6)+,d5
 		add.w	d6,d5
 		move.w	d5,(a1)+
-		dbf	d0,loc_4F0BC
+		dbf	d0,- ;loc_4F0BC
 		rts
 ; End of function MakeFGDeformArray
 
@@ -1488,12 +1488,12 @@ ApplyDeformation3:
 ApplyDeformation2:
 		move.w	(a4)+,d2
 		smi	d4
-		bpl.s	loc_4F0E8
+		bpl.s	+ ;loc_4F0E8
 		andi.w	#$7FFF,d2
 
-loc_4F0E8:
++ ;loc_4F0E8:
 		sub.w	d2,d0
-		bmi.s	loc_4F0FA
+		bmi.s	+ ;loc_4F0FA
 		addq.w	#2,a5
 		tst.b	d4
 		beq.s	ApplyDeformation2
@@ -1503,22 +1503,22 @@ loc_4F0E8:
 		bra.s	ApplyDeformation2
 ; ---------------------------------------------------------------------------
 
-loc_4F0FA:
++ ;loc_4F0FA:
 		tst.b	d4
-		beq.s	loc_4F104
+		beq.s	+ ;loc_4F104
 		add.w	d0,d2
 		add.w	d2,d2
 		adda.w	d2,a5
 
-loc_4F104:
++ ;loc_4F104:
 		neg.w	d0
 		move.w	d1,d2
 		sub.w	d0,d2
-		bcc.s	loc_4F110
+		bcc.s	+ ;loc_4F110
 		move.w	d1,d0
 		addq.w	#1,d0
 
-loc_4F110:
++ ;loc_4F110:
 		neg.w	d3
 		swap	d3
 
@@ -1527,45 +1527,45 @@ loc_4F114:
 
 loc_4F116:
 		tst.b	d4
-		beq.s	loc_4F130
+		beq.s	++ ;loc_4F130
 		lsr.w	#1,d0
-		bcc.s	loc_4F124
+		bcc.s	+ ;loc_4F124
 
-loc_4F11E:
+- ;loc_4F11E:
 		move.w	(a5)+,d3
 		neg.w	d3
 		move.l	d3,(a1)+
 
-loc_4F124:
++ ;loc_4F124:
 		move.w	(a5)+,d3
 		neg.w	d3
 		move.l	d3,(a1)+
-		dbf	d0,loc_4F11E
-		bra.s	loc_4F140
+		dbf	d0,- ;loc_4F11E
+		bra.s	+++ ;loc_4F140
 ; ---------------------------------------------------------------------------
 
-loc_4F130:
++ ;loc_4F130:
 		move.w	(a5)+,d3
 		neg.w	d3
 		lsr.w	#1,d0
-		bcc.s	loc_4F13A
+		bcc.s	+ ;loc_4F13A
 
-loc_4F138:
+- ;loc_4F138:
 		move.l	d3,(a1)+
 
-loc_4F13A:
++ ;loc_4F13A:
 		move.l	d3,(a1)+
-		dbf	d0,loc_4F138
+		dbf	d0,- ;loc_4F138
 
-loc_4F140:
++ ;loc_4F140:
 		tst.w	d2
 		bmi.s	locret_4F158
 		move.w	(a4)+,d0
 		smi	d4
-		bpl.s	loc_4F14E
+		bpl.s	+ ;loc_4F14E
 		andi.w	#$7FFF,d0
 
-loc_4F14E:
++ ;loc_4F14E:
 		move.w	d2,d3
 		sub.w	d0,d2
 		bpl.s	loc_4F114
@@ -1590,12 +1590,12 @@ ApplyFGDeformation:
 ApplyFGDeformation2:
 		move.w	(a4)+,d2
 		smi	d4
-		bpl.s	loc_4F174
+		bpl.s	+ ;loc_4F174
 		andi.w	#$7FFF,d2
 
-loc_4F174:
++ ;loc_4F174:
 		sub.w	d2,d0
-		bmi.s	loc_4F186
+		bmi.s	+ ;loc_4F186
 		addq.w	#2,a5
 		tst.b	d4
 		beq.s	ApplyFGDeformation2
@@ -1605,22 +1605,22 @@ loc_4F174:
 		bra.s	ApplyFGDeformation2
 ; ---------------------------------------------------------------------------
 
-loc_4F186:
++ ;loc_4F186:
 		tst.b	d4
-		beq.s	loc_4F190
+		beq.s	+ ;loc_4F190
 		add.w	d0,d2
 		add.w	d2,d2
 		adda.w	d2,a5
 
-loc_4F190:
++ ;loc_4F190:
 		neg.w	d0
 		move.w	d1,d2
 		sub.w	d0,d2
-		bcc.s	loc_4F19C
+		bcc.s	+ ;loc_4F19C
 		move.w	d1,d0
 		addq.w	#1,d0
 
-loc_4F19C:
++ ;loc_4F19C:
 		neg.w	d3
 
 loc_4F19E:
@@ -1628,51 +1628,51 @@ loc_4F19E:
 
 loc_4F1A0:
 		tst.b	d4
-		beq.s	loc_4F1C2
+		beq.s	++ ;loc_4F1C2
 		lsr.w	#1,d0
-		bcc.s	loc_4F1B2
+		bcc.s	+ ;loc_4F1B2
 
-loc_4F1A8:
+- ;loc_4F1A8:
 		swap	d3
 		move.w	(a5)+,d3
 		neg.w	d3
 		swap	d3
 		move.l	d3,(a1)+
 
-loc_4F1B2:
++ ;loc_4F1B2:
 		swap	d3
 		move.w	(a5)+,d3
 		neg.w	d3
 		swap	d3
 		move.l	d3,(a1)+
-		dbf	d0,loc_4F1A8
-		bra.s	loc_4F1D6
+		dbf	d0,- ;loc_4F1A8
+		bra.s	+++ ;loc_4F1D6
 ; ---------------------------------------------------------------------------
 
-loc_4F1C2:
++ ;loc_4F1C2:
 		swap	d3
 		move.w	(a5)+,d3
 		neg.w	d3
 		swap	d3
 		lsr.w	#1,d0
-		bcc.s	loc_4F1D0
+		bcc.s	+ ;loc_4F1D0
 
-loc_4F1CE:
+- ;loc_4F1CE:
 		move.l	d3,(a1)+
 
-loc_4F1D0:
++ ;loc_4F1D0:
 		move.l	d3,(a1)+
-		dbf	d0,loc_4F1CE
+		dbf	d0,- ;loc_4F1CE
 
-loc_4F1D6:
++ ;loc_4F1D6:
 		tst.w	d2
 		bmi.s	locret_4F1EE
 		move.w	(a4)+,d0
 		smi	d4
-		bpl.s	loc_4F1E4
+		bpl.s	+ ;loc_4F1E4
 		andi.w	#$7FFF,d0
 
-loc_4F1E4:
++ ;loc_4F1E4:
 		move.w	d2,d1
 		sub.w	d0,d2
 		bpl.s	loc_4F19E
@@ -1693,12 +1693,12 @@ ApplyFGandBGDeformation:
 loc_4F1F4:
 		move.w	(a4)+,d3
 		smi	d7
-		bpl.s	loc_4F1FE
+		bpl.s	+ ;loc_4F1FE
 		andi.w	#$7FFF,d3
 
-loc_4F1FE:
++ ;loc_4F1FE:
 		sub.w	d3,d0
-		bmi.s	loc_4F210
+		bmi.s	+ ;loc_4F210
 		addq.w	#2,a5
 		tst.b	d7
 		beq.s	loc_4F1F4
@@ -1708,14 +1708,14 @@ loc_4F1FE:
 		bra.s	loc_4F1F4
 ; ---------------------------------------------------------------------------
 
-loc_4F210:
++ ;loc_4F210:
 		tst.b	d7
-		beq.s	loc_4F21A
+		beq.s	+ ;loc_4F21A
 		add.w	d0,d3
 		add.w	d3,d3
 		adda.w	d3,a5
 
-loc_4F21A:
++ ;loc_4F21A:
 		swap	d3
 		neg.w	d0
 		move.w	d1,d4
@@ -1729,11 +1729,11 @@ loc_4F228:
 
 loc_4F22A:
 		tst.b	d7
-		beq.s	loc_4F250
+		beq.s	++ ;loc_4F250
 		lsr.w	#1,d0
-		bcc.s	loc_4F23E
+		bcc.s	+ ;loc_4F23E
 
-loc_4F232:
+- ;loc_4F232:
 		move.w	(a2)+,d6
 		swap	d6
 		move.w	(a5)+,d6
@@ -1741,47 +1741,47 @@ loc_4F232:
 		add.w	(a6)+,d6
 		move.l	d6,(a1)+
 
-loc_4F23E:
++ ;loc_4F23E:
 		move.w	(a2)+,d6
 		swap	d6
 		move.w	(a5)+,d6
 		neg.w	d6
 		add.w	(a6)+,d6
 		move.l	d6,(a1)+
-		dbf	d0,loc_4F232
-		bra.s	loc_4F270
+		dbf	d0,- ;loc_4F232
+		bra.s	+++ ;loc_4F270
 ; ---------------------------------------------------------------------------
 
-loc_4F250:
++ ;loc_4F250:
 		move.w	(a5)+,d5
 		neg.w	d5
 		lsr.w	#1,d0
-		bcc.s	loc_4F262
+		bcc.s	+ ;loc_4F262
 
-loc_4F258:
+- ;loc_4F258:
 		move.w	(a2)+,d6
 		swap	d6
 		move.w	(a6)+,d6
 		add.w	d5,d6
 		move.l	d6,(a1)+
 
-loc_4F262:
++ ;loc_4F262:
 		move.w	(a2)+,d6
 		swap	d6
 		move.w	(a6)+,d6
 		add.w	d5,d6
 		move.l	d6,(a1)+
-		dbf	d0,loc_4F258
+		dbf	d0,- ;loc_4F258
 
-loc_4F270:
++ ;loc_4F270:
 		tst.w	d4
-		bmi.s	loc_4F288
+		bmi.s	++ ;loc_4F288
 		move.w	(a4)+,d0
 		smi	d7
-		bpl.s	loc_4F27E
+		bpl.s	+ ;loc_4F27E
 		andi.w	#$7FFF,d0
 
-loc_4F27E:
++ ;loc_4F27E:
 		move.w	d4,d5
 		sub.w	d0,d4
 		bpl.s	loc_4F228
@@ -1789,7 +1789,7 @@ loc_4F27E:
 		bra.s	loc_4F22A
 ; ---------------------------------------------------------------------------
 
-loc_4F288:
++ ;loc_4F288:
 		swap	d7
 		rts
 
@@ -1802,10 +1802,10 @@ Apply_FGVScroll:
 		move.w	(Camera_X_pos_copy).w,d0
 		move.w	d0,d2
 		andi.w	#$F,d2
-		beq.s	loc_4F2A4
+		beq.s	+ ;loc_4F2A4
 		addi.w	#$10,d0
 
-loc_4F2A4:
++ ;loc_4F2A4:
 		lsr.w	#4,d0
 
 loc_4F2A6:
@@ -1826,10 +1826,10 @@ loc_4F2BA:
 loc_4F2BC:
 		move.w	(a5)+,d3
 
-loc_4F2BE:
+- ;loc_4F2BE:
 		move.w	d3,(a1)+
 		move.w	d1,(a1)+
-		dbf	d0,loc_4F2BE
+		dbf	d0,- ;loc_4F2BE
 		tst.w	d2
 		bmi.s	locret_4F2D8
 		move.w	(a4)+,d0
@@ -1928,23 +1928,23 @@ Adjust_BGDuringLoop:
 		move.w	(a1),d1
 		move.w	d0,(a1)+
 		sub.w	d1,d0
-		bpl.s	loc_4F37C
+		bpl.s	++ ;loc_4F37C
 		neg.w	d0
 		cmp.w	d2,d0
-		blo.s	loc_4F378
+		blo.s	+ ;loc_4F378
 		sub.w	d3,d0
 
-loc_4F378:
++ ;loc_4F378:
 		sub.w	d0,(a1)+
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4F37C:
++ ;loc_4F37C:
 		cmp.w	d2,d0
-		blo.s	loc_4F382
+		blo.s	+ ;loc_4F382
 		sub.w	d3,d0
 
-loc_4F382:
++ ;loc_4F382:
 		add.w	d0,(a1)+
 		rts
 ; End of function Adjust_BGDuringLoop
@@ -1969,31 +1969,31 @@ Get_BGActualEffectiveDiff:
 
 Offset_SomeObjectsDuringTransition:
 		tst.b	(Super_Tails_flag).w
-		bne.s	loc_4F3A8
+		bne.s	+ ;loc_4F3A8
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4F3A8:
++ ;loc_4F3A8:
 		lea	(Invincibility_stars).w,a1
 		moveq	#4-1,d2
-		bra.s	loc_4F3B6
+		bra.s	+ ;loc_4F3B6
 ; ---------------------------------------------------------------------------
 
 Offset_ObjectsDuringTransition:
 		lea	(Dynamic_object_RAM+object_size).w,a1
 		moveq	#((Breathing_bubbles)-(Dynamic_object_RAM+object_size))/object_size-1,d2
 
-loc_4F3B6:
+/ ;loc_4F3B6:
 		tst.l	(a1)
-		beq.s	loc_4F3CA
+		beq.s	+ ;loc_4F3CA
 		btst	#2,render_flags(a1)
-		beq.s	loc_4F3CA
+		beq.s	+ ;loc_4F3CA
 		sub.w	d0,x_pos(a1)
 		sub.w	d1,y_pos(a1)
 
-loc_4F3CA:
++ ;loc_4F3CA:
 		lea	next_object(a1),a1
-		dbf	d2,loc_4F3B6
+		dbf	d2,- ;loc_4F3B6
 		rts
 ; End of function Offset_SomeObjectsDuringTransition
 
@@ -2005,23 +2005,23 @@ ShakeScreen_Setup:
 		move.w	(Screen_shake_offset).w,(Screen_shake_last_offset).w
 		moveq	#0,d1
 		cmpi.b	#6,(Player_1+routine).w
-		bhs.s	loc_4F406
+		bhs.s	++ ;loc_4F406
 		move.w	(Screen_shake_flag).w,d0
-		beq.s	loc_4F406
-		bmi.s	loc_4F3FA
+		beq.s	++ ;loc_4F406
+		bmi.s	+ ;loc_4F3FA
 		subq.w	#1,d0					; If EECC is positive, then it's a timed screen shake
 		move.w	d0,(Screen_shake_flag).w
 		move.b	ScreenShakeArray(pc,d0.w),d1
 		ext.w	d1
-		bra.s	loc_4F406
+		bra.s	++ ;loc_4F406
 ; ---------------------------------------------------------------------------
 
-loc_4F3FA:
++ ;loc_4F3FA:
 		move.w	(Level_frame_counter).w,d0		; If EECC is negative, it's a constant screen shake
 		andi.w	#$3F,d0
 		move.b	ScreenShakeArray2(pc,d0.w),d1
 
-loc_4F406:
++ ;loc_4F406:
 		move.w	d1,(Screen_shake_offset).w
 		rts
 ; End of function ShakeScreen_Setup
@@ -2101,9 +2101,9 @@ Clear_Switches:
 		lea	(Level_trigger_array).w,a1
 		moveq	#bytesToLcnt($20),d0
 
-.loop:
+- ;.loop:
 		clr.l	(a1)+
-		dbf	d0,.loop
+		dbf	d0,- ;.loop
 		rts
 ; End of function Clear_Switches
 
@@ -2124,46 +2124,46 @@ AIZ1_ScreenEvent:
 		cmpi.w	#$39,d0
 		bhs.w	AIZ1SE_ChangeChunk1
 		cmpi.w	#$34,d0
-		blo.s	loc_4F93C
+		blo.s	+ ;loc_4F93C
 		bsr.w	AIZ1SE_ChangeChunk2
-		bra.s	loc_4F952
+		bra.s	+++ ;loc_4F952
 ; ---------------------------------------------------------------------------
 
-loc_4F93C:
++ ;loc_4F93C:
 		cmpi.w	#$24,d0
-		blo.s	loc_4F948
+		blo.s	+ ;loc_4F948
 		bsr.w	AIZ1SE_ChangeChunk3
-		bra.s	loc_4F952
+		bra.s	++ ;loc_4F952
 ; ---------------------------------------------------------------------------
 
-loc_4F948:
++ ;loc_4F948:
 		cmpi.w	#$14,d0
-		blo.s	loc_4F952
+		blo.s	+ ;loc_4F952
 		bsr.w	AIZ1SE_ChangeChunk4
 
 
-loc_4F952:
++ ;loc_4F952:
 		lea	(AIZ_TreeRevealArray).l,a6
 		btst	#0,d0
-		bne.s	loc_4F962
+		bne.s	+ ;loc_4F962
 		lea	$10(a6),a6
 
-loc_4F962:
++ ;loc_4F962:
 		subq.w	#1,d0
 		lsr.w	#1,d0
 		move.w	d0,(Events_bg+$00).w
 		cmpi.w	#3,d0
-		blo.s	loc_4F976
+		blo.s	+ ;loc_4F976
 		move.w	#2,(Events_bg+$00).w
 
-loc_4F976:
++ ;loc_4F976:
 		lsl.w	#4,d0
 		neg.w	d0
 		addi.w	#$470,d0
 
 loc_4F97E:
 		cmp.w	(Camera_Y_pos_rounded).w,d0
-		bhs.s	loc_4F994
+		bhs.s	+ ;loc_4F994
 		lea	$20(a6),a6
 		addi.w	#$10,d0
 		subq.w	#1,(Events_bg+$00).w
@@ -2171,7 +2171,7 @@ loc_4F97E:
 		bra.s	AIZ1SE_ChangeChunk1
 ; ---------------------------------------------------------------------------
 
-loc_4F994:
++ ;loc_4F994:
 		move.w	#$2C80,d1
 		moveq	#$10,d6
 		move.l	a0,-(sp)
@@ -2234,24 +2234,24 @@ AIZ1SE_ChangeChunk4:
 
 Obj_AIZ1TreeRevealControl:
 		tst.w	$2E(a0)
-		beq.s	loc_4FA1E
+		beq.s	+ ;loc_4FA1E
 		tst.w	(Events_fg_4).w
-		bne.s	loc_4FA1E
+		bne.s	+ ;loc_4FA1E
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_4FA1E:
++ ;loc_4FA1E:
 		subq.w	#1,$2E(a0)
 		move.w	#$480,d0
 		sub.w	(Player_1+y_pos).w,d0
 		lsr.w	#3,d0
 		addq.w	#3,d0
 		cmp.w	(Events_fg_4).w,d0
-		bhs.s	loc_4FA3C
+		bhs.s	+ ;loc_4FA3C
 		btst	#0,$2F(a0)
 		beq.s	locret_4FA40
 
-loc_4FA3C:
++ ;loc_4FA3C:
 		addq.w	#1,(Events_fg_4).w
 
 locret_4FA40:
@@ -2276,25 +2276,25 @@ Adjust_AIZ1Chunks2:
 		move.l	(a5)+,(a1)+
 		move.l	(a5),(a1)
 		lea	($FF4C70).l,a1
-		bsr.s	sub_4FAD8
+		bsr.s	+ ;sub_4FAD8
 		lea	($FF4CF0).l,a1
-		bsr.s	sub_4FAD8
+		bsr.s	+ ;sub_4FAD8
 		lea	($FF4D70).l,a1
-		bsr.s	sub_4FAD8
+		bsr.s	+ ;sub_4FAD8
 		lea	($FF52F0).l,a1
-		bsr.s	sub_4FAD8
+		bsr.s	+ ;sub_4FAD8
 		lea	($FF4980).l,a1
-		bsr.s	sub_4FAD8
+		bsr.s	+ ;sub_4FAD8
 		lea	($FF4D80).l,a1
-		bsr.s	sub_4FAD8
+		bsr.s	+ ;sub_4FAD8
 		lea	($FF3420).l,a1
-		bsr.s	sub_4FAD8
+		bsr.s	+ ;sub_4FAD8
 		move.w	#$402,(a1)+
 		moveq	#6-1,d1
-		bsr.s	sub_4FADA
+		bsr.s	++ ;sub_4FADA
 		move.w	#2,(a1)
 		lea	($FF3FA0).l,a1
-		bsr.s	sub_4FAD8
+		bsr.s	+ ;sub_4FAD8
 		addq.w	#4,a1
 		move.w	#$C,(a1)+
 		move.w	#$406,(a1)+
@@ -2304,19 +2304,19 @@ Adjust_AIZ1Chunks2:
 		lea	($FF5820).l,a1
 		move.w	#$40B,(a1)+
 		moveq	#6-1,d1
-		bsr.s	sub_4FADA
+		bsr.s	++ ;sub_4FADA
 		addq.w	#6,a1
 		move.w	#$C,(a1)+
 		move.w	#$406,(a1)+
 		moveq	#2-1,d1
-		bra.s	sub_4FADA
+		bra.s	++ ;sub_4FADA
 ; End of function Adjust_AIZ1Chunks2
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_4FAD8:
++ ;sub_4FAD8:
 		moveq	#8-1,d1
 ; End of function sub_4FAD8
 
@@ -2324,12 +2324,12 @@ sub_4FAD8:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_4FADA:
++ ;sub_4FADA:
 		moveq	#$4B,d0
 
-loc_4FADC:
+- ;loc_4FADC:
 		move.w	d0,(a1)+
-		dbf	d1,loc_4FADC
+		dbf	d1,- ;loc_4FADC
 		rts
 ; End of function sub_4FADA
 
@@ -2342,13 +2342,13 @@ word_4FAEA:
 
 AIZ1_BackgroundInit:
 		cmpi.w	#$1300,(Camera_X_pos).w
-		bhs.s	loc_4FB1C
+		bhs.s	+ ;loc_4FB1C
 		lea	(HScroll_table).w,a1			; Intro deformation
 		moveq	#bytesToLcnt($28),d0
 
-loc_4FAFA:
+- ;loc_4FAFA:
 		clr.l	(a1)+
-		dbf	d0,loc_4FAFA
+		dbf	d0,- ;loc_4FAFA
 		jsr	(AIZ1_IntroDeform).l
 		jsr	Reset_TileOffsetPositionEff(pc)
 		jsr	Refresh_PlaneFull(pc)
@@ -2357,7 +2357,7 @@ loc_4FAFA:
 		jmp	ApplyDeformation(pc)
 ; ---------------------------------------------------------------------------
 
-loc_4FB1C:
++ ;loc_4FB1C:
 		move.w	#8,(Events_routine_bg).w			; If not in the intro
 		jsr	(AIZ1_Deform).l
 		jsr	Reset_TileOffsetPositionEff(pc)
@@ -2390,9 +2390,9 @@ AIZ1_BackgroundEvent:
 
 AIZ1BGE_Intro:
 		tst.w	(Events_fg_5).w
-		beq.s	loc_4FBA4
+		beq.s	+ ;loc_4FBA4
 		tst.w	(Kos_decomp_queue_count).w
-		bne.w	loc_4FBA4
+		bne.w	+ ;loc_4FBA4
 		clr.w	(Events_fg_5).w
 		jsr	(AIZ1_Deform).l							; Set up normal deformation when intro is over
 		jsr	Reset_TileOffsetPositionEff(pc)
@@ -2403,10 +2403,10 @@ AIZ1BGE_Intro:
 		move.w	d0,(Draw_delayed_position).w
 		move.w	#$F,(Draw_delayed_rowcount).w
 		addq.w	#4,(Events_routine_bg).w				; Next routine
-		bra.s	loc_4FBD0
+		bra.s	++ ;loc_4FBD0
 ; ---------------------------------------------------------------------------
 
-loc_4FBA4:
++ ;loc_4FBA4:
 		jsr	(AIZ1_IntroDeform).l
 		lea	(AIZ1_IntroDrawArray).l,a4
 		lea	(HScroll_table).w,a5
@@ -2421,14 +2421,14 @@ loc_4FBA4:
 AIZ1BGE_NormalRefresh:
 		jsr	(AIZ1_Deform).l
 
-loc_4FBD0:
++ ;loc_4FBD0:
 		lea	(AIZ1_BGDrawArray).l,a4
 		lea	(HScroll_table-$04).w,a5
 		move.w	(Camera_Y_pos_BG_copy).w,d1
 		jsr	Draw_PlaneVertBottomUpComplex(pc)
-		bpl.s	loc_4FBF6
+		bpl.s	+ ;loc_4FBF6
 		addq.w	#4,(Events_routine_bg).w
-		bra.s	loc_4FBF6
+		bra.s	+ ;loc_4FBF6
 ; ---------------------------------------------------------------------------
 
 AIZ1BGE_Normal:
@@ -2436,7 +2436,7 @@ AIZ1BGE_Normal:
 		bne.s	AIZ1_AIZ2_Transition		; Wait for signal to start level transition
 		jsr	(AIZ1_Deform).l
 
-loc_4FBF6:
++ ;loc_4FBF6:
 		lea	(AIZ1_BGDrawArray).l,a4
 		lea	(HScroll_table).w,a5
 		moveq	#$20,d6
@@ -2459,9 +2459,9 @@ AIZ1_AIZ2_Transition:
 
 AIZ1BGE_FireTransition:
 		tst.w	(Events_bg+$02).w
-		bne.s	loc_4FC6E
+		bne.s	+ ;loc_4FC6E
 		cmpi.b	#6,(Player_1+routine).w
-		bhs.s	loc_4FC74
+		bhs.s	++ ;loc_4FC74
 		move.w	(Events_bg+$00).w,d0
 		swap	d0
 		clr.w	d0
@@ -2469,19 +2469,19 @@ AIZ1BGE_FireTransition:
 		asr.l	#5,d0
 		add.l	d0,(Camera_Y_pos_BG_copy).w
 		cmpi.l	#$1400,d0
-		bhs.s	loc_4FC74
+		bhs.s	++ ;loc_4FC74
 
-loc_4FC6E:
++ ;loc_4FC6E:
 		jsr	(AIZ1_FireRise).l
 
-loc_4FC74:
++ ;loc_4FC74:
 		lea	(Camera_Y_pos_BG_copy).w,a6
 		lea	(Camera_Y_pos_BG_rounded).w,a5
 		move.w	#$1000,d1
 		moveq	#$20,d6
 		jsr	Draw_TileRow(pc)
 		cmpi.w	#$190,(Camera_Y_pos_BG_copy).w
-		blo.w	loc_4FD22
+		blo.w	++ ;loc_4FD22
 		movem.l	d7-a0/a2-a3,-(sp)
 		lea	(AIZ2_128x128_Kos).l,a1
 		lea	(RAM_start).l,a2
@@ -2502,19 +2502,19 @@ loc_4FC74:
 		jsr	(Load_PLC_Raw).l
 		movem.l	(sp)+,d7-a0/a2-a3
 		jsr	(AllocateObject).l
-		bne.s	loc_4FD10
+		bne.s	+ ;loc_4FD10
 		move.l	#Obj_AIZTransitionFloor,(a1)
 		move.w	#$2FB0,x_pos(a1)
 		move.w	#$3A0,y_pos(a1)
 
-loc_4FD10:
++ ;loc_4FD10:
 		move.w	#$F0,(Draw_delayed_position).w
 		move.w	#$F,(Draw_delayed_rowcount).w
 		addq.w	#4,(Events_routine_bg).w
-		bra.s	loc_4FD32
+		bra.s	++ ;loc_4FD32
 ; ---------------------------------------------------------------------------
 
-loc_4FD22:
++ ;loc_4FD22:
 		jsr	(AIZTrans_WavyFlame).l
 		jmp	PlainDeformation(pc)
 ; ---------------------------------------------------------------------------
@@ -2522,20 +2522,20 @@ loc_4FD22:
 AIZ1BGE_FireRefresh:
 		jsr	(AIZ1_FireRise).l
 
-loc_4FD32:
++ ;loc_4FD32:
 		lea	(Level_layout_main).w,a3
 		move.w	#VRAM_Plane_A_Name_Table,d7
 		move.w	#$180,d1
 		moveq	#0,d2
 		jsr	Draw_PlaneVertBottomUp(pc)	; Refresh main plane
-		bpl.s	loc_4FD52
+		bpl.s	+ ;loc_4FD52
 		addq.w	#2,a3
 		move.w	#VRAM_Plane_B_Name_Table,d7
 		addq.w	#4,(Events_routine_bg).w
-		bra.s	loc_4FD62
+		bra.s	++ ;loc_4FD62
 ; ---------------------------------------------------------------------------
 
-loc_4FD52:
++ ;loc_4FD52:
 		jsr	(AIZTrans_WavyFlame).l
 		jmp	PlainDeformation(pc)
 ; ---------------------------------------------------------------------------
@@ -2543,9 +2543,9 @@ loc_4FD52:
 AIZ1BGE_Finish:
 		jsr	(AIZ1_FireRise).l
 
-loc_4FD62:
++ ;loc_4FD62:
 		tst.b	(Kos_modules_left).w
-		bne.w	loc_4FE2E		; Wait for the art to be loaded
+		bne.w	+ ;loc_4FE2E		; Wait for the art to be loaded
 		move.w	#1,(Current_zone_and_act).w	; Officially change this to act 2
 		clr.b	(Dynamic_resize_routine).w
 		clr.b	(Object_load_routine).w
@@ -2590,18 +2590,18 @@ loc_4FD62:
 		move.w	#$F,(Draw_delayed_rowcount).w
 		clr.w	(Events_routine_bg).w
 
-loc_4FE2E:
++ ;loc_4FE2E:
 		jsr	(AIZTrans_WavyFlame).l
 		jmp	PlainDeformation(pc)
 ; ---------------------------------------------------------------------------
 
 Obj_AIZTransitionFloor:
 		tst.b	(Current_act).w
-		beq.s	loc_4FE4A
+		beq.s	+ ;loc_4FE4A
 		move.w	#$7FFF,x_pos(a0)
 		move.l	#Delete_Current_Sprite,(a0)
 
-loc_4FE4A:
++ ;loc_4FE4A:
 		move.b	#$10,height_pixels(a0)
 		bset	#7,status(a0)
 		move.w	#$A0,d1
@@ -2615,7 +2615,7 @@ loc_4FE4A:
 
 Adjust_AIZ2Layout:
 		cmpi.w	#3,(Player_mode).w
-		bne.s	loc_4FECC
+		bne.s	+ ;loc_4FECC
 		move.w	#$5B,($FF1020).l		; Only do this if playing as Knuckles
 		lea	($FF3420).l,a1
 		moveq	#8-1,d1
@@ -2642,16 +2642,16 @@ Adjust_AIZ2Layout:
 		move.w	#$5B,(a1)+
 		move.w	#$5B,(a1)
 
-loc_4FECC:
++ ;loc_4FECC:
 		movea.w	(Level_layout_main+$0C).w,a1
 		movea.w	(Level_layout_main+$40).w,a5
 		move.b	$7F(a1),$63(a5)
 		movea.w	(Level_layout_main+$0A).w,a1
 		movea.w	(Level_layout_main+$1E).w,a5
-		bsr.s	sub_4FEF6
+		bsr.s	+ ;sub_4FEF6
 		movea.w	(Level_layout_main+$0E).w,a1
 		movea.w	(Level_layout_main+$22).w,a5
-		bsr.s	sub_4FEF6
+		bsr.s	+ ;sub_4FEF6
 		movea.w	(Level_layout_main+$12).w,a1
 		movea.w	(Level_layout_main+$26).w,a5
 ; End of function Adjust_AIZ2Layout
@@ -2660,12 +2660,12 @@ loc_4FECC:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_4FEF6:
++ ;sub_4FEF6:
 		moveq	#4-1,d0
 
-.loop:
+- ;.loop:
 		move.b	(a1)+,(a5)+
-		dbf	d0,.loop
+		dbf	d0,- ;.loop
 		rts
 ; End of function sub_4FEF6
 
@@ -2676,9 +2676,9 @@ sub_4FEF6:
 sub_4FF00:
 		moveq	#$5B,d0
 
-.loop:
+- ;.loop:
 		move.w	d0,(a1)+
-		dbf	d1,.loop
+		dbf	d1,- ;.loop
 		rts
 ; End of function sub_4FF00
 
@@ -2740,10 +2740,10 @@ AIZ2SE_ShipRefresh:
 		move.w	d0,(_unkEE9C).w
 		move.w	d0,(_unkEEA2).w		; Set up secondary BG camera Y
 		jsr	(AllocateObject).l
-		bne.s	loc_4FFBA
+		bne.s	+ ;loc_4FFBA
 		move.l	#Obj_AIZBattleship,(a1)	; Start battleship sequence
 
-loc_4FFBA:
++ ;loc_4FFBA:
 		st	(Events_bg+$04).w
 		move.l	#HInt6,(H_int_addr).w	; HInt is needed to change Y scroll value to proper amount mid-draw
 		clr.b	(Water_flag).w
@@ -2752,7 +2752,7 @@ loc_4FFBA:
 
 AIZ2SE_ShipDraw:
 		tst.w	(Events_fg_4).w
-		bne.s	loc_50008				; Branch when battleship has gone off-screen
+		bne.s	+ ;loc_50008				; Branch when battleship has gone off-screen
 		lea	AIZ2SE_BGShipDrawArray2(pc),a4
 		lea	(HScroll_table+$1F4).w,a6
 		move.w	(_unkEE98).w,(a6)
@@ -2769,7 +2769,7 @@ loc_4FFF0:
 		jmp	Draw_BGNoVert(pc)
 ; ---------------------------------------------------------------------------
 
-loc_50008:
++ ;loc_50008:
 		clr.w	(Events_fg_4).w
 		move.w	#$170,(Draw_delayed_position).w
 		move.w	#4,(Draw_delayed_rowcount).w		;Set redraw memory
@@ -2813,11 +2813,11 @@ AIZ2_BackgroundInit:
 		move.w	(Camera_X_pos_copy).w,(Events_fg_1).w
 		move.w	#$C,(Events_routine_bg).w
 		cmpi.w	#$3E80,(Camera_X_pos).w
-		blo.s	loc_500A0
+		blo.s	+ ;loc_500A0
 		move.w	#$14,(Events_routine_bg).w
 		move.w	#$4440,(Events_bg+$02).w
 
-loc_500A0:
++ ;loc_500A0:
 		jsr	(AIZ2_Deform).l
 		jsr	Reset_TileOffsetPositionEff(pc)
 		moveq	#0,d1
@@ -2855,13 +2855,13 @@ AIZ2BGE_FireRedraw:
 		move.w	(Camera_X_pos_copy).w,d1
 		move.w	(Camera_Y_pos_copy).w,d2
 		jsr	Draw_PlaneVertBottomUp(pc)
-		bmi.s	loc_50110
+		bmi.s	+ ;loc_50110
 		jsr	(AIZ1_FireRise).l
 		jsr	(AIZTrans_WavyFlame).l
 		jmp	PlainDeformation(pc)
 ; ---------------------------------------------------------------------------
 
-loc_50110:
++ ;loc_50110:
 		addq.w	#2,a3
 		move.w	#VRAM_Plane_B_Name_Table,d7
 		clr.w	(Events_bg+$00).w
@@ -2871,19 +2871,19 @@ AIZ2BGE_WaitFire:
 		jsr	(AIZ1_FireRise).l
 		jsr	(AIZTrans_WavyFlame).l
 		tst.w	(Events_bg+$00).w
-		bne.s	loc_50160
+		bne.s	+++ ;loc_50160
 		move.w	(Camera_Y_pos_BG_copy).w,d0
 		andi.w	#$7F,d0
 		cmpi.w	#$20,d0
-		blo.s	loc_50144
+		blo.s	+ ;loc_50144
 		cmpi.w	#$30,d0
-		blo.s	loc_50148
+		blo.s	++ ;loc_50148
 
-loc_50144:
++ ;loc_50144:
 		jmp	PlainDeformation(pc)
 ; ---------------------------------------------------------------------------
 
-loc_50148:
++ ;loc_50148:
 		addi.w	#$180,d0
 		move.w	d0,(Camera_Y_pos_BG_copy).w
 		and.w	(Camera_Y_pos_mask).w,d0
@@ -2891,14 +2891,14 @@ loc_50148:
 		move.w	d0,(Camera_Y_pos_BG_rounded).w
 		st	(Events_bg+$00).w
 
-loc_50160:
++ ;loc_50160:
 		lea	(Camera_Y_pos_BG_copy).w,a6
 		lea	(Camera_Y_pos_BG_rounded).w,a5
 		move.w	#$200,d1
 		moveq	#$20,d6
 		jsr	Draw_TileRow(pc)
 		cmpi.w	#$310,(Camera_Y_pos_BG_copy).w
-		blo.s	loc_501D6			; If fire hasn't subsided, branch
+		blo.s	+ ;loc_501D6			; If fire hasn't subsided, branch
 		movem.l	d7-a0/a2-a3,-(sp)
 		moveq	#$C,d0
 		jsr	(Load_PLC).l
@@ -2918,17 +2918,17 @@ loc_50160:
 		move.w	#$F,(Draw_delayed_rowcount).w		; Set up redraw count
 		move.w	#$C,(Special_V_int_routine).w
 		addq.w	#4,(Events_routine_bg).w
-		bra.s	loc_50204
+		bra.s	++ ;loc_50204
 ; ---------------------------------------------------------------------------
 
-loc_501D6:
++ ;loc_501D6:
 		jsr	(AIZ2_ApplyDeform).l
 		lea	(H_scroll_buffer+2).w,a1
 		move.w	(Camera_X_pos_BG_copy).w,d0	; Cancel out background deformation since we're still in the open field
 		neg.w	d0
 		moveq	#$38-1,d1
 
-loc_501E8:
+- ;loc_501E8:
 		move.w	d0,(a1)
 		addq.w	#4,a1
 		move.w	d0,(a1)
@@ -2937,33 +2937,33 @@ loc_501E8:
 		addq.w	#4,a1
 		move.w	d0,(a1)
 		addq.w	#4,a1
-		dbf	d1,loc_501E8
+		dbf	d1,- ;loc_501E8
 		rts
 ; ---------------------------------------------------------------------------
 
 AIZ2BGE_BGRedraw:
 		jsr	(AIZ2_Deform).l
 
-loc_50204:
++ ;loc_50204:
 		moveq	#0,d1
 		move.w	(Camera_Y_pos_BG_copy).w,d2
 		jsr	Draw_PlaneVertBottomUp(pc)
-		bpl.s	loc_50260
+		bpl.s	++ ;loc_50260
 		addq.w	#4,(Events_routine_bg).w
-		bra.s	loc_50260
+		bra.s	++ ;loc_50260
 ; ---------------------------------------------------------------------------
 
 AIZ2BGE_Normal:
 		jsr	(AIZ2_Deform).l
 		tst.w	(Events_fg_5).w
-		beq.s	loc_50260
+		beq.s	++ ;loc_50260
 		clr.w	(Events_fg_5).w
 		move.w	#$A8,d0
 		cmpi.w	#$400,(Camera_Y_pos).w
-		blo.s	loc_50236
+		blo.s	+ ;loc_50236
 		move.w	#-$198,d0
 
-loc_50236:
++ ;loc_50236:
 		move.w	d0,(Events_bg+$16).w
 		add.w	d0,(Camera_Y_pos_BG_copy).w
 		jsr	Reset_TileOffsetPositionEff(pc)
@@ -2973,10 +2973,10 @@ loc_50236:
 		move.w	#$F,(Draw_delayed_rowcount).w
 		move.w	#$4440,(Events_bg+$02).w
 		addq.w	#4,(Events_routine_bg).w
-		bra.s	loc_50280
+		bra.s	++ ;loc_50280
 ; ---------------------------------------------------------------------------
 
-loc_50260:
++ ;loc_50260:
 		lea	(Camera_Y_pos_BG_copy).w,a6
 		lea	(Camera_Y_pos_BG_rounded).w,a5
 		moveq	#0,d1
@@ -2989,19 +2989,19 @@ loc_50260:
 AIZ2BGE_ShipRefresh:
 		jsr	(AIZ2_Deform).l
 
-loc_50280:
++ ;loc_50280:
 		moveq	#0,d1
 		move.w	(Camera_Y_pos_BG_copy).w,d2
 		jsr	Draw_PlaneVertBottomUp(pc)
-		bpl.s	loc_50298
+		bpl.s	+ ;loc_50298
 		addq.w	#4,(Events_routine_bg).w
-		bra.s	loc_50298
+		bra.s	+ ;loc_50298
 ; ---------------------------------------------------------------------------
 
 AIZ2BGE_ShipMove:
 		jsr	(AIZ2_Deform).l
 
-loc_50298:
++ ;loc_50298:
 		lea	(Camera_Y_pos_BG_copy).w,a6
 		lea	(Camera_Y_pos_BG_rounded).w,a5
 		moveq	#0,d1
@@ -3009,12 +3009,12 @@ loc_50298:
 		jsr	Draw_TileRow(pc)
 		jsr	(AIZ2_ApplyDeform).l
 		tst.w	(Events_bg+$04).w
-		beq.s	loc_502C2
+		beq.s	+ ;loc_502C2
 		move.w	(_unkEE9C).w,(V_scroll_value).w		; Use effective camera position rather than actual camera position
 		move.w	(Camera_Y_pos_BG_copy).w,(V_scroll_value_BG).w
 		addq.w	#4,sp		; Skip last part of ScreenEvents
 
-loc_502C2:
++ ;loc_502C2:
 		jmp	ShakeScreen_Setup(pc)
 ; ---------------------------------------------------------------------------
 
@@ -3023,7 +3023,7 @@ AIZ2_DoShipLoop:
 		move.w	(Camera_X_pos).w,d0
 		addq.w	#4,d0
 		cmp.w	(Events_bg+$02).w,d0
-		blo.s	loc_502FA
+		blo.s	+ ;loc_502FA
 		move.w	#$200,d1			; Do loop
 		move.w	d1,(Level_repeat_offset).w
 		sub.w	d1,(Player_1+x_pos).w
@@ -3035,35 +3035,35 @@ AIZ2_DoShipLoop:
 		move.w	d1,(Camera_X_pos_rounded).w
 		move.w	d1,(HScroll_table+$1FE).w
 
-loc_502FA:
++ ;loc_502FA:
 		move.w	d0,(Camera_X_pos).w
 		move.w	d0,(Camera_X_pos_copy).w
 		move.w	d0,(Camera_min_X_pos).w
 		move.w	d0,(Camera_max_X_pos).w	; Set all the camera/start positions
 		move.w	d0,d1
 		lea	(Player_1).w,a1
-		bsr.s	sub_50318
+		bsr.s	+ ;sub_50318
 		move.w	d1,d0
 		lea	(Player_2).w,a1
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_50318:
++ ;sub_50318:
 		cmpi.b	#5,anim(a1)
-		bne.s	loc_50324
+		bne.s	+ ;loc_50324
 		clr.b	anim(a1)				; If Sonic is standing, set him to the running animation
 
-loc_50324:
++ ;loc_50324:
 		addi.w	#$18,d0
 		cmp.w	x_pos(a1),d0
-		bls.s	loc_5033A
+		bls.s	+ ;loc_5033A
 		move.w	d0,x_pos(a1)			; Make sure Sonic stays on-screen
 		move.w	#$400,ground_vel(a1)		; Set his running velocity to $400 if the left of screen is hit
 		bra.s	locret_50348
 ; ---------------------------------------------------------------------------
 
-loc_5033A:
++ ;loc_5033A:
 		addi.w	#$88,d0
 		cmp.w	x_pos(a1),d0
 		bhi.s	locret_50348
@@ -3082,28 +3082,28 @@ Obj_AIZBattleship:
 		move.w	#$3FBC,d1
 		moveq	#2-1,d2
 
-loc_50364:
+- ;loc_50364:
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.s	loc_5037E
+		bne.s	+ ;loc_5037E
 		move.l	#Obj_BattleshipPropeller,(a1)	; Create two propellers, one at the front and one in the back
 		move.w	d1,$2E(a1)
 		move.w	#$3DCC,d1
-		dbf	d2,loc_50364
+		dbf	d2,- ;loc_50364
 
-loc_5037E:
++ ;loc_5037E:
 		lea	(Normal_palette_line_2).w,a1
 		lea	(Pal_AIZBattleship).l,a5
 		moveq	#bytesToLcnt($20),d0
 
-loc_5038A:
+- ;loc_5038A:
 		move.l	(a5)+,(a1)+
-		dbf	d0,loc_5038A
+		dbf	d0,- ;loc_5038A
 
 Obj_AIZBattleshipMain:
 		subi.l	#$8800,(_unkEE98).w
 		move.w	(_unkEE98).w,d0
 		cmpi.w	#$3CDC,d0
-		bpl.s	loc_503BC
+		bpl.s	+ ;loc_503BC
 		move.l	#Obj_AIZ2BossSmall,(a0)
 		st	(Events_fg_4).w				; Set for the next screen event
 		jsr	(AllocateObjectAfterCurrent).l
@@ -3114,18 +3114,18 @@ locret_503BA:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_503BC:
++ ;loc_503BC:
 		move.w	d0,d1
 		subi.w	#$3D5C,d0
-		bpl.s	loc_503D2
+		bpl.s	+ ;loc_503D2
 		neg.w	d0					; Move upwards as the battleship goes offscreen
 		asr.w	#1,d0
 		add.w	(_unkEEA2).w,d0
 		move.w	d0,(_unkEE9C).w
-		bra.s	loc_503EA
+		bra.s	++ ;loc_503EA
 ; ---------------------------------------------------------------------------
 
-loc_503D2:
++ ;loc_503D2:
 		asr.w	#2,d1			; Continue bobbing up and down
 		andi.w	#$F,d1
 		lea	(AIZBattleShip_BobbingMotion).l,a1
@@ -3133,15 +3133,15 @@ loc_503D2:
 		add.w	(_unkEEA2).w,d1
 		move.w	d1,(_unkEE9C).w	; Get the bobbing motion delta, apply it to the second camera Y
 
-loc_503EA:
++ ;loc_503EA:
 		move.w	(Level_frame_counter).w,d0
 		subq.w	#1,d0
 		andi.w	#$F,d0
-		bne.s	loc_503FE
+		bne.s	+ ;loc_503FE
 		moveq	#signextendB(sfx_LargeShip),d0			; Replay the battleship flying sound every 16th frame
 		jsr	(Play_SFX).l
 
-loc_503FE:
++ ;loc_503FE:
 		subq.w	#1,$32(a0)			; Wait for delay to finish
 		bcc.s	locret_50424
 		movea.l	$2E(a0),a2
@@ -3169,11 +3169,11 @@ Obj_BattleshipPropeller:
 
 Obj_BattleshipPropellerMain:
 		cmpi.w	#$C,(Events_routine_fg).w
-		bne.s	loc_50466
+		bne.s	+ ;loc_50466
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_50466:
++ ;loc_50466:
 		lea	(Ani_AIZShipPropeller).l,a1
 		jsr	(Animate_Sprite).l
 		jsr	Translate_Camera2ObjPosition(pc)
@@ -3208,19 +3208,19 @@ Obj_AIZShipBomb:
 AIZShipBomb_ReadyDrop:
 		addq.w	#2,$30(a0)
 		cmpi.w	#$A80,$30(a0)		; Put bomb into position before delay
-		blo.s	loc_504EE
+		blo.s	+ ;loc_504EE
 		addq.b	#4,routine(a0)
-		bra.s	loc_504EE
+		bra.s	+ ;loc_504EE
 ; ---------------------------------------------------------------------------
 
 AIZShipBomb_Delay:
 		subq.w	#1,$32(a0)
-		bne.s	loc_504EE
+		bne.s	+ ;loc_504EE
 		addq.b	#4,routine(a0)
 		moveq	#signextendB(sfx_MissileThrow),d0
 		jsr	(Play_SFX).l		; Play the drop sound after the delay
 
-loc_504EE:
++ ;loc_504EE:
 		jsr	Translate_Camera2ObjPosition(pc)
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
@@ -3240,11 +3240,11 @@ AIZShipBomb_Drop:
 		moveq	#signextendB(sfx_MissileExplode),d0
 		jsr	(Play_SFX).l		; Play the bomb explosion sound
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.s	loc_50572
+		bne.s	+ ;loc_50572
 		lea	(AIZBombExplodeDat).l,a2
 		moveq	#8-1,d1
 
-loc_50542:
+- ;loc_50542:
 		move.l	#Obj_AIZBombExplosion,(a1)
 		move.w	x_pos(a0),x_pos(a1)
 		move.w	y_pos(a0),y_pos(a1)
@@ -3255,9 +3255,9 @@ loc_50542:
 		move.w	(a2)+,anim(a1)
 		move.w	(a2)+,$2E(a1)
 		jsr	(CreateNewSprite4).l
-		dbne	d1,loc_50542
+		dbne	d1,- ;loc_50542
 
-loc_50572:
++ ;loc_50572:
 		move.l	#Delete_Current_Sprite,(a0)		; Delete the bomb sprite
 
 locret_50578:
@@ -3288,50 +3288,50 @@ Obj_AIZBombExplosion:
 		move.w	(Level_repeat_offset).w,d0
 		sub.w	d0,x_pos(a0)
 		subq.w	#1,$2E(a0)
-		bmi.s	loc_505B4
+		bmi.s	+ ;loc_505B4
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_505B4:
++ ;loc_505B4:
 		move.l	#Obj_AIZBombExplosionAnim,(a0)
 		move.b	#4,render_flags(a0)
 		move.b	#$20,width_pixels(a0)
 		move.w	#make_art_tile($500,0,0),art_tile(a0)
 		move.l	#Map_AIZ2BombExplode,mappings(a0)
 		move.b	#$8B,collision_flags(a0)
-		bra.s	loc_505E4
+		bra.s	+ ;loc_505E4
 ; ---------------------------------------------------------------------------
 
 Obj_AIZBombExplosionAnim:
 		move.w	(Level_repeat_offset).w,d0
 		sub.w	d0,x_pos(a0)
 
-loc_505E4:
++ ;loc_505E4:
 		lea	(Ani_AIZ2BombExplode).l,a1
 		jsr	(Animate_SpriteIrregularDelay).l
 		tst.b	routine(a0)
-		beq.s	loc_505FC
+		beq.s	+ ;loc_505FC
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_505FC:
++ ;loc_505FC:
 		moveq	#4,d0
 		add.b	anim(a0),d0
 		cmp.b	mapping_frame(a0),d0
-		bls.s	loc_5060E
+		bls.s	+ ;loc_5060E
 		jsr	(Add_SpriteToCollisionResponseList).l
 
-loc_5060E:
++ ;loc_5060E:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
 Obj_AIZ2MakeTree:
 		cmpi.w	#$44D0,(Camera_X_pos).w
-		bhs.s	loc_5061E
+		bhs.s	+ ;loc_5061E
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_5061E:
++ ;loc_5061E:
 		move.l	#loc_50632,(a0)
 		move.w	(Events_fg_1).w,$2E(a0)
 		move.l	#AIZMakeTreeScript,$30(a0)
@@ -3339,11 +3339,11 @@ loc_5061E:
 loc_50632:
 		movea.l	$30(a0),a2
 		tst.w	(a2)
-		bpl.s	loc_50640
+		bpl.s	+ ;loc_50640
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_50640:
++ ;loc_50640:
 		move.w	(Events_fg_1).w,d0
 		sub.w	$2E(a0),d0
 		cmp.w	(a2)+,d0
@@ -3368,11 +3368,11 @@ Obj_AIZ2BGTree:
 
 Obj_AIZ2BGTreeMove:
 		cmpi.w	#$4880,(Camera_X_pos).w
-		blo.s	loc_50698
+		blo.s	+ ;loc_50698
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_50698:
++ ;loc_50698:
 		move.w	(Events_fg_1).w,d0
 		sub.w	$30(a0),d0
 		move.w	d0,d1
@@ -3403,20 +3403,20 @@ Obj_AIZ2BossSmall:
 		lea	(Pal_AIZBossSmall).l,a5
 		moveq	#bytesToLcnt($1C),d0
 
-loc_506FA:
+- ;loc_506FA:
 		move.l	(a5)+,(a1)+
-		dbf	d0,loc_506FA
+		dbf	d0,- ;loc_506FA
 
 Obj_AIZ2BossSmallMain:
 		tst.b	$2E(a0)
-		bne.s	loc_50712
+		bne.s	+ ;loc_50712
 		cmpi.w	#$4670,(Camera_X_pos).w
 		blo.s	locret_5077C
 		st	$2E(a0)
 
-loc_50712:
++ ;loc_50712:
 		cmpi.w	#$240,x_pos(a0)
-		blo.s	loc_50732
+		blo.s	+ ;loc_50732
 		clr.b	(Scroll_lock).w
 		clr.w	(Special_events_routine).w
 		clr.w	(Level_repeat_offset).w			; Stop repeating scrolling section
@@ -3424,23 +3424,23 @@ loc_50712:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_50732:
++ ;loc_50732:
 		move.l	x_pos(a0),d0
 		move.l	x_vel(a0),d1		; Move Robotnik
 		add.l	d1,d0
 		move.l	d0,x_pos(a0)
 		tst.b	$2F(a0)
-		bne.s	loc_50758
+		bne.s	+ ;loc_50758
 		subi.l	#$E80,d1		; Phase 1: Slow down until moving slightly to the left
 		cmpi.l	#-$10000,d1
 		sle	$2F(a0)
-		bra.s	loc_5075E
+		bra.s	++ ;loc_5075E
 ; ---------------------------------------------------------------------------
 
-loc_50758:
++ ;loc_50758:
 		addi.l	#$E80,d1		; Phase 2: Speed up till moving off screen
 
-loc_5075E:
++ ;loc_5075E:
 		move.l	d1,x_vel(a0)
 		jsr	(Draw_Sprite).l
 		move.w	(Level_frame_counter).w,d0
@@ -3506,15 +3506,15 @@ HCZ1_BackgroundInit:
 		jsr	Refresh_PlaneFull(pc)
 		moveq	#$60,d0
 		cmp.w	(Events_bg+$10).w,d0
-		blt.s	loc_50BAC
+		blt.s	+ ;loc_50BAC
 		neg.w	d0
 		cmp.w	(Events_bg+$10).w,d0
-		bgt.s	loc_50BB0
+		bgt.s	++ ;loc_50BB0
 
-loc_50BAC:
++ ;loc_50BAC:
 		move.w	d0,(Events_bg+$10).w		; Cap dynamic art reloading value at $60 either way
 
-loc_50BB0:
++ ;loc_50BB0:
 		lea	(HCZ1_BGDeformArray).l,a4
 		lea	(HScroll_table).w,a5
 		jmp	ApplyDeformation(pc)
@@ -3533,7 +3533,7 @@ HCZ1_BackgroundEvent:
 
 HCZ1BGE_Normal:
 		tst.w	(Events_fg_5).w
-		beq.s	loc_50C2A
+		beq.s	+ ;loc_50C2A
 		clr.w	(Events_fg_5).w				; Do transition
 		movem.l	d7-a0/a2-a3,-(sp)
 		lea	(HCZ2_128x128_Secondary_Kos).l,a1
@@ -3553,7 +3553,7 @@ HCZ1BGE_Normal:
 		st	(Events_bg+$16).w
 		addq.w	#4,(Events_routine_bg).w
 
-loc_50C2A:
++ ;loc_50C2A:
 		jsr	HCZ1_Deform(pc)
 		lea	(Camera_Y_pos_BG_copy).w,a6
 		lea	(Camera_Y_pos_BG_rounded).w,a5
@@ -3567,7 +3567,7 @@ loc_50C2A:
 
 HCZ1BGE_DoTransition:
 		tst.b	(Kos_modules_left).w
-		bne.w	loc_50CDC			; Don't do anything else until Kos queue has been cleared
+		bne.w	+ ;loc_50CDC			; Don't do anything else until Kos queue has been cleared
 		move.w	#$101,(Current_zone_and_act).w	; Change the act
 		clr.b	(Dynamic_resize_routine).w		; Reload resize routine counter
 		clr.b	(Object_load_routine).w		; Reload sprite manager
@@ -3600,7 +3600,7 @@ HCZ1BGE_DoTransition:
 		jsr	Reset_TileOffsetPositionActual(pc)
 		clr.w	(Events_routine_bg).w
 
-loc_50CDC:
++ ;loc_50CDC:
 		jsr	HCZ1_Deform(pc)
 		lea	(Camera_Y_pos_BG_copy).w,a6
 		lea	(Camera_Y_pos_BG_rounded).w,a5
@@ -3634,10 +3634,10 @@ HCZ1_Deform:
 		asr.l	#7,d3
 		moveq	#$30-1,d4
 		cmpi.w	#-$60,d2
-		bgt.s	loc_50D52
+		bgt.s	+ ;loc_50D52
 		lea	(HScroll_table+$01A).w,a1	; If background is high enough that water line doesn't have to be messed with, just apply the standard formation to it
 
-loc_50D3A:
+- ;loc_50D3A:
 		swap	d1
 		move.w	d1,(a1)+
 		swap	d1
@@ -3646,14 +3646,14 @@ loc_50D3A:
 		move.w	d1,(a1)+
 		swap	d1
 		sub.l	d3,d1
-		dbf	d4,loc_50D3A
+		dbf	d4,- ;loc_50D3A
 		bra.w	loc_50DDA		; Then finish it up
 ; ---------------------------------------------------------------------------
 
-loc_50D52:
++ ;loc_50D52:
 		lea	(HScroll_table+$19A).w,a1
 
-loc_50D56:
+- ;loc_50D56:
 		swap	d1				; If background camera is lower, then apply water line deformation backwards
 		move.w	d1,-(a1)
 		swap	d1
@@ -3662,14 +3662,14 @@ loc_50D56:
 		move.w	d1,-(a1)
 		swap	d1
 		sub.l	d3,d1
-		dbf	d4,loc_50D56
+		dbf	d4,- ;loc_50D56
 		cmpi.w	#$60,d2
 		bge.s	loc_50DDA		; If background camera is low enough that water line doesn't need to be messed with, then end it.
 		lea	(HScroll_table+$0DA).w,a1	; Otherwise, the fun begins
 		lea	(a1),a5
 		lea	(HCZ_WaterlineScroll_Data).l,a6
 		move.w	d2,d1
-		bmi.s	loc_50DAE
+		bmi.s	++ ;loc_50DAE
 		move.w	d1,d3			; If waterline is displayed below water level
 		neg.w	d3
 		addi.w	#$60,d3
@@ -3680,22 +3680,22 @@ loc_50D56:
 		subq.w	#1,d1
 		moveq	#0,d3
 		lsr.w	#1,d1
-		bcc.s	loc_50DA0
+		bcc.s	+ ;loc_50DA0
 
-loc_50D98:
+- ;loc_50D98:
 		move.b	(a6)+,d3
 		add.w	d3,d3
 		move.w	(a5,d3.w),(a1)+
 
-loc_50DA0:
++ ;loc_50DA0:
 		move.b	(a6)+,d3
 		add.w	d3,d3
 		move.w	(a5,d3.w),(a1)+	; Apply scroll data
-		dbf	d1,loc_50D98
+		dbf	d1,- ;loc_50D98
 		bra.s	loc_50DDA
 ; ---------------------------------------------------------------------------
 
-loc_50DAE:
++ ;loc_50DAE:
 		move.w	d1,d3			; If waterline is displayed above water level
 		addi.w	#$60,d3
 		lsl.w	#5,d3
@@ -3706,18 +3706,18 @@ loc_50DAE:
 		subq.w	#1,d1
 		moveq	#0,d3
 		lsr.w	#1,d1
-		bcc.s	loc_50DCE
+		bcc.s	+ ;loc_50DCE
 
-loc_50DC6:
+- ;loc_50DC6:
 		move.b	(a6)+,d3
 		add.w	d3,d3
 		move.w	(a5,d3.w),-(a1)
 
-loc_50DCE:
++ ;loc_50DCE:
 		move.b	(a6)+,d3
 		add.w	d3,d3
 		move.w	(a5,d3.w),-(a1)	; Apply scroll data
-		dbf	d1,loc_50DC6
+		dbf	d1,- ;loc_50DC6
 
 loc_50DDA:
 		move.l	d0,d1			; Get BG X again
@@ -3760,41 +3760,41 @@ loc_50DDA:
 		move.w	d0,$19A(a1)
 		move.w	d0,d4
 		tst.w	d2
-		bpl.s	loc_50E68
+		bpl.s	+ ;loc_50E68
 		lea	(HScroll_table+$0DA).w,a1	; Water line above water
 		moveq	#$30-1,d0
 
-loc_50E4E:
+- ;loc_50E4E:
 		move.w	d4,(a1)+
 		move.w	d4,(a1)+
-		dbf	d0,loc_50E4E
+		dbf	d0,- ;loc_50E4E
 		moveq	#$60-1,d0
 		add.w	d2,d0
 		bmi.s	locret_50E86
 		lea	(HScroll_table+$01A).w,a1
 
-loc_50E60:
+- ;loc_50E60:
 		move.w	d3,(a1)+
-		dbf	d0,loc_50E60
+		dbf	d0,- ;loc_50E60
 		bra.s	locret_50E86
 ; ---------------------------------------------------------------------------
 
-loc_50E68:
++ ;loc_50E68:
 		lea	(HScroll_table+$01A).w,a1	; Water line below water
 		moveq	#$30-1,d0
 
-loc_50E6E:
+- ;loc_50E6E:
 		move.w	d3,(a1)+
 		move.w	d3,(a1)+
-		dbf	d0,loc_50E6E
+		dbf	d0,- ;loc_50E6E
 		moveq	#$60-1,d0
 		sub.w	d2,d0
 		bmi.s	locret_50E86
 		lea	(HScroll_table+$19A).w,a1
 
-loc_50E80:
+- ;loc_50E80:
 		move.w	d4,-(a1)
-		dbf	d0,loc_50E80
+		dbf	d0,- ;loc_50E80
 
 locret_50E86:
 		rts
@@ -3815,22 +3815,22 @@ HCZ2_ScreenEvent:
 
 HCZ2_BackgroundInit:
 		cmpi.w	#$C00,(Camera_X_pos).w
-		bhs.s	loc_50ED0
+		bhs.s	++ ;loc_50ED0
 		cmpi.w	#$500,(Camera_Y_pos).w
-		blo.s	loc_50ED0
+		blo.s	++ ;loc_50ED0
 		move.w	#4,(Events_routine_bg).w	; Special deformation occurs when camera X is less than $C00 and
 		jsr	(AllocateObject).l		; camera Y is greater than $500
-		bne.s	loc_50EC0
+		bne.s	+ ;loc_50EC0
 		move.l	#Obj_HCZ2Wall,(a1)
 
-loc_50EC0:
++ ;loc_50EC0:
 		jsr	HCZ2_WallMove(pc)
 		jsr	Reset_TileOffsetPositionEff(pc)
 		jsr	Refresh_PlaneFull(pc)
 		jmp	PlainDeformation(pc)
 ; ---------------------------------------------------------------------------
 
-loc_50ED0:
++ ;loc_50ED0:
 		move.w	#$10,(Events_routine_bg).w			; Normal deformation
 		jsr	HCZ2_Deform(pc)
 		jsr	Reset_TileOffsetPositionEff(pc)
@@ -3860,15 +3860,15 @@ HCZ2_BackgroundEvent:
 
 HCZ2BGE_WallMoveInit:
 		jsr	(AllocateObject).l
-		bne.s	loc_50F1C
+		bne.s	+ ;loc_50F1C
 		move.l	#Obj_HCZ2Wall,(a1)
 
-loc_50F1C:
++ ;loc_50F1C:
 		addq.w	#4,(Events_routine_bg).w
 
 HCZ2BGE_WallMove:
 		tst.w	(Events_fg_5).w
-		bne.s	loc_50F64
+		bne.s	+ ;loc_50F64
 		jsr	HCZ2_WallMove(pc)
 		jsr	DrawBGAsYouMove(pc)
 		jsr	PlainDeformation(pc)
@@ -3891,13 +3891,13 @@ locret_50F62:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_50F64:
++ ;loc_50F64:
 		clr.w	(Events_fg_5).w
 		tst.w	(Screen_shake_flag).w
-		bpl.s	loc_50F72
+		bpl.s	+ ;loc_50F72
 		clr.w	(Screen_shake_flag).w		; Disable screen shaking if still constant
 
-loc_50F72:
++ ;loc_50F72:
 		clr.b	(Background_collision_flag).w
 		move.w	#$F0,(Draw_delayed_position).w
 		move.w	#$F,(Draw_delayed_rowcount).w
@@ -3915,25 +3915,25 @@ HCZ2BGE_NormalTransition:
 		move.w	d0,(Draw_delayed_position).w
 		move.w	#$F,(Draw_delayed_rowcount).w
 		addq.w	#4,(Events_routine_bg).w
-		bra.s	loc_50FB8
+		bra.s	+ ;loc_50FB8
 ; ---------------------------------------------------------------------------
 
 HCZ2BGE_NormalRefresh:
 		jsr	HCZ2_Deform(pc)
 
-loc_50FB8:
++ ;loc_50FB8:
 		moveq	#0,d1
 		move.w	(Camera_Y_pos_BG_copy).w,d2
 		jsr	Draw_PlaneVertBottomUp(pc)
-		bpl.s	loc_50FCE
+		bpl.s	+ ;loc_50FCE
 		addq.w	#4,(Events_routine_bg).w
-		bra.s	loc_50FCE
+		bra.s	+ ;loc_50FCE
 ; ---------------------------------------------------------------------------
 
 HCZ2BGE_Normal:
 		jsr	HCZ2_Deform(pc)
 
-loc_50FCE:
++ ;loc_50FCE:
 		lea	(Camera_Y_pos_BG_copy).w,a6
 		lea	(Camera_Y_pos_BG_rounded).w,a5
 		moveq	#0,d1
@@ -3952,14 +3952,14 @@ HCZ2_WallMove:
 		bhs.s	loc_51052			; If player is dead, don't bother
 		move.l	#$E000,d0
 		cmpi.w	#$A88,(Player_1+x_pos).w
-		blo.s	loc_5100C
+		blo.s	+ ;loc_5100C
 		move.l	#$14000,d0			; Speed up if player has passed the end already
 
-loc_5100C:
++ ;loc_5100C:
 		move.w	(Events_bg+$00).w,d1
-		beq.s	loc_5102E
+		beq.s	+ ;loc_5102E
 		cmpi.w	#-$600,d1
-		bgt.s	loc_5103A
+		bgt.s	++ ;loc_5103A
 		tst.w	(Screen_shake_flag).w		; When wall has travelled $600 pixels
 		bpl.s	loc_51052
 		move.w	#$E,(Screen_shake_flag).w	; Set screen shake to timed
@@ -3968,12 +3968,12 @@ loc_5100C:
 		bra.s	loc_51052
 ; ---------------------------------------------------------------------------
 
-loc_5102E:
++ ;loc_5102E:
 		cmpi.w	#$680,(Player_1+x_pos).w
 		blo.s	loc_51052			; If wall hasn't started moving and player hasn't moved far enough, end.
 		st	(Screen_shake_flag).w			; Begin constant screen shake movement
 
-loc_5103A:
++ ;loc_5103A:
 		sub.l	d0,(Events_bg+$00).w	; Subtract speed from BG X offset
 		move.w	(Level_frame_counter).w,d0
 		subq.w	#1,d0
@@ -4016,20 +4016,20 @@ HCZ2_Deform:
 
 loc_5109C:
 		move.b	(a5)+,d3
-		bmi.s	loc_510B4
+		bmi.s	+ ;loc_510B4
 		ext.w	d3
 		swap	d0
 
-loc_510A4:
+- ;loc_510A4:
 		move.b	(a5)+,d2
 		move.w	d0,(a1,d2.w)
-		dbf	d3,loc_510A4
+		dbf	d3,- ;loc_510A4
 		swap	d0
 		sub.l	d1,d0
 		bra.s	loc_5109C
 ; ---------------------------------------------------------------------------
 
-loc_510B4:
++ ;loc_510B4:
 		move.w	$12(a1),d0
 		sub.w	$A(a1),d0
 		move.w	d0,(Events_bg+$10).w
@@ -4046,11 +4046,11 @@ loc_510B4:
 
 Obj_HCZ2Wall:
 		cmpi.w	#4,(Events_routine_bg).w
-		beq.s	loc_510E8
+		beq.s	+ ;loc_510E8
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_510E8:
++ ;loc_510E8:
 		move.w	(Events_bg+$00).w,d4
 		neg.w	d4
 		addi.w	#$5BE,d4
@@ -4100,7 +4100,7 @@ MGZ1_BackgroundEvent:
 
 MGZ1BGE_Normal:
 		tst.w	(Events_fg_5).w
-		beq.s	loc_511B0
+		beq.s	+ ;loc_511B0
 		clr.w	(Events_fg_5).w			; Transition time
 		movem.l	d7-a0/a2-a3,-(sp)
 		lea	(MGZ2_128x128_Secondary_Kos).l,a1
@@ -4117,7 +4117,7 @@ MGZ1BGE_Normal:
 		movem.l	(sp)+,d7-a0/a2-a3
 		addq.w	#4,(Events_routine_bg).w
 
-loc_511B0:
++ ;loc_511B0:
 		jsr	(MGZ1_Deform).l					; Pretty self-explanatory to be honest
 		lea	(MGZ1_BGDeformArray).l,a4
 		lea	(HScroll_table).w,a5
@@ -4127,7 +4127,7 @@ loc_511B0:
 
 MGZ1BGE_Transition:
 		tst.b	(Kos_modules_left).w
-		bne.w	loc_51268				; Wait for Kos queue to finish
+		bne.w	+ ;loc_51268				; Wait for Kos queue to finish
 		move.w	#$201,(Current_zone_and_act).w		; Change act
 		clr.b	(Dynamic_resize_routine).w
 		clr.b	(Object_load_routine).w
@@ -4165,7 +4165,7 @@ MGZ1BGE_Transition:
 		clr.w	(Events_fg_2).w
 		clr.w	(Events_routine_bg).w		; Clear flags/values used for BG stuff in act 2
 
-loc_51268:
++ ;loc_51268:
 		jsr	(MGZ1_Deform).l
 		lea	(MGZ1_BGDeformArray).l,a4
 		lea	(HScroll_table).w,a5
@@ -4207,16 +4207,16 @@ MGZ2_ScreenEvent:
 		move.w	(Screen_shake_offset).w,d0
 		add.w	d0,(Camera_Y_pos_copy).w
 		tst.w	(Events_fg_0).w
-		beq.s	loc_512D0
+		beq.s	+ ;loc_512D0
 		st	(Screen_shake_flag).w		; Turn continuous shaking on
 
-loc_512D0:
++ ;loc_512D0:
 		jsr	Do_ShakeSound(pc)
 		move.w	(Events_routine_fg).w,d0
-		jmp	MGZ2_ScreenEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-MGZ2_ScreenEvent_Index:
+.Index:
 		bra.w	MGZ2SE_Normal
 ; ---------------------------------------------------------------------------
 		bra.w	MGZ2SE_Collapse
@@ -4226,13 +4226,13 @@ MGZ2_ScreenEvent_Index:
 
 MGZ2SE_Normal:
 		tst.w	(Events_fg_4).w
-		bne.s	loc_512FA
+		bne.s	+ ;loc_512FA
 		jsr	MGZ2_QuakeEvent(pc)
 		jsr	MGZ2_ChunkEvent(pc)
 		jmp	DrawTilesAsYouMove(pc)
 ; ---------------------------------------------------------------------------
 
-loc_512FA:
++ ;loc_512FA:
 		clr.w	(Events_fg_4).w		; Clear background event
 		st	(Events_bg+$16).w
 		move.w	#$14,(Screen_shake_flag).w
@@ -4241,11 +4241,11 @@ loc_512FA:
 MGZ2SE_Collapse:
 		jsr	MGZ2_LevelCollapse(pc)
 		tst.w	(Screen_shake_flag).w
-		bmi.s	loc_5131A
+		bmi.s	+ ;loc_5131A
 		jmp	DrawTilesAsYouMove(pc)
 ; ---------------------------------------------------------------------------
 
-loc_5131A:
++ ;loc_5131A:
 		lea	(MGZ2_FGVScrollArray).l,a4
 		lea	(HScroll_table+$100).w,a5
 		moveq	#$F,d6
@@ -4256,11 +4256,11 @@ loc_5131A:
 MGZ2SE_MoveBG:
 		move.l	(Events_bg+$08).w,d0
 		cmpi.l	#$50000,d0
-		bhs.s	loc_51342
+		bhs.s	+ ;loc_51342
 		addi.l	#$800,d0
 		move.l	d0,(Events_bg+$08).w
 
-loc_51342:
++ ;loc_51342:
 		swap	d0
 		add.w	d0,(Events_bg+$0C).w	; Apply a movement offset for the BG scrolling during the boss
 		jmp	DrawTilesAsYouMove(pc)
@@ -4272,7 +4272,7 @@ MGZ2_LevelCollapse:
 		cmpi.b	#6,(Player_1+routine).w
 		bhs.w	locret_514A8		; If dying, don't do anything else
 		tst.w	(Screen_shake_flag).w
-		bmi.w	loc_5140C			; If shaking continuously, branch
+		bmi.w	++ ;loc_5140C			; If shaking continuously, branch
 		bne.w	locret_514A8
 		movea.w	$38(a3),a1			; Get chunk line at $700 Y
 		lea	$79(a1),a1			; Get chunk at $3C80
@@ -4280,12 +4280,12 @@ MGZ2_LevelCollapse:
 		subq.w	#3,d0
 		moveq	#3-1,d1
 
-loc_51372:
+- ;loc_51372:
 		clr.b	(a1)+
 		clr.b	(a1)+
 		clr.b	(a1)+				; Clear the three main chunks on three lines that comprise the boss battle
 		adda.w	d0,a1
-		dbf	d1,loc_51372
+		dbf	d1,- ;loc_51372
 		lea	(HScroll_table+$102).w,a1
 		lea	(HScroll_table+$13C).w,a5
 		lea	$28(a5),a6
@@ -4293,27 +4293,27 @@ loc_51372:
 		and.w	(Camera_Y_pos_mask).w,d0	; AND it to get tile position
 		moveq	#$A-1,d1
 
-loc_51394:
+- ;loc_51394:
 		move.w	d0,(a1)
 		addq.w	#4,a1
 		clr.l	(a5)+
 		clr.l	(a6)+				; Clear scroll values, etc
-		dbf	d1,loc_51394
+		dbf	d1,- ;loc_51394
 		jsr	(AllocateObject).l
-		bne.s	loc_513FA
+		bne.s	+ ;loc_513FA
 		move.w	#$3C90,d1
 		move.l	#$5C00790,d2
 		move.l	#HScroll_table+$13C,d3
 		moveq	#$A-1,d4
 
-loc_513BA:
+- ;loc_513BA:
 		move.l	#Obj_MGZ2LevelCollapseSolid,(a1)		; Create solid objects that Sonic can stand on as the level collapses
 		move.w	d1,x_pos(a1)
 		move.w	d2,$2E(a1)
 		move.l	d3,$30(a1)
 		swap	d2
 		jsr	(CreateNewSprite4).l
-		bne.s	loc_513FA
+		bne.s	+ ;loc_513FA
 		move.l	#Obj_MGZ2LevelCollapseSolid,(a1)
 		move.w	d1,$10(a1)
 		move.w	d2,$2E(a1)
@@ -4322,15 +4322,15 @@ loc_513BA:
 		swap	d2
 		addq.l	#4,d3
 		jsr	(CreateNewSprite4).l
-		dbne	d4,loc_513BA
+		dbne	d4,- ;loc_513BA
 
-loc_513FA:
++ ;loc_513FA:
 		st	(Screen_shake_flag).w		; Turn quake on
 		clr.w	(Events_bg+$06).w
 		st	(_unkEEA2).w			; Turn on special VScroll VInt function
 		move.w	#4,(Special_V_int_routine).w
 
-loc_5140C:
++ ;loc_5140C:
 		lea	(HScroll_table+$100).w,a1
 		lea	$28(a1),a4
 		lea	$14(a4),a5
@@ -4340,35 +4340,35 @@ loc_5140C:
 		moveq	#$A,d1
 		moveq	#$A-1,d2
 
-loc_5142A:
+- ;loc_5142A:
 		cmp.w	(a6)+,d0		; Get scroll delay for each block
-		blo.s	loc_51436
+		blo.s	+ ;loc_51436
 		addi.l	#$500,$64(a1)		; Add $500 to Vscroll velocity for this block when not delayed
 
-loc_51436:
++ ;loc_51436:
 		move.l	$64(a1),d3
 		add.l	d3,(a5)+		; Add velocity to actual VScroll
 		move.w	-4(a5),d3
 		cmpi.w	#$2E0,d3
-		blo.s	loc_5144C
+		blo.s	+ ;loc_5144C
 		move.w	#$2E0,d3		; $2E0 is the maximum scroll
 		subq.w	#1,d1			; When maximum scroll is reached, lower amount of "active" scrolling lines
 
-loc_5144C:
++ ;loc_5144C:
 		move.w	(Camera_Y_pos_copy).w,d4	; Get BG Y
 		sub.w	d3,d4
 		move.w	d4,(a4)+
 		move.w	d4,(a1)				; Subtract from scroll to get... something
 		addq.w	#4,a1
-		dbf	d2,loc_5142A			; Repeat until all scrolling parts are off-screen
+		dbf	d2,- ;loc_5142A			; Repeat until all scrolling parts are off-screen
 		move.w	(Level_frame_counter).w,d0
 		subq.w	#1,d0
 		andi.w	#$F,d0
-		bne.s	loc_51470
+		bne.s	+ ;loc_51470
 		moveq	#signextendB(sfx_BigRumble),d0	; Play collapsing sound every 16 frames
 		jsr	(Play_SFX).l
 
-loc_51470:
++ ;loc_51470:
 		tst.w	d1
 		bne.s	locret_514A8			; If scrolling chunks still remain, do nothing
 		movea.w	$2C(a3),a1			; Get chunk line at $580 Y
@@ -4377,12 +4377,12 @@ loc_51470:
 		subq.w	#3,d0
 		moveq	#2,d1
 
-loc_51484:
+- ;loc_51484:
 		clr.b	(a1)+
 		clr.b	(a1)+
 		clr.b	(a1)+
 		adda.w	d0,a1
-		dbf	d1,loc_51484
+		dbf	d1,- ;loc_51484
 		clr.w	(Screen_shake_flag).w		; Stop quaking
 		clr.l	(Events_bg+$08).w		; Stop special tile drawing
 		move.w	(Camera_X_pos_copy).w,(Events_bg+$0C).w
@@ -4399,35 +4399,35 @@ locret_514A8:
 
 MGZ2_QuakeEvent:
 		tst.w	(Events_fg_2).w
-		beq.s	loc_514D8
-		bpl.s	loc_514BE
+		beq.s	+++ ;loc_514D8
+		bpl.s	+ ;loc_514BE
 		tst.l	(Nem_decomp_queue).w
-		bne.s	loc_514D8
+		bne.s	+++ ;loc_514D8
 		move.w	#$FF,(Events_fg_2).w
 
-loc_514BE:
++ ;loc_514BE:
 		move.w	(Camera_min_Y_pos).w,d0
-		beq.s	loc_514D8
+		beq.s	++ ;loc_514D8
 		cmpi.w	#$1E0,d0
-		beq.s	loc_514D8
+		beq.s	++ ;loc_514D8
 		subq.w	#2,d0
-		bcc.s	loc_514D4
+		bcc.s	+ ;loc_514D4
 		moveq	#0,d0
 		move.w	d0,(Events_fg_2).w
 
-loc_514D4:
++ ;loc_514D4:
 		move.w	d0,(Camera_min_Y_pos).w
 
-loc_514D8:
++ ;loc_514D8:
 		move.w	(Player_1+x_pos).w,d0
 		move.w	(Player_1+y_pos).w,d1
 		move.w	(Events_bg+$10).w,d2
-		jmp	MGZ2_QuakeEvent_Index(pc,d2.w)
+		jmp	.Index(pc,d2.w)
 ; End of function MGZ2_QuakeEvent
 
 ; ---------------------------------------------------------------------------
 
-MGZ2_QuakeEvent_Index:
+.Index:
 		bra.w	MGZ2_QuakeEventCheck
 ; ---------------------------------------------------------------------------
 		bra.w	MGZ2_QuakeEvent1
@@ -4449,38 +4449,38 @@ MGZ2_QuakeEventCheck:
 		moveq	#4,d2
 		moveq	#2,d3
 
-loc_51512:
+- ;loc_51512:
 		tst.b	(a5)
-		bne.s	loc_51552
+		bne.s	++ ;loc_51552
 		cmp.w	(a1),d0
-		blo.s	loc_51552
+		blo.s	++ ;loc_51552
 		cmp.w	2(a1),d0
-		bhs.s	loc_51552
+		bhs.s	++ ;loc_51552
 		cmp.w	4(a1),d1
-		blo.s	loc_51552
+		blo.s	++ ;loc_51552
 		cmp.w	6(a1),d1
-		bhs.s	loc_51552
+		bhs.s	++ ;loc_51552
 		move.w	d2,(Events_bg+$10).w
 		move.w	8(a1),d0
 		move.w	d0,(Camera_max_Y_pos).w
 		move.w	d0,(Camera_target_max_Y_pos).w
 		move.w	$A(a1),d0
 		cmpi.w	#4,d2
-		bne.s	loc_5154C
+		bne.s	+ ;loc_5154C
 		move.w	d0,(Camera_max_X_pos).w	; First earthquake event near start of level makes you go right
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_5154C:
++ ;loc_5154C:
 		move.w	d0,(Camera_min_X_pos).w	; The other two make you go left
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_51552:
++ ;loc_51552:
 		lea	$C(a1),a1
 		addq.w	#1,a5
 		addq.w	#4,d2
-		dbf	d3,loc_51512
+		dbf	d3,- ;loc_51512
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -4507,21 +4507,21 @@ locret_515A2:
 
 MGZ2_QuakeEvent2:
 		cmpi.w	#$3200,d0
-		blo.s	loc_515B4
+		blo.s	+ ;loc_515B4
 		move.w	#$1DF,(Camera_min_Y_pos).w	; If player retreats, reset level height
 		bra.w	loc_51656
 ; ---------------------------------------------------------------------------
 
-loc_515B4:
++ ;loc_515B4:
 		move.w	(Camera_max_Y_pos).w,d1
 		cmp.w	(Camera_Y_pos).w,d1
-		bne.s	loc_515CC
+		bne.s	+ ;loc_515CC
 		cmp.w	(Camera_min_Y_pos).w,d1
-		beq.s	loc_515CC
+		beq.s	+ ;loc_515CC
 		move.w	d1,(Camera_min_Y_pos).w	; Adjust level height during this event
 		st	(Events_fg_2+1).w
 
-loc_515CC:
++ ;loc_515CC:
 		move.w	(Camera_min_X_pos).w,d0	; If camera X hasn't reached level X start, branch
 		cmp.w	(Camera_X_pos).w,d0
 		blo.s	locret_5160C
@@ -4575,7 +4575,7 @@ loc_51656:
 
 MGZ2_QuakeEvent1Cont:
 		cmpi.w	#$980,(Player_1+x_pos).w
-		bhs.s	loc_516A2			; Reset level Y end when Sonic has travelled past $980 X
+		bhs.s	+ ;loc_516A2			; Reset level Y end when Sonic has travelled past $980 X
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -4586,7 +4586,7 @@ MGZ2_QuakeEvent2Cont:
 		blo.s	locret_51696
 		move.w	#$6000,d0
 		move.w	d0,(Camera_max_X_pos).w
-		bra.s	loc_516A2
+		bra.s	+ ;loc_516A2
 ; ---------------------------------------------------------------------------
 
 locret_51696:
@@ -4595,11 +4595,11 @@ locret_51696:
 
 MGZ2_QuakeEvent3Cont:
 		cmpi.w	#$3200,(Player_1+x_pos).w
-		blo.s	loc_516A2
+		blo.s	+ ;loc_516A2
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_516A2:
++ ;loc_516A2:
 		move.w	#$1000,d0
 		move.w	d0,(Camera_max_Y_pos).w
 		move.w	d0,(Camera_target_max_Y_pos).w
@@ -4637,28 +4637,28 @@ MGZ2_ChunkEventCheck:
 		moveq	#4,d2
 		moveq	#3-1,d3
 
-loc_516E4:
+- ;loc_516E4:
 		cmp.w	(a1),d0
-		blo.s	loc_51706
+		blo.s	+ ;loc_51706
 		cmp.w	2(a1),d0
-		bhs.s	loc_51706
+		bhs.s	+ ;loc_51706
 		cmp.w	4(a1),d1
-		blo.s	loc_51706
+		blo.s	+ ;loc_51706
 		cmp.w	6(a1),d1
-		bhs.s	loc_51706
+		bhs.s	+ ;loc_51706
 		cmpi.w	#4,d2
-		bne.s	loc_51712
+		bne.s	++ ;loc_51712
 		tst.w	(Screen_shake_flag).w
-		bmi.s	loc_51712		; Only perform the first layout shift event if screen is continually shaking
+		bmi.s	++ ;loc_51712		; Only perform the first layout shift event if screen is continually shaking
 
-loc_51706:
++ ;loc_51706:
 		lea	$C(a1),a1
 		addq.w	#4,d2
-		dbf	d3,loc_516E4
+		dbf	d3,- ;loc_516E4
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_51712:
++ ;loc_51712:
 		move.w	d2,(Events_bg+$04).w
 		clr.w	(Events_bg+$06).w
 		clr.w	(Events_bg+$08).w
@@ -4668,7 +4668,7 @@ loc_51712:
 MGZ2_ChunkEvent1:
 		move.w	(Events_bg+$06).w,d0
 		cmpi.w	#$5C,d0
-		blo.s	loc_51762
+		blo.s	+ ;loc_51762
 		clr.w	(Screen_shake_flag).w		; Stop shaking when first chunk event is finished
 		clr.w	(Events_fg_0).w		; Reset quake event
 		clr.w	(Camera_min_X_pos).w		; Reset level height
@@ -4679,14 +4679,14 @@ MGZ2_ChunkEvent1:
 MGZ2_ChunkEvent2_3:
 		move.w	(Events_bg+$06).w,d0
 		cmpi.w	#$5C,d0
-		blo.s	loc_51762
+		blo.s	+ ;loc_51762
 		move.w	#$6000,d0
 		move.w	d0,(Camera_max_X_pos).w	; Reset level end X
 		move.w	#$14,(Events_bg+$04).w
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_51762:
++ ;loc_51762:
 		subq.w	#1,(Events_bg+$08).w
 		bpl.s	locret_517C2
 		move.w	#7-1,(Events_bg+$08).w	; Perform the layout change once every seven frames
@@ -4703,23 +4703,23 @@ loc_51762:
 		add.w	(a1,d2.w),d0		; Calculate the Y position
 		move.w	2(a1,d2.w),d2		; And the number of lines to write
 
-loc_51798:
+- ;loc_51798:
 		move.w	(Camera_Y_pos_copy).w,d3
 		and.w	(Camera_Y_pos_mask).w,d3
 		cmp.w	d3,d0
-		blo.s	loc_517BA
+		blo.s	+ ;loc_517BA
 		addi.w	#$F0,d3
 		cmp.w	d3,d0
-		bhs.s	loc_517BA
+		bhs.s	+ ;loc_517BA
 		move.w	(Events_bg+$0A).w,d1
 		moveq	#8,d6				; Always draw 8 tiles
 		swap	d2
 		jsr	Setup_TileRowDraw(pc)
 		swap	d2
 
-loc_517BA:
++ ;loc_517BA:
 		addi.w	#$10,d0
-		dbf	d2,loc_51798
+		dbf	d2,- ;loc_51798
 
 locret_517C2:
 		rts
@@ -4755,12 +4755,12 @@ sub_517EA:
 		adda.w	(a1,d0.w),a4
 		moveq	#8-1,d1
 
-loc_517F6:
+- ;loc_517F6:
 		move.l	(a4)+,(a5)+
 		move.l	(a4)+,(a5)+
 		move.l	(a4)+,(a5)+
 		move.l	(a4)+,(a5)+
-		dbf	d1,loc_517F6
+		dbf	d1,- ;loc_517F6
 		addq.w	#2,d0
 		move.w	d0,(Events_bg+$06).w
 		rts
@@ -4770,11 +4770,11 @@ loc_517F6:
 
 Obj_MGZ2LevelCollapseSolid:
 		cmpi.w	#8,(Events_routine_fg).w
-		bne.s	loc_51818
+		bne.s	+ ;loc_51818
 		jmp	(Delete_Current_Sprite).l		; Delete control object when next screen event is in effect
 ; ---------------------------------------------------------------------------
 
-loc_51818:
++ ;loc_51818:
 		movea.l	$30(a0),a1		; Get vertical scroll position for this block
 		move.w	$2E(a0),d0		; Get vertical position
 		add.w	(a1),d0			; Add it to scroll value to get final Y position
@@ -4795,31 +4795,31 @@ MGZ2_BackgroundInit:
 		move.w	(Player_1+x_pos).w,d0
 		move.w	(Player_1+y_pos).w,d1
 		cmpi.w	#$500,d1
-		bhs.s	loc_5187E
+		bhs.s	+ ;loc_5187E
 		cmpi.w	#$3800,d0
 		blo.s	loc_518CA
 		move.w	#4,(Events_bg+$00).w	; If player is <$500 Y and >$3800 X (Knuckles area presumably)
 		move.l	#Obj_MGZ2BGMoveKnux,d1
 		cmpi.w	#$3A80,d0
-		blo.s	loc_518C0
+		blo.s	+++ ;loc_518C0
 		move.w	#$220,(Events_bg+$02).w
 		bra.s	loc_518CA
 ; ---------------------------------------------------------------------------
 
-loc_5187E:
++ ;loc_5187E:
 		cmpi.w	#$800,d1
-		blo.s	loc_518A4
+		blo.s	+ ;loc_518A4
 		cmpi.w	#$34C0,d0
 		blo.s	loc_518CA
 		move.w	#8,(Events_bg+$00).w	; If player is >$800 Y and >$34C0 X
 		move.l	#Obj_MGZ2BGMoveSonic,d1
 		cmpi.w	#$3800,d0
-		blo.s	loc_518C0
+		blo.s	++ ;loc_518C0
 		move.w	#$1D0,(Events_bg+$02).w
 		bra.s	loc_518CA
 ; ---------------------------------------------------------------------------
 
-loc_518A4:
++ ;loc_518A4:
 		cmpi.w	#$3900,d0
 		blo.s	loc_518CA
 		move.w	#$C,(Events_bg+$00).w	; If player is >$3900X and inbetween $500 and $800 Y
@@ -4829,7 +4829,7 @@ loc_518A4:
 		bra.s	loc_518CA
 ; ---------------------------------------------------------------------------
 
-loc_518C0:
++ ;loc_518C0:
 		jsr	(AllocateObject).l
 		bne.s	loc_518CA
 		move.l	d1,(a1)
@@ -4864,12 +4864,12 @@ MGZ2BGE_GoRefresh:
 		jsr	MGZ2_ClearBottomBG(pc)
 		clr.l	(HScroll_table).w
 		addq.w	#4,(Events_routine_bg).w
-		bra.s	loc_51968
+		bra.s	+ ;loc_51968
 ; ---------------------------------------------------------------------------
 
 MGZ2BGE_Normal:
 		jsr	MGZ2_BGEventTrigger(pc)
-		bne.s	loc_51968		; If BG event has triggered, go refresh the BG
+		bne.s	+ ;loc_51968		; If BG event has triggered, go refresh the BG
 		jsr	(MGZ2_BGDeform).l
 
 loc_51926:
@@ -4895,7 +4895,7 @@ locret_51966:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_51968:
++ ;loc_51968:
 		jsr	(MGZ2_BGDeform).l
 		jsr	Reset_TileOffsetPositionEff(pc)
 		move.w	d2,(HScroll_table+$006).w
@@ -4904,13 +4904,13 @@ loc_51968:
 		move.w	d0,(Draw_delayed_position).w
 		move.w	#$F,(Draw_delayed_rowcount).w
 		addq.w	#4,(Events_routine_bg).w
-		bra.s	loc_51994
+		bra.s	+ ;loc_51994
 ; ---------------------------------------------------------------------------
 
 MGZ2BGE_Refresh:
 		jsr	(MGZ2_BGDeform).l
 
-loc_51994:
++ ;loc_51994:
 		lea	(MGZ2_BGDrawArray).l,a4
 		lea	(HScroll_table-$04).w,a5
 		move.w	(Camera_Y_pos_BG_copy).w,d1
@@ -4937,11 +4937,11 @@ MGZ2_ClearBottomBG:
 
 MGZ2_BGEventTrigger:
 		tst.w	(_unkEEA2).w
-		beq.s	loc_519CC
+		beq.s	+ ;loc_519CC
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_519CC:
++ ;loc_519CC:
 		move.w	(Player_1+x_pos).w,d0
 		move.w	(Player_1+y_pos).w,d1
 		move.w	(Events_bg+$00).w,d2
@@ -4969,23 +4969,23 @@ MGZ2_BGEventTrigger.Index:
 loc_51A04:
 		st	(Background_collision_flag).w		; Set BG collision on
 		cmpi.w	#$800,d1
-		bhs.s	loc_51A22
+		bhs.s	+ ;loc_51A22
 		cmpi.w	#$3900,d0
 		blo.w	loc_51AB8
 		st	(Events_bg+$0E).w		; If Player < $800 Y and > $3900 X, turn off cloud movement
 		clr.l	(HScroll_table+$038).w
 		moveq	#$C,d0			; Go to after BG Event trigger
-		bra.s	loc_51A34
+		bra.s	++ ;loc_51A34
 ; ---------------------------------------------------------------------------
 
-loc_51A22:
++ ;loc_51A22:
 		cmpi.w	#$900,d1
 		bhs.w	loc_51AB8
 		cmpi.w	#$34C0,d0
 		bhs.w	loc_51AB8		; If player is > $900 Y or > $34C0 X, continue normal deformation
 		moveq	#0,d0
 
-loc_51A34:
++ ;loc_51A34:
 		move.w	d0,(Events_bg+$00).w	; Otherwise, return to normal BG collision trigger
 		moveq	#-1,d0
 		rts
@@ -4994,12 +4994,12 @@ loc_51A34:
 loc_51A3C:
 		st	(Background_collision_flag).w		; Set BG collision on
 		cmpi.w	#$100,d1
-		bhs.s	loc_51A50
+		bhs.s	+ ;loc_51A50
 		cmpi.w	#$3C00,d0
-		blo.s	loc_51A50
+		blo.s	+ ;loc_51A50
 		clr.b	(Background_collision_flag).w	; If Player < $100 Y and > $3C00 X, turn off BG collision
 
-loc_51A50:
++ ;loc_51A50:
 		cmpi.w	#$80,d1
 		blo.s	loc_51AB8
 		cmpi.w	#$180,d1
@@ -5016,15 +5016,15 @@ loc_51A6A:
 		cmpi.w	#$80,d1
 		blo.s	loc_51AB8
 		cmpi.w	#$180,d1
-		bhs.s	loc_51A8A
+		bhs.s	+ ;loc_51A8A
 		cmpi.w	#$3800,d0
 		blo.s	loc_51AB8
 		moveq	#4,d0			; If between $80 and $180 Y and > $3800 X, use first BG move
 		move.l	#Obj_MGZ2BGMoveKnux,d1
-		bra.s	loc_51AA4
+		bra.s	++ ;loc_51AA4
 ; ---------------------------------------------------------------------------
 
-loc_51A8A:
++ ;loc_51A8A:
 		cmpi.w	#$800,d1
 		blo.s	loc_51AB8
 		cmpi.w	#$900,d1
@@ -5034,7 +5034,7 @@ loc_51A8A:
 		moveq	#8,d0			; If between $800 and $900 Y and > $34C0 X, use second BG move
 		move.l	#Obj_MGZ2BGMoveSonic,d1
 
-loc_51AA4:
++ ;loc_51AA4:
 		move.w	d0,(Events_bg+$00).w
 		clr.w	(Events_bg+$02).w
 		jsr	(AllocateObject).l
@@ -5056,7 +5056,7 @@ Obj_MGZ2BGMoveKnux:
 		move.w	#$38A0,d2
 		move.w	#$220,d3
 		move.w	#$6000,d4
-		bra.s	loc_51AE6
+		bra.s	+ ;loc_51AE6
 ; ---------------------------------------------------------------------------
 
 Obj_MGZ2BGMoveSonic:
@@ -5067,13 +5067,13 @@ Obj_MGZ2BGMoveSonic:
 		move.w	#$6000,d4
 		st	$38(a0)
 
-loc_51AE6:
++ ;loc_51AE6:
 		cmp.w	(Events_bg+$00).w,d0
-		beq.s	loc_51AF2
+		beq.s	+ ;loc_51AF2
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_51AF2:
++ ;loc_51AF2:
 		cmp.w	(Player_1+y_pos).w,d1
 		bhs.s	locret_51AFE
 		cmp.w	(Player_1+x_pos).w,d2
@@ -5094,7 +5094,7 @@ loc_51B00:
 loc_51B1C:
 		move.w	(Events_bg+$02).w,d0
 		cmp.w	$2E(a0),d0			; Wait for BG offset to match given value
-		blo.s	loc_51B44
+		blo.s	+ ;loc_51B44
 		moveq	#signextendB(sfx_Crash),d0				; Play final crashing sound
 		jsr	(Play_SFX).l
 		move.w	#$E,(Screen_shake_flag).w	; Do final screen shake
@@ -5103,34 +5103,34 @@ loc_51B1C:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_51B44:
++ ;loc_51B44:
 		move.w	(Player_1+x_pos).w,d2
 		move.w	(Player_1+y_pos).w,d3
 		tst.b	$39(a0)
-		beq.s	loc_51B58
+		beq.s	+ ;loc_51B58
 		move.w	d0,d1
 		addq.w	#1,d1
 		bra.s	loc_51B84
 ; ---------------------------------------------------------------------------
 
-loc_51B58:
++ ;loc_51B58:
 		tst.b	$38(a0)
-		bne.s	loc_51B6C
+		bne.s	+ ;loc_51B6C
 		cmpi.w	#$200,d3
-		bhs.s	loc_51B76
+		bhs.s	+++ ;loc_51B76
 		cmpi.w	#$3CB0,d2
-		blo.s	loc_51B72
-		bra.s	loc_51B76
+		blo.s	++ ;loc_51B72
+		bra.s	+++ ;loc_51B76
 ; ---------------------------------------------------------------------------
 
-loc_51B6C:
++ ;loc_51B6C:
 		cmpi.w	#$3D50,d2	; Second background object check
-		blo.s	loc_51B76
+		blo.s	++ ;loc_51B76
 
-loc_51B72:
++ ;loc_51B72:
 		st	$39(a0)
 
-loc_51B76:
++ ;loc_51B76:
 		move.l	$34(a0),d1
 		add.l	$30(a0),d1
 		move.l	d1,$34(a0)
@@ -5151,12 +5151,12 @@ CNZ1_ScreenInit:
 
 CNZ1_ScreenEvent:
 		tst.w	(Events_bg+$06).w
-		beq.s	loc_51BAA
+		beq.s	+ ;loc_51BAA
 		clr.w	(Events_bg+$06).w
 		jmp	Refresh_PlaneScreenDirect(pc)
 ; ---------------------------------------------------------------------------
 
-loc_51BAA:
++ ;loc_51BAA:
 		jsr	DrawTilesAsYouMove(pc)
 		lea	(Events_bg+$00).w,a5
 		tst.l	(a5)
@@ -5211,11 +5211,11 @@ loc_51BAA:
 		clr.w	(Events_bg+$04).w
 		moveq	#4-1,d3
 
-loc_51C38:
+- ;loc_51C38:
 		lea	(a4),a5
 		moveq	#2,d2
 
-loc_51C3C:
+- ;loc_51C3C:
 		moveq	#-1,d0
 		clr.w	d0
 		move.b	(a5)+,d0
@@ -5230,10 +5230,10 @@ loc_51C3C:
 		bne.s	locret_51C6A
 		tst.l	(a6)
 		bne.s	locret_51C6A
-		dbf	d2,loc_51C3C
+		dbf	d2,- ;loc_51C3C
 		addi.w	#$20,d1			; Basically, if a line of blocks is completely destroyed, the boss is lowered by $20 pixels to compensate.
 		addi.w	#$20,(Events_bg+$04).w
-		dbf	d3,loc_51C38
+		dbf	d3,-- ;loc_51C38
 
 locret_51C6A:
 		rts
@@ -5272,9 +5272,9 @@ CNZ1_BackgroundEvent:
 
 CNZ1BGE_Normal:
 		cmpi.w	#$3000,(Camera_X_pos).w
-		blo.s	loc_51CFA
+		blo.s	++ ;loc_51CFA
 		cmpi.w	#$54C,(Camera_Y_pos).w
-		blo.s	loc_51CD2
+		blo.s	+ ;loc_51CD2
 		move.w	#$700,d0			; This is positional adjustment for Knuckles' path
 		sub.w	d0,(Player_1+y_pos).w
 		sub.w	d0,(Player_2+y_pos).w
@@ -5282,7 +5282,7 @@ CNZ1BGE_Normal:
 		sub.w	d0,(Camera_Y_pos_copy).w
 		jsr	Reset_TileOffsetPositionActual(pc)
 
-loc_51CD2:
++ ;loc_51CD2:
 		jsr	CNZ1_BossLevelScroll(pc)
 		jsr	Reset_TileOffsetPositionEff(pc)
 		lea	(Pal_CNZMiniboss).l,a1
@@ -5291,10 +5291,10 @@ loc_51CD2:
 		move.w	d0,(Camera_min_Y_pos).w	; Change level start Y
 		bset	#7,(Disable_wall_grab).w	; Disable wall grabbing for Knuckles
 		addq.w	#4,(Events_routine_bg).w
-		bra.s	loc_51D26
+		bra.s	++ ;loc_51D26
 ; ---------------------------------------------------------------------------
 
-loc_51CFA:
++ ;loc_51CFA:
 		jsr	CNZ1_Deform(pc)
 		lea	(Camera_Y_pos_BG_copy).w,a6
 		lea	(Camera_Y_pos_BG_rounded).w,a5
@@ -5311,7 +5311,7 @@ CNZ1BGE_BossStart:
 		jsr	CNZ1_ScrollToYStart(pc)
 		jsr	CNZ1_BossLevelScroll(pc)
 
-loc_51D26:
++ ;loc_51D26:
 		jsr	DrawBGAsYouMove(pc)
 		jmp	PlainDeformation(pc)
 ; ---------------------------------------------------------------------------
@@ -5332,14 +5332,14 @@ CNZ1BGE_AfterBoss:
 		move.w	#$1C0,d0
 		jsr	CNZ1_ScrollToYStart(pc)
 		tst.w	(Events_fg_5).w
-		bne.s	loc_51D6E
+		bne.s	+ ;loc_51D6E
 		jsr	CNZ1_BossLevelScroll2(pc)
 		jsr	DrawBGAsYouMove(pc)
 		jsr	PlainDeformation(pc)
 		jmp	Get_BGActualEffectiveDiff(pc)
 ; ---------------------------------------------------------------------------
 
-loc_51D6E:
++ ;loc_51D6E:
 		clr.w	(Events_fg_5).w		; When signalled
 		move.w	#$2F0,(Draw_delayed_position).w	; Set refresh position
 		move.w	#$F,(Draw_delayed_rowcount).w	; Refresh number
@@ -5352,7 +5352,7 @@ CNZ1BGE_FGRefresh:
 		moveq	#0,d1
 		move.w	#$200,d2
 		jsr	Draw_PlaneVertSingleBottomUp(pc)	; Refresh the foreground using BG chunks
-		bmi.s	loc_51DAE
+		bmi.s	+ ;loc_51DAE
 		move.w	#VRAM_Plane_B_Name_Table,d7
 		jsr	CNZ1_BossLevelScroll2(pc)
 		jsr	DrawBGAsYouMove(pc)
@@ -5360,7 +5360,7 @@ CNZ1BGE_FGRefresh:
 		jmp	Get_BGActualEffectiveDiff(pc)
 ; ---------------------------------------------------------------------------
 
-loc_51DAE:
++ ;loc_51DAE:
 		movea.w	$C(a3),a1		; $180 Y of BG
 		addq.w	#4,a1			; $200 X of BG
 		move.w	-8(a3),d0		; Get X size of BG
@@ -5371,7 +5371,7 @@ loc_51DAE:
 		subq.w	#5,d1
 		moveq	#6-1,d2
 
-loc_51DCA:
+- ;loc_51DCA:
 		move.b	(a1)+,(a5)+		; Replace 5x5 portion of Foreground with equivalent from BG. Basically,
 		move.b	(a1)+,(a5)+		; transferring the actual layout to the FG for use with collision.
 		move.b	(a1)+,(a5)+
@@ -5379,7 +5379,7 @@ loc_51DCA:
 		move.b	(a1)+,(a5)+
 		adda.w	d0,a1
 		adda.w	d1,a5
-		dbf	d2,loc_51DCA
+		dbf	d2,- ;loc_51DCA
 		clr.b	(Background_collision_flag).w	; Turn off BG collision
 		clr.w	(Events_bg+$08).w	; Turn off scrolling
 		move.w	#$1C0,d0
@@ -5402,7 +5402,7 @@ CNZ1BGE_FGRefresh2:
 		move.w	(Camera_X_pos_copy).w,d1
 		move.w	(Camera_Y_pos_copy).w,d2
 		jsr	Draw_PlaneVertSingleBottomUp(pc)	; Refresh the FG using FG chunks this time
-		bmi.s	loc_51E42
+		bmi.s	+ ;loc_51E42
 		addq.w	#2,a3
 		move.w	#VRAM_Plane_B_Name_Table,d7
 		jsr	CNZ1_BossLevelScroll2(pc)
@@ -5410,20 +5410,20 @@ CNZ1BGE_FGRefresh2:
 		jmp	PlainDeformation(pc)
 ; ---------------------------------------------------------------------------
 
-loc_51E42:
++ ;loc_51E42:
 		addq.w	#2,a3
 		move.w	#VRAM_Plane_B_Name_Table,d7
 		jsr	(AllocateObject).l
-		bne.s	loc_51E5C
+		bne.s	+ ;loc_51E5C
 		move.l	#Obj_EndSign,(a1)
 		move.w	#$32C0,x_pos(a1)			; Set up the end sign
 
-loc_51E5C:
++ ;loc_51E5C:
 		addq.w	#4,(Events_routine_bg).w
 
 CNZ1BGE_DoTransition:
 		tst.w	(Events_fg_5).w
-		beq.w	loc_51F28				; Don't do anything until signpost lands
+		beq.w	++ ;loc_51F28				; Don't do anything until signpost lands
 		clr.w	(Events_fg_5).w
 		movem.l	d7-a0/a2-a3,-(sp)
 		moveq	#$18,d0
@@ -5441,10 +5441,10 @@ CNZ1BGE_DoTransition:
 		jsr	(LoadSolids).l
 		jsr	(CheckLevelForWater).l		; Level stuff, etc etc
 		cmpi.w	#3,(Player_mode).w
-		beq.s	loc_51EC0
+		beq.s	+ ;loc_51EC0
 		move.w	#$8014,(VDP_control_port).l		; Turn HInt on for water only if not playing as Knuckles
 
-loc_51EC0:
++ ;loc_51EC0:
 		moveq	#$11,d0
 		jsr	(LoadPalette_Immediate).l	; Load CNZ palette
 		movem.l	(sp)+,d7-a0/a2-a3
@@ -5470,7 +5470,7 @@ loc_51EC0:
 		move.w	#$F,(Draw_delayed_rowcount).w
 		clr.w	(Events_routine_bg).w
 
-loc_51F28:
++ ;loc_51F28:
 		jsr	CNZ1_BossLevelScroll2(pc)
 		jsr	DrawBGAsYouMove(pc)
 		jmp	PlainDeformation(pc)
@@ -5590,19 +5590,19 @@ Obj_CNZMinibossScrollInit:
 
 Obj_CNZMinibossScrollMain:
 		tst.w	(Events_fg_5).w
-		bne.s	loc_52042
+		bne.s	++ ;loc_52042
 		move.l	(Events_bg+$0C).w,d0	; Speed up scroll
 		cmpi.l	#$40000,d0
-		bhs.s	loc_5203C
+		bhs.s	+ ;loc_5203C
 		addi.l	#$200,d0
 		move.l	d0,(Events_bg+$0C).w
 
-loc_5203C:
++ ;loc_5203C:
 		add.l	d0,(Events_bg+$08).w	; Set BG scrolling speed
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_52042:
++ ;loc_52042:
 		clr.w	(Events_fg_5).w		; When boss is completed
 		addq.b	#4,routine(a0)
 
@@ -5610,39 +5610,39 @@ Obj_CNZMinibossScrollWait:
 		move.w	(Events_bg+$08).w,d0
 		andi.w	#$FF,d0
 		cmpi.w	#4,d0
-		blo.s	loc_52062			; Wait until the offset is a multiple of $100
+		blo.s	+ ;loc_52062			; Wait until the offset is a multiple of $100
 		move.l	(Events_bg+$0C).w,d0
 		add.l	d0,(Events_bg+$08).w
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_52062:
++ ;loc_52062:
 		addq.b	#4,routine(a0)
 
 Obj_CNZMinibossScrollSlow:
 		move.l	(Events_bg+$0C).w,d0	; Start slowing down the scrolling
 		cmpi.l	#$10000,d0
-		bls.s	loc_52082
+		bls.s	+ ;loc_52082
 		subi.l	#$400,d0
 		move.l	d0,(Events_bg+$0C).w
 		add.l	d0,(Events_bg+$08).w
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_52082:
++ ;loc_52082:
 		addq.b	#4,routine(a0)
 
 Obj_CNZMinibossScrollWait2:
 		move.w	(Events_bg+$08).w,d0
 		andi.w	#$FF,d0
 		cmpi.w	#4,d0
-		blo.s	loc_5209E			; Keep going until offset is a multiple of $100 again
+		blo.s	+ ;loc_5209E			; Keep going until offset is a multiple of $100 again
 		move.l	(Events_bg+$0C).w,d0
 		add.l	d0,(Events_bg+$08).w
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_5209E:
++ ;loc_5209E:
 		move.w	d0,(Events_bg+$08).w		; Reset scroll offset
 		move.w	#$1000,(Camera_target_max_Y_pos).w	; Reset Y end
 		st	(Background_collision_flag).w		; BG collision is on
@@ -5653,21 +5653,21 @@ loc_5209E:
 		moveq	#0,d1
 		moveq	#6,d2
 
-loc_520C0:
+- ;loc_520C0:
 		move.b	d1,(a1)					; Copy top of FG at $3380 downwards
 		adda.w	d0,a1
-		dbf	d2,loc_520C0
+		dbf	d2,- ;loc_520C0
 		addq.b	#4,routine(a0)
 
 Obj_CNZMinibossScrollWait3:
 		cmpi.w	#$1C0,(Events_bg+$08).w		; Wait till scroll offset is $1C0
-		bhs.s	loc_520DE
+		bhs.s	+ ;loc_520DE
 		move.l	(Events_bg+$0C).w,d0
 		add.l	d0,(Events_bg+$08).w
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_520DE:
++ ;loc_520DE:
 		st	(Events_fg_5).w				; Set flag to continue next BG event
 		jmp	(Delete_Current_Sprite).l
 
@@ -5677,10 +5677,10 @@ loc_520DE:
 CNZ1_ScrollToYStart:
 		move.w	(Camera_Y_pos).w,d1
 		cmp.w	d0,d1
-		blo.s	loc_520F2
+		blo.s	+ ;loc_520F2
 		exg	d0,d1
 
-loc_520F2:
++ ;loc_520F2:
 		cmp.w	(Camera_min_Y_pos).w,d1
 		bls.s	locret_520FC
 		move.w	d1,(Camera_min_Y_pos).w
@@ -5703,25 +5703,25 @@ CNZ2_ScreenEvent:
 		move.w	(Screen_shake_offset).w,d0
 		add.w	d0,(Camera_Y_pos_copy).w
 		cmpi.w	#$4600,(Player_1+x_pos).w
-		bhs.s	loc_52138			; If player is far enough to the right, skip ahead
+		bhs.s	++ ;loc_52138			; If player is far enough to the right, skip ahead
 		moveq	#0,d0
 		cmpi.w	#$940,(Player_1+x_pos).w
-		bhs.s	loc_5212E
+		bhs.s	+ ;loc_5212E
 		move.w	#$580,d0			; If player is still in old boss arena, set the level Y start to $580, otherwise, make it 0 like normal
 
-loc_5212E:
++ ;loc_5212E:
 		cmp.w	(Camera_min_Y_pos).w,d0
-		beq.s	loc_52138
+		beq.s	+ ;loc_52138
 		move.w	d0,(Camera_min_Y_pos).w
 
-loc_52138:
++ ;loc_52138:
 		tst.w	(Events_bg+$06).w
-		beq.s	loc_52146
+		beq.s	+ ;loc_52146
 		clr.w	(Events_bg+$06).w
 		jmp	Refresh_PlaneScreenDirect(pc)
 ; ---------------------------------------------------------------------------
 
-loc_52146:
++ ;loc_52146:
 		move.w	(Events_routine_fg).w,d0
 		jmp	CNZ2_ScreenEvent.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
@@ -5736,22 +5736,22 @@ CNZ2_ScreenEvent.Index:
 
 loc_5215A:
 		cmpi.w	#3,(Player_mode).w
-		beq.s	loc_5216C
+		beq.s	+ ;loc_5216C
 		move.w	#8,(Events_routine_fg).w	; If playing as Sonic/Tails, don't do any special screen events
 		bra.w	CNZ2SE_Normal
 ; ---------------------------------------------------------------------------
 
-loc_5216C:
++ ;loc_5216C:
 		lea	(Player_1).w,a1		; Only do all this is Knuckles is playing
 		cmpi.w	#$4880,x_pos(a1)
 		blo.w	CNZ2SE_Normal		; If Knuckles is not past $4880 X, just play normally
 		cmpi.w	#$B00,y_pos(a1)
 		blo.s	CNZ2SE_Normal		; If Knuckles is not past $B00 Y, play normally
 		jsr	(AllocateObject).l
-		bne.s	loc_521BE
+		bne.s	+ ;loc_521BE
 		move.l	#Obj_CNZTeleporter,(a1)
 		jsr	(CreateNewSprite4).l
-		bne.s	loc_521BE
+		bne.s	+ ;loc_521BE
 		move.l	#Obj_EggCapsule,(a1)
 		move.w	#$4980,x_pos(a1)
 		move.w	#$A20,y_pos(a1)
@@ -5760,7 +5760,7 @@ loc_5216C:
 		jsr	(Load_PLC_Raw).l
 		movem.l	(sp)+,d7-a0/a2-a3
 
-loc_521BE:
++ ;loc_521BE:
 		move.w	#$4750,(Camera_min_X_pos).w
 		move.w	#$48E0,(Camera_max_X_pos).w
 		clr.b	(End_of_level_flag).w
@@ -5819,25 +5819,25 @@ loc_52238:
 		move.w	d0,(Draw_delayed_position).w
 		move.w	#$F,(Draw_delayed_rowcount).w
 		addq.w	#4,(Events_routine_bg).w
-		bra.s	loc_5226A
+		bra.s	+ ;loc_5226A
 ; ---------------------------------------------------------------------------
 
 loc_52266:
 		jsr	CNZ1_Deform(pc)
 
-loc_5226A:
++ ;loc_5226A:
 		moveq	#0,d1
 		move.w	(Camera_Y_pos_BG_copy).w,d2
 		jsr	Draw_PlaneVertSingleBottomUp(pc)
-		bpl.s	loc_52280
+		bpl.s	+ ;loc_52280
 		addq.w	#4,(Events_routine_bg).w
-		bra.s	loc_52280
+		bra.s	+ ;loc_52280
 ; ---------------------------------------------------------------------------
 
 loc_5227C:
 		jsr	CNZ1_Deform(pc)
 
-loc_52280:
++ ;loc_52280:
 		lea	(Camera_Y_pos_BG_copy).w,a6
 		lea	(Camera_Y_pos_BG_rounded).w,a5
 		moveq	#0,d1
@@ -5854,13 +5854,13 @@ Obj_CNZTeleporter:
 		cmpi.w	#$4A38,x_pos(a1)
 		blo.s	locret_522FE		; If Knuckles isn't in range, don't bother
 		btst	#Status_InAir,status(a1)
-		beq.s	loc_522C2
+		beq.s	+ ;loc_522C2
 		move.w	#$4A40,d0
 		cmp.w	x_pos(a1),d0
 		bhi.s	locret_522FE
 		move.w	d0,x_pos(a1)			; While jumping, don't allow Knuckles past this point (so he lands on the teleporter)
 
-loc_522C2:
++ ;loc_522C2:
 		clr.w	x_vel(a1)
 		clr.w	ground_vel(a1)				; Stop Knuckles' momentum
 		st	(Ctrl_1_locked).w			; Turn off player control
@@ -5906,9 +5906,9 @@ loc_5234A:
 		movea.w	$3C(a0),a2
 		cmpi.b	#8,$46(a2)
 		blt.s	locret_523C8
-		beq.s	loc_523B6		; Once beam has expanded halfway. On the first frame this happen, set player state
+		beq.s	+++ ;loc_523B6		; Once beam has expanded halfway. On the first frame this happen, set player state
 		cmpi.b	#$18,$46(a2)
-		bhs.s	loc_5238E
+		bhs.s	++ ;loc_5238E
 		btst	#0,(Level_frame_counter+1).w
 		beq.s	locret_523C8
 		subq.w	#1,y_pos(a1)		; Raise player slightly
@@ -5918,15 +5918,15 @@ loc_5234A:
 		move.w	x_pos(a1),d0
 		cmp.w	x_pos(a0),d0
 		beq.s	locret_523C8
-		bcs.s	loc_52388
+		bcs.s	+ ;loc_52388
 		neg.w	d1
 
-loc_52388:
++ ;loc_52388:
 		add.w	d1,x_pos(a1)		; Move player X towards center of beam X
 		bra.s	locret_523C8
 ; ---------------------------------------------------------------------------
 
-loc_5238E:
++ ;loc_5238E:
 		move.l	#loc_523CA,(a0)	; When beam has expanded all the way
 		move.b	#3,object_control(a1)		; Stop player animation
 		moveq	#0,d0
@@ -5939,7 +5939,7 @@ loc_5238E:
 		bra.s	locret_523C8
 ; ---------------------------------------------------------------------------
 
-loc_523B6:
++ ;loc_523B6:
 		move.b	#1,object_control(a1)		; Player under object control
 		bset	#Status_Roll,status(a1)		; Set to jumping state
 		move.b	#2,anim(a1)		; Rolling animation
@@ -5964,38 +5964,38 @@ locret_523EA:
 
 FBZ1_ScreenInit:
 		cmpi.w	#$180,(Player_1+x_pos).w
-		blo.s	loc_52412
+		blo.s	+ ;loc_52412
 		move.w	-8(a3),d0
 		subq.w	#5,d0
 		movea.w	$34(a3),a1		; $680 Y
 		movea.w	$48(a3),a5		; $900 Y
 		moveq	#3-1,d1
 
-loc_52404:
+- ;loc_52404:
 		move.l	(a5)+,(a1)+		; Copy the "indoors" beginning part
 		move.b	(a5)+,(a1)+
 		adda.w	d0,a1
 		adda.w	d0,a5
-		dbf	d1,loc_52404
-		bra.s	loc_5241C
+		dbf	d1,- ;loc_52404
+		bra.s	++ ;loc_5241C
 ; ---------------------------------------------------------------------------
 
-loc_52412:
++ ;loc_52412:
 		move.w	#$18,(Events_bg+$00).w		; If player is < $180 X
 		st	(Events_bg+$02).w
 
-loc_5241C:
++ ;loc_5241C:
 		jsr	Reset_TileOffsetPositionActual(pc)
 		jmp	Refresh_PlaneFull(pc)
 ; ---------------------------------------------------------------------------
 
 FBZ1_ScreenEvent:
 		cmpi.b	#6,(Player_1+routine).w
-		blo.s	loc_5242E
+		blo.s	+ ;loc_5242E
 		rts							; Don't do any special events while Sonic is dying
 ; ---------------------------------------------------------------------------
 
-loc_5242E:
++ ;loc_5242E:
 		lea	FBZ1_LayoutModRange(pc),a1
 		move.w	(Player_1+x_pos).w,d0
 		move.w	(Player_1+y_pos).w,d1
@@ -6023,65 +6023,65 @@ FBZ1SE_Normal:
 		moveq	#4,d2
 		moveq	#6-1,d3
 
-loc_52462:
+- ;loc_52462:
 		lea	(a1),a5					; Check layout mod ranges
 		cmp.w	(a5)+,d0
-		blo.s	loc_5247A
+		blo.s	+ ;loc_5247A
 		cmp.w	(a5)+,d0
-		bhi.s	loc_5247A
+		bhi.s	+ ;loc_5247A
 		cmp.w	(a5)+,d1
-		blo.s	loc_5247A
+		blo.s	+ ;loc_5247A
 		cmp.w	(a5)+,d1
-		bhi.s	loc_5247A
+		bhi.s	+ ;loc_5247A
 		move.w	d2,(Events_bg+$00).w
-		bra.s	loc_52482
+		bra.s	++ ;loc_52482
 ; ---------------------------------------------------------------------------
 
-loc_5247A:
++ ;loc_5247A:
 		addq.w	#8,a1
 		addq.w	#4,d2
-		dbf	d3,loc_52462
+		dbf	d3,- ;loc_52462
 
-loc_52482:
++ ;loc_52482:
 		jmp	DrawTilesAsYouMove(pc)
 ; ---------------------------------------------------------------------------
 
 FBZ1SE_LayoutMod1:
 		jsr	FBZ1Screen_CheckInRange(pc)		; Make sure Sonic is still in range
 		tst.w	(Events_bg+$02).w
-		bne.s	loc_524AA
+		bne.s	++ ;loc_524AA
 		cmpi.w	#$B00,d0		; If indoors, check if Sonic is in right half of ranged area
-		bhs.s	loc_524A0		; If so, branch
+		bhs.s	+ ;loc_524A0		; If so, branch
 		cmpi.w	#$70A,d0		; Otherwise, check if Sonic has gone far enough to the right
 		bls.w	loc_52828
 		bra.s	loc_524D4
 ; ---------------------------------------------------------------------------
 
-loc_524A0:
++ ;loc_524A0:
 		cmpi.w	#$A0E,d1		; If to the right of ranged area, instead check if Sonic has gone low enough
 		bls.w	loc_52828
 		bra.s	loc_524D4
 ; ---------------------------------------------------------------------------
 
-loc_524AA:
++ ;loc_524AA:
 		cmpi.w	#$B00,d0		; If outdoors, check if Sonic is in right half of ranged area
-		bhs.s	loc_524BA		; If so, branch
+		bhs.s	+ ;loc_524BA		; If so, branch
 		cmpi.w	#$6F6,d0		; Otherwise, check if Sonic has gone far enough to the left
-		bls.s	loc_524C2
+		bls.s	++ ;loc_524C2
 		bra.w	loc_52828
 ; ---------------------------------------------------------------------------
 
-loc_524BA:
++ ;loc_524BA:
 		cmpi.w	#$9F2,d1		; If to the right of ranged area, instead check if Sonic has gone high enough
 		bhi.w	loc_52828
 
-loc_524C2:
++ ;loc_524C2:
 		clr.w	(Events_bg+$02).w	; In either case, go outdoors->indoors
 		movea.w	(a3),a5
 		lea	$60(a5),a5
 		movea.w	(a3),a6
 		lea	$64(a6),a6
-		bra.s	loc_524E8
+		bra.s	+ ;loc_524E8
 ; ---------------------------------------------------------------------------
 
 loc_524D4:
@@ -6091,30 +6091,30 @@ loc_524D4:
 		movea.w	$14(a3),a6
 		lea	$64(a6),a6			; Second source is at $280 Y, $3200 X (both of these are technically out of range)
 
-loc_524E8:
++ ;loc_524E8:
 		movea.w	$48(a3),a1
 		lea	$C(a1),a1			; First destination is $900 Y, $600 X
 		move.w	-8(a3),d0
 		subq.w	#4,d0			; Width of four tiles
 		moveq	#6-1,d1			; Height of 6 tiles
 
-loc_524F8:
+- ;loc_524F8:
 		move.l	(a5)+,(a1)+		; Copy over layout
 		adda.w	d0,a5
 		adda.w	d0,a1
-		dbf	d1,loc_524F8
+		dbf	d1,- ;loc_524F8
 		movea.w	$48(a3),a1
 		lea	$1A(a1),a1			; Second destination is $900 Y, $D00 X
 		move.w	-8(a3),d0
 		subq.w	#6,d0			; Width of 6 tiles
 		moveq	#4-1,d1			; Height of 4 tiles
 
-loc_52512:
+- ;loc_52512:
 		move.l	(a6)+,(a1)+
 		move.w	(a6)+,(a1)+		; Copy over layout
 		adda.w	d0,a6
 		adda.w	d0,a1
-		dbf	d1,loc_52512
+		dbf	d1,- ;loc_52512
 		jmp	Refresh_PlaneScreenDirect(pc)	; Refresh screen
 ; ---------------------------------------------------------------------------
 
@@ -6122,33 +6122,33 @@ FBZ1SE_LayoutMod2:
 		lea	8(a1),a1			; The following layout mods all basically work identically to the above with modifications in positioning, etc
 		jsr	FBZ1Screen_CheckInRange(pc)		; I'll leave it as an exercise to the reader to get the specifics of each routine :)
 		tst.w	(Events_bg+$02).w
-		bne.s	loc_5254A
+		bne.s	++ ;loc_5254A
 		cmpi.w	#$C80,d0
-		bhs.s	loc_52540
+		bhs.s	+ ;loc_52540
 		cmpi.w	#$1F2,d1
 		bhs.w	loc_52828
 		bra.s	loc_52574
 ; ---------------------------------------------------------------------------
 
-loc_52540:
++ ;loc_52540:
 		cmpi.w	#$108A,d0
 		bls.w	loc_52828
 		bra.s	loc_52574
 ; ---------------------------------------------------------------------------
 
-loc_5254A:
++ ;loc_5254A:
 		cmpi.w	#$C80,d0
-		bhs.s	loc_5255A
+		bhs.s	+ ;loc_5255A
 		cmpi.w	#$20E,d1
-		bhs.s	loc_52562
+		bhs.s	++ ;loc_52562
 		bra.w	loc_52828
 ; ---------------------------------------------------------------------------
 
-loc_5255A:
++ ;loc_5255A:
 		cmpi.w	#$1076,d0
 		bhi.w	loc_52828
 
-loc_52562:
++ ;loc_52562:
 		clr.w	(Events_bg+$02).w
 		movea.w	(a3),a5
 		lea	$6C(a5),a5
@@ -6171,26 +6171,26 @@ loc_52588:
 		subi.w	#$A,d0
 		moveq	#4-1,d1
 
-loc_5259A:
+- ;loc_5259A:
 		move.l	(a5)+,(a1)+
 		move.l	(a5)+,(a1)+
 		move.w	(a5)+,(a1)+
 		adda.w	d0,a5
 		adda.w	d0,a1
-		dbf	d1,loc_5259A
+		dbf	d1,- ;loc_5259A
 		movea.w	$C(a3),a1
 		lea	$1C(a1),a1
 		move.w	-8(a3),d0
 		subi.w	#$C,d0
 		moveq	#3-1,d1
 
-loc_525BA:
+- ;loc_525BA:
 		move.l	(a6)+,(a1)+
 		move.l	(a6)+,(a1)+
 		move.l	(a6)+,(a1)+
 		adda.w	d0,a6
 		adda.w	d0,a1
-		dbf	d1,loc_525BA
+		dbf	d1,- ;loc_525BA
 		jmp	Refresh_PlaneScreenDirect(pc)
 ; ---------------------------------------------------------------------------
 
@@ -6198,39 +6198,39 @@ FBZ1SE_LayoutMod3:
 		lea	$10(a1),a1
 		jsr	FBZ1Screen_CheckInRange(pc)
 		tst.w	(Events_bg+$02).w
-		bne.s	loc_525F4
+		bne.s	++ ;loc_525F4
 		cmpi.w	#$1880,d0
-		bhs.s	loc_525EA
+		bhs.s	+ ;loc_525EA
 		cmpi.w	#$158A,d0
 		bls.w	loc_52828
 		bra.s	loc_52622
 ; ---------------------------------------------------------------------------
 
-loc_525EA:
++ ;loc_525EA:
 		cmpi.w	#$A0E,d1
 		bls.w	loc_52828
 		bra.s	loc_52622
 ; ---------------------------------------------------------------------------
 
-loc_525F4:
++ ;loc_525F4:
 		cmpi.w	#$1880,d0
-		bhs.s	loc_52604
+		bhs.s	+ ;loc_52604
 		cmpi.w	#$1576,d0
-		bls.s	loc_5260C
+		bls.s	++ ;loc_5260C
 		bra.w	loc_52828
 ; ---------------------------------------------------------------------------
 
-loc_52604:
++ ;loc_52604:
 		cmpi.w	#$9F2,d1
 		bhi.w	loc_52828
 
-loc_5260C:
++ ;loc_5260C:
 		clr.w	(Events_bg+$02).w
 		movea.w	$34(a3),a5
 		lea	$60(a5),a5
 		movea.w	$28(a3),a6
 		lea	$66(a6),a6
-		bra.s	loc_52636
+		bra.s	+ ;loc_52636
 ; ---------------------------------------------------------------------------
 
 loc_52622:
@@ -6240,31 +6240,31 @@ loc_52622:
 		movea.w	$3C(a3),a6
 		lea	$66(a6),a6
 
-loc_52636:
++ ;loc_52636:
 		movea.w	$48(a3),a1
 		lea	$28(a1),a1
 		move.w	-8(a3),d0
 		subq.w	#6,d0
 		moveq	#4-1,d1
 
-loc_52646:
+- ;loc_52646:
 		move.l	(a5)+,(a1)+
 		move.w	(a5)+,(a1)+
 		adda.w	d0,a5
 		adda.w	d0,a1
-		dbf	d1,loc_52646
+		dbf	d1,- ;loc_52646
 		movea.w	$48(a3),a1
 		lea	$34(a1),a1
 		move.w	-8(a3),d0
 		subq.w	#6,d0
 		moveq	#4-1,d1
 
-loc_52662:
+- ;loc_52662:
 		move.l	(a6)+,(a1)+
 		move.w	(a6)+,(a1)+
 		adda.w	d0,a6
 		adda.w	d0,a1
-		dbf	d1,loc_52662
+		dbf	d1,- ;loc_52662
 		jmp	Refresh_PlaneScreenDirect(pc)
 ; ---------------------------------------------------------------------------
 
@@ -6272,43 +6272,43 @@ FBZ1SE_LayoutMod4:
 		lea	$18(a1),a1
 		jsr	FBZ1Screen_CheckInRange(pc)
 		tst.w	(Events_bg+$02).w
-		bne.s	loc_526A0
+		bne.s	++ ;loc_526A0
 		cmpi.w	#$208A,d0
 		bhs.s	loc_526D6
 		cmpi.w	#$1D80,d0
-		bhs.s	loc_52696
+		bhs.s	+ ;loc_52696
 		cmpi.w	#$1C0A,d0
 		bls.w	loc_52828
 		bra.s	loc_526D6
 ; ---------------------------------------------------------------------------
 
-loc_52696:
++ ;loc_52696:
 		cmpi.w	#$F2,d1
 		bhs.w	loc_52828
 		bra.s	loc_526D6
 ; ---------------------------------------------------------------------------
 
-loc_526A0:
++ ;loc_526A0:
 		cmpi.w	#$1D80,d0
-		bhs.s	loc_526B0
+		bhs.s	+ ;loc_526B0
 		cmpi.w	#$1BF6,d0
-		bls.s	loc_526C0
+		bls.s	++ ;loc_526C0
 		bra.w	loc_52828
 ; ---------------------------------------------------------------------------
 
-loc_526B0:
++ ;loc_526B0:
 		cmpi.w	#$10E,d1
 		bls.w	loc_52828
 		cmpi.w	#$2076,d0
 		bhs.w	loc_52828
 
-loc_526C0:
++ ;loc_526C0:
 		clr.w	(Events_bg+$02).w
 		movea.w	$28(a3),a5
 		lea	$6E(a5),a5
 		movea.w	$28(a3),a6
 		lea	$76(a6),a6
-		bra.s	loc_526EA
+		bra.s	+ ;loc_526EA
 ; ---------------------------------------------------------------------------
 
 loc_526D6:
@@ -6318,26 +6318,26 @@ loc_526D6:
 		movea.w	$3C(a3),a6
 		lea	$76(a6),a6
 
-loc_526EA:
++ ;loc_526EA:
 		movea.w	(a3),a1
 		lea	$36(a1),a1
 		move.w	-8(a3),d0
 		subq.w	#8,d0
 		moveq	#4-1,d1
 
-loc_526F8:
+- ;loc_526F8:
 		move.l	(a5)+,(a1)+
 		move.l	(a5)+,(a1)+
 		adda.w	d0,a5
 		adda.w	d0,a1
-		dbf	d1,loc_526F8
+		dbf	d1,- ;loc_526F8
 		movea.w	(a3),a1
 		lea	$3E(a1),a1
 		move.w	-8(a3),d0
 		subi.w	#$12,d0
 		moveq	#5-1,d1
 
-loc_52714:
+- ;loc_52714:
 		move.l	(a6)+,(a1)+
 		move.l	(a6)+,(a1)+
 		move.l	(a6)+,(a1)+
@@ -6345,7 +6345,7 @@ loc_52714:
 		move.w	(a6)+,(a1)+
 		adda.w	d0,a6
 		adda.w	d0,a1
-		dbf	d1,loc_52714
+		dbf	d1,- ;loc_52714
 		jmp	Refresh_PlaneScreenDirect(pc)
 ; ---------------------------------------------------------------------------
 
@@ -6353,19 +6353,19 @@ FBZ1SE_LayoutMod5:
 		lea	$20(a1),a1
 		jsr	FBZ1Screen_CheckInRange(pc)
 		cmpi.w	#$2100,d0
-		blo.s	loc_52740
+		blo.s	+ ;loc_52740
 		cmpi.w	#$2600,d0
 		bls.w	loc_52828
 
-loc_52740:
++ ;loc_52740:
 		tst.w	(Events_bg+$02).w
-		bne.s	loc_52750
+		bne.s	+ ;loc_52750
 		cmpi.w	#$172,d1
 		bhs.w	loc_52828
-		bra.s	loc_5276E
+		bra.s	++ ;loc_5276E
 ; ---------------------------------------------------------------------------
 
-loc_52750:
++ ;loc_52750:
 		cmpi.w	#$18E,d1
 		blo.w	loc_52828
 		clr.w	(Events_bg+$02).w
@@ -6373,36 +6373,36 @@ loc_52750:
 		lea	$6E(a5),a5
 		movea.w	$28(a3),a6
 		lea	$76(a6),a6
-		bra.s	loc_52782
+		bra.s	++ ;loc_52782
 ; ---------------------------------------------------------------------------
 
-loc_5276E:
++ ;loc_5276E:
 		st	(Events_bg+$02).w
 		movea.w	$3C(a3),a5
 		lea	$6E(a5),a5
 		movea.w	$3C(a3),a6
 		lea	$76(a6),a6
 
-loc_52782:
++ ;loc_52782:
 		movea.w	(a3),a1
 		lea	$36(a1),a1
 		move.w	-8(a3),d0
 		subq.w	#8,d0
 		moveq	#4-1,d1
 
-loc_52790:
+- ;loc_52790:
 		move.l	(a5)+,(a1)+
 		move.l	(a5)+,(a1)+
 		adda.w	d0,a5
 		adda.w	d0,a1
-		dbf	d1,loc_52790
+		dbf	d1,- ;loc_52790
 		movea.w	(a3),a1
 		lea	$3E(a1),a1
 		move.w	-8(a3),d0
 		subi.w	#$12,d0
 		moveq	#5-1,d1
 
-loc_527AC:
+- ;loc_527AC:
 		move.l	(a6)+,(a1)+
 		move.l	(a6)+,(a1)+
 		move.l	(a6)+,(a1)+
@@ -6410,7 +6410,7 @@ loc_527AC:
 		move.w	(a6)+,(a1)+
 		adda.w	d0,a6
 		adda.w	d0,a1
-		dbf	d1,loc_527AC
+		dbf	d1,- ;loc_527AC
 		jmp	Refresh_PlaneScreenDirect(pc)
 ; ---------------------------------------------------------------------------
 
@@ -6418,36 +6418,36 @@ FBZ1SE_LayoutMod6:
 		lea	$28(a1),a1			; Get the last layout change range
 		jsr	FBZ1Screen_CheckInRange(pc)	; Ensure player is still in specified range
 		tst.w	(Events_bg+$02).w
-		bne.s	loc_527DA
+		bne.s	+ ;loc_527DA
 		cmpi.w	#$70E,d1		; If "indoors", check if Sonic is below given point
 		bls.w	loc_52828		; If not, don't do anything
-		bra.s	loc_527EC
+		bra.s	++ ;loc_527EC
 ; ---------------------------------------------------------------------------
 
-loc_527DA:
++ ;loc_527DA:
 		cmpi.w	#$6F2,d1		; If "outdoors" flag is set, check if Sonic is above point given
 		bhi.w	loc_52828		; If not, don't do anything
 		clr.w	(Events_bg+$02).w	; Make Sonic "indoors"
 		movea.w	$48(a3),a5		; Perform layout copy of indoor tiles
-		bra.s	loc_527F4
+		bra.s	++ ;loc_527F4
 ; ---------------------------------------------------------------------------
 
-loc_527EC:
++ ;loc_527EC:
 		st	(Events_bg+$02).w		; Make Sonic "outdoors"
 		movea.w	$54(a3),a5		; Perform layout copy of outdoor tiles
 
-loc_527F4:
++ ;loc_527F4:
 		movea.w	$34(a3),a1
 		move.w	-8(a3),d0
 		subq.w	#5,d0
 		moveq	#3-1,d1
 
-loc_52800:
+- ;loc_52800:
 		move.l	(a5)+,(a1)+
 		move.b	(a5)+,(a1)+		; Perform layout copy
 		adda.w	d0,a5
 		adda.w	d0,a1
-		dbf	d1,loc_52800
+		dbf	d1,- ;loc_52800
 		jmp	Refresh_PlaneScreenDirect(pc)	; Redraw screen directly
 
 ; =============== S U B R O U T I N E =======================================
@@ -6455,17 +6455,17 @@ loc_52800:
 
 FBZ1Screen_CheckInRange:
 		cmp.w	(a1)+,d0
-		blo.s	loc_52822
+		blo.s	+ ;loc_52822
 		cmp.w	(a1)+,d0
-		bhi.s	loc_52822
+		bhi.s	+ ;loc_52822
 		cmp.w	(a1)+,d1
-		blo.s	loc_52822
+		blo.s	+ ;loc_52822
 		cmp.w	(a1)+,d1
-		bhi.s	loc_52822
+		bhi.s	+ ;loc_52822
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_52822:
++ ;loc_52822:
 		addq.w	#4,sp
 		clr.w	(Events_bg+$00).w
 
@@ -6485,12 +6485,12 @@ FBZ1_LayoutModRange:
 
 FBZ1_BackgroundInit:
 		jsr	(AllocateObject).l
-		bne.s	loc_5286A
+		bne.s	+ ;loc_5286A
 		move.l	#Obj_FBZOutdoorBGMotion,(a1)
 
-loc_5286A:
++ ;loc_5286A:
 		cmpi.w	#$180,(Player_1+x_pos).w
-		bhs.s	loc_528A4
+		bhs.s	+ ;loc_528A4
 		st	(Events_bg+$04).w		; if player is at start, then he's outside. Set outdoors flag
 		lea	Pal_FBZBGOutdoors(pc),a1
 		lea	(Target_palette_line_4+$4).w,a5
@@ -6508,7 +6508,7 @@ loc_5286A:
 		jmp	ApplyDeformation(pc)
 ; ---------------------------------------------------------------------------
 
-loc_528A4:
++ ;loc_528A4:
 		jsr	FBZ_Deform(pc)		; Indoors
 		jsr	Reset_TileOffsetPositionEff(pc)
 		moveq	#0,d1
@@ -6542,11 +6542,11 @@ loc_528DE:
 		moveq	#0,d1
 		move.w	(Camera_Y_pos_BG_copy).w,d2
 		tst.w	(Events_bg+$04).w
-		beq.s	loc_528F0
+		beq.s	+ ;loc_528F0
 		move.w	#$200,d1
 		moveq	#0,d2
 
-loc_528F0:
++ ;loc_528F0:
 		jsr	Draw_PlaneVertTopDown(pc)
 		bpl.w	FBZ1BGE_GoDeform
 		clr.w	(Events_routine_bg).w
@@ -6560,11 +6560,11 @@ loc_52904:
 		moveq	#0,d1
 		move.w	(Camera_Y_pos_BG_copy).w,d2
 		tst.w	(Events_bg+$04).w
-		beq.s	loc_52916
+		beq.s	+ ;loc_52916
 		move.w	#$200,d1
 		moveq	#0,d2
 
-loc_52916:
++ ;loc_52916:
 		jsr	Draw_PlaneVertSingleBottomUp(pc)
 		bpl.w	FBZ1BGE_GoDeform
 		clr.w	(Events_routine_bg).w
@@ -6578,11 +6578,11 @@ loc_5292A:
 		move.w	(Camera_Y_pos_BG_copy).w,d1
 		moveq	#0,d2
 		tst.w	(Events_bg+$04).w
-		beq.s	loc_5293C
+		beq.s	+ ;loc_5293C
 		moveq	#0,d1
 		move.w	#$200,d2
 
-loc_5293C:
++ ;loc_5293C:
 		jsr	Draw_PlaneHorzLeftToRight(pc)
 		bpl.w	FBZ1BGE_GoDeform
 		clr.w	(Events_routine_bg).w
@@ -6596,11 +6596,11 @@ loc_52950:
 		move.w	(Camera_Y_pos_BG_copy).w,d1
 		moveq	#0,d2
 		tst.w	(Events_bg+$04).w
-		beq.s	loc_52962
+		beq.s	+ ;loc_52962
 		moveq	#0,d1
 		move.w	#$200,d2
 
-loc_52962:
++ ;loc_52962:
 		jsr	Draw_PlaneHorzRightToLeft(pc)
 		bpl.w	FBZ1BGE_GoDeform
 		clr.w	(Events_routine_bg).w
@@ -6609,7 +6609,7 @@ loc_52962:
 
 FBZ1BGE_Normal:
 		tst.w	(Events_fg_5).w
-		beq.s	loc_529EE
+		beq.s	+ ;loc_529EE
 		clr.w	(Events_fg_5).w		; Check for transition flag
 		movem.l	d7-a0/a2-a3,-(sp)
 		moveq	#$1C,d0
@@ -6641,31 +6641,31 @@ FBZ1BGE_Normal:
 		bra.s	FBZ1BGE_GoDeform
 ; ---------------------------------------------------------------------------
 
-loc_529EE:
++ ;loc_529EE:
 		cmpi.b	#6,(Player_1+routine).w
-		blo.s	loc_529F8
+		blo.s	+ ;loc_529F8
 		rts						; Don't do special events if Sonic is dying
 ; ---------------------------------------------------------------------------
 
-loc_529F8:
++ ;loc_529F8:
 		jsr	FBZ1_CheckBGChange(pc)
 
 FBZ1BGE_GoDeform:
 		move.w	(Events_bg+$04).w,d1
-		beq.s	loc_52A06
+		beq.s	+ ;loc_52A06
 		move.w	#$200,d1
 
-loc_52A06:
++ ;loc_52A06:
 		lea	(Camera_Y_pos_BG_copy).w,a6
 		lea	(Camera_Y_pos_BG_rounded).w,a5
 		moveq	#$20,d6
 		jsr	Draw_TileRow(pc)
 		lea	FBZ_InBGDeformArray(pc),a4
 		tst.w	(Events_bg+$04).w
-		beq.s	loc_52A22
+		beq.s	+ ;loc_52A22
 		lea	FBZ_OutBGDeformArray(pc),a4
 
-loc_52A22:
++ ;loc_52A22:
 		lea	(HScroll_table).w,a5
 		jmp	ApplyDeformation(pc)
 
@@ -6674,7 +6674,7 @@ loc_52A22:
 
 FBZ_Deform:
 		tst.w	(Events_bg+$04).w
-		bne.s	loc_52A70
+		bne.s	+ ;loc_52A70
 		move.w	(Camera_Y_pos_copy).w,d0	; Indoors
 		asr.w	#1,d0
 		move.w	d0,d1
@@ -6696,10 +6696,10 @@ loc_52A56:
 		ext.w	d3
 		swap	d0
 
-loc_52A5E:
+- ;loc_52A5E:
 		move.b	(a5)+,d2
 		move.w	d0,(a1,d2.w)
-		dbf	d3,loc_52A5E
+		dbf	d3,- ;loc_52A5E
 		swap	d0
 		add.l	d1,d0
 		bra.s	loc_52A56
@@ -6709,7 +6709,7 @@ locret_52A6E:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_52A70:
++ ;loc_52A70:
 		moveq	#$16,d0				; Outdoors
 		add.w	(Events_bg+$08).w,d0	; Add offset of bobbing motion to 16
 		move.w	d0,(Camera_Y_pos_BG_copy).w
@@ -6725,14 +6725,14 @@ loc_52A70:
 		addi.l	#$E00,(HScroll_table+$1FC).w
 		moveq	#9-1,d3
 
-loc_52A9E:
+- ;loc_52A9E:
 		move.w	(a5)+,d4
 		add.l	d2,d0
 		swap	d0
 		move.w	d0,(a1,d4.w)
 		swap	d0
 		add.l	d1,d0
-		dbf	d3,loc_52A9E
+		dbf	d3,- ;loc_52A9E
 		rts
 ; End of function FBZ_Deform
 
@@ -6767,33 +6767,33 @@ FBZ1_CheckBGChange:
 
 FBZ1_BGChange1:
 		tst.w	(Events_bg+$04).w
-		bne.s	loc_52AFE
+		bne.s	++ ;loc_52AFE
 		cmpi.w	#$B00,d0		; If indoors
-		bhs.s	loc_52AF4
+		bhs.s	+ ;loc_52AF4
 		cmpi.w	#$9C0,d1
 		blo.w	FBZ_Deform
 		bra.s	loc_52B22
 ; ---------------------------------------------------------------------------
 
-loc_52AF4:
++ ;loc_52AF4:
 		cmpi.w	#$900,d1
 		blo.w	FBZ_Deform
 		bra.s	loc_52B22
 ; ---------------------------------------------------------------------------
 
-loc_52AFE:
++ ;loc_52AFE:
 		cmpi.w	#$B00,d0		; If outdoors
-		bhs.s	loc_52B0E
+		bhs.s	+ ;loc_52B0E
 		cmpi.w	#$9C0,d1
 		bhi.w	FBZ_Deform
-		bra.s	loc_52B16
+		bra.s	++ ;loc_52B16
 ; ---------------------------------------------------------------------------
 
-loc_52B0E:
++ ;loc_52B0E:
 		cmpi.w	#$900,d1
 		bhi.w	FBZ_Deform
 
-loc_52B16:
++ ;loc_52B16:
 		clr.w	(Events_bg+$04).w
 		moveq	#4,d0
 		moveq	#0,d6
@@ -6809,33 +6809,33 @@ loc_52B22:
 
 FBZ1_BGChange2:
 		tst.w	(Events_bg+$04).w
-		bne.s	loc_52B50
+		bne.s	++ ;loc_52B50
 		cmpi.w	#$C80,d0
-		bhs.s	loc_52B46
+		bhs.s	+ ;loc_52B46
 		cmpi.w	#$2C0,d1
 		bhi.w	FBZ_Deform
 		bra.s	loc_52B76
 ; ---------------------------------------------------------------------------
 
-loc_52B46:
++ ;loc_52B46:
 		cmpi.w	#$240,d1
 		bhi.w	FBZ_Deform
 		bra.s	loc_52B76
 ; ---------------------------------------------------------------------------
 
-loc_52B50:
++ ;loc_52B50:
 		cmpi.w	#$C80,d0
-		bhs.s	loc_52B60
+		bhs.s	+ ;loc_52B60
 		cmpi.w	#$2C0,d1
 		blo.w	FBZ_Deform
-		bra.s	loc_52B68
+		bra.s	++ ;loc_52B68
 ; ---------------------------------------------------------------------------
 
-loc_52B60:
++ ;loc_52B60:
 		cmpi.w	#$240,d1
 		blo.w	FBZ_Deform
 
-loc_52B68:
++ ;loc_52B68:
 		clr.w	(Events_bg+$04).w
 		moveq	#8,d0
 		move.w	#$F0,d6
@@ -6851,33 +6851,33 @@ loc_52B76:
 
 FBZ1_BGChange3:
 		tst.w	(Events_bg+$04).w
-		bne.s	loc_52BA2
+		bne.s	++ ;loc_52BA2
 		cmpi.w	#$1880,d0
-		bhs.s	loc_52B98
+		bhs.s	+ ;loc_52B98
 		cmpi.w	#$9C0,d1
 		blo.w	FBZ_Deform
 		bra.s	loc_52BC6
 ; ---------------------------------------------------------------------------
 
-loc_52B98:
++ ;loc_52B98:
 		cmpi.w	#$940,d1
 		blo.w	FBZ_Deform
 		bra.s	loc_52BC6
 ; ---------------------------------------------------------------------------
 
-loc_52BA2:
++ ;loc_52BA2:
 		cmpi.w	#$1880,d0
-		bhs.s	loc_52BB2
+		bhs.s	+ ;loc_52BB2
 		cmpi.w	#$9C0,d1
 		bhi.w	FBZ_Deform
-		bra.s	loc_52BBA
+		bra.s	++ ;loc_52BBA
 ; ---------------------------------------------------------------------------
 
-loc_52BB2:
++ ;loc_52BB2:
 		cmpi.w	#$940,d1
 		bhi.w	FBZ_Deform
 
-loc_52BBA:
++ ;loc_52BBA:
 		clr.w	(Events_bg+$04).w
 		moveq	#4,d0
 		moveq	#0,d6
@@ -6893,15 +6893,15 @@ loc_52BC6:
 
 FBZ1_BGChange4:
 		cmpi.w	#$100,d1
-		blo.s	loc_52C0C
+		blo.s	+++ ;loc_52C0C
 		tst.w	(Events_bg+$04).w
-		bne.s	loc_52BEA
+		bne.s	+ ;loc_52BEA
 		cmpi.w	#$1C0,d1
 		bhi.w	FBZ_Deform
-		bra.s	loc_52C00
+		bra.s	++ ;loc_52C00
 ; ---------------------------------------------------------------------------
 
-loc_52BEA:
++ ;loc_52BEA:
 		cmpi.w	#$1C0,d1
 		blo.w	FBZ_Deform
 		clr.w	(Events_bg+$04).w
@@ -6910,42 +6910,42 @@ loc_52BEA:
 		bra.w	FBZ_BGChangeGoIn
 ; ---------------------------------------------------------------------------
 
-loc_52C00:
++ ;loc_52C00:
 		st	(Events_bg+$04).w
 		moveq	#4,d0
 		moveq	#0,d6
 		bra.w	FBZ_BGChangeGoOut
 ; ---------------------------------------------------------------------------
 
-loc_52C0C:
++ ;loc_52C0C:
 		tst.w	(Events_bg+$04).w
-		bne.s	loc_52C1C
+		bne.s	+ ;loc_52C1C
 		cmpi.w	#$1B00,d0
 		blo.w	FBZ_Deform
-		bra.s	loc_52C2E
+		bra.s	++ ;loc_52C2E
 ; ---------------------------------------------------------------------------
 
-loc_52C1C:
++ ;loc_52C1C:
 		cmpi.w	#$1B00,d0
 		bhi.w	FBZ_Deform
 		clr.w	(Events_bg+$04).w
 		moveq	#$C,d0
 		moveq	#0,d6
-		bra.s	loc_52C3E
+		bra.s	++ ;loc_52C3E
 ; ---------------------------------------------------------------------------
 
-loc_52C2E:
++ ;loc_52C2E:
 		st	(Events_bg+$04).w
 		moveq	#$10,d0
 		move.w	#$3F0,d6
 		lea	Pal_FBZBGOutdoors(pc),a1
-		bra.s	loc_52C42
+		bra.s	++ ;loc_52C42
 ; ---------------------------------------------------------------------------
 
-loc_52C3E:
++ ;loc_52C3E:
 		lea	Pal_FBZBGIndoors(pc),a1		; Special case for going left/right rather than up/down
 
-loc_52C42:
++ ;loc_52C42:
 		lea	(Normal_palette_line_4+$4).w,a5
 		move.l	(a1)+,(a5)+
 		move.l	(a1)+,(a5)+
@@ -6964,13 +6964,13 @@ loc_52C42:
 
 FBZ1_BGChange5:
 		tst.w	(Events_bg+$04).w
-		bne.s	loc_52C84
+		bne.s	+ ;loc_52C84
 		cmpi.w	#$240,d1
 		bhi.w	FBZ_Deform
-		bra.s	loc_52C98
+		bra.s	++ ;loc_52C98
 ; ---------------------------------------------------------------------------
 
-loc_52C84:
++ ;loc_52C84:
 		cmpi.w	#$240,d1
 		blo.w	FBZ_Deform
 		clr.w	(Events_bg+$04).w
@@ -6979,7 +6979,7 @@ loc_52C84:
 		bra.s	FBZ_BGChangeGoIn
 ; ---------------------------------------------------------------------------
 
-loc_52C98:
++ ;loc_52C98:
 		st	(Events_bg+$04).w
 		moveq	#4,d0
 		moveq	#0,d6
@@ -6988,13 +6988,13 @@ loc_52C98:
 
 FBZ1_BGChange6:
 		tst.w	(Events_bg+$04).w
-		bne.s	loc_52CB2
+		bne.s	+ ;loc_52CB2
 		cmpi.w	#$640,d1
 		blo.w	FBZ_Deform
-		bra.s	loc_52CC4
+		bra.s	++ ;loc_52CC4
 ; ---------------------------------------------------------------------------
 
-loc_52CB2:
++ ;loc_52CB2:
 		cmpi.w	#$640,d1
 		bhi.w	FBZ_Deform
 		clr.w	(Events_bg+$04).w
@@ -7003,20 +7003,20 @@ loc_52CB2:
 		bra.s	FBZ_BGChangeGoIn
 ; ---------------------------------------------------------------------------
 
-loc_52CC4:
++ ;loc_52CC4:
 		st	(Events_bg+$04).w
 		moveq	#8,d0
 		move.w	#$F0,d6
 
 FBZ_BGChangeGoOut:
 		lea	Pal_FBZBGOutdoors(pc),a1
-		bra.s	loc_52CD8
+		bra.s	+ ;loc_52CD8
 ; ---------------------------------------------------------------------------
 
 FBZ_BGChangeGoIn:
 		lea	Pal_FBZBGIndoors(pc),a1
 
-loc_52CD8:
++ ;loc_52CD8:
 		lea	(Normal_palette_line_4+$4).w,a5
 		move.l	(a1)+,(a5)+
 		move.l	(a1)+,(a5)+
@@ -7121,7 +7121,7 @@ Pal_FBZBGOutdoors:
 FBZ2_ScreenInit:
 		move.w	#$2C40,d0
 		cmp.w	(Camera_X_pos).w,d0
-		bhi.s	loc_52E2C
+		bhi.s	+ ;loc_52E2C
 		move.w	#4,(Events_routine_fg).w	; If screen X is past subboss battle, change screen event
 		move.w	d0,(Camera_min_X_pos).w
 		jsr	SetUp_FBZ2BossEvent(pc)
@@ -7137,7 +7137,7 @@ FBZ2_ScreenInit:
 		jsr	(Queue_Kos_Module).l	; Load boss event graphics
 		movem.l	(sp)+,d7-a0/a2-a3
 
-loc_52E2C:
++ ;loc_52E2C:
 		jsr	Reset_TileOffsetPositionActual(pc)
 		jmp	Refresh_PlaneFull(pc)
 ; ---------------------------------------------------------------------------
@@ -7161,11 +7161,11 @@ FBZ2_ScreenEvent:
 
 FBZ2SE_Normal:
 		cmpi.b	#6,(Player_1+routine).w
-		blo.s	loc_52E5E
+		blo.s	+ ;loc_52E5E
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_52E5E:
++ ;loc_52E5E:
 		lea	FBZ2_LayoutModRange(pc),a1		; Only one layout mod this time around
 		move.w	(Player_1+x_pos).w,d0
 		move.w	(Player_1+y_pos).w,d1
@@ -7181,16 +7181,16 @@ loc_52E72:
 
 FBZ2_NoLayoutMod:
 		cmp.w	(a1)+,d0
-		blo.s	loc_52E90
+		blo.s	+ ;loc_52E90
 		cmp.w	(a1)+,d0
-		bhi.s	loc_52E90
+		bhi.s	+ ;loc_52E90
 		cmp.w	(a1)+,d1
-		blo.s	loc_52E90
+		blo.s	+ ;loc_52E90
 		cmp.w	(a1)+,d1
-		bhi.s	loc_52E90
+		bhi.s	+ ;loc_52E90
 		move.w	#4,(Events_bg+$00).w
 
-loc_52E90:
++ ;loc_52E90:
 		jsr	DrawTilesAsYouMove(pc)
 		cmpi.w	#$2B30,(Camera_X_pos).w
 		blo.s	locret_52EAC
@@ -7206,47 +7206,47 @@ locret_52EAC:
 FBZ2_LayoutMod1:
 		jsr	FBZ1Screen_CheckInRange(pc)
 		cmpi.w	#$E00,d0
-		blo.s	loc_52EBE
+		blo.s	+ ;loc_52EBE
 		cmpi.w	#$1280,d0
 		bls.s	loc_52F10
 
-loc_52EBE:
++ ;loc_52EBE:
 		tst.w	(Events_bg+$02).w
-		bne.s	loc_52ECC
+		bne.s	+ ;loc_52ECC
 		cmpi.w	#$B0E,d1		; If indoors
 		bls.s	loc_52F10
-		bra.s	loc_52EDE
+		bra.s	++ ;loc_52EDE
 ; ---------------------------------------------------------------------------
 
-loc_52ECC:
++ ;loc_52ECC:
 		cmpi.w	#$AF2,d1		; If outdoors
 		bhi.s	loc_52F10
 		clr.w	(Events_bg+$02).w
 		movea.w	(a3),a5
 		lea	$70(a5),a5
-		bra.s	loc_52EEA
+		bra.s	++ ;loc_52EEA
 ; ---------------------------------------------------------------------------
 
-loc_52EDE:
++ ;loc_52EDE:
 		st	(Events_bg+$02).w
 		movea.w	$10(a3),a5
 		lea	$70(a5),a5
 
-loc_52EEA:
++ ;loc_52EEA:
 		movea.w	$50(a3),a1
 		lea	$1A(a1),a1
 		move.w	-8(a3),d0
 		subi.w	#$E,d0		; Width of 14 tiles
 		moveq	#4-1,d1		; Height of 4 tiles
 
-loc_52EFC:
+- ;loc_52EFC:
 		move.l	(a5)+,(a1)+
 		move.l	(a5)+,(a1)+
 		move.l	(a5)+,(a1)+
 		move.w	(a5)+,(a1)+
 		adda.w	d0,a5
 		adda.w	d0,a1
-		dbf	d1,loc_52EFC
+		dbf	d1,- ;loc_52EFC
 		jmp	Refresh_PlaneScreenDirect(pc)
 ; ---------------------------------------------------------------------------
 
@@ -7275,30 +7275,30 @@ FBZ2SE_BossEventEnd:
 
 SetUp_FBZ2BossEvent:
 		jsr	(AllocateObject).l
-		bne.s	loc_52F7A
+		bne.s	+ ;loc_52F7A
 		move.l	#Obj_FBZEndBossEventControl,(a1)
 		jsr	(CreateNewSprite4).l
-		bne.s	loc_52F7A
+		bne.s	+ ;loc_52F7A
 		move.l	#Obj_FBZBossPillar,(a1)
 		lea	(FBZ_cloud_addr).w,a5
 		moveq	#0,d1
 		moveq	#5-1,d2
 
-loc_52F56:
+- ;loc_52F56:
 		move.l	d1,(a5)+		; Reset object addresses for clouds
-		dbf	d2,loc_52F56
+		dbf	d2,- ;loc_52F56
 		lea	(FBZ_cloud_addr).w,a5
 		moveq	#$A-1,d1
 
-loc_52F62:
+- ;loc_52F62:
 		jsr	(CreateNewSprite4).l
-		bne.s	loc_52F7A
+		bne.s	+ ;loc_52F7A
 		move.w	a1,(a5)+
 		move.l	#Obj_FBZCloud,(a1)	; Create cloud objects and place addresses in FFEEEA
 		move.w	d1,$2E(a1)
-		dbf	d1,loc_52F62
+		dbf	d1,- ;loc_52F62
 
-loc_52F7A:
++ ;loc_52F7A:
 		lea	Pal_FBZBGOutdoors(pc),a1	; Modify palette
 		lea	(Normal_palette_line_4+$2).w,a5
 		lea	(Target_palette_line_4+$2).w,a6
@@ -7322,12 +7322,12 @@ FBZ2_LayoutModRange:
 
 FBZ2_BackgroundInit:
 		jsr	(AllocateObject).l
-		bne.s	loc_52FB6
+		bne.s	+ ;loc_52FB6
 		move.l	#Obj_FBZOutdoorBGMotion,(a1)
 
-loc_52FB6:
++ ;loc_52FB6:
 		cmpi.w	#$2C40,(Camera_X_pos).w
-		blo.s	loc_53002
+		blo.s	+ ;loc_53002
 		move.w	#$10,(Events_routine_bg).w		; If in boss event area, set BG event
 		move.w	(a3),d0
 		move.w	d0,$70(a3)			; Copy top BG line to bottom BG line (I guess so the scrolling doesn't garble the screen?)
@@ -7347,7 +7347,7 @@ loc_52FB6:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_53002:
++ ;loc_53002:
 		jsr	FBZ_Deform(pc)			; Nromal play
 		jsr	Reset_TileOffsetPositionEff(pc)
 		moveq	#0,d1
@@ -7381,11 +7381,11 @@ loc_5303C:
 		moveq	#0,d1
 		move.w	(Camera_Y_pos_BG_copy).w,d2
 		tst.w	(Events_bg+$04).w
-		beq.s	loc_5304E
+		beq.s	+ ;loc_5304E
 		move.w	#$200,d1
 		moveq	#0,d2
 
-loc_5304E:
++ ;loc_5304E:
 		jsr	Draw_PlaneVertTopDown(pc)
 		bpl.s	loc_530BA
 		move.w	#4,(Events_routine_bg).w
@@ -7399,11 +7399,11 @@ loc_53060:
 		moveq	#0,d1
 		move.w	(Camera_Y_pos_BG_copy).w,d2
 		tst.w	(Events_bg+$04).w
-		beq.s	loc_53072
+		beq.s	+ ;loc_53072
 		move.w	#$200,d1
 		moveq	#0,d2
 
-loc_53072:
++ ;loc_53072:
 		jsr	Draw_PlaneVertSingleBottomUp(pc)
 		bpl.s	loc_530BA
 		move.w	#4,(Events_routine_bg).w
@@ -7420,38 +7420,38 @@ FBZ2BGE_Init:
 
 FBZ2BGE_Normal:
 		tst.w	(Events_routine_fg).w
-		beq.s	loc_530AC
+		beq.s	+ ;loc_530AC
 		jsr	FBZ2_CloudDeform(pc)	; If boss event has started
 		jsr	Reset_TileOffsetPositionEff(pc)
 		move.w	#$10,(Events_routine_bg).w
 		bra.s	loc_530F0
 ; ---------------------------------------------------------------------------
 
-loc_530AC:
++ ;loc_530AC:
 		cmpi.b	#6,(Player_1+routine).w
-		blo.s	loc_530B6			; Don't change BG if dying
+		blo.s	+ ;loc_530B6			; Don't change BG if dying
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_530B6:
++ ;loc_530B6:
 		jsr	FBZ2_CheckBGChange(pc)
 
 loc_530BA:
 		move.w	(Events_bg+$04).w,d1
-		beq.s	loc_530C4
+		beq.s	+ ;loc_530C4
 		move.w	#$200,d1
 
-loc_530C4:
++ ;loc_530C4:
 		lea	(Camera_Y_pos_BG_copy).w,a6
 		lea	(Camera_Y_pos_BG_rounded).w,a5
 		moveq	#$20,d6
 		jsr	Draw_TileRow(pc)
 		lea	FBZ_InBGDeformArray(pc),a4
 		tst.w	(Events_bg+$04).w
-		beq.s	loc_530E0
+		beq.s	+ ;loc_530E0
 		lea	FBZ_OutBGDeformArray(pc),a4
 
-loc_530E0:
++ ;loc_530E0:
 		lea	(HScroll_table).w,a5
 		jsr	ApplyDeformation(pc)
 		jmp	ShakeScreen_Setup(pc)
@@ -7475,11 +7475,11 @@ loc_530F0:
 		move.w	(_unkEE9C).w,d0
 		clr.w	(_unkEE9C).w		; Get final Y offset and clear it
 		btst	#Status_InAir,(Player_1+status).w
-		beq.s	loc_53134
+		beq.s	+ ;loc_53134
 		add.w	d0,(Player_1+y_pos).w	; If player is not on ground, adjust his Y position properly
 		add.w	d0,(Player_2+y_pos).w
 
-loc_53134:
++ ;loc_53134:
 		add.w	d0,(Camera_Y_pos).w
 		add.w	d0,(Camera_Y_pos_copy).w
 		add.w	d0,(Camera_min_Y_pos).w
@@ -7499,14 +7499,14 @@ loc_53134:
 		subi.w	#$14,d0
 		moveq	#4-1,d1
 
-loc_5317C:
+- ;loc_5317C:
 		moveq	#$14-1,d2
 
-loc_5317E:
+- ;loc_5317E:
 		clr.b	(a1)+				; Clear large area of FG, probably erasing the copied FG area from the layout mod
-		dbf	d2,loc_5317E
+		dbf	d2,- ;loc_5317E
 		adda.w	d0,a1
-		dbf	d1,loc_5317C
+		dbf	d1,-- ;loc_5317C
 
 locret_5318A:
 		rts
@@ -7536,14 +7536,14 @@ FBZ2_CloudDeform:
 		addi.l	#$8000,(HScroll_table+$1FC).w	; Perform cloud movement
 		moveq	#$A-1,d3
 
-loc_531D2:
+- ;loc_531D2:
 		move.w	(a5)+,d4
 		add.l	d2,d0
 		swap	d0
 		move.w	d0,(a1,d4.w)		; Set up cloud speeds
 		swap	d0
 		add.l	d1,d0
-		dbf	d3,loc_531D2
+		dbf	d3,- ;loc_531D2
 		lea	(HScroll_table).w,a1
 		lea	(FBZ_cloud_addr).w,a5
 		move.w	(Camera_Y_pos_BG_copy).w,d0
@@ -7555,9 +7555,9 @@ loc_531D2:
 		add.w	(Events_bg+$08).w,d0	; Get effective Y, add BG motion offset to it
 		moveq	#$A-1,d1
 
-loc_53202:
+- ;loc_53202:
 		move.w	(a5)+,d2
-		beq.s	loc_5322E
+		beq.s	+ ;loc_5322E
 		movea.w	d2,a6			; Load cloud address
 		move.w	$30(a6),d3		; Get Y position
 		add.w	d0,d3			; Add ofset
@@ -7571,8 +7571,8 @@ loc_53202:
 		addi.w	#$54,d3
 		move.w	d3,$10(a6)		; Do the same to the X
 
-loc_5322E:
-		dbf	d1,loc_53202
++ ;loc_5322E:
+		dbf	d1,- ;loc_53202
 		rts
 ; End of function FBZ2_CloudDeform
 
@@ -7593,33 +7593,33 @@ FBZ2_CheckBGChange:
 		bra.w	FBZ_Deform
 ; ---------------------------------------------------------------------------
 		tst.w	(Events_bg+$04).w
-		bne.s	loc_53258
+		bne.s	+ ;loc_53258
 		cmpi.w	#$A40,d1
 		blo.w	FBZ_Deform
-		bra.s	loc_5326A
+		bra.s	++ ;loc_5326A
 ; ---------------------------------------------------------------------------
 
-loc_53258:
++ ;loc_53258:
 		cmpi.w	#$A40,d1
 		bhi.w	FBZ_Deform
 		clr.w	(Events_bg+$04).w
 		moveq	#8,d0
 		moveq	#0,d6
-		bra.s	loc_5327A
+		bra.s	++ ;loc_5327A
 ; ---------------------------------------------------------------------------
 
-loc_5326A:
++ ;loc_5326A:
 		st	(Events_bg+$04).w
 		moveq	#$C,d0
 		move.w	#$F0,d6
 		lea	Pal_FBZBGOutdoors(pc),a1
-		bra.s	loc_5327E
+		bra.s	++ ;loc_5327E
 ; ---------------------------------------------------------------------------
 
-loc_5327A:
++ ;loc_5327A:
 		lea	Pal_FBZBGIndoors(pc),a1
 
-loc_5327E:
++ ;loc_5327E:
 		lea	(Normal_palette_line_4+$4).w,a5
 		move.l	(a1)+,(a5)+
 		move.l	(a1)+,(a5)+
@@ -7645,10 +7645,10 @@ Obj_FBZEndBossEventControl:
 		move.w	#$32B8,(Camera_max_X_pos).w		; Set $32B8 as the X end
 		move.w	#$3C,d0
 		cmpi.w	#2,(Player_mode).w
-		bne.s	loc_532DC
+		bne.s	+ ;loc_532DC
 		addq.w	#4,d0
 
-loc_532DC:
++ ;loc_532DC:
 		move.w	d0,(Camera_min_Y_pos).w		; Set level Y start depending on whether Tails is playing or not. I guess this is because Tails' center point is slightly lower than Sonic's
 
 loc_532E0:
@@ -7677,10 +7677,10 @@ loc_53322:
 
 loc_5333A:
 		cmpi.w	#$280,(Player_1+y_pos).w
-		bhs.s	loc_53348
+		bhs.s	+ ;loc_53348
 		move.w	(Camera_X_pos).w,(Camera_min_X_pos).w	; If player is above $280 Y then lock screen X as you move
 
-loc_53348:
++ ;loc_53348:
 		move.w	(Camera_min_Y_pos).w,d0
 		cmp.w	(Camera_max_Y_pos).w,d0
 		bne.s	loc_533A4
@@ -7706,7 +7706,7 @@ loc_53388:
 		move.w	#$31C0,d4
 		move.w	#$690,d1
 		move.l	#loc_533A4,(a0)
-		bra.s	loc_533B8
+		bra.s	+ ;loc_533B8
 ; ---------------------------------------------------------------------------
 
 loc_533A4:
@@ -7716,7 +7716,7 @@ loc_533A4:
 		move.w	#$690,d1
 		sub.w	(_unkEE9C).w,d1
 
-loc_533B8:
++ ;loc_533B8:
 		move.w	d0,x_pos(a0)
 		move.w	d1,y_pos(a0)
 		move.w	#$4C0,d1
@@ -7743,10 +7743,10 @@ Obj_FBZBossPillarMain:
 		move.w	d4,d1
 		subi.w	#$200,d0
 		tst.w	$30(a0)
-		beq.s	loc_5341E
+		beq.s	+ ;loc_5341E
 		addi.w	#$28,d1
 
-loc_5341E:
++ ;loc_5341E:
 		move.w	#$580,d5
 		sub.w	(_unkEE9C).w,d5	; Get proper Y offset
 		move.w	d5,d2
@@ -7759,34 +7759,34 @@ loc_5341E:
 		lea	(Player_2).w,a1
 		bsr.s	FBZBossPillar_CheckPlayerPos
 		tst.w	$30(a0)
-		beq.s	loc_53456
+		beq.s	+ ;loc_53456
 		cmpi.w	#$40,$2E(a0)	; If player is in range, increase pillar offset
-		bhs.s	loc_5346A
+		bhs.s	++ ;loc_5346A
 		addq.w	#8,$2E(a0)
-		bra.s	loc_5346A
+		bra.s	++ ;loc_5346A
 ; ---------------------------------------------------------------------------
 
-loc_53456:
++ ;loc_53456:
 		tst.w	$2E(a0)
-		beq.s	loc_5346A
+		beq.s	+ ;loc_5346A
 		subq.w	#8,$2E(a0)		; If player is not in range, decrease pillar offset
-		bne.s	loc_5346A
+		bne.s	+ ;loc_5346A
 		moveq	#signextendB(sfx_SpikeBalls),d0		; Play sound only when pillar hits ground
 		jsr	(Play_SFX).l
 
-loc_5346A:
++ ;loc_5346A:
 		sub.w	$2E(a0),d5
 		move.w	d5,y_pos(a0)		; Subtract Y from offset and place it in sprite Y
 		lea	sub2_x_pos(a0),a1
 		addi.w	#$80,d5
 		moveq	#1,d0
 
-loc_5347C:
+- ;loc_5347C:
 		move.w	d4,(a1)
 		move.w	d5,sub2_y_pos-sub2_x_pos(a1)
 		subi.w	#$100,d5		; Set the sprite positions of each pillar sprite
 		addq.w	#6,a1
-		dbf	d0,loc_5347C
+		dbf	d0,- ;loc_5347C
 		moveq	#$2B,d1
 		move.w	#$100,d2
 		move.w	#$100,d3
@@ -7866,11 +7866,11 @@ FBZCloud_PositionFrameData:
 
 ICZ1_ScreenInit:
 		tst.b	(Last_star_post_hit).w
-		bne.s	loc_53648			; If not restarting from a lamppost
+		bne.s	+ ;loc_53648			; If not restarting from a lamppost
 		cmpi.w	#3,(Player_mode).w
-		bne.s	loc_53648			; And we're Knuckles
+		bne.s	+ ;loc_53648			; And we're Knuckles
 		jsr	(AllocateObject).l
-		bne.s	loc_53648
+		bne.s	+ ;loc_53648
 		move.l	#Obj_ICZTeleporter,(a1)	; Make teleporter object, etc
 		move.w	#$3640,(Player_1+x_pos).w
 		move.w	#$660,(Player_1+y_pos).w
@@ -7881,7 +7881,7 @@ ICZ1_ScreenInit:
 		move.w	d0,(Camera_Y_pos_copy).w
 		move.w	d0,(Camera_Y_pos).w
 
-loc_53648:
++ ;loc_53648:
 		move.w	#$7FF,(Screen_Y_wrap_value).w
 		move.w	#$7F0,(Camera_Y_pos_mask).w
 		move.w	#$3C,(Layout_row_index_mask).w		; We're in a looping level!
@@ -7910,13 +7910,13 @@ ICZ1_ScreenEvent:
 
 ICZ1SE_Init:
 		tst.w	(Screen_shake_flag).w
-		beq.s	loc_53696
+		beq.s	+ ;loc_53696
 		tst.b	(Ctrl_1_locked).w	; If shaking due to hitting the wall, remove player control temporarily
-		bne.s	loc_53696
+		bne.s	+ ;loc_53696
 		st	(Ctrl_1_locked).w
 		clr.w	(Ctrl_1_logical).w
 
-loc_53696:
++ ;loc_53696:
 		move.w	(Screen_shake_offset).w,d0
 		add.w	d0,(Camera_X_pos_copy).w
 		bra.s	ICZ1SE_Normal
@@ -7934,19 +7934,19 @@ ICZ1_BackgroundInit:
 		lea	(a3),a1
 		moveq	#8-1,d0
 
-loc_536B0:
+- ;loc_536B0:
 		move.w	(a1),$20(a1)	; Upper $400 of BG is mirrored in lower $400
 		addq.w	#4,a1
-		dbf	d0,loc_536B0
+		dbf	d0,- ;loc_536B0
 		move.w	(Camera_Y_pos_copy).w,(Events_fg_0).w
 		move.w	(Camera_Y_pos_copy).w,(Events_fg_1).w		; Camera BG Y is noted in two variables
 		cmpi.w	#$3940,(Camera_X_pos).w
-		bhs.s	loc_53704
+		bhs.s	++ ;loc_53704
 		cmpi.w	#$3580,(Camera_X_pos).w
-		blo.s	loc_536DC
+		blo.s	+ ;loc_536DC
 		addi.w	#$2800,(Events_fg_1).w		; If past $3580 X, adjust BG camera
 
-loc_536DC:
++ ;loc_536DC:
 		clr.w	(Events_bg+$16).w				; No VScrolling when outside
 		jsr	(ICZ1_SetIntroPal).l
 		jsr	ICZ1_IntroDeform(pc)
@@ -7958,7 +7958,7 @@ loc_536DC:
 		jmp	ApplyDeformation(pc)
 ; ---------------------------------------------------------------------------
 
-loc_53704:
++ ;loc_53704:
 		move.w	#$10,(Events_routine_bg).w		; If past $3940 X, we're indoors already
 		st	(Events_bg+$16).w				; Go indoors
 		jsr	(ICZ1_SetIndoorPal).l
@@ -7992,23 +7992,23 @@ ICZ1BGE_Intro:
 		beq.s	loc_53780
 		clr.w	(Events_fg_5).w		; If flag is set
 		cmpi.w	#3,(Player_mode).w
-		bne.s	loc_5375C
+		bne.s	+ ;loc_5375C
 		addq.w	#4,(Events_routine_bg).w	; Just go to next BG event if playing as Knuckles
 		bra.s	loc_53780
 ; ---------------------------------------------------------------------------
 
-loc_5375C:
++ ;loc_5375C:
 		jsr	(AllocateObject).l
-		bne.s	loc_5376A
+		bne.s	+ ;loc_5376A
 		move.l	#Obj_ICZ1BigSnowPile,(a1)
 
-loc_5376A:
++ ;loc_5376A:
 		clr.l	(Events_bg+$00).w
 		clr.l	(Events_bg+$04).w		; Clear offsets
 		jsr	ICZ1_BigSnowFall(pc)
 		jsr	Reset_TileOffsetPositionEff(pc)
 		addq.w	#4,(Events_routine_bg).w
-		bra.s	loc_537BA
+		bra.s	+ ;loc_537BA
 ; ---------------------------------------------------------------------------
 
 loc_53780:
@@ -8026,18 +8026,18 @@ loc_53780:
 
 ICZ1BGE_SnowFall:
 		tst.w	(Events_fg_5).w
-		bne.s	loc_537C6
+		bne.s	++ ;loc_537C6
 		cmpi.w	#3,(Player_mode).w
 		beq.s	loc_53780	; If Knuckles, skip
 		jsr	ICZ1_BigSnowFall(pc)
 
-loc_537BA:
++ ;loc_537BA:
 		jsr	DrawBGAsYouMove(pc)
 		jsr	PlainDeformation(pc)
 		jmp	ShakeScreen_Setup(pc)
 ; ---------------------------------------------------------------------------
 
-loc_537C6:
++ ;loc_537C6:
 		clr.w	(Events_fg_5).w
 		move.w	#$2E0,(Draw_delayed_position).w		; Set BG refresh position
 		move.w	#$F,(Draw_delayed_rowcount).w
@@ -8055,26 +8055,26 @@ ICZ1BGE_Refresh:
 		move.w	d0,(Draw_delayed_position).w
 		move.w	#$F,(Draw_delayed_rowcount).w
 		addq.w	#4,(Events_routine_bg).w
-		bra.s	loc_5380E
+		bra.s	+ ;loc_5380E
 ; ---------------------------------------------------------------------------
 
 ICZ1BGE_Refresh2:
 		jsr	ICZ1_Deform(pc)
 
-loc_5380E:
++ ;loc_5380E:
 		move.w	(Camera_X_pos_BG_copy).w,d1
 		move.w	(Camera_Y_pos_BG_copy).w,d2
 		jsr	Draw_PlaneVertBottomUp(pc)
-		bpl.s	loc_5387E
+		bpl.s	++ ;loc_5387E
 		st	(Events_bg+$16).w		; Go indoors
 		jsr	(ICZ1_SetIndoorPal).l	; Set indoor palette
 		addq.w	#4,(Events_routine_bg).w
-		bra.s	loc_5387E
+		bra.s	++ ;loc_5387E
 ; ---------------------------------------------------------------------------
 
 ICZ1BGE_Normal:
 		cmpi.w	#$6900,(Camera_X_pos).w
-		blo.s	loc_5387A
+		blo.s	+ ;loc_5387A
 		movem.l	d7-a0/a2-a3,-(sp)
 		lea	(ICZ2_128x128_Secondary_Kos).l,a1
 		lea	(RAM_start+$A00).l,a2
@@ -8090,17 +8090,17 @@ ICZ1BGE_Normal:
 		movem.l	(sp)+,d7-a0/a2-a3
 		addq.w	#4,(Events_routine_bg).w
 
-loc_5387A:
++ ;loc_5387A:
 		jsr	ICZ1_Deform(pc)
 
-loc_5387E:
++ ;loc_5387E:
 		jsr	DrawBGAsYouMove(pc)
 		jmp	PlainDeformation(pc)
 ; ---------------------------------------------------------------------------
 
 ICZ1BGE_Transition:
 		tst.w	(Kos_decomp_queue_count).w
-		bne.w	loc_53938
+		bne.w	+ ;loc_53938
 		move.w	#$501,(Current_zone_and_act).w
 		clr.b	(Dynamic_resize_routine).w
 		clr.b	(Object_load_routine).w
@@ -8139,7 +8139,7 @@ ICZ1BGE_Transition:
 		jsr	Reset_TileOffsetPositionActual(pc)
 		clr.w	(Events_routine_bg).w
 
-loc_53938:
++ ;loc_53938:
 		jsr	ICZ1_Deform(pc)
 		jmp	PlainDeformation(pc)
 
@@ -8168,7 +8168,7 @@ ICZ1_IntroDeform:
 		lea	(HScroll_table).w,a1
 		moveq	#0,d3
 		moveq	#5-1,d2			; First five deformation speeds are constant
-		bsr.s	sub_53996
+		bsr.s	+ ;sub_53996
 		add.l	d1,d0
 		move.l	d1,d2
 		asr.l	#1,d2
@@ -8182,14 +8182,14 @@ ICZ1_IntroDeform:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_53996:
+/ ;sub_53996:
 		swap	d0
 		move.w	d0,(a1)+
 		swap	d0
 		add.l	d1,d0
 		add.l	d3,d1
 		addi.l	#$800,d3
-		dbf	d2,sub_53996
+		dbf	d2,- ;sub_53996
 		rts
 ; End of function sub_53996
 
@@ -8199,7 +8199,7 @@ sub_53996:
 
 ICZ1_BigSnowFall:
 		cmpi.w	#-$12E,(Events_bg+$00).w
-		ble.s	loc_539DE
+		ble.s	+ ;loc_539DE
 		st	(Screen_shake_flag).w
 		addi.l	#$2400,(Events_bg+$04).w
 		move.l	(Events_bg+$04).w,d0
@@ -8207,19 +8207,19 @@ ICZ1_BigSnowFall:
 		move.w	(Level_frame_counter).w,d0
 		subq.w	#1,d0
 		andi.w	#$F,d0
-		bne.s	loc_539F0
+		bne.s	++ ;loc_539F0
 		moveq	#signextendB(sfx_Rumble2),d0
 		jsr	(Play_SFX).l
-		bra.s	loc_539F0
+		bra.s	++ ;loc_539F0
 ; ---------------------------------------------------------------------------
 
-loc_539DE:
++ ;loc_539DE:
 		tst.w	(Screen_shake_flag).w
-		bpl.s	loc_539F0
+		bpl.s	+ ;loc_539F0
 		move.w	#4,(Screen_shake_flag).w
 		move.w	#-$12E,(Events_bg+$00).w
 
-loc_539F0:
++ ;loc_539F0:
 		move.w	(Camera_Y_pos_copy).w,d0		; Use portion of background to show snow object
 		subi.w	#$460,d0
 		add.w	(Events_bg+$00).w,d0
@@ -8259,11 +8259,11 @@ Obj_ICZ1BigSnowPile:
 
 loc_53A4C:
 		cmpi.w	#8,(Events_routine_bg).w
-		blo.s	loc_53A5A
+		blo.s	+ ;loc_53A5A
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_53A5A:
++ ;loc_53A5A:
 		move.w	#$5E0,d0
 		sub.w	(Events_bg+$00).w,d0		; Shift Y position based on offset
 		move.w	d0,y_pos(a0)
@@ -8298,10 +8298,10 @@ locret_53AD2:
 
 Obj_ICZTeleporter:
 		jsr	(AllocateObjectAfterCurrent).l
-		beq.s	loc_53ADE
+		beq.s	+ ;loc_53ADE
 		rts
 
-loc_53ADE:
++ ;loc_53ADE:
 		move.l	#Obj_ICZTeleporterMain,(a0)
 		move.b	#4,render_flags(a0)
 		move.b	#$10,height_pixels(a0)
@@ -8345,28 +8345,28 @@ Obj_ICZTeleporterMain:
 		add.w	$3E(a0),d0
 		move.w	d0,y_pos(a1)
 		tst.l	$2E(a0)
-		bmi.s	loc_53BFE
+		bmi.s	++ ;loc_53BFE
 		clr.b	object_control(a1)			; Return player control to Knuckles
 		clr.b	anim(a1)
 		move.l	#Obj_ICZTeleporterCheckDel,(a0)
 
 Obj_ICZTeleporterCheckDel:
 		cmpi.w	#$3780,(Camera_X_pos_copy).w
-		blo.s	loc_53BEE
+		blo.s	+ ;loc_53BEE
 		lea	(Normal_palette_line_2+$10).w,a1		; When player moves far enough to the right, restore palette and delete object
 		move.w	#$2C,(a1)
 		clr.w	4(a1)
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_53BEE:
++ ;loc_53BEE:
 		moveq	#$23,d1			; Act as a solid object otherwise
 		moveq	#$10,d2
 		moveq	#1,d3
 		move.w	x_pos(a0),d4
 		jsr	(SolidObjectFull).l
 
-loc_53BFE:
++ ;loc_53BFE:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 		dc.b  $61, $61
@@ -8480,26 +8480,26 @@ ICZ2_ScreenEvent:
 ICZ2_BackgroundInit:
 		move.w	#4,(Events_routine_bg).w
 		cmpi.w	#$3600,(Camera_X_pos).w	; Check ranges for either indoor/outdoor BGs
-		bhs.s	loc_53CF6
+		bhs.s	+ ;loc_53CF6
 		cmpi.w	#$720,(Camera_Y_pos).w
 		bhs.s	loc_53D2C
 		cmpi.w	#$1000,(Camera_X_pos).w
-		bhs.s	loc_53CF6
+		bhs.s	+ ;loc_53CF6
 		cmpi.w	#$580,(Camera_Y_pos).w
 		bhs.s	loc_53D2C
 
-loc_53CF6:
++ ;loc_53CF6:
 		clr.w	(Events_bg+$16).w			; Outdoors
 		cmpi.w	#$720,(Camera_X_pos).w
-		bhs.s	loc_53D0A
+		bhs.s	+ ;loc_53D0A
 		jsr	(ICZ2_SetICZ1Pal).l
-		bra.s	loc_53D10
+		bra.s	++ ;loc_53D10
 ; ---------------------------------------------------------------------------
 
-loc_53D0A:
++ ;loc_53D0A:
 		jsr	(ICZ2_SetOutdoorsPal).l
 
-loc_53D10:
++ ;loc_53D10:
 		jsr	(ICZ2_OutDeform).l
 		moveq	#0,d0
 		moveq	#0,d1
@@ -8537,7 +8537,7 @@ ICZ2_BackgroundEvent:
 ICZ2BGE_FromICZ1:
 		addq.w	#4,(Events_routine_bg).w		; This only applies when coming from ICZ 1
 		cmpi.w	#$580,(Camera_Y_pos).w
-		bhs.s	loc_53D96
+		bhs.s	+ ;loc_53D96
 		bra.w	loc_53DFC
 ; ---------------------------------------------------------------------------
 
@@ -8546,13 +8546,13 @@ ICZ2BGE_Normal:
 		bne.s	loc_53DD8
 		move.w	(Camera_X_pos).w,d0		; If outdoors
 		cmpi.w	#$1000,d0
-		blo.s	loc_53DC4
+		blo.s	++ ;loc_53DC4
 		cmpi.w	#$3600,d0
-		bhs.s	loc_53DC4
+		bhs.s	++ ;loc_53DC4
 		cmpi.w	#$720,(Camera_Y_pos).w
-		blo.s	loc_53DC4
+		blo.s	++ ;loc_53DC4
 
-loc_53D96:
++ ;loc_53D96:
 		st	(Events_bg+$16).w				; Set to go indoors
 		jsr	(ICZ2_SetIndoorsPal).l
 		jsr	(ICZ2_InDeform).l
@@ -8565,7 +8565,7 @@ loc_53D96:
 		bra.w	loc_53E84
 ; ---------------------------------------------------------------------------
 
-loc_53DC4:
++ ;loc_53DC4:
 		jsr	(ICZ2_OutDeform).l				; No trigger, run normal deformation
 
 loc_53DCA:
@@ -8577,11 +8577,11 @@ loc_53DCA:
 loc_53DD8:
 		move.w	(Camera_X_pos).w,d0		; If indoors
 		cmpi.w	#$1900,d0
-		blo.s	loc_53DE8
+		blo.s	+ ;loc_53DE8
 		cmpi.w	#$1B80,d0
 		blo.s	loc_53E38
 
-loc_53DE8:
++ ;loc_53DE8:
 		cmpi.w	#$1000,d0
 		blo.s	loc_53E38
 		cmpi.w	#$3600,d0
@@ -8592,15 +8592,15 @@ loc_53DE8:
 loc_53DFC:
 		clr.w	(Events_bg+$16).w
 		cmpi.w	#$720,(Camera_X_pos).w
-		bhs.s	loc_53E10
+		bhs.s	+ ;loc_53E10
 		jsr	(ICZ2_SetICZ1Pal).l
-		bra.s	loc_53E16
+		bra.s	++ ;loc_53E16
 ; ---------------------------------------------------------------------------
 
-loc_53E10:
++ ;loc_53E10:
 		jsr	(ICZ2_SetOutdoorsPal).l
 
-loc_53E16:
++ ;loc_53E16:
 		jsr	(ICZ2_OutDeform).l
 		jsr	Reset_TileOffsetPositionEff(pc)
 		addi.w	#$E0,d0
@@ -8627,7 +8627,7 @@ loc_53E3E:
 
 ICZ2BGE_Refresh:
 		tst.w	(Events_bg+$16).w
-		bne.s	loc_53E7E
+		bne.s	+ ;loc_53E7E
 		jsr	(ICZ2_OutDeform).l
 
 loc_53E68:
@@ -8639,7 +8639,7 @@ loc_53E68:
 		bra.w	loc_53DCA
 ; ---------------------------------------------------------------------------
 
-loc_53E7E:
++ ;loc_53E7E:
 		jsr	(ICZ2_InDeform).l
 
 loc_53E84:
@@ -8666,30 +8666,30 @@ LBZ1_ScreenInit:
 		lea	(HScroll_table+$148).w,a1
 		moveq	#$E-1,d0
 
-loc_53ECC:
+- ;loc_53ECC:
 		clr.l	(a1)+		; Clear VScroll
-		dbf	d0,loc_53ECC
+		dbf	d0,- ;loc_53ECC
 		jsr	LBZ1_EventVScroll(pc)
 		lea	(HScroll_table+$100).w,a1
 		moveq	#$C-1,d0
 
-loc_53EDC:
+- ;loc_53EDC:
 		move.w	(a1)+,d1
 		and.w	(Camera_Y_pos_mask).w,d1
 		move.w	d1,(a1)+	; Set up tile offsets for VScroll array
-		dbf	d0,loc_53EDC
+		dbf	d0,- ;loc_53EDC
 		cmpi.w	#3,(Player_mode).w
-		beq.s	loc_53F06
+		beq.s	+ ;loc_53F06
 		cmpi.w	#$3B60,(Camera_X_pos).w	; Skip this if Knuckles
-		blo.s	loc_53F0A
+		blo.s	++ ;loc_53F0A
 		jsr	(AllocateObject).l
-		bne.s	loc_53F06
+		bne.s	+ ;loc_53F06
 		move.l	#Obj_LBZ1InvisibleBarrier,(a1)
 
-loc_53F06:
++ ;loc_53F06:
 		jsr	LBZ1_ModEndingLayout(pc)
 
-loc_53F0A:
++ ;loc_53F0A:
 		move.w	(Player_1+x_pos).w,d0
 		move.w	(Player_1+y_pos).w,d1
 		moveq	#0,d2
@@ -8703,16 +8703,16 @@ LBZ1_ScreenEvent:
 		add.w	d0,(Camera_Y_pos_copy).w
 		jsr	LBZ1_KnuxLevelSizeAdjust(pc)
 		cmpi.w	#$55,(Events_fg_4).w
-		bne.s	loc_53F6A
+		bne.s	++ ;loc_53F6A
 		clr.w	(Events_fg_4).w
 		cmpi.w	#3,(Player_mode).w
-		beq.s	loc_53F50
+		beq.s	+ ;loc_53F50
 		movea.w	8(a3),a1
 		move.b	#$DA,$7D(a1)		; Changes the chunk where the boss appears
 		jmp	Refresh_PlaneScreenDirect(pc)
 ; ---------------------------------------------------------------------------
 
-loc_53F50:
++ ;loc_53F50:
 		movea.w	$4C(a3),a1
 		move.b	$78(a1),d0
 		movea.w	$50(a3),a1
@@ -8723,28 +8723,28 @@ loc_53F50:
 		jmp	Refresh_PlaneScreenDirect(pc)
 ; ---------------------------------------------------------------------------
 
-loc_53F6A:
++ ;loc_53F6A:
 		move.w	(Player_1+x_pos).w,d0	; Normal level operation
 		move.w	(Player_1+y_pos).w,d1
 		move.w	(Events_bg+$00).w,d2
-		bne.s	loc_53F86
+		bne.s	+ ;loc_53F86
 		jsr	(LBZ1_CheckLayoutMod).l
 		tst.w	d3
 		bmi.s	loc_53FE2
 		jmp	Refresh_PlaneScreenDirect(pc)	; Refresh screen when a layout mod is made
 ; ---------------------------------------------------------------------------
 
-loc_53F86:
++ ;loc_53F86:
 		lea	(LBZ1_LayoutModExitRange-4).l,a1		; If already in a layout
 		adda.w	d2,a1
 		cmp.w	(a1)+,d0
-		blo.s	loc_53F98
+		blo.s	+ ;loc_53F98
 		cmp.w	(a1)+,d0
-		bhi.s	loc_53F98
+		bhi.s	+ ;loc_53F98
 		bra.s	loc_53FE2
 ; ---------------------------------------------------------------------------
 
-loc_53F98:
++ ;loc_53F98:
 		clr.w	(Events_bg+$00).w
 		lsr.w	#1,d2
 		jsr	loc_53FA6-2(pc,d2.w)
@@ -8799,14 +8799,14 @@ loc_53FE2:
 LBZ1_EventVScroll:
 		tst.w	(Events_fg_4).w
 		beq.w	loc_540AC
-		bpl.s	loc_5401C
+		bpl.s	+ ;loc_5401C
 		move.w	#1,(Events_fg_4).w
 		move.w	#4,(Special_V_int_routine).w
 		jsr	(AllocateObject).l
-		bne.s	loc_5401C
+		bne.s	+ ;loc_5401C
 		move.l	#Obj_LBZ1InvisibleBarrier,(a1)
 
-loc_5401C:
++ ;loc_5401C:
 		lea	(HScroll_table+$14C).w,a1
 		lea	(LBZ1_CollapseScrollSpeed).l,a5
 		move.l	$2C(a1),d0
@@ -8817,7 +8817,7 @@ loc_5401C:
 		moveq	#$A,d2
 		moveq	#$A-1,d3
 
-loc_54040:
+- ;loc_54040:
 		addq.w	#2,d1
 		andi.w	#$E,d1
 		move.w	(a5,d1.w),d4
@@ -8828,24 +8828,24 @@ loc_54040:
 		sub.l	d0,d5
 		swap	d5
 		cmpi.w	#-$300,d5
-		bgt.s	loc_54062
+		bgt.s	+ ;loc_54062
 		move.w	#-$300,d5
 		subq.w	#1,d2
 
-loc_54062:
++ ;loc_54062:
 		swap	d5
 		move.l	d5,(a1)+
-		dbf	d3,loc_54040
+		dbf	d3,- ;loc_54040
 		move.w	(Level_frame_counter).w,d0
 		subq.w	#1,d0
 		andi.w	#$F,d0
-		bne.s	loc_54082
+		bne.s	+ ;loc_54082
 		tst.w	d2
-		beq.s	loc_54082
+		beq.s	+ ;loc_54082
 		moveq	#signextendB(sfx_BigRumble),d0
 		jsr	(Play_SFX).l
 
-loc_54082:
++ ;loc_54082:
 		tst.w	d2
 		bne.s	loc_540AC
 		clr.w	(Screen_shake_flag).w
@@ -8855,9 +8855,9 @@ loc_54082:
 		lea	(HScroll_table+$148).w,a1
 		moveq	#$E-1,d0
 
-loc_5409E:
+- ;loc_5409E:
 		clr.l	(a1)+
-		dbf	d0,loc_5409E
+		dbf	d0,- ;loc_5409E
 		moveq	#signextendB(sfx_Crash),d0
 		jsr	(Play_SFX).l
 
@@ -8868,14 +8868,14 @@ loc_540AC:
 		move.w	(Camera_Y_pos_copy).w,d0
 		moveq	#$C-1,d1
 
-loc_540BE:
+- ;loc_540BE:
 		move.w	(a5),d2
 		add.w	d0,d2
 		move.w	d2,(a1)
 		move.w	d2,(a4)+
 		addq.w	#4,a1
 		addq.w	#4,a5
-		dbf	d1,loc_540BE
+		dbf	d1,- ;loc_540BE
 		rts
 ; End of function LBZ1_EventVScroll
 
@@ -8890,10 +8890,10 @@ LBZ1_ModEndingLayout:
 		subq.w	#4,d0
 		moveq	#$C-1,d1
 
-loc_540DE:
+- ;loc_540DE:
 		clr.l	(a1)+
 		adda.w	d0,a1
-		dbf	d1,loc_540DE
+		dbf	d1,- ;loc_540DE
 		movea.w	(a3),a5
 		lea	$98(a5),a5
 		movea.w	$24(a3),a1
@@ -8902,11 +8902,11 @@ loc_540DE:
 		subq.w	#4,d0
 		moveq	#3-1,d1
 
-loc_540FC:
+- ;loc_540FC:
 		move.l	(a5)+,(a1)+
 		adda.w	d0,a5
 		adda.w	d0,a1
-		dbf	d1,loc_540FC
+		dbf	d1,- ;loc_540FC
 		st	(Events_bg+$02).w		; Disable the layout modding for this area (layoutmod3)
 		rts
 ; End of function LBZ1_ModEndingLayout
@@ -8930,10 +8930,10 @@ LBZ1_KnuxLevelSizeAdjust:
 		bhi.s	locret_54144
 		moveq	#0,d1
 		cmpi.w	#$640,d0
-		bhs.s	loc_54140
+		bhs.s	+ ;loc_54140
 		move.w	#$40C,d1
 
-loc_54140:
++ ;loc_54140:
 		move.w	d1,(Camera_min_Y_pos).w
 
 locret_54144:
@@ -8947,17 +8947,17 @@ locret_54144:
 LBZ1_RotateChunks:
 		moveq	#$18-1,d2
 
-loc_54148:
+- ;loc_54148:
 		lea	($FF6E00).l,a1
 		lea	-2(a1),a5
 		move.w	(a5),d0
 		moveq	#$3F-1,d1
 
-loc_54156:
+- ;loc_54156:
 		move.w	-(a5),-(a1)
-		dbf	d1,loc_54156
+		dbf	d1,- ;loc_54156
 		move.w	d0,(a5)
-		dbf	d2,loc_54148
+		dbf	d2,-- ;loc_54148
 		rts
 ; End of function LBZ1_RotateChunks
 
@@ -8965,11 +8965,11 @@ loc_54156:
 
 Obj_LBZ1InvisibleBarrier:
 		cmpi.w	#$3D80,(Camera_X_pos).w
-		blo.s	loc_54172
+		blo.s	+ ;loc_54172
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_54172:
++ ;loc_54172:
 		move.w	#$3BC0,d4
 		move.w	d4,x_pos(a0)
 		move.w	#$100,y_pos(a0)
@@ -8983,7 +8983,7 @@ loc_54172:
 
 LBZ1_BackgroundInit:
 		cmpi.w	#3,(Player_mode).w
-		bne.s	loc_541C6
+		bne.s	+ ;loc_541C6
 		movea.w	(a3),a1			; Get rid of the Death Egg portion of the BG while playing as Knuckles. For obvious reasons.
 		addq.w	#2,a1
 		move.b	#$E4,(a1)+
@@ -8995,7 +8995,7 @@ LBZ1_BackgroundInit:
 		move.b	#$EE,(a1)+
 		move.b	#$E8,(a1)+
 
-loc_541C6:
++ ;loc_541C6:
 		jsr	(LBZ1_Deform).l
 		jsr	Reset_TileOffsetPositionEff(pc)
 		move.w	d2,(HScroll_table+$002).w
@@ -9021,7 +9021,7 @@ LBZ1_BackgroundEvent:
 
 LBZ1BGE_Normal:
 		tst.w	(Events_fg_5).w
-		beq.s	loc_54248
+		beq.s	+ ;loc_54248
 		clr.w	(Events_fg_5).w		; Yeah, normal transition nonsense for the level change
 		movem.l	d7-a0/a2-a3,-(sp)
 		lea	(LBZ2_128x128_Kos).l,a1
@@ -9036,7 +9036,7 @@ LBZ1BGE_Normal:
 		movem.l	(sp)+,d7-a0/a2-a3
 		addq.w	#4,(Events_routine_bg).w
 
-loc_54248:
++ ;loc_54248:
 		jsr	(LBZ1_Deform).l
 		lea	LBZ1_BGDrawArray(pc),a4
 		lea	(HScroll_table).w,a5
@@ -9054,7 +9054,7 @@ loc_54248:
 
 LBZ1BGE_DoTransition:
 		tst.b	(Kos_modules_left).w
-		bne.w	loc_5432E
+		bne.w	++ ;loc_5432E
 		move.w	#$601,(Current_zone_and_act).w
 		clr.b	(Dynamic_resize_routine).w
 		clr.b	(Object_load_routine).w
@@ -9088,16 +9088,16 @@ LBZ1BGE_DoTransition:
 		clr.w	(Events_fg_3).w
 		move.w	#$40,(Events_bg+$10).w
 		cmpi.w	#$540,(Camera_Y_pos).w
-		blo.s	loc_5431C
+		blo.s	+ ;loc_5431C
 		neg.w	(Events_bg+$10).w
 
-loc_5431C:
++ ;loc_5431C:
 		movem.l	d7-a0/a2-a3,-(sp)
 		jsr	(sub_2807A).l				; Start LBZ2 tile animation
 		movem.l	(sp)+,d7-a0/a2-a3
 		clr.w	(Events_routine_bg).w
 
-loc_5432E:
++ ;loc_5432E:
 		lea	LBZ1_BGDeformArray(pc),a4
 		lea	(HScroll_table+$008).w,a5
 		jmp	ApplyDeformation(pc)
@@ -9135,15 +9135,15 @@ LBZ2_ScreenEvent:
 
 LBZ2SE_FromTransition:
 		cmpi.w	#3,(Player_mode).w		; Only run when going from transition, of course
-		beq.s	loc_543C2				; Knuckles adjusts the layout immediately.
+		beq.s	++ ;loc_543C2				; Knuckles adjusts the layout immediately.
 		cmpi.w	#$60A,(Player_1+x_pos).w
-		blo.s	loc_5439E
+		blo.s	+ ;loc_5439E
 		bsr.s	LBZ2_LayoutMod
 		addq.w	#4,(Events_routine_fg).w
 		jmp	Refresh_PlaneScreenDirect(pc)
 ; ---------------------------------------------------------------------------
 
-loc_5439E:
++ ;loc_5439E:
 		jmp	DrawTilesAsYouMove(pc)
 
 ; =============== S U B R O U T I N E =======================================
@@ -9158,18 +9158,18 @@ LBZ2_LayoutMod:
 		subq.w	#6,d0
 		moveq	#6-1,d1
 
-loc_543B4:
+- ;loc_543B4:
 		move.l	(a5)+,(a1)+
 		move.w	(a5)+,(a1)+
 		adda.w	d0,a5
 		adda.w	d0,a1
-		dbf	d1,loc_543B4
+		dbf	d1,- ;loc_543B4
 		rts
 ; End of function LBZ2_LayoutMod
 
 ; ---------------------------------------------------------------------------
 
-loc_543C2:
++ ;loc_543C2:
 		bsr.s	LBZ2_LayoutMod
 		addq.w	#4,(Events_routine_fg).w
 
@@ -9209,15 +9209,15 @@ LBZ2_BackgroundInit:
 		jsr	Refresh_PlaneFull(pc)
 		moveq	#$40,d0
 		cmp.w	(Events_bg+$10).w,d0
-		blt.s	loc_54432
+		blt.s	+ ;loc_54432
 		neg.w	d0
 		cmp.w	(Events_bg+$10).w,d0
-		bgt.s	loc_54436
+		bgt.s	++ ;loc_54436
 
-loc_54432:
++ ;loc_54432:
 		move.w	d0,(Events_bg+$10).w		; Keep art reloading in range
 
-loc_54436:
++ ;loc_54436:
 		lea	(LBZ2_BGDeformArray).l,a4
 		lea	(HScroll_table).w,a5
 		jmp	ApplyDeformation(pc)
@@ -9250,27 +9250,27 @@ LBZ2BGE_FromTransition:
 		move.w	d0,(Draw_delayed_position).w
 		move.w	#$F,(Draw_delayed_rowcount).w
 		addq.w	#4,(Events_routine_bg).w
-		bra.s	loc_54488
+		bra.s	+ ;loc_54488
 ; ---------------------------------------------------------------------------
 
 LBZ2BGE_Refresh:
 		jsr	LBZ2_Deform(pc)
 
-loc_54488:
++ ;loc_54488:
 		moveq	#0,d1
 		move.w	(Camera_Y_pos_BG_copy).w,d2
 		jsr	Draw_PlaneVertBottomUp(pc)
-		bpl.s	loc_544A4
+		bpl.s	+ ;loc_544A4
 		addq.w	#4,(Events_routine_bg).w
-		bra.s	loc_544A4
+		bra.s	+ ;loc_544A4
 ; ---------------------------------------------------------------------------
 
 LBZ2BGE_Normal:
 		tst.w	(Events_fg_5).w
-		bne.s	loc_544C6		; Wait for flag
+		bne.s	++ ;loc_544C6		; Wait for flag
 		jsr	LBZ2_Deform(pc)
 
-loc_544A4:
++ ;loc_544A4:
 		lea	(Camera_Y_pos_BG_copy).w,a6
 		lea	(Camera_Y_pos_BG_rounded).w,a5
 		moveq	#0,d1
@@ -9282,7 +9282,7 @@ loc_544A4:
 		jmp	ShakeScreen_Setup(pc)
 ; ---------------------------------------------------------------------------
 
-loc_544C6:
++ ;loc_544C6:
 		clr.w	(Events_fg_5).w			; Oh boy, NOW the fun begins
 		move.w	8(a3),(a3)
 		move.w	$C(a3),4(a3)			; Modify the background slightly
@@ -9300,22 +9300,22 @@ loc_544C6:
 
 LBZ2BGE_DeathEgg:
 		tst.w	(Event_LBZ2_DeathEgg).w
-		beq.s	loc_5452E
+		beq.s	++ ;loc_5452E
 		tst.w	(Screen_shake_flag).w
-		bne.s	loc_5451A			; Branch if shaking
+		bne.s	+ ;loc_5451A			; Branch if shaking
 		clr.w	(Event_LBZ2_DeathEgg).w
-		bra.s	loc_5452E
+		bra.s	++ ;loc_5452E
 ; ---------------------------------------------------------------------------
 
-loc_5451A:
++ ;loc_5451A:
 		move.w	(Level_frame_counter).w,d0
 		subq.w	#1,d0
 		andi.w	#$F,d0
-		bne.s	loc_5452E
+		bne.s	+ ;loc_5452E
 		moveq	#signextendB(sfx_DeathEggRiseLoud),d0			; Play Death Egg rumbling sound
 		jsr	(Play_SFX).l
 
-loc_5452E:
++ ;loc_5452E:
 		tst.w	(Events_fg_5).w
 		beq.w	loc_545DE
 		jsr	LBZ2_EndFallingAccel(pc)	; When signalled, start the falling of the death egg platform
@@ -9334,10 +9334,10 @@ LBZ2BGE_PlatformDetach:
 		bne.s	sub_545DA			; Wait for window copy to finish
 		move.w	(Level_frame_counter).w,d0
 		andi.w	#3,d0
-		bne.s	loc_545AA
+		bne.s	++ ;loc_545AA
 		move.w	(Events_bg+$16).w,d0	; Only ever four frames
 		cmpi.w	#$28,d0
-		blo.s	loc_545A4
+		blo.s	+ ;loc_545A4
 		clr.w	(Events_bg+$16).w		; When scroll A has scrolled off screen
 		move.w	#$18,(Special_V_int_routine).w	; Use the next Special VInt function to restore the entire platform
 		movea.w	$2A(a3),a1
@@ -9353,11 +9353,11 @@ LBZ2BGE_PlatformDetach:
 		bra.s	LBZ2BGE_Falling
 ; ---------------------------------------------------------------------------
 
-loc_545A4:
++ ;loc_545A4:
 		addq.w	#1,d0
 		move.w	d0,(Events_bg+$16).w	; Increment value
 
-loc_545AA:
++ ;loc_545AA:
 		bsr.s	sub_545DA
 		move.w	(Camera_Y_pos_copy).w,(V_scroll_value).w
 		move.w	(Camera_Y_pos_BG_copy).w,(V_scroll_value_BG).w
@@ -9433,10 +9433,10 @@ LBZ2_Deform:
 		sub.l	d4,d3
 		moveq	#$20-1,d4
 		cmpi.w	#-$40,d2
-		bgt.s	loc_5467A
+		bgt.s	+ ;loc_5467A
 		lea	(HScroll_table+$01E).w,a1	; Above water, no art reloading needed
 
-loc_54662:
+- ;loc_54662:
 		swap	d1
 		move.w	d1,(a1)+
 		swap	d1
@@ -9445,14 +9445,14 @@ loc_54662:
 		move.w	d1,(a1)+
 		swap	d1
 		sub.l	d3,d1
-		dbf	d4,loc_54662
+		dbf	d4,- ;loc_54662
 		bra.w	loc_546FA
 ; ---------------------------------------------------------------------------
 
-loc_5467A:
++ ;loc_5467A:
 		lea	(HScroll_table+$11E).w,a1	; Below water
 
-loc_5467E:
+- ;loc_5467E:
 		swap	d1
 		move.w	d1,-(a1)
 		swap	d1
@@ -9461,14 +9461,14 @@ loc_5467E:
 		move.w	d1,-(a1)
 		swap	d1
 		sub.l	d3,d1
-		dbf	d4,loc_5467E
+		dbf	d4,- ;loc_5467E
 		cmpi.w	#$40,d2
 		bge.s	loc_546FA		; No art reloading needed if out of range
 		lea	(HScroll_table+$09E).w,a1
 		lea	(a1),a5
 		lea	(LBZ_WaterlineScroll_Data).l,a6
 		move.w	d2,d1
-		bmi.s	loc_546D2
+		bmi.s	++ ;loc_546D2
 		move.w	d1,d3			; Below water
 		neg.w	d3
 		addi.w	#$40,d3
@@ -9477,22 +9477,22 @@ loc_5467E:
 		subq.w	#1,d1
 		moveq	#0,d3
 		lsr.w	#1,d1
-		bcc.s	loc_546C4
+		bcc.s	+ ;loc_546C4
 
-loc_546BC:
+- ;loc_546BC:
 		move.b	(a6)+,d3
 		add.w	d3,d3
 		move.w	(a5,d3.w),(a1)+
 
-loc_546C4:
++ ;loc_546C4:
 		move.b	(a6)+,d3
 		add.w	d3,d3
 		move.w	(a5,d3.w),(a1)+
-		dbf	d1,loc_546BC
+		dbf	d1,- ;loc_546BC
 		bra.s	loc_546FA
 ; ---------------------------------------------------------------------------
 
-loc_546D2:
++ ;loc_546D2:
 		move.w	d1,d3			; Above water
 		addi.w	#$40,d3
 		lsl.w	#6,d3
@@ -9501,18 +9501,18 @@ loc_546D2:
 		subq.w	#1,d1
 		moveq	#0,d3
 		lsr.w	#1,d1
-		bcc.s	loc_546EE
+		bcc.s	+ ;loc_546EE
 
-loc_546E6:
+- ;loc_546E6:
 		move.b	(a6)+,d3
 		add.w	d3,d3
 		move.w	(a5,d3.w),-(a1)
 
-loc_546EE:
++ ;loc_546EE:
 		move.b	(a6)+,d3
 		add.w	d3,d3
 		move.w	(a5,d3.w),-(a1)
-		dbf	d1,loc_546E6
+		dbf	d1,- ;loc_546E6
 
 loc_546FA:
 		lea	(HScroll_table+$1E2).w,a1			; Below the water area moving up (from Knuckles area of course)
@@ -9533,38 +9533,38 @@ loc_546FA:
 		sub.l	d3,d1					; Likely because the underwater wavy effect neccesitates specifying deformation line-by-line
 		moveq	#4,d4
 
-loc_54726:
+- ;loc_54726:
 		sub.l	d3,d1
 		swap	d1
 		move.w	(a5)+,d5
 
-loc_5472C:
+- ;loc_5472C:
 		move.w	d1,-(a1)
 		move.w	d1,-(a1)
 		move.w	d1,-(a1)
 		move.w	d1,-(a1)
-		dbf	d5,loc_5472C
+		dbf	d5,- ;loc_5472C
 		swap	d1
-		dbf	d4,loc_54726
+		dbf	d4,-- ;loc_54726
 		moveq	#$40-1,d3
 		tst.w	d2
-		bmi.s	loc_54748
+		bmi.s	+ ;loc_54748
 		sub.w	d2,d3					; Only perform as much addition line-by-line deformation as needed
-		bcs.s	loc_54756
+		bcs.s	+++ ;loc_54756
 
-loc_54748:
++ ;loc_54748:
 		swap	d1
 		lsr.w	#1,d3
-		bcc.s	loc_54750
+		bcc.s	+ ;loc_54750
 
-loc_5474E:
+- ;loc_5474E:
 		move.w	d1,-(a1)
 
-loc_54750:
++ ;loc_54750:
 		move.w	d1,-(a1)
-		dbf	d3,loc_5474E
+		dbf	d3,- ;loc_5474E
 
-loc_54756:
++ ;loc_54756:
 		lea	(HScroll_table).w,a1			; With that over with, we can actually do some normal stuff
 		lea	(LBZ2_CloudDeformArray).l,a5
 		move.l	d0,d1
@@ -9574,14 +9574,14 @@ loc_54756:
 		addi.l	#$E00,(HScroll_table+$1E2).w		; Move clouds
 		moveq	#$D-1,d5
 
-loc_54774:
+- ;loc_54774:
 		move.w	(a5)+,d6
 		add.l	d4,d1
 		swap	d1
 		move.w	d1,(a1,d6.w)
 		swap	d1
 		add.l	d3,d1
-		dbf	d5,loc_54774
+		dbf	d5,- ;loc_54774
 		move.l	d0,d1			; And now just do the rest of the deformation
 		asr.l	#4,d1
 		move.l	d1,d3
@@ -9594,40 +9594,40 @@ loc_54774:
 		swap	d1
 		move.w	d1,(a1)+
 		tst.w	d2
-		bpl.s	loc_547B4		; If below water, just do the full deformation
+		bpl.s	+ ;loc_547B4		; If below water, just do the full deformation
 		moveq	#$40-1,d4
 		add.w	d2,d4
 		bmi.s	loc_547D2		; If above water far enough that entire waterline shows, skip ahead
 		cmpi.w	#$30,d4
-		blo.s	loc_547C6
+		blo.s	+++ ;loc_547C6
 		subi.w	#$30,d4
-		bra.s	loc_547B6
+		bra.s	++ ;loc_547B6
 ; ---------------------------------------------------------------------------
 
-loc_547B4:
++ ;loc_547B4:
 		moveq	#$10-1,d4
 
-loc_547B6:
++ ;loc_547B6:
 		moveq	#$18-1,d5
 
-loc_547B8:
+- ;loc_547B8:
 		move.w	d1,(a1)+		; First $30 pixels have their own deformation
 		move.w	d1,(a1)+
-		dbf	d5,loc_547B8
+		dbf	d5,- ;loc_547B8
 		swap	d1
 		add.l	d3,d1
 		swap	d1
 
-loc_547C6:
++ ;loc_547C6:
 		lsr.w	#1,d4			; As do the last $10 pixels
-		bcc.s	loc_547CC
+		bcc.s	+ ;loc_547CC
 
-loc_547CA:
+- ;loc_547CA:
 		move.w	d1,(a1)+
 
-loc_547CC:
++ ;loc_547CC:
 		move.w	d1,(a1)+
-		dbf	d4,loc_547CA
+		dbf	d4,- ;loc_547CA
 
 loc_547D2:
 		moveq	#$3F,d0			; And yet, there's more, cause we now have the wavy effects to go!
@@ -9635,10 +9635,10 @@ loc_547D2:
 		bmi.s	locret_5480A	; If high enough, no waviness needed
 		addi.w	#$60,d0			; Otherwise, keep it up
 		cmpi.w	#$E0,d0
-		blo.s	loc_547E6
+		blo.s	+ ;loc_547E6
 		move.w	#$E0-1,d0
 
-loc_547E6:
++ ;loc_547E6:
 		lea	(HScroll_table+$1DE).w,a1
 		lea	LBZ_WaterWaveArray(pc),a5	; Water wave array
 		move.w	(Level_frame_counter).w,d1
@@ -9646,16 +9646,16 @@ loc_547E6:
 		andi.w	#$7E,d1
 		adda.w	d1,a5
 		lsr.w	#1,d0
-		bcc.s	loc_54802
+		bcc.s	+ ;loc_54802
 
-loc_547FE:
+- ;loc_547FE:
 		move.w	-(a5),d3
 		add.w	d3,-(a1)
 
-loc_54802:
++ ;loc_54802:
 		move.w	-(a5),d3
 		add.w	d3,-(a1)
-		dbf	d0,loc_547FE
+		dbf	d0,- ;loc_547FE
 
 locret_5480A:
 		rts
@@ -9686,7 +9686,7 @@ LBZ2_DeathEggDeform:
 		addi.w	#$2C0,d0
 		sub.w	(Events_fg_3).w,d0
 		add.w	d3,d0
-		bpl.s	loc_5485C
+		bpl.s	+ ;loc_5485C
 		moveq	#0,d3
 		move.w	d0,d4
 
@@ -9695,17 +9695,17 @@ loc_54848:
 		addi.w	#$100,d4
 		bmi.s	loc_54848
 		cmp.w	(_unkEEA0).w,d3
-		blo.s	loc_5485C
+		blo.s	+ ;loc_5485C
 		move.w	d3,(_unkEEA0).w
 
-loc_5485C:
++ ;loc_5485C:
 		tst.w	(Events_fg_3).w
-		bne.s	loc_5486C
+		bne.s	+ ;loc_5486C
 		cmpi.w	#$100,d0
-		bne.s	loc_5486C
+		bne.s	+ ;loc_5486C
 		move.w	d0,(Events_fg_3).w
 
-loc_5486C:
++ ;loc_5486C:
 		add.w	(_unkEEA0).w,d0
 		move.w	d0,(Camera_Y_pos_BG_copy).w
 		tst.w	(_unkEEA0).w
@@ -9713,24 +9713,24 @@ loc_5486C:
 
 loc_5487A:
 		cmpi.w	#$100,d0
-		blo.s	loc_54886
+		blo.s	+ ;loc_54886
 		subi.w	#$100,d0
 		bra.s	loc_5487A
 ; ---------------------------------------------------------------------------
 
-loc_54886:
++ ;loc_54886:
 		move.w	d0,(Camera_Y_pos_BG_copy).w
 
 loc_5488A:
 		tst.w	(_unkEE9C).w
-		bmi.s	loc_54894
+		bmi.s	+ ;loc_54894
 		sub.w	d1,d2
-		bpl.s	loc_54898
+		bpl.s	++ ;loc_54898
 
-loc_54894:
++ ;loc_54894:
 		move.w	#$7FFF,d2
 
-loc_54898:
++ ;loc_54898:
 		move.w	d2,(Events_bg+$10).w
 		move.w	(Camera_X_pos_copy).w,d0
 		swap	d0
@@ -9744,7 +9744,7 @@ loc_54898:
 		moveq	#$20-1,d4
 		lea	(HScroll_table+$0AC).w,a1
 
-loc_548B6:
+- ;loc_548B6:
 		swap	d1
 		move.w	d1,-(a1)
 		swap	d1
@@ -9753,9 +9753,9 @@ loc_548B6:
 		move.w	d1,-(a1)
 		swap	d1
 		sub.l	d3,d1
-		dbf	d4,loc_548B6
+		dbf	d4,- ;loc_548B6
 		cmpi.w	#$40,d2
-		bge.s	loc_54906
+		bge.s	++ ;loc_54906
 		lea	(HScroll_table+$02C).w,a1
 		lea	(a1),a5
 		lea	(LBZ_WaterlineScroll_Data).l,a6
@@ -9768,20 +9768,20 @@ loc_548B6:
 		subq.w	#1,d1
 		moveq	#0,d3
 		lsr.w	#1,d1
-		bcc.s	loc_548FA
+		bcc.s	+ ;loc_548FA
 
-loc_548F2:
+- ;loc_548F2:
 		move.b	(a6)+,d3
 		add.w	d3,d3
 		move.w	(a5,d3.w),(a1)+
 
-loc_548FA:
++ ;loc_548FA:
 		move.b	(a6)+,d3
 		add.w	d3,d3
 		move.w	(a5,d3.w),(a1)+
-		dbf	d1,loc_548F2
+		dbf	d1,- ;loc_548F2
 
-loc_54906:
++ ;loc_54906:
 		lea	(HScroll_table+$0EC).w,a1
 		move.l	d0,d1
 		asr.l	#1,d1
@@ -9789,24 +9789,24 @@ loc_54906:
 		asr.l	#3,d3
 		moveq	#7-1,d4
 
-loc_54914:
+- ;loc_54914:
 		sub.l	d3,d1
-		dbf	d4,loc_54914
+		dbf	d4,- ;loc_54914
 		moveq	#$60-1,d3
 		sub.w	d2,d3
-		bcs.s	loc_5492E
+		bcs.s	++ ;loc_5492E
 		swap	d1
 		lsr.w	#1,d3
-		bcc.s	loc_54928
+		bcc.s	+ ;loc_54928
 
-loc_54926:
+- ;loc_54926:
 		move.w	d1,-(a1)
 
-loc_54928:
++ ;loc_54928:
 		move.w	d1,-(a1)
-		dbf	d3,loc_54926
+		dbf	d3,- ;loc_54926
 
-loc_5492E:
++ ;loc_5492E:
 		lea	(HScroll_table+$00C).w,a1
 		lea	(LBZ2_CloudDeformArray).l,a5
 		move.l	d0,d1
@@ -9816,21 +9816,21 @@ loc_5492E:
 		addi.l	#$E00,(HScroll_table+$1E2).w
 		moveq	#$D-1,d5
 
-loc_5494C:
+- ;loc_5494C:
 		move.w	(a5)+,d6
 		add.l	d4,d1
 		swap	d1
 		move.w	d1,(a1,d6.w)
 		swap	d1
 		add.l	d3,d1
-		dbf	d5,loc_5494C
+		dbf	d5,- ;loc_5494C
 		lea	(HScroll_table+$010).w,a1
 		lea	(HScroll_table).w,a5
 		moveq	#4-1,d1
 
-loc_54968:
+- ;loc_54968:
 		move.l	(a1)+,(a5)+
-		dbf	d1,loc_54968
+		dbf	d1,- ;loc_54968
 		move.l	d0,d1
 		asr.l	#4,d1
 		move.l	d1,d3
@@ -9850,10 +9850,10 @@ loc_54968:
 		sub.w	d2,d0
 		addi.w	#$20,d0
 		cmpi.w	#$60,d0
-		blo.s	loc_549A0
+		blo.s	+ ;loc_549A0
 		move.w	#$60-1,d0
 
-loc_549A0:
++ ;loc_549A0:
 		lea	(HScroll_table+$0EC).w,a1
 		lea	LBZ_WaterWaveArray2(pc),a5
 		move.w	(Level_frame_counter).w,d1
@@ -9861,16 +9861,16 @@ loc_549A0:
 		andi.w	#$7E,d1
 		adda.w	d1,a5
 		lsr.w	#1,d0
-		bcc.s	loc_549BC
+		bcc.s	+ ;loc_549BC
 
-loc_549B8:
+- ;loc_549B8:
 		move.w	-(a5),d3
 		add.w	d3,-(a1)
 
-loc_549BC:
++ ;loc_549BC:
 		move.w	-(a5),d3
 		add.w	d3,-(a1)
-		dbf	d0,loc_549B8
+		dbf	d0,- ;loc_549B8
 		rts
 ; End of function LBZ2_DeathEggDeform
 
@@ -9882,42 +9882,42 @@ LBZ2_DeathEggMoveScreen:
 		cmpi.b	#6,(Player_1+routine).w
 		bhs.w	locret_54A92		; If dying, don't bother
 		tst.b	(Scroll_lock).w
-		beq.s	loc_549FC			; Skip if flag turned off
+		beq.s	+++ ;loc_549FC			; Skip if flag turned off
 		move.w	(Player_1+x_pos).w,d0
 		sub.w	(Camera_X_pos).w,d0
 		subi.w	#$A0,d0
-		bcs.s	loc_549E8
+		bcs.s	+ ;loc_549E8
 		add.w	d0,(Camera_X_pos).w	; Move screen along with player in Robotnik ship
 
-loc_549E8:
++ ;loc_549E8:
 		cmpi.w	#$4390,(Camera_X_pos).w
-		bhs.s	loc_549F8
+		bhs.s	+ ;loc_549F8
 		cmpi.w	#$668,(Camera_Y_pos).w
-		blo.s	loc_549FC
+		blo.s	++ ;loc_549FC
 
-loc_549F8:
++ ;loc_549F8:
 		clr.b	(Scroll_lock).w		; Stop movement when screen edge is reached
 
-loc_549FC:
++ ;loc_549FC:
 		tst.w	(Events_bg+$0E).w
-		beq.s	loc_54A0A
+		beq.s	+ ;loc_54A0A
 		subq.w	#1,(Events_bg+$0E).w
 		bra.w	locret_54A92
 ; ---------------------------------------------------------------------------
 
-loc_54A0A:
++ ;loc_54A0A:
 		cmpi.w	#$4390,(Camera_X_pos).w
-		blo.s	loc_54A1A
+		blo.s	+ ;loc_54A1A
 		move.w	(Camera_max_X_pos).w,d0
 		move.w	d0,(Camera_min_X_pos).w
 
-loc_54A1A:
++ ;loc_54A1A:
 		cmpi.w	#$668,(Camera_Y_pos).w
-		blo.s	loc_54A2A
+		blo.s	+ ;loc_54A2A
 		move.w	(Camera_max_Y_pos).w,d0
 		move.w	d0,(Camera_min_Y_pos).w		; Lock screen when edges are reached
 
-loc_54A2A:
++ ;loc_54A2A:
 		lea	(Events_bg+$02).w,a1
 		moveq	#0,d1
 		move.w	(_unkEEA2).w,d1		; Speed of Death Egg movement
@@ -9928,30 +9928,30 @@ loc_54A2A:
 		move.w	d1,8(a1)
 		move.w	#$2200,d1
 		tst.b	(Scroll_lock).w
-		bne.s	loc_54A50
+		bne.s	+ ;loc_54A50
 		move.l	(_unkEE9C).w,d1		; Get BG movement speed if edge of screen is reached
 
-loc_54A50:
++ ;loc_54A50:
 		add.l	d1,4(a1)
 		move.w	4(a1),d1
 		move.w	d1,d2
 		sub.w	$A(a1),d1
 		move.w	d2,$A(a1)
 		tst.b	(Scroll_lock).w
-		beq.s	loc_54A74
+		beq.s	+ ;loc_54A74
 		movea.w	(Events_bg+$00).w,a5	; If movement is still going
 		add.w	d0,$14(a5)			; Add Y movement to screen and Robotnik ship
 		add.w	d0,(Camera_Y_pos).w
 
-loc_54A74:
++ ;loc_54A74:
 		move.w	(Target_water_level).w,d2
 		add.w	d0,d2
 		add.w	d1,d2
 		cmpi.w	#$F00,d2
-		blo.s	loc_54A86
+		blo.s	+ ;loc_54A86
 		move.w	#$F80,d2
 
-loc_54A86:
++ ;loc_54A86:
 		move.w	d2,(Target_water_level).w
 		move.w	d0,(Events_bg+$14).w
 		add.w	d1,(Events_bg+$14).w
@@ -9966,12 +9966,12 @@ locret_54A92:
 
 LBZ2_EndFallingAccel:
 		tst.w	(_unkEEA2).w
-		beq.s	loc_54AA2
+		beq.s	+ ;loc_54AA2
 		subi.w	#$100,(_unkEEA2).w
 		bra.s	locret_54AB4
 ; ---------------------------------------------------------------------------
 
-loc_54AA2:
++ ;loc_54AA2:
 		cmpi.l	#$FFFE8000,(_unkEE9C).w
 		ble.s	locret_54AB4
 		subi.l	#$100,(_unkEE9C).w
@@ -9989,31 +9989,31 @@ MHZ1_ScreenInit:
 		tst.w	(SK_alone_flag).w
 		beq.s	loc_54B18
 		move.b	(Last_star_post_hit).w,d0
-		beq.s	loc_54AE0
+		beq.s	+ ;loc_54AE0
 		cmpi.w	#3,(Player_mode).w
 		bne.s	loc_54B18
 		subq.b	#1,d0
 		bne.s	loc_54B18
 		move.w	#$680,d2
-		bra.s	loc_54B10
+		bra.s	+++ ;loc_54B10
 ; ---------------------------------------------------------------------------
 
-loc_54AE0:
++ ;loc_54AE0:
 		move.w	#$560,d2
 		move.w	#$948,d3
 		cmpi.w	#3,(Player_mode).w
-		beq.s	loc_54B08
+		beq.s	+ ;loc_54B08
 		lea	(Player_1).w,a1
 		move.w	#$718,x_pos(a1)
 		move.w	#$62D,y_pos(a1)
 		move.w	#$680,d2
 		move.w	#$5CD,d3
 
-loc_54B08:
++ ;loc_54B08:
 		move.w	d3,(Camera_Y_pos).w
 		move.w	d3,(Camera_Y_pos_copy).w
 
-loc_54B10:
++ ;loc_54B10:
 		move.w	d2,(Camera_X_pos).w
 		move.w	d2,(Camera_X_pos_copy).w
 
@@ -10030,16 +10030,16 @@ MHZ1_ScreenEvent:
 		jsr	sub_54B80(pc)
 		move.w	#$AA0,d0
 		cmpi.w	#$4100,(Player_1+x_pos).w
-		blo.s	loc_54B40
+		blo.s	+ ;loc_54B40
 		move.w	#$710,d0
 
-loc_54B40:
++ ;loc_54B40:
 		cmp.w	(Camera_max_Y_pos).w,d0
-		beq.s	loc_54B4E
+		beq.s	+ ;loc_54B4E
 		move.w	d0,(Camera_max_Y_pos).w
 		move.w	d0,(Camera_target_max_Y_pos).w
 
-loc_54B4E:
++ ;loc_54B4E:
 		cmpi.w	#$710,(Camera_Y_pos).w
 		blo.s	loc_54B7C
 		cmpi.w	#$4298,(Camera_X_pos).w
@@ -10060,13 +10060,13 @@ loc_54B7C:
 sub_54B80:
 		move.w	#$680,d0
 		tst.w	(SK_alone_flag).w
-		bne.s	loc_54B98
+		bne.s	+ ;loc_54B98
 		moveq	#0,d0
 		cmpi.w	#$580,(Player_1+y_pos).w
-		bhs.s	loc_54B98
+		bhs.s	+ ;loc_54B98
 		move.w	#$C0,d0
 
-loc_54B98:
++ ;loc_54B98:
 		cmp.w	(Camera_min_X_pos).w,d0
 		beq.s	locret_54BA2
 		move.w	d0,(Camera_min_X_pos).w
@@ -10089,7 +10089,7 @@ MHZ1_BackgroundInit:
 
 MHZ1_BackgroundEvent:
 		tst.w	(Events_fg_5).w
-		beq.w	loc_54C3C
+		beq.w	+ ;loc_54C3C
 		clr.w	(Events_fg_5).w
 		movem.l	d7-a0/a2-a3,-(sp)
 		moveq	#$28,d0
@@ -10118,7 +10118,7 @@ MHZ1_BackgroundEvent:
 		clr.w	(Special_events_routine).w
 		clr.b	(Events_bg+$00).w
 
-loc_54C3C:
++ ;loc_54C3C:
 		lea	(Events_fg_0).w,a1
 		move.w	(Camera_X_pos_copy).w,d0
 		move.w	#$100,d2
@@ -10173,7 +10173,7 @@ loc_54CB0:
 		clr.w	(Level_repeat_offset).w
 		move.w	(Camera_X_pos).w,d0
 		cmpi.w	#$4400,d0
-		blo.s	loc_54CEE
+		blo.s	+ ;loc_54CEE
 		move.w	#$200,d1
 		move.w	d1,(Level_repeat_offset).w
 		sub.w	d1,(Player_1+x_pos).w
@@ -10188,7 +10188,7 @@ loc_54CB0:
 		move.w	#$4298,d2
 		move.w	d2,(Camera_max_X_pos).w
 
-loc_54CEE:
++ ;loc_54CEE:
 		move.w	d0,(Camera_min_X_pos).w
 		rts
 
@@ -10199,26 +10199,26 @@ sub_54CF4:
 		lea	(Dynamic_object_RAM+object_size).w,a1
 		moveq	#((Breathing_bubbles)-(Dynamic_object_RAM+object_size))/object_size-1,d2
 
-loc_54CFA:
+- ;loc_54CFA:
 		move.l	(a1),d3
-		beq.s	loc_54D26
+		beq.s	++ ;loc_54D26
 		cmpi.l	#loc_2B962,d3
-		bne.s	loc_54D16
+		bne.s	+ ;loc_54D16
 		move.l	#Delete_Current_Sprite,(a1)
 		move.w	respawn_addr(a1),d3
-		beq.s	loc_54D16
+		beq.s	+ ;loc_54D16
 		movea.w	d3,a5
 		clr.b	(a5)
 
-loc_54D16:
++ ;loc_54D16:
 		btst	#2,render_flags(a1)
-		beq.s	loc_54D26
+		beq.s	+ ;loc_54D26
 		sub.w	d0,x_pos(a1)
 		sub.w	d1,y_pos(a1)
 
-loc_54D26:
++ ;loc_54D26:
 		lea	next_object(a1),a1
-		dbf	d2,loc_54CFA
+		dbf	d2,- ;loc_54CFA
 		rts
 ; End of function sub_54CF4
 
@@ -10231,26 +10231,26 @@ MHZ2_ScreenInit:
 		move.w	(Player_1+x_pos).w,d0
 		lea	Pal_MHZ2Gold(pc),a1
 		cmpi.w	#$2940,d0
-		bhs.s	loc_54D72
+		bhs.s	+ ;loc_54D72
 		st	(Events_bg+$04).w
 		lea	(Pal_MHZ2+$20).l,a1
 		cmpi.w	#$9C0,d0
-		bhs.s	loc_54D72
+		bhs.s	+ ;loc_54D72
 		cmpi.w	#$600,(Player_1+y_pos).w
-		blo.s	loc_54D72
+		blo.s	+ ;loc_54D72
 		clr.b	(Events_bg+$04).w
 		clr.b	(_unkF7C1).w
 		lea	(Pal_MHZ1+$20).l,a1
 
-loc_54D72:
++ ;loc_54D72:
 		lea	(Normal_palette_line_3).w,a5
 		lea	(Target_palette_line_3).w,a6
 		moveq	#bytesToLcnt($40),d0
 
-loc_54D7C:
+- ;loc_54D7C:
 		move.l	(a1),(a5)+
 		move.l	(a1)+,(a6)+
-		dbf	d0,loc_54D7C
+		dbf	d0,- ;loc_54D7C
 		jsr	Reset_TileOffsetPositionActual(pc)
 		jmp	Refresh_PlaneFull(pc)
 ; ---------------------------------------------------------------------------
@@ -10276,16 +10276,16 @@ MHZ2_ScreenEvent:
 
 loc_54DB0:
 		tst.b	(End_of_level_flag).w
-		beq.s	loc_54DBA
+		beq.s	+ ;loc_54DBA
 		addq.w	#4,(Events_routine_fg).w
 
-loc_54DBA:
++ ;loc_54DBA:
 		jmp	DrawTilesAsYouMove(pc)
 ; ---------------------------------------------------------------------------
 
 loc_54DBE:
 		tst.w	(Events_fg_4).w
-		beq.s	loc_54DDC
+		beq.s	+ ;loc_54DDC
 		clr.w	(Events_fg_4).w
 		move.w	#$320,(Draw_delayed_position).w
 		move.w	#$A,(Draw_delayed_rowcount).w
@@ -10293,9 +10293,9 @@ loc_54DBE:
 		bra.w	loc_54E9C
 ; ---------------------------------------------------------------------------
 
-loc_54DDC:
++ ;loc_54DDC:
 		cmpi.w	#$3C90,(Camera_X_pos).w
-		blo.s	loc_54E00
+		blo.s	+ ;loc_54E00
 		bne.w	loc_54E7E
 		move.w	#$3C90,(Camera_min_X_pos).w
 		cmpi.w	#$280,(Camera_Y_pos).w
@@ -10304,47 +10304,47 @@ loc_54DDC:
 		bra.s	loc_54E7E
 ; ---------------------------------------------------------------------------
 
-loc_54E00:
++ ;loc_54E00:
 		move.w	#$620,d0
 		cmpi.w	#$380,(Camera_X_pos).w
-		blo.s	loc_54E1A
+		blo.s	+ ;loc_54E1A
 		moveq	#0,d0
 		cmpi.w	#$3600,(Camera_X_pos).w
-		blo.s	loc_54E1A
+		blo.s	+ ;loc_54E1A
 		move.w	#$1A8,d0
 
-loc_54E1A:
++ ;loc_54E1A:
 		cmp.w	(Camera_min_Y_pos).w,d0
-		beq.s	loc_54E24
+		beq.s	+ ;loc_54E24
 		move.w	d0,(Camera_min_Y_pos).w
 
-loc_54E24:
++ ;loc_54E24:
 		cmpi.w	#$3600,(Camera_X_pos).w
-		bhs.s	loc_54E4C
+		bhs.s	++ ;loc_54E4C
 		move.w	#$98,d0
 		cmpi.w	#$5C0,(Player_1+y_pos).w
-		bhs.s	loc_54E3C
+		bhs.s	+ ;loc_54E3C
 		move.w	#$380,d0
 
-loc_54E3C:
++ ;loc_54E3C:
 		cmp.w	(Camera_min_X_pos).w,d0
-		beq.s	loc_54E4C
+		beq.s	+ ;loc_54E4C
 		tst.w	(Events_bg+$16).w
-		bne.s	loc_54E4C
+		bne.s	+ ;loc_54E4C
 		move.w	d0,(Camera_min_X_pos).w
 
-loc_54E4C:
++ ;loc_54E4C:
 		move.w	#$9A0,d0
 		cmpi.w	#$3A97,(Player_1+x_pos).w
-		blo.s	loc_54E70
+		blo.s	+ ;loc_54E70
 		move.w	#$280,d0
 		cmpi.w	#$3AC0,(Player_1+x_pos).w
-		bhs.s	loc_54E70
+		bhs.s	+ ;loc_54E70
 		cmpi.w	#$300,(Player_1+y_pos).w
-		blo.s	loc_54E70
+		blo.s	+ ;loc_54E70
 		move.w	#$9A0,d0
 
-loc_54E70:
++ ;loc_54E70:
 		cmp.w	(Camera_max_Y_pos).w,d0
 		beq.s	loc_54E7E
 		move.w	d0,(Camera_max_Y_pos).w
@@ -10386,26 +10386,26 @@ loc_54E9C:
 		lea	Pal_MHZ2Ship(pc),a5
 		moveq	#bytesToLcnt($20),d0
 
-loc_54EE4:
+- ;loc_54EE4:
 		move.l	(a5)+,(a1)+
-		dbf	d0,loc_54EE4
+		dbf	d0,- ;loc_54EE4
 		lea	(HScroll_table+$00C).w,a5
 		clr.l	(a5)
 		jsr	(AllocateObject).l
-		bne.s	loc_54F2A
+		bne.s	+ ;loc_54F2A
 		move.l	#loc_5583E,(a1)
 		move.w	#$4C0,$30(a1)
 		move.w	#$4000,$3A(a1)
 		jsr	(CreateNewSprite4).l
-		bne.s	loc_54F2A
+		bne.s	+ ;loc_54F2A
 		move.l	#loc_55814,(a1)
 		move.w	a1,(a5)+
 		jsr	(CreateNewSprite4).l
-		bne.s	loc_54F2A
+		bne.s	+ ;loc_54F2A
 		move.l	#loc_55814,(a1)
 		move.w	a1,(a5)+
 
-loc_54F2A:
++ ;loc_54F2A:
 		movem.l	d7-a0/a2-a3,-(sp)
 		lea	(ArtKosM_MHZShipPropeller).l,a1
 		move.w	#tiles_to_bytes($500),d2
@@ -10447,26 +10447,26 @@ sub_54F8C:
 		move.w	(_unkEE9C).w,d1
 		lea	(Player_1).w,a1
 		cmpi.b	#$81,object_control(a1)
-		bne.s	loc_54FD4
+		bne.s	++ ;loc_54FD4
 		move.w	#$2DC,d3
 		cmpi.w	#3,(Player_mode).w
-		beq.s	loc_54FC4
+		beq.s	+ ;loc_54FC4
 		move.w	#$2CD,d3
 
-loc_54FC4:
++ ;loc_54FC4:
 		move.w	(Events_bg+$0C).w,d4
 		sub.w	d1,d4
 		add.w	d4,y_pos(a1)
 		sub.w	d0,d2
 		add.w	d2,x_pos(a1)
 
-loc_54FD4:
++ ;loc_54FD4:
 		move.w	d1,(Events_bg+$0C).w
 		neg.w	d1
 		addi.w	#$158,d1
 		lea	(HScroll_table+$00C).w,a1
 		move.w	#$46B8,d2
-		bsr.s	sub_54FEC
+		bsr.s	+ ;sub_54FEC
 		move.w	#$45B8,d2
 ; End of function sub_54F8C
 
@@ -10474,7 +10474,7 @@ loc_54FD4:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_54FEC:
++ ;sub_54FEC:
 		move.w	(a1)+,d3
 		beq.s	locret_55006
 		movea.w	d3,a5
@@ -10500,25 +10500,25 @@ sub_55008:
 		moveq	#0,d2
 		move.w	#5-1,d3
 
-loc_5501A:
+- ;loc_5501A:
 		lea	(a1),a5
 		cmp.w	(a5)+,d0
-		blo.s	loc_5502C
+		blo.s	+ ;loc_5502C
 		cmp.w	(a5)+,d0
-		bhi.s	loc_5502C
+		bhi.s	+ ;loc_5502C
 		cmp.w	(a5)+,d1
-		blo.s	loc_5502C
+		blo.s	+ ;loc_5502C
 		cmp.w	(a5)+,d1
-		blo.s	loc_55038
+		blo.s	++ ;loc_55038
 
-loc_5502C:
++ ;loc_5502C:
 		adda.w	#$A,a1
 		addq.w	#4,d2
-		dbf	d3,loc_5501A
+		dbf	d3,- ;loc_5501A
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_55038:
++ ;loc_55038:
 		jmp	loc_5503C(pc,d2.w)
 ; End of function sub_55008
 
@@ -10538,13 +10538,13 @@ loc_5503C:
 
 loc_55050:
 		tst.w	(Events_bg+$04).w
-		bne.s	loc_5505C
+		bne.s	+ ;loc_5505C
 		cmp.w	(a5),d1
 		blo.s	loc_55098
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_5505C:
++ ;loc_5505C:
 		cmp.w	(a5),d1
 		bhs.s	loc_550A8
 		rts
@@ -10552,13 +10552,13 @@ loc_5505C:
 
 loc_55062:
 		tst.w	(Events_bg+$04).w
-		bne.s	loc_5506E
+		bne.s	+ ;loc_5506E
 		cmp.w	(a5),d0
 		bhs.s	loc_55098
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_5506E:
++ ;loc_5506E:
 		cmp.w	(a5),d0
 		blo.s	loc_550A8
 		rts
@@ -10566,13 +10566,13 @@ loc_5506E:
 
 loc_55074:
 		tst.w	(Events_bg+$04).w
-		bne.s	loc_55080
+		bne.s	+ ;loc_55080
 		cmp.w	(a5),d0
 		blo.s	loc_55098
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_55080:
++ ;loc_55080:
 		cmp.w	(a5),d0
 		bhs.s	loc_550B8
 		rts
@@ -10580,13 +10580,13 @@ loc_55080:
 
 loc_55086:
 		tst.w	(Events_bg+$04).w
-		bne.s	loc_55092
+		bne.s	+ ;loc_55092
 		cmp.w	(a5),d1
 		blo.s	loc_55098
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_55092:
++ ;loc_55092:
 		cmp.w	(a5),d1
 		bhs.s	loc_550B8
 		rts
@@ -10596,14 +10596,14 @@ loc_55098:
 		st	(Events_bg+$04).w
 		st	(_unkF7C1).w
 		lea	(Pal_MHZ2+$20).l,a1
-		bra.s	loc_550C4
+		bra.s	+ ;loc_550C4
 ; ---------------------------------------------------------------------------
 
 loc_550A8:
 		clr.w	(Events_bg+$04).w
 		clr.b	(_unkF7C1).w
 		lea	(Pal_MHZ1+$20).l,a1
-		bra.s	loc_550C4
+		bra.s	+ ;loc_550C4
 ; ---------------------------------------------------------------------------
 
 loc_550B8:
@@ -10611,13 +10611,13 @@ loc_550B8:
 		st	(_unkF7C1).w
 		lea	Pal_MHZ2Gold(pc),a1
 
-loc_550C4:
++ ;loc_550C4:
 		lea	(Normal_palette_line_3).w,a5
 		moveq	#bytesToLcnt($40),d0
 
-loc_550CA:
+- ;loc_550CA:
 		move.l	(a1)+,(a5)+
-		dbf	d0,loc_550CA
+		dbf	d0,- ;loc_550CA
 		rts
 ; ---------------------------------------------------------------------------
 MHZ2_BGDrawArray1:
@@ -10646,18 +10646,18 @@ MHZ2_BackgroundInit:
 		move.w	(Camera_X_pos_copy).w,(Events_fg_0).w
 		move.w	(Camera_X_pos_copy).w,(Events_fg_1).w
 		cmpi.w	#$3700,(Player_1+x_pos).w
-		blo.s	loc_55198
+		blo.s	+ ;loc_55198
 		cmpi.w	#$500,(Player_1+y_pos).w
-		bhs.s	loc_55198
+		bhs.s	+ ;loc_55198
 		move.w	#8,(Events_routine_bg).w
 		jsr	sub_554B8(pc)
-		bra.s	loc_5519C
+		bra.s	++ ;loc_5519C
 ; ---------------------------------------------------------------------------
 
-loc_55198:
++ ;loc_55198:
 		jsr	MHZ_Deform(pc)
 
-loc_5519C:
++ ;loc_5519C:
 		jsr	Reset_TileOffsetPositionEff(pc)
 		moveq	#0,d1
 		jsr	Refresh_PlaneFull(pc)
@@ -10698,9 +10698,9 @@ MHZ2_BackgroundEvent:
 
 loc_551EE:
 		cmpi.w	#$3700,(Player_1+x_pos).w
-		blo.s	loc_5521E
+		blo.s	+ ;loc_5521E
 		cmpi.w	#$500,(Player_1+y_pos).w
-		bhs.s	loc_5521E
+		bhs.s	+ ;loc_5521E
 		jsr	sub_554B8(pc)
 		jsr	Reset_TileOffsetPositionEff(pc)
 		addi.w	#$E0,d0
@@ -10708,10 +10708,10 @@ loc_551EE:
 		move.w	d0,(Draw_delayed_position).w
 		move.w	#$F,(Draw_delayed_rowcount).w
 		addq.w	#4,(Events_routine_bg).w
-		bra.s	loc_5523A
+		bra.s	++ ;loc_5523A
 ; ---------------------------------------------------------------------------
 
-loc_5521E:
++ ;loc_5521E:
 		jsr	MHZ_Deform(pc)
 
 loc_55222:
@@ -10726,7 +10726,7 @@ loc_55222:
 loc_55236:
 		jsr	sub_554B8(pc)
 
-loc_5523A:
++ ;loc_5523A:
 		moveq	#0,d1
 		move.w	(Camera_Y_pos_BG_copy).w,d2
 		jsr	Draw_PlaneVertSingleBottomUp(pc)
@@ -10737,7 +10737,7 @@ loc_5523A:
 
 loc_55250:
 		cmpi.w	#$500,(Player_1+y_pos).w
-		blo.s	loc_5527A
+		blo.s	+ ;loc_5527A
 		jsr	MHZ_Deform(pc)
 		jsr	Reset_TileOffsetPositionEff(pc)
 		addi.w	#$E0,d0
@@ -10748,22 +10748,22 @@ loc_55250:
 		bra.w	loc_552FC
 ; ---------------------------------------------------------------------------
 
-loc_5527A:
++ ;loc_5527A:
 		cmpi.w	#$420,(Player_1+y_pos).w
-		bls.s	loc_5528A
+		bls.s	+ ;loc_5528A
 		btst	#1,(Player_1+status).w
-		bne.s	loc_552E0
+		bne.s	++ ;loc_552E0
 
-loc_5528A:
++ ;loc_5528A:
 		movem.l	d7-a0/a2-a3,-(sp)
 		lea	(MHZ_Custom_Layout).l,a1
 		lea	(Level_layout_header).w,a2
 		move.w	#$200-1,d0
 
-loc_5529C:
+- ;loc_5529C:
 		move.l	(a1)+,(a2)+
 		move.l	(a1)+,(a2)+
-		dbf	d0,loc_5529C
+		dbf	d0,- ;loc_5529C
 		lea	(MHZ_128x128_Custom_Kos).l,a1
 		lea	(Chunk_table+$2280).l,a2
 		jsr	(Queue_Kos).l
@@ -10778,7 +10778,7 @@ loc_5529C:
 		bra.s	loc_55312
 ; ---------------------------------------------------------------------------
 
-loc_552E0:
++ ;loc_552E0:
 		jsr	sub_554B8(pc)
 
 loc_552E4:
@@ -10804,7 +10804,7 @@ loc_552FC:
 
 loc_55312:
 		tst.b	(Events_bg+$00).w
-		bne.s	loc_55380
+		bne.s	++ ;loc_55380
 		cmpi.w	#$3F00,(Camera_X_pos).w
 		blo.w	loc_55486
 		addq.w	#4,(Events_routine_fg).w
@@ -10818,10 +10818,10 @@ loc_55312:
 		st	(Events_bg+$00).w
 		lea	word_558E8(pc),a1
 		cmpi.w	#3,(Player_mode).w
-		bne.s	loc_5535A
+		bne.s	+ ;loc_5535A
 		lea	$10(a1),a1
 
-loc_5535A:
++ ;loc_5535A:
 		move.b	(a1),(Events_bg+$07).w
 		st	(Scroll_lock).w
 		move.w	#$C,(Special_events_routine).w
@@ -10831,7 +10831,7 @@ loc_5535A:
 		jsr	(Queue_Kos_Module).l
 		movem.l	(sp)+,d7-a0/a2-a3
 
-loc_55380:
++ ;loc_55380:
 		move.w	#$4000,d1
 		move.w	#$180,d2
 		lea	(Level_layout_main).w,a3
@@ -10855,29 +10855,29 @@ loc_553B6:
 		clr.l	(a5)
 		clr.l	4(a5)
 		jsr	(AllocateObject).l
-		bne.s	loc_55420
+		bne.s	+ ;loc_55420
 		move.l	#loc_556F8,(a1)
 		jsr	(CreateNewSprite4).l
-		bne.s	loc_55420
+		bne.s	+ ;loc_55420
 		move.l	#loc_55732,(a1)
 		move.w	a1,(a5)+
 		moveq	#2,d1
 
-loc_553F0:
+- ;loc_553F0:
 		jsr	(CreateNewSprite4).l
-		bne.s	loc_55420
+		bne.s	+ ;loc_55420
 		move.l	#loc_5577C,(a1)
 		move.w	d1,$2E(a1)
 		move.w	a1,(a5)+
 		jsr	(CreateNewSprite4).l
-		bne.s	loc_55420
+		bne.s	+ ;loc_55420
 		move.l	#loc_5577C,(a1)
 		move.w	d1,$2E(a1)
 		st	$30(a1)
 		move.w	a1,(a5)+
-		dbf	d1,loc_553F0
+		dbf	d1,- ;loc_553F0
 
-loc_55420:
++ ;loc_55420:
 		addq.w	#4,(Events_routine_bg).w
 
 loc_55424:
@@ -10920,12 +10920,12 @@ loc_55486:
 		jsr	Draw_TileRow(pc)
 		jsr	sub_5550C(pc)
 		cmpi.w	#$10,(Events_routine_fg).w
-		bne.s	loc_554B4
+		bne.s	+ ;loc_554B4
 		move.w	(_unkEE9C).w,(V_scroll_value).w
 		move.w	(Camera_Y_pos_BG_copy).w,(V_scroll_value_BG).w
 		addq.w	#4,sp
 
-loc_554B4:
++ ;loc_554B4:
 		jmp	ShakeScreen_Setup(pc)
 
 ; =============== S U B R O U T I N E =======================================
@@ -10974,37 +10974,37 @@ sub_554B8:
 sub_5550C:
 		jsr	PlainDeformation(pc)
 		cmpi.w	#$10,(Events_routine_fg).w
-		bne.s	loc_55534
+		bne.s	+ ;loc_55534
 		lea	(H_scroll_buffer).w,a1
 		move.w	(HScroll_table).w,d0
 		neg.w	d0
 		moveq	#$40-1,d1
 
-loc_55524:
+- ;loc_55524:
 		move.w	d0,(a1)
 		addq.w	#4,a1
 		move.w	d0,(a1)
 		addq.w	#4,a1
-		dbf	d1,loc_55524
+		dbf	d1,- ;loc_55524
 		bra.w	locret_5560A
 ; ---------------------------------------------------------------------------
 
-loc_55534:
++ ;loc_55534:
 		tst.b	(Events_bg+$00).w
-		beq.s	loc_55552
+		beq.s	+ ;loc_55552
 		lea	(H_scroll_buffer).w,a1
 		move.w	(Camera_X_pos_BG_copy).w,d0
 		neg.w	d0
 		moveq	#$18-1,d1
 
-loc_55546:
+- ;loc_55546:
 		move.w	d0,(a1)
 		addq.w	#4,a1
 		move.w	d0,(a1)
 		addq.w	#4,a1
-		dbf	d1,loc_55546
+		dbf	d1,- ;loc_55546
 
-loc_55552:
++ ;loc_55552:
 		tst.b	(Events_bg+$01).w
 		beq.w	locret_5560A
 		move.w	(Camera_X_pos).w,d0
@@ -11021,10 +11021,10 @@ loc_55552:
 		clr.w	d0
 		tst.l	d0
 		smi	d3
-		bpl.s	loc_55586
+		bpl.s	+ ;loc_55586
 		neg.l	d0
 
-loc_55586:
++ ;loc_55586:
 		moveq	#0,d2
 		swap	d0
 		move.w	d0,d2
@@ -11036,10 +11036,10 @@ loc_55586:
 		swap	d1
 		move.w	d2,d1
 		tst.b	d3
-		beq.s	loc_555A4
+		beq.s	+ ;loc_555A4
 		neg.l	d1
 
-loc_555A4:
++ ;loc_555A4:
 		lea	(H_scroll_buffer+2).w,a1
 		move.w	(Camera_X_pos_copy).w,d0
 		subi.w	#$80,d0
@@ -11048,19 +11048,19 @@ loc_555A4:
 		clr.w	d0
 		moveq	#$30-1,d2
 
-loc_555B8:
+- ;loc_555B8:
 		swap	d0
 		move.w	d0,(a1)
 		swap	d0
 		add.l	d1,d0
 		addq.w	#4,a1
-		dbf	d2,loc_555B8
+		dbf	d2,- ;loc_555B8
 		lea	(HScroll_table+$008).w,a1
 		lea	(H_scroll_buffer+$BE).w,a5
 		moveq	#$1C,d0
 		moveq	#7-1,d1
 
-loc_555D2:
+- ;loc_555D2:
 		move.w	(a1)+,d2
 		beq.s	locret_5560A
 		movea.w	d2,a6
@@ -11070,12 +11070,12 @@ loc_555D2:
 		add.w	(Camera_X_pos).w,d2
 		move.w	d2,$10(a6)
 		btst	#0,d1
-		bne.s	loc_555F6
+		bne.s	+ ;loc_555F6
 		suba.w	d0,a5
 		addi.w	#$C,d0
 
-loc_555F6:
-		dbf	d1,loc_555D2
++ ;loc_555F6:
+		dbf	d1,- ;loc_555D2
 		bra.s	locret_5560A
 ; ---------------------------------------------------------------------------
 
@@ -11083,10 +11083,10 @@ loc_555FC:
 		lea	(H_scroll_buffer+2).w,a1
 		moveq	#$30-1,d0
 
-loc_55602:
+- ;loc_55602:
 		clr.w	(a1)
 		addq.w	#4,a1
-		dbf	d0,loc_55602
+		dbf	d0,- ;loc_55602
 
 locret_5560A:
 		rts
@@ -11099,14 +11099,14 @@ loc_5560C:
 		move.w	(Camera_X_pos).w,d0
 		addq.w	#4,d0
 		cmpi.w	#3,(Player_mode).w
-		bne.s	loc_55620
+		bne.s	+ ;loc_55620
 		addq.w	#1,d0
 
-loc_55620:
++ ;loc_55620:
 		cmpi.w	#$4280,d0
 		blo.s	loc_5569A
 		tst.w	(Events_fg_5).w
-		beq.s	loc_5564A
+		beq.s	+ ;loc_5564A
 		st	(Events_fg_5).w
 		cmpi.w	#$4420,d0
 		blo.s	loc_5569A
@@ -11117,7 +11117,7 @@ loc_55620:
 		bra.s	loc_5569E
 ; ---------------------------------------------------------------------------
 
-loc_5564A:
++ ;loc_5564A:
 		move.w	#$200,d1
 		move.w	d1,(Level_repeat_offset).w
 		sub.w	d1,(Player_1+x_pos).w
@@ -11132,10 +11132,10 @@ loc_5564A:
 		andi.w	#$F,d1
 		lea	word_558E8(pc),a1
 		cmpi.w	#3,(Player_mode).w
-		bne.s	loc_55686
+		bne.s	+ ;loc_55686
 		lea	$10(a1),a1
 
-loc_55686:
++ ;loc_55686:
 		move.b	(a1,d1.w),(Events_bg+$07).w
 		tst.b	(_unkFAA9).w
 		beq.s	loc_5569A
@@ -11151,22 +11151,22 @@ loc_5569E:
 		move.w	d0,(Camera_min_X_pos).w
 		move.w	d0,d1
 		lea	(Player_1).w,a1
-		bsr.s	sub_556B8
+		bsr.s	+ ;sub_556B8
 		move.w	d1,d0
 		lea	(Player_2).w,a1
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_556B8:
++ ;sub_556B8:
 		cmpi.b	#5,anim(a1)
-		bne.s	loc_556C4
+		bne.s	+ ;loc_556C4
 		clr.b	anim(a1)
 
-loc_556C4:
++ ;loc_556C4:
 		addi.w	#$18,d0
 		cmp.w	x_pos(a1),d0
-		bls.s	loc_556E8
+		bls.s	+ ;loc_556E8
 		move.w	d0,x_pos(a1)
 		move.w	#$400,ground_vel(a1)
 		cmpi.w	#3,(Player_mode).w
@@ -11175,7 +11175,7 @@ loc_556C4:
 		bra.s	locret_556F6
 ; ---------------------------------------------------------------------------
 
-loc_556E8:
++ ;loc_556E8:
 		addi.w	#$A8,d0
 		cmp.w	x_pos(a1),d0
 		bhi.s	locret_556F6
@@ -11213,11 +11213,11 @@ loc_55732:
 
 loc_5576A:
 		tst.b	(Events_bg+$01).w
-		bne.s	loc_55776
+		bne.s	+ ;loc_55776
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_55776:
++ ;loc_55776:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -11233,36 +11233,36 @@ loc_5577C:
 		moveq	#4,d1
 		move.w	$2E(a0),d2
 		subq.w	#1,d2
-		bcs.s	loc_557C0
+		bcs.s	+ ;loc_557C0
 
-loc_557B6:
+- ;loc_557B6:
 		addi.w	#$80,d0
 		subq.w	#1,d1
-		dbf	d2,loc_557B6
+		dbf	d2,- ;loc_557B6
 
-loc_557C0:
++ ;loc_557C0:
 		move.w	d0,priority(a0)
 		move.b	d1,mapping_frame(a0)
 
 loc_557C8:
 		tst.w	(Events_bg+$0A).w
-		bne.s	loc_557D4
+		bne.s	+ ;loc_557D4
 		tst.b	(Events_bg+$01).w
-		bne.s	loc_557DA
+		bne.s	++ ;loc_557DA
 
-loc_557D4:
++ ;loc_557D4:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_557DA:
++ ;loc_557DA:
 		move.w	(Events_bg+$06).w,d0
 		tst.w	$30(a0)
-		beq.s	loc_557EC
+		beq.s	+ ;loc_557EC
 		cmpi.w	#4,d0
 		bne.s	locret_55812
 		moveq	#0,d0
 
-loc_557EC:
++ ;loc_557EC:
 		lsl.w	#2,d0
 		add.w	$2E(a0),d0
 		add.w	d0,d0
@@ -11296,35 +11296,35 @@ loc_5583E:
 		move.l	$38(a0),d0
 		sub.l	d0,(_unkEE98).w
 		tst.w	(Events_fg_4).w
-		beq.s	loc_55876
+		beq.s	+ ;loc_55876
 		cmpi.l	#$2800,$2E(a0)
-		bne.s	loc_55876
+		bne.s	+ ;loc_55876
 		move.w	$32(a0),d0
 		move.b	$3C(a0),d1
 		andi.w	#3,d1
-		bne.s	loc_55888
+		bne.s	++ ;loc_55888
 		addq.w	#1,$32(a0)
-		bra.s	loc_55888
+		bra.s	++ ;loc_55888
 ; ---------------------------------------------------------------------------
 
-loc_55876:
++ ;loc_55876:
 		move.l	#$2800,d0
 		move.l	#$C0,d1
 		jsr	(Gradual_SwingOffset).l
 
-loc_55888:
++ ;loc_55888:
 		add.w	(_unkEEA2).w,d0
 		addq.w	#5,d0
 		move.w	d0,(_unkEE9C).w
 		tst.b	(_unkFAA9).w
-		bne.s	loc_558AC
+		bne.s	+ ;loc_558AC
 		cmpi.w	#-$3E6,(_unkEE98).w
-		bgt.s	loc_558AC
+		bgt.s	+ ;loc_558AC
 		st	(_unkFAA9).w
 		st	(Events_fg_4).w
 		st	(Scroll_lock).w
 
-loc_558AC:
++ ;loc_558AC:
 		move.w	(Level_frame_counter).w,d0
 		subq.w	#1,d0
 		andi.w	#$F,d0
@@ -11421,7 +11421,7 @@ SOZ1_BackgroundEvent:
 
 loc_55A9A:
 		tst.w	(Events_fg_5).w
-		beq.s	loc_55ACE
+		beq.s	+ ;loc_55ACE
 		clr.w	(Events_fg_5).w
 		move.w	#-8,(_unkEE9C).w
 		st	(Screen_shake_flag).w
@@ -11432,16 +11432,16 @@ loc_55A9A:
 		move.w	d0,(Draw_delayed_position).w
 		move.w	#$F,(Draw_delayed_rowcount).w
 		addq.w	#4,(Events_routine_bg).w
-		bra.s	loc_55B08
+		bra.s	+++ ;loc_55B08
 ; ---------------------------------------------------------------------------
 
-loc_55ACE:
++ ;loc_55ACE:
 		move.w	#$B20,d0
 		cmpi.w	#$4000,(Player_1+x_pos).w
-		blo.s	loc_55ADE
+		blo.s	+ ;loc_55ADE
 		move.w	#$960,d0
 
-loc_55ADE:
++ ;loc_55ADE:
 		move.w	d0,(Camera_max_Y_pos).w
 		move.w	d0,(Camera_target_max_Y_pos).w
 		jsr	sub_55E96(pc)
@@ -11457,11 +11457,11 @@ loc_55ADE:
 loc_55B04:
 		jsr	sub_55DB6(pc)
 
-loc_55B08:
++ ;loc_55B08:
 		move.w	(Camera_X_pos_BG_copy).w,d1
 		move.w	(Camera_Y_pos_BG_copy).w,d2
 		jsr	Draw_PlaneVertBottomUp(pc)
-		bpl.w	loc_55BA2
+		bpl.w	+++ ;loc_55BA2
 		movem.l	d7-a0/a2-a3,-(sp)
 		lea	(SOZ1_16x16_Custom_Kos).l,a1
 		lea	(Block_table+$EA0).w,a2
@@ -11471,46 +11471,46 @@ loc_55B08:
 		jsr	(Queue_Kos_Module).l
 		movem.l	(sp)+,d7-a0/a2-a3
 		jsr	(AllocateObject).l
-		bne.s	loc_55B6A
+		bne.s	+ ;loc_55B6A
 		move.l	#loc_55F48,(a1)
 		jsr	(CreateNewSprite4).l
-		bne.s	loc_55B6A
+		bne.s	+ ;loc_55B6A
 		move.l	#loc_55F98,(a1)
 		jsr	(CreateNewSprite4).l
-		bne.s	loc_55B6A
+		bne.s	+ ;loc_55B6A
 		move.l	#loc_55FDA,(a1)
 
-loc_55B6A:
++ ;loc_55B6A:
 		addq.w	#4,(Events_routine_bg).w
-		bra.s	loc_55BA2
+		bra.s	++ ;loc_55BA2
 ; ---------------------------------------------------------------------------
 
 loc_55B70:
 		cmpi.w	#$55,(Events_fg_5).w
-		bne.s	loc_55B9E
+		bne.s	+ ;loc_55B9E
 		move.w	#$4378,d0
 		cmp.w	(Player_1+x_pos).w,d0
-		bhi.s	loc_55B9E
+		bhi.s	+ ;loc_55B9E
 		cmpi.w	#$9A8,(Player_1+y_pos).w
-		blo.s	loc_55B9E
+		blo.s	+ ;loc_55B9E
 		tst.w	(Player_mode).w
-		bne.s	loc_55BB4
+		bne.s	+++ ;loc_55BB4
 		cmp.w	(Player_2+x_pos).w,d0
-		blo.s	loc_55BB4
+		blo.s	+++ ;loc_55BB4
 		cmpi.w	#$9A8,(Player_2+y_pos).w
-		bhs.s	loc_55BB4
+		bhs.s	+++ ;loc_55BB4
 
-loc_55B9E:
++ ;loc_55B9E:
 		jsr	sub_55D94(pc)
 
-loc_55BA2:
++ ;loc_55BA2:
 		jsr	(DrawBGAsYouMove).l
 		jsr	sub_55EBE(pc)
 		jsr	sub_55E4C(pc)
 		jmp	ShakeScreen_Setup(pc)
 ; ---------------------------------------------------------------------------
 
-loc_55BB4:
++ ;loc_55BB4:
 		move.w	#$10-1,(Palette_fade_info).w
 		move.w	#$15,(Events_bg+$04).w
 		move.w	#$10,(Events_bg+$06).w
@@ -11519,25 +11519,25 @@ loc_55BB4:
 
 loc_55BCE:
 		tst.w	(Events_bg+$06).w
-		beq.s	loc_55BE0
+		beq.s	+ ;loc_55BE0
 		subq.w	#1,(Events_bg+$06).w
-		bne.s	loc_55BFE
+		bne.s	++ ;loc_55BFE
 		st	(Events_bg+$02).w
-		bra.s	loc_55BFE
+		bra.s	++ ;loc_55BFE
 ; ---------------------------------------------------------------------------
 
-loc_55BE0:
++ ;loc_55BE0:
 		tst.w	(Events_bg+$02).w
-		bne.s	loc_55BFE
+		bne.s	+ ;loc_55BFE
 		btst	#0,(Level_frame_counter+1).w
-		beq.s	loc_55BFE
+		beq.s	+ ;loc_55BFE
 		move.l	a0,-(sp)
 		jsr	(Pal_ToBlack).l
 		movea.l	(sp)+,a0
 		subq.w	#1,(Events_bg+$04).w
-		bmi.s	loc_55C10
+		bmi.s	++ ;loc_55C10
 
-loc_55BFE:
++ ;loc_55BFE:
 		jsr	sub_55D94(pc)
 		jsr	(DrawBGAsYouMove).l
 		jsr	sub_55EBE(pc)
@@ -11545,7 +11545,7 @@ loc_55BFE:
 ; ---------------------------------------------------------------------------
 
 
-loc_55C10:
++ ;loc_55C10:
 		move.w	#$4020-1,(Palette_fade_info).w
 		move.w	#$15,(Events_bg+$04).w
 		move.w	#8,(Events_bg+$06).w
@@ -11553,25 +11553,25 @@ loc_55C10:
 
 loc_55C26:
 		tst.w	(Events_bg+$06).w
-		beq.s	loc_55C32
+		beq.s	+ ;loc_55C32
 		subq.w	#1,(Events_bg+$06).w
-		bra.s	loc_55C4A
+		bra.s	++ ;loc_55C4A
 ; ---------------------------------------------------------------------------
 
-loc_55C32:
++ ;loc_55C32:
 		btst	#0,(Level_frame_counter+1).w
-		beq.s	loc_55C4A
+		beq.s	+ ;loc_55C4A
 		move.l	a0,-(sp)
 		jsr	(Pal_ToBlack).l
 		movea.l	(sp)+,a0
 		subq.w	#1,(Events_bg+$04).w
-		bmi.s	loc_55C4E
+		bmi.s	++ ;loc_55C4E
 
-loc_55C4A:
++ ;loc_55C4A:
 		jmp	sub_55E4C(pc)
 ; ---------------------------------------------------------------------------
 
-loc_55C4E:
++ ;loc_55C4E:
 		movem.l	d7-a0/a2-a3,-(sp)
 		lea	(SOZ2_16x16_Secondary_Kos).l,a1
 		lea	(Block_table+$EA0).w,a2
@@ -11601,10 +11601,10 @@ loc_55C84:
 		jsr	(LoadSolids).l
 		moveq	#3,d0
 		cmpi.w	#3,(Player_mode).w
-		bne.s	loc_55CC6
+		bne.s	+ ;loc_55CC6
 		moveq	#5,d0
 
-loc_55CC6:
++ ;loc_55CC6:
 		jsr	(LoadPalette).l
 		moveq	#$1B,d0
 		jsr	(LoadPalette).l
@@ -11615,9 +11615,9 @@ loc_55CC6:
 		lea	(Normal_palette_line_3).w,a1
 		moveq	#bytesToLcnt($40),d0
 
-loc_55CEA:
+- ;loc_55CEA:
 		clr.l	(a1)+
-		dbf	d0,loc_55CEA
+		dbf	d0,- ;loc_55CEA
 		move.w	(Player_1+x_pos).w,d2
 		sub.w	(Player_2+x_pos).w,d2
 		move.w	(Player_1+y_pos).w,d3
@@ -11671,12 +11671,12 @@ sub_55D56:
 		lea	(HScroll_table).w,a1
 		moveq	#7-1,d2
 
-loc_55D86:
+- ;loc_55D86:
 		swap	d0
 		move.w	d0,(a1)+
 		swap	d0
 		add.l	d1,d0
-		dbf	d2,loc_55D86
+		dbf	d2,- ;loc_55D86
 		rts
 ; End of function sub_55D56
 
@@ -11702,15 +11702,15 @@ sub_55D94:
 
 sub_55DB6:
 		tst.w	(Screen_shake_flag).w
-		bpl.s	loc_55DD0
+		bpl.s	+ ;loc_55DD0
 		move.w	(Level_frame_counter).w,d0
 		subq.w	#1,d0
 		andi.w	#$F,d0
-		bne.s	loc_55DD0
+		bne.s	+ ;loc_55DD0
 		moveq	#signextendB(sfx_Rumble2),d0
 		jsr	(Play_SFX).l
 
-loc_55DD0:
++ ;loc_55DD0:
 		move.w	(Camera_Y_pos_copy).w,d0
 		subi.w	#$900,d0
 		add.w	(_unkEE9C).w,d0
@@ -11772,7 +11772,7 @@ sub_55E4C:
 		neg.w	d1
 		move.w	#$70-1,d2
 
-loc_55E78:
+- ;loc_55E78:
 		move.w	(a6)+,d3
 		move.w	d3,d4
 		add.w	d0,d3
@@ -11785,7 +11785,7 @@ loc_55E78:
 		add.w	d1,d4
 		move.w	d3,(a1)+
 		move.w	d4,(a1)+
-		dbf	d2,loc_55E78
+		dbf	d2,- ;loc_55E78
 		rts
 ; End of function sub_55E4C
 
@@ -11826,12 +11826,12 @@ sub_55EBE:
 		moveq	#5,d6
 		moveq	#6-1,d2
 
-loc_55EE4:
+- ;loc_55EE4:
 		movem.w	d0-d2/d6,-(sp)
 		jsr	(Setup_TileRowDraw).l
 		movem.w	(sp)+,d0-d2/d6
 		addi.w	#$10,d0
-		dbf	d2,loc_55EE4
+		dbf	d2,- ;loc_55EE4
 
 locret_55EFA:
 		rts
@@ -11847,19 +11847,19 @@ sub_55EFC:
 		lea	word_560EA(pc),a6
 		moveq	#$B-1,d0
 
-loc_55F0A:
+- ;loc_55F0A:
 		move.w	(a6),(a1)+
 		move.w	(a6)+,(a5)+
-		dbf	d0,loc_55F0A
+		dbf	d0,- ;loc_55F0A
 		lea	(Normal_palette_line_4+$2).w,a1
 		lea	(Target_palette_line_4+$2).w,a5
 		lea	word_56100(pc),a6
 		moveq	#$F-1,d0
 
-loc_55F20:
+- ;loc_55F20:
 		move.w	(a6),(a1)+
 		move.w	(a6)+,(a5)+
-		dbf	d0,loc_55F20
+		dbf	d0,- ;loc_55F20
 		move.b	#5,(_unkF7C3).w
 		move.w	#(30*60)-1,(Palette_cycle_counter1).w
 		move.b	#0,(Palette_cycle_counters+$00).w
@@ -11900,10 +11900,10 @@ loc_55F7C:
 		tst.w	(Events_bg+$02).w
 		bne.s	locret_55F96
 		jsr	(AllocateObject).l
-		bne.s	loc_55F90
+		bne.s	+ ;loc_55F90
 		move.l	#Obj_SOZMiniboss,(a1)
 
-loc_55F90:
++ ;loc_55F90:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -11921,11 +11921,11 @@ loc_55F98:
 
 loc_55FBE:
 		tst.b	(Current_act).w
-		beq.s	loc_55FCA
+		beq.s	+ ;loc_55FCA
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_55FCA:
++ ;loc_55FCA:
 		move.w	(Camera_X_pos).w,x_pos(a0)
 		st	(Spritemask_flag).w
 		jmp	(Draw_Sprite).l
@@ -11945,11 +11945,11 @@ loc_55FDA:
 loc_56012:
 		bclr	#7,render_flags(a0)
 		tst.w	(Events_bg+$02).w
-		bne.s	loc_56020
+		bne.s	+ ;loc_56020
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_56020:
++ ;loc_56020:
 		moveq	#signextendB(sfx_DoorOpen),d0
 		jsr	(Play_SFX).l
 		move.w	#$F6,(Events_bg+$00).w
@@ -11959,29 +11959,29 @@ loc_56034:
 		moveq	#1,d0
 		bsr.s	sub_560A2
 		cmpi.w	#$58,$2E(a0)
-		blo.s	loc_56050
+		blo.s	+ ;loc_56050
 		move.w	#$58,$2E(a0)
 		clr.w	(Events_bg+$02).w
 		move.l	#loc_56056,(a0)
 
-loc_56050:
++ ;loc_56050:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
 loc_56056:
 		tst.b	(Current_act).w
-		beq.s	loc_56062
+		beq.s	+ ;loc_56062
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_56062:
++ ;loc_56062:
 		bclr	#7,render_flags(a0)
 		tst.w	(Events_bg+$02).w
-		bne.s	loc_56070
+		bne.s	+ ;loc_56070
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_56070:
++ ;loc_56070:
 		moveq	#signextendB(sfx_DoorOpen),d0
 		jsr	(Play_SFX).l
 		move.l	#loc_5607E,(a0)
@@ -11990,13 +11990,13 @@ loc_5607E:
 		moveq	#-1,d0
 		bsr.s	sub_560A2
 		tst.w	$2E(a0)
-		bpl.s	loc_5609C
+		bpl.s	+ ;loc_5609C
 		clr.w	$2E(a0)
 		move.w	#$FD,(Events_bg+$00).w
 		clr.w	(Events_bg+$02).w
 		move.l	#loc_56012,(a0)
 
-loc_5609C:
++ ;loc_5609C:
 		jmp	(Draw_Sprite).l
 
 ; =============== S U B R O U T I N E =======================================
@@ -12005,10 +12005,10 @@ loc_5609C:
 sub_560A2:
 		move.w	(Level_frame_counter).w,d1
 		andi.w	#3,d1
-		bne.s	loc_560AE
+		bne.s	+ ;loc_560AE
 		add.w	d0,d0
 
-loc_560AE:
++ ;loc_560AE:
 		add.w	d0,$2E(a0)
 		move.w	$1A(a0),d0
 		add.w	$2E(a0),d0
@@ -12040,10 +12040,10 @@ SOZ2_ScreenInit:
 		move.w	#$3C,(Layout_row_index_mask).w
 		move.w	#8,(Events_routine_fg).w
 		cmpi.w	#$4E80,(Player_1+x_pos).w
-		blo.s	loc_561B0
+		blo.s	+ ;loc_561B0
 		jsr	sub_5622C(pc)
 
-loc_561B0:
++ ;loc_561B0:
 		jsr	(Reset_TileOffsetPositionActual).l
 		jmp	(Refresh_PlaneFull).l
 ; ---------------------------------------------------------------------------
@@ -12083,11 +12083,11 @@ loc_56206:
 
 loc_5621A:
 		tst.w	(Events_fg_4).w
-		beq.s	loc_56226
+		beq.s	+ ;loc_56226
 		clr.w	(Events_fg_4).w
 		bsr.s	sub_5622C
 
-loc_56226:
++ ;loc_56226:
 		jmp	(DrawTilesAsYouMove).l
 
 ; =============== S U B R O U T I N E =======================================
@@ -12108,15 +12108,15 @@ sub_5622C:
 		subi.w	#9,d0
 		moveq	#4-1,d1
 
-loc_56256:
+- ;loc_56256:
 		moveq	#8,d2
 
-loc_56258:
+- ;loc_56258:
 		move.b	(a5)+,(a1)+
-		dbf	d2,loc_56258
+		dbf	d2,- ;loc_56258
 		adda.w	d0,a1
 		adda.w	d0,a5
-		dbf	d1,loc_56256
+		dbf	d1,-- ;loc_56256
 		rts
 ; End of function sub_5622C
 
@@ -12126,10 +12126,10 @@ SOZ2_BackgroundInit:
 		jsr	sub_5697E(pc)
 		moveq	#$10,d0
 		cmpi.w	#$2980,(Player_1+x_pos).w
-		blo.s	loc_56278
+		blo.s	+ ;loc_56278
 		moveq	#$20,d0
 
-loc_56278:
++ ;loc_56278:
 		move.w	d0,(Events_routine_bg).w
 		jsr	sub_566D2(pc)
 		jsr	(Reset_TileOffsetPositionEff).l
@@ -12182,7 +12182,7 @@ loc_562D0:
 		move.w	d0,(Draw_delayed_position).w
 		move.w	#$F,(Draw_delayed_rowcount).w
 		addq.w	#4,(Events_routine_bg).w
-		bra.s	loc_56304
+		bra.s	+ ;loc_56304
 ; ---------------------------------------------------------------------------
 
 locret_562FE:
@@ -12192,7 +12192,7 @@ locret_562FE:
 loc_56300:
 		jsr	sub_566D2(pc)
 
-loc_56304:
++ ;loc_56304:
 		moveq	#0,d1
 		move.w	(Camera_Y_pos_BG_copy).w,d2
 		jsr	(Draw_PlaneVertBottomUp).l
@@ -12205,13 +12205,13 @@ loc_56324:
 		btst	#0,(Level_frame_counter+1).w
 		beq.s	loc_563A6
 		cmpi.w	#5,(Events_bg+$00).w
-		bne.s	loc_56346
+		bne.s	+ ;loc_56346
 		jsr	(AllocateObject).l
-		bne.s	loc_56346
+		bne.s	+ ;loc_56346
 		move.l	#Obj_TitleCard,(a1)
 		st	$3E(a1)
 
-loc_56346:
++ ;loc_56346:
 		move.l	a0,-(sp)
 		jsr	(Pal_FromBlack).l
 		movea.l	(sp)+,a0
@@ -12241,14 +12241,14 @@ loc_56366:
 
 loc_563A6:
 		jsr	sub_5699A(pc)
-		beq.s	loc_563B6
+		beq.s	+ ;loc_563B6
 		move.w	#$18,(Events_routine_bg).w
 		bra.w	loc_56484
 ; ---------------------------------------------------------------------------
 
-loc_563B6:
++ ;loc_563B6:
 		tst.w	(Events_fg_5).w
-		bne.s	loc_563D8
+		bne.s	+ ;loc_563D8
 		jsr	sub_566D2(pc)
 
 loc_563C0:
@@ -12260,17 +12260,17 @@ loc_563C0:
 		jmp	(PlainDeformation).l
 ; ---------------------------------------------------------------------------
 
-loc_563D8:
++ ;loc_563D8:
 		clr.w	(Events_fg_5).w
 		addq.w	#4,(Events_routine_bg).w
 		moveq	#0,d0
 		move.w	#$80,d0
 		cmpi.w	#$400,(Player_1+y_pos).w
-		blo.s	loc_563F6
+		blo.s	+ ;loc_563F6
 		addq.w	#4,(Events_routine_bg).w
 		move.w	#$3E0,d0
 
-loc_563F6:
++ ;loc_563F6:
 		swap	d0
 		move.l	d0,(_unkEE9C).w
 		jsr	sub_566E8(pc)
@@ -12278,34 +12278,34 @@ loc_563F6:
 		subi.w	#$10,(Camera_Y_pos_BG_rounded).w
 		move.w	#$10,(Special_events_routine).w
 		cmpi.w	#$14,(Events_routine_bg).w
-		beq.s	loc_56440
+		beq.s	+++ ;loc_56440
 		bra.s	loc_56474
 ; ---------------------------------------------------------------------------
 
 loc_5641C:
 		jsr	sub_5699A(pc)
-		beq.s	loc_5642A
+		beq.s	+ ;loc_5642A
 		move.w	#$18,(Events_routine_bg).w
 		bra.s	loc_56484
 ; ---------------------------------------------------------------------------
 
-loc_5642A:
++ ;loc_5642A:
 		tst.w	(Events_fg_5).w
-		bne.s	loc_56450
+		bne.s	+++ ;loc_56450
 		cmpi.w	#$400,(_unkEE9C).w
-		blo.s	loc_5643C
+		blo.s	+ ;loc_5643C
 		clr.w	(Special_events_routine).w
 
-loc_5643C:
++ ;loc_5643C:
 		jsr	sub_566E8(pc)
 
-loc_56440:
++ ;loc_56440:
 		jsr	(DrawBGAsYouMove).l
 		jsr	(PlainDeformation).l
 		jmp	Go_CheckPlayerRelease(pc)
 ; ---------------------------------------------------------------------------
 
-loc_56450:
++ ;loc_56450:
 		clr.w	(Events_fg_5).w
 		move.w	#$10,(Special_events_routine).w
 		addq.w	#4,(Events_routine_bg).w
@@ -12314,10 +12314,10 @@ loc_5645E:
 		jsr	sub_5699A(pc)
 		bne.s	loc_56484
 		cmpi.w	#$A00,(_unkEE9C).w
-		blo.s	loc_56470
+		blo.s	+ ;loc_56470
 		clr.w	(Special_events_routine).w
 
-loc_56470:
++ ;loc_56470:
 		jsr	sub_566E8(pc)
 
 loc_56474:
@@ -12337,43 +12337,43 @@ loc_56484:
 		clr.w	(Special_events_routine).w
 		clr.b	(Background_collision_flag).w
 		addq.w	#4,(Events_routine_bg).w
-		bra.s	loc_564BC
+		bra.s	+ ;loc_564BC
 ; ---------------------------------------------------------------------------
 
 loc_564B8:
 		jsr	sub_566D2(pc)
 
-loc_564BC:
++ ;loc_564BC:
 		move.w	(Camera_Y_pos_BG_copy).w,d1
 		moveq	#0,d2
 		jsr	(Draw_PlaneHorzRightToLeft).l
-		bpl.s	loc_564E8
+		bpl.s	++ ;loc_564E8
 		clr.w	(Events_bg+$02).w
 		addq.w	#4,(Events_routine_bg).w
-		bra.s	loc_564E8
+		bra.s	++ ;loc_564E8
 ; ---------------------------------------------------------------------------
 
 loc_564D4:
 		cmpi.w	#$5000,(Player_1+x_pos).w
-		blo.s	loc_564E4
+		blo.s	+ ;loc_564E4
 		cmpi.w	#$500,(Camera_Y_pos).w
 		bhs.s	loc_56510
 
-loc_564E4:
++ ;loc_564E4:
 		jsr	sub_566D2(pc)
 
-loc_564E8:
++ ;loc_564E8:
 		lea	(Camera_Y_pos_BG_copy).w,a6
 		lea	(Camera_Y_pos_BG_rounded).w,a5
 		moveq	#0,d1
 		moveq	#$20,d6
 		jsr	(Draw_TileRow).l
 		move.w	(Events_bg+$02).w,d0
-		beq.s	loc_5650A
+		beq.s	+ ;loc_5650A
 		move.w	d0,(Camera_X_pos_BG_copy).w
 		move.w	(Events_bg+$04).w,(Camera_Y_pos_BG_copy).w
 
-loc_5650A:
++ ;loc_5650A:
 		jmp	(PlainDeformation).l
 ; ---------------------------------------------------------------------------
 
@@ -12386,29 +12386,29 @@ loc_56510:
 		moveq	#0,d1
 		moveq	#$10-1,d2
 
-loc_56528:
+- ;loc_56528:
 		moveq	#4-1,d3
 
-loc_5652A:
+- ;loc_5652A:
 		move.b	(a1),4(a1)
 		move.b	d1,(a1)+
-		dbf	d3,loc_5652A
+		dbf	d3,- ;loc_5652A
 		adda.w	d0,a1
-		dbf	d2,loc_56528
+		dbf	d2,-- ;loc_56528
 		lea	(HScroll_table).w,a1
 		moveq	#$80-1,d2
 
-loc_56540:
+- ;loc_56540:
 		move.l	d1,(a1)+
-		dbf	d2,loc_56540
+		dbf	d2,- ;loc_56540
 		jsr	sub_56706(pc)
 		lea	(HScroll_table).w,a1
 		moveq	#$D-1,d0
 
-loc_56550:
+- ;loc_56550:
 		move.w	(a1)+,(a1)
 		andi.w	#$FFF0,(a1)+
-		dbf	d0,loc_56550
+		dbf	d0,- ;loc_56550
 		move.w	#$500,(Camera_min_Y_pos).w
 		move.w	#$680,d0
 		move.w	d0,(Camera_max_Y_pos).w
@@ -12431,16 +12431,16 @@ loc_56550:
 		move.b	#$7F,(Anim_Counters).w
 		jsr	sub_56A12(pc)
 		addq.w	#4,(Events_routine_bg).w
-		bra.s	loc_565F4
+		bra.s	++ ;loc_565F4
 ; ---------------------------------------------------------------------------
 
 loc_565C6:
 		move.w	(Camera_Y_pos_copy).w,d0
 		cmp.w	(Camera_min_Y_pos).w,d0
-		beq.s	loc_565D4
+		beq.s	+ ;loc_565D4
 		move.w	d0,(Camera_min_Y_pos).w
 
-loc_565D4:
++ ;loc_565D4:
 		cmp.w	(Camera_max_Y_pos).w,d0
 		bne.s	loc_565DE
 		addq.w	#4,(Events_routine_bg).w
@@ -12449,10 +12449,10 @@ loc_565DE:
 		move.w	#$7FFF,(Palette_cycle_counter1).w
 		move.b	#$7F,(Anim_Counters).w
 		tst.w	(Events_fg_5).w
-		bmi.s	loc_5661A
+		bmi.s	++ ;loc_5661A
 		jsr	sub_56706(pc)
 
-loc_565F4:
++ ;loc_565F4:
 		lea	SOZ2_BGDrawArray(pc),a4
 		lea	(HScroll_table).w,a5
 		moveq	#$20,d6
@@ -12464,7 +12464,7 @@ loc_565F4:
 		jmp	(ShakeScreen_Setup).l
 ; ---------------------------------------------------------------------------
 
-loc_5661A:
++ ;loc_5661A:
 		move.w	(Camera_X_pos_BG_copy).w,d0
 		subi.w	#$100,d0
 		move.w	d0,(Events_bg+$02).w
@@ -12488,35 +12488,35 @@ loc_5661A:
 
 loc_56676:
 		tst.b	(Kos_modules_left).w
-		bne.s	loc_566BC
+		bne.s	++ ;loc_566BC
 		jsr	sub_56964(pc)
 		move.w	#$200,d1
 		move.w	(Camera_Y_pos_BG_copy).w,d2
 		jsr	(Draw_PlaneVertBottomUp).l
-		bpl.s	loc_566A8
+		bpl.s	+ ;loc_566A8
 		clr.w	(Events_bg+$02).w
 		move.w	#$52C0,(Camera_max_X_pos).w
 		clr.b	(Anim_Counters).w
 		addq.w	#4,(Events_routine_bg).w
-		bra.s	loc_566A8
+		bra.s	+ ;loc_566A8
 ; ---------------------------------------------------------------------------
 
 loc_566A4:
 		jsr	sub_56964(pc)
 
-loc_566A8:
++ ;loc_566A8:
 		lea	(Camera_Y_pos_BG_copy).w,a6
 		lea	(Camera_Y_pos_BG_rounded).w,a5
 		move.w	#$200,d1
 		moveq	#$20,d6
 		jsr	(Draw_TileRow).l
 
-loc_566BC:
++ ;loc_566BC:
 		move.w	(Events_bg+$02).w,d0
-		beq.s	loc_566C6
+		beq.s	+ ;loc_566C6
 		move.w	d0,(Camera_X_pos_BG_copy).w
 
-loc_566C6:
++ ;loc_566C6:
 		jsr	(PlainDeformation).l
 		jmp	(ShakeScreen_Setup).l
 
@@ -12593,10 +12593,10 @@ loc_5675C:
 		moveq	#-1,d0
 		moveq	#9-1,d1
 
-loc_56770:
+- ;loc_56770:
 		move.w	d0,-(a1)
 		subq.w	#1,d0
-		dbf	d1,loc_56770
+		dbf	d1,- ;loc_56770
 		moveq	#signextendB(sfx_BossHit),d0
 		jsr	(Play_SFX).l
 		move.w	#3,(Events_bg+$06).w
@@ -12610,10 +12610,10 @@ loc_5678A:
 		moveq	#-1,d0
 		moveq	#9-1,d1
 
-loc_5679E:
+- ;loc_5679E:
 		move.w	d0,-(a1)
 		subq.w	#2,d0
-		dbf	d1,loc_5679E
+		dbf	d1,- ;loc_5679E
 		move.w	#8,(Events_bg+$06).w
 		addq.w	#4,(Events_bg+$08).w
 
@@ -12628,24 +12628,24 @@ loc_567B0:
 		sub.w	(Camera_Y_pos_copy).w,d0
 		add.w	(Camera_Y_pos_BG_copy).w,d0
 		subi.w	#$440,d0
-		bcc.s	loc_567DC
+		bcc.s	+ ;loc_567DC
 		moveq	#0,d0
 
-loc_567DC:
++ ;loc_567DC:
 		lsr.w	#3,d0
 		andi.w	#$FFFE,d0
 		cmpi.w	#$10,d0
-		bls.s	loc_567EA
+		bls.s	+ ;loc_567EA
 		moveq	#$10,d0
 
-loc_567EA:
++ ;loc_567EA:
 		suba.w	d0,a6
 		moveq	#9-1,d1
 
-loc_567EE:
+- ;loc_567EE:
 		move.l	#$80000,(a1)+
 		move.w	(a6)+,(a5)+
-		dbf	d1,loc_567EE
+		dbf	d1,- ;loc_567EE
 		clr.w	(Events_bg+$00).w
 		moveq	#signextendB(sfx_Collapse),d0
 		jsr	(Play_SFX).l
@@ -12659,20 +12659,20 @@ loc_5680A:
 		moveq	#9,d0
 		moveq	#9-1,d1
 
-loc_5681E:
+- ;loc_5681E:
 		tst.b	(a6)
-		beq.s	loc_5682C
-		bpl.s	loc_56828
+		beq.s	++ ;loc_5682C
+		bpl.s	+ ;loc_56828
 		subq.w	#1,d0
 		bra.s	loc_5683A
 ; ---------------------------------------------------------------------------
 
-loc_56828:
++ ;loc_56828:
 		subq.b	#1,(a6)
 		bra.s	loc_5683A
 ; ---------------------------------------------------------------------------
 
-loc_5682C:
++ ;loc_5682C:
 		move.l	(a5),d2
 		sub.l	d2,(a1)
 		subi.l	#$2800,(a5)
@@ -12683,9 +12683,9 @@ loc_5683A:
 		addq.w	#4,a1
 		addq.w	#4,a5
 		addq.w	#2,a6
-		dbf	d1,loc_5681E
+		dbf	d1,- ;loc_5681E
 		tst.w	d0
-		beq.s	loc_56868
+		beq.s	+ ;loc_56868
 		cmpi.w	#9,d0
 		beq.w	loc_56936
 		tst.w	(Events_bg+$00).w
@@ -12696,20 +12696,20 @@ loc_5683A:
 		bra.w	loc_56936
 ; ---------------------------------------------------------------------------
 
-loc_56868:
++ ;loc_56868:
 		lea	(HScroll_table+$122).w,a1
 		moveq	#9-1,d1
 
-loc_5686E:
+- ;loc_5686E:
 		clr.w	(a1)+
-		dbf	d1,loc_5686E
+		dbf	d1,- ;loc_5686E
 		clr.w	(Events_bg+$06).w
 		addq.w	#4,(Events_bg+$08).w
 
 loc_5687C:
 		jsr	loc_568DE(pc)
 		tst.w	(Events_bg+$06).w
-		beq.s	loc_5689A
+		beq.s	+ ;loc_5689A
 		subq.w	#1,(Events_bg+$06).w
 		bne.w	loc_56936
 		clr.w	(Events_bg+$0A).w
@@ -12717,27 +12717,27 @@ loc_5687C:
 		bra.w	loc_56936
 ; ---------------------------------------------------------------------------
 
-loc_5689A:
++ ;loc_5689A:
 		lea	(HScroll_table+$144).w,a1
 		lea	$40(a1),a5
 		lea	$3F(a5),a6
 		moveq	#9,d0
 		moveq	#9-1,d1
 
-loc_568AA:
+- ;loc_568AA:
 		tst.b	(a6)
-		beq.s	loc_568B8
-		bpl.s	loc_568B4
+		beq.s	++ ;loc_568B8
+		bpl.s	+ ;loc_568B4
 		subq.w	#1,d0
 		bra.s	loc_568C8
 ; ---------------------------------------------------------------------------
 
-loc_568B4:
++ ;loc_568B4:
 		subq.b	#1,(a6)
 		bra.s	loc_568C8
 ; ---------------------------------------------------------------------------
 
-loc_568B8:
++ ;loc_568B8:
 		move.l	(a5),d2
 		subi.l	#$2800,(a5)
 		sub.l	d2,(a1)
@@ -12749,7 +12749,7 @@ loc_568C8:
 		addq.w	#4,a1
 		addq.w	#4,a5
 		addq.w	#2,a6
-		dbf	d1,loc_568AA
+		dbf	d1,- ;loc_568AA
 		tst.w	d0
 		bne.s	loc_56936
 		move.w	#$F,(Events_bg+$06).w
@@ -12758,19 +12758,19 @@ loc_568C8:
 
 loc_568DE:
 		tst.w	(Events_fg_5).w
-		bne.s	loc_568E6
+		bne.s	+ ;loc_568E6
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_568E6:
++ ;loc_568E6:
 		lea	(HScroll_table+$1C2).w,a1
 		moveq	#0,d0
 		moveq	#$C-1,d1
 
-loc_568EE:
+- ;loc_568EE:
 		move.w	d0,(a1)+
 		addq.w	#5,d0
-		dbf	d1,loc_568EE
+		dbf	d1,- ;loc_568EE
 		move.w	#$5140,(Camera_max_X_pos).w
 		move.w	#$14,(Events_bg+$08).w
 		addq.w	#4,sp
@@ -12781,24 +12781,24 @@ loc_56904:
 		moveq	#$C,d0
 		moveq	#$C-1,d1
 
-loc_56910:
+- ;loc_56910:
 		tst.w	(a5)
-		beq.s	loc_56918
+		beq.s	+ ;loc_56918
 		subq.w	#1,(a5)
-		bra.s	loc_56926
+		bra.s	++ ;loc_56926
 ; ---------------------------------------------------------------------------
 
-loc_56918:
++ ;loc_56918:
 		subq.w	#5,(a1)
 		cmpi.w	#-$100,(a1)
-		bgt.s	loc_56926
+		bgt.s	+ ;loc_56926
 		move.w	#-$100,(a1)
 		subq.w	#1,d0
 
-loc_56926:
++ ;loc_56926:
 		addq.w	#4,a1
 		addq.w	#2,a5
-		dbf	d1,loc_56910
+		dbf	d1,- ;loc_56910
 		tst.w	d0
 		bne.s	loc_56936
 		st	(Events_fg_5).w
@@ -12812,7 +12812,7 @@ loc_56936:
 		move.w	(Camera_X_pos_BG_copy).w,d0
 		moveq	#$D-1,d1
 
-loc_5694E:
+- ;loc_5694E:
 		move.w	(a5)+,d2
 		add.w	(a6),d2
 		add.w	d0,d2
@@ -12820,7 +12820,7 @@ loc_5694E:
 		move.w	d2,(a1)+
 		addq.w	#4,a0
 		addq.w	#4,a6
-		dbf	d1,loc_5694E
+		dbf	d1,- ;loc_5694E
 		movea.l	(sp)+,a0
 		rts
 ; End of function sub_56706
@@ -12851,10 +12851,10 @@ sub_5697E:
 		lea	$17(a6),a6
 		moveq	#$A-1,d0
 
-loc_56990:
+- ;loc_56990:
 		clr.b	(a5)+
 		clr.b	(a6)+
-		dbf	d0,loc_56990
+		dbf	d0,- ;loc_56990
 		rts
 ; End of function sub_5697E
 
@@ -12864,17 +12864,17 @@ loc_56990:
 
 sub_5699A:
 		cmpi.w	#$2A00,(Player_1+x_pos).w
-		blo.s	loc_569B6
+		blo.s	+ ;loc_569B6
 		move.w	(Player_1+y_pos).w,d0
 		cmpi.w	#$140,d0
-		blo.s	loc_569B6
+		blo.s	+ ;loc_569B6
 		cmpi.w	#$180,d0
-		bhi.s	loc_569B6
+		bhi.s	+ ;loc_569B6
 		moveq	#-1,d0
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_569B6:
++ ;loc_569B6:
 		moveq	#0,d0
 		rts
 ; End of function sub_5699A
@@ -12896,18 +12896,18 @@ Go_CheckPlayerRelease:
 		movem.l	d7-a0/a2-a3,-(sp)
 		lea	(Player_1).w,a1
 		btst	#Status_OnObj,status(a1)
-		beq.s	loc_569F6
+		beq.s	+ ;loc_569F6
 		movea.w	interact(a1),a0
 		jsr	(CheckPlayerReleaseFromObj).l
 
-loc_569F6:
++ ;loc_569F6:
 		lea	(Player_2).w,a1
 		btst	#Status_OnObj,status(a1)
-		beq.s	loc_56A0C
+		beq.s	+ ;loc_56A0C
 		movea.w	interact(a1),a0
 		jsr	(CheckPlayerReleaseFromObj).l
 
-loc_56A0C:
++ ;loc_56A0C:
 		movem.l	(sp)+,d7-a0/a2-a3
 		rts
 
@@ -12920,11 +12920,11 @@ sub_56A12:
 		move.l	#loc_56A34,d1
 		moveq	#8-1,d2
 
-loc_56A22:
+- ;loc_56A22:
 		move.l	d1,(a1)
 		move.w	d2,subtype(a1)
 		jsr	(CreateNewSprite4).l
-		dbne	d2,loc_56A22
+		dbne	d2,- ;loc_56A22
 
 locret_56A32:
 		rts
@@ -12950,10 +12950,10 @@ loc_56A34:
 		sub.w	(a1,d0.w),d4
 		add.w	(Camera_X_pos_copy).w,d4
 		cmpi.w	#$10,(Events_bg+$08).w
-		beq.s	loc_56A7E
+		beq.s	+ ;loc_56A7E
 		move.w	#$7FFF,d4
 
-loc_56A7E:
++ ;loc_56A7E:
 		move.w	d4,x_pos(a0)
 		moveq	#$4B,d1
 		moveq	#8,d2
@@ -12962,11 +12962,11 @@ loc_56A7E:
 		move.w	#-$300,d0
 		lea	(Player_1).w,a1
 		btst	#$10,d6
-		beq.s	loc_56AA4
+		beq.s	+ ;loc_56AA4
 		move.w	d0,x_vel(a1)
 		move.w	d0,y_vel(a1)
 
-loc_56AA4:
++ ;loc_56AA4:
 		lea	(Player_2).w,a1
 		btst	#$11,d6
 		beq.s	locret_56AB6
@@ -13016,14 +13016,14 @@ LRZ1_ScreenEvent:
 		move.w	(Screen_shake_offset).w,d0
 		add.w	d0,(Camera_Y_pos_copy).w
 		move.w	(Events_bg+$0C).w,d0
-		beq.s	loc_56B5E
-		bmi.s	loc_56B2C
+		beq.s	+++ ;loc_56B5E
+		bmi.s	+ ;loc_56B2C
 		movea.w	$40(a3),a1
 		move.b	#$9C,$A(a1)
-		bra.s	loc_56B54
+		bra.s	++ ;loc_56B54
 ; ---------------------------------------------------------------------------
 
-loc_56B2C:
++ ;loc_56B2C:
 		movea.w	$38(a3),a1
 		lea	$1D(a1),a1
 		move.b	#$44,(a1)+
@@ -13035,12 +13035,12 @@ loc_56B2C:
 		move.b	#0,(a1)+
 		move.b	#$4B,(a1)
 
-loc_56B54:
++ ;loc_56B54:
 		clr.w	(Events_bg+$0C).w
 		jmp	(Refresh_PlaneScreenDirect).l
 ; ---------------------------------------------------------------------------
 
-loc_56B5E:
++ ;loc_56B5E:
 		jmp	(DrawTilesAsYouMove).l
 ; ---------------------------------------------------------------------------
 
@@ -13049,16 +13049,16 @@ LRZ1_BackgroundInit:
 		move.w	#$1C,d1
 		moveq	#$19-1,d2
 
-loc_56B6C:
+- ;loc_56B6C:
 		move.w	d0,(a3,d1.w)
 		addq.w	#4,d1
-		dbf	d2,loc_56B6C
+		dbf	d2,- ;loc_56B6C
 		cmpi.w	#3,(Player_mode).w
-		bne.s	loc_56B88
+		bne.s	+ ;loc_56B88
 		movea.w	4(a3),a1
 		move.b	#-$A,4(a1)
 
-loc_56B88:
++ ;loc_56B88:
 		jsr	LRZ1_Deform(pc)
 		jsr	(Reset_TileOffsetPositionEff).l
 		clr.l	(HScroll_table).w
@@ -13089,7 +13089,7 @@ LRZ1_BackgroundEvent:
 
 loc_56BD2:
 		tst.w	(Events_fg_5).w
-		beq.s	loc_56C28
+		beq.s	+ ;loc_56C28
 		clr.w	(Events_fg_5).w
 		movem.l	d7-a0/a2-a3,-(sp)
 		lea	(LRZ2_128x128_Secondary_Kos).l,a1
@@ -13108,7 +13108,7 @@ loc_56BD2:
 		bra.w	loc_56D16
 ; ---------------------------------------------------------------------------
 
-loc_56C28:
++ ;loc_56C28:
 		jsr	sub_56DCA(pc)
 		jsr	LRZ1_Deform(pc)
 
@@ -13119,20 +13119,20 @@ loc_56C30:
 		moveq	#3,d5
 		jsr	(Draw_BG).l
 		move.l	(Events_bg+$02).w,d0
-		beq.s	loc_56C5A
+		beq.s	+ ;loc_56C5A
 		move.w	d0,(Camera_Y_pos_BG_copy).w
 		swap	d0
 		move.w	d0,(Camera_X_pos_BG_copy).w
 		jsr	(PlainDeformation).l
-		bra.s	loc_56C68
+		bra.s	++ ;loc_56C68
 ; ---------------------------------------------------------------------------
 
-loc_56C5A:
++ ;loc_56C5A:
 		lea	LRZ1_BGDeformArray(pc),a4
 		lea	(HScroll_table+$00C).w,a5
 		jsr	(ApplyDeformation).l
 
-loc_56C68:
++ ;loc_56C68:
 		jmp	(ShakeScreen_Setup).l
 ; ---------------------------------------------------------------------------
 
@@ -13231,23 +13231,23 @@ LRZ1_Deform:
 		move.l	d2,d1
 		moveq	#8-1,d3
 
-loc_56D88:
+- ;loc_56D88:
 		swap	d1
 		move.w	d1,-(a1)
 		swap	d1
 		add.l	d0,d1
-		dbf	d3,loc_56D88
+		dbf	d3,- ;loc_56D88
 		lea	(HScroll_table+$01C).w,a1
 		add.l	d0,d2
 		add.l	d0,d0
 		moveq	#5-1,d3
 
-loc_56D9E:
+- ;loc_56D9E:
 		swap	d2
 		move.w	d2,(a1)+
 		swap	d2
 		add.l	d0,d2
-		dbf	d3,loc_56D9E
+		dbf	d3,- ;loc_56D9E
 		rts
 ; End of function LRZ1_Deform
 
@@ -13277,25 +13277,25 @@ sub_56DCA:
 		moveq	#0,d2
 		move.w	#3-1,d3
 
-loc_56DDC:
+- ;loc_56DDC:
 		lea	(a1),a5
 		cmp.w	(a5)+,d0
-		blo.s	loc_56DEE
+		blo.s	+ ;loc_56DEE
 		cmp.w	(a5)+,d0
-		bhi.s	loc_56DEE
+		bhi.s	+ ;loc_56DEE
 		cmp.w	(a5)+,d1
-		blo.s	loc_56DEE
+		blo.s	+ ;loc_56DEE
 		cmp.w	(a5)+,d1
-		blo.s	loc_56DFA
+		blo.s	++ ;loc_56DFA
 
-loc_56DEE:
++ ;loc_56DEE:
 		adda.w	#$A,a1
 		addq.w	#4,d2
-		dbf	d3,loc_56DDC
+		dbf	d3,- ;loc_56DDC
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_56DFA:
++ ;loc_56DFA:
 		jmp	loc_56DFE(pc,d2.w)
 ; End of function sub_56DCA
 
@@ -13311,13 +13311,13 @@ loc_56DFE:
 
 loc_56E0A:
 		tst.w	(Events_bg+$00).w
-		bne.s	loc_56E16
+		bne.s	+ ;loc_56E16
 		cmp.w	(a5),d0
 		bhs.s	loc_56E40
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_56E16:
++ ;loc_56E16:
 		cmp.w	(a5),d0
 		blo.s	loc_56E66
 		rts
@@ -13325,13 +13325,13 @@ loc_56E16:
 
 loc_56E1C:
 		tst.w	(Events_bg+$00).w
-		bne.s	loc_56E28
+		bne.s	+ ;loc_56E28
 		cmp.w	(a5),d0
 		blo.s	loc_56E40
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_56E28:
++ ;loc_56E28:
 		cmp.w	(a5),d0
 		bhs.s	loc_56E66
 		rts
@@ -13339,13 +13339,13 @@ loc_56E28:
 
 loc_56E2E:
 		tst.w	(Events_bg+$00).w
-		bne.s	loc_56E3A
+		bne.s	+ ;loc_56E3A
 		cmp.w	(a5),d1
 		bhs.s	loc_56E40
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_56E3A:
++ ;loc_56E3A:
 		cmp.w	(a5),d1
 		blo.s	loc_56E66
 		rts
@@ -13354,10 +13354,10 @@ loc_56E3A:
 loc_56E40:
 		st	(Events_bg+$00).w
 		jsr	(AllocateObject).l
-		bne.s	loc_56E52
+		bne.s	+ ;loc_56E52
 		move.l	#Obj_56EA0,(a1)
 
-loc_56E52:
++ ;loc_56E52:
 		jsr	sub_56DAC(pc)
 		jsr	(Reset_TileOffsetPositionEff).l
 		addq.w	#4,(Events_routine_bg).w
@@ -13391,38 +13391,38 @@ Obj_56EA0:
 
 loc_56EC2:
 		tst.w	(Events_bg+$00).w
-		bne.s	loc_56ECE
+		bne.s	+ ;loc_56ECE
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_56ECE:
++ ;loc_56ECE:
 		move.l	$2E(a0),d0
 		move.l	$32(a0),d1
 		move.l	#-$100,d2
 		tst.b	$36(a0)
-		beq.s	loc_56EF6
+		beq.s	+ ;loc_56EF6
 		neg.l	d2
 		add.l	d1,d0
-		bmi.s	loc_56F0A
+		bmi.s	+++ ;loc_56F0A
 		moveq	#0,d0
 		move.l	#$C000,d1
 		clr.b	$36(a0)
 		bra.s	loc_56F0C
 ; ---------------------------------------------------------------------------
 
-loc_56EF6:
++ ;loc_56EF6:
 		add.l	d1,d0
-		beq.s	loc_56EFC
-		bpl.s	loc_56F0A
+		beq.s	+ ;loc_56EFC
+		bpl.s	++ ;loc_56F0A
 
-loc_56EFC:
++ ;loc_56EFC:
 		moveq	#0,d0
 		move.l	#-$C000,d1
 		st	$36(a0)
 		bra.s	loc_56F0C
 ; ---------------------------------------------------------------------------
 
-loc_56F0A:
++ ;loc_56F0A:
 		add.l	d2,d1
 
 loc_56F0C:
@@ -13439,13 +13439,13 @@ loc_56F0C:
 		move.w	x_pos(a0),d4
 		jsr	(SolidObjectTop).l
 		btst	#p1_standing_bit,status(a0)
-		beq.s	loc_56F54
+		beq.s	+ ;loc_56F54
 		lea	(Player_1).w,a1
 		btst	#Status_FireShield,status_secondary(a1)
-		bne.s	loc_56F54
+		bne.s	+ ;loc_56F54
 		jsr	(sub_24280).l
 
-loc_56F54:
++ ;loc_56F54:
 		btst	#p2_standing_bit,status(a0)
 		beq.s	locret_56F66
 		lea	(Player_2).w,a1
@@ -13478,11 +13478,11 @@ LRZ2_ScreenEvent:
 
 LRZ2_BackgroundInit:
 		jsr	(AllocateObject).l
-		bne.s	loc_56FD2
+		bne.s	+ ;loc_56FD2
 		move.l	#loc_5711E,(a1)
 		move.w	a1,(Events_bg+$06).w
 
-loc_56FD2:
++ ;loc_56FD2:
 		move.w	#8,(Events_routine_bg).w
 		jsr	sub_57082(pc)
 		jsr	(Reset_TileOffsetPositionEff).l
@@ -13508,11 +13508,11 @@ LRZ2_BackgroundEvent:
 
 loc_5700C:
 		jsr	(AllocateObject).l
-		bne.s	loc_5701E
+		bne.s	+ ;loc_5701E
 		move.l	#loc_5711E,(a1)
 		move.w	a1,(Events_bg+$06).w
 
-loc_5701E:
++ ;loc_5701E:
 		jsr	sub_57082(pc)
 		jsr	(Reset_TileOffsetPositionEff).l
 		addi.w	#$E0,d0
@@ -13520,25 +13520,25 @@ loc_5701E:
 		move.w	d0,(Draw_delayed_position).w
 		move.w	#$F,(Draw_delayed_rowcount).w
 		addq.w	#4,(Events_routine_bg).w
-		bra.s	loc_57044
+		bra.s	+ ;loc_57044
 ; ---------------------------------------------------------------------------
 
 loc_57040:
 		jsr	sub_57082(pc)
 
-loc_57044:
++ ;loc_57044:
 		moveq	#0,d1
 		move.w	(Camera_Y_pos_BG_copy).w,d2
 		jsr	(Draw_PlaneVertBottomUp).l
-		bpl.s	loc_5705C
+		bpl.s	+ ;loc_5705C
 		addq.w	#4,(Events_routine_bg).w
-		bra.s	loc_5705C
+		bra.s	+ ;loc_5705C
 ; ---------------------------------------------------------------------------
 
 loc_57058:
 		jsr	sub_57082(pc)
 
-loc_5705C:
++ ;loc_5705C:
 		lea	(Camera_Y_pos_BG_copy).w,a6
 		lea	(Camera_Y_pos_BG_rounded).w,a5
 		moveq	#0,d1
@@ -13586,33 +13586,33 @@ sub_57082:
 		move.l	d2,d1
 		moveq	#8-1,d3
 
-loc_570D2:
+- ;loc_570D2:
 		swap	d1
 		move.w	d1,-(a1)
 		swap	d1
 		add.l	d0,d1
-		dbf	d3,loc_570D2
+		dbf	d3,- ;loc_570D2
 		lea	(HScroll_table+$010).w,a1
 		add.l	d0,d2
 		add.l	d0,d0
 		moveq	#5-1,d3
 
-loc_570E8:
+- ;loc_570E8:
 		swap	d2
 		move.w	d2,(a1)+
 		swap	d2
 		add.l	d0,d2
-		dbf	d3,loc_570E8
+		dbf	d3,- ;loc_570E8
 		move.w	(Events_bg+$06).w,d0
 		beq.s	locret_5711C
 		movea.w	d0,a1
 		move.w	#$678,d0
 		sub.w	(HScroll_table+$004).w,d0
 		cmpi.w	#-$7E0,d0
-		ble.s	loc_5710C
+		ble.s	+ ;loc_5710C
 		moveq	#0,d0
 
-loc_5710C:
++ ;loc_5710C:
 		move.w	d0,$10(a1)
 		move.w	#$C0,d0
 		sub.w	(Camera_Y_pos_BG_copy).w,d0
@@ -13626,12 +13626,12 @@ locret_5711C:
 
 loc_5711E:
 		cmpi.w	#3,(Player_mode).w
-		bne.s	loc_57130
+		bne.s	+ ;loc_57130
 		clr.w	(Events_bg+$06).w
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_57130:
++ ;loc_57130:
 		move.l	#loc_57156,(a0)
 		move.b	#$40,height_pixels(a0)
 		move.b	#$50,width_pixels(a0)
@@ -13641,7 +13641,7 @@ loc_57130:
 
 loc_57156:
 		tst.w	$2E(a0)
-		bne.s	loc_57176
+		bne.s	+ ;loc_57176
 		tst.w	x_pos(a0)
 		beq.s	locret_57182
 		lea	(ArtKosM_LRZ2DeathEggBG).l,a1
@@ -13649,7 +13649,7 @@ loc_57156:
 		jsr	(Queue_Kos_Module).l
 		st	$2E(a0)
 
-loc_57176:
++ ;loc_57176:
 		tst.w	x_pos(a0)
 		beq.s	locret_57182
 		jmp	(Draw_Sprite).l
@@ -13666,9 +13666,9 @@ Map_LRZ2DeathEggBG:
 
 SSZ1_ScreenInit:
 		tst.b	(Last_star_post_hit).w
-		bne.s	loc_57246
+		bne.s	+ ;loc_57246
 		jsr	(AllocateObject).l
-		bne.s	loc_57246
+		bne.s	+ ;loc_57246
 		move.l	#Obj_57C1E,(a1)
 		move.w	#$100,x_pos(a1)
 		move.b	#$6C,$2D(a1)
@@ -13685,22 +13685,22 @@ SSZ1_ScreenInit:
 		move.w	d0,(Camera_Y_pos).w
 		st	(Scroll_lock).w
 
-loc_57246:
++ ;loc_57246:
 		clr.w	(_unkEE98).w
 		clr.w	(_unkEE9C).w
 		lea	(HScroll_table+$1F6).w,a1
 		lea	(a1),a5
 		moveq	#5-1,d0
 
-loc_57256:
+- ;loc_57256:
 		clr.w	(a1)+
-		dbf	d0,loc_57256
+		dbf	d0,- ;loc_57256
 		lea	word_58758(pc),a6
 		moveq	#5-1,d1
 		jsr	(AllocateObject).l
-		bne.s	loc_5728E
+		bne.s	+ ;loc_5728E
 
-loc_5726A:
+- ;loc_5726A:
 		move.w	a1,(a5)+
 		move.l	#loc_57BB2,(a1)
 		move.w	(a6)+,$38(a1)
@@ -13709,9 +13709,9 @@ loc_5726A:
 		move.w	(a6)+,d2
 		move.b	d2,mapping_frame(a1)
 		jsr	(CreateNewSprite4).l
-		dbne	d1,loc_5726A
+		dbne	d1,- ;loc_5726A
 
-loc_5728E:
++ ;loc_5728E:
 		jsr	sub_5758A(pc)
 		jsr	(Reset_TileOffsetPositionActual).l
 		jmp	(Refresh_PlaneFull).l
@@ -13734,37 +13734,37 @@ SSZ1_ScreenEvent:
 
 loc_572BA:
 		tst.b	(End_of_level_flag).w
-		bne.s	loc_572CE
+		bne.s	+ ;loc_572CE
 		jsr	sub_575EA(pc)
 		jsr	sub_5758A(pc)
 		jmp	(DrawTilesAsYouMove).l
 ; ---------------------------------------------------------------------------
 
-loc_572CE:
++ ;loc_572CE:
 		jsr	(AllocateObject).l
-		bne.s	loc_572E2
+		bne.s	+ ;loc_572E2
 		move.l	#Obj_57E96,(a1)
 		move.w	#$1E,$2E(a1)
 
-loc_572E2:
++ ;loc_572E2:
 		lea	(HScroll_table+$E0).w,a1
 		lea	$20(a1),a5
 		moveq	#$A-1,d0
 
-loc_572EC:
+- ;loc_572EC:
 		move.w	#-1,(a1)+
 		clr.l	(a5)+
 		clr.l	$3C(a5)
-		dbf	d0,loc_572EC
+		dbf	d0,- ;loc_572EC
 		jsr	sub_5750C(pc)
 		lea	(HScroll_table+$80).w,a1
 		move.w	(Camera_Y_pos_mask).w,d0
 		moveq	#$A-1,d1
 
-loc_57308:
+- ;loc_57308:
 		move.w	(a1)+,(a1)
 		and.w	d0,(a1)+
-		dbf	d1,loc_57308
+		dbf	d1,- ;loc_57308
 		jsr	(Restore_PlayerControl).l
 		lea	(Player_2).w,a1
 		jsr	(Restore_PlayerControl2).l
@@ -13776,15 +13776,15 @@ loc_57308:
 		st	(Screen_shake_flag).w
 		move.w	#4,(Special_V_int_routine).w
 		addq.w	#4,(Events_routine_fg).w
-		bra.s	loc_5734E
+		bra.s	+ ;loc_5734E
 ; ---------------------------------------------------------------------------
 
 loc_57344:
 		tst.w	(Events_fg_4).w
-		bne.s	loc_57360
+		bne.s	++ ;loc_57360
 		jsr	sub_5750C(pc)
 
-loc_5734E:
++ ;loc_5734E:
 		lea	word_577B2(pc),a4
 		lea	(HScroll_table+$80).w,a5
 		moveq	#$F,d6
@@ -13792,7 +13792,7 @@ loc_5734E:
 		jmp	(DrawTilesVDeform).l
 ; ---------------------------------------------------------------------------
 
-loc_57360:
++ ;loc_57360:
 		movem.l	d7-a0/a2-a3,-(sp)
 		lea	(SSZ1_128x128_Custom_Kos).l,a1
 		lea	(Chunk_table+$180).l,a2
@@ -13821,9 +13821,9 @@ loc_57360:
 		lea	Pal_SSZDeathEgg(pc),a5
 		moveq	#bytesToLcnt($20),d0
 
-loc_573E4:
+- ;loc_573E4:
 		move.l	(a5)+,(a1)+
-		dbf	d0,loc_573E4
+		dbf	d0,- ;loc_573E4
 		jsr	sub_574DC(pc)
 		move.w	(_unkEEEA).w,d0
 		move.w	d0,d1
@@ -13836,31 +13836,31 @@ loc_573E4:
 		clr.l	(_unkEEF6).w
 		clr.w	(_unkEEFA).w
 		jsr	(AllocateObject).l
-		bne.w	loc_574A0
+		bne.w	+ ;loc_574A0
 		move.w	#$5A8,d1
 		move.w	#$58C,d2
 		move.w	#$554,d3
 		moveq	#$A-1,d4
 
-loc_5742C:
+- ;loc_5742C:
 		move.l	#loc_58234,(a1)
 		move.w	#$1A38,x_pos(a1)
 		move.w	d1,y_pos(a1)
 		jsr	(CreateNewSprite4).l
-		bne.s	loc_574A0
+		bne.s	+ ;loc_574A0
 		move.l	#loc_58360,(a1)
 		move.w	#$1A80,x_pos(a1)
 		move.w	d2,y_pos(a1)
 		tst.w	d4
-		beq.s	loc_574A0
+		beq.s	+ ;loc_574A0
 		jsr	(CreateNewSprite4).l
-		bne.s	loc_574A0
+		bne.s	+ ;loc_574A0
 		move.l	#loc_582AC,(a1)
 		move.w	#$1A48,x_pos(a1)
 		move.w	d1,y_pos(a1)
 		subi.w	#$38,y_pos(a1)
 		jsr	(CreateNewSprite4).l
-		bne.s	loc_574A0
+		bne.s	+ ;loc_574A0
 		move.l	#loc_581F2,(a1)
 		move.w	#$19F8,x_pos(a1)
 		move.w	d3,y_pos(a1)
@@ -13869,9 +13869,9 @@ loc_5742C:
 		sub.w	d5,d2
 		sub.w	d5,d3
 		jsr	(CreateNewSprite4).l
-		dbne	d4,loc_5742C
+		dbne	d4,- ;loc_5742C
 
-loc_574A0:
++ ;loc_574A0:
 		st	(Events_fg_4).w
 		move.w	#$C,(Special_V_int_routine).w
 		addq.w	#4,(Events_routine_fg).w
@@ -13919,34 +13919,34 @@ sub_5750C:
 		moveq	#$A,d1
 		moveq	#$A-1,d2
 
-loc_5751C:
+- ;loc_5751C:
 		tst.w	(a6)
-		beq.s	loc_57526
-		bmi.s	loc_57536
+		beq.s	+ ;loc_57526
+		bmi.s	++ ;loc_57536
 		subq.w	#1,(a6)
-		bra.s	loc_57536
+		bra.s	++ ;loc_57536
 ; ---------------------------------------------------------------------------
 
-loc_57526:
++ ;loc_57526:
 		move.l	$80(a5),d3
 		addi.l	#$800,$80(a5)
 		sub.l	d3,$C0(a5)
 
-loc_57536:
++ ;loc_57536:
 		move.w	$C0(a5),d3
 		add.w	d0,d3
 		cmpi.w	#$580,d3
-		bhs.s	loc_5754C
+		bhs.s	+ ;loc_5754C
 		clr.l	$80(a5)
 		move.w	#$580,d3
 		subq.w	#1,d1
 
-loc_5754C:
++ ;loc_5754C:
 		move.w	d3,(a5)
 		move.w	d3,-$20(a6)
 		addq.w	#4,a5
 		addq.w	#2,a6
-		dbf	d2,loc_5751C
+		dbf	d2,- ;loc_5751C
 		movea.w	(_unkFAA4).w,a1
 		move.w	$10(a1),d0
 		subi.w	#$19A0,d0
@@ -13987,9 +13987,9 @@ sub_5758A:
 		lea	(HScroll_table+$1F6).w,a5
 		moveq	#5-1,d2
 
-loc_575BA:
+- ;loc_575BA:
 		move.w	(a5)+,d3
-		beq.s	loc_575E4
+		beq.s	+ ;loc_575E4
 		movea.w	d3,a6
 		move.w	$38(a6),d3
 		sub.w	d0,d3
@@ -14002,8 +14002,8 @@ loc_575BA:
 		addi.w	#$50,d3
 		move.w	d3,$10(a6)
 
-loc_575E4:
-		dbf	d2,loc_575BA
++ ;loc_575E4:
+		dbf	d2,- ;loc_575BA
 		rts
 ; End of function sub_5758A
 
@@ -14015,9 +14015,9 @@ sub_575EA:
 		tst.b	(Events_bg+$06).w
 		bne.w	locret_57788
 		cmpi.w	#$19A0,(Camera_X_pos).w
-		blo.s	loc_5761C
+		blo.s	+ ;loc_5761C
 		cmpi.w	#$680,(Player_1+y_pos).w
-		bhs.s	loc_5761C
+		bhs.s	+ ;loc_5761C
 		move.w	#$19A0,(Camera_min_X_pos).w
 		move.w	#$5C0,d0
 		move.w	d0,(Camera_min_Y_pos).w
@@ -14026,7 +14026,7 @@ sub_575EA:
 		bra.w	locret_57788
 ; ---------------------------------------------------------------------------
 
-loc_5761C:
++ ;loc_5761C:
 		tst.b	(Events_bg+$05).w
 		bne.w	locret_57788
 		move.b	(Events_bg+$01).w,d0
@@ -14042,28 +14042,28 @@ loc_5761C:
 
 loc_57646:
 		cmp.w	(a1)+,d1
-		blo.s	loc_5764E
+		blo.s	+ ;loc_5764E
 		addq.w	#2,a1
 		bra.s	loc_57646
 ; ---------------------------------------------------------------------------
 
-loc_5764E:
++ ;loc_5764E:
 		move.w	(a1),d2
 		cmp.w	d0,d2
-		bhi.s	loc_57658
+		bhi.s	+ ;loc_57658
 		move.w	d2,(Camera_min_Y_pos).w
 
-loc_57658:
++ ;loc_57658:
 		lea	word_5779A(pc),a1
 
 loc_5765C:
 		cmp.w	(a1)+,d1
-		blo.s	loc_57664
+		blo.s	+ ;loc_57664
 		addq.w	#2,a1
 		bra.s	loc_5765C
 ; ---------------------------------------------------------------------------
 
-loc_57664:
++ ;loc_57664:
 		move.w	(a1),d2
 		cmp.w	d0,d2
 		blo.s	loc_57686
@@ -14081,14 +14081,14 @@ loc_57674:
 loc_57686:
 		move.w	(Player_1+y_pos).w,d0
 		cmpi.w	#$440,d0
-		blo.s	loc_5770C
+		blo.s	+++ ;loc_5770C
 		cmpi.w	#$880,d0
 		bhs.w	loc_5777E
 		tst.b	(Events_bg+$00).w
 		bmi.w	loc_5777E
 		bne.w	locret_57788
 		tst.b	(Events_bg+$01).w
-		bne.s	loc_576E8
+		bne.s	+ ;loc_576E8
 		move.w	#$160,(Camera_min_X_pos).w
 		move.w	#$19A0,(Camera_max_X_pos).w
 		cmpi.w	#$7C0,d0
@@ -14103,32 +14103,32 @@ loc_57686:
 		move.w	d0,(Camera_target_max_Y_pos).w
 		st	(Events_bg+$01).w
 
-loc_576E8:
++ ;loc_576E8:
 		cmpi.w	#$7C0,(Camera_Y_pos).w
 		bne.w	locret_57788
 		jsr	(AllocateObject).l
-		bne.s	loc_5770A
+		bne.s	+ ;loc_5770A
 		move.l	#Obj_SSZGHZBoss,(a1)
 		st	(Events_bg+$05).w
 		move.w	#$7F00,(Events_bg+$00).w
 
-loc_5770A:
++ ;loc_5770A:
 		bra.s	locret_57788
 ; ---------------------------------------------------------------------------
 
-loc_5770C:
++ ;loc_5770C:
 		tst.b	(Events_bg+$02).w
 		bmi.s	loc_5777E
 		bne.s	locret_57788
 		tst.b	(Events_bg+$03).w
-		bne.s	loc_5775C
+		bne.s	++ ;loc_5775C
 		move.w	#$1660,(Camera_max_X_pos).w
 		moveq	#0,d1
 		tst.w	(Events_bg+$00).w
-		bne.s	loc_5772C
+		bne.s	+ ;loc_5772C
 		move.w	#$160,d1
 
-loc_5772C:
++ ;loc_5772C:
 		move.w	d1,(Camera_min_X_pos).w
 		cmpi.w	#$420,d0
 		blo.s	locret_57788
@@ -14142,16 +14142,16 @@ loc_5772C:
 		move.w	d0,(Camera_target_max_Y_pos).w
 		st	(Events_bg+$03).w
 
-loc_5775C:
++ ;loc_5775C:
 		cmpi.w	#$380,(Camera_Y_pos).w
 		bne.s	locret_57788
 		jsr	(AllocateObject).l
-		bne.s	loc_5777C
+		bne.s	+ ;loc_5777C
 		move.l	#Obj_SSZMTZBoss,(a1)
 		st	(Events_bg+$05).w
 		move.w	#$7F00,(Events_bg+$02).w
 
-loc_5777C:
++ ;loc_5777C:
 		bra.s	locret_57788
 ; ---------------------------------------------------------------------------
 
@@ -14201,14 +14201,14 @@ Pal_SSZDeathEgg:
 SSZ1_BackgroundInit:
 		clr.w	(Events_bg+$10).w
 		jsr	(AllocateObject).l
-		bne.s	loc_57840
+		bne.s	+ ;loc_57840
 		move.l	#loc_57B6A,(a1)
 		lea	word_5853E(pc),a5
 		move.w	(a5)+,d1
 
-loc_57812:
+- ;loc_57812:
 		jsr	(CreateNewSprite4).l
-		bne.s	loc_57840
+		bne.s	+ ;loc_57840
 		move.l	#loc_57B8E,(a1)
 		move.w	(a5)+,d2
 		move.b	d2,render_flags(a1)
@@ -14217,24 +14217,24 @@ loc_57812:
 		move.w	(a5)+,y_vel(a1)
 		move.w	(a5)+,$2E(a1)
 		move.l	(a5)+,$30(a1)
-		dbf	d1,loc_57812
+		dbf	d1,- ;loc_57812
 
-loc_57840:
++ ;loc_57840:
 		move.w	(Camera_Y_pos).w,d0
 		and.w	(Screen_Y_wrap_value).w,d0
 		cmpi.w	#$800,d0
-		blo.s	loc_57854
+		blo.s	+ ;loc_57854
 		cmpi.w	#$F00,d0
-		blo.s	loc_5786A
+		blo.s	++ ;loc_5786A
 
-loc_57854:
++ ;loc_57854:
 		jsr	sub_579F0(pc)
 		jsr	(Reset_TileOffsetPositionEff).l
 		jsr	(Refresh_PlaneFull).l
 		jmp	(PlainDeformation).l
 ; ---------------------------------------------------------------------------
 
-loc_5786A:
++ ;loc_5786A:
 		move.w	#8,(Events_routine_bg).w
 		jsr	sub_57A60(pc)
 		jsr	(Reset_TileOffsetPositionEff).l
@@ -14264,9 +14264,9 @@ loc_578AA:
 		move.w	(Camera_Y_pos).w,d0
 		and.w	(Screen_Y_wrap_value).w,d0
 		cmpi.w	#$800,d0
-		blo.s	loc_578EC
+		blo.s	+ ;loc_578EC
 		cmpi.w	#$F00,d0
-		bhs.s	loc_578EC
+		bhs.s	+ ;loc_578EC
 		move.w	(Camera_X_pos_BG_copy).w,(Events_bg+$0C).w
 		move.w	(Camera_Y_pos_BG_copy).w,(Events_bg+$0E).w
 		jsr	sub_57A60(pc)
@@ -14279,7 +14279,7 @@ loc_578AA:
 		bra.s	loc_57946
 ; ---------------------------------------------------------------------------
 
-loc_578EC:
++ ;loc_578EC:
 		jsr	sub_579F0(pc)
 
 loc_578F0:
@@ -14287,26 +14287,26 @@ loc_578F0:
 		jsr	(PlainDeformation).l
 		jsr	(ShakeScreen_Setup).l
 		tst.w	(_unkEE98).w
-		bne.s	loc_57916
+		bne.s	+ ;loc_57916
 		lea	word_577B2(pc),a4
 		lea	(HScroll_table+$0BE).w,a5
 		jmp	(Apply_FGVScroll).l
 ; ---------------------------------------------------------------------------
 
-loc_57916:
++ ;loc_57916:
 		move.w	(_unkEEFA).w,d0
-		beq.s	loc_57932
+		beq.s	+ ;loc_57932
 		clr.w	(_unkEEFA).w
 		move.w	d0,(a0)+
 		move.w	#7,(a0)+
 		moveq	#$20-1,d0
 
-loc_57928:
+- ;loc_57928:
 		move.w	#$6061,(a0)+
-		dbf	d0,loc_57928
+		dbf	d0,- ;loc_57928
 		clr.w	(a0)
 
-loc_57932:
++ ;loc_57932:
 		move.w	(_unkEEEE).w,(V_scroll_value).w
 		move.w	(Camera_Y_pos_BG_copy).w,(V_scroll_value_BG).w
 		addq.w	#4,sp
@@ -14320,21 +14320,21 @@ loc_57946:
 		move.w	#$1C00,d1
 		move.w	(Camera_Y_pos_BG_copy).w,d2
 		jsr	(Draw_PlaneVertBottomUp).l
-		bpl.s	loc_5799A
+		bpl.s	+++ ;loc_5799A
 		clr.w	(Events_bg+$0C).w
 		addq.w	#4,(Events_routine_bg).w
-		bra.s	loc_5799A
+		bra.s	+++ ;loc_5799A
 ; ---------------------------------------------------------------------------
 
 loc_57960:
 		move.w	(Camera_Y_pos).w,d0
 		and.w	(Screen_Y_wrap_value).w,d0
 		cmpi.w	#$800,d0
-		blo.s	loc_57974
+		blo.s	+ ;loc_57974
 		cmpi.w	#$F00,d0
-		blo.s	loc_57996
+		blo.s	++ ;loc_57996
 
-loc_57974:
++ ;loc_57974:
 		jsr	sub_579F0(pc)
 		jsr	(Reset_TileOffsetPositionEff).l
 		addi.w	#$E0,d0
@@ -14345,23 +14345,23 @@ loc_57974:
 		bra.s	loc_579D6
 ; ---------------------------------------------------------------------------
 
-loc_57996:
++ ;loc_57996:
 		jsr	sub_57A60(pc)
 
-loc_5799A:
++ ;loc_5799A:
 		lea	(Camera_Y_pos_BG_copy).w,a6
 		lea	(Camera_Y_pos_BG_rounded).w,a5
 		move.w	#$1C00,d1
 		moveq	#$20,d6
 		jsr	(Draw_TileRow).l
 		move.w	(Events_bg+$0C).w,d0
-		beq.s	loc_579C4
+		beq.s	+ ;loc_579C4
 		move.w	d0,(Camera_X_pos_BG_copy).w
 		move.w	(Events_bg+$0E).w,(Camera_Y_pos_BG_copy).w
 		jmp	(PlainDeformation).l
 ; ---------------------------------------------------------------------------
 
-loc_579C4:
++ ;loc_579C4:
 		lea	SSZ1_BGDeformArray(pc),a4
 		lea	(HScroll_table+$004).w,a5
 		jmp	(ApplyDeformation).l
@@ -14383,9 +14383,9 @@ loc_579D6:
 
 sub_579F0:
 		tst.w	(Events_bg+$10).w
-		bne.s	loc_57A30
+		bne.s	++ ;loc_57A30
 		cmpi.w	#$1800,(Camera_X_pos).w
-		blo.s	loc_57A12
+		blo.s	+ ;loc_57A12
 		st	(Events_bg+$10).w
 		bsr.s	sub_579F0
 		move.w	(Camera_X_pos_BG_copy).w,d0
@@ -14394,7 +14394,7 @@ sub_579F0:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_57A12:
++ ;loc_57A12:
 		move.w	(Camera_Y_pos_copy).w,d0
 		addi.w	#$160,d0
 		add.w	(_unkEE9C).w,d0
@@ -14405,9 +14405,9 @@ loc_57A12:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_57A30:
++ ;loc_57A30:
 		cmpi.w	#$1800,(Camera_X_pos).w
-		bhs.s	loc_57A4C
+		bhs.s	+ ;loc_57A4C
 		clr.w	(Events_bg+$10).w
 		bsr.s	sub_579F0
 		move.w	(Camera_X_pos_BG_copy).w,d0
@@ -14416,7 +14416,7 @@ loc_57A30:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_57A4C:
++ ;loc_57A4C:
 		move.w	(Camera_Y_pos_copy).w,d0
 		addi.w	#$180,d0
 		move.w	d0,(Camera_Y_pos_BG_copy).w
@@ -14575,11 +14575,11 @@ loc_57BF6:
 
 Obj_57C1E:
 		jsr	(AllocateObjectAfterCurrent).l
-		beq.s	loc_57C28
+		beq.s	+ ;loc_57C28
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_57C28:
++ ;loc_57C28:
 		move.l	#loc_57CD2,(a0)
 		move.w	#$1000,y_pos(a0)
 		move.w	#-$100,$38(a0)
@@ -14599,13 +14599,13 @@ loc_57C28:
 		move.b	#$18,$46(a1)
 		move.w	a0,$48(a1)
 		tst.b	(Current_act).w
-		bne.s	loc_57CAC
+		bne.s	+ ;loc_57CAC
 		jsr	(CreateNewSprite4).l
-		bne.s	loc_57CAC
+		bne.s	+ ;loc_57CAC
 		move.l	#Obj_57E34,(a1)
 		move.w	#$60,subtype(a1)
 
-loc_57CAC:
++ ;loc_57CAC:
 		st	(Events_bg+$04).w
 		lea	(Player_1).w,a1
 		move.w	(Camera_Y_pos).w,d0
@@ -14623,7 +14623,7 @@ loc_57CD2:
 		lea	(Player_1).w,a1
 		move.w	x_pos(a0),x_pos(a1)
 		tst.b	$2D(a0)
-		bne.w	loc_57D50
+		bne.w	+++ ;loc_57D50
 		move.b	#1,object_control(a1)
 		move.b	#2,anim(a1)
 		bset	#Status_Roll,status(a1)
@@ -14631,22 +14631,22 @@ loc_57CD2:
 		move.w	y_pos(a1),d1
 		move.w	d1,$3E(a0)
 		tst.b	(Current_act).w
-		beq.s	loc_57D18
+		beq.s	+ ;loc_57D18
 		bset	#7,art_tile(a1)
-		bra.s	loc_57D3C
+		bra.s	++ ;loc_57D3C
 ; ---------------------------------------------------------------------------
 
-loc_57D18:
++ ;loc_57D18:
 		tst.w	(Player_mode).w
-		bne.s	loc_57D3C
+		bne.s	+ ;loc_57D3C
 		jsr	(CreateNewSprite4).l
-		bne.s	loc_57D3C
+		bne.s	+ ;loc_57D3C
 		move.l	#Obj_57DCC,(a1)
 		move.w	x_pos(a0),x_pos(a1)
 		move.w	d1,$3E(a1)
 		move.w	#$C,subtype(a1)
 
-loc_57D3C:
++ ;loc_57D3C:
 		clr.b	(Scroll_lock).w
 		movea.w	$3C(a0),a1
 		st	5(a1)
@@ -14654,7 +14654,7 @@ loc_57D3C:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_57D50:
++ ;loc_57D50:
 		subi.w	#8,y_pos(a1)
 		subq.b	#1,$2D(a0)
 		beq.s	locret_57D62
@@ -14686,26 +14686,26 @@ locret_57DA0:
 loc_57DA2:
 		move.w	(Camera_Y_pos).w,d0
 		cmp.w	(Camera_max_Y_pos).w,d0
-		bne.s	loc_57DC6
+		bne.s	++ ;loc_57DC6
 		cmp.w	(Camera_min_Y_pos).w,d0
-		beq.s	loc_57DB6
+		beq.s	+ ;loc_57DB6
 		move.w	d0,(Camera_min_Y_pos).w
 
-loc_57DB6:
++ ;loc_57DB6:
 		move.w	$3A(a0),d0
 		or.b	$38(a0),d0
-		bne.s	loc_57DC6
+		bne.s	+ ;loc_57DC6
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_57DC6:
++ ;loc_57DC6:
 		jmp	(sub_45866).l
 ; ---------------------------------------------------------------------------
 
 Obj_57DCC:
 		lea	(Player_2).w,a1
 		tst.w	subtype(a0)
-		beq.s	loc_57DFA
+		beq.s	+ ;loc_57DFA
 		subq.w	#1,subtype(a0)
 		bne.s	locret_57E32
 		move.w	x_pos(a0),x_pos(a1)
@@ -14714,7 +14714,7 @@ Obj_57DCC:
 		bset	#Status_Roll,status(a1)
 		move.w	#-1,y_vel(a1)
 
-loc_57DFA:
++ ;loc_57DFA:
 		move.l	#$20000,d0
 		move.l	#$800,d1
 		jsr	(Gradual_SwingOffset).l
@@ -14735,7 +14735,7 @@ locret_57E32:
 
 Obj_57E34:
 		tst.w	subtype(a0)
-		beq.s	loc_57E64
+		beq.s	+ ;loc_57E64
 		subq.w	#1,subtype(a0)
 		bne.s	locret_57E94
 		jsr	(AllocateObjectAfterCurrent).l
@@ -14746,7 +14746,7 @@ Obj_57E34:
 		move.w	a1,$20(a0)
 		move.w	#$C4E,$3E(a0)
 
-loc_57E64:
++ ;loc_57E64:
 		movea.w	$20(a0),a1
 		move.l	#$20000,d0
 		move.l	#$800,d1
@@ -14766,14 +14766,14 @@ locret_57E94:
 
 Obj_57E96:
 		cmpi.b	#4,routine(a0)
-		bhi.s	loc_57EB0
+		bhi.s	+ ;loc_57EB0
 		move.w	(Level_frame_counter).w,d0
 		andi.w	#$F,d0
-		bne.s	loc_57EB0
+		bne.s	+ ;loc_57EB0
 		moveq	#signextendB(sfx_BigRumble),d0
 		jsr	(Play_SFX).l
 
-loc_57EB0:
++ ;loc_57EB0:
 		moveq	#0,d0
 		move.b	routine(a0),d0
 		jmp	loc_57EBA(pc,d0.w)
@@ -14806,9 +14806,9 @@ loc_57EDC:
 		lea	word_577C6(pc),a5
 		moveq	#($A/2)-1,d0
 
-loc_57F02:
+- ;loc_57F02:
 		move.l	(a5)+,(a1)+
-		dbf	d0,loc_57F02
+		dbf	d0,- ;loc_57F02
 		moveq	#signextendB(sfx_Collapse),d0
 		jsr	(Play_SFX).l
 		addq.b	#4,routine(a0)
@@ -14829,36 +14829,36 @@ loc_57F3E:
 		tst.w	(Events_fg_4).w
 		bpl.s	locret_57FBE
 		tst.w	$2E(a0)
-		beq.s	loc_57F5E
+		beq.s	+ ;loc_57F5E
 		subq.w	#1,$2E(a0)
 		bne.s	locret_57FBE
 		jsr	(AllocateObject).l
-		bne.s	loc_57F5E
+		bne.s	+ ;loc_57F5E
 		move.l	#Obj_583BE,(a1)
 
-loc_57F5E:
++ ;loc_57F5E:
 		cmpi.w	#$5C0,(Camera_Y_pos).w
-		bhs.s	loc_57F7E
+		bhs.s	+ ;loc_57F7E
 		jsr	sub_58048(pc)
 		move.w	(Level_frame_counter).w,d0
 		addq.w	#8,d0
 		andi.w	#$F,d0
-		bne.s	loc_57F7E
+		bne.s	+ ;loc_57F7E
 		moveq	#signextendB(sfx_DeathEggRiseLoud),d0
 		jsr	(Play_SFX).l
 
-loc_57F7E:
++ ;loc_57F7E:
 		move.w	#$500,d0
 		moveq	#0,d1
 		move.b	$30(a0),d1
 		subq.w	#1,d1
-		bcs.s	loc_57F94
+		bcs.s	+ ;loc_57F94
 
-loc_57F8C:
+- ;loc_57F8C:
 		subi.w	#$70,d0
-		dbf	d1,loc_57F8C
+		dbf	d1,- ;loc_57F8C
 
-loc_57F94:
++ ;loc_57F94:
 		moveq	#0,d1
 		move.b	$31(a0),d1
 		sub.w	d1,d0
@@ -14866,10 +14866,10 @@ loc_57F94:
 		sub.w	d0,d1
 		bcs.s	locret_57FBE
 		cmpi.w	#2,d1
-		bls.s	loc_57FAC
+		bls.s	+ ;loc_57FAC
 		moveq	#2,d1
 
-loc_57FAC:
++ ;loc_57FAC:
 		sub.w	d1,(Camera_Y_pos).w
 		cmpi.w	#$110,(Camera_Y_pos).w
 		bhs.s	locret_57FBE
@@ -14883,18 +14883,18 @@ locret_57FBE:
 
 sub_57FC0:
 		cmpi.w	#$618,(Camera_Y_pos).w
-		blo.s	loc_57FD2
+		blo.s	+ ;loc_57FD2
 		btst	#0,(Level_frame_counter+1).w
 		beq.s	locret_57FE0
-		bra.s	loc_57FDC
+		bra.s	++ ;loc_57FDC
 ; ---------------------------------------------------------------------------
 
-loc_57FD2:
++ ;loc_57FD2:
 		move.w	(Level_frame_counter).w,d0
 		andi.w	#3,d0
 		beq.s	locret_57FE0
 
-loc_57FDC:
++ ;loc_57FDC:
 		addq.w	#1,(Camera_Y_pos).w
 
 locret_57FE0:
@@ -14909,7 +14909,7 @@ sub_57FE2:
 		lea	(Player_1).w,a1
 		lea	(Ctrl_1_logical).w,a2
 		lea	$30(a0),a3
-		bsr.s	sub_58002
+		bsr.s	+ ;sub_58002
 		tst.w	(Player_mode).w
 		bne.s	locret_58046
 		lea	(Player_2).w,a1
@@ -14921,20 +14921,20 @@ sub_57FE2:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_58002:
++ ;sub_58002:
 		tst.b	object_control(a1)
 		bne.s	locret_58046
 		tst.b	(a3)
-		bmi.s	loc_58016
+		bmi.s	+ ;loc_58016
 		subq.b	#1,(a3)
 		bpl.s	locret_58046
 		move.w	#(button_C_mask<<8)|button_C_mask,(a2)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_58016:
++ ;loc_58016:
 		tst.w	y_vel(a1)
-		bmi.s	loc_58034
+		bmi.s	+ ;loc_58034
 		move.w	#$7FFF,y_pos(a1)
 		andi.b	#$FC,render_flags(a1)
 		move.b	#3,object_control(a1)
@@ -14942,13 +14942,13 @@ loc_58016:
 		bra.s	locret_58046
 ; ---------------------------------------------------------------------------
 
-loc_58034:
++ ;loc_58034:
 		move.w	#$2800,d0
 		cmpi.w	#$1A40,x_pos(a1)
-		blo.s	loc_58044
+		blo.s	+ ;loc_58044
 		move.w	#$2400,d0
 
-loc_58044:
++ ;loc_58044:
 		move.w	d0,(a2)
 
 locret_58046:
@@ -14964,10 +14964,10 @@ sub_58048:
 		lea	$30(a0),a2
 		moveq	#0,d3
 		cmpi.w	#2,(Player_mode).w
-		bne.s	loc_5805C
+		bne.s	+ ;loc_5805C
 		moveq	#-1,d3
 
-loc_5805C:
++ ;loc_5805C:
 		bsr.s	sub_5806E
 		tst.w	(Player_mode).w
 		bne.s	locret_58046
@@ -14984,7 +14984,7 @@ sub_5806E:
 		tst.w	4(a2)
 		bne.w	loc_58192
 		cmpi.w	#$910,(a2)
-		bne.s	loc_580CC
+		bne.s	+ ;loc_580CC
 		st	4(a2)
 		move.b	#1,object_control(a1)
 		bset	#Status_InAir,status(a1)
@@ -15002,26 +15002,26 @@ sub_5806E:
 		jmp	(Play_SFX).l
 ; ---------------------------------------------------------------------------
 
-loc_580CC:
++ ;loc_580CC:
 		moveq	#0,d0
 		move.b	1(a2),d0
 		addq.b	#1,d0
 		cmpi.b	#$70,d0
-		blo.s	loc_580E0
+		blo.s	+ ;loc_580E0
 		subi.b	#$70,d0
 		addq.b	#1,(a2)
 
-loc_580E0:
++ ;loc_580E0:
 		move.b	d0,1(a2)
 		lea	byte_587B4(pc),a6
 		move.b	(a6,d0.w),d0
 		move.w	d0,d2
 		andi.w	#drawing_mask,art_tile(a1)
 		addi.b	#$40,d2
-		bmi.s	loc_58100
+		bmi.s	+ ;loc_58100
 		ori.w	#high_priority,art_tile(a1)
 
-loc_58100:
++ ;loc_58100:
 		jsr	(GetSineCosine).l
 		muls.w	#$4C00,d0
 		swap	d0
@@ -15030,11 +15030,11 @@ loc_58100:
 		muls.w	#$1C00,d1
 		swap	d1
 		subi.b	#$40,d2
-		bpl.s	loc_58128
+		bpl.s	+ ;loc_58128
 		neg.w	d1
 		subi.w	#$38,d1
 
-loc_58128:
++ ;loc_58128:
 		move.w	#$570,y_pos(a1)
 		add.w	d1,y_pos(a1)
 		lea	byte_58824(pc),a6
@@ -15046,22 +15046,22 @@ loc_58128:
 		moveq	#0,d0
 		move.b	(a2),d0
 		subq.w	#1,d0
-		bcs.s	loc_58158
+		bcs.s	+ ;loc_58158
 
-loc_5814E:
+- ;loc_5814E:
 		subi.w	#$70,y_pos(a1)
-		dbf	d0,loc_5814E
+		dbf	d0,- ;loc_5814E
 
-loc_58158:
++ ;loc_58158:
 		tst.w	d3
-		beq.s	loc_58170
+		beq.s	+ ;loc_58170
 		addq.w	#4,y_pos(a1)
 		move.w	#$100,priority(a1)
 		tst.b	d2
-		bmi.s	loc_58170
+		bmi.s	+ ;loc_58170
 		move.w	#$80,priority(a1)
 
-loc_58170:
++ ;loc_58170:
 		addi.w	#$A,d2
 		andi.w	#$FF,d2
 		move.w	d2,d0
@@ -15076,7 +15076,7 @@ loc_58170:
 
 loc_58192:
 		tst.w	4(a2)
-		bpl.s	loc_581D2
+		bpl.s	+ ;loc_581D2
 		move.w	x_vel(a1),d0
 		ext.l	d0
 		lsl.l	#8,d0
@@ -15095,7 +15095,7 @@ loc_58192:
 		bra.s	locret_581F0
 ; ---------------------------------------------------------------------------
 
-loc_581D2:
++ ;loc_581D2:
 		cmpa.w	#Player_1,a1
 		bne.s	locret_581F0
 		subq.w	#1,4(a2)
@@ -15142,28 +15142,28 @@ loc_58260:
 		move.w	y_pos(a0),d0
 		move.b	mapping_frame(a0),d1
 		subq.b	#6,d1
-		beq.s	loc_58288
+		beq.s	++ ;loc_58288
 		subq.b	#1,d1
-		beq.s	loc_5827E
+		beq.s	+ ;loc_5827E
 		subi.w	#$2C,d0
 		cmp.w	(Player_1+y_pos).w,d0
 		blo.s	loc_582A6
 		bra.w	loc_583A0
 ; ---------------------------------------------------------------------------
 
-loc_5827E:
++ ;loc_5827E:
 		moveq	#-$20,d1
 		moveq	#8,d2
 		subi.w	#$24,d0
-		bra.s	loc_58290
+		bra.s	++ ;loc_58290
 ; ---------------------------------------------------------------------------
 
-loc_58288:
++ ;loc_58288:
 		moveq	#-$40,d1
 		moveq	#$10,d2
 		subi.w	#$1C,d0
 
-loc_58290:
++ ;loc_58290:
 		cmp.w	(Player_1+y_pos).w,d0
 		blo.s	loc_582A6
 		addq.b	#1,mapping_frame(a0)
@@ -15190,28 +15190,28 @@ loc_582D8:
 		move.w	y_pos(a0),d0
 		move.b	mapping_frame(a0),d1
 		subi.b	#$B,d1
-		beq.s	loc_58302
+		beq.s	++ ;loc_58302
 		subq.b	#1,d1
-		beq.s	loc_582F8
+		beq.s	+ ;loc_582F8
 		subi.w	#$2C,d0
 		cmp.w	(Player_1+y_pos).w,d0
 		blo.s	loc_5835A
 		bra.w	loc_583A0
 ; ---------------------------------------------------------------------------
 
-loc_582F8:
++ ;loc_582F8:
 		moveq	#$20,d1
 		moveq	#8,d2
 		subi.w	#$24,d0
-		bra.s	loc_5830A
+		bra.s	++ ;loc_5830A
 ; ---------------------------------------------------------------------------
 
-loc_58302:
++ ;loc_58302:
 		moveq	#$40,d1
 		moveq	#$10,d2
 		subi.w	#$1C,d0
 
-loc_5830A:
++ ;loc_5830A:
 		cmp.w	(Player_1+y_pos).w,d0
 		blo.s	loc_5835A
 		addq.b	#1,mapping_frame(a0)
@@ -15258,70 +15258,70 @@ loc_583A0:
 
 loc_583A6:
 		tst.b	render_flags(a0)
-		bmi.s	loc_583B2
+		bmi.s	+ ;loc_583B2
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_583B2:
++ ;loc_583B2:
 		jsr	(MoveSprite).l
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
 Obj_583BE:
 		tst.w	(_unkEE98).w
-		bne.s	loc_583C6
+		bne.s	+ ;loc_583C6
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_583C6:
++ ;loc_583C6:
 		move.l	#loc_583D2,(a0)
 		move.w	#$870,$2E(a0)
 
 loc_583D2:
 		move.w	(Level_frame_counter).w,d0
 		andi.w	#$F,d0
-		bne.s	loc_583E4
+		bne.s	+ ;loc_583E4
 		moveq	#signextendB(sfx_BigRumble),d0
 		jsr	(Play_SFX).l
 
-loc_583E4:
++ ;loc_583E4:
 		tst.w	$30(a0)
-		beq.s	loc_583F2
+		beq.s	+ ;loc_583F2
 		subq.w	#1,$30(a0)
 		bra.w	locret_584A0
 ; ---------------------------------------------------------------------------
 
-loc_583F2:
++ ;loc_583F2:
 		move.w	(Player_1+y_pos).w,d0
 		cmpi.w	#$4000,d0
-		blo.s	loc_58400
+		blo.s	+ ;loc_58400
 		move.w	#$5C0,d0
 
-loc_58400:
++ ;loc_58400:
 		addi.w	#$198,d0
 		move.w	$2E(a0),d1
 		cmp.w	d1,d0
 		bhi.w	locret_584A0
 		move.w	d1,d0
 		cmpi.w	#$300,d0
-		bhs.s	loc_5841C
+		bhs.s	+ ;loc_5841C
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_5841C:
++ ;loc_5841C:
 		lsl.w	#4,d1
 		andi.w	#$F00,d1
 		addi.w	#-$2000,d1
 		move.w	d1,(_unkEEFA).w
 		lea	word_58894(pc),a2
 		cmpi.w	#$380,d0
-		blo.s	loc_58442
+		blo.s	+ ;loc_58442
 		lea	$80(a2),a2
 		cmpi.w	#$800,d0
-		blo.s	loc_58442
+		blo.s	+ ;loc_58442
 		lea	$80(a2),a2
 
-loc_58442:
++ ;loc_58442:
 		lea	byte_58A3E(pc),a3
 		move.w	$32(a0),d4
 		addq.w	#3,$32(a0)
@@ -15332,9 +15332,9 @@ loc_58442:
 		move.w	#$1A08,d2
 		moveq	#8-1,d3
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.s	loc_58494
+		bne.s	+ ;loc_58494
 
-loc_58468:
+- ;loc_58468:
 		move.l	#loc_584A2,(a1)
 		move.w	(a2)+,art_tile(a1)
 		move.w	d2,x_pos(a1)
@@ -15344,9 +15344,9 @@ loc_58468:
 		addq.w	#1,d4
 		addi.w	#$10,d2
 		jsr	(CreateNewSprite4).l
-		dbne	d3,loc_58468
+		dbne	d3,- ;loc_58468
 
-loc_58494:
++ ;loc_58494:
 		subi.w	#$10,$2E(a0)
 		move.w	#7,$30(a0)
 
@@ -15356,16 +15356,16 @@ locret_584A0:
 
 loc_584A2:
 		move.w	art_tile(a0),d0
-		bpl.s	loc_584BE
+		bpl.s	+ ;loc_584BE
 		clr.w	art_tile(a0)
 		addq.w	#1,d0
-		beq.s	loc_584E4
+		beq.s	++ ;loc_584E4
 		move.b	#1,mapping_frame(a0)
 		addq.w	#1,d0
-		beq.s	loc_584BE
+		beq.s	+ ;loc_584BE
 		addq.b	#1,mapping_frame(a0)
 
-loc_584BE:
++ ;loc_584BE:
 		move.l	#loc_584DE,(a0)
 		move.b	#$84,render_flags(a0)
 		move.b	#8,height_pixels(a0)
@@ -15374,23 +15374,23 @@ loc_584BE:
 
 loc_584DE:
 		tst.b	render_flags(a0)
-		bmi.s	loc_584EA
+		bmi.s	++ ;loc_584EA
 
-loc_584E4:
++ ;loc_584E4:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_584EA:
++ ;loc_584EA:
 		tst.b	$2E(a0)
-		beq.s	loc_584F6
+		beq.s	+ ;loc_584F6
 		subq.b	#1,$2E(a0)
-		bra.s	loc_584FC
+		bra.s	++ ;loc_584FC
 ; ---------------------------------------------------------------------------
 
-loc_584F6:
++ ;loc_584F6:
 		jsr	(MoveSprite).l
 
-loc_584FC:
++ ;loc_584FC:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 SSZ1_BGDeformArray:
@@ -15540,7 +15540,7 @@ byte_58A3E:
 SSZ2_ScreenInit:
 		st	(Palette_cycle_counters+$00).w
 		jsr	(AllocateObject).l
-		bne.s	loc_58A92
+		bne.s	+ ;loc_58A92
 		move.l	#Obj_57C1E,(a1)
 		move.w	#$A0,x_pos(a1)
 		move.b	#$44,$2D(a1)
@@ -15552,11 +15552,11 @@ SSZ2_ScreenInit:
 		move.w	d1,(Camera_Y_pos).w
 		st	(Scroll_lock).w
 		jsr	(CreateNewSprite4).l
-		bne.s	loc_58A92
+		bne.s	+ ;loc_58A92
 		move.l	#loc_59078,(a1)
 		move.w	#1,$30(a1)
 
-loc_58A92:
++ ;loc_58A92:
 		jsr	(Reset_TileOffsetPositionActual).l
 		moveq	#0,d1
 		jmp	(Refresh_PlaneFull).l
@@ -15600,12 +15600,12 @@ loc_58AE0:
 		movea.w	$28(a3),a5
 		moveq	#4-1,d0
 
-loc_58AF6:
+- ;loc_58AF6:
 		move.b	#$17,(a1)+
 		move.b	#$18,(a1)+
 		move.b	#$19,(a5)+
 		move.b	#$19,(a5)+
-		dbf	d0,loc_58AF6
+		dbf	d0,- ;loc_58AF6
 		move.b	#$17,(a1)
 		move.b	#$19,(a5)
 		st	(Ending_running_flag).w
@@ -15624,15 +15624,15 @@ loc_58B20:
 		move.l	#$66666666,d0
 		moveq	#bytesToLcnt($200),d1
 
-loc_58B4C:
+- ;loc_58B4C:
 		move.l	d0,(a6)
-		dbf	d1,loc_58B4C
+		dbf	d1,- ;loc_58B4C
 		move	#$2300,sr
 		jsr	(AllocateObject).l
-		bne.s	loc_58B64
+		bne.s	+ ;loc_58B64
 		move.l	#loc_591D6,(a1)
 
-loc_58B64:
++ ;loc_58B64:
 		move.w	#$1F0,(Draw_delayed_position).w
 		move.w	#$F,(Draw_delayed_rowcount).w
 		clr.b	(Palette_cycle_counters+$00).w
@@ -15655,20 +15655,20 @@ loc_58B9E:
 		jsr	(sub_5B18E).l
 		movem.l	(sp)+,d7-a0/a2-a3
 		cmpi.b	#7,(Super_emerald_count).w
-		bhs.s	loc_58BBC
+		bhs.s	+ ;loc_58BBC
 		cmpi.b	#7,(Chaos_emerald_count).w
 		blo.s	loc_58C1A
 
-loc_58BBC:
++ ;loc_58BBC:
 		jsr	sub_592EE(pc)
 		tst.w	(_unkFAAE).w
 		beq.w	locret_58C7E
 		move.w	#$14C0,d0
 		tst.w	(SK_alone_flag).w
-		bne.s	loc_58BD6
+		bne.s	+ ;loc_58BD6
 		move.w	#$1660,d0
 
-loc_58BD6:
++ ;loc_58BD6:
 		cmp.w	(Camera_Y_pos).w,d0
 		bne.w	locret_58C7E
 		tst.w	(Events_routine_bg).w
@@ -15684,9 +15684,9 @@ loc_58BD6:
 		lea	(Normal_palette_line_2).w,a5
 		moveq	#bytesToLcnt($60),d0
 
-loc_58C0E:
+- ;loc_58C0E:
 		move.l	(a1)+,(a5)+
-		dbf	d0,loc_58C0E
+		dbf	d0,- ;loc_58C0E
 		addq.w	#4,(Events_routine_bg).w
 		bra.s	locret_58C7E
 ; ---------------------------------------------------------------------------
@@ -15698,9 +15698,9 @@ loc_58C1A:
 		lea	(Normal_palette_line_2).w,a5
 		moveq	#bytesToLcnt($60),d0
 
-loc_58C2C:
+- ;loc_58C2C:
 		move.l	(a1)+,(a5)+
-		dbf	d0,loc_58C2C
+		dbf	d0,- ;loc_58C2C
 		move.w	#$7F0,(Draw_delayed_position).w
 		move.w	#$F,(Draw_delayed_rowcount).w
 		addq.w	#4,(Events_routine_fg).w
@@ -15807,11 +15807,11 @@ SSZ2_BackgroundEvent:
 ; ---------------------------------------------------------------------------
 
 .Index:
-		bra.w	loc_58D1E
+		bra.w	+ ;loc_58D1E
 ; ---------------------------------------------------------------------------
 		lea	(Level_layout_main).w,a3
 
-loc_58D1E:
++ ;loc_58D1E:
 		jsr	sub_58D3E(pc)
 		lea	(Camera_Y_pos_BG_copy).w,a6
 		lea	(Camera_Y_pos_BG_rounded).w,a5
@@ -15826,7 +15826,7 @@ loc_58D1E:
 
 sub_58D3E:
 		tst.w	(Events_routine_bg).w
-		beq.s	loc_58D6E
+		beq.s	+ ;loc_58D6E
 
 loc_58D44:
 		lea	(HScroll_table).w,a1
@@ -15839,16 +15839,16 @@ loc_58D44:
 		asr.l	#3,d1
 		moveq	#8-1,d2
 
-loc_58D60:
+- ;loc_58D60:
 		swap	d0
 		move.w	d0,-(a1)
 		swap	d0
 		sub.l	d1,d0
-		dbf	d2,loc_58D60
+		dbf	d2,- ;loc_58D60
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_58D6E:
++ ;loc_58D6E:
 		cmpi.w	#$18,(Events_routine_fg).w
 		bhs.w	loc_58F52
 		cmpi.w	#$C,(Events_routine_fg).w
@@ -15901,25 +15901,25 @@ loc_58D6E:
 		lea	$18(a1),a1
 		moveq	#9-1,d2
 
-loc_58E14:
+- ;loc_58E14:
 		swap	d0
 		move.w	d0,(a1)+
 		swap	d0
 		add.l	d1,d0
-		dbf	d2,loc_58E14
+		dbf	d2,- ;loc_58E14
 		cmpi.w	#4,(Events_routine_fg).w
-		bhi.s	loc_58E3A
+		bhi.s	+ ;loc_58E3A
 		lea	(HScroll_table+$02A).w,a1
 		move.w	(Camera_X_pos_copy).w,d0
 		moveq	#9-1,d1
 
-loc_58E32:
+- ;loc_58E32:
 		move.w	d0,(a1)+
-		dbf	d1,loc_58E32
-		bra.s	loc_58E6E
+		dbf	d1,- ;loc_58E32
+		bra.s	++ ;loc_58E6E
 ; ---------------------------------------------------------------------------
 
-loc_58E3A:
++ ;loc_58E3A:
 		lea	(HScroll_table+$004).w,a1
 		move.w	$2A(a1),$2C(a1)
 		move.w	$28(a1),d0
@@ -15931,28 +15931,28 @@ loc_58E3A:
 		move.w	$1E(a1),$32(a1)
 		move.w	$1A(a1),$34(a1)
 
-loc_58E6E:
++ ;loc_58E6E:
 		move.w	(Camera_Y_pos_copy).w,d0
 		subi.w	#$320,d0
 		sub.w	(_unkEE9C).w,d0
 		move.w	(Special_V_int_routine).w,d1
 		subq.w	#4,d1
-		beq.s	loc_58E88
+		beq.s	+ ;loc_58E88
 		subq.w	#4,d1
-		beq.s	loc_58E88
+		beq.s	+ ;loc_58E88
 		addq.w	#8,d0
 
-loc_58E88:
++ ;loc_58E88:
 		move.w	d0,(Camera_Y_pos_BG_copy).w
 		move.w	#$5E,(Camera_X_pos_BG_copy).w
 		lea	(HScroll_table+$0D0).w,a5
 		lea	(a5),a6
 		move.w	(Events_bg+$00).w,d0
 		smi	d6
-		bpl.s	loc_58EA2
+		bpl.s	+ ;loc_58EA2
 		neg.w	d0
 
-loc_58EA2:
++ ;loc_58EA2:
 		swap	d0
 		clr.w	d0
 		asr.l	#7,d0
@@ -15962,37 +15962,37 @@ loc_58EA2:
 		moveq	#0,d3
 		moveq	#$40-1,d4
 		tst.b	d6
-		bne.s	loc_58EC8
+		bne.s	+ ;loc_58EC8
 
-loc_58EB6:
+- ;loc_58EB6:
 		add.w	d1,d3
 		addx.w	d0,d2
 		move.w	d2,-(a5)
 		move.w	d2,d5
 		neg.w	d5
 		move.w	d5,(a6)+
-		dbf	d4,loc_58EB6
-		bra.s	loc_58ED8
+		dbf	d4,- ;loc_58EB6
+		bra.s	++ ;loc_58ED8
 ; ---------------------------------------------------------------------------
 
-loc_58EC8:
+/ ;loc_58EC8:
 		add.w	d1,d3
 		addx.w	d0,d2
 		move.w	d2,(a6)+
 		move.w	d2,d5
 		neg.w	d5
 		move.w	d5,-(a5)
-		dbf	d4,loc_58EC8
+		dbf	d4,- ;loc_58EC8
 
-loc_58ED8:
++ ;loc_58ED8:
 		lea	(HScroll_table+$160).w,a5
 		lea	(a5),a6
 		move.w	(Events_bg+$00).w,d0
 		smi	d6
-		bpl.s	loc_58EE8
+		bpl.s	+ ;loc_58EE8
 		neg.w	d0
 
-loc_58EE8:
++ ;loc_58EE8:
 		swap	d0
 		clr.w	d0
 		asr.l	#3,d0
@@ -16002,38 +16002,38 @@ loc_58EE8:
 		moveq	#0,d3
 		moveq	#8-1,d4
 		tst.b	d6
-		bne.s	loc_58F0E
+		bne.s	+ ;loc_58F0E
 
-loc_58EFC:
+- ;loc_58EFC:
 		add.w	d1,d3
 		addx.w	d0,d2
 		move.w	d2,-(a5)
 		move.w	d2,d5
 		neg.w	d5
 		move.w	d5,(a6)+
-		dbf	d4,loc_58EFC
-		bra.s	loc_58F1E
+		dbf	d4,- ;loc_58EFC
+		bra.s	++ ;loc_58F1E
 ; ---------------------------------------------------------------------------
 
-loc_58F0E:
+/ ;loc_58F0E:
 		add.w	d1,d3
 		addx.w	d0,d2
 		move.w	d2,(a6)+
 		move.w	d2,d5
 		neg.w	d5
 		move.w	d5,-(a5)
-		dbf	d4,loc_58F0E
+		dbf	d4,- ;loc_58F0E
 
-loc_58F1E:
++ ;loc_58F1E:
 		lea	(HScroll_table+$170).w,a1
 		lea	(HScroll_table+$140).w,a5
 		move.w	(Camera_X_pos_BG_copy).w,d0
 		move.w	d0,d1
 		andi.w	#$F,d1
-		beq.s	loc_58F36
+		beq.s	+ ;loc_58F36
 		addi.w	#$10,d0
 
-loc_58F36:
++ ;loc_58F36:
 		lsr.w	#3,d0
 		andi.w	#$FFFE,d0
 		adda.w	d0,a5
@@ -16041,11 +16041,11 @@ loc_58F36:
 		addq.w	#8,d0
 		moveq	#$14-1,d1
 
-loc_58F46:
+- ;loc_58F46:
 		move.w	(a5)+,d2
 		add.w	d0,d2
 		move.w	d2,(a1)+
-		dbf	d1,loc_58F46
+		dbf	d1,- ;loc_58F46
 
 locret_58F50:
 		rts
@@ -16061,7 +16061,7 @@ loc_58F52:
 		asr.l	#5,d1
 		moveq	#$20-1,d2
 
-loc_58F6A:
+- ;loc_58F6A:
 		swap	d0
 		move.w	d0,-(a1)
 		move.w	d0,-(a1)
@@ -16069,7 +16069,7 @@ loc_58F6A:
 		move.w	d0,-(a1)
 		swap	d0
 		sub.l	d1,d0
-		dbf	d2,loc_58F6A
+		dbf	d2,- ;loc_58F6A
 		move.w	(a1),d0
 		neg.w	d0
 		move.w	d0,-4(a1)
@@ -16098,13 +16098,13 @@ loc_58F6A:
 
 sub_58FBC:
 		tst.w	(Events_routine_bg).w
-		beq.s	loc_58FD0
+		beq.s	+ ;loc_58FD0
 		lea	SSZ2_BGDeformArray(pc),a4
 		lea	(HScroll_table+$004).w,a5
 		jmp	(ApplyDeformation).l
 ; ---------------------------------------------------------------------------
 
-loc_58FD0:
++ ;loc_58FD0:
 		cmpi.w	#$18,(Events_routine_fg).w
 		bhs.w	loc_5906A
 		cmpi.w	#$C,(Events_routine_fg).w
@@ -16116,7 +16116,7 @@ loc_58FD0:
 		lea	(HScroll_table+$050).w,a5
 		move.w	(Camera_Y_pos_BG_copy).w,d0
 		subi.w	#$100,d0
-		bmi.s	loc_59018
+		bmi.s	+ ;loc_59018
 		subi.w	#$80,d0
 		bpl.s	loc_5904A
 		move.w	d0,d1
@@ -16124,10 +16124,10 @@ loc_58FD0:
 		addi.w	#$80,d1
 		add.w	d1,d1
 		adda.w	d1,a5
-		bra.s	loc_59036
+		bra.s	+++ ;loc_59036
 ; ---------------------------------------------------------------------------
 
-loc_59018:
++ ;loc_59018:
 		neg.w	d0
 		cmpi.w	#$E0,d0
 		bhs.s	loc_5904A
@@ -16135,24 +16135,24 @@ loc_59018:
 		addi.w	#-$E0,d0
 		neg.w	d0
 		cmpi.w	#$80,d0
-		blo.s	loc_59032
+		blo.s	+ ;loc_59032
 		move.w	#$80,d0
 
-loc_59032:
++ ;loc_59032:
 		lsl.w	#2,d1
 		adda.w	d1,a1
 
-loc_59036:
++ ;loc_59036:
 		subq.w	#1,d0
 		move.w	(Camera_X_pos_BG_copy).w,d1
 		neg.w	d1
 
-loc_5903E:
+- ;loc_5903E:
 		move.w	(a5)+,d2
 		add.w	d1,d2
 		move.w	d2,(a1)
 		addq.w	#4,a1
-		dbf	d0,loc_5903E
+		dbf	d0,- ;loc_5903E
 
 loc_5904A:
 		lea	(Vscroll_buffer).w,a1
@@ -16161,10 +16161,10 @@ loc_5904A:
 		swap	d0
 		moveq	#$14-1,d1
 
-loc_5905A:
+- ;loc_5905A:
 		move.w	(a5)+,d0
 		move.l	d0,(a1)+
-		dbf	d1,loc_5905A
+		dbf	d1,- ;loc_5905A
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -16208,47 +16208,47 @@ loc_5908E:
 		tst.w	(Events_fg_4).w
 		bpl.w	locret_591D4
 		tst.b	$38(a0)
-		bne.s	loc_590D6
+		bne.s	+ ;loc_590D6
 		st	$38(a0)
 		bra.w	locret_591D4
 ; ---------------------------------------------------------------------------
 
-loc_590D6:
++ ;loc_590D6:
 		clr.w	(Events_fg_4).w
 		move.w	#$C,(Special_V_int_routine).w
 		addq.b	#4,routine(a0)
 
 loc_590E4:
 		cmpi.b	#7,(Super_emerald_count).w
-		bhs.s	loc_590F4
+		bhs.s	+ ;loc_590F4
 		cmpi.b	#7,(Chaos_emerald_count).w
 		blo.s	loc_59146
 
-loc_590F4:
++ ;loc_590F4:
 		cmpi.w	#$8000,$3C(a0)
-		bhs.s	loc_59102
+		bhs.s	+ ;loc_59102
 		addi.w	#$20,$3C(a0)
 
-loc_59102:
++ ;loc_59102:
 		move.l	$3A(a0),d0
 		sub.l	d0,(_unkEE9C).w
 		move.w	(Camera_Y_pos).w,d0
 		subi.w	#$318,d0
 		sub.w	(_unkEE9C).w,d0
 		cmpi.w	#$D0,d0
-		beq.s	loc_59124
-		bcs.s	loc_59132
+		beq.s	+ ;loc_59124
+		bcs.s	++ ;loc_59132
 		subq.w	#1,(Camera_Y_pos).w
-		bra.s	loc_59132
+		bra.s	++ ;loc_59132
 ; ---------------------------------------------------------------------------
 
-loc_59124:
++ ;loc_59124:
 		tst.b	$39(a0)
-		bne.s	loc_59132
+		bne.s	+ ;loc_59132
 		st	$39(a0)
 		st	(_unkFAA9).w
 
-loc_59132:
++ ;loc_59132:
 		cmpi.w	#$2A0,(Camera_Y_pos).w
 		bne.w	locret_591D4
 		st	(Events_fg_4+1).w
@@ -16257,29 +16257,29 @@ loc_59132:
 
 loc_59146:
 		cmpi.w	#$8000,$3C(a0)
-		bhs.s	loc_59154
+		bhs.s	+ ;loc_59154
 		addi.w	#$20,$3C(a0)
 
-loc_59154:
++ ;loc_59154:
 		move.l	$3A(a0),d0
 		add.l	d0,(_unkEE9C).w
 		move.w	(Camera_Y_pos).w,d0
 		subi.w	#$318,d0
 		sub.w	(_unkEE9C).w,d0
 		cmpi.w	#$D0,d0
-		beq.s	loc_59176
-		bcc.s	loc_59184
+		beq.s	+ ;loc_59176
+		bcc.s	++ ;loc_59184
 		addq.w	#1,(Camera_Y_pos).w
-		bra.s	loc_59184
+		bra.s	++ ;loc_59184
 ; ---------------------------------------------------------------------------
 
-loc_59176:
++ ;loc_59176:
 		tst.b	$39(a0)
-		bne.s	loc_59184
+		bne.s	+ ;loc_59184
 		st	$39(a0)
 		st	(_unkFAA9).w
 
-loc_59184:
++ ;loc_59184:
 		cmpi.w	#$600,(Camera_Y_pos).w
 		bne.s	locret_591D4
 		st	(Events_fg_4+1).w
@@ -16298,10 +16298,10 @@ loc_59194:
 		cmpi.w	#$804,(Camera_Y_pos).w
 		bne.s	locret_591D4
 		jsr	(AllocateObject).l
-		bne.s	loc_591CE
+		bne.s	+ ;loc_591CE
 		move.l	#Obj_5EF68,(a1)
 
-loc_591CE:
++ ;loc_591CE:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -16321,46 +16321,46 @@ loc_591D6:
 
 loc_59208:
 		tst.w	(Events_routine_bg).w
-		beq.s	loc_59232
+		beq.s	+++ ;loc_59232
 		cmpi.w	#$80,(Camera_Y_pos_BG_copy).w
-		bne.s	loc_59218
-		bra.s	loc_59220
+		bne.s	+ ;loc_59218
+		bra.s	++ ;loc_59220
 ; ---------------------------------------------------------------------------
 
-loc_59218:
++ ;loc_59218:
 		subi.l	#$6000,(Camera_Y_pos_BG_copy).w
 
-loc_59220:
++ ;loc_59220:
 		move.w	(Camera_Y_pos_BG_copy).w,d0
 		subi.w	#$1D0,d0
 		neg.w	d0
 		addi.w	#$F0,d0
 		move.w	d0,y_pos(a0)
 
-loc_59232:
++ ;loc_59232:
 		lea	sub2_x_pos(a0),a1
 		move.w	y_pos(a0),d0
 		subi.w	#$40,d0
 		moveq	#1,d2
 
-loc_59240:
+- ;loc_59240:
 		move.w	#$A2,d1
 		moveq	#4-1,d3
 
-loc_59246:
+- ;loc_59246:
 		move.w	d1,(a1)+
 		move.w	d0,(a1)+
 		addq.w	#2,a1
 		addi.w	#$40,d1
-		dbf	d3,loc_59246
+		dbf	d3,- ;loc_59246
 		addi.w	#$40,d0
-		dbf	d2,loc_59240
+		dbf	d2,-- ;loc_59240
 		cmpi.w	#$18,(Events_routine_fg).w
-		bne.s	loc_5926A
+		bne.s	+ ;loc_5926A
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_5926A:
++ ;loc_5926A:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 Map_KnuxEndingIslandMask:
@@ -16378,10 +16378,10 @@ sub_5928C:
 		move.w	(Palette_cycle_counter0).w,d0
 		addq.w	#6,d0
 		cmpi.w	#$30,d0
-		blo.s	loc_592AC
+		blo.s	+ ;loc_592AC
 		moveq	#0,d0
 
-loc_592AC:
++ ;loc_592AC:
 		move.w	d0,(Palette_cycle_counter0).w
 		move.l	Pal_EndingWater(pc,d0.w),(Normal_palette_line_4+$1A).w
 		move.w	Pal_EndingWater+$4(pc,d0.w),(Normal_palette_line_4+$1E).w
@@ -16407,10 +16407,10 @@ sub_592EE:
 		move.w	(Palette_cycle_counter0).w,d0
 		addq.w	#4,d0
 		cmpi.w	#$38,d0
-		blo.s	loc_5930E
+		blo.s	+ ;loc_5930E
 		moveq	#0,d0
 
-loc_5930E:
++ ;loc_5930E:
 		move.w	d0,(Palette_cycle_counter0).w
 		move.l	word_5931A(pc,d0.w),(Normal_palette_line_4+$16).w
 
@@ -16443,14 +16443,14 @@ DEZ1_ScreenInit:
 
 DEZ1_ScreenEvent:
 		tst.w	(Events_fg_4).w
-		beq.s	loc_59378
+		beq.s	+ ;loc_59378
 		clr.w	(Events_fg_4).w
 		movea.w	$14(a3),a1
 		move.b	#$BD,$6E(a1)
 		jmp	(Refresh_PlaneScreenDirect).l
 ; ---------------------------------------------------------------------------
 
-loc_59378:
++ ;loc_59378:
 		jmp	(DrawTilesAsYouMove).l
 ; ---------------------------------------------------------------------------
 
@@ -16475,7 +16475,7 @@ DEZ1_BackgroundEvent:
 
 loc_593A8:
 		tst.w	(Events_fg_5).w
-		beq.s	loc_593E6
+		beq.s	+ ;loc_593E6
 		clr.w	(Events_fg_5).w
 		movem.l	d7-a0/a2-a3,-(sp)
 		lea	(DEZ2_16x16_Secondary_Kos).l,a1
@@ -16489,13 +16489,13 @@ loc_593A8:
 		movem.l	(sp)+,d7-a0/a2-a3
 		addq.w	#4,(Events_routine_bg).w
 
-loc_593E6:
++ ;loc_593E6:
 		jmp	(PlainDeformation).l
 ; ---------------------------------------------------------------------------
 
 loc_593EC:
 		tst.b	(Kos_modules_left).w
-		bne.w	loc_59488
+		bne.w	+ ;loc_59488
 		move.w	#$B01,(Current_zone_and_act).w
 		clr.b	(Dynamic_resize_routine).w
 		clr.b	(Object_load_routine).w
@@ -16510,9 +16510,9 @@ loc_593EC:
 		lea	(Pal_DEZ2+$20).l,a1
 		moveq	#bytesToLcnt($40),d0
 
-loc_59430:
+- ;loc_59430:
 		move.l	(a1)+,(a0)+
-		dbf	d0,loc_59430
+		dbf	d0,- ;loc_59430
 		movem.l	(sp)+,d7-a0/a2-a3
 		move.w	#$3600,d0
 		move.w	#-$400,d1
@@ -16533,7 +16533,7 @@ loc_59430:
 		jsr	(Reset_TileOffsetPositionActual).l
 		clr.w	(Events_routine_bg).w
 
-loc_59488:
++ ;loc_59488:
 		jmp	(PlainDeformation).l
 ; ---------------------------------------------------------------------------
 
@@ -16628,10 +16628,10 @@ loc_59566:
 
 DDZ_ScreenInit:
 		jsr	(AllocateObject).l
-		bne.s	loc_5957A
+		bne.s	+ ;loc_5957A
 		move.l	#loc_81492,(a1)
 
-loc_5957A:
++ ;loc_5957A:
 		clr.w	(_unkEE98).w
 		clr.w	(_unkEEA0).w
 		clr.w	(_unkEE9C).w
@@ -16665,27 +16665,27 @@ loc_595B0:
 
 loc_595C0:
 		cmpi.w	#$200,(Events_bg+$00).w
-		bne.s	loc_595D6
+		bne.s	+ ;loc_595D6
 		cmpi.w	#$400,d0
 		bhs.s	sub_59614
 		cmpi.w	#$220,d1
 		bhs.s	sub_59614
-		bra.s	loc_5961E
+		bra.s	+++ ;loc_5961E
 ; ---------------------------------------------------------------------------
 
-loc_595D6:
++ ;loc_595D6:
 		jsr	sub_59672(pc)
 		bsr.s	sub_59614
 		move.w	#$F0,(Draw_delayed_position).w
 		move.w	#$F,(Draw_delayed_rowcount).w
 		addq.w	#4,(Events_routine_fg).w
-		bra.s	loc_595F0
+		bra.s	+ ;loc_595F0
 ; ---------------------------------------------------------------------------
 
 loc_595EE:
 		bsr.s	sub_59614
 
-loc_595F0:
++ ;loc_595F0:
 		moveq	#0,d1
 		moveq	#0,d2
 		jsr	(Draw_PlaneVertBottomUp).l
@@ -16700,7 +16700,7 @@ loc_59602:
 		cmpi.w	#$800,d0
 		bhs.s	sub_59614
 		cmpi.w	#$220,d1
-		blo.s	loc_5961E
+		blo.s	+ ;loc_5961E
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -16711,7 +16711,7 @@ sub_59614:
 		bra.s	locret_59646
 ; ---------------------------------------------------------------------------
 
-loc_5961E:
++ ;loc_5961E:
 		lea	(_unkEE98).w,a6
 		lea	(_unkEEA0).w,a5
 		move.w	(_unkEE9C).w,d1
@@ -16769,7 +16769,7 @@ DDZ_BackgroundInit:
 		jsr	(Reset_TileOffsetPositionEff).l
 		moveq	#0,d1
 		jsr	(Refresh_PlaneFull).l
-		bra.s	loc_596BC
+		bra.s	+ ;loc_596BC
 ; ---------------------------------------------------------------------------
 
 DDZ_BackgroundEvent:
@@ -16780,7 +16780,7 @@ DDZ_BackgroundEvent:
 		moveq	#$20,d6
 		jsr	(Draw_TileRow).l
 
-loc_596BC:
++ ;loc_596BC:
 		lea	DDZ_BGDeformArray(pc),a4
 		lea	(HScroll_table).w,a5
 		lea	(H_scroll_buffer).w,a1
@@ -16809,12 +16809,12 @@ sub_596EA:
 		moveq	#5,d2
 		lea	(HScroll_table+$00E).w,a1
 
-loc_59708:
+- ;loc_59708:
 		swap	d0
 		move.w	d0,-(a1)
 		swap	d0
 		sub.l	d1,d0
-		dbf	d2,loc_59708
+		dbf	d2,- ;loc_59708
 		rts
 ; End of function sub_596EA
 
@@ -16931,20 +16931,20 @@ loc_597E4:
 sub_59832:
 		sub.w	(a1),d0
 		smi	d2
-		bpl.s	loc_5983A
+		bpl.s	+ ;loc_5983A
 		neg.w	d0
 
-loc_5983A:
++ ;loc_5983A:
 		cmp.w	d1,d0
-		bls.s	loc_59840
+		bls.s	+ ;loc_59840
 		move.w	d1,d0
 
-loc_59840:
++ ;loc_59840:
 		tst.b	d2
-		beq.s	loc_59846
+		beq.s	+ ;loc_59846
 		neg.w	d0
 
-loc_59846:
++ ;loc_59846:
 		add.w	d0,(a1)
 		rts
 ; End of function sub_59832
@@ -16955,9 +16955,9 @@ Slots_BackgroundInit:
 		lea	(HScroll_table).w,a1
 		moveq	#$80-1,d0
 
-loc_59850:
+- ;loc_59850:
 		clr.l	(a1)+
-		dbf	d0,loc_59850
+		dbf	d0,- ;loc_59850
 		moveq	#0,d1
 		moveq	#0,d0
 		move.l	d0,(Camera_Y_pos_BG_copy).w
@@ -16968,22 +16968,22 @@ loc_59850:
 Slots_BackgroundEvent:
 		move.l	#$400,d0
 		tst.w	(SStage_scalar_index_1).w
-		bpl.s	loc_59876
+		bpl.s	+ ;loc_59876
 		neg.l	d0
 
-loc_59876:
++ ;loc_59876:
 		add.l	(Events_bg+$06).w,d0
 		move.l	#$8000,d1
 		cmp.l	d1,d0
-		bgt.s	loc_5988A
+		bgt.s	+ ;loc_5988A
 		neg.l	d1
 		cmp.l	d1,d0
-		bge.s	loc_5988C
+		bge.s	++ ;loc_5988C
 
-loc_5988A:
++ ;loc_5988A:
 		move.l	d1,d0
 
-loc_5988C:
++ ;loc_5988C:
 		move.l	d0,(Events_bg+$06).w
 		add.l	d0,(Camera_Y_pos_BG_copy).w
 		andi.w	#$FF,(Camera_Y_pos_BG_copy).w
@@ -16995,78 +16995,78 @@ loc_5988C:
 		lea	(HScroll_table+$020).w,a6
 		moveq	#8-1,d6
 
-loc_598B4:
+- ;loc_598B4:
 		move.l	a5,-(sp)
 		move.w	d6,-(sp)
 		move.w	(a5),d0
 		move.l	2(a5),d1
 		add.l	d1,(a6)
-		bcc.s	loc_598C6
+		bcc.s	+ ;loc_598C6
 		add.w	d0,(a6)
-		bra.s	loc_598CE
+		bra.s	++ ;loc_598CE
 ; ---------------------------------------------------------------------------
 
-loc_598C6:
++ ;loc_598C6:
 		move.w	(a6),d1
 		sub.w	d0,d1
-		bcs.s	loc_598D2
+		bcs.s	++ ;loc_598D2
 		move.w	d1,(a6)
 
-loc_598CE:
++ ;loc_598CE:
 		st	$A(a6)
 
-loc_598D2:
++ ;loc_598D2:
 		move.w	$A(a5),d5
-		beq.s	loc_598E0
+		beq.s	+ ;loc_598E0
 		tst.w	(Events_bg+$04).w
 		bne.w	loc_59962
 
-loc_598E0:
++ ;loc_598E0:
 		subq.w	#1,4(a6)
-		bmi.s	loc_598EE
+		bmi.s	+ ;loc_598EE
 		tst.w	$A(a6)
 		beq.s	loc_59962
-		bra.s	loc_598F4
+		bra.s	++ ;loc_598F4
 ; ---------------------------------------------------------------------------
 
-loc_598EE:
++ ;loc_598EE:
 		move.w	6(a5),4(a6)
 
-loc_598F4:
++ ;loc_598F4:
 		move.w	6(a6),d0
 		addq.w	#1,d0
 		cmp.w	8(a5),d0
-		blo.s	loc_59902
+		blo.s	+ ;loc_59902
 		moveq	#0,d0
 
-loc_59902:
++ ;loc_59902:
 		move.w	d0,6(a6)
 		clr.w	$A(a6)
 		st	(Events_bg+$04).w
 		tst.w	d5
-		bne.s	loc_5991A
+		bne.s	+ ;loc_5991A
 		move.w	(a5),d0
 		add.w	d0,8(a6)
 		bra.s	loc_59962
 ; ---------------------------------------------------------------------------
 
-loc_5991A:
++ ;loc_5991A:
 		btst	#0,7(a6)
-		beq.s	loc_59926
+		beq.s	+ ;loc_59926
 		add.w	$C(a5),d5
 
-loc_59926:
++ ;loc_59926:
 		moveq	#0,d1
 		move.w	(a5),d2
 		move.w	6(a6),d3
 		subq.w	#1,d3
-		bcs.s	loc_59938
+		bcs.s	+ ;loc_59938
 
-loc_59932:
+- ;loc_59932:
 		add.w	d2,d1
-		dbf	d3,loc_59932
+		dbf	d3,- ;loc_59932
 
-loc_59938:
++ ;loc_59938:
 		move.w	$10(a5),d0
 		move.w	$12(a5),d6
 		movem.l	d1/d5-d6/a5,-(sp)
@@ -17083,18 +17083,18 @@ loc_59962:
 		movea.l	(sp)+,a5
 		lea	$14(a5),a5
 		lea	$C(a6),a6
-		dbf	d6,loc_598B4
+		dbf	d6,-- ;loc_598B4
 		lea	(HScroll_table).w,a1
 		lea	(HScroll_table+$020).w,a5
 		moveq	#8-1,d0
 
-loc_5997C:
+- ;loc_5997C:
 		move.w	(a5),d1
 		add.w	8(a5),d1
 		move.w	d1,(a1)+
 		move.w	d1,$E(a1)
 		lea	$C(a5),a5
-		dbf	d0,loc_5997C
+		dbf	d0,- ;loc_5997C
 
 loc_59990:
 		lea	Slots_BGDeformArray(pc),a4
@@ -17127,14 +17127,14 @@ LRZ3_ScreenInit:
 		clr.w	(Camera_max_X_pos).w
 		lea	(Player_1).w,a1
 		cmpi.w	#$480,x_pos(a1)
-		blo.s	loc_59AF8
+		blo.s	+ ;loc_59AF8
 		lea	(Target_palette_line_2).w,a1
 		lea	(Pal_LRZBossFire).l,a5
 		moveq	#bytesToLcnt($60),d0
 
-loc_59A9A:
+- ;loc_59A9A:
 		move.l	(a5)+,(a1)+
-		dbf	d0,loc_59A9A
+		dbf	d0,- ;loc_59A9A
 
 .offset :=	Stack_contents-(Target_palette_line_4+$20)
 		move.w	#$9C0,.offset+$10(a1)
@@ -17157,7 +17157,7 @@ loc_59A9A:
 		move.w	#$2D,(Events_bg+$02).w
 		move.w	#$C,(Events_routine_fg).w
 
-loc_59AF8:
++ ;loc_59AF8:
 		jsr	(Reset_TileOffsetPositionActual).l
 		jmp	(Refresh_PlaneFull).l
 ; ---------------------------------------------------------------------------
@@ -17179,25 +17179,25 @@ LRZ3_ScreenEvent:
 
 loc_59B1C:
 		move.w	(Act3_ring_count).w,d0
-		beq.s	loc_59B30
+		beq.s	+ ;loc_59B30
 		clr.w	(Act3_ring_count).w
 		move.w	d0,(Ring_count).w
 		move.b	#1,(Update_HUD_ring_count).w
 
-loc_59B30:
++ ;loc_59B30:
 		move.l	(Act3_timer).w,d0
-		beq.s	loc_59B42
+		beq.s	+ ;loc_59B42
 		clr.l	(Act3_timer).w
 		move.l	d0,(Timer).w
 		st	(Update_HUD_timer).w
 
-loc_59B42:
++ ;loc_59B42:
 		addq.w	#4,(Events_routine_fg).w
 
 loc_59B46:
 		move.b	#1,(Update_HUD_life_count).w
 		tst.w	(Events_fg_4).w
-		beq.s	loc_59B78
+		beq.s	+ ;loc_59B78
 		clr.w	(Events_fg_4).w
 		movea.w	$24(a3),a1
 		move.b	#$16,(a1)+
@@ -17209,7 +17209,7 @@ loc_59B46:
 		jmp	(Refresh_PlaneScreenDirect).l
 ; ---------------------------------------------------------------------------
 
-loc_59B78:
++ ;loc_59B78:
 		move.w	(Camera_Y_pos).w,d0
 		cmp.w	(Camera_max_Y_pos).w,d0
 		bne.s	loc_59BA4
@@ -17228,7 +17228,7 @@ loc_59B88:
 
 loc_59BA4:
 		move.w	(Events_bg+$0C).w,d1
-		beq.s	loc_59BF4
+		beq.s	+ ;loc_59BF4
 		move.w	d1,d3
 		lsr.w	#7,d3
 		move.w	(Events_bg+$0E).w,d0
@@ -17247,38 +17247,38 @@ loc_59BA4:
 		moveq	#$A,d6
 		moveq	#5-1,d2
 
-loc_59BDA:
+- ;loc_59BDA:
 		movem.w	d0-d2/d6,-(sp)
 		jsr	(Setup_TileRowDraw).l
 		movem.w	(sp)+,d0-d2/d6
 		addi.w	#$10,d0
-		dbf	d2,loc_59BDA
+		dbf	d2,- ;loc_59BDA
 		clr.w	(Events_bg+$0C).w
 
-loc_59BF4:
++ ;loc_59BF4:
 		jmp	(DrawTilesAsYouMove).l
 ; ---------------------------------------------------------------------------
 
 LRZ3_BackgroundInit:
 		jsr	(AllocateObject).l
-		bne.s	loc_59C08
+		bne.s	+ ;loc_59C08
 		move.l	#Obj_59FC4,(a1)
 
-loc_59C08:
++ ;loc_59C08:
 		lea	(HScroll_table).w,a1
 		move.l	#$600050,d0
 		moveq	#$14-1,d1
 
-loc_59C14:
+- ;loc_59C14:
 		move.l	d0,(a1)+
-		dbf	d1,loc_59C14
+		dbf	d1,- ;loc_59C14
 		lea	(HScroll_table+$100).w,a1
 		move.l	#$30303030,d0
 		moveq	#$30-1,d1
 
-loc_59C26:
+- ;loc_59C26:
 		move.l	d0,(a1)+
-		dbf	d1,loc_59C26
+		dbf	d1,- ;loc_59C26
 		move.w	(a3),$7C(a3)
 		jsr	sub_59D82(pc)
 		jsr	(Reset_TileOffsetPositionEff).l
@@ -17305,52 +17305,52 @@ LRZ3_BackgroundEvent:
 
 loc_59C60:
 		cmpi.w	#$500,(Camera_Y_pos).w
-		blo.s	loc_59C6E
+		blo.s	+ ;loc_59C6E
 		addq.w	#4,(Events_routine_bg).w
 		bra.s	loc_59C8C
 ; ---------------------------------------------------------------------------
 
-loc_59C6E:
++ ;loc_59C6E:
 		jsr	sub_59D82(pc)
 
 loc_59C72:
 		jsr	(DrawBGAsYouMove).l
 		move.w	(Events_bg+$04).w,d0
-		beq.s	loc_59C88
+		beq.s	+ ;loc_59C88
 		move.w	d0,(Camera_X_pos_BG_copy).w
 		move.w	(Events_bg+$06).w,(Camera_Y_pos_BG_copy).w
 
-loc_59C88:
++ ;loc_59C88:
 		jmp	sub_59DDE(pc)
 ; ---------------------------------------------------------------------------
 
 loc_59C8C:
 		cmpi.w	#$500,(Camera_Y_pos).w
-		blo.s	loc_59CD8
+		blo.s	+++ ;loc_59CD8
 		cmpi.w	#$A00,(Camera_X_pos).w
-		bne.s	loc_59CCA
+		bne.s	++ ;loc_59CCA
 		move.w	(Camera_Y_pos).w,d0
 		cmp.w	(Camera_max_Y_pos).w,d0
-		bne.s	loc_59CCA
+		bne.s	++ ;loc_59CCA
 		move.w	#$A00,(Camera_max_X_pos).w
 		move.w	d0,(Camera_min_Y_pos).w
 		jsr	(AllocateObject).l
-		bne.s	loc_59CBE
+		bne.s	+ ;loc_59CBE
 		move.l	#Obj_LRZEndBoss,(a1)
 
-loc_59CBE:
++ ;loc_59CBE:
 		move.w	#4,(Special_V_int_routine).w
 		addq.w	#8,(Events_routine_bg).w
 		bra.s	loc_59D24
 ; ---------------------------------------------------------------------------
 
-loc_59CCA:
++ ;loc_59CCA:
 		jsr	sub_59DA2(pc)
 		jsr	(DrawBGAsYouMove).l
 		jmp	sub_59DDE(pc)
 ; ---------------------------------------------------------------------------
 
-loc_59CD8:
++ ;loc_59CD8:
 		move.w	(Camera_X_pos_BG_copy).w,(Events_bg+$04).w
 		move.w	(Camera_Y_pos_BG_copy).w,(Events_bg+$06).w
 		jsr	sub_59D82(pc)
@@ -17359,13 +17359,13 @@ loc_59CD8:
 		move.w	d0,(Draw_delayed_position).w
 		move.w	#$F,(Draw_delayed_rowcount).w
 		addq.w	#4,(Events_routine_bg).w
-		bra.s	loc_59D06
+		bra.s	+ ;loc_59D06
 ; ---------------------------------------------------------------------------
 
 loc_59D02:
 		jsr	sub_59D82(pc)
 
-loc_59D06:
++ ;loc_59D06:
 		move.w	(Camera_X_pos_BG_copy).w,d1
 		move.w	(Camera_Y_pos_BG_copy).w,d2
 		jsr	(Draw_PlaneVertTopDown).l
@@ -17377,11 +17377,11 @@ loc_59D06:
 
 loc_59D24:
 		tst.w	(Events_fg_5).w
-		beq.s	loc_59D30
+		beq.s	+ ;loc_59D30
 		tst.w	(Events_bg+$0A).w
-		beq.s	loc_59D66
+		beq.s	++ ;loc_59D66
 
-loc_59D30:
++ ;loc_59D30:
 		jsr	sub_59DBC(pc)
 		lea	word_5A106(pc),a4
 		lea	(HScroll_table).w,a5
@@ -17395,15 +17395,15 @@ loc_59D30:
 		swap	d0
 		moveq	#$14-1,d1
 
-loc_59D5A:
+- ;loc_59D5A:
 		move.w	(a5),d0
 		move.l	d0,(a1)+
 		addq.w	#4,a5
-		dbf	d1,loc_59D5A
+		dbf	d1,- ;loc_59D5A
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_59D66:
++ ;loc_59D66:
 		clr.w	(Events_fg_5).w
 		move.w	#$C,(Special_V_int_routine).w
 		addq.w	#4,(Events_routine_bg).w
@@ -17454,7 +17454,7 @@ sub_59DBC:
 		moveq	#$30,d1
 		moveq	#$14-1,d2
 
-loc_59DCA:
+- ;loc_59DCA:
 		moveq	#0,d3
 		move.b	(a5),d3
 		sub.w	d1,d3
@@ -17462,7 +17462,7 @@ loc_59DCA:
 		move.w	d3,(a1)
 		addq.w	#4,a1
 		addq.w	#8,a5
-		dbf	d2,loc_59DCA
+		dbf	d2,- ;loc_59DCA
 		rts
 ; End of function sub_59DBC
 
@@ -17472,17 +17472,17 @@ loc_59DCA:
 
 sub_59DDE:
 		tst.b	(End_of_level_flag).w
-		bne.s	loc_59DF2
+		bne.s	+ ;loc_59DF2
 		tst.b	(_unkFACD).w
-		bne.s	loc_59DF2
+		bne.s	+ ;loc_59DF2
 		cmpi.w	#8,(Events_routine_fg).w
-		bhs.s	loc_59DF8
+		bhs.s	++ ;loc_59DF8
 
-loc_59DF2:
++ ;loc_59DF2:
 		jmp	(PlainDeformation).l
 ; ---------------------------------------------------------------------------
 
-loc_59DF8:
++ ;loc_59DF8:
 		lea	(H_scroll_buffer).w,a1
 		lea	(AIZ2_SOZ1_LRZ3_FGDeformDelta).l,a5
 		lea	(a5),a6
@@ -17503,14 +17503,14 @@ loc_59DF8:
 		neg.w	d1
 		move.w	#$E0-1,d2
 
-loc_59E34:
+- ;loc_59E34:
 		move.w	(a5)+,d3
 		add.w	d0,d3
 		move.w	d3,(a1)+
 		move.w	(a6)+,d3
 		add.w	d1,d3
 		move.w	d3,(a1)+
-		dbf	d2,loc_59E34
+		dbf	d2,- ;loc_59E34
 		rts
 ; End of function sub_59DDE
 
@@ -17518,12 +17518,12 @@ loc_59E34:
 
 loc_59E46:
 		tst.w	(Events_bg+$02).w
-		beq.s	loc_59E52
+		beq.s	+ ;loc_59E52
 		subq.w	#1,(Events_bg+$02).w
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_59E52:
++ ;loc_59E52:
 		st	(Scroll_lock).w
 		move.w	(Events_bg+$00).w,d0
 		jmp	loc_59E5E(pc,d0.w)
@@ -17549,7 +17549,7 @@ loc_59E7A:
 		move.l	#$20000,d2
 		moveq	#0,d1
 		cmpi.w	#$410,(Camera_X_pos).w
-		blo.w	loc_59F3C
+		blo.w	+ ;loc_59F3C
 		addq.w	#4,(Events_bg+$00).w
 
 loc_59E90:
@@ -17557,14 +17557,14 @@ loc_59E90:
 		move.l	d2,d1
 		neg.l	d1
 		cmpi.w	#$330,(Camera_Y_pos).w
-		bhi.w	loc_59F3C
+		bhi.w	+ ;loc_59F3C
 		addq.w	#4,(Events_bg+$00).w
 
 loc_59EA8:
 		move.l	#$20000,d2
 		moveq	#0,d1
 		cmpi.w	#$650,(Camera_X_pos).w
-		blo.w	loc_59F3C
+		blo.w	+ ;loc_59F3C
 		addq.w	#4,(Events_bg+$00).w
 
 loc_59EBE:
@@ -17572,31 +17572,31 @@ loc_59EBE:
 		move.l	d2,d1
 		neg.l	d1
 		cmpi.w	#$2F0,(Camera_Y_pos).w
-		bhi.s	loc_59F3C
+		bhi.s	+ ;loc_59F3C
 		addq.w	#4,(Events_bg+$00).w
 
 loc_59ED4:
 		move.l	#$20000,d2
 		moveq	#0,d1
 		cmpi.w	#$910,(Camera_X_pos).w
-		blo.s	loc_59F3C
+		blo.s	+ ;loc_59F3C
 		addq.w	#4,(Events_bg+$00).w
 
 loc_59EE8:
 		move.l	#$1D900,d2
 		move.l	#$C400,d1
 		cmpi.w	#$320,(Camera_Y_pos).w
-		blo.s	loc_59F3C
+		blo.s	+ ;loc_59F3C
 		addq.w	#4,(Events_bg+$00).w
 
 loc_59F00:
 		move.l	#$20000,d2
 		moveq	#0,d1
 		cmpi.w	#$BBF,(Camera_X_pos).w
-		blo.s	loc_59F3C
+		blo.s	+ ;loc_59F3C
 		moveq	#0,d2
 		cmpi.w	#$C50,(Player_1+x_pos).w
-		blo.s	loc_59F3C
+		blo.s	+ ;loc_59F3C
 		move.w	#$A00,(Camera_min_X_pos).w
 		move.w	#$BC0,(Camera_max_X_pos).w
 		move.w	#$560,d0
@@ -17607,7 +17607,7 @@ loc_59F00:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_59F3C:
++ ;loc_59F3C:
 		add.l	d1,(Camera_Y_pos).w
 		move.w	(Camera_Y_pos).w,d1
 		move.w	d1,(Camera_Y_pos).w
@@ -17632,27 +17632,27 @@ loc_59F3C:
 
 sub_59F82:
 		cmpi.b	#5,anim(a1)
-		bne.s	loc_59F8E
+		bne.s	+ ;loc_59F8E
 		clr.b	anim(a1)
 
-loc_59F8E:
++ ;loc_59F8E:
 		addi.w	#$10,d0
 		cmp.w	x_pos(a1),d0
-		bls.s	loc_59FB4
+		bls.s	++ ;loc_59FB4
 		btst	#Status_Push,status(a1)
-		beq.s	loc_59FA8
+		beq.s	+ ;loc_59FA8
 		lea	(a1),a0
 		jmp	(Kill_Character).l
 ; ---------------------------------------------------------------------------
 
-loc_59FA8:
++ ;loc_59FA8:
 		move.w	d0,x_pos(a1)
 		asr.l	#8,d2
 		move.w	d2,ground_vel(a1)
 		bra.s	locret_59FC2
 ; ---------------------------------------------------------------------------
 
-loc_59FB4:
++ ;loc_59FB4:
 		addi.w	#$110,d0
 		cmp.w	x_pos(a1),d0
 		bhi.s	locret_59FC2
@@ -17675,19 +17675,19 @@ loc_59FDC:
 		bne.w	loc_5A07A
 		move.w	(Events_bg+$0A).w,d0
 		tst.b	(Events_bg+$09).w
-		beq.s	loc_59FFA
+		beq.s	+ ;loc_59FFA
 		cmpi.w	#$80,d0
-		bhs.s	loc_5A000
+		bhs.s	++ ;loc_5A000
 		addq.w	#1,d0
-		bra.s	loc_5A000
+		bra.s	++ ;loc_5A000
 ; ---------------------------------------------------------------------------
 
-loc_59FFA:
++ ;loc_59FFA:
 		tst.w	d0
-		beq.s	loc_5A000
+		beq.s	+ ;loc_5A000
 		subq.w	#1,d0
 
-loc_5A000:
++ ;loc_5A000:
 		move.w	d0,(Events_bg+$0A).w
 		swap	d0
 		clr.w	d0
@@ -17698,45 +17698,45 @@ loc_5A000:
 		moveq	#0,d3
 		move.w	#$B0-1,d4
 		tst.b	(Events_bg+$08).w
-		bne.s	loc_5A040
+		bne.s	+ ;loc_5A040
 		lea	(HScroll_table+$110).w,a1
 
-loc_5A020:
+- ;loc_5A020:
 		move.b	d2,(a1)+
 		add.w	d1,d3
 		addx.w	d0,d2
-		dbf	d4,loc_5A020
+		dbf	d4,- ;loc_5A020
 		moveq	#$30,d2
 		moveq	#0,d3
 		moveq	#$10-1,d4
 		lea	(HScroll_table+$110).w,a1
 
-loc_5A034:
+- ;loc_5A034:
 		sub.w	d1,d3
 		subx.w	d0,d2
 		move.b	d2,-(a1)
-		dbf	d4,loc_5A034
+		dbf	d4,- ;loc_5A034
 		bra.s	loc_5A062
 ; ---------------------------------------------------------------------------
 
-loc_5A040:
++ ;loc_5A040:
 		lea	(HScroll_table+$1B0).w,a1
 
-loc_5A044:
+- ;loc_5A044:
 		move.b	d2,-(a1)
 		add.w	d1,d3
 		addx.w	d0,d2
-		dbf	d4,loc_5A044
+		dbf	d4,- ;loc_5A044
 		moveq	#$30,d2
 		moveq	#0,d3
 		moveq	#$10-1,d4
 		lea	(HScroll_table+$1B0).w,a1
 
-loc_5A058:
+- ;loc_5A058:
 		sub.w	d1,d3
 		subx.w	d0,d2
 		move.b	d2,(a1)+
-		dbf	d4,loc_5A058
+		dbf	d4,- ;loc_5A058
 
 loc_5A062:
 		move.w	#$A0,d1
@@ -17744,7 +17744,7 @@ loc_5A062:
 		move.w	#$AA0,d4
 		move.w	d4,x_pos(a0)
 		jsr	(SolidObjectTopSloped2).l
-		bra.s	loc_5A094
+		bra.s	+ ;loc_5A094
 ; ---------------------------------------------------------------------------
 
 loc_5A07A:
@@ -17755,7 +17755,7 @@ loc_5A07A:
 		move.w	d4,x_pos(a0)
 		jsr	(SolidObjectTop).l
 
-loc_5A094:
++ ;loc_5A094:
 		move.w	(Events_bg+$0A).w,d0
 		swap	d0
 		clr.w	d0
@@ -17764,37 +17764,37 @@ loc_5A094:
 		lsr.l	#1,d1
 		add.l	d1,d0
 		tst.b	(Events_bg+$08).w
-		bne.s	loc_5A0AC
+		bne.s	+ ;loc_5A0AC
 		neg.l	d0
 
-loc_5A0AC:
++ ;loc_5A0AC:
 		move.l	d0,(Events_bg+$14).w
 		btst	#p1_standing_bit,status(a0)
-		beq.s	loc_5A0DE
+		beq.s	++ ;loc_5A0DE
 		lea	(Player_1).w,a1
 		tst.b	(End_of_level_flag).w
-		bne.s	loc_5A0D6
+		bne.s	+ ;loc_5A0D6
 		btst	#Status_FireShield,status_secondary(a1)
-		bne.s	loc_5A0D6
+		bne.s	+ ;loc_5A0D6
 		tst.b	(_unkFACD).w
-		bne.s	loc_5A0D6
+		bne.s	+ ;loc_5A0D6
 		jsr	(sub_24280).l
 
-loc_5A0D6:
++ ;loc_5A0D6:
 		move.l	(Events_bg+$14).w,d0
 		add.l	d0,x_pos(a1)
 
-loc_5A0DE:
++ ;loc_5A0DE:
 		btst	#p2_standing_bit,status(a0)
 		beq.s	locret_5A104
 		lea	(Player_2).w,a1
 		tst.b	(End_of_level_flag).w
-		bne.s	loc_5A0FC
+		bne.s	+ ;loc_5A0FC
 		tst.b	(_unkFACD).w
-		bne.s	loc_5A0FC
+		bne.s	+ ;loc_5A0FC
 		jsr	(sub_24280).l
 
-loc_5A0FC:
++ ;loc_5A0FC:
 		move.l	(Events_bg+$14).w,d0
 		add.l	d0,x_pos(a1)
 
@@ -17808,38 +17808,38 @@ word_5A106:
 
 HPZ_ScreenInit:
 		cmpi.w	#3,(Player_mode).w
-		bne.s	loc_5A13E
+		bne.s	+ ;loc_5A13E
 		move.w	#$AA0,(Camera_max_X_pos).w
-		bra.s	loc_5A14C
+		bra.s	++ ;loc_5A14C
 ; ---------------------------------------------------------------------------
 
-loc_5A13E:
++ ;loc_5A13E:
 		cmpi.w	#$480,(Player_1+y_pos).w
-		bhs.s	loc_5A14C
+		bhs.s	+ ;loc_5A14C
 		move.w	#$AA0,(Camera_min_X_pos).w
 
-loc_5A14C:
++ ;loc_5A14C:
 		jsr	(Reset_TileOffsetPositionActual).l
 		jmp	(Refresh_PlaneFull).l
 ; ---------------------------------------------------------------------------
 
 HPZ_ScreenEvent:
 		tst.w	(Events_bg+$00).w
-		bne.s	loc_5A176
+		bne.s	++ ;loc_5A176
 		tst.w	(Palette_fade_timer).w
-		bne.s	loc_5A176
+		bne.s	++ ;loc_5A176
 		jsr	(AllocateObject).l
-		bne.s	loc_5A172
+		bne.s	+ ;loc_5A172
 		move.l	#Obj_HPZPaletteControl,(a1)
 
-loc_5A172:
++ ;loc_5A172:
 		st	(Events_bg+$00).w
 
-loc_5A176:
++ ;loc_5A176:
 		move.w	(Screen_shake_offset).w,d0
 		add.w	d0,(Camera_Y_pos_copy).w
 		tst.w	(Events_fg_4).w
-		beq.s	loc_5A19E
+		beq.s	+ ;loc_5A19E
 		clr.w	(Events_fg_4).w
 		movea.w	$1C(a3),a1
 		move.b	#$61,$30(a1)
@@ -17847,30 +17847,30 @@ loc_5A176:
 		jmp	(Refresh_PlaneScreenDirect).l
 ; ---------------------------------------------------------------------------
 
-loc_5A19E:
++ ;loc_5A19E:
 		jmp	(DrawTilesAsYouMove).l
 ; ---------------------------------------------------------------------------
 
 HPZ_BackgroundInit:
 		move.w	$14(a3),$18(a3)
 		cmpi.w	#3,(Player_mode).w
-		bne.s	loc_5A1C2
+		bne.s	+ ;loc_5A1C2
 		movea.w	4(a3),a1
 		move.b	#$8E,3(a1)
 		move.b	#$8F,4(a1)
 
-loc_5A1C2:
++ ;loc_5A1C2:
 		cmpi.w	#$EC0,(Player_1+x_pos).w
-		bhs.s	loc_5A1D0
+		bhs.s	+ ;loc_5A1D0
 		jsr	sub_5A32C(pc)
-		bra.s	loc_5A1DA
+		bra.s	++ ;loc_5A1DA
 ; ---------------------------------------------------------------------------
 
-loc_5A1D0:
++ ;loc_5A1D0:
 		move.w	#8,(Events_routine_bg).w
 		jsr	sub_5A334(pc)
 
-loc_5A1DA:
++ ;loc_5A1DA:
 		jsr	(Reset_TileOffsetPositionEff).l
 		lea	(HScroll_table).w,a1
 		move.w	(a1)+,(a1)
@@ -17902,7 +17902,7 @@ HPZ_BackgroundEvent:
 
 loc_5A224:
 		cmpi.w	#$EC0,(Player_1+x_pos).w
-		blo.s	loc_5A25E
+		blo.s	+ ;loc_5A25E
 		jsr	sub_5A334(pc)
 		jsr	(Reset_TileOffsetPositionEff).l
 		lea	(HScroll_table).w,a1
@@ -17915,10 +17915,10 @@ loc_5A224:
 		move.w	d0,(Draw_delayed_position).w
 		move.w	#$F,(Draw_delayed_rowcount).w
 		addq.w	#4,(Events_routine_bg).w
-		bra.s	loc_5A28C
+		bra.s	++ ;loc_5A28C
 ; ---------------------------------------------------------------------------
 
-loc_5A25E:
++ ;loc_5A25E:
 		jsr	sub_5A32C(pc)
 
 loc_5A262:
@@ -17936,19 +17936,19 @@ loc_5A262:
 loc_5A288:
 		jsr	sub_5A334(pc)
 
-loc_5A28C:
++ ;loc_5A28C:
 		lea	HPZ_BGDrawArray(pc),a4
 		lea	(HScroll_table-$04).w,a5
 		move.w	(Camera_Y_pos_BG_copy).w,d1
 		jsr	(Draw_PlaneVertBottomUpComplex).l
-		bpl.s	loc_5A2E4
+		bpl.s	++ ;loc_5A2E4
 		addq.w	#4,(Events_routine_bg).w
-		bra.s	loc_5A2E4
+		bra.s	++ ;loc_5A2E4
 ; ---------------------------------------------------------------------------
 
 loc_5A2A6:
 		cmpi.w	#$EC0,(Player_1+x_pos).w
-		bhs.s	loc_5A2E0
+		bhs.s	+ ;loc_5A2E0
 		jsr	sub_5A32C(pc)
 		jsr	(Reset_TileOffsetPositionEff).l
 		lea	(HScroll_table).w,a1
@@ -17961,13 +17961,13 @@ loc_5A2A6:
 		move.w	d0,(Draw_delayed_position).w
 		move.w	#$F,(Draw_delayed_rowcount).w
 		addq.w	#4,(Events_routine_bg).w
-		bra.s	loc_5A30E
+		bra.s	+++ ;loc_5A30E
 ; ---------------------------------------------------------------------------
 
-loc_5A2E0:
++ ;loc_5A2E0:
 		jsr	sub_5A334(pc)
 
-loc_5A2E4:
++ ;loc_5A2E4:
 		lea	HPZ_BGDrawArray(pc),a4
 		lea	(HScroll_table).w,a5
 		moveq	#$20,d6
@@ -17982,7 +17982,7 @@ loc_5A2E4:
 loc_5A30A:
 		jsr	sub_5A32C(pc)
 
-loc_5A30E:
++ ;loc_5A30E:
 		lea	HPZ_BGDrawArray(pc),a4
 		lea	(HScroll_table-$04).w,a5
 		move.w	(Camera_Y_pos_BG_copy).w,d1
@@ -17997,7 +17997,7 @@ loc_5A30E:
 sub_5A32C:
 		move.w	#$348,d2
 		moveq	#0,d3
-		bra.s	loc_5A33C
+		bra.s	+ ;loc_5A33C
 ; End of function sub_5A32C
 
 
@@ -18008,7 +18008,7 @@ sub_5A334:
 		move.w	#$E00,d2
 		move.w	#$700,d3
 
-loc_5A33C:
++ ;loc_5A33C:
 		move.w	(Camera_Y_pos_copy).w,d0
 		move.w	(Screen_shake_offset).w,d4
 		sub.w	d4,d0
@@ -18041,12 +18041,12 @@ loc_5A33C:
 		asr.l	#2,d2
 		moveq	#9-1,d1
 
-loc_5A388:
+- ;loc_5A388:
 		swap	d0
 		move.w	d0,-(a1)
 		swap	d0
 		sub.l	d2,d0
-		dbf	d1,loc_5A388
+		dbf	d1,- ;loc_5A388
 		move.w	(HScroll_table+$01A).w,(HScroll_table+$004).w
 		rts
 ; End of function sub_5A334
@@ -18080,17 +18080,17 @@ DEZ3_ScreenInit:
 		move.w	#$1000-1,d1
 		sub.w	d0,d1
 
-loc_5A3FA:
+- ;loc_5A3FA:
 		clr.b	(a1)+
-		dbf	d1,loc_5A3FA
+		dbf	d1,- ;loc_5A3FA
 		jsr	(AllocateObject).l
-		bne.s	loc_5A442
+		bne.s	+ ;loc_5A442
 		move.l	#Obj_5A7C8,(a1)
 		jsr	(CreateNewSprite4).l
-		bne.s	loc_5A442
+		bne.s	+ ;loc_5A442
 		move.l	#Obj_5A8E6,(a1)
 		jsr	(CreateNewSprite4).l
-		bne.s	loc_5A442
+		bne.s	+ ;loc_5A442
 		move.l	#Obj_DEZ3_Boss,(a1)
 		move.w	#$3C0,d0
 		move.w	#$F8,d1
@@ -18099,7 +18099,7 @@ loc_5A3FA:
 		move.w	d0,(Events_bg+$02).w
 		move.w	d1,(Events_bg+$04).w
 
-loc_5A442:
++ ;loc_5A442:
 		move.w	#$6C0,(Events_bg+$00).w
 		st	(Scroll_lock).w
 		move.w	#$80,d0
@@ -18133,19 +18133,19 @@ DEZ3_ScreenEvent:
 
 loc_5A49A:
 		move.w	(Act3_ring_count).w,d0
-		beq.s	loc_5A4AE
+		beq.s	+ ;loc_5A4AE
 		clr.w	(Act3_ring_count).w
 		move.w	d0,(Ring_count).w
 		move.b	#1,(Update_HUD_ring_count).w
 
-loc_5A4AE:
++ ;loc_5A4AE:
 		move.l	(Act3_timer).w,d0
-		beq.s	loc_5A4C0
+		beq.s	+ ;loc_5A4C0
 		clr.l	(Act3_timer).w
 		move.l	d0,(Timer).w
 		st	(Update_HUD_timer).w
 
-loc_5A4C0:
++ ;loc_5A4C0:
 		addq.w	#4,(Events_routine_fg).w
 
 loc_5A4C4:
@@ -18163,12 +18163,12 @@ loc_5A4C4:
 		moveq	#2,d6
 		moveq	#2-1,d2
 
-loc_5A4F0:
+- ;loc_5A4F0:
 		movem.w	d0-d2/d6,-(sp)
 		jsr	(Setup_TileRowDraw).l
 		movem.w	(sp)+,d0-d2/d6
 		addi.w	#$10,d0
-		dbf	d2,loc_5A4F0
+		dbf	d2,- ;loc_5A4F0
 
 locret_5A506:
 		rts
@@ -18248,14 +18248,14 @@ loc_5A5B0:
 		tst.w	(Screen_shake_flag).w
 		beq.w	loc_5A72E
 		jsr	(AllocateObject).l
-		bne.s	loc_5A5DC
+		bne.s	+ ;loc_5A5DC
 		move.l	#Obj_5A922,(a1)
 		move.w	#$13,$2E(a1)
 		move.w	#$2D0,$30(a1)
 		move.w	#$2C0,(Events_bg+$16).w
 		addq.w	#4,(Events_routine_bg).w
 
-loc_5A5DC:
++ ;loc_5A5DC:
 		bra.w	loc_5A72E
 ; ---------------------------------------------------------------------------
 
@@ -18284,7 +18284,7 @@ loc_5A61A:
 		move.w	#$F,(Draw_delayed_rowcount).w
 		move.w	(_unkEE8E).w,(Events_bg+$0C).w
 		jsr	(AllocateObject).l
-		bne.s	loc_5A65E
+		bne.s	+ ;loc_5A65E
 		move.l	#Obj_5A94C,(a1)
 		move.w	(Camera_X_pos_copy).w,d0
 		andi.w	#$FFE0,d0
@@ -18292,7 +18292,7 @@ loc_5A61A:
 		subi.w	#$10,d0
 		move.w	d0,$30(a1)
 
-loc_5A65E:
++ ;loc_5A65E:
 		addq.w	#4,(Events_routine_bg).w
 
 loc_5A662:
@@ -18326,19 +18326,19 @@ loc_5A696:
 
 loc_5A69E:
 		move.w	#$603,d0
-		bra.s	loc_5A6B4
+		bra.s	+ ;loc_5A6B4
 ; ---------------------------------------------------------------------------
 
 loc_5A6A4:
 		move.w	#$903,d0
-		bra.s	loc_5A6B4
+		bra.s	+ ;loc_5A6B4
 ; ---------------------------------------------------------------------------
 
 loc_5A6AA:
 		move.w	#$807,d0
 		move.w	#-2,(Events_bg+$0A).w
 
-loc_5A6B4:
++ ;loc_5A6B4:
 		addq.w	#2,(Events_bg+$0A).w
 		movea.w	8(a3),a1
 		move.b	d0,$E(a1)
@@ -18353,16 +18353,16 @@ loc_5A6B4:
 		andi.w	#$FFF0,d3
 		addi.w	#$E0,d3
 
-loc_5A6E2:
+- ;loc_5A6E2:
 		movem.w	d0-d3/d6,-(sp)
 		jsr	(Setup_TileRowDraw).l
 		movem.w	(sp)+,d0-d3/d6
 		addi.w	#$10,d0
 		cmp.w	d3,d0
-		bhi.s	loc_5A6FC
-		dbf	d2,loc_5A6E2
+		bhi.s	+ ;loc_5A6FC
+		dbf	d2,- ;loc_5A6E2
 
-loc_5A6FC:
++ ;loc_5A6FC:
 		bra.s	loc_5A72E
 ; ---------------------------------------------------------------------------
 
@@ -18390,10 +18390,10 @@ loc_5A734:
 		lea	(H_scroll_buffer).w,a1
 		move.w	(Camera_Y_pos_copy).w,d0
 		move.w	(Events_bg+$0C).w,d3
-		bne.s	loc_5A74E
+		bne.s	+ ;loc_5A74E
 		move.w	(Camera_X_pos_BG_copy).w,d3
 
-loc_5A74E:
++ ;loc_5A74E:
 		move.w	#$E0-1,d1
 		jsr	(ApplyDeformation2).l
 		move.w	(Camera_Y_pos_BG_copy).w,(V_scroll_value).w
@@ -18407,17 +18407,17 @@ loc_5A74E:
 sub_5A76C:
 		move.w	(Camera_X_pos_BG_copy).w,(_unkEE8E).w
 		tst.w	(Events_bg+$00).w
-		bne.s	loc_5A77C
+		bne.s	+ ;loc_5A77C
 		moveq	#0,d0
-		bra.s	loc_5A788
+		bra.s	++ ;loc_5A788
 ; ---------------------------------------------------------------------------
 
-loc_5A77C:
++ ;loc_5A77C:
 		move.w	(Camera_X_pos_copy).w,d0
 		sub.w	(Events_bg+$02).w,d0
 		add.w	(Events_bg+$00).w,d0
 
-loc_5A788:
++ ;loc_5A788:
 		move.w	d0,(Camera_X_pos_BG_copy).w
 		move.w	(Camera_Y_pos_copy).w,d0
 		sub.w	(Events_bg+$04).w,d0
@@ -18459,52 +18459,52 @@ Obj_5A7C8:
 
 loc_5A7EC:
 		cmpi.b	#$17,(Current_zone).w
-		beq.s	loc_5A7FA
+		beq.s	+ ;loc_5A7FA
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_5A7FA:
++ ;loc_5A7FA:
 		move.w	(Events_bg+$08).w,d1
-		beq.s	loc_5A83C
+		beq.s	++ ;loc_5A83C
 		clr.w	(Events_bg+$08).w
 		cmp.w	(Events_bg+$16).w,d1
-		blo.s	loc_5A83C
+		blo.s	++ ;loc_5A83C
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.s	loc_5A82C
+		bne.s	+ ;loc_5A82C
 		move.l	#Obj_5A872,(a1)
 		move.w	d1,x_pos(a1)
 		move.w	$2E(a0),d2
 		subi.w	#$20,d2
 		cmp.w	d1,d2
-		bhi.s	loc_5A82C
+		bhi.s	+ ;loc_5A82C
 		move.w	d1,(Events_bg+$06).w
 
-loc_5A82C:
++ ;loc_5A82C:
 		moveq	#$20,d0
 		add.w	d0,(Events_bg+$16).w
 		cmp.w	$2E(a0),d1
-		blo.s	loc_5A83C
+		blo.s	+ ;loc_5A83C
 		add.w	d0,x_pos(a0)
 
-loc_5A83C:
++ ;loc_5A83C:
 		moveq	#-$20,d1
 		move.w	(Camera_X_pos_copy).w,d0
 		andi.w	#$FFE0,d0
 		move.w	$2E(a0),d2
 		cmp.w	d2,d0
-		beq.s	loc_5A860
-		bcs.s	loc_5A858
+		beq.s	+++ ;loc_5A860
+		bcs.s	+ ;loc_5A858
 		cmp.w	(Events_bg+$16).w,d2
-		blo.s	loc_5A85C
+		blo.s	++ ;loc_5A85C
 		neg.w	d1
 
-loc_5A858:
++ ;loc_5A858:
 		add.w	d1,x_pos(a0)
 
-loc_5A85C:
++ ;loc_5A85C:
 		move.w	d0,$2E(a0)
 
-loc_5A860:
++ ;loc_5A860:
 		move.w	#$B0,d1
 		moveq	#$10,d2
 		moveq	#$10,d3
@@ -18528,12 +18528,12 @@ Obj_5A872:
 
 loc_5A8B2:
 		tst.b	render_flags(a0)
-		bmi.s	loc_5A8C4
+		bmi.s	+ ;loc_5A8C4
 		move.w	(Camera_X_pos_coarse_back).w,d0
 		addi.w	#$400,d0
 		move.w	d0,x_pos(a0)
 
-loc_5A8C4:
++ ;loc_5A8C4:
 		jsr	(MoveSprite2).l
 		addi.w	#$1A,y_vel(a0)
 		moveq	#$10,d1
@@ -18553,11 +18553,11 @@ Obj_5A8E6:
 
 loc_5A904:
 		cmpi.w	#$6C0,(Events_bg+$00).w
-		beq.s	loc_5A912
+		beq.s	+ ;loc_5A912
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_5A912:
++ ;loc_5A912:
 		moveq	#$40,d1
 		moveq	#$10,d2
 		moveq	#$10,d3
@@ -18583,13 +18583,13 @@ locret_5A94A:
 
 Obj_5A94C:
 		cmpi.b	#$17,(Current_zone).w
-		beq.s	loc_5A95A
+		beq.s	+ ;loc_5A95A
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_5A95A:
++ ;loc_5A95A:
 		tst.w	(Events_bg+$00).w
-		bne.s	loc_5A97C
+		bne.s	+ ;loc_5A97C
 		move.w	(Camera_X_pos_copy).w,d0
 		addi.w	#$9C,d0
 		cmp.w	$30(a0),d0
@@ -18599,7 +18599,7 @@ loc_5A95A:
 		bra.s	locret_5A9AA
 ; ---------------------------------------------------------------------------
 
-loc_5A97C:
++ ;loc_5A97C:
 		cmpi.w	#$110,(Events_bg+$04).w
 		bhs.s	locret_5A9AA
 		subq.w	#1,$32(a0)
@@ -18621,12 +18621,12 @@ Map_DEZ3Blocks:
 
 HPZS_ScreenInit:
 		tst.b	(Chaos_emerald_count).w
-		beq.s	loc_5AA14
+		beq.s	+ ;loc_5AA14
 		move.b	(Current_special_stage).w,d0
 		ori.b	#$80,d0
 		move.b	d0,(HPZ_current_special_stage).w
 
-loc_5AA14:
++ ;loc_5AA14:
 		movea.w	$10(a3),a1
 		clr.b	$29(a1)
 		clr.b	$2B(a1)
@@ -18673,10 +18673,10 @@ HPZS_BackgroundEvent:
 
 Ending_ScreenInit:
 		jsr	(AllocateObject).l
-		bne.s	loc_5AAB0
+		bne.s	+ ;loc_5AAB0
 		move.l	#Obj_5D86A,(a1)
 
-loc_5AAB0:
++ ;loc_5AAB0:
 		st	(Ending_running_flag).w
 		st	(Scroll_lock).w
 		move.b	#3,(Player_1+object_control).w
@@ -18738,38 +18738,38 @@ loc_5AB36:
 		jsr	sub_5AEEA(pc)
 		jsr	(Reset_TileOffsetPositionActual).l
 		addq.w	#4,(Events_routine_fg).w
-		bra.s	loc_5AB62
+		bra.s	+ ;loc_5AB62
 ; ---------------------------------------------------------------------------
 
 loc_5AB58:
 		tst.w	(Events_fg_4).w
-		bne.s	loc_5AB66
+		bne.s	++ ;loc_5AB66
 		jsr	sub_5AEEA(pc)
 
-loc_5AB62:
++ ;loc_5AB62:
 		bra.w	loc_5AEE4
 ; ---------------------------------------------------------------------------
 
-loc_5AB66:
++ ;loc_5AB66:
 		clr.w	(Events_fg_4).w
 		addq.w	#4,(Events_routine_fg).w
 
 loc_5AB6E:
 		jsr	sub_5AEEA(pc)
 		cmpi.b	#7,(Chaos_emerald_count).w
-		blo.s	loc_5AB96
+		blo.s	++ ;loc_5AB96
 		moveq	#0,d0
 		move.w	(Events_bg+$06).w,d0
 		addi.w	#$10,d0
 		cmpi.w	#$8000,d0
-		blo.s	loc_5AB8E
+		blo.s	+ ;loc_5AB8E
 		move.w	#$8000,d0
 
-loc_5AB8E:
++ ;loc_5AB8E:
 		move.w	d0,(Events_bg+$06).w
 		sub.l	d0,(Events_bg+$02).w
 
-loc_5AB96:
++ ;loc_5AB96:
 		tst.w	(Events_fg_4).w
 		beq.w	loc_5AEE4
 		clr.w	(Events_fg_4).w
@@ -18778,13 +18778,13 @@ loc_5AB96:
 		st	(Palette_fade_timer).w
 		st	(Palette_cycle_counters+$00).w
 		addq.w	#4,(Events_routine_fg).w
-		bra.s	loc_5ABC0
+		bra.s	+ ;loc_5ABC0
 ; ---------------------------------------------------------------------------
 
 loc_5ABBC:
 		jsr	sub_5AEEA(pc)
 
-loc_5ABC0:
++ ;loc_5ABC0:
 		move.l	a0,-(sp)
 		jsr	(Pal_ToBlack).l
 		movea.l	(sp)+,a0
@@ -18793,17 +18793,17 @@ loc_5ABC0:
 		clearRAM	Sprite_table_input,$400
 		clearRAM	Player_2,(Kos_decomp_buffer-Player_2)-2
 		cmpi.b	#7,(Super_emerald_count).w
-		bhs.s	loc_5AC04
+		bhs.s	+ ;loc_5AC04
 		move.w	#$24,(Events_routine_fg).w
 		bra.w	loc_5ADC0
 ; ---------------------------------------------------------------------------
 
-loc_5AC04:
++ ;loc_5AC04:
 		jsr	(AllocateObject).l
-		bne.s	loc_5AC12
+		bne.s	+ ;loc_5AC12
 		move.l	#Obj_5DFEE,(a1)
 
-loc_5AC12:
++ ;loc_5AC12:
 		movem.l	d7-a0/a2-a3,-(sp)
 		lea	(AIZ1_128x128_Kos).l,a1
 		lea	(RAM_start).l,a2
@@ -18841,9 +18841,9 @@ loc_5AC70:
 		lea	(Target_palette_line_2).w,a2
 		moveq	#bytesToLcnt($20),d6
 
-loc_5ACB8:
+- ;loc_5ACB8:
 		move.l	(a1)+,(a2)+
-		dbf	d6,loc_5ACB8
+		dbf	d6,- ;loc_5ACB8
 		jsr	(Adjust_AIZ1Chunks2).l
 		movem.l	(sp)+,d7-a0/a2-a3
 		move.w	#$1EB8,d0
@@ -18888,7 +18888,7 @@ loc_5AD30:
 
 loc_5AD56:
 		tst.w	(Events_fg_4).w
-		bne.s	loc_5AD72
+		bne.s	+ ;loc_5AD72
 		addi.l	#$1000,(Events_bg+$0A).w
 		move.l	a0,-(sp)
 		jsr	(AnPal_AIZ1).l
@@ -18896,7 +18896,7 @@ loc_5AD56:
 		bra.w	loc_5AEE4
 ; ---------------------------------------------------------------------------
 
-loc_5AD72:
++ ;loc_5AD72:
 		clr.w	(Events_fg_4).w
 		move.w	#$40-1,(Palette_fade_info).w
 		move.w	#$15,(Events_bg+$08).w
@@ -18915,10 +18915,10 @@ loc_5AD8E:
 
 loc_5ADC0:
 		jsr	(AllocateObject).l
-		bne.s	loc_5ADCE
+		bne.s	+ ;loc_5ADCE
 		move.l	#Obj_Ending,(a1)
 
-loc_5ADCE:
++ ;loc_5ADCE:
 		movem.l	d7-a0/a2-a3,-(sp)
 		lea	(SSZ2_128x128_Kos).l,a1
 		lea	(RAM_start).l,a2
@@ -18944,9 +18944,9 @@ loc_5AE0A:
 		lea	(Target_palette_line_2).w,a5
 		moveq	#bytesToLcnt($60),d0
 
-loc_5AE36:
+- ;loc_5AE36:
 		move.l	(a1)+,(a5)+
-		dbf	d0,loc_5AE36
+		dbf	d0,- ;loc_5AE36
 		jsr	sub_5B11C(pc)
 		movem.l	(sp)+,d7-a0/a2-a3
 		move.l	#$2000000,d0
@@ -19049,20 +19049,20 @@ Ending_BackgroundEvent:
 
 loc_5AF4E:
 		tst.w	(Events_fg_5).w
-		bne.s	loc_5AF5A
+		bne.s	+ ;loc_5AF5A
 		jsr	sub_5B092(pc)
 		bra.s	loc_5AF88
 ; ---------------------------------------------------------------------------
 
-loc_5AF5A:
++ ;loc_5AF5A:
 		clr.w	(Events_fg_5).w
 		lea	(Pal_Ending1).l,a1
 		lea	(Normal_palette_line_2).w,a5
 		moveq	#bytesToLcnt($60),d0
 
-loc_5AF6A:
+- ;loc_5AF6A:
 		move.l	(a1)+,(a5)+
-		dbf	d0,loc_5AF6A
+		dbf	d0,- ;loc_5AF6A
 		jsr	sub_5B116(pc)
 		move.w	#$220,d0
 		move.w	d0,(_unkEE9C).w
@@ -19080,18 +19080,18 @@ loc_5AF88:
 		jsr	(Draw_TileRow).l
 		lea	Ending_BGDeformArray1(pc),a4
 		tst.w	(Events_routine_bg).w
-		beq.s	loc_5AFAA
+		beq.s	+ ;loc_5AFAA
 		lea	Ending_BGDeformArray2(pc),a4
 
-loc_5AFAA:
++ ;loc_5AFAA:
 		lea	(HScroll_table+$004).w,a5
 		jsr	(ApplyDeformation).l
 		lea	sub_592EE(pc),a1
 		tst.w	(Events_routine_bg).w
-		beq.s	loc_5AFC2
+		beq.s	+ ;loc_5AFC2
 		lea	sub_5928C(pc),a1
 
-loc_5AFC2:
++ ;loc_5AFC2:
 		jmp	(a1)
 ; ---------------------------------------------------------------------------
 
@@ -19105,20 +19105,20 @@ loc_5AFC4:
 		move.w	d0,(Draw_delayed_position).w
 		move.w	#$F,(Draw_delayed_rowcount).w
 		addq.w	#4,(Events_routine_bg).w
-		bra.s	loc_5AFF6
+		bra.s	+ ;loc_5AFF6
 ; ---------------------------------------------------------------------------
 
 loc_5AFF0:
 		jsr	(AIZ1_Deform).l
 
-loc_5AFF6:
++ ;loc_5AFF6:
 		lea	(AIZ1_BGDrawArray).l,a4
 		lea	(HScroll_table-$04).w,a5
 		move.w	(Camera_Y_pos_BG_copy).w,d1
 		jsr	(Draw_PlaneVertBottomUpComplex).l
-		bpl.s	loc_5B020
+		bpl.s	+ ;loc_5B020
 		addq.w	#4,(Events_routine_bg).w
-		bra.s	loc_5B020
+		bra.s	+ ;loc_5B020
 ; ---------------------------------------------------------------------------
 
 loc_5B012:
@@ -19126,7 +19126,7 @@ loc_5B012:
 		move.w	(Events_bg+$0A).w,d0
 		sub.w	d0,(Camera_Y_pos_BG_copy).w
 
-loc_5B020:
++ ;loc_5B020:
 		lea	(AIZ1_BGDrawArray).l,a4
 		lea	(HScroll_table).w,a5
 		moveq	#$20,d6
@@ -19149,13 +19149,13 @@ loc_5B03A:
 		move.w	d0,(Draw_delayed_position).w
 		move.w	#$F,(Draw_delayed_rowcount).w
 		addq.w	#4,(Events_routine_bg).w
-		bra.s	loc_5B076
+		bra.s	+ ;loc_5B076
 ; ---------------------------------------------------------------------------
 
 loc_5B072:
 		jsr	sub_5B0A8(pc)
 
-loc_5B076:
++ ;loc_5B076:
 		move.w	#$200,d1
 		move.w	(Camera_Y_pos_BG_copy).w,d2
 		jsr	(Draw_PlaneVertBottomUp).l
@@ -19169,10 +19169,10 @@ loc_5B076:
 sub_5B092:
 		move.w	(_unkEE9C).w,d0
 		cmpi.w	#$120,d0
-		bls.s	loc_5B0A0
+		bls.s	+ ;loc_5B0A0
 		move.w	#$120,d0
 
-loc_5B0A0:
++ ;loc_5B0A0:
 		move.w	d0,(Camera_Y_pos_BG_copy).w
 		jmp	loc_58D44(pc)
 ; End of function sub_5B092
@@ -19194,7 +19194,7 @@ sub_5B0A8:
 		lea	$10(a1),a1
 		moveq	#$20-1,d2
 
-loc_5B0CC:
+- ;loc_5B0CC:
 		swap	d0
 		move.w	d0,(a1)+
 		move.w	d0,(a1)+
@@ -19202,7 +19202,7 @@ loc_5B0CC:
 		move.w	d0,(a1)+
 		swap	d0
 		add.l	d1,d0
-		dbf	d2,loc_5B0CC
+		dbf	d2,- ;loc_5B0CC
 		lea	(HScroll_table+$014).w,a1
 		move.w	(a1),d0
 		move.w	d0,-4(a1)
@@ -19226,7 +19226,7 @@ loc_5B0CC:
 
 sub_5B116:
 		lea	(Normal_palette_line_2).w,a6
-		bra.s	loc_5B120
+		bra.s	+ ;loc_5B120
 ; End of function sub_5B116
 
 
@@ -19236,22 +19236,22 @@ sub_5B116:
 sub_5B11C:
 		lea	(Target_palette_line_2).w,a6
 
-loc_5B120:
++ ;loc_5B120:
 		lea	(Target_palette_line_2).w,a5
 		lea	Pal_5B16E(pc),a1
 		moveq	#bytesToLcnt($20),d0
 
-loc_5B12A:
+- ;loc_5B12A:
 		move.l	(a1),(a5)+
 		move.l	(a1)+,(a6)+
-		dbf	d0,loc_5B12A
+		dbf	d0,- ;loc_5B12A
 		lea	(Pal_SSZ2+$20).l,a1
 		moveq	#bytesToLcnt($20),d0
 
-loc_5B13A:
+- ;loc_5B13A:
 		move.l	(a1),(a5)+
 		move.l	(a1)+,(a6)+
-		dbf	d0,loc_5B13A
+		dbf	d0,- ;loc_5B13A
 		rts
 ; End of function sub_5B11C
 

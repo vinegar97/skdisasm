@@ -24,26 +24,26 @@ Obj_AIZLRZEMZRock:
 		move.w	x_pos(a0),$2E(a0)
 		move.w	#$40,$42(a0)
 		cmpi.w	#1,(Current_zone_and_act).w
-		bne.s	loc_1D6B6
+		bne.s	+ ;loc_1D6B6
 		move.l	#Map_AIZRock2,mappings(a0)
 		move.w	#make_art_tile($2E9,2,0),art_tile(a0)
 
-loc_1D6B6:
++ ;loc_1D6B6:
 		cmpi.w	#$1200,(Current_zone_and_act).w
-		bne.s	loc_1D6D2
+		bne.s	+ ;loc_1D6D2
 		move.l	#Map_EMZRock,mappings(a0)
 		move.w	#make_art_tile($300,3,1),art_tile(a0)
 		move.b	#0,mapping_frame(a0)
 
-loc_1D6D2:
++ ;loc_1D6D2:
 		move.l	#loc_1D712,(a0)
 		btst	#2,subtype(a0)
-		beq.s	loc_1D6EA
+		beq.s	+ ;loc_1D6EA
 		move.l	#loc_1D8E0,(a0)
 		bra.w	loc_1D8E0
 ; ---------------------------------------------------------------------------
 
-loc_1D6EA:
++ ;loc_1D6EA:
 		move.w	respawn_addr(a0),d0
 		beq.s	loc_1D712
 		movea.w	d0,a2
@@ -73,36 +73,36 @@ loc_1D712:
 		move.w	x_pos(a0),d4
 		jsr	(SolidObjectFull).l
 		btst	#1,subtype(a0)
-		beq.s	loc_1D75A
+		beq.s	+ ;loc_1D75A
 		bsr.w	sub_1DAD2
 
-loc_1D75A:
++ ;loc_1D75A:
 		btst	#0,subtype(a0)
 		beq.s	loc_1D76C
 		move.b	status(a0),d0
 		andi.b	#standing_mask,d0
-		bne.s	loc_1D782
+		bne.s	++ ;loc_1D782
 
 loc_1D76C:
 		tst.w	(Competition_mode).w
-		bne.s	loc_1D77C
+		bne.s	+ ;loc_1D77C
 		move.w	$2E(a0),d0
 		jmp	(Sprite_OnScreen_Test2).l
 ; ---------------------------------------------------------------------------
 
-loc_1D77C:
++ ;loc_1D77C:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_1D782:
++ ;loc_1D782:
 		cmpi.b	#$18,d0
-		bne.s	loc_1D7B0
+		bne.s	++ ;loc_1D7B0
 		cmpi.b	#2,$32(a0)
-		beq.s	loc_1D798
+		beq.s	+ ;loc_1D798
 		cmpi.b	#2,$33(a0)
 		bne.s	loc_1D76C
 
-loc_1D798:
++ ;loc_1D798:
 		lea	(Player_1).w,a1
 		move.b	$32(a0),d0
 		bsr.s	sub_1D7C8
@@ -112,7 +112,7 @@ loc_1D798:
 		bra.w	loc_1D818
 ; ---------------------------------------------------------------------------
 
-loc_1D7B0:
++ ;loc_1D7B0:
 		move.b	d0,d1
 		andi.b	#8,d1
 		beq.s	loc_1D800
@@ -127,7 +127,7 @@ loc_1D7B0:
 
 sub_1D7C8:
 		cmpi.b	#2,d0
-		bne.s	loc_1D7EC
+		bne.s	+ ;loc_1D7EC
 ; End of function sub_1D7C8
 
 
@@ -141,7 +141,7 @@ sub_1D7CE:
 		move.b	#2,anim(a1)
 		move.w	#-$300,y_vel(a1)
 
-loc_1D7EC:
++ ;loc_1D7EC:
 		bset	#Status_InAir,status(a1)
 		bclr	#Status_OnObj,status(a1)
 		move.b	#2,routine(a1)
@@ -168,18 +168,18 @@ loc_1D818:
 
 loc_1D836:
 		subq.b	#1,anim_frame_timer(a0)
-		bpl.s	loc_1D854
+		bpl.s	++ ;loc_1D854
 		move.b	#2,anim_frame_timer(a0)
 		move.b	mapping_frame(a0),d0
 		addq.b	#1,d0
 		cmpi.b	#7,d0
-		blo.s	loc_1D850
+		blo.s	+ ;loc_1D850
 		moveq	#3,d0
 
-loc_1D850:
++ ;loc_1D850:
 		move.b	d0,mapping_frame(a0)
 
-loc_1D854:
++ ;loc_1D854:
 		jsr	(MoveSprite2).l
 		addi.w	#$18,y_vel(a0)
 		tst.b	render_flags(a0)
@@ -229,11 +229,11 @@ locret_1D8C8:
 
 loc_1D8CA:
 		tst.b	render_flags(a0)
-		bmi.s	loc_1D8DA
+		bmi.s	+ ;loc_1D8DA
 		move.l	$44(a0),(a0)
 		move.b	#0,mapping_frame(a0)
 
-loc_1D8DA:
++ ;loc_1D8DA:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -251,50 +251,50 @@ loc_1D8E0:
 		bsr.w	SolidObjectFull
 		swap	d6
 		andi.w	#3,d6
-		bne.s	loc_1D926
+		bne.s	++ ;loc_1D926
 
 loc_1D910:
 		tst.w	(Competition_mode).w
-		bne.s	loc_1D920
+		bne.s	+ ;loc_1D920
 		move.w	$2E(a0),d0
 		jmp	(Sprite_OnScreen_Test2).l
 ; ---------------------------------------------------------------------------
 
-loc_1D920:
++ ;loc_1D920:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_1D926:
++ ;loc_1D926:
 		lea	(Player_1).w,a1
 		move.w	$30(a0),d1
 		move.w	d6,d0
 		andi.w	#1,d0
 		beq.w	loc_1D9BE
 		tst.b	subtype(a0)
-		bpl.s	loc_1D948
+		bpl.s	+ ;loc_1D948
 		cmpi.b	#2,character_id(a1)
 		beq.s	loc_1D97A
 		bra.s	loc_1D9BE
 ; ---------------------------------------------------------------------------
 
-loc_1D948:
++ ;loc_1D948:
 		tst.b	(Super_Sonic_Knux_flag).w
 		bne.s	loc_1D97A
 		btst	#Status_FireShield,status_secondary(a1)
-		bne.s	loc_1D966
+		bne.s	+ ;loc_1D966
 		cmpi.b	#2,character_id(a1)
 		beq.s	loc_1D97A
 		btst	#p1_pushing_bit,status(a0)
 		beq.s	loc_1D9BE
 
-loc_1D966:
++ ;loc_1D966:
 		cmpi.b	#2,anim(a1)
 		bne.s	loc_1D9BE
 		move.w	d1,d0
-		bpl.s	loc_1D974
+		bpl.s	+ ;loc_1D974
 		neg.w	d0
 
-loc_1D974:
++ ;loc_1D974:
 		cmpi.w	#$480,d0
 		blo.s	loc_1D9BE
 
@@ -305,11 +305,11 @@ loc_1D97A:
 		beq.s	loc_1D910
 		lea	(Player_2).w,a1
 		cmpi.b	#2,character_id(a1)
-		beq.s	loc_1D9A2
+		beq.s	+ ;loc_1D9A2
 		cmpi.b	#2,anim(a1)
 		bne.w	loc_1D910
 
-loc_1D9A2:
++ ;loc_1D9A2:
 		move.w	$36(a0),x_vel(a1)
 		move.w	x_vel(a1),ground_vel(a1)
 		bclr	#p2_pushing_bit,status(a0)
@@ -323,26 +323,26 @@ loc_1D9BE:
 		btst	#p2_pushing_bit,status(a0)
 		beq.w	loc_1D910
 		tst.b	subtype(a0)
-		bpl.s	loc_1D9E2
+		bpl.s	+ ;loc_1D9E2
 		cmpi.b	#2,character_id(a1)
-		beq.s	loc_1DA02
+		beq.s	+++ ;loc_1DA02
 		bra.w	loc_1D910
 ; ---------------------------------------------------------------------------
 
-loc_1D9E2:
++ ;loc_1D9E2:
 		cmpi.b	#2,character_id(a1)
-		beq.s	loc_1DA02
+		beq.s	++ ;loc_1DA02
 		cmpi.b	#2,anim(a1)
 		bne.w	loc_1D910
 		move.w	d1,d0
-		bpl.s	loc_1D9FA
+		bpl.s	+ ;loc_1D9FA
 		neg.w	d0
 
-loc_1D9FA:
++ ;loc_1D9FA:
 		cmpi.w	#$480,d0
 		blo.w	loc_1D910
 
-loc_1DA02:
++ ;loc_1DA02:
 		bclr	#p2_pushing_bit,status(a0)
 
 ; =============== S U B R O U T I N E =======================================
@@ -357,11 +357,11 @@ sub_1DA08:
 		lea	(word_1DC30).l,a4
 		move.w	x_pos(a0),d0
 		cmp.w	x_pos(a1),d0
-		blo.s	loc_1DA36
+		blo.s	+ ;loc_1DA36
 		subi.w	#8,x_pos(a1)
 		lea	(word_1DC50).l,a4
 
-loc_1DA36:
++ ;loc_1DA36:
 		move.w	x_vel(a1),ground_vel(a1)
 		bclr	#Status_Push,status(a1)
 		move.l	#loc_1D836,(a0)
@@ -378,11 +378,11 @@ loc_1DA58:
 		lea	(word_1DCAC).l,a4
 		move.w	x_pos(a0),d0
 		cmp.w	x_pos(a1),d0
-		blo.s	loc_1DA7C
+		blo.s	+ ;loc_1DA7C
 		subi.w	#8,x_pos(a1)
 		lea	(word_1DCC4).l,a4
 
-loc_1DA7C:
++ ;loc_1DA7C:
 		move.w	x_vel(a1),ground_vel(a1)
 		bclr	#Status_Push,status(a1)
 		bsr.w	sub_1D8A0
@@ -401,11 +401,11 @@ loc_1DA7C:
 
 sub_1DAA8:
 		bclr	#p1_standing_bit,status(a0)
-		beq.s	loc_1DABC
+		beq.s	+ ;loc_1DABC
 		bset	#Status_InAir,(Player_1+status).w
 		bclr	#Status_OnObj,(Player_1+status).w
 
-loc_1DABC:
++ ;loc_1DABC:
 		bclr	#p2_standing_bit,status(a0)
 		beq.s	locret_1DAD0
 		bset	#Status_InAir,(Player_2+status).w
@@ -427,11 +427,11 @@ sub_1DAD2:
 		lea	(Player_1).w,a1
 		move.b	$3A(a0),d0
 		moveq	#p1_pushing_bit,d6
-		bsr.s	sub_1DAFC
+		bsr.s	+ ;sub_1DAFC
 		lea	(Player_2).w,a1
 		move.b	$3B(a0),d0
 		moveq	#p2_pushing_bit,d6
-		bsr.s	sub_1DAFC
+		bsr.s	+ ;sub_1DAFC
 
 locret_1DAFA:
 		rts
@@ -441,7 +441,7 @@ locret_1DAFA:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_1DAFC:
++ ;sub_1DAFC:
 		btst	d6,d3
 		beq.s	locret_1DB4C
 		cmp.w	x_pos(a1),d2
@@ -497,14 +497,14 @@ sub_1DB60:
 		move.w	y_pos(a0),d3
 		move.w	#3,d6
 		movea.l	a0,a1
-		bra.s	loc_1DB88
+		bra.s	+ ;loc_1DB88
 ; ---------------------------------------------------------------------------
 
-loc_1DB82:
+- ;loc_1DB82:
 		bsr.w	AllocateObjectAfterCurrent
-		bne.s	loc_1DBE2
+		bne.s	+++ ;loc_1DBE2
 
-loc_1DB88:
++ ;loc_1DB88:
 		move.l	d4,(a1)
 		move.l	mappings(a0),mappings(a1)
 		move.b	d5,render_flags(a1)
@@ -526,13 +526,13 @@ loc_1DB88:
 		move.b	d6,mapping_frame(a1)
 		addq.b	#1,d6
 		cmpi.b	#7,d6
-		blo.s	loc_1DBDE
+		blo.s	+ ;loc_1DBDE
 		move.w	#3,d6
 
-loc_1DBDE:
-		dbf	d1,loc_1DB82
++ ;loc_1DBDE:
+		dbf	d1,- ;loc_1DB82
 
-loc_1DBE2:
++ ;loc_1DBE2:
 		moveq	#signextendB(sfx_Collapse),d0
 		jmp	(Play_SFX).l
 ; End of function sub_1DB60

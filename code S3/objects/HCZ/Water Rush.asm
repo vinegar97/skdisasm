@@ -8,7 +8,7 @@ Obj_HCZWaterRush:
 		move.b	#$20,height_pixels(a0)
 		move.b	#2,mapping_frame(a0)
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_2E53E
+		bne.w	+ ;loc_2E53E
 		move.l	#loc_2E5C8,(a1)
 		move.w	x_pos(a0),x_pos(a1)
 		move.w	y_pos(a0),y_pos(a1)
@@ -22,62 +22,62 @@ Obj_HCZWaterRush:
 		move.b	#1,mapping_frame(a1)
 		move.w	a1,$3C(a0)
 
-loc_2E53E:
++ ;loc_2E53E:
 		move.b	#3,(_unkF7C7).w
 		move.l	#loc_2E54A,(a0)
 
 loc_2E54A:
 		tst.b	(Level_trigger_array).w
-		beq.s	loc_2E56E
+		beq.s	+ ;loc_2E56E
 		move.b	#3,mapping_frame(a0)
 		move.b	#1,anim_frame_timer(a0)
 		move.l	#loc_2E574,(a0)
 		move.b	#0,(_unkF7C7).w
 		move.b	#1,(Palette_cycle_counters+$00).w
 
-loc_2E56E:
++ ;loc_2E56E:
 		jmp	(Sprite_OnScreen_Test).l
 ; ---------------------------------------------------------------------------
 
 loc_2E574:
 		subq.b	#1,anim_frame_timer(a0)
-		bpl.s	loc_2E5B4
+		bpl.s	++ ;loc_2E5B4
 		move.b	#1,anim_frame_timer(a0)
 		addq.b	#1,mapping_frame(a0)
 		cmpi.b	#2,mapping_frame(a0)
-		bne.s	loc_2E5AE
+		bne.s	+ ;loc_2E5AE
 		addi.w	#$20,x_pos(a0)
 		cmpi.w	#$580,x_pos(a0)
-		bne.s	loc_2E5AE
+		bne.s	+ ;loc_2E5AE
 		cmpi.w	#$5A0,y_pos(a0)
-		bne.s	loc_2E5AE
+		bne.s	+ ;loc_2E5AE
 		subi.w	#$20,x_pos(a0)
 		subi.w	#$20,y_pos(a0)
 
-loc_2E5AE:
++ ;loc_2E5AE:
 		andi.b	#1,mapping_frame(a0)
 
-loc_2E5B4:
++ ;loc_2E5B4:
 		cmpi.w	#$980,x_pos(a0)
-		blo.s	loc_2E5C2
+		blo.s	+ ;loc_2E5C2
 		move.w	#$7F00,x_pos(a0)
 
-loc_2E5C2:
++ ;loc_2E5C2:
 		jmp	(Sprite_OnScreen_Test).l
 ; ---------------------------------------------------------------------------
 
 loc_2E5C8:
 		tst.b	(Level_trigger_array).w
-		beq.s	loc_2E5E8
+		beq.s	+ ;loc_2E5E8
 		move.l	#loc_2E5D4,(a0)
 
 loc_2E5D4:
 		subi.w	#$10,y_pos(a0)
 		cmpi.w	#$560,y_pos(a0)
-		bne.s	loc_2E5E8
+		bne.s	+ ;loc_2E5E8
 		move.w	#$7F00,x_pos(a0)
 
-loc_2E5E8:
++ ;loc_2E5E8:
 		moveq	#0,d1
 		move.b	width_pixels(a0),d1
 		addi.w	#$B,d1

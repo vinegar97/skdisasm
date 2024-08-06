@@ -56,9 +56,9 @@ loc_72480:
 		lea	(_unkFA82).w,a2
 		moveq	#6-1,d6
 
-loc_72498:
+- ;loc_72498:
 		move.b	(a1)+,(a2)+
-		dbf	d6,loc_72498
+		dbf	d6,- ;loc_72498
 		move.l	#_unkFA82,$30(a0)
 		move.b	#$10,anim_frame_timer(a0)
 		move.l	#loc_724C8,$34(a0)
@@ -89,44 +89,44 @@ loc_724E2:
 		moveq	#0,d1
 		move.w	x_pos(a0),d2
 		cmpi.b	#2,(Player_1+character_id).w
-		bne.s	loc_72502
+		bne.s	++ ;loc_72502
 		moveq	#$20,d4
 		tst.b	subtype(a0)
-		beq.s	loc_72500
+		beq.s	+ ;loc_72500
 		neg.w	d4
 
-loc_72500:
++ ;loc_72500:
 		add.w	d4,d2
 
-loc_72502:
++ ;loc_72502:
 		sub.w	x_pos(a1),d2
-		bpl.s	loc_7250C
+		bpl.s	+ ;loc_7250C
 		neg.w	d2
 		addq.w	#2,d0
 
-loc_7250C:
++ ;loc_7250C:
 		moveq	#0,d1
 		move.w	y_pos(a0),d3
 		move.w	y_pos(a1),d4
 		subi.w	#$38,d4
 		sub.w	d4,d3
-		bpl.s	loc_72522
+		bpl.s	+ ;loc_72522
 		neg.w	d3
 		addq.w	#2,d1
 
-loc_72522:
++ ;loc_72522:
 		move.w	word_72554(pc,d0.w),x_vel(a0)
 		move.w	word_72554(pc,d1.w),y_vel(a0)
 		cmpi.w	#4,d2
-		bhi.s	loc_72538
+		bhi.s	+ ;loc_72538
 		clr.w	x_vel(a0)
 
-loc_72538:
++ ;loc_72538:
 		cmpi.w	#4,d3
-		bhi.s	loc_72542
+		bhi.s	+ ;loc_72542
 		clr.w	y_vel(a0)
 
-loc_72542:
++ ;loc_72542:
 		jsr	(MoveSprite2).l
 		jsr	(Animate_Raw).l
 		jmp	(loc_72840).l
@@ -142,17 +142,17 @@ loc_72558:
 
 loc_72562:
 		cmpi.b	#2,(Player_1+character_id).w
-		beq.s	loc_72584
+		beq.s	++ ;loc_72584
 		jsr	(AllocateObject).l
-		bne.s	loc_72578
+		bne.s	+ ;loc_72578
 		move.l	#Obj_Song_Fade_ToLevelMusic,(a1)
 
-loc_72578:
++ ;loc_72578:
 		move.w	$3C(a0),x_pos(a0)
 		jmp	(Obj_EndSignControl).l
 ; ---------------------------------------------------------------------------
 
-loc_72584:
++ ;loc_72584:
 		movea.w	parent3(a0),a1
 		move.b	subtype(a0),d0
 		bset	d0,$38(a1)
@@ -183,11 +183,11 @@ loc_725B6:
 loc_725CA:
 		movea.w	parent3(a0),a1
 		btst	#1,$38(a1)
-		bne.s	loc_725D8
+		bne.s	+ ;loc_725D8
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_725D8:
++ ;loc_725D8:
 		move.b	#4,routine(a0)
 		move.l	#byte_72988,$30(a0)
 		rts
@@ -206,11 +206,11 @@ loc_725F4:
 		move.w	off_72610(pc,d0.w),d1
 		jsr	off_72610(pc,d1.w)
 		tst.b	subtype(a0)
-		bne.s	loc_7260C
+		bne.s	+ ;loc_7260C
 		jmp	loc_728C8(pc)
 ; ---------------------------------------------------------------------------
 
-loc_7260C:
++ ;loc_7260C:
 		jmp	loc_72902(pc)
 ; ---------------------------------------------------------------------------
 off_72610:
@@ -230,20 +230,20 @@ loc_7261C:
 		move.b	#4,$3D(a0)
 		move.w	#5,$3E(a0)
 		cmpi.b	#$A,subtype(a0)
-		bne.s	loc_72654
+		bne.s	+ ;loc_72654
 		move.w	#4,$3E(a0)
 		bset	#1,$38(a0)
 
-loc_72654:
++ ;loc_72654:
 		bra.w	loc_727B0
 ; ---------------------------------------------------------------------------
 
 loc_72658:
 		tst.b	subtype(a0)
-		bne.s	loc_72664
+		bne.s	+ ;loc_72664
 		jsr	(Refresh_ChildPositionAdjusted).l
 
-loc_72664:
++ ;loc_72664:
 		move.w	$3E(a0),d2
 		jsr	(MoveSprite_CircularSimple).l
 		jmp	(Obj_Wait).l
@@ -258,7 +258,7 @@ loc_72674:
 
 loc_72688:
 		btst	#1,$38(a0)
-		beq.s	loc_726A8
+		beq.s	+ ;loc_726A8
 		move.b	$3D(a0),d0
 		add.b	d0,$3C(a0)
 		move.w	$3E(a0),d2
@@ -266,7 +266,7 @@ loc_72688:
 		jmp	(Obj_Wait).l
 ; ---------------------------------------------------------------------------
 
-loc_726A8:
++ ;loc_726A8:
 		move.w	$3E(a0),d2
 		jmp	(MoveSprite_CircularSimple).l
 ; ---------------------------------------------------------------------------
@@ -275,7 +275,7 @@ loc_726B2:
 		bsr.w	sub_72826
 		move.l	#loc_72726,$34(a0)
 		tst.b	subtype(a0)
-		beq.s	loc_726DC
+		beq.s	+ ;loc_726DC
 		move.b	#6,routine(a0)
 		movea.w	parent3(a0),a1
 		bset	#1,$38(a1)
@@ -283,7 +283,7 @@ loc_726B2:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_726DC:
++ ;loc_726DC:
 		move.b	#8,routine(a0)
 		rts
 ; ---------------------------------------------------------------------------
@@ -295,11 +295,11 @@ loc_726E4:
 		jsr	(MoveSprite_CircularSimple).l
 		movea.w	parent3(a0),a1
 		btst	#1,$38(a1)
-		beq.s	loc_72706
+		beq.s	+ ;loc_72706
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_72706:
++ ;loc_72706:
 		move.b	#8,routine(a0)
 		rts
 ; ---------------------------------------------------------------------------
@@ -317,27 +317,27 @@ loc_72726:
 		neg.b	$3D(a0)
 		bsr.w	loc_72674
 		cmpi.b	#$A,subtype(a0)
-		bne.s	loc_72756
+		bne.s	+ ;loc_72756
 		move.b	#$A,routine(a0)
 		move.w	#$3C,$2E(a0)
 		move.l	#loc_72674,$34(a0)
 		bset	#1,$38(a0)
 
-loc_72756:
++ ;loc_72756:
 		moveq	#0,d0
 		move.b	subtype(a0),d0
 		lsr.w	#1,d0
 		moveq	#0,d1
 		btst	#2,$38(a0)
-		beq.s	loc_7276A
+		beq.s	+ ;loc_7276A
 		addq.w	#8,d1
 
-loc_7276A:
++ ;loc_7276A:
 		tst.b	$3D(a0)
-		bpl.s	loc_72772
+		bpl.s	+ ;loc_72772
 		addq.w	#4,d1
 
-loc_72772:
++ ;loc_72772:
 		movea.l	off_7277E(pc,d1.w),a1
 		move.b	(a1,d0.w),$3C(a0)
 		rts
@@ -369,10 +369,10 @@ loc_727B0:
 		move.b	byte_727EE(pc,d0.w),mapping_frame(a0)
 		move.b	byte_727F4(pc,d0.w),$3C(a0)
 		btst	#2,$38(a0)
-		beq.s	loc_727D8
+		beq.s	+ ;loc_727D8
 		move.b	byte_72800(pc,d0.w),$3C(a0)
 
-loc_727D8:
++ ;loc_727D8:
 		move.w	$3E(a0),d2
 		jmp	(MoveSprite_CircularSimple).l
 ; ---------------------------------------------------------------------------
@@ -433,21 +433,21 @@ loc_72840:
 		tst.b	collision_flags(a0)
 		bne.s	locret_72898
 		tst.b	collision_property(a0)
-		beq.s	loc_7289A
+		beq.s	+++ ;loc_7289A
 		cmpi.b	#3,collision_property(a0)
-		bne.s	loc_7285A
+		bne.s	+ ;loc_7285A
 		bset	#0,$38(a0)
 
-loc_7285A:
++ ;loc_7285A:
 		tst.b	$20(a0)
-		bne.s	loc_7287A
+		bne.s	+ ;loc_7287A
 		move.b	routine(a0),$3A(a0)
 		move.b	#$A,routine(a0)
 		move.b	#$20,$20(a0)
 		moveq	#signextendB(sfx_BossHit),d0
 		jsr	(Play_SFX).l
 
-loc_7287A:
++ ;loc_7287A:
 		jsr	(BossFlash).l
 		subq.b	#1,$20(a0)
 		bne.s	locret_72898
@@ -459,17 +459,17 @@ locret_72898:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_7289A:
++ ;loc_7289A:
 		move.l	#Wait_NewDelay,(a0)
 		move.l	#loc_72562,$34(a0)
 		lea	(Child6_CreateBossExplosion).l,a2
 		jsr	(CreateChild1_Normal).l
 		cmpi.w	#3,(Player_mode).w
-		beq.s	loc_728C2
+		beq.s	+ ;loc_728C2
 		jmp	(BossDefeated_StopTimer).l
 ; ---------------------------------------------------------------------------
 
-loc_728C2:
++ ;loc_728C2:
 		jmp	(BossDefeated).l
 ; ---------------------------------------------------------------------------
 
@@ -478,21 +478,21 @@ loc_728C8:
 		btst	#7,status(a1)
 		bne.s	loc_728EA
 		btst	#0,$38(a1)
-		beq.s	loc_728E4
+		beq.s	+ ;loc_728E4
 		btst	#2,$38(a0)
 		bne.s	loc_728EA
 
-loc_728E4:
++ ;loc_728E4:
 		jmp	(Draw_And_Touch_Sprite).l
 ; ---------------------------------------------------------------------------
 
 loc_728EA:
 		move.w	$44(a0),d0
-		beq.s	loc_728F8
+		beq.s	+ ;loc_728F8
 		movea.w	d0,a1
 		bset	#7,status(a1)
 
-loc_728F8:
++ ;loc_728F8:
 		bsr.w	sub_72910
 		jmp	(Draw_And_Touch_Sprite).l
 ; ---------------------------------------------------------------------------

@@ -39,11 +39,11 @@ loc_86DC6:
 		jsr	Animate_RawMultiDelay(pc)
 		beq.s	locret_86DA0
 		cmpi.b	#6,d0
-		beq.s	loc_86DD8
+		beq.s	+ ;loc_86DD8
 		cmpi.b	#$E,d0
 		bne.s	locret_86DA0
 
-loc_86DD8:
++ ;loc_86DD8:
 		moveq	#signextendB(sfx_Projectile),d0
 		jsr	(Play_SFX).l
 		lea	ChildObjDat_86E2A(pc),a2

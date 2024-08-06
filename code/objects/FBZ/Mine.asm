@@ -43,12 +43,12 @@ loc_3C9BC:
 		addq.b	#1,mapping_frame(a0)
 		andi.b	#1,mapping_frame(a0)
 		subq.w	#1,$30(a0)
-		bpl.s	loc_3C9DE
+		bpl.s	+ ;loc_3C9DE
 		move.l	#loc_3C9E4,(a0)
 		move.b	#$8B,collision_flags(a0)
 		jsr	(Add_SpriteToCollisionResponseList).l
 
-loc_3C9DE:
++ ;loc_3C9DE:
 		jmp	(Sprite_OnScreen_Test).l
 ; ---------------------------------------------------------------------------
 

@@ -28,7 +28,7 @@ CreateChild1_Normal:
 		moveq	#0,d2				; Includes positional offset data
 		move.w	(a2)+,d6
 
-.loop:
+- ;.loop:
 		jsr	(AllocateObjectAfterCurrent).l
 		bne.s	.end
 		move.w	a0,parent3(a1)			; Parent RAM address into $46
@@ -49,7 +49,7 @@ CreateChild1_Normal:
 		add.w	d1,d0
 		move.w	d0,y_pos(a1)			; Apply offset
 		addq.w	#2,d2				; Add 2 to index
-		dbf	d6,.loop			; Loop
+		dbf	d6,- ;.loop			; Loop
 		moveq	#0,d0
 
 .end:
@@ -64,7 +64,7 @@ CreateChild2_Complex:
 		moveq	#0,d2				; Includes positional offset data, velocity, and a few pointers
 		move.w	(a2)+,d6
 
-.loop:
+- ;.loop:
 		jsr	(AllocateObjectAfterCurrent).l
 		bne.s	.end
 		move.w	a0,parent3(a1)			; Parent RAM address into $46
@@ -90,7 +90,7 @@ CreateChild2_Complex:
 		move.w	(a2)+,x_vel(a1)			; X velocity
 		move.w	(a2)+,y_vel(a1)			; Y velocity
 		addq.w	#2,d2
-		dbf	d6,.loop
+		dbf	d6,- ;.loop
 		moveq	#0,d0
 
 .end:
@@ -105,7 +105,7 @@ CreateChild3_NormalRepeated:
 		moveq	#0,d2			; Same as Child creation routine 1, except it repeats one object several times rather than different objects sequentially
 		move.w	(a2)+,d6
 
-.loop:
+- ;.loop:
 		movea.l	a2,a3
 		jsr	(AllocateObjectAfterCurrent).l
 		bne.s	.end
@@ -127,7 +127,7 @@ CreateChild3_NormalRepeated:
 		add.w	d1,d0
 		move.w	d0,y_pos(a1)
 		addq.w	#2,d2
-		dbf	d6,.loop
+		dbf	d6,- ;.loop
 		moveq	#0,d0
 
 .end:
@@ -143,7 +143,7 @@ CreateChild4_LinkListRepeated:
 		moveq	#0,d2
 		move.w	(a2)+,d6
 
-.loop:
+- ;.loop:
 		jsr	(AllocateObjectAfterCurrent).l
 		bne.s	.end
 		move.w	a3,parent3(a1)
@@ -156,7 +156,7 @@ CreateChild4_LinkListRepeated:
 		move.w	x_pos(a0),x_pos(a1)
 		move.w	y_pos(a0),y_pos(a1)
 		addq.w	#2,d2
-		dbf	d6,.loop
+		dbf	d6,- ;.loop
 		moveq	#0,d0
 
 .end:
@@ -171,7 +171,7 @@ CreateChild5_ComplexAdjusted:
 		moveq	#0,d2				; Same as child routine 2, but adjusts both X position and X velocity based on parent object's orientation
 		move.w	(a2)+,d6
 
-.loop:
+- ;.loop:
 		jsr	(AllocateObjectAfterCurrent).l
 		bne.s	.end
 		move.w	a0,parent3(a1)
@@ -208,7 +208,7 @@ CreateChild5_ComplexAdjusted:
 		move.w	d1,x_vel(a1)
 		move.w	(a2)+,y_vel(a1)
 		addq.w	#2,d2
-		dbf	d6,.loop
+		dbf	d6,- ;.loop
 		moveq	#0,d0
 
 .end:
@@ -223,7 +223,7 @@ CreateChild6_Simple:
 		moveq	#0,d2				; Simple child creation routine, merely creates x number of the same object at the parent's position
 		move.w	(a2)+,d6
 
-.loop:
+- ;.loop:
 		jsr	(AllocateObjectAfterCurrent).l
 		bne.s	.end
 		move.w	a0,parent3(a1)
@@ -234,7 +234,7 @@ CreateChild6_Simple:
 		move.w	x_pos(a0),x_pos(a1)
 		move.w	y_pos(a0),y_pos(a1)
 		addq.w	#2,d2
-		dbf	d6,.loop
+		dbf	d6,- ;.loop
 		moveq	#0,d0
 
 .end:
@@ -249,7 +249,7 @@ CreateChild7_Normal2:
 		moveq	#0,d2				; Same as child routine 1, but does not limit children to object slots after the parent
 		move.w	(a2)+,d6
 
-.loop:
+- ;.loop:
 		jsr	(AllocateObject).l
 		bne.s	.end
 		move.w	a0,parent3(a1)
@@ -270,7 +270,7 @@ CreateChild7_Normal2:
 		add.w	d1,d0
 		move.w	d0,y_pos(a1)
 		addq.w	#2,d2
-		dbf	d6,.loop
+		dbf	d6,- ;.loop
 		moveq	#0,d0
 
 .end:
@@ -286,7 +286,7 @@ CreateChild8_TreeListRepeated:
 		moveq	#0,d2
 		move.w	(a2)+,d6
 
-.loop:
+- ;.loop:
 		jsr	(AllocateObjectAfterCurrent).l
 		bne.s	.end
 		move.w	a3,parent3(a1)
@@ -299,7 +299,7 @@ CreateChild8_TreeListRepeated:
 		move.w	x_pos(a0),x_pos(a1)
 		move.w	y_pos(a0),y_pos(a1)
 		addq.w	#2,d2
-		dbf	d6,.loop
+		dbf	d6,- ;.loop
 		moveq	#0,d0
 
 .end:
@@ -315,7 +315,7 @@ CreateChild9_TreeList:
 		moveq	#0,d2
 		move.w	(a2)+,d6
 
-.loop:
+- ;.loop:
 		jsr	(AllocateObjectAfterCurrent).l
 		bne.s	.end
 		move.w	a3,parent3(a1)
@@ -328,7 +328,7 @@ CreateChild9_TreeList:
 		move.w	x_pos(a0),x_pos(a1)
 		move.w	y_pos(a0),y_pos(a1)
 		addq.w	#2,d2
-		dbf	d6,.loop
+		dbf	d6,- ;.loop
 		moveq	#0,d0
 
 .end:
@@ -343,7 +343,7 @@ CreateChild10_NormalAdjusted:
 		moveq	#0,d2				; Same as child routine 1, but adjusts X position based on parent object's orientation
 		move.w	(a2)+,d6
 
-.loop:
+- ;.loop:
 		jsr	(AllocateObjectAfterCurrent).l
 		bne.s	.end
 		move.w	a0,parent3(a1)
@@ -370,7 +370,7 @@ CreateChild10_NormalAdjusted:
 		add.w	d1,d0
 		move.w	d0,y_pos(a1)
 		addq.w	#2,d2
-		dbf	d6,.loop
+		dbf	d6,- ;.loop
 		moveq	#0,d0
 
 .end:
@@ -407,11 +407,11 @@ Refresh_ChildPositionAdjusted:
 		ext.w	d1
 		bclr	#0,render_flags(a0)
 		btst	#0,render_flags(a1)
-		beq.s	loc_843D2
+		beq.s	+ ;loc_843D2
 		neg.w	d1
 		bset	#0,render_flags(a0)
 
-loc_843D2:
++ ;loc_843D2:
 		add.w	d1,d0
 		move.w	d0,x_pos(a0)
 		move.w	y_pos(a1),d0
@@ -419,11 +419,11 @@ loc_843D2:
 		ext.w	d1
 		bclr	#1,render_flags(a0)
 		btst	#1,render_flags(a1)
-		beq.s	loc_843F8
+		beq.s	+ ;loc_843F8
 		neg.w	d1
 		bset	#1,render_flags(a0)
 
-loc_843F8:
++ ;loc_843F8:
 		add.w	d1,d0
 		move.w	d0,y_pos(a0)
 		rts
@@ -460,12 +460,12 @@ locret_84426:
 
 loc_84428:
 		neg.b	d1
-		jsr	off_84434-4(pc,d1.w)
+		jsr	.off_84434-4(pc,d1.w)
 		clr.b	anim_frame(a0)
 		rts
 ; End of function Animate_RawNoSST
 
-off_84434:
+.off_84434:
 		bra.w	AnimateRaw_Restart		;FC
 ; ---------------------------------------------------------------------------
 		bra.w	AnimateRaw_Jump			;F8
@@ -512,10 +512,10 @@ Animate_RawNoSSTAdjustFlipX:
 		move.b	1(a1,d0.w),d1
 		bmi.s	loc_84428
 		bclr	#6,d1
-		beq.s	loc_8448E
+		beq.s	+ ;loc_8448E
 		bchg	#0,render_flags(a0)
 
-loc_8448E:
++ ;loc_8448E:
 		move.b	(a1),anim_frame_timer(a0)
 		move.b	d1,mapping_frame(a0)
 
@@ -546,10 +546,10 @@ Animate_RawNoSSTAdjustFlipY:
 		move.b	1(a1,d0.w),d1
 		bmi.w	loc_84428
 		bclr	#6,d1
-		beq.s	loc_844C4
+		beq.s	+ ;loc_844C4
 		bchg	#1,render_flags(a0)
 
-loc_844C4:
++ ;loc_844C4:
 		move.b	(a1),anim_frame_timer(a0)
 		move.b	d1,mapping_frame(a0)
 
@@ -562,25 +562,25 @@ locret_844CC:
 
 Animate_ExternalPlayerSprite:
 		subq.b	#1,anim_frame_timer(a1)
-		bpl.s	loc_84500
+		bpl.s	+ ;loc_84500
 		move.b	(a2),anim_frame_timer(a1)
 		moveq	#0,d0
 		move.b	anim_frame(a1),d0
 		addq.b	#2,d0
 		move.b	d0,anim_frame(a1)
 		move.b	1(a2,d0.w),d1
-		beq.s	loc_84504
+		beq.s	++ ;loc_84504
 		move.b	d1,mapping_frame(a1)
 		bclr	#0,render_flags(a1)
 		tst.b	2(a2,d0.w)
-		beq.s	loc_84500
+		beq.s	+ ;loc_84500
 		bset	#0,render_flags(a1)
 
-loc_84500:
++ ;loc_84500:
 		jmp	Player_Load_PLC2(pc)
 ; ---------------------------------------------------------------------------
 
-loc_84504:
++ ;loc_84504:
 		jsr	Player_Load_PLC2(pc)
 		movea.l	$34(a0),a1
 		jmp	(a1)
@@ -600,7 +600,7 @@ Animate_RawCheckResult:
 
 Animate_RawNoSSTCheckResult:
 		subq.b	#1,anim_frame_timer(a0)
-		bpl.s	loc_8453E
+		bpl.s	+ ;loc_8453E
 		moveq	#0,d0
 		move.b	anim_frame(a0),d0
 		addq.w	#1,d0
@@ -609,28 +609,28 @@ Animate_RawNoSSTCheckResult:
 		moveq	#0,d1
 		move.b	(a2)+,d1
 		cmpi.b	#-1,d1
-		beq.s	loc_84542
+		beq.s	++ ;loc_84542
 		move.b	(a1),anim_frame_timer(a0)
 		move.b	d1,mapping_frame(a0)
 		moveq	#1,d2
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_8453E:
++ ;loc_8453E:
 		moveq	#0,d2
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_84542:
++ ;loc_84542:
 		move.b	(a2)+,d1
 		neg.b	d1
-		jsr	off_84552-4(pc,d1.w)
+		jsr	.off_84552-4(pc,d1.w)
 		clr.b	anim_frame(a0)
 		moveq	#-1,d2
 		rts
 ; End of function Animate_RawNoSSTCheckResult
 
-off_84552:
+.off_84552:
 		bra.w	loc_8456A
 ; ---------------------------------------------------------------------------
 		bra.w	loc_8455E
@@ -685,7 +685,7 @@ Animate_RawMultiDelay:
 
 Animate_RawNoSSTMultiDelay:
 		subq.b	#1,anim_frame_timer(a0)
-		bpl.s	loc_845C8
+		bpl.s	+ ;loc_845C8
 		moveq	#0,d0
 		move.b	anim_frame(a0),d0
 		addq.w	#2,d0
@@ -699,19 +699,19 @@ Animate_RawNoSSTMultiDelay:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_845C8:
++ ;loc_845C8:
 		moveq	#0,d2
 		rts
 ; ---------------------------------------------------------------------------
 
 loc_845CC:
 		neg.b	d1
-		jsr	off_845D8-4(pc,d1.w)
+		jsr	.off_845D8-4(pc,d1.w)
 		clr.b	anim_frame(a0)
 		rts
 ; End of function Animate_RawMultiDelay
 
-off_845D8:
+.off_845D8:
 		bra.w	loc_845F2
 ; ---------------------------------------------------------------------------
 		bra.w	loc_845E4
@@ -747,7 +747,7 @@ Animate_RawMultiDelayFlipX:
 
 Animate_RawNoSSTMultiDelayFlipX:
 		subq.b	#1,anim_frame_timer(a0)
-		bpl.s	loc_84646
+		bpl.s	++ ;loc_84646
 		moveq	#0,d0
 		move.b	anim_frame(a0),d0
 		addq.w	#2,d0
@@ -756,17 +756,17 @@ Animate_RawNoSSTMultiDelayFlipX:
 		move.b	(a1,d0.w),d1
 		bmi.s	loc_845CC
 		bclr	#6,d1
-		beq.s	loc_84638
+		beq.s	+ ;loc_84638
 		bchg	#0,render_flags(a0)
 
-loc_84638:
++ ;loc_84638:
 		move.b	d1,mapping_frame(a0)
 		move.b	1(a1,d0.w),anim_frame_timer(a0)
 		moveq	#1,d2
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_84646:
++ ;loc_84646:
 		moveq	#0,d2
 		rts
 ; End of function Animate_RawMultiDelayFlipX
@@ -785,7 +785,7 @@ Animate_RawMultiDelayFlipY:
 
 Animate_RawNoSSTMultiDelayFlipY:
 		subq.b	#1,anim_frame_timer(a0)
-		bpl.s	loc_84684
+		bpl.s	++ ;loc_84684
 		moveq	#0,d0
 		move.b	anim_frame(a0),d0
 		addq.w	#2,d0
@@ -794,17 +794,17 @@ Animate_RawNoSSTMultiDelayFlipY:
 		move.b	(a1,d0.w),d1
 		bmi.w	loc_845CC
 		bclr	#6,d1
-		beq.s	loc_84676
+		beq.s	+ ;loc_84676
 		bchg	#1,render_flags(a0)
 
-loc_84676:
++ ;loc_84676:
 		move.b	d1,mapping_frame(a0)
 		move.b	1(a1,d0.w),anim_frame_timer(a0)
 		moveq	#1,d2
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_84684:
++ ;loc_84684:
 		moveq	#0,d2
 		rts
 ; End of function Animate_RawNoSSTMultiDelayFlipY
@@ -818,7 +818,7 @@ Animate_Raw2MultiDelay:
 
 Animate_Raw2NoSSTMultiDelay:
 		subq.b	#1,anim_frame_timer(a0)
-		bpl.s	loc_846BA
+		bpl.s	+ ;loc_846BA
 		moveq	#0,d0
 		move.b	anim_frame(a0),d0
 		addq.w	#2,d0
@@ -827,27 +827,27 @@ Animate_Raw2NoSSTMultiDelay:
 		moveq	#0,d1
 		move.b	(a2)+,d1
 		cmpi.b	#-1,d1
-		beq.s	loc_846BE
+		beq.s	++ ;loc_846BE
 		move.b	d1,mapping_frame(a0)
 		move.b	1(a1,d0.w),anim_frame_timer(a0)
 		moveq	#1,d2
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_846BA:
++ ;loc_846BA:
 		moveq	#0,d2
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_846BE:
++ ;loc_846BE:
 		move.b	(a2)+,d1
 		neg.b	d1
-		jsr	off_846CC-4(pc,d1.w)
+		jsr	.off_846CC-4(pc,d1.w)
 		clr.b	anim_frame(a0)
 		rts
 ; End of function Animate_Raw2MultiDelay
 
-off_846CC:
+.off_846CC:
 		bra.w	loc_846E4
 ; ---------------------------------------------------------------------------
 		bra.w	loc_846D8
@@ -888,27 +888,27 @@ Animate_RawGetFaster:
 
 Animate_RawNoSSTGetFaster:
 		bset	#5,$38(a0)
-		bne.s	loc_84714
+		bne.s	+ ;loc_84714
 		move.b	(a1),$2E(a0)
 		clr.b	$2F(a0)
 
-loc_84714:
++ ;loc_84714:
 		subq.b	#1,anim_frame_timer(a0)
-		bpl.s	loc_8474C
+		bpl.s	++ ;loc_8474C
 		move.b	$2E(a0),d2
 		moveq	#0,d0
 		move.b	anim_frame(a0),d0
 		addq.b	#1,d0
 		move.b	2(a1,d0.w),d1
-		bpl.s	loc_8473C
+		bpl.s	+ ;loc_8473C
 		moveq	#0,d0
 		move.b	2(a1),d1
 		tst.b	d2
-		beq.s	loc_84750
+		beq.s	+++ ;loc_84750
 		subq.b	#1,d2
 		move.b	d2,$2E(a0)
 
-loc_8473C:
++ ;loc_8473C:
 		move.b	d0,anim_frame(a0)
 		move.b	d1,mapping_frame(a0)
 		move.b	d2,anim_frame_timer(a0)
@@ -916,12 +916,12 @@ loc_8473C:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_8474C:
++ ;loc_8474C:
 		moveq	#0,d2
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_84750:
++ ;loc_84750:
 		move.b	d0,anim_frame(a0)
 		move.b	d1,mapping_frame(a0)
 		move.b	d2,anim_frame_timer(a0)
@@ -929,13 +929,13 @@ loc_84750:
 		addq.b	#1,d0
 		move.b	d0,$2F(a0)
 		cmp.b	1(a1),d0
-		blo.s	loc_8477C
+		blo.s	+ ;loc_8477C
 		bclr	#5,$38(a0)
 		clr.b	$2F(a0)
 		movea.l	$34(a0),a2
 		jsr	(a2)
 
-loc_8477C:
++ ;loc_8477C:
 		moveq	#-1,d2
 		rts
 ; End of function Animate_RawNoSSTGetFaster
@@ -954,10 +954,10 @@ Animate_RawGetSlower:
 
 Animate_RawNoSSTGetSlower:
 		bset	#5,$38(a0)
-		bne.s	loc_84790
+		bne.s	+ ;loc_84790
 		clr.w	$2E(a0)
 
-loc_84790:
++ ;loc_84790:
 		subq.b	#1,anim_frame_timer(a0)
 		bpl.s	locret_847C4
 		move.b	$2E(a0),d2
@@ -965,24 +965,24 @@ loc_84790:
 		move.b	anim_frame(a0),d0
 		addq.b	#1,d0
 		move.b	1(a1,d0.w),d1
-		bpl.s	loc_847B0
+		bpl.s	+ ;loc_847B0
 		moveq	#0,d0
 		move.b	1(a1),d1
 		addq.b	#1,d2
 
-loc_847B0:
++ ;loc_847B0:
 		move.b	d0,anim_frame(a0)
 		move.b	d1,mapping_frame(a0)
 		move.b	d2,anim_frame_timer(a0)
 		cmp.b	(a1),d2
-		bhs.s	loc_847C6
+		bhs.s	+ ;loc_847C6
 		move.b	d2,$2E(a0)
 
 locret_847C4:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_847C6:
++ ;loc_847C6:
 		move.b	$2F(a0),d0
 		addq.b	#1,d0
 		move.b	d0,$2F(a0)
@@ -1006,27 +1006,27 @@ Swing_UpAndDown:
 		move.w	$3E(a0),d2	; Maximum acceleration before "swinging"
 		moveq	#0,d3
 		btst	#0,$38(a0)
-		bne.s	loc_84812
+		bne.s	+ ;loc_84812
 		neg.w	d0			; Apply upward acceleration
 		add.w	d0,d1
 		neg.w	d2
 		cmp.w	d2,d1
-		bgt.s	loc_84824
+		bgt.s	++ ;loc_84824
 		bset	#0,$38(a0)
 		neg.w	d0
 		neg.w	d2
 		moveq	#1,d3
 
-loc_84812:
++ ;loc_84812:
 		add.w	d0,d1		; Apply downward acceleration
 		cmp.w	d2,d1
-		blt.s	loc_84824
+		blt.s	+ ;loc_84824
 		bclr	#0,$38(a0)
 		neg.w	d0
 		add.w	d0,d1
 		moveq	#1,d3
 
-loc_84824:
++ ;loc_84824:
 		move.w	d1,y_vel(a0)
 		rts
 ; End of function Swing_UpAndDown
@@ -1041,27 +1041,27 @@ Swing_LeftAndRight:
 		move.w	$3A(a0),d2
 		moveq	#0,d3
 		btst	#3,$38(a0)
-		bne.s	loc_84856
+		bne.s	+ ;loc_84856
 		neg.w	d0
 		add.w	d0,d1
 		neg.w	d2
 		cmp.w	d2,d1
-		bgt.s	loc_84868
+		bgt.s	++ ;loc_84868
 		bset	#3,$38(a0)
 		neg.w	d0
 		neg.w	d2
 		moveq	#1,d3
 
-loc_84856:
++ ;loc_84856:
 		add.w	d0,d1
 		cmp.w	d2,d1
-		blt.s	loc_84868
+		blt.s	+ ;loc_84868
 		bclr	#3,$38(a0)
 		neg.w	d0
 		add.w	d0,d1
 		moveq	#1,d3
 
-loc_84868:
++ ;loc_84868:
 		move.w	d1,x_vel(a0)
 		rts
 ; End of function Swing_LeftAndRight
@@ -1077,12 +1077,12 @@ Swing_UpAndDown_Count:
 		move.b	$39(a0),d2
 		subq.b	#1,d2
 		move.b	d2,$39(a0)
-		bmi.s	loc_84886
+		bmi.s	+ ;loc_84886
 		moveq	#0,d0
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_84886:
++ ;loc_84886:
 		moveq	#1,d0
 
 locret_84888:
@@ -1095,11 +1095,11 @@ locret_84888:
 
 Obj_Wait:
 		subq.w	#1,$2E(a0)
-		bmi.s	loc_84892
+		bmi.s	+ ;loc_84892
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_84892:
++ ;loc_84892:
 		movea.l	$34(a0),a1
 		jmp	(a1)
 ; End of function Obj_Wait
@@ -1113,14 +1113,14 @@ ObjHitFloor_DoRoutine:
 		bmi.s	locret_848AA
 		jsr	(ObjCheckFloorDist).l
 		tst.w	d1
-		bmi.s	loc_848AC
-		beq.s	loc_848AC
+		bmi.s	+ ;loc_848AC
+		beq.s	+ ;loc_848AC
 
 locret_848AA:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_848AC:
++ ;loc_848AC:
 		add.w	d1,y_pos(a0)
 		movea.l	$34(a0),a1
 		jmp	(a1)
@@ -1138,15 +1138,15 @@ ObjHitFloor2_DoRoutine:
 		swap	d3
 		jsr	(ObjCheckFloorDist2).l
 		cmpi.w	#-1,d1
-		blt.s	loc_848DE
+		blt.s	+ ;loc_848DE
 		cmpi.w	#$C,d1
-		bge.s	loc_848DE
+		bge.s	+ ;loc_848DE
 		add.w	d1,y_pos(a0)
 		moveq	#0,d0
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_848DE:
++ ;loc_848DE:
 		movea.l	$34(a0),a1
 		jsr	(a1)
 		moveq	#1,d0
@@ -1160,11 +1160,11 @@ loc_848DE:
 ObjHitWall_DoRoutine:
 		jsr	(ObjCheckRightWallDist).l
 		tst.w	d1
-		bmi.s	loc_848F4
+		bmi.s	+ ;loc_848F4
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_848F4:
++ ;loc_848F4:
 		add.w	d1,x_pos(a0)
 		movea.l	$34(a0),a1
 		jmp	(a1)
@@ -1175,11 +1175,11 @@ loc_848F4:
 ObjHitWall2_DoRoutine:
 		jsr	(ObjCheckLeftWallDist).l
 		tst.w	d1
-		bmi.s	loc_8490A
+		bmi.s	+ ;loc_8490A
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_8490A:
++ ;loc_8490A:
 		add.w	d1,x_pos(a0)
 		movea.l	$34(a0),a1
 		jmp	(a1)
@@ -1222,11 +1222,11 @@ Child_AddToTouchList:
 Child_Remember_Draw_Sprite:
 		movea.w	parent3(a0),a1
 		btst	#7,status(a1)
-		bne.s	loc_84984
+		bne.s	+ ;loc_84984
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_84984:
++ ;loc_84984:
 		bsr.w	Remove_From_TrackingSlot
 		bra.w	Go_Delete_Sprite
 ; ---------------------------------------------------------------------------
@@ -1234,27 +1234,27 @@ loc_84984:
 Child_Draw_Sprite2:
 		movea.w	parent3(a0),a1
 		btst	#4,$38(a1)
-		bne.s	loc_8499E
+		bne.s	+ ;loc_8499E
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_8499E:
++ ;loc_8499E:
 		bra.w	Go_Delete_Sprite_2
 ; ---------------------------------------------------------------------------
 
 Child_DrawTouch_Sprite2:
 		movea.w	parent3(a0),a1
 		btst	#4,$38(a1)
-		bne.s	loc_849C2
+		bne.s	++ ;loc_849C2
 		btst	#7,status(a1)
-		bne.s	loc_849BC
+		bne.s	+ ;loc_849BC
 		jsr	(Add_SpriteToCollisionResponseList).l
 
-loc_849BC:
++ ;loc_849BC:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_849C2:
++ ;loc_849C2:
 		bra.w	Go_Delete_Sprite_2
 ; ---------------------------------------------------------------------------
 
@@ -1293,12 +1293,12 @@ Child_DrawTouch_Sprite2_FlickerMove:
 		btst	#4,$38(a1)
 		bne.s	loc_849D8
 		btst	#7,status(a1)
-		beq.s	loc_84A3C
+		beq.s	+ ;loc_84A3C
 		bset	#7,status(a0)
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_84A3C:
++ ;loc_84A3C:
 		jsr	(Add_SpriteToCollisionResponseList).l
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
@@ -1311,12 +1311,12 @@ Obj_IncLevEndXGradual:
 		swap	d1
 		add.w	d1,d0
 		cmp.w	(Camera_stored_max_X_pos).w,d0
-		bhs.s	loc_84A6A
+		bhs.s	+ ;loc_84A6A
 		move.w	d0,(Camera_max_X_pos).w
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_84A6A:
++ ;loc_84A6A:
 		move.w	(Camera_stored_max_X_pos).w,(Camera_max_X_pos).w
 
 loc_84A70:	; used in S3, unused in S&K
@@ -1331,12 +1331,12 @@ Obj_DecLevStartXGradual:
 		swap	d1
 		sub.w	d1,d0
 		cmp.w	(Camera_stored_min_X_pos).w,d0
-		ble.s	loc_84A98
+		ble.s	+ ;loc_84A98
 		move.w	d0,(Camera_min_X_pos).w
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_84A98:
++ ;loc_84A98:
 		move.w	(Camera_stored_min_X_pos).w,(Camera_min_X_pos).w
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
@@ -1349,12 +1349,12 @@ Obj_DecLevStartYGradual:
 		swap	d1
 		sub.w	d1,d0
 		cmp.w	(Camera_stored_min_Y_pos).w,d0
-		ble.s	loc_84AC6
+		ble.s	+ ;loc_84AC6
 		move.w	d0,(Camera_min_Y_pos).w
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_84AC6:
++ ;loc_84AC6:
 		move.w	(Camera_stored_min_Y_pos).w,(Camera_min_Y_pos).w
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
@@ -1367,12 +1367,12 @@ Obj_IncLevEndYGradual:
 		swap	d1
 		add.w	d1,d0
 		cmp.w	(Camera_stored_max_Y_pos).w,d0
-		bgt.s	loc_84AF4
+		bgt.s	+ ;loc_84AF4
 		move.w	d0,(Camera_max_Y_pos).w
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_84AF4:
++ ;loc_84AF4:
 		move.w	(Camera_stored_max_Y_pos).w,(Camera_max_Y_pos).w
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
@@ -1398,26 +1398,26 @@ Find_SonicTails:
 		lea	(Player_1).w,a1
 		move.w	x_pos(a0),d2
 		sub.w	x_pos(a1),d2
-		bpl.s	loc_84B2E
+		bpl.s	+ ;loc_84B2E
 		neg.w	d2
 		addq.w	#2,d0
 
-loc_84B2E:
++ ;loc_84B2E:
 		lea	(Player_2).w,a2
 		move.w	x_pos(a0),d3
 		sub.w	x_pos(a2),d3
-		bpl.s	loc_84B40
+		bpl.s	+ ;loc_84B40
 		neg.w	d3
 		addq.w	#2,d1
 
-loc_84B40:
++ ;loc_84B40:
 		cmp.w	d3,d2
-		bls.s	loc_84B4A
+		bls.s	+ ;loc_84B4A
 		movea.l	a2,a1
 		move.w	d1,d0
 		move.w	d3,d2
 
-loc_84B4A:
++ ;loc_84B4A:
 		moveq	#0,d1
 		move.w	y_pos(a0),d3
 		sub.w	y_pos(a1),d3
@@ -1481,11 +1481,11 @@ Find_OtherObject:
 		moveq	#0,d1			; d1 = 0 if other object is above calling object, 2 if below it
 		move.w	x_pos(a0),d2
 		sub.w	x_pos(a1),d2
-		bpl.s	loc_84BAE
+		bpl.s	+ ;loc_84BAE
 		neg.w	d2
 		addq.w	#2,d0
 
-loc_84BAE:
++ ;loc_84BAE:
 		moveq	#0,d1
 		move.w	y_pos(a0),d3
 		sub.w	y_pos(a1),d3
@@ -1602,10 +1602,10 @@ MoveSprite_CircularSimpleCheckFlip:
 		move.l	x_pos(a1),d2
 		move.l	y_pos(a1),d3
 		btst	#0,render_flags(a1)
-		beq.s	loc_84C9E
+		beq.s	+ ;loc_84C9E
 		neg.l	d0
 
-loc_84C9E:
++ ;loc_84C9E:
 		add.l	d0,d2
 		add.l	d1,d3
 		move.l	d2,x_pos(a0)
@@ -1661,8 +1661,8 @@ MoveSprite_AtAngleLookup:
 		move.w	y_pos(a1),d3
 		move.w	d0,d4
 		not.w	d4
-		move.w	AtAngle_LookupIndex(pc,d1.w),d1
-		jsr	AtAngle_LookupIndex(pc,d1.w)
+		move.w	.Index(pc,d1.w),d1
+		jsr	.Index(pc,d1.w)
 		add.w	d5,d2
 		add.w	d6,d3
 		move.w	d2,x_pos(a0)
@@ -1671,11 +1671,11 @@ MoveSprite_AtAngleLookup:
 ; End of function MoveSprite_AtAngleLookup
 
 ; ---------------------------------------------------------------------------
-AtAngle_LookupIndex:
-		dc.w AtAngle_00_3F-AtAngle_LookupIndex
-		dc.w AtAngle_40_7F-AtAngle_LookupIndex
-		dc.w AtAngle_80_BF-AtAngle_LookupIndex
-		dc.w AtAngle_C0_FF-AtAngle_LookupIndex
+.Index:
+		dc.w AtAngle_00_3F-.Index
+		dc.w AtAngle_40_7F-.Index
+		dc.w AtAngle_80_BF-.Index
+		dc.w AtAngle_C0_FF-.Index
 ; ---------------------------------------------------------------------------
 
 AtAngle_00_3F:
@@ -1730,24 +1730,24 @@ MoveSprite_CircularLookup:
 		move.b	child_dx(a0),d4
 		ext.w	d4
 		btst	#0,render_flags(a0)
-		beq.s	loc_84DAA
+		beq.s	+ ;loc_84DAA
 		neg.w	d4
 
-loc_84DAA:
++ ;loc_84DAA:
 		add.w	d4,d2
 		move.b	child_dy(a0),d4
 		ext.w	d4
 		add.w	d4,d3
 		move.w	d0,d4
 		not.w	d4
-		lea	AtAngle_LookupIndex(pc),a4
+		lea	MoveSprite_AtAngleLookup.Index(pc),a4
 		move.w	(a4,d1.w),d1
 		jsr	(a4,d1.w)
 		btst	#0,render_flags(a0)
-		beq.s	loc_84DCE
+		beq.s	+ ;loc_84DCE
 		neg.w	d5
 
-loc_84DCE:
++ ;loc_84DCE:
 		add.w	d5,d2
 		add.w	d6,d3
 		move.w	d2,x_pos(a0)
@@ -1834,14 +1834,14 @@ MoveSprite_AngleXLookupOffset:
 
 loc_84E58:
 		move.b	(a1,d0.w),d1
-		bra.w	loc_84E8C
+		bra.w	+ ;loc_84E8C
 ; ---------------------------------------------------------------------------
 
 loc_84E60:
 		moveq	#$7F,d1
 		sub.w	d0,d1
 		move.b	(a1,d1.w),d1
-		bra.w	loc_84E8C
+		bra.w	+ ;loc_84E8C
 ; ---------------------------------------------------------------------------
 
 loc_84E6C:
@@ -1849,7 +1849,7 @@ loc_84E6C:
 		andi.w	#$3F,d1
 		move.b	(a1,d1.w),d1
 		neg.w	d1
-		bra.w	loc_84E8C
+		bra.w	+ ;loc_84E8C
 ; ---------------------------------------------------------------------------
 
 loc_84E7C:
@@ -1857,20 +1857,20 @@ loc_84E7C:
 		sub.w	d0,d1
 		move.b	(a1,d1.w),d1
 		neg.w	d1
-		bra.w	loc_84E8C
+		bra.w	+ ;loc_84E8C
 ; ---------------------------------------------------------------------------
 
-loc_84E8C:
++ ;loc_84E8C:
 		movea.w	parent3(a0),a1
 		move.w	x_pos(a1),d2
 		move.b	child_dx(a0),d3
 		ext.w	d3
 		add.w	d3,d2
 		btst	#0,render_flags(a1)
-		beq.s	loc_84EA6
+		beq.s	+ ;loc_84EA6
 		neg.w	d1
 
-loc_84EA6:
++ ;loc_84EA6:
 		add.w	d1,d2
 		move.w	d2,x_pos(a0)
 		move.w	y_pos(a1),d2
@@ -1897,14 +1897,14 @@ off_84ED4:
 
 loc_84EDC:
 		move.b	(a1,d0.w),d1
-		bra.w	loc_84F10
+		bra.w	+ ;loc_84F10
 ; ---------------------------------------------------------------------------
 
 loc_84EE4:
 		moveq	#$7F,d1
 		sub.w	d0,d1
 		move.w	(a1,d1.w),d1
-		bra.w	loc_84F10
+		bra.w	+ ;loc_84F10
 ; ---------------------------------------------------------------------------
 
 loc_84EF0:
@@ -1912,7 +1912,7 @@ loc_84EF0:
 		andi.w	#$3F,d1
 		move.w	(a1,d1.w),d1
 		neg.w	d1
-		bra.w	loc_84F10
+		bra.w	+ ;loc_84F10
 ; ---------------------------------------------------------------------------
 
 loc_84F00:
@@ -1920,9 +1920,9 @@ loc_84F00:
 		sub.w	d0,d1
 		move.w	(a1,d1.w),d1
 		neg.w	d1
-		bra.w	loc_84F10
+		bra.w	+ ;loc_84F10
 
-loc_84F10:
++ ;loc_84F10:
 		movea.w	parent3(a0),a1
 		move.w	x_pos(a1),d2
 		move.b	child_dx(a0),d3
@@ -1965,11 +1965,11 @@ MoveDraw_SpriteTimed2:
 
 TimedSprite_ScreenLock:
 		subq.w	#1,$2E(a0)
-		bmi.s	loc_84F88
+		bmi.s	+ ;loc_84F88
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_84F88:
++ ;loc_84F88:
 		move.b	#1,(Boss_flag).w
 		bra.w	Go_Delete_Sprite_2
 ; End of function TimedSprite_ScreenLock
@@ -2005,14 +2005,14 @@ SetUp_ObjAttributesSlotted:
 		lea	(Slotted_object_bits).w,a2
 		adda.w	d5,a2			; Get the address of the array to use
 		move.b	(a2),d5
-		beq.s	loc_84FE4		; If array is clear, just make the object
+		beq.s	+ ;loc_84FE4		; If array is clear, just make the object
 
-loc_84FBC:
+- ;loc_84FBC:
 		lsr.b	#1,d5			; Check slot (each bit)
-		bcc.s	loc_84FE4		; If clear, make object
+		bcc.s	+ ;loc_84FE4		; If clear, make object
 		addq.w	#1,d0			; Increment bit number
 		add.w	d4,d3			; Add VRAM offset
-		dbf	d1,loc_84FBC		; Repeat max times
+		dbf	d1,- ;loc_84FBC		; Repeat max times
 		moveq	#0,d0
 		move.l	d0,(a0)
 		move.l	d0,x_pos(a0)
@@ -2024,7 +2024,7 @@ loc_84FBC:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_84FE4:
++ ;loc_84FE4:
 		bset	d0,(a2)			; Turn this slot on
 		move.b	d0,ros_bit(a0)
 		move.w	a2,ros_addr(a0)		; Keep track of slot address and bit number
@@ -2062,7 +2062,7 @@ Perform_DPLC:
 		move.w	(a2)+,d5		; Get number of DMA transactions
 		moveq	#0,d3
 
-.loop:
+- ;.loop:
 		move.w	(a2)+,d3		; Art source offset
 		move.l	d3,d1
 		andi.w	#$FFF0,d1		; Isolate all but lower 4 bits
@@ -2075,7 +2075,7 @@ Perform_DPLC:
 		add.w	d3,d4
 		add.w	d3,d4
 		jsr	(Add_To_DMA_Queue).l	; Add to queue
-		dbf	d5,.loop		; Keep going
+		dbf	d5,- ;.loop		; Keep going
 
 .end:
 		rts
@@ -2094,11 +2094,11 @@ Sprite_CheckDelete:
 
 loc_85088:
 		move.w	respawn_addr(a0),d0
-		beq.s	loc_85094
+		beq.s	+ ;loc_85094
 		movea.w	d0,a2
 		bclr	#7,(a2)
 
-loc_85094:
++ ;loc_85094:
 		bset	#7,status(a0)
 		move.l	#Delete_Current_Sprite,(a0)
 		rts
@@ -2115,11 +2115,11 @@ Sprite_CheckDelete2:
 
 loc_850BA:
 		move.w	respawn_addr(a0),d0
-		beq.s	loc_850C6
+		beq.s	+ ;loc_850C6
 		movea.w	d0,a2
 		bclr	#7,(a2)
 
-loc_850C6:
++ ;loc_850C6:
 		bset	#4,$38(a0)
 		move.l	#Delete_Current_Sprite,(a0)
 		rts
@@ -2370,12 +2370,12 @@ Find_SonicTails8Way:
 		bsr.w	Find_SonicTails		; This routine seems bugged slightly. Shouldn't the first two cmpi instructions look at d3 and not d2?
 		cmp.w	d2,d3
 		beq.s	loc_853E2
-		bhi.s	loc_853BC
+		bhi.s	++ ;loc_853BC
 		swap	d3			; If Y distance is closer to object
 		clr.w	d3
 		divu.w	d2,d3
 		tst.w	d0
-		beq.s	loc_853AE
+		beq.s	+ ;loc_853AE
 		cmpi.w	#$8000,d2	; If Y was closer and Sonic is to right of object
 		blo.s	loc_853FE
 		tst.w	d0
@@ -2383,7 +2383,7 @@ Find_SonicTails8Way:
 		bra.w	loc_85402
 ; ---------------------------------------------------------------------------
 
-loc_853AE:
++ ;loc_853AE:
 		cmpi.w	#$8000,d2	; If Y was closer and Sonic is to left of object
 		blo.s	loc_8540E
 		tst.w	d1
@@ -2391,12 +2391,12 @@ loc_853AE:
 		bra.w	loc_85412
 ; ---------------------------------------------------------------------------
 
-loc_853BC:
++ ;loc_853BC:
 		swap	d2			; If X distance is closer to object
 		clr.w	d2
 		divu.w	d3,d2
 		tst.w	d1
-		bne.s	loc_853D4
+		bne.s	+ ;loc_853D4
 		cmpi.w	#$8000,d2
 		blo.s	loc_853F6
 		tst.w	d0
@@ -2404,7 +2404,7 @@ loc_853BC:
 		bra.w	loc_85412
 ; ---------------------------------------------------------------------------
 
-loc_853D4:
++ ;loc_853D4:
 		cmpi.w	#$8000,d2
 		blo.s	loc_85406
 		tst.w	d0
@@ -2414,13 +2414,13 @@ loc_853D4:
 
 loc_853E2:
 		tst.w	d0				; If X and Y distance are identical
-		beq.s	loc_853EE
+		beq.s	+ ;loc_853EE
 		tst.w	d1
 		beq.s	loc_853FA
 		bra.w	loc_85402
 ; ---------------------------------------------------------------------------
 
-loc_853EE:
++ ;loc_853EE:
 		tst.w	d1
 		bne.s	loc_8540A
 		bra.w	loc_85412
@@ -2475,11 +2475,11 @@ Set_VelocityXTrackSonic:
 		bsr.w	Find_OtherObject
 		bclr	#0,render_flags(a0)
 		tst.w	d0
-		beq.s	loc_85430
+		beq.s	+ ;loc_85430
 		neg.w	d4
 		bset	#0,render_flags(a0)
 
-loc_85430:
++ ;loc_85430:
 		move.w	d4,x_vel(a0)
 		rts
 ; End of function Set_VelocityXTrackSonic
@@ -2495,27 +2495,27 @@ Chase_Object:
 		move.w	x_pos(a0),d4
 		cmp.w	x_pos(a1),d4
 		seq	d5
-		beq.s	loc_8545E
-		bcs.s	loc_8544C
+		beq.s	++ ;loc_8545E
+		bcs.s	+ ;loc_8544C
 		neg.w	d1
 
-loc_8544C:
++ ;loc_8544C:
 		move.w	x_vel(a0),d4
 		add.w	d1,d4
 		cmp.w	d2,d4
-		blt.s	loc_8545E
+		blt.s	+ ;loc_8545E
 		cmp.w	d0,d4
-		bgt.s	loc_8545E
+		bgt.s	+ ;loc_8545E
 		move.w	d4,x_vel(a0)
 
-loc_8545E:
++ ;loc_8545E:
 		move.w	y_pos(a0),d4
 		cmp.w	y_pos(a1),d4
-		beq.s	loc_85480
-		bcs.s	loc_8546C
+		beq.s	++ ;loc_85480
+		bcs.s	+ ;loc_8546C
 		neg.w	d3
 
-loc_8546C:
++ ;loc_8546C:
 		move.w	y_vel(a0),d4
 		add.w	d3,d4
 		cmp.w	d2,d4
@@ -2528,7 +2528,7 @@ locret_8547E:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_85480:
++ ;loc_85480:
 		tst.b	d5
 		beq.s	locret_8547E
 		clr.w	x_vel(a0)
@@ -2548,10 +2548,10 @@ Chase_ObjectXOnly:
 		ext.w	d4
 		add.w	d4,d3
 		cmp.w	x_pos(a0),d3
-		bhs.s	loc_854A6
+		bhs.s	+ ;loc_854A6
 		neg.w	d1
 
-loc_854A6:
++ ;loc_854A6:
 		move.w	x_vel(a0),d3
 		add.w	d1,d3
 		cmp.w	d2,d3
@@ -2576,10 +2576,10 @@ Chase_ObjectYOnly:
 		ext.w	d4
 		add.w	d4,d3
 		cmp.w	y_pos(a0),d3
-		bhs.s	loc_854D2
+		bhs.s	+ ;loc_854D2
 		neg.w	d1
 
-loc_854D2:
++ ;loc_854D2:
 		move.w	y_vel(a0),d3
 		add.w	d1,d3
 		cmp.w	d2,d3
@@ -2602,30 +2602,30 @@ locret_854E4:
 		add.w	d4,d6
 		cmp.w	x_pos(a0),d6
 		seq	d5
-		beq.s	loc_85516
-		bcc.s	loc_85504
+		beq.s	++ ;loc_85516
+		bcc.s	+ ;loc_85504
 		neg.w	d1
 
-loc_85504:
++ ;loc_85504:
 		move.w	x_vel(a0),d4
 		add.w	d1,d4
 		cmp.w	d2,d4
-		blt.s	loc_85516
+		blt.s	+ ;loc_85516
 		cmp.w	d0,d4
-		bgt.s	loc_85516
+		bgt.s	+ ;loc_85516
 		move.w	d4,x_vel(a0)
 
-loc_85516:
++ ;loc_85516:
 		move.w	y_pos(a1),d6
 		move.b	child_dy(a0),d4
 		ext.w	d4
 		add.w	d4,d6
 		cmp.w	y_pos(a0),d6
-		beq.s	loc_85540
-		bcc.s	loc_8552C
+		beq.s	++ ;loc_85540
+		bcc.s	+ ;loc_8552C
 		neg.w	d3
 
-loc_8552C:
++ ;loc_8552C:
 		move.w	y_vel(a0),d4
 		add.w	d3,d4
 		cmp.w	d2,d4
@@ -2638,7 +2638,7 @@ locret_8553E:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_85540:
++ ;loc_85540:
 		tst.b	d5
 		beq.s	locret_8553E
 		clr.w	x_vel(a0)
@@ -2660,9 +2660,9 @@ loc_8555E:
 		moveq	#$E,d1
 		moveq	#-$20,d2
 
-loc_85576:
+- ;loc_85576:
 		bsr.w	DecColor_Obj
-		dbf	d0,loc_85576
+		dbf	d0,- ;loc_85576
 		subq.b	#1,$39(a0)
 		bpl.s	locret_8558E
 		clr.b	(Palette_rotation_disable).w
@@ -2677,23 +2677,23 @@ locret_8558E:
 DecColor_Obj:
 		move.b	(a1),d3
 		and.b	d1,d3
-		beq.s	loc_85598
+		beq.s	+ ;loc_85598
 		subq.b	#2,d3
 
-loc_85598:
++ ;loc_85598:
 		move.b	d3,(a1)+
 		move.b	(a1),d3
 		move.b	d3,d4
 		and.b	d2,d3
-		beq.s	loc_855A6
+		beq.s	+ ;loc_855A6
 		subi.b	#$20,d3
 
-loc_855A6:
++ ;loc_855A6:
 		and.b	d1,d4
-		beq.s	loc_855AC
+		beq.s	+ ;loc_855AC
 		subq.b	#2,d4
 
-loc_855AC:
++ ;loc_855AC:
 		or.b	d3,d4
 		move.b	d4,(a1)+
 		rts
@@ -2716,9 +2716,9 @@ loc_855C2:
 		moveq	#$E,d1
 		moveq	#-$20,d2
 
-loc_855DE:
+- ;loc_855DE:
 		bsr.w	IncColor_Obj
-		dbf	d0,loc_855DE
+		dbf	d0,- ;loc_855DE
 		subq.b	#1,$39(a0)
 		bpl.s	locret_855F6
 		clr.b	(Palette_rotation_disable).w
@@ -2736,10 +2736,10 @@ IncColor_Obj:
 		move.b	(a2)+,d4
 		and.b	d1,d4
 		cmp.b	d4,d3
-		bhs.s	loc_85606
+		bhs.s	+ ;loc_85606
 		addq.b	#2,d3
 
-loc_85606:
++ ;loc_85606:
 		move.b	d3,(a1)+
 		move.b	(a1),d3
 		move.b	d3,d4
@@ -2748,17 +2748,17 @@ loc_85606:
 		move.b	d5,d6
 		and.b	d2,d5
 		cmp.b	d5,d3
-		bhs.s	loc_8561C
+		bhs.s	+ ;loc_8561C
 		addi.b	#$20,d3
 
-loc_8561C:
++ ;loc_8561C:
 		and.b	d1,d4
 		and.b	d1,d6
 		cmp.b	d6,d4
-		bhs.s	loc_85626
+		bhs.s	+ ;loc_85626
 		addq.b	#2,d4
 
-loc_85626:
++ ;loc_85626:
 		or.b	d3,d4
 		move.b	d4,(a1)+
 		rts
@@ -2800,29 +2800,29 @@ Wait_Draw:
 
 Wait_FadeToLevelMusic:
 		subq.w	#1,$2E(a0)
-		bmi.s	loc_85674
+		bmi.s	+ ;loc_85674
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_85674:
++ ;loc_85674:
 		bclr	#7,render_flags(a0)
 		move.w	#(2*60)-1,$2E(a0)
 		jsr	(AllocateObject).l
-		bne.s	loc_8568E
+		bne.s	+ ;loc_8568E
 		move.l	#Obj_Song_Fade_ToLevelMusic,(a1)
 
-loc_8568E:
++ ;loc_8568E:
 		movea.l	$34(a0),a1
 		jmp	(a1)
 ; ---------------------------------------------------------------------------
 
 Wait_NewDelay:
 		subq.w	#1,$2E(a0)
-		bmi.s	loc_856A0
+		bmi.s	+ ;loc_856A0
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_856A0:
++ ;loc_856A0:
 		bclr	#7,render_flags(a0)
 		move.w	#(2*60)-1,$2E(a0)
 		movea.l	$34(a0),a1
@@ -2891,20 +2891,20 @@ EnemyDefeated:
 		bsr.w	EnemyDefeat_Score
 		movea.w	$44(a0),a1
 		tst.w	y_vel(a1)
-		bmi.s	loc_85750
+		bmi.s	+ ;loc_85750
 		move.w	y_pos(a1),d0
 		cmp.w	y_pos(a0),d0
-		bhs.s	loc_85758
+		bhs.s	++ ;loc_85758
 		neg.w	y_vel(a1)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_85750:
++ ;loc_85750:
 		addi.w	#$100,y_vel(a1)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_85758:
++ ;loc_85758:
 		subi.w	#$100,y_vel(a1)
 		rts
 ; End of function EnemyDefeated
@@ -2920,18 +2920,18 @@ EnemyDefeat_Score:
 		move.w	(Chain_bonus_counter).w,d0
 		addq.w	#2,(Chain_bonus_counter).w
 		cmpi.w	#6,d0
-		blo.s	loc_8577C
+		blo.s	+ ;loc_8577C
 		moveq	#6,d0
 
-loc_8577C:
++ ;loc_8577C:
 		move.w	d0,$3E(a0)
 		move.w	word_857AC(pc,d0.w),d0
 		cmpi.w	#$20,(Chain_bonus_counter).w
-		blo.s	loc_85796
+		blo.s	+ ;loc_85796
 		move.w	#1000,d0	; 10000 points
 		move.w	#$A,$3E(a0)
 
-loc_85796:
++ ;loc_85796:
 		movea.w	a1,a3
 		jsr	(HUD_AddToScore).l
 		move.l	#Obj_Explosion,(a0)
@@ -3018,11 +3018,11 @@ Check_KnuxAttack:
 
 Check_LRControllerShake:
 		subq.b	#1,$3D(a0)
-		bpl.s	loc_8584A
+		bpl.s	+ ;loc_8584A
 		move.b	#5,$3C(a0)
 		move.b	#60,$3D(a0)
 
-loc_8584A:
++ ;loc_8584A:
 		movea.w	$3E(a0),a2
 		move.w	(a2),d0
 		andi.w	#$C,d0
@@ -3074,23 +3074,23 @@ Check_InTheirRange:
 		move.w	x_pos(a1),d1
 		add.w	(a2)+,d1
 		cmp.w	d1,d0
-		blt.s	loc_858C4
+		blt.s	+ ;loc_858C4
 		add.w	(a2)+,d1
 		cmp.w	d1,d0
-		bge.s	loc_858C4
+		bge.s	+ ;loc_858C4
 		move.w	y_pos(a0),d0
 		move.w	y_pos(a1),d1
 		add.w	(a2)+,d1
 		cmp.w	d1,d0
-		blt.s	loc_858C4
+		blt.s	+ ;loc_858C4
 		add.w	(a2)+,d1
 		cmp.w	d1,d0
-		bge.s	loc_858C4
+		bge.s	+ ;loc_858C4
 		moveq	#1,d0
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_858C4:
++ ;loc_858C4:
 		moveq	#0,d0
 		rts
 ; End of function Check_InTheirRange
@@ -3104,23 +3104,23 @@ Check_InMyRange:
 		move.w	x_pos(a1),d1
 		add.w	(a2)+,d0
 		cmp.w	d0,d1
-		blt.s	loc_858F4
+		blt.s	+ ;loc_858F4
 		add.w	(a2)+,d0
 		cmp.w	d0,d1
-		bge.s	loc_858F4
+		bge.s	+ ;loc_858F4
 		move.w	y_pos(a0),d0
 		move.w	y_pos(a1),d1
 		add.w	(a2)+,d0
 		cmp.w	d0,d1
-		blt.s	loc_858F4
+		blt.s	+ ;loc_858F4
 		add.w	(a2)+,d0
 		cmp.w	d0,d1
-		bge.s	loc_858F4
+		bge.s	+ ;loc_858F4
 		moveq	#1,d0
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_858F4:
++ ;loc_858F4:
 		moveq	#0,d0
 		rts
 ; End of function Check_InMyRange
@@ -3142,7 +3142,7 @@ Check_PlayerInRange:
 		add.w	(a1)+,d4
 		move.w	d4,d6
 		add.w	(a1)+,d6
-		bsr.w	sub_8592C
+		bsr.w	+ ;sub_8592C
 		swap	d0
 		lea	(Player_1).w,a2
 		move.w	x_pos(a2),d1
@@ -3153,7 +3153,7 @@ Check_PlayerInRange:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_8592C:
++ ;sub_8592C:
 		cmp.w	d3,d1
 		blo.s	locret_8593E
 		cmp.w	d5,d1
@@ -3176,9 +3176,9 @@ PalLoad_Line1:
 		lea	(Normal_palette_line_2).w,a2
 		moveq	#bytesToLcnt($20),d0
 
-.loop:
+- ;.loop:
 		move.l	(a1)+,(a2)+
-		dbf	d0,.loop
+		dbf	d0,- ;.loop
 		rts
 ; End of function PalLoad_Line1
 
@@ -3191,12 +3191,12 @@ Displace_PlayerOffObject:
 		andi.b	#standing_mask,d0
 		beq.s	locret_85988
 		bclr	#p1_standing_bit,status(a0)
-		beq.s	loc_85970
+		beq.s	+ ;loc_85970
 		lea	(Player_1).w,a1
 		bclr	#Status_OnObj,status(a1)
 		bset	#Status_InAir,status(a1)
 
-loc_85970:
++ ;loc_85970:
 		bclr	#p2_standing_bit,status(a0)
 		beq.s	locret_85988
 		lea	(Player_2).w,a1
@@ -3226,16 +3226,16 @@ loc_85994:
 		movea.l	a2,a4					; copy script address to a4
 		adda.w	d0,a4					; skip to palette data
 		move.w	(a4),d1					; load the first entry to d1
-		bpl.s	loc_859B0				; if positive, it is a normal entry
-		bsr.w	sub_859CE				; this is a command
+		bpl.s	+ ;loc_859B0				; if positive, it is a normal entry
+		bsr.w	++ ;sub_859CE				; this is a command
 
-loc_859B0:
++ ;loc_859B0:
 		moveq	#0,d2
 		move.b	2(a2),d2				; load number of colors to d2
 
-loc_859B6:
+- ;loc_859B6:
 		move.w	(a4)+,(a3)+				; copy the next color into destination
-		dbf	d2,loc_859B6				; loop for every color
+		dbf	d2,- ;loc_859B6				; loop for every color
 		move.w	(a4)+,d0				; load next delay
 		move.b	d0,2(a1)				; save the delay
 		move.l	a4,d0					; copy current script position into d0
@@ -3252,7 +3252,7 @@ loc_859CA:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_859CE:
++ ;sub_859CE:
 		move.b	3(a2),d2				; load additional parameter to d2
 		beq.s	loc_859FC
 		neg.w	d1
@@ -3310,20 +3310,20 @@ Run_PalRotationScript2:
 		addq.b	#2,d1
 		moveq	#0,d2
 		move.b	(a1,d1.w),d2
-		bpl.s	loc_85A3E
+		bpl.s	+ ;loc_85A3E
 		moveq	#0,d1
 		move.b	(a1),d2
 
-loc_85A3E:
++ ;loc_85A3E:
 		move.b	d1,$3B(a0)
 		move.b	1(a1,d1.w),$3A(a0)
 		add.w	d2,d2
 		move.w	(a3,d2.w),d2
 		lea	(a3,d2.w),a3
 
-loc_85A52:
+- ;loc_85A52:
 		move.w	(a3)+,(a2)+
-		dbf	d0,loc_85A52
+		dbf	d0,- ;loc_85A52
 
 locret_85A58:
 		rts
@@ -3337,10 +3337,10 @@ Child_GetPriority:
 		movea.w	parent3(a0),a1
 		bclr	#7,art_tile(a0)
 		btst	#7,art_tile(a1)
-		beq.s	loc_85A72
+		beq.s	+ ;loc_85A72
 		bset	#7,art_tile(a0)
 
-loc_85A72:
++ ;loc_85A72:
 		move.w	priority(a1),priority(a0)
 		rts
 ; End of function Child_GetPriority
@@ -3416,26 +3416,26 @@ Obj_WaitOffscreen:
 
 loc_85AD2:
 		tst.b	render_flags(a0)
-		bmi.s	loc_85B02
+		bmi.s	+++ ;loc_85B02
 		move.w	x_pos(a0),d0
 		andi.w	#$FF80,d0
 		sub.w	(Camera_X_pos_coarse_back).w,d0
 		cmpi.w	#$280,d0
-		bhi.s	loc_85AF0
+		bhi.s	+ ;loc_85AF0
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_85AF0:
++ ;loc_85AF0:
 		move.w	respawn_addr(a0),d0
-		beq.s	loc_85AFC
+		beq.s	+ ;loc_85AFC
 		movea.w	d0,a2
 		bclr	#7,(a2)
 
-loc_85AFC:
++ ;loc_85AFC:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_85B02:
++ ;loc_85B02:
 		move.l	$34(a0),(a0)			; Restore normal object operation when onscreen
 		rts
 ; End of function Obj_WaitOffscreen
@@ -3485,10 +3485,10 @@ Restore_LevelMusic:
 		move.b	(a2,d0.w),d0
 		move.w	d0,(Current_music).w
 		btst	#Status_Invincible,(Player_1+status_secondary).w
-		beq.s	loc_85B84
+		beq.s	+ ;loc_85B84
 		moveq	#signextendB(mus_Invincibility),d0		; If invincible, play invincibility
 
-loc_85B84:
++ ;loc_85B84:
 		jmp	(Play_Music).l
 ; End of function Restore_LevelMusic
 
@@ -3570,31 +3570,31 @@ Obj_EndSignControlDoStart:
 Check_CameraInRange:
 		move.w	(Camera_Y_pos).w,d0
 		cmp.w	(a1)+,d0
-		blo.s	loc_85C74
+		blo.s	+++ ;loc_85C74
 		cmp.w	(a1)+,d0
-		bhi.s	loc_85C74
+		bhi.s	+++ ;loc_85C74
 		move.w	(Camera_X_pos).w,d1
 		cmp.w	(a1)+,d1
-		blo.s	loc_85C74
+		blo.s	+++ ;loc_85C74
 		cmp.w	(a1)+,d1
-		bhi.s	loc_85C74
+		bhi.s	+++ ;loc_85C74
 		bclr	#7,$27(a0)
 		cmp.w	(a1),d0
-		bls.s	loc_85C5E
+		bls.s	+ ;loc_85C5E
 		bset	#7,$27(a0)
 
-loc_85C5E:
++ ;loc_85C5E:
 		bclr	#6,$27(a0)
 		cmp.w	4(a1),d1
-		bls.s	loc_85C70
+		bls.s	+ ;loc_85C70
 		bset	#6,$27(a0)
 
-loc_85C70:
++ ;loc_85C70:
 		move.l	(sp),(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_85C74:
++ ;loc_85C74:
 		jsr	(Delete_Sprite_If_Not_In_Range).l
 		addq.w	#4,sp
 		rts
@@ -3620,63 +3620,63 @@ locret_85CA2:
 
 loc_85CA4:
 		btst	#0,$27(a0)
-		bne.s	loc_85CC6
+		bne.s	+ ;loc_85CC6
 		subq.w	#1,$2E(a0)
-		bpl.s	loc_85CC6
+		bpl.s	+ ;loc_85CC6
 		move.b	$26(a0),d0
 		move.b	d0,(Current_music+1).w
 		jsr	(Play_Music).l
 		bset	#0,$27(a0)
 
-loc_85CC6:
++ ;loc_85CC6:
 		btst	#1,$27(a0)
-		bne.s	loc_85D06
+		bne.s	+++ ;loc_85D06
 		move.w	(Camera_Y_pos).w,d0
 		tst.b	$27(a0)
-		bmi.s	loc_85CE6
+		bmi.s	+ ;loc_85CE6
 		cmp.w	(_unkFAB0).w,d0
-		bhs.s	loc_85CF2
+		bhs.s	++ ;loc_85CF2
 		move.w	d0,(Camera_min_Y_pos).w
-		bra.w	loc_85D06
+		bra.w	+++ ;loc_85D06
 ; ---------------------------------------------------------------------------
 
-loc_85CE6:
++ ;loc_85CE6:
 		move.w	(_unkFAB2).w,d1
 		addi.w	#$60,d1
 		cmp.w	d1,d0
-		bhi.s	loc_85D06
+		bhi.s	++ ;loc_85D06
 
-loc_85CF2:
++ ;loc_85CF2:
 		bset	#1,$27(a0)
 		move.w	(_unkFAB0).w,(Camera_min_Y_pos).w
 		move.w	(_unkFAB2).w,d0
 		move.w	d0,(Camera_target_max_Y_pos).w
 
-loc_85D06:
++ ;loc_85D06:
 		btst	#2,$27(a0)
-		bne.s	loc_85D48
+		bne.s	+++ ;loc_85D48
 		move.w	(Camera_X_pos).w,d0
 		btst	#6,$27(a0)
-		bne.s	loc_85D28
+		bne.s	+ ;loc_85D28
 		cmp.w	(_unkFAB4).w,d0
-		bhs.s	loc_85D36
+		bhs.s	++ ;loc_85D36
 		move.w	d0,(Camera_min_X_pos).w
-		bra.w	loc_85D48
+		bra.w	+++ ;loc_85D48
 ; ---------------------------------------------------------------------------
 
-loc_85D28:
++ ;loc_85D28:
 		cmp.w	(_unkFAB6).w,d0
-		bls.s	loc_85D36
+		bls.s	+ ;loc_85D36
 		move.w	d0,(Camera_max_X_pos).w
-		bra.w	loc_85D48
+		bra.w	++ ;loc_85D48
 ; ---------------------------------------------------------------------------
 
-loc_85D36:
++ ;loc_85D36:
 		bset	#2,$27(a0)
 		move.w	(_unkFAB4).w,(Camera_min_X_pos).w
 		move.w	(_unkFAB6).w,(Camera_max_X_pos).w
 
-loc_85D48:
++ ;loc_85D48:
 		move.b	$27(a0),d0
 		andi.b	#7,d0
 		cmpi.b	#7,d0
@@ -3757,10 +3757,10 @@ Child1_Act2LevelSize:
 		move.b	(a1)+,d0
 		lsl.w	#4,d0
 		tst.b	(a1)+
-		beq.s	loc_85E0E
+		beq.s	+ ;loc_85E0E
 		addq.w	#8,d1
 
-loc_85E0E:
++ ;loc_85E0E:
 		add.w	d1,d0
 		lea	(LevelSizes).l,a1
 		lea	(a1,d0.w),a1
@@ -3810,17 +3810,17 @@ loc_85E74:
 		lea	(Normal_palette).w,a1
 		moveq	#$40-1,d0
 
-loc_85E86:
+- ;loc_85E86:
 		bsr.w	sub_85EB4
-		dbf	d0,loc_85E86
+		dbf	d0,- ;loc_85E86
 		subq.b	#1,$39(a0)
-		bmi.s	loc_85E96
+		bmi.s	+ ;loc_85E96
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_85E96:
++ ;loc_85E96:
 		tst.b	subtype(a0)
-		beq.s	loc_85EAA
+		beq.s	+ ;loc_85EAA
 		move.l	#loc_85EE6,(a0)
 		bset	#5,$38(a0)
 
@@ -3828,7 +3828,7 @@ locret_85EA8:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_85EAA:
++ ;loc_85EAA:
 		clr.b	(Palette_rotation_disable).w
 		jmp	(Go_Delete_Sprite).l
 
@@ -3840,26 +3840,26 @@ sub_85EB4:
 		move.b	(a1),d3
 		and.b	d2,d3
 		cmp.b	d2,d3
-		bhs.s	loc_85EC2
+		bhs.s	+ ;loc_85EC2
 		addq.b	#2,d3
 		move.b	d3,(a1)
 
-loc_85EC2:
++ ;loc_85EC2:
 		addq.w	#1,a1
 		move.b	(a1),d3
 		move.b	d3,d4
 		andi.b	#$E0,d3
 		andi.b	#$E,d4
 		cmpi.b	#$E0,d3
-		bhs.s	loc_85EDA
+		bhs.s	+ ;loc_85EDA
 		addi.b	#$20,d3
 
-loc_85EDA:
++ ;loc_85EDA:
 		cmp.b	d2,d4
-		bhs.s	loc_85EE0
+		bhs.s	+ ;loc_85EE0
 		addq.b	#2,d4
 
-loc_85EE0:
++ ;loc_85EE0:
 		or.b	d3,d4
 		move.b	d4,(a1)+
 		rts
@@ -3880,9 +3880,9 @@ loc_85EF8:
 		lea	(Target_palette).w,a2
 		moveq	#$40-1,d0
 
-loc_85F10:
+- ;loc_85F10:
 		bsr.w	sub_85F2A
-		dbf	d0,loc_85F10
+		dbf	d0,- ;loc_85F10
 		subq.b	#1,$39(a0)
 		bpl.w	locret_8405E
 		clr.b	(Palette_rotation_disable).w
@@ -3896,11 +3896,11 @@ sub_85F2A:
 		andi.b	#$E,d2
 		move.b	(a1),d3
 		cmp.b	d2,d3
-		bls.s	loc_85F3A
+		bls.s	+ ;loc_85F3A
 		subq.b	#2,d3
 		move.b	d3,(a1)
 
-loc_85F3A:
++ ;loc_85F3A:
 		addq.w	#1,a1
 		move.b	(a2)+,d2
 		move.b	d2,d3
@@ -3911,15 +3911,15 @@ loc_85F3A:
 		andi.b	#$E0,d4
 		andi.b	#$E,d5
 		cmp.b	d2,d4
-		bls.s	loc_85F5C
+		bls.s	+ ;loc_85F5C
 		subi.b	#$20,d4
 
-loc_85F5C:
++ ;loc_85F5C:
 		cmp.b	d3,d5
-		bls.s	loc_85F62
+		bls.s	+ ;loc_85F62
 		subq.b	#2,d5
 
-loc_85F62:
++ ;loc_85F62:
 		or.b	d4,d5
 		move.b	d5,(a1)+
 		rts
@@ -3929,19 +3929,19 @@ loc_85F62:
 loc_85F68:	; used in S3, unused in S3&K
 		move.w	(Player_mode).w,d0
 		cmpi.w	#2,d0
-		beq.s	loc_85F7E
+		beq.s	+ ;loc_85F7E
 		cmpi.w	#7,(Emerald_counts).w
-		beq.s	loc_85F82
+		beq.s	++ ;loc_85F82
 		moveq	#0,d0
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_85F7E:
++ ;loc_85F7E:
 		moveq	#1,d0
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_85F82:
++ ;loc_85F82:
 		moveq	#2,d0
 		rts
 
@@ -4125,32 +4125,32 @@ AddRings:
 		move.w	#999,d1
 		add.w	d0,(a5)
 		cmp.w	(a5),d1
-		bhs.s	loc_8610E
+		bhs.s	+ ;loc_8610E
 		move.w	d1,(a5)
 
-loc_8610E:
++ ;loc_8610E:
 		add.w	d0,(a2)
 		cmp.w	(a2),d1
-		bhs.s	loc_86116
+		bhs.s	+ ;loc_86116
 		move.w	d1,(a2)
 
-loc_86116:
++ ;loc_86116:
 		ori.b	#1,(a3)
 		cmpi.w	#100,(a2)
-		blo.s	loc_86132
+		blo.s	+ ;loc_86132
 		bset	#1,(a4)
-		beq.s	loc_8613A
+		beq.s	++ ;loc_8613A
 		cmpi.w	#200,(a2)
-		blo.s	loc_86132
+		blo.s	+ ;loc_86132
 		bset	#2,(a4)
-		beq.s	loc_8613A
+		beq.s	++ ;loc_8613A
 
-loc_86132:
++ ;loc_86132:
 		moveq	#signextendB(sfx_RingRight),d0
 		jmp	(Play_Music).l
 ; ---------------------------------------------------------------------------
 
-loc_8613A:
++ ;loc_8613A:
 		addq.w	#1,(Monitors_broken).w		; Add an extra life
 		addq.b	#1,(Life_count).w
 		addq.b	#1,(Update_HUD_life_count).w
@@ -4226,23 +4226,23 @@ loc_861C0:
 sub_861D0:
 		sub.w	x_pos(a0),d0
 		smi	d2
-		bpl.s	loc_861DA
+		bpl.s	+ ;loc_861DA
 		neg.w	d0
 
-loc_861DA:
++ ;loc_861DA:
 		sub.w	y_pos(a0),d1
 		smi	d3
-		bpl.s	loc_861E4
+		bpl.s	+ ;loc_861E4
 		neg.w	d1
 
-loc_861E4:
++ ;loc_861E4:
 		cmp.w	d1,d0
 		scs	d4
 		beq.s	loc_8621A
-		bcc.s	loc_861EE
+		bcc.s	+ ;loc_861EE
 		exg	d0,d1
 
-loc_861EE:
++ ;loc_861EE:
 		swap	d1
 		divu.w	d0,d1
 
@@ -4255,20 +4255,20 @@ loc_861F2:
 
 loc_861FE:
 		tst.b	d4
-		beq.s	loc_86204
+		beq.s	+ ;loc_86204
 		exg	d0,d1
 
-loc_86204:
++ ;loc_86204:
 		tst.b	d2
-		beq.s	loc_8620A
+		beq.s	+ ;loc_8620A
 		neg.w	d0
 
-loc_8620A:
++ ;loc_8620A:
 		tst.b	d3
-		beq.s	loc_86210
+		beq.s	+ ;loc_86210
 		neg.w	d1
 
-loc_86210:
++ ;loc_86210:
 		move.w	d0,x_vel(a0)
 		move.w	d1,y_vel(a0)
 		rts
@@ -4303,17 +4303,17 @@ sub_8622C:
 
 loc_86248:
 		sub.w	y_pos(a1),d1
-		bpl.s	loc_86252
+		bpl.s	+ ;loc_86252
 		neg.w	d1
 		moveq	#4,d3
 
-loc_86252:
++ ;loc_86252:
 		cmp.w	d0,d1
-		bhs.s	loc_8625A
+		bhs.s	+ ;loc_8625A
 		exg	d0,d1
 		moveq	#2,d4
 
-loc_8625A:
++ ;loc_8625A:
 		tst.w	d1
 		beq.s	locret_8627E
 		lsl.w	#5,d0
@@ -4389,10 +4389,10 @@ loc_862B4:
 		move.b	subtype(a0),d0
 		move.l	#loc_862FE,(a0)
 		btst	#3,d0
-		beq.s	loc_862DE
+		beq.s	+ ;loc_862DE
 		move.l	#loc_86308,(a0)
 
-loc_862DE:
++ ;loc_862DE:
 		move.w	d0,d1
 		andi.w	#$F0,d0
 		lsr.w	#2,d0
@@ -4414,11 +4414,11 @@ loc_86308:
 		st	(Spritemask_flag).w
 		movea.w	parent3(a0),a1
 		btst	#5,$38(a1)
-		bne.s	loc_8631E
+		bne.s	+ ;loc_8631E
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_8631E:
++ ;loc_8631E:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 word_86324:
@@ -4428,17 +4428,17 @@ word_86324:
 loc_86334:
 		move.w	#(button_right_mask<<8)|button_right_mask,d0
 		tst.w	$2E(a0)
-		beq.s	loc_86346
+		beq.s	+ ;loc_86346
 		subq.w	#1,$2E(a0)
 		move.w	#((button_A_mask|button_right_mask)<<8)|button_right_mask,d0
 
-loc_86346:
++ ;loc_86346:
 		btst	#5,(Player_1+status).w
-		beq.s	loc_86358
+		beq.s	+ ;loc_86358
 		move.w	#$1F,$2E(a0)
 		move.w	#((button_A_mask|button_right_mask)<<8)|(button_A_mask|button_right_mask),d0
 
-loc_86358:
++ ;loc_86358:
 		move.w	d0,(Ctrl_1_logical).w
 		rts
 
@@ -4463,7 +4463,7 @@ sub_8635E:
 
 sub_8638A:
 		lea	(Player_1).w,a1
-		bsr.w	sub_8639C
+		bsr.w	+ ;sub_8639C
 		lea	(Player_2).w,a1
 		tst.b	render_flags(a1)
 		bpl.s	locret_863BE
@@ -4473,7 +4473,7 @@ sub_8638A:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_8639C:
++ ;sub_8639C:
 		move.w	x_pos(a0),d0
 		bclr	#0,render_flags(a1)
 		bclr	#Status_Facing,status(a1)
@@ -4490,22 +4490,22 @@ locret_863BE:
 
 loc_863C0:
 		tst.l	(Player_2).w
-		beq.s	loc_863E6
+		beq.s	++ ;loc_863E6
 		move.b	#1,(Ctrl_2_locked).w
 		clr.w	(Tails_CPU_idle_timer).w
 		move.l	#loc_863D6,(a0)
 
 loc_863D6:
 		tst.b	(Ctrl_2_locked).w
-		beq.s	loc_863E2
+		beq.s	+ ;loc_863E2
 		clr.w	(Ctrl_2_logical).w
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_863E2:
++ ;loc_863E2:
 		clr.w	(Ctrl_2).w
 
-loc_863E6:
++ ;loc_863E6:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -4515,13 +4515,13 @@ Obj_StartNewLevel:
 		jsr	(Check_InMyRange).l
 		beq.w	locret_8405E
 		cmpi.w	#3,(Player_mode).w
-		bne.s	loc_86418
+		bne.s	+ ;loc_86418
 		cmpi.b	#9,(Current_zone).w
-		bne.s	loc_86418
+		bne.s	+ ;loc_86418
 		st	(SRAM_mask_interrupts_flag).w
 		jsr	(SaveGame).l
 
-loc_86418:
++ ;loc_86418:
 		moveq	#0,d0
 		move.w	subtype(a0),d0
 		lsr.w	#1,d0
@@ -4538,7 +4538,7 @@ loc_8642E:
 
 loc_86438:
 		tst.w	(Screen_shake_flag).w
-		beq.s	loc_86452
+		beq.s	+ ;loc_86452
 		move.b	(V_int_run_count+3).w,d1
 		andi.b	#$F,d1
 		bne.w	locret_8405E
@@ -4546,7 +4546,7 @@ loc_86438:
 		jmp	(Play_SFX).l
 ; ---------------------------------------------------------------------------
 
-loc_86452:
++ ;loc_86452:
 		jmp	(Delete_Current_Sprite).l
 
 ; =============== S U B R O U T I N E =======================================
@@ -4559,14 +4559,14 @@ sub_86458:
 		move.w	x_pos(a0),d2
 		move.w	y_pos(a0),d3
 
-loc_8646A:
+- ;loc_8646A:
 		move.b	(a1)+,d1
 		ext.w	d1
 		btst	#0,render_flags(a0)
-		beq.s	loc_86478
+		beq.s	+ ;loc_86478
 		neg.w	d1
 
-loc_86478:
++ ;loc_86478:
 		add.w	d2,d1
 		move.w	d1,(a2)+
 		move.b	(a1)+,d1
@@ -4574,7 +4574,7 @@ loc_86478:
 		add.w	d3,d1
 		move.w	d1,(a2)+
 		addq.w	#2,a2
-		dbf	d0,loc_8646A
+		dbf	d0,- ;loc_8646A
 		rts
 ; End of function sub_86458
 

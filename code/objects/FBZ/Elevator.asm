@@ -3,10 +3,10 @@ Obj_FBZElevator:
 
 loc_3CA20:
 		subq.w	#1,$30(a0)
-		bpl.s	loc_3CA8C
+		bpl.s	+ ;loc_3CA8C
 		move.w	#$5F,$30(a0)
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_3CA8C
+		bne.w	+ ;loc_3CA8C
 		move.l	#loc_3CA92,(a1)
 		move.w	x_pos(a0),x_pos(a1)
 		move.w	y_pos(a0),y_pos(a1)
@@ -22,19 +22,19 @@ loc_3CA20:
 		move.w	d0,$30(a1)
 		move.w	#1,y_vel(a1)
 		btst	#0,status(a0)
-		bne.s	loc_3CA8C
+		bne.s	+ ;loc_3CA8C
 		neg.w	y_vel(a1)
 
-loc_3CA8C:
++ ;loc_3CA8C:
 		jmp	(Delete_Sprite_If_Not_In_Range).l
 ; ---------------------------------------------------------------------------
 
 loc_3CA92:
 		subq.w	#1,$30(a0)
-		bpl.s	loc_3CA9E
+		bpl.s	+ ;loc_3CA9E
 		move.w	#$7F00,x_pos(a0)
 
-loc_3CA9E:
++ ;loc_3CA9E:
 		move.w	y_vel(a0),d0
 		add.w	d0,y_pos(a0)
 		move.w	#$3B,d1
@@ -43,10 +43,10 @@ loc_3CA9E:
 		lea	(byte_3CAD0).l,a2
 		jsr	(sub_1DD0E).l
 		tst.w	y_vel(a0)
-		bmi.s	loc_3CACA
+		bmi.s	+ ;loc_3CACA
 		jsr	(CheckPlayerReleaseFromObj).l
 
-loc_3CACA:
++ ;loc_3CACA:
 		jmp	(Sprite_OnScreen_Test).l
 ; ---------------------------------------------------------------------------
 byte_3CAD0:

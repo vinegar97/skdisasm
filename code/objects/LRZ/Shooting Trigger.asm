@@ -15,12 +15,12 @@ Obj_LRZShootingTrigger:
 
 loc_42E00:
 		subq.w	#1,$2E(a0)
-		bpl.s	loc_42E84
+		bpl.s	++ ;loc_42E84
 		move.w	$30(a0),$2E(a0)
 		tst.b	render_flags(a0)
-		bpl.s	loc_42E84
+		bpl.s	++ ;loc_42E84
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_42E84
+		bne.w	++ ;loc_42E84
 		move.l	#loc_42EE8,(a1)
 		move.w	x_pos(a0),x_pos(a1)
 		move.w	y_pos(a0),y_pos(a1)
@@ -36,16 +36,16 @@ loc_42E00:
 		move.w	#$200,x_vel(a1)
 		move.w	#$200,y_vel(a1)
 		btst	#0,status(a0)
-		beq.s	loc_42E7C
+		beq.s	+ ;loc_42E7C
 		neg.w	x_vel(a1)
 
-loc_42E7C:
++ ;loc_42E7C:
 		moveq	#signextendB(sfx_Projectile),d0
 		jsr	(Play_SFX).l
 
-loc_42E84:
++ ;loc_42E84:
 		move.b	collision_property(a0),d0
-		beq.w	loc_42EBA
+		beq.w	++ ;loc_42EBA
 		move.b	subtype(a0),d0
 		andi.w	#$F,d0
 		lea	(Level_trigger_array).w,a3
@@ -53,22 +53,22 @@ loc_42E84:
 		moveq	#0,d3
 		lea	(Player_1).w,a1
 		bclr	#0,collision_property(a0)
-		beq.s	loc_42EAC
-		bsr.s	sub_42EC0
+		beq.s	+ ;loc_42EAC
+		bsr.s	+++ ;sub_42EC0
 
-loc_42EAC:
++ ;loc_42EAC:
 		lea	(Player_2).w,a1
 		bclr	#1,collision_property(a0)
-		beq.s	loc_42EBA
-		bsr.s	sub_42EC0
+		beq.s	+ ;loc_42EBA
+		bsr.s	++ ;sub_42EC0
 
-loc_42EBA:
++ ;loc_42EBA:
 		jmp	(Sprite_CheckDeleteTouch3).l
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_42EC0:
++ ;sub_42EC0:
 		cmpi.b	#2,anim(a1)
 		bne.s	locret_42EE6
 		neg.w	x_vel(a1)

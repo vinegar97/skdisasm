@@ -7,7 +7,7 @@ Obj_MHZMushroomCatapult:
 		move.b	#$C,height_pixels(a0)
 		move.w	y_pos(a0),$30(a0)
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_3F960
+		bne.w	++ ;loc_3F960
 		move.l	#loc_3FA8E,(a1)
 		move.w	x_pos(a0),x_pos(a1)
 		move.w	y_pos(a0),y_pos(a1)
@@ -15,10 +15,10 @@ Obj_MHZMushroomCatapult:
 		move.w	y_pos(a0),$30(a1)
 		addi.w	#$40,x_pos(a1)
 		tst.b	subtype(a0)
-		beq.s	loc_3F8CE
+		beq.s	+ ;loc_3F8CE
 		subi.w	#2*$40,x_pos(a1)
 
-loc_3F8CE:
++ ;loc_3F8CE:
 		subi.w	#$18,y_pos(a1)
 		move.l	mappings(a0),mappings(a1)
 		move.w	art_tile(a0),art_tile(a1)
@@ -30,7 +30,7 @@ loc_3F8CE:
 		move.w	#$18,$34(a1)
 		move.w	a1,parent3(a0)
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.s	loc_3F960
+		bne.s	+ ;loc_3F960
 		move.l	#loc_3FAC2,(a1)
 		move.w	x_pos(a0),x_pos(a1)
 		move.w	y_pos(a0),y_pos(a1)
@@ -46,12 +46,12 @@ loc_3F8CE:
 		move.b	#1,mapping_frame(a1)
 		move.w	a0,parent3(a1)
 
-loc_3F960:
++ ;loc_3F960:
 		move.l	#loc_3F966,(a0)
 
 loc_3F966:
 		movea.w	parent3(a0),a1
-		bsr.s	sub_3F996
+		bsr.s	+ ;sub_3F996
 		move.w	$34(a0),d0
 		neg.w	d0
 		add.w	$30(a0),d0
@@ -66,41 +66,41 @@ loc_3F966:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_3F996:
++ ;sub_3F996:
 		move.w	$36(a0),d2
 		tst.w	$32(a0)
-		bne.s	loc_3F9E0
+		bne.s	++ ;loc_3F9E0
 		move.b	status(a0),d0
 		andi.b	#standing_mask,d0
-		beq.s	loc_3F9C0
+		beq.s	+ ;loc_3F9C0
 		moveq	#0,d2
 		tst.w	$34(a0)
-		beq.s	loc_3F9C0
+		beq.s	+ ;loc_3F9C0
 		move.b	#1,$32(a0)
 		move.w	#0,$36(a0)
-		bra.s	loc_3F9E0
+		bra.s	++ ;loc_3F9E0
 ; ---------------------------------------------------------------------------
 
-loc_3F9C0:
++ ;loc_3F9C0:
 		move.b	status(a1),d0
 		andi.b	#standing_mask,d0
-		beq.s	loc_3F9E0
+		beq.s	+ ;loc_3F9E0
 		moveq	#$18,d2
 		cmpi.w	#$18,$34(a0)
-		beq.s	loc_3F9E0
+		beq.s	+ ;loc_3F9E0
 		move.b	#1,$33(a0)
 		move.w	#$18,$36(a0)
 
-loc_3F9E0:
++ ;loc_3F9E0:
 		tst.w	d2
-		bne.s	loc_3F9F0
+		bne.s	+ ;loc_3F9F0
 		tst.w	$34(a0)
-		beq.s	loc_3F9FE
+		beq.s	++ ;loc_3F9FE
 		subq.w	#8,$34(a0)
 		bra.s	locret_3F9FC
 ; ---------------------------------------------------------------------------
 
-loc_3F9F0:
++ ;loc_3F9F0:
 		cmpi.w	#$18,$34(a0)
 		beq.s	loc_3FA42
 		addq.w	#8,$34(a0)
@@ -109,21 +109,21 @@ locret_3F9FC:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_3F9FE:
++ ;loc_3F9FE:
 		tst.b	$32(a0)
 		beq.s	locret_3F9FC
 		clr.w	$32(a0)
 		move.b	status(a1),d0
 		andi.b	#standing_mask,d0
-		bne.s	loc_3FA18
+		bne.s	+ ;loc_3FA18
 		clr.w	$3A(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_3FA18:
++ ;loc_3FA18:
 		lea	(Player_1).w,a2
 		moveq	#p1_standing_bit,d6
-		bsr.s	sub_3FA26
+		bsr.s	+ ;sub_3FA26
 		lea	(Player_2).w,a2
 		moveq	#p2_standing_bit,d6
 ; End of function sub_3F996
@@ -132,17 +132,17 @@ loc_3FA18:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_3FA26:
++ ;sub_3FA26:
 		btst	d6,status(a1)
 		beq.s	locret_3F9FC
 		move.w	#-$E80,d1
 		cmpi.w	#$900,$3A(a0)
-		bhs.s	loc_3FA3C
+		bhs.s	+ ;loc_3FA3C
 		move.w	#-$D00,d1
 
-loc_3FA3C:
++ ;loc_3FA3C:
 		move.w	d1,y_vel(a2)
-		bra.s	loc_3FA66
+		bra.s	++ ;loc_3FA66
 ; End of function sub_3FA26
 
 ; ---------------------------------------------------------------------------
@@ -153,19 +153,19 @@ loc_3FA42:
 		clr.w	$32(a0)
 		lea	(Player_1).w,a2
 		moveq	#p1_standing_bit,d6
-		bsr.s	sub_3FA5A
+		bsr.s	+ ;sub_3FA5A
 		lea	(Player_2).w,a2
 		moveq	#p2_standing_bit,d6
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_3FA5A:
++ ;sub_3FA5A:
 		btst	d6,status(a0)
 		beq.s	locret_3F9FC
 		move.w	#-$D00,y_vel(a2)
 
-loc_3FA66:
++ ;loc_3FA66:
 		bset	#Status_InAir,status(a2)
 		bclr	#Status_OnObj,status(a2)
 		clr.b	jumping(a2)
@@ -201,17 +201,17 @@ loc_3FAC2:
 		subi.w	#$14,d0
 		move.w	d0,y_pos(a0)
 		cmpi.w	#$18,$34(a1)
-		bne.s	loc_3FB06
+		bne.s	+ ;loc_3FB06
 		move.l	#loc_3FB0C,(a0)
 		moveq	#signextendB(sfx_Flipper),d0
 		jsr	(Play_SFX).l
 		move.w	#$18,$36(a1)
 		move.w	#-$800,y_vel(a0)
 		tst.w	$3A(a1)
-		beq.s	loc_3FB06
+		beq.s	+ ;loc_3FB06
 		move.w	#-$A00,y_vel(a0)
 
-loc_3FB06:
++ ;loc_3FB06:
 		jmp	(Sprite_OnScreen_Test).l
 ; ---------------------------------------------------------------------------
 
@@ -223,7 +223,7 @@ loc_3FB0C:
 		add.w	$30(a0),d0
 		subi.w	#$14,d0
 		cmp.w	y_pos(a0),d0
-		bhi.s	loc_3FB4A
+		bhi.s	+ ;loc_3FB4A
 		move.w	d0,y_pos(a0)
 		move.l	#loc_3FAC2,(a0)
 		move.w	#0,$36(a1)
@@ -231,7 +231,7 @@ loc_3FB0C:
 		move.w	y_vel(a0),$3A(a1)
 		clr.w	y_vel(a0)
 
-loc_3FB4A:
++ ;loc_3FB4A:
 		jmp	(Sprite_OnScreen_Test).l
 ; ---------------------------------------------------------------------------
 byte_3FB50:

@@ -14,21 +14,21 @@ Obj_AIZRideVine:
 		moveq	#3,d1
 		addq.w	#1,d1
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_21CFE
+		bne.w	++ ;loc_21CFE
 		move.w	a1,$3E(a0)
 		move.l	#loc_21F80,(a1)
 		move.w	a0,$3C(a1)
-		bra.s	loc_21CD0
+		bra.s	+ ;loc_21CD0
 ; ---------------------------------------------------------------------------
 
-loc_21CB8:
+- ;loc_21CB8:
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_21CFE
+		bne.w	++ ;loc_21CFE
 		move.l	#loc_22014,(a1)
 		move.w	a2,$3C(a1)
 		move.w	a1,$3E(a2)
 
-loc_21CD0:
++ ;loc_21CD0:
 		movea.l	a1,a2
 		bsr.s	sub_21D00
 		move.w	d2,x_pos(a1)
@@ -36,12 +36,12 @@ loc_21CD0:
 		addi.w	#$10,d3
 		addq.w	#1,$36(a0)
 		move.w	$36(a0),$36(a1)
-		dbf	d1,loc_21CB8
+		dbf	d1,- ;loc_21CB8
 		move.l	#Obj_AIZRideVineHandle,(a1)
 		move.b	#$20,mapping_frame(a1)
 		move.w	a1,$40(a0)
 
-loc_21CFE:
++ ;loc_21CFE:
 		bra.s	loc_21D28
 
 ; =============== S U B R O U T I N E =======================================
@@ -62,13 +62,13 @@ sub_21D00:
 loc_21D28:
 		movea.w	$40(a0),a1
 		tst.w	$32(a1)
-		beq.s	loc_21D48
+		beq.s	+ ;loc_21D48
 		move.l	#loc_21D4C,(a0)
 		movea.w	$3E(a0),a1
 		move.w	#1,$2E(a1)
 		move.w	#0,$38(a1)
 
-loc_21D48:
++ ;loc_21D48:
 		bra.w	loc_21F38
 ; ---------------------------------------------------------------------------
 
@@ -79,7 +79,7 @@ loc_21D4C:
 		cmp.w	$46(a0),d0
 		blo.w	loc_21DEE
 		tst.b	subtype(a0)
-		bpl.s	loc_21DC2
+		bpl.s	+++ ;loc_21DC2
 		move.l	#loc_21DF2,(a0)
 		move.w	#$800,x_vel(a0)
 		move.w	#$200,y_vel(a0)
@@ -92,20 +92,20 @@ loc_21D4C:
 		movea.w	$40(a0),a1
 		lea	$32(a1),a2
 		tst.b	(a2)
-		beq.s	loc_21DB6
+		beq.s	+ ;loc_21DB6
 		move.b	#$81,(a2)
 
-loc_21DB6:
++ ;loc_21DB6:
 		addq.w	#1,a2
 		tst.b	(a2)
-		beq.s	loc_21DC0
+		beq.s	+ ;loc_21DC0
 		move.b	#$81,(a2)
 
-loc_21DC0:
++ ;loc_21DC0:
 		bra.s	loc_21DEE
 ; ---------------------------------------------------------------------------
 
-loc_21DC2:
++ ;loc_21DC2:
 		move.l	#loc_21E14,(a0)
 		movea.w	$3E(a0),a1
 		move.l	#loc_21FE8,(a1)
@@ -122,10 +122,10 @@ loc_21DEE:
 loc_21DF2:
 		jsr	(MoveSprite).l
 		tst.b	render_flags(a0)
-		bmi.s	loc_21E04
+		bmi.s	+ ;loc_21E04
 		move.w	#$7FF0,x_pos(a0)
 
-loc_21E04:
++ ;loc_21E04:
 		lea	(Ani_AnimatedStillSprites).l,a1
 		jsr	(Animate_Sprite).l
 		bra.w	loc_21F38
@@ -136,19 +136,19 @@ loc_21E14:
 		move.w	$3A(a0),d0
 		move.b	angle(a0),d1
 		ext.w	d1
-		bpl.s	loc_21E26
+		bpl.s	+ ;loc_21E26
 		neg.w	d1
 
-loc_21E26:
++ ;loc_21E26:
 		add.w	d1,d1
 		sub.w	d1,d0
 		sub.w	d0,angle(a0)
 		tst.w	$32(a1)
-		bne.s	loc_21E68
+		bne.s	+ ;loc_21E68
 		move.b	angle(a0),d0
 		addq.b	#8,d0
 		cmpi.b	#$10,d0
-		bhs.s	loc_21E68
+		bhs.s	+ ;loc_21E68
 		move.l	#loc_21E6C,(a0)
 		move.w	#0,$42(a0)
 		move.w	#-$300,$44(a0)
@@ -157,7 +157,7 @@ loc_21E26:
 		movea.w	$40(a0),a1
 		move.w	#2,$30(a1)
 
-loc_21E68:
++ ;loc_21E68:
 		bra.w	loc_21F38
 ; ---------------------------------------------------------------------------
 
@@ -167,19 +167,19 @@ loc_21E6C:
 		move.w	$44(a0),d0
 		move.w	#0,d1
 		tst.w	$2E(a0)
-		bne.s	loc_21EC4
+		bne.s	+ ;loc_21EC4
 		add.w	d2,d0
 		move.w	d0,$44(a0)
 		add.w	d0,$42(a0)
 		cmp.b	$42(a0),d1
-		bgt.s	loc_21EEE
+		bgt.s	++ ;loc_21EEE
 		asr.w	#4,d0
 		sub.w	d0,$44(a0)
 		move.w	#1,$2E(a0)
 		cmpi.w	#$C00,$38(a0)
 		beq.s	loc_21EAC
 		subi.w	#$40,$38(a0)
-		bra.s	loc_21EEE
+		bra.s	++ ;loc_21EEE
 ; ---------------------------------------------------------------------------
 
 loc_21EAC:
@@ -187,15 +187,15 @@ loc_21EAC:
 		move.w	#0,$38(a0)
 		movea.w	$40(a0),a1
 		move.w	#0,$30(a1)
-		bra.s	loc_21EEE
+		bra.s	++ ;loc_21EEE
 ; ---------------------------------------------------------------------------
 
-loc_21EC4:
++ ;loc_21EC4:
 		sub.w	d2,d0
 		move.w	d0,$44(a0)
 		add.w	d0,$42(a0)
 		cmp.b	$42(a0),d1
-		ble.s	loc_21EEE
+		ble.s	+ ;loc_21EEE
 		asr.w	#4,d0
 		sub.w	d0,$44(a0)
 		move.w	#0,$2E(a0)
@@ -203,7 +203,7 @@ loc_21EC4:
 		beq.s	loc_21EAC
 		subi.w	#$40,$38(a0)
 
-loc_21EEE:
++ ;loc_21EEE:
 		move.w	$42(a0),d0
 		move.w	d0,angle(a0)
 		asr.w	#3,d0
@@ -219,10 +219,10 @@ loc_21F0A:
 		jsr	(GetSineCosine).l
 		asl.w	#2,d0
 		cmpi.w	#$400,d0
-		bne.s	loc_21F26
+		bne.s	+ ;loc_21F26
 		move.w	#$3FF,d0
 
-loc_21F26:
++ ;loc_21F26:
 		move.w	d0,angle(a0)
 		move.w	d0,$3A(a0)
 		movea.w	$3E(a0),a1
@@ -233,56 +233,56 @@ loc_21F38:
 		andi.w	#$FF80,d0
 		sub.w	(Camera_X_pos_coarse_back).w,d0
 		cmpi.w	#$280,d0
-		bhi.w	loc_21F52
+		bhi.w	+ ;loc_21F52
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_21F52:
++ ;loc_21F52:
 		move.w	$36(a0),d2
 		subq.w	#1,d2
-		bcs.s	loc_21F6E
+		bcs.s	+ ;loc_21F6E
 		movea.w	$3E(a0),a2
 
-loc_21F5E:
+- ;loc_21F5E:
 		movea.l	a2,a1
 		movea.w	$3E(a1),a2
 		jsr	(Delete_Referenced_Sprite).l
-		dbf	d2,loc_21F5E
+		dbf	d2,- ;loc_21F5E
 
-loc_21F6E:
++ ;loc_21F6E:
 		move.w	respawn_addr(a0),d0
-		beq.s	loc_21F7A
+		beq.s	+ ;loc_21F7A
 		movea.w	d0,a2
 		bclr	#7,(a2)
 
-loc_21F7A:
++ ;loc_21F7A:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
 loc_21F80:
 		tst.w	$2E(a0)
-		bne.s	loc_21FA8
+		bne.s	++ ;loc_21FA8
 		move.b	$38(a0),d0
 		addi.w	#$200,$38(a0)
 		jsr	(GetSineCosine).l
 		asl.w	#2,d0
 		cmpi.w	#$400,d0
-		bne.s	loc_21FA2
+		bne.s	+ ;loc_21FA2
 		move.w	#$3FF,d0
 
-loc_21FA2:
++ ;loc_21FA2:
 		move.w	d0,$3A(a0)
-		bra.s	loc_21FBE
+		bra.s	++ ;loc_21FBE
 ; ---------------------------------------------------------------------------
 
-loc_21FA8:
++ ;loc_21FA8:
 		move.b	$38(a0),d0
 		addi.w	#$100,$38(a0)
 		jsr	(GetSineCosine).l
 		asl.w	#3,d0
 		move.w	d0,$3A(a0)
 
-loc_21FBE:
++ ;loc_21FBE:
 		move.w	$3A(a0),d0
 		move.w	d0,angle(a0)
 		move.b	angle(a0),d0
@@ -349,15 +349,15 @@ Obj_AIZRideVineHandle:
 		move.w	y_pos(a0),d5
 		bsr.w	sub_22040
 		cmp.w	x_pos(a0),d4
-		beq.s	loc_2208A
+		beq.s	+ ;loc_2208A
 		move.w	d4,$42(a0)
 
-loc_2208A:
++ ;loc_2208A:
 		cmp.w	y_pos(a0),d5
-		beq.s	loc_22094
+		beq.s	+ ;loc_22094
 		move.w	d5,$44(a0)
 
-loc_22094:
++ ;loc_22094:
 		lea	$32(a0),a2
 		lea	(Player_1).w,a1
 		move.w	(Ctrl_1_logical).w,d0
@@ -367,11 +367,11 @@ loc_22094:
 		move.w	(Ctrl_2_logical).w,d0
 		bsr.s	sub_220C2
 		tst.w	$32(a0)
-		beq.s	loc_220BA
+		beq.s	+ ;loc_220BA
 		tst.w	$30(a0)
 		bne.s	locret_220C0
 
-loc_220BA:
++ ;loc_220BA:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -395,7 +395,7 @@ sub_220C2:
 		clr.b	object_control(a1)
 		clr.b	(a2)
 		cmpi.w	#1,$30(a0)
-		beq.s	loc_2215C
+		beq.s	+++ ;loc_2215C
 		move.w	x_pos(a0),d1
 		sub.w	$42(a0),d1
 		asl.w	#7,d1
@@ -406,15 +406,15 @@ sub_220C2:
 		move.w	d1,y_vel(a1)
 		move.b	#$3C,2(a2)
 		btst	#button_left+8,d0
-		beq.s	loc_22124
+		beq.s	+ ;loc_22124
 		move.w	#-$200,x_vel(a1)
 
-loc_22124:
++ ;loc_22124:
 		btst	#button_right+8,d0
-		beq.s	loc_22130
+		beq.s	+ ;loc_22130
 		move.w	#$200,x_vel(a1)
 
-loc_22130:
++ ;loc_22130:
 		addi.w	#-$380,y_vel(a1)
 
 loc_22136:
@@ -427,7 +427,7 @@ loc_22136:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_2215C:
++ ;loc_2215C:
 		move.b	#$3C,2(a2)
 		movea.w	$3C(a0),a3
 		move.b	angle(a3),d0
@@ -463,7 +463,7 @@ sub_2219E:
 		moveq	#0,d1
 		move.b	$25(a0),d1
 		cmp.b	byte_221E2(pc,d1.w),d0
-		bne.s	loc_221DA
+		bne.s	+ ;loc_221DA
 		addq.b	#1,$25(a0)
 		move.b	byte_221E2+1(pc,d1.w),d1
 		bne.s	locret_221E0
@@ -480,7 +480,7 @@ sub_2219E:
 		jsr	(Play_SFX).l
 		move.w	d1,d0
 
-loc_221DA:
++ ;loc_221DA:
 		move.b	#0,$25(a0)
 
 locret_221E0:
@@ -504,7 +504,7 @@ byte_221E2:
 
 loc_221EC:
 		tst.w	$30(a0)
-		bne.s	loc_22258
+		bne.s	++ ;loc_22258
 		bsr.s	sub_2219E
 		move.w	x_pos(a0),x_pos(a1)
 		move.w	y_pos(a0),y_pos(a1)
@@ -513,10 +513,10 @@ loc_221EC:
 		moveq	#0,d0
 		move.b	angle(a3),d0
 		btst	#Status_Facing,status(a1)
-		beq.s	loc_2221A
+		beq.s	+ ;loc_2221A
 		neg.b	d0
 
-loc_2221A:
++ ;loc_2221A:
 		addq.b	#8,d0
 		lsr.w	#4,d0
 		move.b	byte_22248(pc,d0.w),mapping_frame(a1)
@@ -538,15 +538,15 @@ byte_22248:
 		even
 ; ---------------------------------------------------------------------------
 
-loc_22258:
++ ;loc_22258:
 		movea.w	$3C(a0),a3
 		moveq	#0,d0
 		move.b	angle(a3),d0
 		btst	#Status_Facing,status(a1)
-		beq.s	loc_2226C
+		beq.s	+ ;loc_2226C
 		neg.b	d0
 
-loc_2226C:
++ ;loc_2226C:
 		addi.b	#$10,d0
 		lsr.w	#5,d0
 		add.w	d0,d0
@@ -558,10 +558,10 @@ loc_2226C:
 		ext.w	d2
 		ext.w	d3
 		btst	#Status_Facing,status(a1)
-		beq.s	loc_2229A
+		beq.s	+ ;loc_2229A
 		neg.w	d2
 
-loc_2229A:
++ ;loc_2229A:
 		movea.w	$3C(a0),a3
 		move.b	angle(a3),d0
 		addq.b	#4,d0
@@ -611,11 +611,11 @@ byte_222E4:
 
 loc_222F4:
 		tst.b	2(a2)
-		beq.s	loc_22302
+		beq.s	+ ;loc_22302
 		subq.b	#1,2(a2)
 		bne.w	locret_2237C
 
-loc_22302:
++ ;loc_22302:
 		move.w	x_pos(a1),d0
 		sub.w	x_pos(a0),d0
 		addi.w	#$10,d0
@@ -659,7 +659,7 @@ Obj_AIZGiantRideVine:
 		move.b	subtype(a0),d1
 		andi.w	#$F,d1
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_22418
+		bne.w	++ ;loc_22418
 		move.w	#-$1B0,$44(a1)
 		move.w	#$800,$38(a1)
 		move.w	a1,$3E(a0)
@@ -668,17 +668,17 @@ Obj_AIZGiantRideVine:
 		move.b	subtype(a0),d0
 		andi.b	#$F0,d0
 		move.b	d0,$42(a1)
-		bra.s	loc_223EA
+		bra.s	+ ;loc_223EA
 ; ---------------------------------------------------------------------------
 
-loc_223D2:
+- ;loc_223D2:
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_22418
+		bne.w	++ ;loc_22418
 		move.l	#loc_2251E,(a1)
 		move.w	a2,$3C(a1)
 		move.w	a1,$3E(a2)
 
-loc_223EA:
++ ;loc_223EA:
 		movea.l	a1,a2
 		bsr.s	sub_2241A
 		move.w	d2,x_pos(a1)
@@ -686,12 +686,12 @@ loc_223EA:
 		addi.w	#$10,d3
 		addq.w	#1,$36(a0)
 		move.w	$36(a0),$36(a1)
-		dbf	d1,loc_223D2
+		dbf	d1,- ;loc_223D2
 		move.l	#loc_2257E,(a1)
 		move.b	#$20,mapping_frame(a1)
 		move.w	a1,$40(a0)
 
-loc_22418:
++ ;loc_22418:
 		bra.s	loc_22442
 
 ; =============== S U B R O U T I N E =======================================
@@ -714,35 +714,35 @@ loc_22442:
 		andi.w	#$FF80,d0
 		sub.w	(Camera_X_pos_coarse_back).w,d0
 		cmpi.w	#$280,d0
-		bhi.w	loc_2245C
+		bhi.w	+ ;loc_2245C
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_2245C:
++ ;loc_2245C:
 		move.w	$36(a0),d2
 		subq.w	#1,d2
-		bcs.s	loc_22478
+		bcs.s	+ ;loc_22478
 		movea.w	$3E(a0),a2
 
-loc_22468:
+- ;loc_22468:
 		movea.l	a2,a1
 		movea.w	$3E(a1),a2
 		jsr	(Delete_Referenced_Sprite).l
-		dbf	d2,loc_22468
+		dbf	d2,- ;loc_22468
 
-loc_22478:
++ ;loc_22478:
 		move.w	respawn_addr(a0),d0
-		beq.s	loc_22484
+		beq.s	+ ;loc_22484
 		movea.w	d0,a2
 		bclr	#7,(a2)
 
-loc_22484:
++ ;loc_22484:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
 loc_2248A:
 		tst.b	(a0)
-		bne.s	loc_224BC
+		bne.s	+ ;loc_224BC
 		move.b	(AIZ_vine_angle).w,d0
 		add.b	$42(a0),d0
 		jsr	(GetSineCosine).l
@@ -757,31 +757,31 @@ loc_2248A:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_224BC:
++ ;loc_224BC:
 		moveq	#0,d2
 		move.b	$38(a0),d2
 		move.w	$44(a0),d0
 		move.w	#0,d1
 		tst.w	$2E(a0)
-		bne.s	loc_224E8
+		bne.s	+ ;loc_224E8
 		add.w	d2,d0
 		move.w	d0,$44(a0)
 		add.w	d0,$42(a0)
 		cmp.b	$42(a0),d1
-		bgt.s	loc_224FE
+		bgt.s	++ ;loc_224FE
 		move.w	#1,$2E(a0)
-		bra.s	loc_224FE
+		bra.s	++ ;loc_224FE
 ; ---------------------------------------------------------------------------
 
-loc_224E8:
++ ;loc_224E8:
 		sub.w	d2,d0
 		move.w	d0,$44(a0)
 		add.w	d0,$42(a0)
 		cmp.b	$42(a0),d1
-		ble.s	loc_224FE
+		ble.s	+ ;loc_224FE
 		move.w	#0,$2E(a0)
 
-loc_224FE:
++ ;loc_224FE:
 		move.w	$42(a0),d0
 		move.w	d0,angle(a0)
 		asr.w	#3,d0
@@ -834,15 +834,15 @@ loc_2257E:
 		move.w	y_pos(a0),d5
 		bsr.w	sub_2254A
 		cmp.w	x_pos(a0),d4
-		beq.s	loc_22594
+		beq.s	+ ;loc_22594
 		move.w	d4,$42(a0)
 
-loc_22594:
++ ;loc_22594:
 		cmp.w	y_pos(a0),d5
-		beq.s	loc_2259E
+		beq.s	+ ;loc_2259E
 		move.w	d5,$44(a0)
 
-loc_2259E:
++ ;loc_2259E:
 		lea	$32(a0),a2
 		lea	(Player_1).w,a1
 		move.w	(Ctrl_1_logical).w,d0
@@ -852,11 +852,11 @@ loc_2259E:
 		move.w	(Ctrl_2_logical).w,d0
 		bsr.w	sub_220C2
 		tst.w	$32(a0)
-		beq.s	loc_225C8
+		beq.s	+ ;loc_225C8
 		tst.w	$30(a0)
 		bne.s	locret_225CE
 
-loc_225C8:
++ ;loc_225C8:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -874,20 +874,20 @@ Obj_MHZSwingVine:
 		moveq	#0,d1
 		addq.w	#1,d1
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_22654
+		bne.w	++ ;loc_22654
 		move.w	a1,$3E(a0)
 		move.l	#loc_2286C,(a1)
 		move.w	a0,$3C(a1)
-		bra.s	loc_2261A
+		bra.s	+ ;loc_2261A
 ; ---------------------------------------------------------------------------
 
-loc_22608:
+- ;loc_22608:
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_22654
+		bne.w	++ ;loc_22654
 		move.w	a2,$3C(a1)
 		move.w	a1,$3E(a2)
 
-loc_2261A:
++ ;loc_2261A:
 		movea.l	a1,a2
 		bsr.s	sub_22656
 		move.w	d2,x_pos(a1)
@@ -895,14 +895,14 @@ loc_2261A:
 		addi.w	#$10,d3
 		addq.w	#1,$36(a0)
 		move.w	$36(a0),$36(a1)
-		dbf	d1,loc_22608
+		dbf	d1,- ;loc_22608
 		move.l	#loc_228CC,(a1)
 		move.b	#$22,mapping_frame(a1)
 		move.w	x_pos(a1),$42(a1)
 		move.w	y_pos(a1),$44(a1)
 		move.w	a1,$40(a0)
 
-loc_22654:
++ ;loc_22654:
 		bra.s	loc_2267E
 
 ; =============== S U B R O U T I N E =======================================
@@ -923,19 +923,19 @@ sub_22656:
 loc_2267E:
 		movea.w	$40(a0),a1
 		tst.w	$32(a1)
-		beq.s	loc_226AC
-		bmi.s	loc_22690
+		beq.s	++ ;loc_226AC
+		bmi.s	+ ;loc_22690
 		tst.b	$33(a1)
-		bpl.s	loc_226AC
+		bpl.s	++ ;loc_226AC
 
-loc_22690:
++ ;loc_22690:
 		move.l	#loc_226B0,(a0)
 		movea.w	$40(a0),a1
 		move.w	#1,$30(a1)
 		move.w	#0,angle(a0)
 		move.w	#$800,$3A(a0)
 
-loc_226AC:
++ ;loc_226AC:
 		bra.w	loc_22824
 ; ---------------------------------------------------------------------------
 
@@ -944,40 +944,40 @@ loc_226B0:
 		move.w	$3A(a0),d0
 		move.b	angle(a0),d1
 		ext.w	d1
-		bpl.s	loc_226C2
+		bpl.s	+ ;loc_226C2
 		neg.w	d1
 
-loc_226C2:
++ ;loc_226C2:
 		add.w	d1,d1
 		sub.w	d1,d0
 		sub.w	d0,angle(a0)
 		move.b	angle(a0),d0
 		andi.b	#$F8,d0
 		cmpi.b	#$40,d0
-		bne.s	loc_226E0
+		bne.s	+ ;loc_226E0
 		moveq	#signextendB(sfx_GroundSlide),d0
 		jsr	(Play_SFX).l
 
-loc_226E0:
++ ;loc_226E0:
 		move.w	#$200,priority(a0)
 		tst.w	angle(a0)
-		bpl.s	loc_226F2
+		bpl.s	+ ;loc_226F2
 		move.w	#$280,priority(a0)
 
-loc_226F2:
++ ;loc_226F2:
 		tst.b	$32(a1)
-		beq.s	loc_2270A
+		beq.s	+ ;loc_2270A
 		move.b	#1,(Scroll_force_positions).w
 		move.w	x_pos(a0),(Scroll_forced_X_pos).w
 		move.w	y_pos(a0),(Scroll_forced_Y_pos).w
 
-loc_2270A:
++ ;loc_2270A:
 		tst.w	$32(a1)
-		bne.s	loc_22744
+		bne.s	+ ;loc_22744
 		move.b	angle(a0),d0
 		addq.b	#8,d0
 		cmpi.b	#$10,d0
-		bhs.s	loc_22744
+		bhs.s	+ ;loc_22744
 		move.l	#loc_22748,(a0)
 		move.w	#0,$42(a0)
 		move.w	#-$300,$44(a0)
@@ -986,7 +986,7 @@ loc_2270A:
 		movea.w	$40(a0),a1
 		move.w	#2,$30(a1)
 
-loc_22744:
++ ;loc_22744:
 		bra.w	loc_22824
 ; ---------------------------------------------------------------------------
 
@@ -996,19 +996,19 @@ loc_22748:
 		move.w	$44(a0),d0
 		move.w	#0,d1
 		tst.w	$2E(a0)
-		bne.s	loc_227AC
+		bne.s	+ ;loc_227AC
 		add.w	d2,d0
 		move.w	d0,$44(a0)
 		add.w	d0,$42(a0)
 		cmp.b	$42(a0),d1
-		bgt.s	loc_227D6
+		bgt.s	++ ;loc_227D6
 		asr.w	#4,d0
 		sub.w	d0,$44(a0)
 		move.w	#1,$2E(a0)
 		cmpi.w	#$C00,$38(a0)
 		beq.s	loc_22788
 		subi.w	#$40,$38(a0)
-		bra.s	loc_227D6
+		bra.s	++ ;loc_227D6
 ; ---------------------------------------------------------------------------
 
 loc_22788:
@@ -1018,15 +1018,15 @@ loc_22788:
 		move.w	#0,$30(a1)
 		move.w	x_pos(a1),$42(a1)
 		move.w	y_pos(a1),$44(a1)
-		bra.s	loc_227D6
+		bra.s	++ ;loc_227D6
 ; ---------------------------------------------------------------------------
 
-loc_227AC:
++ ;loc_227AC:
 		sub.w	d2,d0
 		move.w	d0,$44(a0)
 		add.w	d0,$42(a0)
 		cmp.b	$42(a0),d1
-		ble.s	loc_227D6
+		ble.s	+ ;loc_227D6
 		asr.w	#4,d0
 		sub.w	d0,$44(a0)
 		move.w	#0,$2E(a0)
@@ -1034,15 +1034,15 @@ loc_227AC:
 		beq.s	loc_22788
 		subi.w	#$40,$38(a0)
 
-loc_227D6:
++ ;loc_227D6:
 		move.w	$42(a0),d0
 		move.w	d0,angle(a0)
 		move.w	#$200,priority(a0)
 		tst.w	angle(a0)
-		bpl.s	loc_227F0
+		bpl.s	+ ;loc_227F0
 		move.w	#$280,priority(a0)
 
-loc_227F0:
++ ;loc_227F0:
 		asr.w	#3,d0
 		move.w	d0,$3A(a0)
 		movea.w	$3E(a0),a1
@@ -1050,11 +1050,11 @@ loc_227F0:
 		movea.w	$40(a0),a1
 		tst.w	$32(a1)
 		beq.s	loc_22824
-		bmi.s	loc_22812
+		bmi.s	+ ;loc_22812
 		tst.b	$33(a1)
 		bpl.s	loc_22824
 
-loc_22812:
++ ;loc_22812:
 		move.l	#loc_226B0,(a0)
 		move.w	#1,$30(a1)
 		move.w	#$800,$3A(a0)
@@ -1064,29 +1064,29 @@ loc_22824:
 		andi.w	#$FF80,d0
 		sub.w	(Camera_X_pos_coarse_back).w,d0
 		cmpi.w	#$280,d0
-		bhi.w	loc_2283E
+		bhi.w	+ ;loc_2283E
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_2283E:
++ ;loc_2283E:
 		move.w	$36(a0),d2
 		subq.w	#1,d2
-		bcs.s	loc_2285A
+		bcs.s	+ ;loc_2285A
 		movea.w	$3E(a0),a2
 
-loc_2284A:
+- ;loc_2284A:
 		movea.l	a2,a1
 		movea.w	$3E(a1),a2
 		jsr	(Delete_Referenced_Sprite).l
-		dbf	d2,loc_2284A
+		dbf	d2,- ;loc_2284A
 
-loc_2285A:
++ ;loc_2285A:
 		move.w	respawn_addr(a0),d0
-		beq.s	loc_22866
+		beq.s	+ ;loc_22866
 		movea.w	d0,a2
 		bclr	#7,(a2)
 
-loc_22866:
++ ;loc_22866:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -1130,29 +1130,29 @@ loc_228CC:
 		move.w	y_pos(a0),d5
 		bsr.w	sub_22898
 		cmp.w	x_pos(a0),d4
-		beq.s	loc_228E2
+		beq.s	+ ;loc_228E2
 		move.w	d4,$42(a0)
 
-loc_228E2:
++ ;loc_228E2:
 		cmp.w	y_pos(a0),d5
-		beq.s	loc_228EC
+		beq.s	+ ;loc_228EC
 		move.w	d5,$44(a0)
 
-loc_228EC:
++ ;loc_228EC:
 		lea	$32(a0),a2
 		lea	(Player_1).w,a1
 		move.w	(Ctrl_1_logical).w,d0
-		bsr.s	loc_2291A
+		bsr.s	++ ;loc_2291A
 		lea	(Player_2).w,a1
 		addq.w	#1,a2
 		move.w	(Ctrl_2_logical).w,d0
-		bsr.s	loc_2291A
+		bsr.s	++ ;loc_2291A
 		tst.w	$32(a0)
-		beq.s	loc_22912
+		beq.s	+ ;loc_22912
 		tst.w	$30(a0)
 		bne.s	locret_22918
 
-loc_22912:
++ ;loc_22912:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -1160,7 +1160,7 @@ locret_22918:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_2291A:
++ ;loc_2291A:
 		tst.b	(a2)
 		beq.w	loc_22AF8
 		tst.b	render_flags(a1)
@@ -1174,7 +1174,7 @@ loc_2291A:
 		clr.b	object_control(a1)
 		clr.b	(a2)
 		cmpi.w	#1,$30(a0)
-		beq.s	loc_229B6
+		beq.s	+++ ;loc_229B6
 		move.w	x_pos(a0),d1
 		sub.w	$42(a0),d1
 		asl.w	#7,d1
@@ -1185,15 +1185,15 @@ loc_2291A:
 		move.w	d1,y_vel(a1)
 		move.b	#$3C,2(a2)
 		btst	#button_left+8,d0
-		beq.s	loc_2297E
+		beq.s	+ ;loc_2297E
 		move.w	#-$200,x_vel(a1)
 
-loc_2297E:
++ ;loc_2297E:
 		btst	#button_right+8,d0
-		beq.s	loc_2298A
+		beq.s	+ ;loc_2298A
 		move.w	#$200,x_vel(a1)
 
-loc_2298A:
++ ;loc_2298A:
 		addi.w	#-$380,y_vel(a1)
 
 loc_22990:
@@ -1206,7 +1206,7 @@ loc_22990:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_229B6:
++ ;loc_229B6:
 		move.b	#$3C,2(a2)
 		movea.w	$3C(a0),a3
 		move.b	angle(a3),d0
@@ -1241,10 +1241,10 @@ loc_229F2:
 		moveq	#0,d0
 		move.b	angle(a3),d0
 		btst	#Status_Facing,status(a1)
-		beq.s	loc_22A1E
+		beq.s	+ ;loc_22A1E
 		neg.b	d0
 
-loc_22A1E:
++ ;loc_22A1E:
 		addq.b	#8,d0
 		lsr.w	#4,d0
 		move.b	byte_22A4C(pc,d0.w),mapping_frame(a1)
@@ -1271,10 +1271,10 @@ loc_22A5C:
 		moveq	#0,d0
 		move.b	angle(a3),d0
 		btst	#Status_Facing,status(a1)
-		beq.s	loc_22A70
+		beq.s	+ ;loc_22A70
 		neg.b	d0
 
-loc_22A70:
++ ;loc_22A70:
 		addi.b	#$10,d0
 		lsr.w	#5,d0
 		add.w	d0,d0
@@ -1286,10 +1286,10 @@ loc_22A70:
 		ext.w	d2
 		ext.w	d3
 		btst	#Status_Facing,status(a1)
-		beq.s	loc_22A9E
+		beq.s	+ ;loc_22A9E
 		neg.w	d2
 
-loc_22A9E:
++ ;loc_22A9E:
 		movea.w	$3C(a0),a3
 		move.b	angle(a3),d0
 		addq.b	#4,d0
@@ -1347,11 +1347,11 @@ byte_22AE9:
 
 loc_22AF8:
 		tst.b	2(a2)
-		beq.s	loc_22B06
+		beq.s	+ ;loc_22B06
 		subq.b	#1,2(a2)
 		bne.w	locret_22B9C
 
-loc_22B06:
++ ;loc_22B06:
 		move.w	x_pos(a1),d0
 		sub.w	x_pos(a0),d0
 		addi.w	#$10,d0

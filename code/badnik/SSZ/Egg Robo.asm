@@ -9,29 +9,29 @@ loc_91526:
 		move.b	$40(a0),d0
 		subi.b	#3,d0
 		cmpi.b	#4,d0
-		blo.s	loc_91548
+		blo.s	+ ;loc_91548
 		cmp.b	$41(a0),d0
-		beq.s	loc_91548
+		beq.s	+ ;loc_91548
 		move.b	d0,$40(a0)
 		move.b	d0,$41(a0)
 		jsr	(Perform_Art_Scaling).l
 
-loc_91548:
++ ;loc_91548:
 		move.w	$3C(a0),d0
 		subq.w	#1,d0
 		move.w	d0,$3C(a0)
 		add.w	d0,y_vel(a0)
-		bpl.s	loc_9155E
+		bpl.s	+ ;loc_9155E
 		tst.b	render_flags(a0)
-		bpl.s	loc_91570
+		bpl.s	++ ;loc_91570
 
-loc_9155E:
++ ;loc_9155E:
 		jsr	(sub_86180).l
 		jsr	(sub_8619A).l
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_91570:
++ ;loc_91570:
 		move.b	subtype(a0),d0
 		andi.w	#$F0,d0
 		lsr.w	#4,d0
@@ -54,49 +54,49 @@ loc_9159A:
 		jsr	(Find_OtherObject).l
 		jsr	(Change_FlipX).l
 		cmpi.w	#8,d3
-		bhi.s	loc_915D8
+		bhi.s	+ ;loc_915D8
 		move.l	#loc_915DE,(a0)
 		bset	#1,$38(a0)
 
-loc_915D8:
++ ;loc_915D8:
 		jmp	(Sprite_CheckDeleteTouch).l
 ; ---------------------------------------------------------------------------
 
 loc_915DE:
 		bsr.w	sub_91988
 		btst	#1,$38(a0)
-		bne.s	loc_915F0
+		bne.s	+ ;loc_915F0
 		move.l	#loc_9159A,(a0)
 
-loc_915F0:
++ ;loc_915F0:
 		jmp	(Sprite_CheckDeleteTouch).l
 ; ---------------------------------------------------------------------------
 
 loc_915F6:
 		move.b	(V_int_run_count+3).w,d0
 		andi.b	#$F,d0
-		bne.s	loc_91648
+		bne.s	++ ;loc_91648
 		tst.b	render_flags(a0)
-		bpl.s	loc_91648
+		bpl.s	++ ;loc_91648
 		lea	ChildObjDat_919E6(pc),a2
 		jsr	(CreateChild6_Simple).l
 		subq.b	#1,$39(a0)
-		bpl.s	loc_91648
+		bpl.s	++ ;loc_91648
 		move.l	#loc_9164E,(a0)
 		lea	ObjDat3_919A6(pc),a1
 		jsr	(SetUp_ObjAttributes).l
 		bclr	#7,art_tile(a0)
 		move.w	#-$300,d0
 		btst	#0,render_flags(a0)
-		beq.s	loc_9163A
+		beq.s	+ ;loc_9163A
 		neg.w	d0
 
-loc_9163A:
++ ;loc_9163A:
 		move.w	d0,x_vel(a0)
 		lea	ChildObjDat_919D0(pc),a2
 		jsr	(CreateChild1_Normal).l
 
-loc_91648:
++ ;loc_91648:
 		jmp	(Sprite_CheckDeleteTouch).l
 ; ---------------------------------------------------------------------------
 
@@ -106,12 +106,12 @@ loc_9164E:
 		jsr	(MoveSprite2).l
 		move.w	y_vel(a0),d0
 		cmpi.w	#-$200,d0
-		bgt.s	loc_91678
+		bgt.s	+ ;loc_91678
 		move.l	#loc_9167E,(a0)
 		clr.w	x_vel(a0)
 		bset	#7,art_tile(a0)
 
-loc_91678:
++ ;loc_91678:
 		jmp	(Sprite_CheckDeleteTouch).l
 ; ---------------------------------------------------------------------------
 
@@ -121,11 +121,11 @@ loc_9167E:
 		jsr	(MoveSprite2).l
 		move.w	y_vel(a0),d0
 		cmpi.w	#$100,d0
-		blt.s	loc_916A2
+		blt.s	+ ;loc_916A2
 		move.l	#loc_9159A,(a0)
 		bsr.w	sub_918E2
 
-loc_916A2:
++ ;loc_916A2:
 		jmp	(Sprite_CheckDeleteTouch).l
 ; ---------------------------------------------------------------------------
 
@@ -134,10 +134,10 @@ loc_916A8:
 		jsr	(SetUp_ObjAttributes3).l
 		movea.w	parent3(a0),a1
 		btst	#2,render_flags(a1)
-		bne.s	loc_916C4
+		bne.s	+ ;loc_916C4
 		bclr	#2,render_flags(a0)
 
-loc_916C4:
++ ;loc_916C4:
 		move.l	#loc_916CC,(a0)
 		rts
 ; ---------------------------------------------------------------------------
@@ -146,13 +146,13 @@ loc_916CC:
 		jsr	(Refresh_ChildPositionAdjusted).l
 		moveq	#6,d0
 		move.w	y_vel(a1),d1
-		bmi.s	loc_916E4
+		bmi.s	+ ;loc_916E4
 		moveq	#5,d0
 		cmpi.w	#$20,d1
-		blo.s	loc_916E4
+		blo.s	+ ;loc_916E4
 		moveq	#4,d0
 
-loc_916E4:
++ ;loc_916E4:
 		move.b	d0,mapping_frame(a0)
 		jmp	(Child_Draw_Sprite).l
 ; ---------------------------------------------------------------------------
@@ -162,10 +162,10 @@ loc_916EE:
 		jsr	(SetUp_ObjAttributes3).l
 		movea.w	parent3(a0),a1
 		btst	#2,render_flags(a1)
-		bne.s	loc_9170A
+		bne.s	+ ;loc_9170A
 		bclr	#2,render_flags(a0)
 
-loc_9170A:
++ ;loc_9170A:
 		move.l	#loc_91712,(a0)
 		rts
 ; ---------------------------------------------------------------------------
@@ -173,24 +173,24 @@ loc_9170A:
 loc_91712:
 		bsr.w	sub_91930
 		btst	#1,$38(a1)
-		beq.s	loc_91734
+		beq.s	+ ;loc_91734
 		move.l	#loc_9173A,(a0)
 		move.w	#$5F,$2E(a0)
 		lea	ChildObjDat_919DE(pc),a2
 		jsr	(CreateChild10_NormalAdjusted).l
 
-loc_91734:
++ ;loc_91734:
 		jmp	(Child_Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
 loc_9173A:
 		subq.w	#1,$2E(a0)
-		bpl.s	loc_91750
+		bpl.s	+ ;loc_91750
 		move.l	#loc_91712,(a0)
 		movea.w	parent3(a0),a1
 		bclr	#1,$38(a1)
 
-loc_91750:
++ ;loc_91750:
 		jmp	(Child_Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -203,27 +203,27 @@ loc_91756:
 loc_9176C:
 		moveq	#0,d0
 		btst	#0,(V_int_run_count+3).w
-		beq.s	loc_91778
+		beq.s	+ ;loc_91778
 		moveq	#7,d0
 
-loc_91778:
++ ;loc_91778:
 		move.b	d0,mapping_frame(a0)
 		subq.w	#1,$2E(a0)
-		bpl.s	loc_917AE
+		bpl.s	++ ;loc_917AE
 		move.l	#loc_917B4,(a0)
 		move.b	#7,mapping_frame(a0)
 		move.b	#$9C,collision_flags(a0)
 		move.w	#-$800,d0
 		btst	#0,render_flags(a0)
-		beq.s	loc_917A2
+		beq.s	+ ;loc_917A2
 		neg.w	d0
 
-loc_917A2:
++ ;loc_917A2:
 		move.w	d0,x_vel(a0)
 		moveq	#signextendB(sfx_Laser),d0
 		jsr	(Play_SFX).l
 
-loc_917AE:
++ ;loc_917AE:
 		jmp	(Child_DrawTouch_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -238,10 +238,10 @@ loc_917C0:
 		jsr	(Random_Number).l
 		move.w	#make_art_tile($580,0,0),art_tile(a0)
 		andi.w	#1,d0
-		beq.s	loc_917E2
+		beq.s	+ ;loc_917E2
 		move.w	#make_art_tile($592,0,0),art_tile(a0)
 
-loc_917E2:
++ ;loc_917E2:
 		move.b	d0,$30(a0)
 		lsl.w	#3,d0
 		lea	(word_2C7EA).l,a1
@@ -249,20 +249,20 @@ loc_917E2:
 		move.w	(a1)+,d1
 		movea.w	parent3(a0),a2
 		btst	#0,render_flags(a2)
-		beq.s	loc_91800
+		beq.s	+ ;loc_91800
 		neg.w	d1
 
-loc_91800:
++ ;loc_91800:
 		move.w	d1,x_vel(a0)
 		move.w	(a1)+,$34(a0)
 		move.l	(a1)+,mappings(a0)
 		swap	d0
 		andi.w	#$1FF,d0
 		cmpi.w	#$100,d0
-		bhs.s	loc_9181C
+		bhs.s	+ ;loc_9181C
 		move.w	#$100,d0
 
-loc_9181C:
++ ;loc_9181C:
 		neg.w	d0
 		move.w	d0,y_vel(a0)
 		move.b	#$C,y_radius(a0)
@@ -302,10 +302,10 @@ loc_91874:
 		move.w	#-$6000,$3A(a0)
 		move.w	#-$80,d0
 		btst	#0,render_flags(a0)
-		bne.s	loc_91898
+		bne.s	+ ;loc_91898
 		neg.w	d0
 
-loc_91898:
++ ;loc_91898:
 		move.w	d0,x_vel(a0)
 		move.w	x_pos(a0),$30(a0)
 		move.w	y_pos(a0),$34(a0)
@@ -372,27 +372,27 @@ sub_91930:
 		ext.w	d1
 		bclr	#0,render_flags(a0)
 		btst	#0,render_flags(a1)
-		beq.s	loc_91954
+		beq.s	+ ;loc_91954
 		neg.w	d1
 		bset	#0,render_flags(a0)
 
-loc_91954:
++ ;loc_91954:
 		add.w	d1,d0
 		move.w	d0,x_pos(a0)
 		move.w	$32(a1),d0
-		bne.s	loc_91964
+		bne.s	+ ;loc_91964
 		move.w	y_pos(a1),d0
 
-loc_91964:
++ ;loc_91964:
 		move.b	child_dy(a0),d1
 		ext.w	d1
 		bclr	#1,render_flags(a0)
 		btst	#1,render_flags(a1)
-		beq.s	loc_91980
+		beq.s	+ ;loc_91980
 		neg.w	d1
 		bset	#1,render_flags(a0)
 
-loc_91980:
++ ;loc_91980:
 		add.w	d1,d0
 		move.w	d0,y_pos(a0)
 		rts
@@ -405,10 +405,10 @@ loc_91980:
 sub_91988:
 		moveq	#1,d0
 		btst	#0,(V_int_run_count+3).w
-		beq.s	loc_91994
+		beq.s	+ ;loc_91994
 		moveq	#3,d0
 
-loc_91994:
++ ;loc_91994:
 		move.b	d0,mapping_frame(a0)
 		rts
 ; End of function sub_91988

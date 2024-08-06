@@ -391,46 +391,46 @@ Touch_Hurt:
 HurtCharacter:
 		move.w	(Ring_count).w,d0
 		cmpa.w	#Player_1,a0
-		beq.s	loc_114CC
+		beq.s	+ ;loc_114CC
 		tst.w	(Competition_mode).w
-		beq.s	loc_11504
+		beq.s	+++ ;loc_11504
 		move.w	(Ring_count_P2).w,d0
 
-loc_114CC:
++ ;loc_114CC:
 		btst	#0,status_secondary(a0)
-		bne.s	loc_114FE
+		bne.s	+ ;loc_114FE
 		tst.b	status_tertiary(a0)
-		bmi.s	loc_11504
+		bmi.s	++ ;loc_11504
 		tst.w	d0
 		beq.w	Kill_Character
 		jsr	(AllocateObject).l
-		bne.s	loc_114FE
+		bne.s	+ ;loc_114FE
 		move.l	#Obj_Bouncing_Ring,(a1)
 		move.w	x_pos(a0),x_pos(a1)
 		move.w	y_pos(a0),y_pos(a1)
 		move.w	a0,$3E(a1)
 
-loc_114FE:
++ ;loc_114FE:
 		andi.b	#$8E,status_secondary(a0)
 
-loc_11504:
++ ;loc_11504:
 		move.b	#4,routine(a0)
 		jsr	(Player_TouchFloor).l
 		bset	#Status_InAir,status(a0)
 		move.w	#-$400,y_vel(a0)
 		move.w	#-$200,x_vel(a0)
 		btst	#Status_Underwater,status(a0)
-		beq.s	loc_11536
+		beq.s	+ ;loc_11536
 		move.w	#-$200,y_vel(a0)
 		move.w	#-$100,x_vel(a0)
 
-loc_11536:
++ ;loc_11536:
 		move.w	x_pos(a0),d0
 		cmp.w	x_pos(a2),d0
-		blo.s	loc_11544
+		blo.s	+ ;loc_11544
 		neg.w	x_vel(a0)
 
-loc_11544:
++ ;loc_11544:
 		move.w	#0,ground_vel(a0)
 		move.b	#$1A,anim(a0)
 		move.b	#120,invulnerability_timer(a0)
@@ -442,7 +442,7 @@ loc_11544:
 
 Kill_Character:
 		tst.w	(Debug_placement_mode).w
-		bne.s	loc_115A8
+		bne.s	+ ;loc_115A8
 		clr.b	status_secondary(a0)
 		clr.b	status_tertiary(a0)
 		move.b	#6,routine(a0)
@@ -456,7 +456,7 @@ Kill_Character:
 		moveq	#signextendB(sfx_Death),d0
 		jsr	(Play_SFX).l
 
-loc_115A8:
++ ;loc_115A8:
 		moveq	#-1,d0
 		rts
 ; ---------------------------------------------------------------------------
@@ -465,27 +465,27 @@ Touch_Special:
 		move.b	collision_flags(a1),d1	; Get collision_flags
 		andi.b	#$3F,d1			; Get only collision size (but that doesn't seems to be its use here)
 		cmpi.b	#7,d1
-		beq.s	loc_115EC
+		beq.s	+ ;loc_115EC
 		cmpi.b	#6,d1
-		beq.s	loc_115EC
+		beq.s	+ ;loc_115EC
 		cmpi.b	#$A,d1
-		beq.s	loc_115EC
+		beq.s	+ ;loc_115EC
 		cmpi.b	#$C,d1
-		beq.s	loc_115EC
+		beq.s	+ ;loc_115EC
 		cmpi.b	#$15,d1
-		beq.s	loc_115EC
+		beq.s	+ ;loc_115EC
 		cmpi.b	#$16,d1
-		beq.s	loc_115EC
+		beq.s	+ ;loc_115EC
 		cmpi.b	#$17,d1
-		beq.s	loc_115EC
+		beq.s	+ ;loc_115EC
 		cmpi.b	#$18,d1
-		beq.s	loc_115EC
+		beq.s	+ ;loc_115EC
 		cmpi.b	#$21,d1
-		beq.s	loc_115EC
+		beq.s	+ ;loc_115EC
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_115EC:
++ ;loc_115EC:
 		move.w	a0,d1				; Get RAM address of what object hit this
 		subi.w	#Object_RAM,d1
 		beq.s	.ismaincharacter		; If the main character hit it, branch

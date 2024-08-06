@@ -27,7 +27,7 @@ Obj_LBZRideGrapple:
 		move.l	#Map_LBZRideGrapple,mappings(a0)
 		move.w	#make_art_tile($433,1,0),art_tile(a0)
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.s	loc_2562A
+		bne.s	+ ;loc_2562A
 		move.l	#loc_25752,(a1)
 		move.w	x_pos(a0),x_pos(a1)
 		move.w	y_pos(a0),y_pos(a1)
@@ -43,15 +43,15 @@ Obj_LBZRideGrapple:
 		subq.b	#1,d1
 		lea	sub2_x_pos(a1),a2
 
-loc_25610:
+- ;loc_25610:
 		move.w	x_pos(a1),(a2)+
 		move.w	y_pos(a1),(a2)+
 		move.w	#1,(a2)+
-		dbf	d1,loc_25610
+		dbf	d1,- ;loc_25610
 		move.b	#2,mapping_frame(a1)
 		move.w	a1,$3C(a0)
 
-loc_2562A:
++ ;loc_2562A:
 		move.l	#loc_25630,(a0)
 
 loc_25630:
@@ -68,74 +68,74 @@ loc_2564C:
 		andi.w	#$FF80,d0
 		sub.w	(Camera_X_pos_coarse_back).w,d0
 		cmpi.w	#$280,d0
-		bhi.w	loc_25666
+		bhi.w	+ ;loc_25666
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_25666:
++ ;loc_25666:
 		move.w	$38(a0),d0
 		andi.w	#$FF80,d0
 		sub.w	(Camera_X_pos_coarse_back).w,d0
 		cmpi.w	#$280,d0
-		bhi.w	loc_25680
+		bhi.w	+ ;loc_25680
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_25680:
++ ;loc_25680:
 		move.w	respawn_addr(a0),d0
-		beq.s	loc_2568C
+		beq.s	+ ;loc_2568C
 		movea.w	d0,a2
 		bclr	#7,(a2)
 
-loc_2568C:
++ ;loc_2568C:
 		move.w	$3C(a0),d0
-		beq.s	loc_2569A
+		beq.s	+ ;loc_2569A
 		movea.w	d0,a1
 		jsr	(Delete_Referenced_Sprite).l
 
-loc_2569A:
++ ;loc_2569A:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
 loc_256A0:
 		jsr	(MoveSprite2).l
 		btst	#0,status(a0)
-		beq.s	loc_256C2
+		beq.s	+ ;loc_256C2
 		subi.w	#$20,x_vel(a0)
 		tst.w	x_vel(a0)
-		bmi.s	loc_256D4
+		bmi.s	++ ;loc_256D4
 		subi.w	#$60,x_vel(a0)
-		bra.s	loc_256D4
+		bra.s	++ ;loc_256D4
 ; ---------------------------------------------------------------------------
 
-loc_256C2:
++ ;loc_256C2:
 		addi.w	#$20,x_vel(a0)
 		tst.w	x_vel(a0)
-		bpl.s	loc_256D4
+		bpl.s	+ ;loc_256D4
 		addi.w	#$60,x_vel(a0)
 
-loc_256D4:
++ ;loc_256D4:
 		move.w	x_pos(a0),d0
 		move.w	$34(a0),d1
 		cmp.w	d1,d0
-		bhi.s	loc_256F2
+		bhi.s	+ ;loc_256F2
 		move.w	d1,x_pos(a0)
 		bsr.s	sub_25718
 		tst.w	x_vel(a0)
-		bpl.s	loc_256F2
+		bpl.s	+ ;loc_256F2
 		move.w	#0,x_vel(a0)
 
-loc_256F2:
++ ;loc_256F2:
 		move.w	$36(a0),d1
 		cmp.w	d1,d0
-		blo.s	loc_2570C
+		blo.s	+ ;loc_2570C
 		move.w	d1,x_pos(a0)
 		bsr.s	sub_25718
 		tst.w	x_vel(a0)
-		bmi.s	loc_2570C
+		bmi.s	+ ;loc_2570C
 		move.w	#0,x_vel(a0)
 
-loc_2570C:
++ ;loc_2570C:
 		bsr.w	sub_258F2
 		bsr.w	sub_25758
 		bra.w	loc_2564C
@@ -148,7 +148,7 @@ sub_25718:
 		bmi.s	locret_25750
 		lea	$30(a0),a2
 		lea	(Player_1).w,a1
-		bsr.s	sub_2572E
+		bsr.s	+ ;sub_2572E
 		lea	(Player_2).w,a1
 		addq.w	#1,a2
 ; End of function sub_25718
@@ -157,7 +157,7 @@ sub_25718:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_2572E:
++ ;sub_2572E:
 		tst.b	(a2)
 		beq.s	locret_25750
 		move.w	x_vel(a0),x_vel(a1)
@@ -184,7 +184,7 @@ sub_25758:
 		lea	$31(a0),a2
 		lea	(Player_2).w,a1
 		move.w	(Ctrl_2).w,d0
-		bsr.s	sub_25774
+		bsr.s	+ ;sub_25774
 		lea	(Player_1).w,a1
 		subq.w	#1,a2
 		move.w	(Ctrl_1).w,d0
@@ -194,23 +194,23 @@ sub_25758:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_25774:
++ ;sub_25774:
 		tst.b	(a2)
 		beq.w	loc_25868
 		tst.b	render_flags(a1)
-		bpl.s	loc_257DC
+		bpl.s	++ ;loc_257DC
 		cmpi.b	#4,routine(a1)
-		bhs.s	loc_257DC
+		bhs.s	++ ;loc_257DC
 		andi.b	#button_A_mask|button_B_mask|button_C_mask,d0
-		beq.w	loc_257EA
+		beq.w	+++ ;loc_257EA
 		clr.b	$2E(a1)
 		clr.b	(a2)
 		move.b	#$12,2(a2)
 		andi.w	#(button_up_mask|button_down_mask|button_left_mask|button_right_mask)<<8,d0
-		beq.w	loc_257AA
+		beq.w	+ ;loc_257AA
 		move.b	#$3C,2(a2)
 
-loc_257AA:
++ ;loc_257AA:
 		move.w	x_vel(a0),x_vel(a1)
 		move.w	#-$380,y_vel(a1)
 		bset	#Status_InAir,status(a1)
@@ -222,24 +222,24 @@ loc_257AA:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_257DC:
++ ;loc_257DC:
 		clr.b	object_control(a1)
 		clr.b	(a2)
 		move.b	#$3C,2(a2)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_257EA:
++ ;loc_257EA:
 		btst	#button_left+8,d0
-		beq.s	loc_257F6
+		beq.s	+ ;loc_257F6
 		bset	#Status_Facing,status(a1)
 
-loc_257F6:
++ ;loc_257F6:
 		btst	#button_right+8,d0
-		beq.s	loc_25802
+		beq.s	+ ;loc_25802
 		bclr	#Status_Facing,status(a1)
 
-loc_25802:
++ ;loc_25802:
 		move.b	status(a1),status(a0)
 		move.b	status(a1),d0
 		andi.b	#1<<Status_Facing,d0
@@ -253,10 +253,10 @@ loc_2582C:
 		moveq	#0,d0
 		move.b	angle(a0),d0
 		btst	#Status_Facing,status(a1)
-		beq.s	loc_2583C
+		beq.s	+ ;loc_2583C
 		neg.b	d0
 
-loc_2583C:
++ ;loc_2583C:
 		addq.b	#8,d0
 		lsr.w	#4,d0
 		move.b	byte_25858(pc,d0.w),mapping_frame(a1)
@@ -274,11 +274,11 @@ byte_25858:
 
 loc_25868:
 		tst.b	2(a2)
-		beq.s	loc_25876
+		beq.s	+ ;loc_25876
 		subq.b	#1,2(a2)
 		bne.w	locret_258F0
 
-loc_25876:
++ ;loc_25876:
 		move.w	x_pos(a1),d0
 		sub.w	x_pos(a0),d0
 		addi.w	#$10,d0
@@ -319,80 +319,80 @@ locret_258F0:
 
 sub_258F2:
 		tst.w	$30(a0)
-		beq.s	loc_25906
+		beq.s	+ ;loc_25906
 		move.w	$3A(a0),d2
 		cmpi.w	#$28,d2
 		beq.s	loc_2592C
 		addq.w	#1,d2
-		bra.s	loc_25928
+		bra.s	+++ ;loc_25928
 ; ---------------------------------------------------------------------------
 
-loc_25906:
++ ;loc_25906:
 		move.w	$3A(a0),d2
-		beq.s	loc_25910
+		beq.s	+ ;loc_25910
 		subq.w	#1,d2
-		bne.s	loc_25928
+		bne.s	++ ;loc_25928
 
-loc_25910:
++ ;loc_25910:
 		clr.w	angle(a0)
 		clr.b	$40(a0)
 		clr.w	$3E(a0)
 		move.w	#0,x_vel(a0)
 		move.l	#loc_25630,(a0)
 
-loc_25928:
++ ;loc_25928:
 		move.w	d2,$3A(a0)
 
 loc_2592C:
 		mulu.w	#$33,d2
 		move.w	x_vel(a0),d0
-		bne.s	loc_25970
+		bne.s	+++ ;loc_25970
 		tst.b	$40(a0)
-		bne.s	loc_25956
+		bne.s	+ ;loc_25956
 		move.w	$3E(a0),d1
 		addi.w	#$40,d1
 		move.w	d1,$3E(a0)
 		add.w	d1,angle(a0)
-		bmi.s	loc_2596E
+		bmi.s	++ ;loc_2596E
 		move.b	#1,$40(a0)
-		bra.s	loc_2596E
+		bra.s	++ ;loc_2596E
 ; ---------------------------------------------------------------------------
 
-loc_25956:
++ ;loc_25956:
 		move.w	$3E(a0),d1
 		subi.w	#$40,d1
 		move.w	d1,$3E(a0)
 		add.w	d1,angle(a0)
-		bpl.s	loc_2596E
+		bpl.s	+ ;loc_2596E
 		move.b	#0,$40(a0)
 
-loc_2596E:
++ ;loc_2596E:
 		bra.s	loc_259B0
 ; ---------------------------------------------------------------------------
 
-loc_25970:
++ ;loc_25970:
 		neg.w	d0
 		asl.w	#2,d0
 		sub.w	angle(a0),d0
-		bge.s	loc_2598A
+		bge.s	+ ;loc_2598A
 		cmpi.w	#-$3000,angle(a0)
-		ble.s	loc_2598A
+		ble.s	+ ;loc_2598A
 		subi.w	#$180,angle(a0)
-		bra.s	loc_25998
+		bra.s	++ ;loc_25998
 ; ---------------------------------------------------------------------------
 
-loc_2598A:
++ ;loc_2598A:
 		cmpi.w	#$3000,angle(a0)
-		bge.s	loc_25998
+		bge.s	+ ;loc_25998
 		addi.w	#$180,angle(a0)
 
-loc_25998:
++ ;loc_25998:
 		move.b	#0,$40(a0)
 		tst.w	x_vel(a0)
-		bpl.s	loc_259AA
+		bpl.s	+ ;loc_259AA
 		move.b	#1,$40(a0)
 
-loc_259AA:
++ ;loc_259AA:
 		move.w	#0,$3E(a0)
 
 loc_259B0:
@@ -406,7 +406,7 @@ loc_259B0:
 		moveq	#6-1,d4
 		lea	sub2_x_pos(a1),a2
 
-loc_259D0:
+- ;loc_259D0:
 		swap	d2
 		swap	d3
 		move.w	d2,(a2)+
@@ -416,7 +416,7 @@ loc_259D0:
 		swap	d3
 		add.l	d0,d2
 		add.l	d1,d3
-		dbf	d4,loc_259D0
+		dbf	d4,- ;loc_259D0
 		move.w	$36(a1),x_pos(a1)
 		move.w	$38(a1),y_pos(a1)
 		rts

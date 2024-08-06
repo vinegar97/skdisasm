@@ -42,83 +42,84 @@ Country_Code:	dc.b "U               "
 ; ---------------------------------------------------------------------------
 
 ErrorTrap:
+-
 		nop
 		nop
-		bra.s	ErrorTrap
+		bra.s	- ;ErrorTrap
 ; ---------------------------------------------------------------------------
 
 EntryPoint:
 		lea	(System_stack).w,sp
 		tst.l	(HW_Port_1_Control-1).l
-		bne.s	loc_218
+		bne.s	+ ;loc_218
 		tst.w	(HW_Expansion_Control-1).l
 
-loc_218:
-		bne.s	Init_SkipPowerOn	; in case of a soft reset
++ ;loc_218:
+		bne.s	++ ;Init_SkipPowerOn	; in case of a soft reset
 		lea	SetupValues(pc),a5
 		movem.w	(a5)+,d5-d7
 		movem.l	(a5)+,a0-a4
 		move.b	HW_Version-Z80_bus_request(a1),d0	; get hardware version
 		andi.b	#$F,d0
-		beq.s	SkipSecurity	; branch if hardware is older than Genesis III
+		beq.s	+ ;SkipSecurity	; branch if hardware is older than Genesis III
 		move.l	#'SEGA',Security_addr-Z80_bus_request(a1)	; satisfy the TMSS
 
-SkipSecurity:
++ ;SkipSecurity:
 		move.w	(a4),d0	; check if VDP works
 		moveq	#0,d0
 		movea.l	d0,a6
 		move.l	a6,usp	; set usp to $0
 		moveq	#VDPInitValues.End-VDPInitValues-1,d1
 
-Init_VDPRegs:
+- ;Init_VDPRegs:
 		move.b	(a5)+,d5
 		move.w	d5,(a4)
 		add.w	d7,d5
-		dbf	d1,Init_VDPRegs	; set all 24 registers
+		dbf	d1,- ;Init_VDPRegs	; set all 24 registers
 
 		move.l	(a5)+,(a4)	; set VRAM write mode
 		move.w	d0,(a3)	; clear the screen
 		move.w	d7,(a1)	; stop the Z80
 		move.w	d7,(a2)	; reset the Z80
 
-WaitForZ80:
+- ;WaitForZ80:
 		btst	d0,(a1)	; has the Z80 stopped?
-		bne.s	WaitForZ80	; if not, branch
+		bne.s	- ;WaitForZ80	; if not, branch
 		moveq	#Z80StartupCodeEnd-Z80StartupCodeBegin-1,d2
 
-Init_SoundRAM:
+- ;Init_SoundRAM:
 		move.b	(a5)+,(a0)+
-		dbf	d2,Init_SoundRAM
+		dbf	d2,- ;Init_SoundRAM
 		move.w	d0,(a2)
 		move.w	d0,(a1)	; start the Z80
 		move.w	d7,(a2)	; reset the Z80
 
-Init_ClearRAM:
+- ;Init_ClearRAM:
 		move.l	d0,-(a6)		; Clear normal RAM
-		dbf	d6,Init_ClearRAM
+		dbf	d6,- ;Init_ClearRAM
 		move.l	(a5)+,(a4)	; set VDP display mode and increment
 		move.l	(a5)+,(a4)	; set VDP to CRAM write
 		moveq	#bytesToLcnt($80),d3
 
-Init_ClearCRAM:
+- ;Init_ClearCRAM:
 		move.l	d0,(a3)			; Clear CRAM
-		dbf	d3,Init_ClearCRAM
+		dbf	d3,- ;Init_ClearCRAM
 		move.l	(a5)+,(a4)
 		moveq	#bytesToLcnt($50),d4
 
-Init_ClearVSRAM:
+- ;Init_ClearVSRAM:
 		move.l	d0,(a3)			; Clear VSRAM
-		dbf	d4,Init_ClearVSRAM
+		dbf	d4,- ;Init_ClearVSRAM
 		moveq	#PSGInitValues.End-PSGInitValues-1,d5
 
-Init_InputPSG:
+- ;Init_InputPSG:
 		move.b	(a5)+,PSG_input-VDP_data_port(a3)	; reset the PSG
-		dbf	d5,Init_InputPSG
+		dbf	d5,- ;Init_InputPSG
 		move.w	d0,(a2)
 		movem.l	(a6),d0-a6	; clear all registers
 		move	#$2700,sr	; set the sr
 
-Init_SkipPowerOn:
++ ;Init_SkipPowerOn:
 		bra.s	Test_CountryCode
 ; ---------------------------------------------------------------------------
 SetupValues:
@@ -220,11 +221,11 @@ CheckVDP:
 		lea	(Country_Code).l,a0	;point to country codes in ID block
 		move.w	#16-1,d1	;number of bytes in country field in ID block
 
-CheckCountry:
+- ;CheckCountry:
 		cmp.b	(a0),d0		;is this the machine's code?
 		beq.w	EndCheckVDP	;found it, ok to run the game
 		addq.l	#1,a0
-		dbf	d1,CheckCountry	;nope, check the next one?
+		dbf	d1,- ;CheckCountry	;nope, check the next one?
 
 		lea	(VDP_data_port).l,a4	;VDP data port
 		lea	(VDP_control_port).l,a5	;VDP control port
@@ -244,30 +245,30 @@ CheckCountry:
 
 		move.l	#$10000000,d2	;set pixel mask
 
-WriteCharSet:
+- ;WriteCharSet:
 		move.w	#8-1,d6		;8 rows per char
 
-WriteChar:
+- ;WriteChar:
 		move.b	(a0)+,d1	;get a row (source is 1 bit per pixel)
 		move.l	#0,d4		;clear pixel row accumulator
 		move.w	#8-1,d5		;8 pixels per row
 
-WritePix:
+- ;WritePix:
 		rol.l	#4,d2		;rotate masks to next pixel position
 
 		ror.b	#1,d1		;check next bit in source
-		bcc.s	NextPix		;if it's 0, don't put a pixel
+		bcc.s	+ ;NextPix		;if it's 0, don't put a pixel
 
 		or.l	d2,d4		;else, put a pixel
 
-NextPix:
-		dbf	d5,WritePix	;next pixel
++ ;NextPix:
+		dbf	d5,- ;WritePix	;next pixel
 
 ; WritePixRow:
 		move.l	d4,(a4)		;put pixel row in VRAM
-		dbf	d6,WriteChar	; next row
+		dbf	d6,-- ;WriteChar	; next row
 
-		dbf	d0,WriteCharSet	; next char
+		dbf	d0,--- ;WriteCharSet	; next char
 
 		move.b	#8,d1		;set row for WriteString
 		lea	MsgDevelopedFor(pc),a0	;set string address for WriteString
@@ -276,45 +277,45 @@ NextPix:
 
 		lea	(Country_Code).l,a1      ;point to territory ID's in ID block
 
-CheckID:
+- ;CheckID:
 		cmpi.b	#' ',(a1)	;if this entry in ID block = ' '
 		beq.s	CheckIDDone	; we're done
 
 		lea	MsgPtrs(pc),a2	;point to list of message ID's & pointers
 
-CheckMsg:
+- ;CheckMsg:
 		move.w	(a2)+,d4	;get message ID
 		tst.b	d4		;if message ID = 0
-		beq.s	NextID		; step to next territory ID
+		beq.s	+++ ;NextID		; step to next territory ID
 		cmp.b	(a1),d4		;else if message ID != territory ID
-		bne.s	NoPrint		; don't print this message
+		bne.s	++ ;NoPrint		; don't print this message
 
 		cmpi.b	#' ',1(a1)	;if this territory ID isn't the last one
-		bne.s	PrintMsg	; don't print the "&"
+		bne.s	+ ;PrintMsg	; don't print the "&"
 		cmpa.l	#Country_Code,a1
-		beq.s	PrintMsg
+		beq.s	+ ;PrintMsg
 
 		lea	MsgAnd(pc),a0	;else
 		move.b	(a0)+,d0	; print it
 		addq.w	#1,d1
 		bsr.w	WriteString
 
-PrintMsg:
++ ;PrintMsg:
 		lea	MessageData(pc),a0	;set string address for WriteString
 		adda.l	(a2)+,a0	; add offset
 
 		move.b	(a0)+,d0	;set column for WriteString
 		addq.w	#1,d1		;next line
 		bsr.w	WriteString	;write it to the screen
-		bra.s	NextID		;check the next territory ID
+		bra.s	++ ;NextID		;check the next territory ID
 
-NoPrint:
++ ;NoPrint:
 		addq.l	#4,a2
-		bra.s	CheckMsg
+		bra.s	- ;CheckMsg
 
-NextID:
++ ;NextID:
 		addq.l	#1,a1		;point to the next territory ID and...
-		bra.s	CheckID		; check it
+		bra.s	-- ;CheckID		; check it
 
 CheckIDDone:
 		lea	MsgSystems(pc),a0	;write last line of message.
@@ -323,7 +324,7 @@ CheckIDDone:
 		bsr.w	WriteString
 
 TrapCheckVDP:
-		bra.s	TrapCheckVDP
+		bra.s	* ;TrapCheckVDP
 
 WriteString:
 		move.b	d1,d2
@@ -338,16 +339,16 @@ WriteString:
 		addi.l	#vdpComm(VRAM_Plane_A_Name_Table,VRAM,WRITE),d2
 		move.l	d2,(a5)
 
-ws01:
+- ;ws01:
 		tst.b	(a0)
-		beq.s	ws99
+		beq.s	+ ;ws99
 		move.b	(a0)+,d2
 		subi.b	#' ',d2
 		andi.w	#$FF,d2
 		move.w	d2,(a4)
-		bra.s	ws01
+		bra.s	- ;ws01
 
-ws99:
++ ;ws99:
 		rts
 
 MessageData:
@@ -504,15 +505,16 @@ AASCIIchars:
 EndCheckVDP:
 ; ---------------------------------------------------------------------------
 Test_Checksum:
+-
 		move.w	(VDP_control_port).l,d1
 		btst	#1,d1
-		bne.s	Test_Checksum
+		bne.s	- ;Test_Checksum
 		btst	#6,(HW_Expansion_Control).l
-		beq.s	loc_6BC
+		beq.s	+ ;loc_6BC
 		cmpi.l	#Ref_Checksum_String,(Checksum_string).w
-		beq.w	Test_Checksum_Done
+		beq.w	.Done
 
-loc_6BC:
++ ;loc_6BC:
 		movea.l	#ErrorTrap,a0
 		movea.l	#ROMEndLoc,a1
 		move.l	(a1),d0
@@ -529,23 +531,23 @@ loc_6BC:
 		moveq	#0,d7
 		move.w	#bytesToLcnt($200),d6
 
-loc_6EA:
+- ;loc_6EA:
 		move.l	d7,(a6)+
-		dbf	d6,loc_6EA	; clear RAM from $FFFE00 to $FFFFFF
+		dbf	d6,- ;loc_6EA	; clear RAM from $FFFE00 to $FFFFFF
 		move.b	(HW_Version).l,d0
 		andi.b	#$C0,d0
 		move.b	d0,(Graphics_flags).w
 		move.l	#Ref_Checksum_String,(Checksum_string).w
 
-Test_Checksum_Done:
+.Done:
 		bsr.w	DetectPAL
 		lea	($FF0000).l,a6
 		moveq	#0,d7
 		move.w	#bytesToLcnt($FE00),d6
 
-loc_716:
+- ;loc_716:
 		move.l	d7,(a6)+
-		dbf	d6,loc_716
+		dbf	d6,- ;loc_716
 		bsr.w	Init_VDP
 		bsr.w	SndDrvInit
 		bsr.w	Init_Controllers
@@ -553,11 +555,12 @@ loc_716:
 		move.b	#0,(Game_mode).w
 
 GameLoop:
+-
 		move.b	(Game_mode).w,d0
 		andi.w	#$7C,d0
 		movea.l	.Modes(pc,d0.w),a0
 		jsr	(a0)
-		bra.s	GameLoop
+		bra.s	- ;GameLoop
 ; ---------------------------------------------------------------------------
 ;GameModes:
 .Modes:
@@ -596,11 +599,11 @@ ChecksumError2:
 		bsr.w	Init_VDP
 		move.l	(sp)+,d1
 
-.Loop:
+- ;.Loop:
 		move.l	#vdpComm($0000,CRAM,WRITE),(VDP_control_port).l
 		move.w	d7,(VDP_data_port).l
 		addq.w	#1,d7
-		bra.s	.Loop
+		bra.s	- ;.Loop
 ; ---------------------------------------------------------------------------
 ; unused/dead code
 
@@ -608,12 +611,12 @@ ChecksumError:
 		move.l	#vdpComm($0000,CRAM,WRITE),(VDP_control_port).l
 		moveq	#bytesToWcnt($80),d7
 
-.loop:
+- ;.loop:
 		move.w	#$E,(VDP_data_port).l
-		dbf	d7,.loop	; fill entire CRAM with red
+		dbf	d7,- ;.loop	; fill entire CRAM with red
 
-ChecksumError_Loop:
-		bra.s	ChecksumError_Loop
+;ChecksumError_Loop:
+		bra.s	* ;ChecksumError_Loop
 
 ; =============== S U B R O U T I N E =======================================
 

@@ -1,10 +1,10 @@
 Obj_LRZRockCrusher:
 		lea	word_901B8(pc),a1
 		tst.b	subtype(a0)
-		beq.s	loc_900FE
+		beq.s	+ ;loc_900FE
 		lea	word_901C4(pc),a1
 
-loc_900FE:
++ ;loc_900FE:
 		jsr	(Check_CameraInRange).l
 		move.l	#loc_901D0,(a0)
 		move.w	(Camera_min_Y_pos).w,(Camera_stored_min_Y_pos).w
@@ -20,26 +20,26 @@ loc_900FE:
 		move.b	#-1,collision_property(a0)
 		move.b	#$40,y_radius(a0)
 		tst.b	subtype(a0)
-		beq.s	loc_90154
+		beq.s	+ ;loc_90154
 		bset	#7,art_tile(a0)
 
-loc_90154:
++ ;loc_90154:
 		lea	ChildObjDat_9067A(pc),a2
 		jsr	(CreateChild6_Simple).l
-		bne.s	loc_90188
+		bne.s	++ ;loc_90188
 		move.b	#$8B,subtype(a1)
 		tst.b	subtype(a0)
-		bne.s	loc_9017C
+		bne.s	+ ;loc_9017C
 		move.w	#$F40,x_pos(a1)
 		move.w	#$760,y_pos(a1)
-		bra.w	loc_90188
+		bra.w	++ ;loc_90188
 ; ---------------------------------------------------------------------------
 
-loc_9017C:
++ ;loc_9017C:
 		move.w	#$540,x_pos(a1)
 		move.w	#$860,y_pos(a1)
 
-loc_90188:
++ ;loc_90188:
 		lea	(ArtKosM_LRZRockCrusher).l,a1
 		move.w	#tiles_to_bytes($52E),d2
 		jsr	(Queue_Kos_Module).l
@@ -74,23 +74,23 @@ off_901EA:
 
 loc_901F4:
 		btst	#0,$27(a0)
-		bne.s	loc_90210
+		bne.s	+ ;loc_90210
 		move.w	(Camera_target_max_Y_pos).w,d0
 		cmp.w	(Camera_max_Y_pos).w,d0
-		bne.s	loc_90210
+		bne.s	+ ;loc_90210
 		move.w	d0,(Camera_min_Y_pos).w
 		bset	#0,$27(a0)
 
-loc_90210:
++ ;loc_90210:
 		btst	#1,$27(a0)
-		bne.s	loc_9022E
+		bne.s	+ ;loc_9022E
 		move.w	(Camera_X_pos).w,(Camera_min_X_pos).w
 		move.w	$1C(a0),d0
 		cmp.w	(Camera_X_pos).w,d0
-		bhi.s	loc_9022E
+		bhi.s	+ ;loc_9022E
 		bset	#1,$27(a0)
 
-loc_9022E:
++ ;loc_9022E:
 		move.b	$27(a0),d0
 		andi.b	#3,d0
 		cmpi.b	#3,d0
@@ -115,31 +115,31 @@ loc_9026E:
 		jsr	(Play_SFX_Continuous).l
 		moveq	#1,d0
 		bchg	#0,$38(a0)
-		beq.s	loc_90282
+		beq.s	+ ;loc_90282
 		neg.w	d0
 
-loc_90282:
++ ;loc_90282:
 		add.w	d0,y_pos(a0)
 		jsr	(ObjCheckFloorDist).l
 		tst.w	d1
-		bpl.s	loc_902BE
+		bpl.s	++ ;loc_902BE
 		move.w	x_pos(a0),d0
 		andi.w	#$FF80,d0
 		sub.w	(Camera_X_pos_coarse_back).w,d0
 		cmpi.w	#$280,d0
-		bhi.s	loc_902B6
+		bhi.s	+ ;loc_902B6
 		move.w	y_pos(a0),d0
 		sub.w	(Camera_Y_pos).w,d0
 		addi.w	#$80,d0
 		cmpi.w	#$200,d0
 		bls.w	locret_9026C
 
-loc_902B6:
++ ;loc_902B6:
 		clr.b	(Screen_shake_flag).w
 		bra.w	loc_90368
 ; ---------------------------------------------------------------------------
 
-loc_902BE:
++ ;loc_902BE:
 		move.b	#4,routine(a0)
 		ori.b	#$28,$38(a0)
 		move.w	#$27,$2E(a0)
@@ -168,11 +168,11 @@ loc_902FE:
 		jsr	(MoveSprite).l
 		move.w	y_pos(a0),d0
 		cmp.w	$3A(a0),d0
-		bhs.s	loc_90310
+		bhs.s	+ ;loc_90310
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_90310:
++ ;loc_90310:
 		move.b	#8,routine(a0)
 		move.w	#$40,y_vel(a0)
 		move.w	#$7F,$2E(a0)
@@ -184,10 +184,10 @@ loc_90310:
 
 loc_90338:
 		cmpi.w	#$40,$2E(a0)
-		bne.s	loc_90346
+		bne.s	+ ;loc_90346
 		bset	#7,status(a0)
 
-loc_90346:
++ ;loc_90346:
 		jsr	(MoveSprite2).l
 		jmp	(Obj_Wait).l
 ; ---------------------------------------------------------------------------
@@ -217,11 +217,11 @@ loc_9039A:
 		move.w	off_903C2(pc,d0.w),d1
 		jsr	off_903C2(pc,d1.w)
 		cmpi.b	#8,subtype(a0)
-		blo.s	loc_903BA
+		blo.s	+ ;loc_903BA
 		move.b	#-1,collision_property(a0)
 		bsr.w	sub_905A8
 
-loc_903BA:
++ ;loc_903BA:
 		moveq	#0,d0
 		jmp	(Child_DrawTouch_Sprite_FlickerMove).l
 ; ---------------------------------------------------------------------------
@@ -238,11 +238,11 @@ loc_903CC:
 		jsr	(SetUp_ObjAttributes3).l
 		move.b	subtype(a0),d0
 		cmpi.b	#8,d0
-		blo.s	loc_903EC
+		blo.s	+ ;loc_903EC
 		move.b	#2,mapping_frame(a0)
 		move.b	#$12,collision_flags(a0)
 
-loc_903EC:
++ ;loc_903EC:
 		andi.b	#4,d0
 		move.b	d0,$2E(a0)
 
@@ -254,17 +254,17 @@ loc_903F4:
 
 loc_90408:
 		subq.b	#1,$2E(a0)
-		bmi.s	loc_90426
+		bmi.s	++ ;loc_90426
 		movea.w	parent3(a0),a1
 		btst	#3,$38(a1)
-		beq.s	loc_90420
+		beq.s	+ ;loc_90420
 		move.b	#8,routine(a0)
 
-loc_90420:
++ ;loc_90420:
 		jmp	(Refresh_ChildPosition).l
 ; ---------------------------------------------------------------------------
 
-loc_90426:
++ ;loc_90426:
 		move.b	#6,routine(a0)
 		move.b	#2,$39(a0)
 		clr.b	$40(a0)
@@ -273,33 +273,33 @@ loc_90436:
 		move.b	$40(a0),d0
 		add.b	d0,$43(a0)
 		subq.b	#1,$2E(a0)
-		bpl.s	loc_9048A
+		bpl.s	+++ ;loc_9048A
 		subq.b	#1,$39(a0)
 		bmi.s	loc_90490
 		move.b	subtype(a0),d3
 		andi.w	#8,d3
-		bne.s	loc_9046E
+		bne.s	+ ;loc_9046E
 		btst	#2,$38(a0)
-		beq.s	loc_9046E
+		beq.s	+ ;loc_9046E
 		bchg	#1,$38(a0)
-		bne.s	loc_9046E
+		bne.s	+ ;loc_9046E
 		lea	ChildObjDat_90658(pc),a2
 		jsr	(CreateChild3_NormalRepeated).l
 
-loc_9046E:
++ ;loc_9046E:
 		lsr.w	#1,d3
 		moveq	#0,d1
 		bchg	#2,$38(a0)
-		beq.s	loc_9047C
+		beq.s	+ ;loc_9047C
 		moveq	#2,d1
 
-loc_9047C:
++ ;loc_9047C:
 		add.w	d1,d3
 		lea	byte_904AC(pc,d3.w),a1
 		move.b	(a1)+,$2E(a0)
 		move.b	(a1)+,$40(a0)
 
-loc_9048A:
++ ;loc_9048A:
 		jmp	(Refresh_ChildPosition).l
 ; ---------------------------------------------------------------------------
 
@@ -333,11 +333,11 @@ loc_904BA:
 		andi.w	#$1FF,d0
 		move.w	#$200,d1
 		tst.b	subtype(a0)
-		beq.s	loc_904E8
+		beq.s	+ ;loc_904E8
 		neg.w	d0
 		neg.w	d1
 
-loc_904E8:
++ ;loc_904E8:
 		add.w	d1,d0
 		move.w	d0,x_vel(a0)
 		swap	d0
@@ -358,38 +358,38 @@ loc_90512:
 		subq.w	#1,$2E(a0)
 		bpl.w	locret_9026C
 		tst.b	subtype(a0)
-		bne.s	loc_9056E
+		bne.s	+++ ;loc_9056E
 		st	(Events_bg+$0C).w
 		clr.b	(Screen_shake_flag).w
 		jsr	(AllocateObject).l
-		bne.s	loc_90548
+		bne.s	+ ;loc_90548
 		move.l	#Obj_LRZCollapsingBridge,(a1)
 		move.b	#1,$32(a1)
 		move.w	#$F00,x_pos(a1)
 		move.w	#$760,y_pos(a1)
 
-loc_90548:
++ ;loc_90548:
 		jsr	(AllocateObject).l
-		bne.s	loc_90568
+		bne.s	+ ;loc_90568
 		move.l	#Obj_LRZCollapsingBridge,(a1)
 		move.b	#1,$32(a1)
 		move.w	#$F80,x_pos(a1)
 		move.w	#$760,y_pos(a1)
 
-loc_90568:
++ ;loc_90568:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_9056E:
++ ;loc_9056E:
 		st	(Events_bg+$0D).w
 		jsr	(AllocateObject).l
-		bne.s	loc_90592
+		bne.s	+ ;loc_90592
 		move.l	#Obj_LRZCollapsingBridge,(a1)
 		move.b	#1,$32(a1)
 		move.w	#$540,x_pos(a1)
 		move.w	#$860,y_pos(a1)
 
-loc_90592:
++ ;loc_90592:
 		move.w	(Camera_stored_max_Y_pos).w,(Camera_target_max_Y_pos).w
 		lea	Child7_ChangeLevSize(pc),a2
 		jsr	(CreateChild7_Normal2).l
@@ -402,19 +402,19 @@ sub_905A8:
 		tst.b	collision_flags(a0)
 		bne.s	locret_905E6
 		tst.b	$20(a0)
-		bne.s	loc_905C8
+		bne.s	+ ;loc_905C8
 		move.b	#$20,$20(a0)
 		moveq	#signextendB(sfx_BossHit),d0
 		jsr	(Play_SFX).l
 		move.b	#-1,collision_property(a0)
 
-loc_905C8:
++ ;loc_905C8:
 		moveq	#0,d0
 		btst	#0,$20(a0)
-		bne.s	loc_905D6
+		bne.s	+ ;loc_905D6
 		addi.w	#2*3,d0
 
-loc_905D6:
++ ;loc_905D6:
 		bsr.w	sub_905E8
 		subq.b	#1,$20(a0)
 		bne.s	locret_905E6

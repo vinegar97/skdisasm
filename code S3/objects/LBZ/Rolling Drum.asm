@@ -11,17 +11,17 @@ loc_2B9D2:
 		lea	(Player_1).w,a1
 		lea	(_unkF7B0+2).w,a2
 		moveq	#p1_standing_bit,d6
-		bsr.s	sub_2B9F0
+		bsr.s	+ ;sub_2B9F0
 		lea	(Player_2).w,a1
 		lea	(_unkF7B0+3).w,a2
 		addq.b	#p2_standing_bit-p1_standing_bit,d6
-		bsr.s	sub_2B9F0
+		bsr.s	+ ;sub_2B9F0
 		jmp	(Delete_Sprite_If_Not_In_Range).l
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_2B9F0:
++ ;sub_2B9F0:
 		btst	d6,status(a0)
 		bne.w	loc_2BA76
 		move.w	x_pos(a1),d0
@@ -36,31 +36,31 @@ sub_2B9F0:
 		cmpi.w	#$A6,d0
 		bhs.s	locret_2BA74
 		cmpi.w	#$53,d0
-		bhs.s	loc_2BA2C
+		bhs.s	+ ;loc_2BA2C
 		tst.w	y_vel(a1)
 		bmi.s	locret_2BA74
-		bra.s	loc_2BA34
+		bra.s	++ ;loc_2BA34
 ; ---------------------------------------------------------------------------
 
-loc_2BA2C:
++ ;loc_2BA2C:
 		cmpi.w	#$38,y_vel(a1)
 		bgt.s	locret_2BA74
 
-loc_2BA34:
++ ;loc_2BA34:
 		cmpi.b	#6,routine(a1)
 		bhs.s	locret_2BA74
 		tst.w	(Debug_placement_mode).w
 		bne.s	locret_2BA74
 		cmpi.w	#8,d0
-		bhs.s	loc_2BA4C
+		bhs.s	+ ;loc_2BA4C
 		move.b	#$81,(a2)
 
-loc_2BA4C:
++ ;loc_2BA4C:
 		cmpi.w	#$9E,d0
-		blo.s	loc_2BA56
+		blo.s	+ ;loc_2BA56
 		move.b	#1,(a2)
 
-loc_2BA56:
++ ;loc_2BA56:
 		jsr	(RideObject_SetRide).l
 		move.b	#$80,flip_type(a1)
 		move.w	#1,anim(a1)	; and prev_anim
@@ -74,13 +74,13 @@ locret_2BA74:
 
 loc_2BA76:
 		btst	#Status_InAir,status(a1)
-		bne.s	loc_2BAB0
+		bne.s	+ ;loc_2BAB0
 		move.w	x_pos(a1),d0
 		sub.w	x_pos(a0),d0
 		cmp.w	$30(a0),d0
 		blt.s	loc_2BA92
 		cmp.w	$32(a0),d0
-		blt.s	loc_2BAC2
+		blt.s	++ ;loc_2BAC2
 
 loc_2BA92:
 		bclr	#Status_OnObj,status(a1)
@@ -91,7 +91,7 @@ loc_2BA92:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_2BAB0:
++ ;loc_2BAB0:
 		move.w	y_pos(a1),d0
 		sub.w	y_pos(a0),d0
 		bmi.s	loc_2BA92
@@ -99,7 +99,7 @@ loc_2BAB0:
 		bra.s	loc_2BA92
 ; ---------------------------------------------------------------------------
 
-loc_2BAC2:
++ ;loc_2BAC2:
 		btst	#Status_OnObj,status(a1)
 		beq.s	locret_2BA74
 		move.b	(a2),d0
@@ -118,11 +118,11 @@ loc_2BAC2:
 		addq.b	#2,(a2)
 		move.b	#$80,flip_type(a1)
 		tst.w	ground_vel(a1)
-		bne.s	loc_2BB0E
+		bne.s	+ ;loc_2BB0E
 		move.w	#1,ground_vel(a1)
 		move.b	#$81,flip_type(a1)
 
-loc_2BB0E:
++ ;loc_2BB0E:
 		bset	#7,art_tile(a1)
 		tst.b	d0
 		bpl.s	locret_2BB1E

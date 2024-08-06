@@ -8,7 +8,7 @@ Obj_SOZSwingingPlatform:
 		move.w	x_pos(a0),$44(a0)
 		move.w	y_pos(a0),$46(a0)
 		jsr	(AllocateObjectAfterCurrent).l
-		bne.w	loc_414E6
+		bne.w	+ ;loc_414E6
 		move.l	#Draw_Sprite,(a1)
 		move.l	mappings(a0),mappings(a1)
 		move.w	art_tile(a0),art_tile(a1)
@@ -27,16 +27,16 @@ Obj_SOZSwingingPlatform:
 		move.w	d1,mainspr_childsprites(a1)
 		subq.w	#1,d1
 
-loc_414CA:
+- ;loc_414CA:
 		move.w	d2,(a2)+
 		move.w	d3,(a2)+
 		move.w	#1,(a2)+
-		dbf	d1,loc_414CA
+		dbf	d1,- ;loc_414CA
 		move.b	#2,sub2_mapframe(a1)
 		move.b	#1,mapping_frame(a1)
 		move.w	a1,$3C(a0)
 
-loc_414E6:
++ ;loc_414E6:
 		move.w	#$4000,angle(a0)
 		move.w	#0,$32(a0)
 		andi.b	#$F0,subtype(a0)
@@ -44,7 +44,7 @@ loc_414E6:
 
 loc_414FE:
 		move.w	x_pos(a0),-(sp)
-		bsr.w	sub_4154C
+		bsr.w	+++ ;sub_4154C
 		move.w	#$20,d1
 		move.w	#$11,d3
 		move.w	(sp)+,d4
@@ -53,17 +53,17 @@ loc_414FE:
 		andi.w	#$FF80,d0
 		sub.w	(Camera_X_pos_coarse_back).w,d0
 		cmpi.w	#$280,d0
-		bhi.w	loc_41530
+		bhi.w	+ ;loc_41530
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_41530:
++ ;loc_41530:
 		move.w	respawn_addr(a0),d0
-		beq.s	loc_4153C
+		beq.s	+ ;loc_4153C
 		movea.w	d0,a2
 		bclr	#7,(a2)
 
-loc_4153C:
++ ;loc_4153C:
 		movea.w	$3C(a0),a1
 		jsr	(Delete_Referenced_Sprite).l
 		jmp	(Delete_Current_Sprite).l
@@ -71,30 +71,30 @@ loc_4153C:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_4154C:
++ ;sub_4154C:
 		moveq	#0,d0
 		moveq	#0,d1
 		move.b	(Oscillating_table+$1A).w,d0
 		addi.b	#$80,d0
 		tst.b	subtype(a0)
-		beq.s	loc_41562
+		beq.s	+ ;loc_41562
 		bsr.w	sub_41636
 
-loc_41562:
++ ;loc_41562:
 		cmp.b	$36(a0),d0
 		beq.w	locret_41634
 		move.b	d0,$36(a0)
 		btst	#0,status(a0)
-		beq.s	loc_4157C
+		beq.s	+ ;loc_4157C
 		neg.w	d0
 		addi.w	#$80,d0
 
-loc_4157C:
++ ;loc_4157C:
 		btst	#1,status(a0)
-		beq.s	loc_41586
+		beq.s	+ ;loc_41586
 		neg.w	d0
 
-loc_41586:
++ ;loc_41586:
 		jsr	(GetSineCosine).l
 		move.w	$46(a0),d2
 		move.w	$44(a0),d3
@@ -115,7 +115,7 @@ loc_41586:
 		add.l	d1,d5
 		lea	sub3_x_pos(a1),a2
 
-loc_415BC:
+- ;loc_415BC:
 		movem.l	d4-d5,-(sp)
 		swap	d4
 		swap	d5
@@ -127,7 +127,7 @@ loc_415BC:
 		add.l	d0,d4
 		add.l	d1,d5
 		addq.w	#2,a2
-		dbf	d6,loc_415BC
+		dbf	d6,- ;loc_415BC
 		movem.l	d4-d5,-(sp)
 		swap	d4
 		swap	d5
@@ -150,13 +150,13 @@ loc_415BC:
 		add.w	$44(a0),d5
 		move.w	d4,y_pos(a0)
 		tst.b	subtype(a0)
-		beq.s	loc_41630
+		beq.s	+ ;loc_41630
 		subi.w	#$18,d5
 		btst	#0,status(a0)
-		beq.s	loc_41630
+		beq.s	+ ;loc_41630
 		addi.w	#$30,d5
 
-loc_41630:
++ ;loc_41630:
 		move.w	d5,x_pos(a0)
 
 locret_41634:
@@ -169,50 +169,50 @@ locret_41634:
 
 sub_41636:
 		tst.w	$34(a0)
-		beq.s	loc_4164C
+		beq.s	+ ;loc_4164C
 		btst	#3,status(a0)
 		bne.s	loc_416C0
 		subq.w	#1,$34(a0)
 		bra.w	loc_416C0
 ; ---------------------------------------------------------------------------
 
-loc_4164C:
++ ;loc_4164C:
 		tst.b	$31(a0)
-		bne.s	loc_41668
+		bne.s	+ ;loc_41668
 		btst	#3,status(a0)
 		beq.s	loc_416C0
 		tst.w	(Debug_placement_mode).w
 		bne.w	loc_416C0
 		move.b	#1,$31(a0)
 
-loc_41668:
++ ;loc_41668:
 		tst.b	$30(a0)
-		bne.s	loc_41698
+		bne.s	++ ;loc_41698
 		move.w	$32(a0),d0
 		addi.w	#8,d0
 		move.w	d0,$32(a0)
 		add.w	d0,angle(a0)
 		tst.w	d0
-		bne.s	loc_41688
+		bne.s	+ ;loc_41688
 		move.b	#0,$31(a0)
 
-loc_41688:
++ ;loc_41688:
 		cmpi.b	#$80,angle(a0)
 		blo.s	loc_416C0
 		move.b	#1,$30(a0)
 		bra.s	loc_416C0
 ; ---------------------------------------------------------------------------
 
-loc_41698:
++ ;loc_41698:
 		move.w	$32(a0),d0
 		subi.w	#8,d0
 		move.w	d0,$32(a0)
 		add.w	d0,angle(a0)
 		tst.w	d0
-		bne.s	loc_416B2
+		bne.s	+ ;loc_416B2
 		move.w	#$1E,$34(a0)
 
-loc_416B2:
++ ;loc_416B2:
 		cmpi.b	#$80,angle(a0)
 		bhs.s	loc_416C0
 		move.b	#0,$30(a0)

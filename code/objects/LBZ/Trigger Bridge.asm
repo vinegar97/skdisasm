@@ -15,13 +15,13 @@ Obj_LBZTriggerBridge:
 		move.b	d0,d1
 		andi.w	#$F,d1
 		tst.b	$34(a0)
-		bne.s	loc_25F86
+		bne.s	+ ;loc_25F86
 		lea	(Level_trigger_array).w,a3
 		tst.b	(a3,d0.w)
-		beq.s	loc_25F86
+		beq.s	+ ;loc_25F86
 		addq.w	#4,d0
 
-loc_25F86:
++ ;loc_25F86:
 		lsr.b	#1,d0
 		andi.w	#$38,d0
 		lea	byte_25F2A(pc,d0.w),a1
@@ -46,13 +46,13 @@ loc_25F86:
 		move.w	d0,$36(a0)
 		move.b	(a1)+,mapping_frame(a0)
 		tst.b	$34(a0)
-		beq.s	loc_25FF8
+		beq.s	+ ;loc_25FF8
 		move.b	(a1)+,d0
 		move.w	d0,$36(a0)
 		move.b	(a1)+,mapping_frame(a0)
 		move.b	#0,$34(a0)
 
-loc_25FF8:
++ ;loc_25FF8:
 		move.l	#loc_25FFE,(a0)
 
 loc_25FFE:
@@ -60,7 +60,7 @@ loc_25FFE:
 		move.w	off_26038(pc,d0.w),d1
 		jsr	off_26038(pc,d1.w)
 		tst.b	render_flags(a0)
-		bpl.s	loc_2602E
+		bpl.s	+ ;loc_2602E
 		moveq	#0,d1
 		move.b	width_pixels(a0),d1
 		addi.w	#$B,d1
@@ -71,7 +71,7 @@ loc_25FFE:
 		move.w	x_pos(a0),d4
 		jsr	(SolidObjectFull2).l
 
-loc_2602E:
++ ;loc_2602E:
 		move.w	$30(a0),d0
 		jmp	(Sprite_OnScreen_Test2).l
 ; ---------------------------------------------------------------------------

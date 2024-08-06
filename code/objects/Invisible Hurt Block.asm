@@ -23,19 +23,19 @@ Obj_InvisibleHurtBlockHorizontal:
 		lsl.w	#3,d1
 		move.b	d1,height_pixels(a0)
 		btst	#0,status(a0)
-		beq.s	loc_1F448
+		beq.s	+ ;loc_1F448
 		move.l	#loc_1F4C4,(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_1F448:
++ ;loc_1F448:
 		btst	#1,status(a0)
-		beq.s	loc_1F458
+		beq.s	+ ;loc_1F458
 		move.l	#loc_1F528,(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_1F458:
++ ;loc_1F458:
 		move.l	#loc_1F45E,(a0)
 
 loc_1F45E:
@@ -50,20 +50,20 @@ loc_1F45E:
 		bsr.w	SolidObjectFull2
 		move.b	status(a0),d6
 		andi.b	#standing_mask,d6
-		beq.s	loc_1F4A2
+		beq.s	++ ;loc_1F4A2
 		move.b	d6,d0
 		andi.b	#p1_standing,d0
-		beq.s	loc_1F494
+		beq.s	+ ;loc_1F494
 		lea	(Player_1).w,a1
 		bsr.w	sub_1F58C
 
-loc_1F494:
++ ;loc_1F494:
 		andi.b	#p2_standing,d6
-		beq.s	loc_1F4A2
+		beq.s	+ ;loc_1F4A2
 		lea	(Player_2).w,a1
 		bsr.w	sub_1F58C
 
-loc_1F4A2:
++ ;loc_1F4A2:
 		move.w	x_pos(a0),d0
 		andi.w	#$FF80,d0
 		sub.w	(Camera_X_pos_coarse_back).w,d0
@@ -90,20 +90,20 @@ loc_1F4C4:
 		bsr.w	SolidObjectFull2
 		swap	d6
 		andi.w	#3,d6
-		beq.s	loc_1F506
+		beq.s	++ ;loc_1F506
 		move.b	d6,d0
 		andi.b	#1,d0
-		beq.s	loc_1F4F8
+		beq.s	+ ;loc_1F4F8
 		lea	(Player_1).w,a1
 		bsr.w	sub_1F58C
 
-loc_1F4F8:
++ ;loc_1F4F8:
 		andi.b	#2,d6
-		beq.s	loc_1F506
+		beq.s	+ ;loc_1F506
 		lea	(Player_2).w,a1
 		bsr.w	sub_1F58C
 
-loc_1F506:
++ ;loc_1F506:
 		move.w	x_pos(a0),d0
 		andi.w	#$FF80,d0
 		sub.w	(Camera_X_pos_coarse_back).w,d0
@@ -130,20 +130,20 @@ loc_1F528:
 		bsr.w	SolidObjectFull2
 		swap	d6
 		andi.w	#$C,d6
-		beq.s	loc_1F56A
+		beq.s	++ ;loc_1F56A
 		move.b	d6,d0
 		andi.b	#4,d0
-		beq.s	loc_1F55C
+		beq.s	+ ;loc_1F55C
 		lea	(Player_1).w,a1
 		bsr.w	sub_1F58C
 
-loc_1F55C:
++ ;loc_1F55C:
 		andi.b	#8,d6
-		beq.s	loc_1F56A
+		beq.s	+ ;loc_1F56A
 		lea	(Player_2).w,a1
 		bsr.w	sub_1F58C
 
-loc_1F56A:
++ ;loc_1F56A:
 		move.w	x_pos(a0),d0
 		andi.w	#$FF80,d0
 		sub.w	(Camera_X_pos_coarse_back).w,d0
@@ -190,19 +190,19 @@ Obj_InvisibleHurtBlockVertical:
 		lsl.w	#3,d1
 		move.b	d1,height_pixels(a0)
 		btst	#0,status(a0)
-		beq.s	loc_1F5F0
+		beq.s	+ ;loc_1F5F0
 		move.l	#loc_1F66C,(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_1F5F0:
++ ;loc_1F5F0:
 		btst	#1,status(a0)
-		beq.s	loc_1F600
+		beq.s	+ ;loc_1F600
 		move.l	#loc_1F6D0,(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_1F600:
++ ;loc_1F600:
 		move.l	#loc_1F606,(a0)
 
 loc_1F606:
@@ -217,20 +217,20 @@ loc_1F606:
 		bsr.w	SolidObjectFull2
 		move.b	status(a0),d6
 		andi.b	#standing_mask,d6
-		beq.s	loc_1F64A
+		beq.s	++ ;loc_1F64A
 		move.b	d6,d0
 		andi.b	#p1_standing,d0
-		beq.s	loc_1F63C
+		beq.s	+ ;loc_1F63C
 		lea	(Player_1).w,a1
 		bsr.w	sub_1F734
 
-loc_1F63C:
++ ;loc_1F63C:
 		andi.b	#p2_standing,d6
-		beq.s	loc_1F64A
+		beq.s	+ ;loc_1F64A
 		lea	(Player_2).w,a1
 		bsr.w	sub_1F734
 
-loc_1F64A:
++ ;loc_1F64A:
 		move.w	x_pos(a0),d0
 		andi.w	#$FF80,d0
 		sub.w	(Camera_X_pos_coarse_back).w,d0
@@ -257,20 +257,20 @@ loc_1F66C:
 		bsr.w	SolidObjectFull2
 		swap	d6
 		andi.w	#3,d6
-		beq.s	loc_1F6AE
+		beq.s	++ ;loc_1F6AE
 		move.b	d6,d0
 		andi.b	#1,d0
-		beq.s	loc_1F6A0
+		beq.s	+ ;loc_1F6A0
 		lea	(Player_1).w,a1
 		bsr.w	sub_1F734
 
-loc_1F6A0:
++ ;loc_1F6A0:
 		andi.b	#2,d6
-		beq.s	loc_1F6AE
+		beq.s	+ ;loc_1F6AE
 		lea	(Player_2).w,a1
 		bsr.w	sub_1F734
 
-loc_1F6AE:
++ ;loc_1F6AE:
 		move.w	x_pos(a0),d0
 		andi.w	#$FF80,d0
 		sub.w	(Camera_X_pos_coarse_back).w,d0
@@ -297,20 +297,20 @@ loc_1F6D0:
 		bsr.w	SolidObjectFull2
 		swap	d6
 		andi.w	#$C,d6
-		beq.s	loc_1F712
+		beq.s	++ ;loc_1F712
 		move.b	d6,d0
 		andi.b	#4,d0
-		beq.s	loc_1F704
+		beq.s	+ ;loc_1F704
 		lea	(Player_1).w,a1
 		bsr.w	sub_1F734
 
-loc_1F704:
++ ;loc_1F704:
 		andi.b	#8,d6
-		beq.s	loc_1F712
+		beq.s	+ ;loc_1F712
 		lea	(Player_2).w,a1
 		bsr.w	sub_1F734
 
-loc_1F712:
++ ;loc_1F712:
 		move.w	x_pos(a0),d0
 		andi.w	#$FF80,d0
 		sub.w	(Camera_X_pos_coarse_back).w,d0

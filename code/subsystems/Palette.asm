@@ -67,7 +67,7 @@ AnPal_None:
 
 AnPal_AIZ1:
 		move.b	(AIZ1_palette_cycle_flag).w,d0
-		bne.s	loc_221E
+		bne.s	++ ;loc_221E
 		subq.w	#1,(Palette_cycle_counter1).w
 		bpl.s	locret_221C
 		move.w	#7,(Palette_cycle_counter1).w
@@ -82,10 +82,10 @@ AnPal_AIZ1:
 		move.w	(Palette_cycle_counters+$02).w,d0
 		addq.w	#6,(Palette_cycle_counters+$02).w
 		cmpi.w	#$30,(Palette_cycle_counters+$02).w
-		blo.s	loc_220A
+		blo.s	+ ;loc_220A
 		move.w	#0,(Palette_cycle_counters+$02).w
 
-loc_220A:
++ ;loc_220A:
 		lea	(AnPal_PalAIZ1_2).l,a0
 		move.l	(a0,d0.w),(Normal_palette_line_4+$18).w
 		move.w	4(a0,d0.w),(Normal_palette_line_4+$1C).w
@@ -94,27 +94,27 @@ locret_221C:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_221E:
++ ;loc_221E:
 		subq.w	#1,(Palette_cycle_counter1).w
 		bpl.s	locret_227A
 		move.w	#9,(Palette_cycle_counter1).w
 		move.w	(Palette_cycle_counter0).w,d0
 		addq.w	#8,(Palette_cycle_counter0).w
 		cmpi.w	#$50,(Palette_cycle_counter0).w
-		blo.s	loc_2240
+		blo.s	+ ;loc_2240
 		move.w	#0,(Palette_cycle_counter0).w
 
-loc_2240:
++ ;loc_2240:
 		lea	(AnPal_PalAIZ1_3).l,a0
 		move.l	(a0,d0.w),(Normal_palette_line_4+$04).w
 		move.l	4(a0,d0.w),(Normal_palette_line_4+$08).w
 		move.w	(Palette_cycle_counters+$02).w,d0
 		addq.w	#6,(Palette_cycle_counters+$02).w
 		cmpi.w	#$3C,(Palette_cycle_counters+$02).w
-		blo.s	loc_2268
+		blo.s	+ ;loc_2268
 		move.w	#0,(Palette_cycle_counters+$02).w
 
-loc_2268:
++ ;loc_2268:
 		lea	(AnPal_PalAIZ1_4).l,a0
 		move.l	(a0,d0.w),(Normal_palette_line_4+$1A).w
 		move.w	4(a0,d0.w),(Normal_palette_line_4+$1E).w
@@ -125,7 +125,7 @@ locret_227A:
 
 AnPal_AIZ2:
 		subq.w	#1,(Palette_cycle_counter1).w
-		bpl.s	loc_22F6
+		bpl.s	+++ ;loc_22F6
 		move.w	#5,(Palette_cycle_counter1).w
 		move.w	(Palette_cycle_counter0).w,d0
 		addq.w	#8,(Palette_cycle_counter0).w
@@ -136,41 +136,41 @@ AnPal_AIZ2:
 		move.w	(Palette_cycle_counters+$02).w,d0
 		addq.w	#6,(Palette_cycle_counters+$02).w
 		cmpi.w	#$30,(Palette_cycle_counters+$02).w
-		blo.s	loc_22BC
+		blo.s	+ ;loc_22BC
 		move.w	#0,(Palette_cycle_counters+$02).w
 
-loc_22BC:
++ ;loc_22BC:
 		lea	(AnPal_PalAIZ2_2).l,a0
 		cmpi.w	#$3800,(Camera_X_pos).w
-		blo.s	loc_22D0
+		blo.s	+ ;loc_22D0
 		lea	(AnPal_PalAIZ2_3).l,a0
 
-loc_22D0:
++ ;loc_22D0:
 		move.w	(a0,d0.w),(Normal_palette_line_3+$08).w
 		move.w	2(a0,d0.w),(Normal_palette_line_3+$10).w
 		move.w	4(a0,d0.w),(Normal_palette_line_4+$16).w
 		move.w	#$A0E,(Normal_palette_line_3+$1C).w
 		cmpi.w	#$1C0,(Camera_X_pos).w
-		bhs.s	loc_22F6
+		bhs.s	+ ;loc_22F6
 		move.w	4(a0,d0.w),(Normal_palette_line_3+$1C).w
 
-loc_22F6:
++ ;loc_22F6:
 		subq.w	#1,(Palette_cycle_counters+$08).w
 		bpl.s	locret_2332
 		move.w	#1,(Palette_cycle_counters+$08).w
 		move.w	(Palette_cycle_counters+$04).w,d0
 		addq.w	#2,(Palette_cycle_counters+$04).w
 		cmpi.w	#$34,(Palette_cycle_counters+$04).w
-		blo.s	loc_2318
+		blo.s	+ ;loc_2318
 		move.w	#0,(Palette_cycle_counters+$04).w
 
-loc_2318:
++ ;loc_2318:
 		lea	(AnPal_PalAIZ2_4).l,a0
 		cmpi.w	#$3800,(Camera_X_pos).w
-		blo.s	loc_232C
+		blo.s	+ ;loc_232C
 		lea	(AnPal_PalAIZ2_5).l,a0
 
-loc_232C:
++ ;loc_232C:
 		move.w	(a0,d0.w),(Normal_palette_line_4+$02).w
 
 locret_2332:
@@ -184,18 +184,18 @@ AnPal_HCZ1:
 		bpl.s	locret_2380
 		move.w	#7,(Palette_cycle_counter1).w
 		tst.b	(Palette_cycle_counters+$00).w
-		beq.s	loc_234C
+		beq.s	+ ;loc_234C
 		move.w	#0,(Palette_cycle_counter1).w
 
-loc_234C:
++ ;loc_234C:
 		lea	(AnPal_PalHCZ1).l,a0
 		move.w	(Palette_cycle_counter0).w,d0
 		addq.w	#8,(Palette_cycle_counter0).w
 		cmpi.w	#$20,(Palette_cycle_counter0).w
-		blo.s	loc_2368
+		blo.s	+ ;loc_2368
 		move.w	#0,(Palette_cycle_counter0).w
 
-loc_2368:
++ ;loc_2368:
 		move.l	(a0,d0.w),(Normal_palette_line_3+$06).w
 		move.l	4(a0,d0.w),(Normal_palette_line_3+$0A).w
 		move.l	(a0,d0.w),(Water_palette_line_3+$06).w
@@ -213,31 +213,31 @@ AnPal_HCZ2:
 
 AnPal_CNZ:
 		subq.w	#1,(Palette_cycle_counter1).w
-		bpl.s	loc_23CA
+		bpl.s	++ ;loc_23CA
 		move.w	#3,(Palette_cycle_counter1).w
 		lea	(AnPal_PalCNZ_1).l,a0
 		move.w	(Palette_cycle_counter0).w,d0
 		addq.w	#6,(Palette_cycle_counter0).w
 		cmpi.w	#$60,(Palette_cycle_counter0).w
-		blo.s	loc_23AC
+		blo.s	+ ;loc_23AC
 		move.w	#0,(Palette_cycle_counter0).w
 
-loc_23AC:
++ ;loc_23AC:
 		move.l	(a0,d0.w),(Normal_palette_line_4+$12).w
 		move.w	4(a0,d0.w),(Normal_palette_line_4+$16).w
 		lea	(AnPal_PalCNZ_2).l,a0
 		move.l	(a0,d0.w),(Water_palette_line_4+$12).w
 		move.w	4(a0,d0.w),(Water_palette_line_4+$16).w
 
-loc_23CA:
++ ;loc_23CA:
 		lea	(AnPal_PalCNZ_3).l,a0
 		move.w	(Palette_cycle_counters+$02).w,d0
 		addq.w	#6,(Palette_cycle_counters+$02).w
 		cmpi.w	#$B4,(Palette_cycle_counters+$02).w
-		blo.s	loc_23E6
+		blo.s	+ ;loc_23E6
 		move.w	#0,(Palette_cycle_counters+$02).w
 
-loc_23E6:
++ ;loc_23E6:
 		move.l	(a0,d0.w),(Normal_palette_line_3+$12).w
 		move.w	4(a0,d0.w),(Normal_palette_line_3+$16).w
 		lea	(AnPal_PalCNZ_4).l,a0
@@ -250,10 +250,10 @@ loc_23E6:
 		move.w	(Palette_cycle_counters+$04).w,d0
 		addq.w	#4,(Palette_cycle_counters+$04).w
 		cmpi.w	#$40,(Palette_cycle_counters+$04).w
-		blo.s	loc_242C
+		blo.s	+ ;loc_242C
 		move.w	#0,(Palette_cycle_counters+$04).w
 
-loc_242C:
++ ;loc_242C:
 		move.l	(a0,d0.w),(Normal_palette_line_3+$E).w
 		lea	(AnPal_PalCNZ_5).l,a0
 		move.l	(a0,d0.w),(Water_palette_line_3+$E).w
@@ -273,35 +273,35 @@ locret_244C:
 
 AnPal_ICZ:
 		subq.w	#1,(Palette_cycle_counter1).w
-		bpl.s	loc_247C
+		bpl.s	++ ;loc_247C
 		move.w	#5,(Palette_cycle_counter1).w
 		lea	(AnPal_PalICZ_1).l,a0
 		move.w	(Palette_cycle_counter0).w,d0
 		addq.w	#4,(Palette_cycle_counter0).w
 		cmpi.w	#$40,(Palette_cycle_counter0).w
-		blo.s	loc_2476
+		blo.s	+ ;loc_2476
 		move.w	#0,(Palette_cycle_counter0).w
 
-loc_2476:
++ ;loc_2476:
 		move.l	(a0,d0.w),(Normal_palette_line_3+$1C).w
 
-loc_247C:
++ ;loc_247C:
 		subq.w	#1,(Palette_cycle_counters+$08).w
-		bpl.s	loc_24B0
+		bpl.s	++ ;loc_24B0
 		move.w	#9,(Palette_cycle_counters+$08).w
 		lea	(AnPal_PalICZ_2).l,a0
 		move.w	(Palette_cycle_counters+$02).w,d0
 		addq.w	#4,(Palette_cycle_counters+$02).w
 		cmpi.w	#$48,(Palette_cycle_counters+$02).w
-		blo.s	loc_24A4
+		blo.s	+ ;loc_24A4
 		move.w	#0,(Palette_cycle_counters+$02).w
 
-loc_24A4:
++ ;loc_24A4:
 		tst.w	(Events_bg+$16).w
-		beq.s	loc_24B0
+		beq.s	+ ;loc_24B0
 		move.l	(a0,d0.w),(Normal_palette_line_4+$1C).w
 
-loc_24B0:
++ ;loc_24B0:
 		subq.w	#1,(Palette_cycle_counters+$0A).w
 		bpl.s	locret_2506
 		move.w	#7,(Palette_cycle_counters+$0A).w
@@ -309,23 +309,23 @@ loc_24B0:
 		move.w	(Palette_cycle_counters+$04).w,d0
 		addq.w	#4,(Palette_cycle_counters+$04).w
 		cmpi.w	#$18,(Palette_cycle_counters+$04).w
-		blo.s	loc_24D8
+		blo.s	+ ;loc_24D8
 		move.w	#0,(Palette_cycle_counters+$04).w
 
-loc_24D8:
++ ;loc_24D8:
 		tst.w	(Events_bg+$16).w
-		beq.s	loc_24E4
+		beq.s	+ ;loc_24E4
 		move.l	(a0,d0.w),(Normal_palette_line_4+$18).w
 
-loc_24E4:
++ ;loc_24E4:
 		lea	(AnPal_PalICZ_4).l,a0
 		move.w	(Palette_cycle_counters+$06).w,d0
 		addq.w	#4,(Palette_cycle_counters+$06).w
 		cmpi.w	#$40,(Palette_cycle_counters+$06).w
-		blo.s	loc_2500
+		blo.s	+ ;loc_2500
 		move.w	#0,(Palette_cycle_counters+$06).w
 
-loc_2500:
++ ;loc_2500:
 		move.l	(a0,d0.w),(Normal_palette_line_3+$18).w
 
 locret_2506:
@@ -334,23 +334,23 @@ locret_2506:
 
 AnPal_LBZ1:
 		lea	(AnPal_PalLBZ1).l,a0
-		bra.s	loc_2516
+		bra.s	+ ;loc_2516
 ; ---------------------------------------------------------------------------
 
 AnPal_LBZ2:
 		lea	(AnPal_PalLBZ2).l,a0
 
-loc_2516:
++ ;loc_2516:
 		subq.w	#1,(Palette_cycle_counter1).w
 		bpl.s	locret_2544
 		move.w	#3,(Palette_cycle_counter1).w
 		move.w	(Palette_cycle_counter0).w,d0
 		addq.w	#6,(Palette_cycle_counter0).w
 		cmpi.w	#$12,(Palette_cycle_counter0).w
-		blo.s	loc_2538
+		blo.s	+ ;loc_2538
 		move.w	#0,(Palette_cycle_counter0).w
 
-loc_2538:
++ ;loc_2538:
 		move.l	(a0,d0.w),(Normal_palette_line_3+$10).w
 		move.w	4(a0,d0.w),(Normal_palette_line_3+$14).w
 
@@ -366,10 +366,10 @@ AnPal_SOZ1:
 		move.w	(Palette_cycle_counters+$04).w,d0
 		addq.w	#8,(Palette_cycle_counters+$04).w
 		cmpi.w	#$20,(Palette_cycle_counters+$04).w
-		blo.s	loc_256E
+		blo.s	+ ;loc_256E
 		move.w	#0,(Palette_cycle_counters+$04).w
 
-loc_256E:
++ ;loc_256E:
 		move.l	(a0,d0.w),(Normal_palette_line_3+$18).w
 		move.l	4(a0,d0.w),(Normal_palette_line_3+$1C).w
 
@@ -386,70 +386,70 @@ locret_257A:
 
 AnPal_SOZ2:
 		subq.w	#1,(Palette_cycle_counter1).w
-		bpl.s	loc_25C4
+		bpl.s	+ ;loc_25C4
 		move.w	#900-1,(Palette_cycle_counter1).w
 		cmpi.b	#5,(_unkF7C3).w
-		bhs.s	loc_25C4
+		bhs.s	+ ;loc_25C4
 		addq.b	#1,(_unkF7C3).w
 		btst	#0,(_unkF7C3).w
-		bne.s	loc_25C4
+		bne.s	+ ;loc_25C4
 		move.b	#2,(Palette_cycle_counters+$00).w
 		move.w	#0,(Palette_cycle_counters+$08).w
 
-loc_25C4:
++ ;loc_25C4:
 		tst.b	(Palette_cycle_counters+$00).w
-		beq.s	loc_262C
+		beq.s	+++ ;loc_262C
 		subq.w	#1,(Palette_cycle_counters+$08).w
-		bpl.s	loc_262C
+		bpl.s	+++ ;loc_262C
 		move.w	#3,(Palette_cycle_counters+$08).w
 		tst.b	(Palette_cycle_counters+$00).w
-		bmi.s	loc_25EC
+		bmi.s	+ ;loc_25EC
 		subq.b	#1,(Palette_cycle_counters+$00).w
 		addi.w	#$34,(Palette_cycle_counters+$02).w
 		addq.w	#1,(Palette_cycle_counters+$06).w
-		bra.s	loc_25FA
+		bra.s	++ ;loc_25FA
 ; ---------------------------------------------------------------------------
 
-loc_25EC:
++ ;loc_25EC:
 		addq.b	#1,(Palette_cycle_counters+$00).w
 		subi.w	#$34,(Palette_cycle_counters+$02).w
 		subq.w	#1,(Palette_cycle_counters+$06).w
 
-loc_25FA:
++ ;loc_25FA:
 		move.w	(Palette_cycle_counters+$02).w,d0
 		lea	(AnPal_PalSOZ2_Light).l,a0
 		lea	(a0,d0.w),a0
 		lea	(Normal_palette_line_3+$2).w,a1
 		moveq	#$B-1,d0
 
-loc_260E:
+- ;loc_260E:
 		move.w	(a0)+,(a1)+
-		dbf	d0,loc_260E
+		dbf	d0,- ;loc_260E
 		lea	(Normal_palette_line_4+$2).w,a1
 		moveq	#$F-1,d0
 
-loc_261A:
+- ;loc_261A:
 		move.w	(a0)+,(a1)+
-		dbf	d0,loc_261A
+		dbf	d0,- ;loc_261A
 		move.w	(Palette_cycle_counters+$04).w,d0
 		subq.w	#1,(Palette_cycle_counters+$0A).w
-		bpl.s	loc_264E
-		bra.s	loc_2632
+		bpl.s	+++ ;loc_264E
+		bra.s	++ ;loc_2632
 ; ---------------------------------------------------------------------------
 
-loc_262C:
++ ;loc_262C:
 		subq.w	#1,(Palette_cycle_counters+$0A).w
 		bpl.s	locret_266A
 
-loc_2632:
++ ;loc_2632:
 		move.w	#5,(Palette_cycle_counters+$0A).w
 		move.w	(Palette_cycle_counters+$04).w,d0
 		addq.w	#8,(Palette_cycle_counters+$04).w
 		cmpi.w	#$20,(Palette_cycle_counters+$04).w
-		blo.s	loc_264E
+		blo.s	+ ;loc_264E
 		move.w	#0,(Palette_cycle_counters+$04).w
 
-loc_264E:
++ ;loc_264E:
 		lea	(AnPal_PalSOZ1).l,a0
 		move.w	(Palette_cycle_counters+$06).w,d1
 		lsl.w	#5,d1
@@ -463,39 +463,39 @@ locret_266A:
 
 AnPal_LRZ1:
 		subq.w	#1,(Palette_cycle_counter1).w
-		bpl.s	loc_26C2
+		bpl.s	+++ ;loc_26C2
 		move.w	#$F,(Palette_cycle_counter1).w
 		move.w	(Palette_cycle_counter0).w,d0
 		addq.w	#8,(Palette_cycle_counter0).w
 		cmpi.w	#$80,(Palette_cycle_counter0).w
-		blo.s	loc_268E
+		blo.s	+ ;loc_268E
 		move.w	#0,(Palette_cycle_counter0).w
 
-loc_268E:
++ ;loc_268E:
 		lea	(AnPal_PalLRZ12_1).l,a0
 		move.l	(a0,d0.w),(Normal_palette_line_3+$02).w
 		move.l	4(a0,d0.w),(Normal_palette_line_3+$06).w
 		move.w	(Palette_cycle_counters+$02).w,d0
 		addq.w	#4,(Palette_cycle_counters+$02).w
 		cmpi.w	#$1C,(Palette_cycle_counters+$02).w
-		blo.s	loc_26B6
+		blo.s	+ ;loc_26B6
 		move.w	#0,(Palette_cycle_counters+$02).w
 
-loc_26B6:
++ ;loc_26B6:
 		lea	(AnPal_PalLRZ12_2).l,a0
 		move.l	(a0,d0.w),(Normal_palette_line_4+$02).w
 
-loc_26C2:
++ ;loc_26C2:
 		subq.w	#1,(Palette_cycle_counters+$08).w
 		bpl.s	locret_26F0
 		move.w	#7,(Palette_cycle_counters+$08).w
 		move.w	(Palette_cycle_counters+$04).w,d0
 		addq.w	#2,(Palette_cycle_counters+$04).w
 		cmpi.w	#$22,(Palette_cycle_counters+$04).w
-		blo.s	loc_26E4
+		blo.s	+ ;loc_26E4
 		move.w	#0,(Palette_cycle_counters+$04).w
 
-loc_26E4:
++ ;loc_26E4:
 		lea	(AnPal_PalLRZ1_3).l,a0
 		move.w	(a0,d0.w),(Normal_palette_line_3+$16).w
 
@@ -505,39 +505,39 @@ locret_26F0:
 
 AnPal_LRZ2:
 		subq.w	#1,(Palette_cycle_counter1).w
-		bpl.s	loc_2748
+		bpl.s	+++ ;loc_2748
 		move.w	#$F,(Palette_cycle_counter1).w
 		move.w	(Palette_cycle_counter0).w,d0
 		addq.w	#8,(Palette_cycle_counter0).w
 		cmpi.w	#$80,(Palette_cycle_counter0).w
-		blo.s	loc_2714
+		blo.s	+ ;loc_2714
 		move.w	#0,(Palette_cycle_counter0).w
 
-loc_2714:
++ ;loc_2714:
 		lea	(AnPal_PalLRZ12_1).l,a0
 		move.l	(a0,d0.w),(Normal_palette_line_3+$2).w
 		move.l	4(a0,d0.w),(Normal_palette_line_3+$6).w
 		move.w	(Palette_cycle_counters+$02).w,d0
 		addq.w	#4,(Palette_cycle_counters+$02).w
 		cmpi.w	#$1C,(Palette_cycle_counters+$02).w
-		blo.s	loc_273C
+		blo.s	+ ;loc_273C
 		move.w	#0,(Palette_cycle_counters+$02).w
 
-loc_273C:
++ ;loc_273C:
 		lea	(AnPal_PalLRZ12_2).l,a0
 		move.l	(a0,d0.w),(Normal_palette_line_4+$2).w
 
-loc_2748:
++ ;loc_2748:
 		subq.w	#1,(Palette_cycle_counters+$08).w
 		bpl.s	locret_277C
 		move.w	#$F,(Palette_cycle_counters+$08).w
 		move.w	(Palette_cycle_counters+$04).w,d0
 		addq.w	#8,(Palette_cycle_counters+$04).w
 		cmpi.w	#$100,(Palette_cycle_counters+$04).w
-		blo.s	loc_276A
+		blo.s	+ ;loc_276A
 		move.w	#0,(Palette_cycle_counters+$04).w
 
-loc_276A:
++ ;loc_276A:
 		lea	(AnPal_PalLRZ2_3).l,a0
 		move.l	(a0,d0.w),(Normal_palette_line_4+$16).w
 		move.l	(a0,d0.w),(Normal_palette_line_4+$1A).w
@@ -553,39 +553,39 @@ AnPal_DEZ1:
 		move.w	(Palette_cycle_counters+$04).w,d0
 		addq.w	#8,(Palette_cycle_counters+$04).w
 		cmpi.w	#$30,(Palette_cycle_counters+$04).w
-		blo.s	loc_27A0
+		blo.s	+ ;loc_27A0
 		move.w	#0,(Palette_cycle_counters+$04).w
 
-loc_27A0:
++ ;loc_27A0:
 		lea	(AnPal_PalDEZ1).l,a0
 		move.l	(a0,d0.w),(Normal_palette_line_4+$18).w
 		move.l	4(a0,d0.w),(Normal_palette_line_4+$1C).w
 
 AnPal_DEZ2:
 		subq.w	#1,(Palette_cycle_counter1).w
-		bpl.s	loc_27E0
+		bpl.s	++ ;loc_27E0
 		move.w	#4,(Palette_cycle_counter1).w
 		move.w	(Palette_cycle_counter0).w,d0
 		addq.w	#4,(Palette_cycle_counter0).w
 		cmpi.w	#$30,(Palette_cycle_counter0).w
-		blo.s	loc_27D4
+		blo.s	+ ;loc_27D4
 		move.w	#0,(Palette_cycle_counter0).w
 
-loc_27D4:
++ ;loc_27D4:
 		lea	(AnPal_PalDEZ12_1).l,a0
 		move.l	(a0,d0.w),(Normal_palette_line_3+$1A).w
 
-loc_27E0:
++ ;loc_27E0:
 		subq.w	#1,(Palette_cycle_counters+$08).w
 		bpl.s	locret_2818
 		move.w	#$13,(Palette_cycle_counters+$08).w
 		move.w	(Palette_cycle_counters+$02).w,d0
 		addi.w	#$A,(Palette_cycle_counters+$02).w
 		cmpi.w	#$28,(Palette_cycle_counters+$02).w
-		blo.s	loc_2804
+		blo.s	+ ;loc_2804
 		move.w	#0,(Palette_cycle_counters+$02).w
 
-loc_2804:
++ ;loc_2804:
 		lea	(AnPal_PalDEZ12_2).l,a0
 		lea	(a0,d0.w),a0
 		lea	(Normal_palette_line_3+$10).w,a1
@@ -599,20 +599,20 @@ locret_2818:
 
 AnPal_BPZ:
 		subq.w	#1,(Palette_cycle_counter1).w
-		bpl.s	loc_284E
+		bpl.s	++ ;loc_284E
 		move.w	#7,(Palette_cycle_counter1).w
 		lea	(AnPal_PalBPZ_1).l,a0
 		move.w	(Palette_cycle_counter0).w,d0
 		addq.w	#6,(Palette_cycle_counter0).w
 		cmpi.w	#$12,(Palette_cycle_counter0).w
-		blo.s	loc_2842
+		blo.s	+ ;loc_2842
 		move.w	#0,(Palette_cycle_counter0).w
 
-loc_2842:
++ ;loc_2842:
 		move.l	(a0,d0.w),(Normal_palette_line_3+$1A).w
 		move.w	4(a0,d0.w),(Normal_palette_line_3+$1E).w
 
-loc_284E:
++ ;loc_284E:
 		subq.w	#1,(Palette_cycle_counters+$08).w
 		bpl.s	locret_2882
 		move.w	#$11,(Palette_cycle_counters+$08).w
@@ -620,10 +620,10 @@ loc_284E:
 		move.w	(Palette_cycle_counters+$02).w,d0
 		addq.w	#6,(Palette_cycle_counters+$02).w
 		cmpi.w	#$7E,(Palette_cycle_counters+$02).w
-		blo.s	loc_2876
+		blo.s	+ ;loc_2876
 		move.w	#0,(Palette_cycle_counters+$02).w
 
-loc_2876:
++ ;loc_2876:
 		move.l	(a0,d0.w),(Normal_palette_line_4+$04).w
 		move.w	4(a0,d0.w),(Normal_palette_line_4+$08).w
 
@@ -639,10 +639,10 @@ AnPal_CGZ:
 		move.w	(Palette_cycle_counter0).w,d0
 		addq.w	#8,(Palette_cycle_counter0).w
 		cmpi.w	#$50,(Palette_cycle_counter0).w
-		blo.s	loc_28AC
+		blo.s	+ ;loc_28AC
 		move.w	#0,(Palette_cycle_counter0).w
 
-loc_28AC:
++ ;loc_28AC:
 		move.l	(a0,d0.w),(Normal_palette_line_3+$04).w
 		move.l	4(a0,d0.w),(Normal_palette_line_3+$08).w
 
@@ -652,19 +652,19 @@ locret_28B8:
 
 AnPal_EMZ:
 		subq.w	#1,(Palette_cycle_counter1).w
-		bpl.s	loc_28E8
+		bpl.s	++ ;loc_28E8
 		move.w	#7,(Palette_cycle_counter1).w
 		lea	(AnPal_PalEMZ_1).l,a0
 		move.w	(Palette_cycle_counter0).w,d0
 		addq.w	#2,(Palette_cycle_counter0).w
 		cmpi.w	#$3C,(Palette_cycle_counter0).w
-		blo.s	loc_28E2
+		blo.s	+ ;loc_28E2
 		move.w	#0,(Palette_cycle_counter0).w
 
-loc_28E2:
++ ;loc_28E2:
 		move.w	4(a0,d0.w),(Normal_palette_line_3+$1C).w
 
-loc_28E8:
++ ;loc_28E8:
 		subq.w	#1,(Palette_cycle_counters+$08).w
 		bpl.s	locret_2916
 		move.w	#$1F,(Palette_cycle_counters+$08).w
@@ -672,10 +672,10 @@ loc_28E8:
 		move.w	(Palette_cycle_counters+$02).w,d0
 		addq.w	#4,(Palette_cycle_counters+$02).w
 		cmpi.w	#$34,(Palette_cycle_counters+$02).w
-		blo.s	loc_2910
+		blo.s	+ ;loc_2910
 		move.w	#0,(Palette_cycle_counters+$02).w
 
-loc_2910:
++ ;loc_2910:
 		move.l	(a0,d0.w),(Normal_palette_line_4+$12).w
 
 locret_2916:
@@ -684,15 +684,15 @@ locret_2916:
 
 AnPal_Pachinko:
 		subq.w	#1,(Palette_cycle_counter1).w
-		bpl.s	loc_2952
+		bpl.s	++ ;loc_2952
 		move.w	#0,(Palette_cycle_counter1).w
 		move.w	(Palette_cycle_counter0).w,d0
 		addi.w	#$E,(Palette_cycle_counter0).w
 		cmpi.w	#$FC,(Palette_cycle_counter0).w
-		blo.s	loc_293C
+		blo.s	+ ;loc_293C
 		move.w	#0,(Palette_cycle_counter0).w
 
-loc_293C:
++ ;loc_293C:
 		lea	(Chunk_table+$7800).l,a0
 		lea	(Normal_palette_line_4+$10).w,a1
 		lea	(a0,d0.w),a0
@@ -701,17 +701,17 @@ loc_293C:
 		move.l	(a0)+,(a1)+
 		move.w	(a0)+,(a1)+
 
-loc_2952:
++ ;loc_2952:
 		subq.w	#1,(Palette_cycle_counters+$08).w
 		bpl.s	locret_29A6
 		move.w	#3,(Palette_cycle_counters+$08).w
 		move.w	(Palette_cycle_counters+$02).w,d0
 		addi.w	#$A,(Palette_cycle_counters+$02).w
 		cmpi.w	#$3E8,(Palette_cycle_counters+$02).w
-		blo.s	loc_2976
+		blo.s	+ ;loc_2976
 		move.w	#0,(Palette_cycle_counters+$02).w
 
-loc_2976:
++ ;loc_2976:
 		lea	(Chunk_table+$78FC).l,a0
 		lea	(Normal_palette_line_3+$2).w,a1
 		lea	(a0,d0.w),a0
@@ -732,17 +732,17 @@ locret_29A6:
 AnPal_Slots:
 		tst.b	(Palette_cycle_counters+$00).w
 		bmi.s	locret_29F0
-		bne.s	loc_29F2
+		bne.s	++ ;loc_29F2
 		subq.w	#1,(Palette_cycle_counter1).w
 		bpl.s	locret_29F0
 		move.w	#3,(Palette_cycle_counter1).w
 		move.w	(Palette_cycle_counter0).w,d0
 		addq.w	#8,(Palette_cycle_counter0).w
 		cmpi.w	#$40,(Palette_cycle_counter0).w
-		blo.s	loc_29D2
+		blo.s	+ ;loc_29D2
 		move.w	#0,(Palette_cycle_counter0).w
 
-loc_29D2:
++ ;loc_29D2:
 		lea	(AnPal_PalSlots_1).l,a0
 		move.l	(a0,d0.w),(Normal_palette_line_3+$14).w
 		move.l	4(a0,d0.w),(Normal_palette_line_3+$18).w
@@ -753,27 +753,27 @@ locret_29F0:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_29F2:
++ ;loc_29F2:
 		subq.w	#1,(Palette_cycle_counters+$08).w
 		bpl.s	locret_2A4E
 		move.w	#0,(Palette_cycle_counters+$08).w
 		move.w	(Palette_cycle_counters+$02).w,d0
 		addq.w	#8,(Palette_cycle_counters+$02).w
 		cmpi.w	#$78,(Palette_cycle_counters+$02).w
-		blo.s	loc_2A14
+		blo.s	+ ;loc_2A14
 		move.w	#0,(Palette_cycle_counters+$02).w
 
-loc_2A14:
++ ;loc_2A14:
 		lea	(AnPal_PalSlots_2).l,a0
 		move.l	(a0,d0.w),(Normal_palette_line_3+$14).w
 		move.l	4(a0,d0.w),(Normal_palette_line_3+$18).w
 		move.w	(Palette_cycle_counters+$04).w,d0
 		addq.w	#2,(Palette_cycle_counters+$04).w
 		cmpi.w	#$C,(Palette_cycle_counters+$04).w
-		blo.s	loc_2A3C
+		blo.s	+ ;loc_2A3C
 		move.w	#0,(Palette_cycle_counters+$04).w
 
-loc_2A3C:
++ ;loc_2A3C:
 		lea	(AnPal_PalSlots_3).l,a0
 		move.w	(a0,d0.w),(Normal_palette_line_3+$1C).w
 		move.w	(a0,d0.w),(Normal_palette_line_4+$1C).w
@@ -786,20 +786,20 @@ AnPal_LRZ3:
 		tst.b	(Palette_cycle_counters+$00).w
 		bmi.s	locret_2ABE
 		subq.w	#1,(Palette_cycle_counter1).w
-		bpl.s	loc_2A8A
+		bpl.s	++ ;loc_2A8A
 		move.w	#$F,(Palette_cycle_counter1).w
 		move.w	(Palette_cycle_counter0).w,d0
 		addq.w	#8,(Palette_cycle_counter0).w
 		cmpi.w	#$80,(Palette_cycle_counter0).w
-		blo.s	loc_2A78
+		blo.s	+ ;loc_2A78
 		move.w	#0,(Palette_cycle_counter0).w
 
-loc_2A78:
++ ;loc_2A78:
 		lea	(AnPal_PalLRZ12_1).l,a0
 		move.l	(a0,d0.w),(Normal_palette_line_3+$2).w
 		move.l	4(a0,d0.w),(Normal_palette_line_3+$6).w
 
-loc_2A8A:
++ ;loc_2A8A:
 		tst.b	(Palette_cycle_counters+$00).w
 		beq.s	locret_2ABE
 		subq.w	#1,(Palette_cycle_counters+$08).w
@@ -808,10 +808,10 @@ loc_2A8A:
 		move.w	(Palette_cycle_counters+$04).w,d0
 		addq.w	#4,(Palette_cycle_counters+$04).w
 		cmpi.w	#$3C,(Palette_cycle_counters+$04).w
-		blo.s	loc_2AB2
+		blo.s	+ ;loc_2AB2
 		move.w	#0,(Palette_cycle_counters+$04).w
 
-loc_2AB2:
++ ;loc_2AB2:
 		lea	(AnPal_PalLRZ3).l,a0
 		move.l	(a0,d0.w),(Normal_palette_line_4+$18).w
 
@@ -828,10 +828,10 @@ AnPal_HPZ:
 		move.w	(Palette_cycle_counter0).w,d0
 		addq.w	#4,(Palette_cycle_counter0).w
 		cmpi.w	#$28,(Palette_cycle_counter0).w
-		blo.s	loc_2AE8
+		blo.s	+ ;loc_2AE8
 		move.w	#0,(Palette_cycle_counter0).w
 
-loc_2AE8:
++ ;loc_2AE8:
 		lea	(AnPal_PalHPZ).l,a0
 		move.l	(a0,d0.w),(Normal_palette_line_4+$2).w
 
@@ -1563,13 +1563,13 @@ SuperHyper_PalCycle_Revert:	; runs the fade in transition backwards
 		lea	(PalCycle_SuperSonic).l,a0
 		move.w	(Palette_frame).w,d0
 		subq.w	#6,(Palette_frame).w	; previous frame
-		bhs.s	loc_381E		; branch, if it isn't the first frame
+		bhs.s	+ ;loc_381E		; branch, if it isn't the first frame
 		; Bug: this only clears the high byte of Palette_frame, causing subsequent
 		; fade-ins to pull color values from PalCycle_SuperTails
 		move.b	#0,(Palette_frame).w
 		move.b	#0,(Super_palette_status).w	; 0 = off
 
-loc_381E:
++ ;loc_381E:
 		bra.s	SuperHyper_PalCycle_SonicApply
 ; ---------------------------------------------------------------------------
 
@@ -1611,10 +1611,10 @@ SuperHyper_PalCycle_SuperSonic:	; Tails' code falls back here so the Super Flick
 		move.w	(Palette_frame).w,d0
 		addq.w	#6,(Palette_frame).w	; next frame
 		cmpi.w	#$36,(Palette_frame).w	; is it the last frame?
-		blo.s	loc_3898		; if not, branch
+		blo.s	+ ;loc_3898		; if not, branch
 		move.w	#$24,(Palette_frame).w	; reset frame counter (Super Sonic's normal palette cycle starts at $24. Everything before that is for the palette fade)
 
-loc_3898:
++ ;loc_3898:
 		bra.w	SuperHyper_PalCycle_SonicApply
 ; ---------------------------------------------------------------------------
 
@@ -1783,12 +1783,12 @@ Pal_FadeFromBlack:
 		jsr	Pal_FillBlack(pc)
 		move.w	#$15,d4
 
-loc_3AFE:
+- ;loc_3AFE:
 		move.b	#$12,(V_int_routine).w
 		bsr.w	Wait_VSync
 		bsr.s	Pal_FromBlack
 		bsr.w	Process_Nem_Queue_Init
-		dbf	d4,loc_3AFE
+		dbf	d4,- ;loc_3AFE
 		rts
 ; End of function Pal_FadeFromBlack
 
@@ -1805,9 +1805,9 @@ Pal_FromBlack:
 		adda.w	d0,a1
 		move.b	(Palette_fade_count).w,d0
 
-loc_3B2A:
+- ;loc_3B2A:
 		bsr.s	Pal_AddColor
-		dbf	d0,loc_3B2A
+		dbf	d0,- ;loc_3B2A
 		tst.b	(Water_flag).w
 		beq.s	locret_3B52
 		moveq	#0,d0
@@ -1818,9 +1818,9 @@ loc_3B2A:
 		adda.w	d0,a1
 		move.b	(Palette_fade_count).w,d0
 
-loc_3B4C:
+- ;loc_3B4C:
 		bsr.s	Pal_AddColor
-		dbf	d0,loc_3B4C
+		dbf	d0,- ;loc_3B4C
 
 locret_3B52:
 		rts
@@ -1834,30 +1834,30 @@ Pal_AddColor:
 		move.w	(a1)+,d2
 		move.w	(a0),d3
 		cmp.w	d2,d3
-		beq.s	loc_3B7C
+		beq.s	+++ ;loc_3B7C
 		move.w	d3,d1
 		addi.w	#$200,d1
 		cmp.w	d2,d1
-		bhi.s	loc_3B6A
+		bhi.s	+ ;loc_3B6A
 		move.w	d1,(a0)+
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_3B6A:
++ ;loc_3B6A:
 		move.w	d3,d1
 		addi.w	#$20,d1
 		cmp.w	d2,d1
-		bhi.s	loc_3B78
+		bhi.s	+ ;loc_3B78
 		move.w	d1,(a0)+
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_3B78:
++ ;loc_3B78:
 		addq.w	#2,(a0)+
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_3B7C:
++ ;loc_3B7C:
 		addq.w	#2,a0
 		rts
 ; End of function Pal_AddColor
@@ -1878,14 +1878,14 @@ Pal_FillBlack:
 		moveq	#0,d1
 		move.b	(Palette_fade_count).w,d0
 
-loc_3BA6:
+- ;loc_3BA6:
 		move.w	d1,(a0)+
 		tst.b	(Water_flag).w
-		beq.s	loc_3BB2
+		beq.s	+ ;loc_3BB2
 		move.w	d1,(Water_palette-Normal_palette)-2(a0)
 
-loc_3BB2:
-		dbf	d0,loc_3BA6
++ ;loc_3BB2:
+		dbf	d0,- ;loc_3BA6
 		rts
 ; End of function Pal_FillBlack
 
@@ -1896,7 +1896,7 @@ loc_3BB2:
 Animate_Palette:
 		tst.w	(Palette_fade_timer).w
 		bmi.s	locret_3BE2
-		beq.s	loc_3BDC
+		beq.s	+ ;loc_3BDC
 		subq.w	#1,(Palette_fade_timer).w
 		cmpi.w	#$D01,(Current_zone_and_act).w
 		beq.w	Pal_FromWhite
@@ -1905,7 +1905,7 @@ Animate_Palette:
 		bra.w	Pal_FromBlack
 ; ---------------------------------------------------------------------------
 
-loc_3BDC:
++ ;loc_3BDC:
 		jmp	(AnPal_Load).l
 ; ---------------------------------------------------------------------------
 
@@ -1921,12 +1921,12 @@ Pal_FadeToBlack:
 		move.w	#$40-1,(Palette_fade_info).w
 		move.w	#$15,d4
 
-loc_3BEE:
+- ;loc_3BEE:
 		move.b	#$12,(V_int_routine).w
 		bsr.w	Wait_VSync
 		bsr.s	Pal_ToBlack
 		bsr.w	Process_Nem_Queue_Init
-		dbf	d4,loc_3BEE
+		dbf	d4,- ;loc_3BEE
 		rts
 ; End of function Pal_FadeToBlack
 
@@ -1941,18 +1941,18 @@ Pal_ToBlack:
 		adda.w	d0,a0
 		move.b	(Palette_fade_count).w,d0
 
-loc_3C14:
+- ;loc_3C14:
 		bsr.s	Pal_DecColor
-		dbf	d0,loc_3C14
+		dbf	d0,- ;loc_3C14
 		moveq	#0,d0
 		lea	(Water_palette).w,a0
 		move.b	(Palette_fade_info).w,d0
 		adda.w	d0,a0
 		move.b	(Palette_fade_count).w,d0
 
-loc_3C2A:
+- ;loc_3C2A:
 		bsr.s	Pal_DecColor
-		dbf	d0,loc_3C2A
+		dbf	d0,- ;loc_3C2A
 		rts
 ; End of function Pal_ToBlack
 
@@ -1962,31 +1962,31 @@ loc_3C2A:
 
 Pal_DecColor:
 		move.w	(a0),d2
-		beq.s	loc_3C5E
+		beq.s	+++ ;loc_3C5E
 		move.w	d2,d1
 		andi.w	#$E,d1
-		beq.s	loc_3C42
+		beq.s	+ ;loc_3C42
 		subq.w	#2,(a0)+
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_3C42:
++ ;loc_3C42:
 		move.w	d2,d1
 		andi.w	#$E0,d1
-		beq.s	loc_3C50
+		beq.s	+ ;loc_3C50
 		subi.w	#$20,(a0)+
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_3C50:
++ ;loc_3C50:
 		move.w	d2,d1
 		andi.w	#$E00,d1
-		beq.s	loc_3C5E
+		beq.s	+ ;loc_3C5E
 		subi.w	#$200,(a0)+
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_3C5E:
++ ;loc_3C5E:
 		addq.w	#2,a0
 		rts
 ; End of function Pal_DecColor
@@ -2003,9 +2003,9 @@ Pal_FillWhite:
 		move.w	#$EEE,d1
 		move.b	(Palette_fade_count).w,d0
 
-loc_3C76:
+- ;loc_3C76:
 		move.w	d1,(a0)+
-		dbf	d0,loc_3C76
+		dbf	d0,- ;loc_3C76
 		clr.w	(Pal_fade_delay2).w
 		rts
 ; End of function Pal_FillWhite
@@ -2019,12 +2019,12 @@ Pal_FadeFromWhite:
 		bsr.s	Pal_FillWhite
 		move.w	#$15,d4
 
-loc_3C8E:
+- ;loc_3C8E:
 		move.b	#$12,(V_int_routine).w
 		bsr.w	Wait_VSync
 		bsr.s	Pal_FromWhite
 		bsr.w	Process_Nem_Queue_Init
-		dbf	d4,loc_3C8E
+		dbf	d4,- ;loc_3C8E
 		rts
 ; End of function Pal_FadeFromWhite
 
@@ -2044,9 +2044,9 @@ Pal_FromWhite:
 		adda.w	d0,a1
 		move.b	(Palette_fade_count).w,d0
 
-loc_3CC6:
+- ;loc_3CC6:
 		bsr.s	Pal_DecColor2
-		dbf	d0,loc_3CC6
+		dbf	d0,- ;loc_3CC6
 		tst.b	(Water_flag).w
 		beq.s	locret_3CEE
 		moveq	#0,d0
@@ -2057,9 +2057,9 @@ loc_3CC6:
 		adda.w	d0,a1
 		move.b	(Palette_fade_count).w,d0
 
-loc_3CE8:
+- ;loc_3CE8:
 		bsr.s	Pal_DecColor2
-		dbf	d0,loc_3CE8
+		dbf	d0,- ;loc_3CE8
 
 locret_3CEE:
 		rts
@@ -2075,10 +2075,10 @@ Pal_DecColor2:
 		move.b	(a0),d3
 		andi.b	#$E,d3
 		cmp.b	d2,d3
-		bls.s	loc_3D02
+		bls.s	+ ;loc_3D02
 		subq.b	#2,d3
 
-loc_3D02:
++ ;loc_3D02:
 		move.b	d3,(a0)+
 		move.b	(a1)+,d1
 		move.b	d1,d2
@@ -2087,17 +2087,17 @@ loc_3D02:
 		move.b	d3,d5
 		andi.b	#$E0,d3
 		cmp.b	d1,d3
-		bls.s	loc_3D1C
+		bls.s	+ ;loc_3D1C
 		subi.b	#$20,d3
 
-loc_3D1C:
++ ;loc_3D1C:
 		andi.b	#$E,d2
 		andi.b	#$E,d5
 		cmp.b	d2,d5
-		bls.s	loc_3D2A
+		bls.s	+ ;loc_3D2A
 		subq.b	#2,d5
 
-loc_3D2A:
++ ;loc_3D2A:
 		or.b	d5,d3
 		move.b	d3,(a0)+
 		rts
@@ -2111,12 +2111,12 @@ Pal_FadeToWhite:
 		move.w	#$40-1,(Palette_fade_info).w
 		move.w	#$15,d4
 
-loc_3D3A:
+- ;loc_3D3A:
 		move.b	#$12,(V_int_routine).w
 		bsr.w	Wait_VSync
 		bsr.s	Pal_ToWhite
 		bsr.w	Process_Nem_Queue_Init
-		dbf	d4,loc_3D3A
+		dbf	d4,- ;loc_3D3A
 		rts
 ; End of function Pal_FadeToWhite
 
@@ -2131,18 +2131,18 @@ Pal_ToWhite:
 		adda.w	d0,a0
 		move.b	(Palette_fade_count).w,d0
 
-loc_3D60:
+- ;loc_3D60:
 		bsr.s	Pal_AddColor2
-		dbf	d0,loc_3D60
+		dbf	d0,- ;loc_3D60
 		moveq	#0,d0
 		lea	(Water_palette).w,a0
 		move.b	(Palette_fade_info).w,d0
 		adda.w	d0,a0
 		move.b	(Palette_fade_count).w,d0
 
-loc_3D76:
+- ;loc_3D76:
 		bsr.s	Pal_AddColor2
-		dbf	d0,loc_3D76
+		dbf	d0,- ;loc_3D76
 		rts
 ; End of function Pal_ToWhite
 
@@ -2153,34 +2153,34 @@ loc_3D76:
 Pal_AddColor2:
 		move.w	(a0),d2
 		cmpi.w	#$EEE,d2
-		beq.s	loc_3DBA
+		beq.s	+++ ;loc_3DBA
 		move.w	d2,d1
 		andi.w	#$E,d1
 		cmpi.w	#$E,d1
-		beq.s	loc_3D96
+		beq.s	+ ;loc_3D96
 		addq.w	#2,(a0)+
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_3D96:
++ ;loc_3D96:
 		move.w	d2,d1
 		andi.w	#$E0,d1
 		cmpi.w	#$E0,d1
-		beq.s	loc_3DA8
+		beq.s	+ ;loc_3DA8
 		addi.w	#$20,(a0)+
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_3DA8:
++ ;loc_3DA8:
 		move.w	d2,d1
 		andi.w	#$E00,d1
 		cmpi.w	#$E00,d1
-		beq.s	loc_3DBA
+		beq.s	+ ;loc_3DBA
 		addi.w	#$200,(a0)+
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_3DBA:
++ ;loc_3DBA:
 		addq.w	#2,a0
 		rts
 ; End of function Pal_AddColor2
@@ -2198,9 +2198,9 @@ LoadPalette:
 		adda.w	#Target_palette-Normal_palette,a3
 		move.w	(a1)+,d7
 
-.loop:
+- ;.loop:
 		move.l	(a2)+,(a3)+
-		dbf	d7,.loop
+		dbf	d7,- ;.loop
 		rts
 ; End of function LoadPalette
 
@@ -2216,9 +2216,9 @@ LoadPalette_Immediate:
 		movea.w	(a1)+,a3
 		move.w	(a1)+,d7
 
-.loop:
+- ;.loop:
 		move.l	(a2)+,(a3)+
-		dbf	d7,.loop
+		dbf	d7,- ;.loop
 		rts
 ; End of function LoadPalette_Immediate
 
@@ -2235,9 +2235,9 @@ LoadPalette2:
 		suba.w	#Normal_palette-Water_palette,a3
 		move.w	(a1)+,d7
 
-.loop:
+- ;.loop:
 		move.l	(a2)+,(a3)+
-		dbf	d7,.loop
+		dbf	d7,- ;.loop
 		rts
 ; End of function LoadPalette2
 
@@ -2254,8 +2254,8 @@ LoadPalette2_Immediate:
 		suba.w	#Normal_palette-Target_water_palette,a3
 		move.w	(a1)+,d7
 
-.loop:
+- ;.loop:
 		move.l	(a2)+,(a3)+
-		dbf	d7,.loop
+		dbf	d7,- ;.loop
 		rts
 ; End of function LoadPalette2_Immediate

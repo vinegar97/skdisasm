@@ -6,11 +6,11 @@ Obj_FBZEndBoss:
 		moveq	#signextendB(mus_FadeOut),d0
 		jsr	(Play_Music).l
 		jsr	(AllocateObject).l
-		bne.s	loc_70620
+		bne.s	+ ;loc_70620
 		move.l	#Obj_Song_Fade_Transition,(a1)
 		move.b	#mus_EndBoss,subtype(a1)
 
-loc_70620:
++ ;loc_70620:
 		moveq	#$6F,d0
 		jsr	(Load_PLC).l
 		lea	Pal_FBZEndBoss(pc),a1
@@ -53,11 +53,11 @@ loc_7065C:
 		move.w	d0,y_pos(a0)
 		lea	(Child1_MakeFBZRoboShip).l,a2
 		jsr	(CreateChild1_Normal).l
-		bne.s	loc_706A2
+		bne.s	+ ;loc_706A2
 		move.b	#$B,subtype(a1)
 		move.w	a1,$3E(a0)
 
-loc_706A2:
++ ;loc_706A2:
 		lea	ChildObjDat_70EE0(pc),a2
 		jmp	(CreateChild1_Normal).l
 ; ---------------------------------------------------------------------------
@@ -67,11 +67,11 @@ loc_706AC:
 		move.w	#$690,d0
 		subi.w	#$48,d0
 		cmp.w	y_pos(a0),d0
-		bls.s	loc_706C2
+		bls.s	+ ;loc_706C2
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_706C2:
++ ;loc_706C2:
 		move.w	d0,y_pos(a0)
 		move.b	#4,routine(a0)
 		bset	#7,$38(a0)
@@ -101,29 +101,29 @@ loc_7071A:
 		bsr.w	sub_70DAC
 		jsr	(Find_SonicTails).l
 		cmpi.b	#2,(Player_1+character_id).w
-		bne.s	loc_70736
+		bne.s	+ ;loc_70736
 		bset	#1,$38(a0)
-		bra.w	loc_7075A
+		bra.w	++ ;loc_7075A
 ; ---------------------------------------------------------------------------
 
-loc_70736:
++ ;loc_70736:
 		btst	#1,$38(a0)
 		bne.s	locret_70788
 		btst	#0,$38(a0)
-		bne.s	loc_7075A
+		bne.s	+ ;loc_7075A
 		cmpi.w	#$18,d2
-		bhs.s	loc_7075A
+		bhs.s	+ ;loc_7075A
 		btst	#Status_InAir,status(a1)
-		bne.s	loc_7075A
+		bne.s	+ ;loc_7075A
 		ori.b	#3,$38(a0)
 
-loc_7075A:
++ ;loc_7075A:
 		subq.w	#1,$2E(a0)
 		bpl.s	locret_70788
 		move.w	#$1F,$2E(a0)
 		bclr	#0,$38(a0)
 		subq.b	#1,$39(a0)
-		bmi.s	loc_7078A
+		bmi.s	+ ;loc_7078A
 		bset	#3,$38(a0)
 		bclr	#0,render_flags(a0)
 		tst.w	d0
@@ -134,18 +134,18 @@ locret_70788:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_7078A:
++ ;loc_7078A:
 		move.b	#8,routine(a0)
 		bset	#2,$38(a0)
 		move.l	#loc_707EC,$34(a0)
 		moveq	#2,d0
 		move.w	#$1FF,d1
 		cmpi.b	#2,(Player_1+character_id).w
-		bne.s	loc_707B2
+		bne.s	+ ;loc_707B2
 		moveq	#2,d0
 		move.w	#$FF,d1
 
-loc_707B2:
++ ;loc_707B2:
 		move.b	d0,$40(a0)
 		move.w	d1,$2E(a0)
 		rts
@@ -153,10 +153,10 @@ loc_707B2:
 
 loc_707BC:
 		cmpi.b	#2,(Player_1+character_id).w
-		bne.s	loc_707CA
+		bne.s	+ ;loc_707CA
 		bset	#1,$38(a0)
 
-loc_707CA:
++ ;loc_707CA:
 		bsr.w	sub_70C72
 		move.b	$40(a0),d0
 		add.b	d0,$3C(a0)
@@ -211,12 +211,12 @@ loc_70870:
 		st	(_unkFAA8).w
 		clr.b	(Boss_flag).w
 		jsr	(AllocateObject).l
-		bne.s	loc_70898
+		bne.s	+ ;loc_70898
 		move.l	#Obj_EggCapsule,(a1)
 		move.w	#$307C,x_pos(a1)
 		move.w	#$660,y_pos(a1)
 
-loc_70898:
++ ;loc_70898:
 		move.w	#$2FDC,(Camera_stored_max_X_pos).w
 		lea	(Child6_IncLevX).l,a2
 		jmp	(CreateChild6_Simple).l
@@ -235,10 +235,10 @@ loc_708AA:
 		jsr	(Restore_PlayerControl2).l
 		jsr	(Restore_LevelMusic).l
 		jsr	(AllocateObject).l
-		bne.s	loc_708EE
+		bne.s	+ ;loc_708EE
 		move.l	#loc_863C0,(a1)
 
-loc_708EE:
++ ;loc_708EE:
 		move.w	#$1000,(Camera_target_max_Y_pos).w
 		move.w	#$3738,(Camera_stored_max_X_pos).w
 		lea	(Child6_IncLevX).l,a2
@@ -246,11 +246,11 @@ loc_708EE:
 		lea	PLCKosM_FBZEndBoss_Exit(pc),a6
 		move.w	(a6)+,d6
 
-loc_7090C:
+- ;loc_7090C:
 		movea.l	(a6)+,a1
 		move.w	(a6)+,d2
 		jsr	(Queue_Kos_Module).l
-		dbf	d6,loc_7090C
+		dbf	d6,- ;loc_7090C
 		rts
 ; ---------------------------------------------------------------------------
 PLCKosM_FBZEndBoss_Exit: plrlistheader
@@ -261,11 +261,11 @@ PLCKosM_FBZEndBoss_Exit_End
 
 loc_7092A:
 		cmpi.w	#$720,(Camera_Y_pos).w
-		bhs.s	loc_70938
+		bhs.s	+ ;loc_70938
 		jmp	(loc_86334).l
 ; ---------------------------------------------------------------------------
 
-loc_70938:
++ ;loc_70938:
 		move.w	#$800,d0
 		jsr	(StartNewLevel).l
 		jmp	(Delete_Current_Sprite).l
@@ -293,12 +293,12 @@ loc_70966:
 		jsr	(CreateChild1_Normal).l
 		movea.w	parent3(a0),a1
 		tst.b	subtype(a0)
-		bne.s	loc_7098A
+		bne.s	+ ;loc_7098A
 		move.w	a0,$44(a1)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_7098A:
++ ;loc_7098A:
 		move.w	a0,parent3(a1)
 		rts
 ; ---------------------------------------------------------------------------
@@ -306,32 +306,32 @@ loc_7098A:
 loc_70990:
 		movea.w	parent3(a0),a1
 		btst	#7,$38(a1)
-		bne.s	loc_709A2
+		bne.s	+ ;loc_709A2
 		jmp	(Refresh_ChildPosition).l
 ; ---------------------------------------------------------------------------
 
-loc_709A2:
++ ;loc_709A2:
 		move.b	#4,routine(a0)
 
 loc_709A8:
 		movea.w	parent3(a0),a1
 		btst	#4,$38(a1)
-		bne.s	loc_709EC
+		bne.s	+++ ;loc_709EC
 		btst	#3,$38(a1)
-		bne.s	loc_709BE
+		bne.s	+ ;loc_709BE
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_709BE:
++ ;loc_709BE:
 		move.b	#6,routine(a0)
 		moveq	#0,d0
 		move.b	subtype(a0),d0
 		add.w	d0,d0
 		btst	#0,render_flags(a1)
-		beq.s	loc_709D6
+		beq.s	+ ;loc_709D6
 		addq.w	#8,d0
 
-loc_709D6:
++ ;loc_709D6:
 		lea	word_709FC(pc,d0.w),a1
 		move.w	(a1)+,x_vel(a0)
 		move.w	(a1)+,$2E(a0)
@@ -339,7 +339,7 @@ loc_709D6:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_709EC:
++ ;loc_709EC:
 		lea	ChildObjDat_70F24(pc),a2
 		jsr	(CreateChild1_Normal).l
 		jmp	(Go_Delete_Sprite_2).l
@@ -380,10 +380,10 @@ loc_70A46:
 		move.l	#loc_70A76,(a0)
 		movea.w	parent3(a0),a1
 		tst.b	subtype(a1)
-		beq.s	loc_70A66
+		beq.s	+ ;loc_70A66
 		bset	#0,render_flags(a0)
 
-loc_70A66:
++ ;loc_70A66:
 		move.w	parent3(a1),$44(a0)
 		lea	ChildObjDat_70EFC(pc),a2
 		jsr	(CreateChild3_NormalRepeated).l
@@ -419,11 +419,11 @@ loc_70ABC:
 		movea.w	parent3(a0),a1
 		moveq	#-$1C,d0
 		btst	#0,render_flags(a1)
-		beq.s	loc_70ADC
+		beq.s	+ ;loc_70ADC
 		bset	#0,render_flags(a0)
 		neg.w	d0
 
-loc_70ADC:
++ ;loc_70ADC:
 		movea.w	parent3(a1),a1
 		move.w	parent3(a1),$44(a0)
 		move.b	d0,child_dx(a0)
@@ -450,21 +450,21 @@ loc_70B06:
 loc_70B18:
 		jsr	(Child_GetPriority).l
 		btst	#7,status(a1)
-		bne.s	loc_70B58
+		bne.s	++ ;loc_70B58
 		btst	#1,$38(a1)
-		beq.s	loc_70B4C
+		beq.s	+ ;loc_70B4C
 		move.l	#loc_70B74,(a0)
 		move.w	#$5F,$2E(a0)
 		move.l	#loc_70B06,$34(a0)
 		lea	ChildObjDat_70F04(pc),a2
 		jsr	(CreateChild6_Simple).l
 
-loc_70B4C:
++ ;loc_70B4C:
 		jsr	(Refresh_ChildPosition).l
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_70B58:
++ ;loc_70B58:
 		move.l	#loc_70B80,(a0)
 		move.w	$3E(a1),$46(a0)
 		subq.b	#4,child_dy(a0)
@@ -539,11 +539,11 @@ Obj_FBZExitDoor:
 
 loc_70C3C:
 		jsr	(Check_PlayerCollision).l
-		bne.s	loc_70C4A
+		bne.s	+ ;loc_70C4A
 		jmp	(Draw_And_Touch_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_70C4A:
++ ;loc_70C4A:
 		move.l	#loc_70C66,(a0)
 		move.w	#$800,x_vel(a0)
 		lea	(Player_1).w,a1
@@ -766,21 +766,21 @@ sub_70E10:
 		tst.b	collision_flags(a0)
 		bne.s	locret_70E66
 		tst.b	collision_property(a0)
-		beq.s	loc_70E68
+		beq.s	+++ ;loc_70E68
 		tst.b	$20(a0)
-		bne.s	loc_70E34
+		bne.s	+ ;loc_70E34
 		move.b	#$20,$20(a0)
 		moveq	#signextendB(sfx_BossHit),d0
 		jsr	(Play_SFX).l
 
-loc_70E34:
++ ;loc_70E34:
 		bset	#6,status(a0)
 		moveq	#0,d0
 		btst	#0,$20(a0)
-		bne.s	loc_70E46
+		bne.s	+ ;loc_70E46
 		addq.w	#2*4,d0
 
-loc_70E46:
++ ;loc_70E46:
 		lea	word_70E74(pc),a1
 		lea	word_70E7C(pc,d0.w),a2
 		jsr	(CopyWordData_4).l
@@ -793,7 +793,7 @@ locret_70E66:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_70E68:
++ ;loc_70E68:
 		move.l	#loc_707F6,(a0)
 		jmp	(BossDefeated_StopTimer).l
 ; End of function sub_70E10

@@ -4,10 +4,10 @@ Obj_ICZSegmentColumn:
 		move.l	#Sprite_CheckDelete2,(a0)
 		lea	ChildObjDat_584AC(pc),a2
 		tst.b	subtype(a0)
-		beq.s	loc_58340
+		beq.s	+ ;loc_58340
 		lea	ChildObjDat_584B4(pc),a2
 
-loc_58340:
++ ;loc_58340:
 		jmp	CreateChild8_TreeListRepeated(pc)
 ; ---------------------------------------------------------------------------
 
@@ -18,10 +18,10 @@ loc_58344:
 		moveq	#0,d0
 		move.b	subtype(a0),d0
 		cmpi.b	#6,d0
-		bne.s	loc_58364
+		bne.s	+ ;loc_58364
 		move.b	#3,mapping_frame(a0)
 
-loc_58364:
++ ;loc_58364:
 		lsl.w	#4,d0
 		sub.w	d0,y_pos(a0)
 		bra.w	loc_58486
@@ -30,16 +30,16 @@ loc_58364:
 loc_5836E:
 		movea.w	parent3(a0),a1
 		btst	#0,$38(a1)
-		bne.s	loc_583B0
+		bne.s	++ ;loc_583B0
 		move.w	(Player_1+x_vel).w,-(sp)
 		move.w	(Player_2+x_vel).w,-(sp)
 		bsr.w	sub_58428
 		move.l	(sp)+,d0
 		moveq	#p1_pushing_bit,d1
 		cmpi.b	#3,mapping_frame(a0)
-		beq.s	loc_583AC
+		beq.s	+ ;loc_583AC
 		tst.b	subtype(a0)
-		bne.s	loc_583AC
+		bne.s	+ ;loc_583AC
 		lea	(Player_1).w,a1
 		bsr.w	sub_58438
 		lea	(Player_2).w,a1
@@ -47,11 +47,11 @@ loc_5836E:
 		addq.b	#p2_pushing_bit-p1_pushing_bit,d1
 		bsr.w	sub_58438
 
-loc_583AC:
++ ;loc_583AC:
 		bra.w	loc_58486
 ; ---------------------------------------------------------------------------
 
-loc_583B0:
++ ;loc_583B0:
 		move.l	#loc_583D6,(a0)
 		bset	#0,$38(a0)
 		moveq	#0,d0
@@ -112,10 +112,10 @@ sub_58438:
 		beq.s	locret_58484
 		move.w	d0,d3
 		tst.w	d3
-		bpl.s	loc_58446
+		bpl.s	+ ;loc_58446
 		neg.w	d3
 
-loc_58446:
++ ;loc_58446:
 		cmpi.b	#2,anim(a1)
 		bne.s	locret_58484
 		cmpi.w	#$600,d3

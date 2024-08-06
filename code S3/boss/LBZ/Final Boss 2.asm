@@ -89,11 +89,11 @@ loc_50D8C:
 		move.w	(Camera_Y_pos).w,d0
 		addi.w	#$120,d0
 		cmp.w	y_pos(a0),d0
-		blo.s	loc_50DA0
+		blo.s	+ ;loc_50DA0
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_50DA0:
++ ;loc_50DA0:
 		bset	#7,art_tile(a0)
 		clr.w	y_vel(a0)
 		move.b	#$F,collision_flags(a0)
@@ -115,7 +115,7 @@ loc_50DD4:
 		move.b	$39(a0),d0
 		addq.b	#1,$39(a0)
 		btst	#1,d0
-		bne.s	loc_50E0C
+		bne.s	+ ;loc_50E0C
 		move.b	#$A,routine(a0)
 		bclr	#3,$38(a0)
 		bclr	#2,$38(a0)
@@ -124,7 +124,7 @@ loc_50DD4:
 		bra.w	loc_51C30
 ; ---------------------------------------------------------------------------
 
-loc_50E0C:
++ ;loc_50E0C:
 		move.b	#$C,routine(a0)
 		clr.b	$39(a0)
 		clr.w	y_vel(a0)
@@ -202,11 +202,11 @@ loc_50EAE:
 		move.w	(Camera_Y_pos_copy).w,d0
 		addi.w	#$C0,d0
 		cmp.w	y_pos(a0),d0
-		blo.s	loc_50EC2
+		blo.s	+ ;loc_50EC2
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_50EC2:
++ ;loc_50EC2:
 		move.b	#$12,routine(a0)
 		bset	#2,$38(a0)
 		rts
@@ -220,13 +220,13 @@ loc_50ED0:
 		move.w	(Camera_Y_pos_copy).w,d0
 		addi.w	#$E0,d0
 		cmp.w	y_pos(a0),d0
-		bhs.s	loc_50EF2
+		bhs.s	+ ;loc_50EF2
 
 locret_50EF0:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_50EF2:
++ ;loc_50EF2:
 		move.b	#$14,routine(a0)
 		rts
 ; ---------------------------------------------------------------------------
@@ -239,13 +239,13 @@ loc_50EFA:
 		move.w	(Camera_Y_pos_copy).w,d0
 		addi.w	#$D0,d0
 		cmp.w	y_pos(a0),d0
-		bls.s	loc_50F1C
+		bls.s	+ ;loc_50F1C
 
 locret_50F1A:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_50F1C:
++ ;loc_50F1C:
 		move.b	#$16,routine(a0)
 		move.w	d0,y_pos(a0)
 		clr.w	y_vel(a0)
@@ -295,11 +295,11 @@ loc_50F92:
 		move.w	(Camera_Y_pos).w,d0
 		subi.w	#$60,d0
 		cmp.w	y_pos(a0),d0
-		bhs.s	loc_50FA8
+		bhs.s	+ ;loc_50FA8
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_50FA8:
++ ;loc_50FA8:
 		bra.w	loc_50DBE
 ; ---------------------------------------------------------------------------
 
@@ -319,11 +319,11 @@ loc_50FC4:
 		move.w	(Camera_Y_pos).w,d0
 		subi.w	#$60,d0
 		cmp.w	y_pos(a0),d0
-		bhs.s	loc_50FDA
+		bhs.s	+ ;loc_50FDA
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_50FDA:
++ ;loc_50FDA:
 		move.b	#$22,routine(a0)
 		move.w	#$3F,$2E(a0)
 		move.l	#loc_50FF4,$34(a0)
@@ -344,11 +344,11 @@ loc_50FF4:
 		bclr	#0,render_flags(a0)
 		move.w	#$E0,d2
 		cmp.w	x_pos(a0),d0
-		blo.s	loc_51026
+		blo.s	+ ;loc_51026
 		bset	#0,render_flags(a0)
 		move.w	#$60,d2
 
-loc_51026:
++ ;loc_51026:
 		add.w	d2,d1
 		move.w	d1,x_pos(a0)
 		rts
@@ -358,12 +358,12 @@ loc_5102E:
 		move.w	(Camera_Y_pos_copy).w,d0
 		addi.w	#$88,d0
 		cmp.w	y_pos(a0),d0
-		bls.s	loc_51042
+		bls.s	+ ;loc_51042
 		addq.w	#8,y_pos(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_51042:
++ ;loc_51042:
 		move.b	#$26,routine(a0)
 		bset	#1,$38(a0)
 		move.w	#$14,(Screen_shake_flag).w
@@ -376,11 +376,11 @@ loc_51042:
 loc_51064:
 		addq.w	#4,y_pos(a0)
 		subq.w	#1,$2E(a0)
-		bmi.s	loc_51070
+		bmi.s	+ ;loc_51070
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_51070:
++ ;loc_51070:
 		move.b	#$28,routine(a0)
 		move.w	#7,$2E(a0)
 		move.l	#loc_5108A,$34(a0)
@@ -398,10 +398,10 @@ loc_5108A:
 		bclr	#1,$38(a0)
 		move.w	#$400,d0
 		btst	#0,render_flags(a0)
-		beq.s	loc_510AE
+		beq.s	+ ;loc_510AE
 		neg.w	d0
 
-loc_510AE:
++ ;loc_510AE:
 		move.w	d0,x_vel(a0)
 		move.w	#-$600,y_vel(a0)
 		move.w	#$3F,$2E(a0)
@@ -541,12 +541,12 @@ loc_51202:
 loc_51226:
 		movea.w	parent3(a0),a1
 		btst	#7,art_tile(a1)
-		beq.s	loc_51244
+		beq.s	+ ;loc_51244
 		bset	#7,art_tile(a0)
 		move.b	#4,routine(a0)
 		move.b	#$AD,collision_flags(a0)
 
-loc_51244:
++ ;loc_51244:
 		lea	(LBZFinalBoss2_CircleLookup).l,a2
 		jmp	MoveSprite_CircularLookup(pc)
 ; ---------------------------------------------------------------------------
@@ -556,30 +556,30 @@ loc_5124E:
 		btst	#1,$38(a1)
 		bne.w	locret_50DD2
 		btst	#2,$38(a1)
-		bne.s	loc_51298
+		bne.s	+++ ;loc_51298
 		lea	(Player_1).w,a1
 		move.b	$3C(a0),d0
 		move.w	y_pos(a0),d1
 		sub.w	y_pos(a1),d1
 		cmpi.w	#-2,d1
-		blt.s	loc_5128C
+		blt.s	+ ;loc_5128C
 		cmpi.w	#2,d1
-		ble.s	loc_51298
+		ble.s	+++ ;loc_51298
 		subq.b	#1,d0
 		cmpi.b	#-$30,d0
-		blt.s	loc_51298
-		bra.w	loc_51294
+		blt.s	+++ ;loc_51298
+		bra.w	++ ;loc_51294
 ; ---------------------------------------------------------------------------
 
-loc_5128C:
++ ;loc_5128C:
 		addq.b	#1,d0
 		cmpi.b	#0,d0
-		bgt.s	loc_51298
+		bgt.s	++ ;loc_51298
 
-loc_51294:
++ ;loc_51294:
 		move.b	d0,$3C(a0)
 
-loc_51298:
++ ;loc_51298:
 		jsr	Change_FlipXUseParent(pc)
 		lea	(LBZFinalBoss2_CircleLookup).l,a2
 		jmp	MoveSprite_CircularLookup(pc)
@@ -631,15 +631,15 @@ loc_5133A:
 		jsr	Animate_Raw(pc)
 		movea.w	$44(a0),a1
 		tst.b	$30(a1)
-		beq.s	loc_51368
+		beq.s	+ ;loc_51368
 		move.l	#loc_5136E,(a0)
 		move.b	#7,mapping_frame(a0)
 		tst.b	subtype(a0)
-		beq.s	loc_51368
+		beq.s	+ ;loc_51368
 		move.b	#$B,mapping_frame(a0)
 		addq.b	#8,child_dx(a0)
 
-loc_51368:
++ ;loc_51368:
 		moveq	#$C,d0
 		jmp	Child_DrawTouch_Sprite_FlickerMove(pc)
 ; ---------------------------------------------------------------------------
@@ -648,13 +648,13 @@ loc_5136E:
 		jsr	Refresh_ChildPositionAdjusted(pc)
 		movea.w	$44(a0),a1
 		tst.b	$30(a1)
-		bne.s	loc_5138C
+		bne.s	+ ;loc_5138C
 		move.l	#loc_5133A,(a0)
 		tst.b	subtype(a0)
-		beq.s	loc_5138C
+		beq.s	+ ;loc_5138C
 		subq.b	#8,child_dx(a0)
 
-loc_5138C:
++ ;loc_5138C:
 		moveq	#$C,d0
 		jmp	Child_DrawTouch_Sprite_FlickerMove(pc)
 ; ---------------------------------------------------------------------------
@@ -712,7 +712,7 @@ loc_5141A:
 		jsr	Refresh_ChildPositionAdjusted(pc)
 		movea.w	$44(a0),a1
 		btst	#7,status(a1)
-		bne.s	loc_5145E
+		bne.s	+ ;loc_5145E
 		btst	#3,$38(a1)
 		bne.w	locret_50DD2
 		btst	#6,status(a1)
@@ -731,7 +731,7 @@ locret_5145C:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_5145E:
++ ;loc_5145E:
 		clr.b	(Player_1+object_control).w
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
@@ -757,7 +757,7 @@ loc_51470:
 loc_514B0:
 		movea.w	$44(a0),a1
 		tst.b	$30(a1)
-		beq.s	loc_514DA
+		beq.s	+ ;loc_514DA
 		btst	#7,status(a1)
 		bne.w	loc_513E2
 		jsr	Refresh_ChildPositionAdjusted(pc)
@@ -767,17 +767,17 @@ loc_514B0:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_514DA:
++ ;loc_514DA:
 		move.l	#loc_514E6,(a0)
 		move.w	#$40,$2E(a0)
 
 loc_514E6:
 		subq.w	#1,$2E(a0)
-		bmi.s	loc_514EE
+		bmi.s	+ ;loc_514EE
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_514EE:
++ ;loc_514EE:
 		move.l	#loc_5141A,(a0)
 		rts
 ; ---------------------------------------------------------------------------
@@ -984,7 +984,7 @@ loc_51730:
 		move.w	(Camera_Y_pos).w,d0
 		addi.w	#$A0,d0
 		cmp.w	y_pos(a0),d0
-		bcs.s	loc_51764
+		bcs.s	+ ;loc_51764
 
 loc_5173E:
 		jsr	(MoveSprite2).l
@@ -1008,7 +1008,7 @@ locret_51762:
 
 ; ---------------------------------------------------------------------------
 
-loc_51764:
++ ;loc_51764:
 		lea	ChildObjDat_5204E(pc),a2
 		jsr	CreateChild6_Simple(pc)
 		bne.w	locret_50DD2
@@ -1017,9 +1017,9 @@ loc_51764:
 		lea	(Target_palette).w,a2
 		moveq	#bytesToLcnt($80),d0
 
-loc_5177E:
+- ;loc_5177E:
 		move.l	(a1)+,(a2)+
-		dbf	d0,loc_5177E
+		dbf	d0,- ;loc_5177E
 		move.l	#loc_517BA,(a0)
 		moveq	#signextendB(sfx_FlamethrowerQuiet),d0
 		jsr	(Play_SFX).l
@@ -1040,15 +1040,15 @@ off_517AE:
 loc_517BA:
 		movea.w	$44(a0),a1
 		btst	#7,status(a1)
-		beq.s	loc_517DE
+		beq.s	+ ;loc_517DE
 		clr.b	(Level_started_flag).w
 		lea	ChildObjDat_52054(pc),a2
 		jsr	CreateChild6_Simple(pc)
-		bne.s	loc_517DE
+		bne.s	+ ;loc_517DE
 		move.w	a1,$44(a0)
 		move.l	#loc_517E4,(a0)
 
-loc_517DE:
++ ;loc_517DE:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -1372,18 +1372,18 @@ locret_51BE0:
 		move.w	x_pos(a1),d0
 		moveq	#$10,d2
 		btst	#0,render_flags(a2)
-		beq.s	loc_51BFA
+		beq.s	+ ;loc_51BFA
 		neg.w	d2
 
-loc_51BFA:
++ ;loc_51BFA:
 		add.w	d2,d0
 		move.w	x_pos(a2),d1
 		moveq	#$C,d2
 		btst	#0,render_flags(a2)
-		beq.s	loc_51C0C
+		beq.s	+ ;loc_51C0C
 		neg.w	d2
 
-loc_51C0C:
++ ;loc_51C0C:
 		add.w	d2,d1
 		sub.w	d1,d0
 		asr.w	#1,d0
@@ -1433,10 +1433,10 @@ word_51C86:
 loc_51C8E:
 		move.w	#-$300,d0
 		btst	#0,render_flags(a0)
-		beq.s	loc_51C9C
+		beq.s	+ ;loc_51C9C
 		neg.w	d0
 
-loc_51C9C:
++ ;loc_51C9C:
 		move.w	d0,x_vel(a0)
 		jsr	(Random_Number).l
 		andi.w	#$7F,d0
@@ -1450,19 +1450,19 @@ loc_51C9C:
 sub_51CB4:
 		move.w	(Camera_X_pos).w,d0
 		tst.w	x_vel(a0)
-		bmi.s	loc_51CCA
+		bmi.s	+ ;loc_51CCA
 		add.w	d2,d0
 		cmp.w	x_pos(a0),d0
-		bls.s	loc_51CD2
+		bls.s	++ ;loc_51CD2
 		bra.w	locret_51CDC
 ; ---------------------------------------------------------------------------
 
-loc_51CCA:
++ ;loc_51CCA:
 		add.w	d1,d0
 		cmp.w	x_pos(a0),d0
 		blo.s	locret_51CDC
 
-loc_51CD2:
++ ;loc_51CD2:
 		bchg	#0,render_flags(a0)
 		neg.w	x_vel(a0)
 
@@ -1482,26 +1482,26 @@ sub_51CDE:
 		move.b	collision_property(a0),d0
 		beq.s	loc_51D52
 		tst.b	$20(a0)
-		bne.s	loc_51D1C
+		bne.s	++ ;loc_51D1C
 		cmpi.b	#$A,routine(a0)
-		bne.s	loc_51D06
+		bne.s	+ ;loc_51D06
 		move.w	#8,$3A(a0)
 
-loc_51D06:
++ ;loc_51D06:
 		move.b	#$3C,$20(a0)
 		moveq	#signextendB(sfx_BossHit),d0
 		jsr	(Play_SFX).l
 		movea.w	$44(a0),a1
 		clr.b	collision_flags(a1)
 
-loc_51D1C:
++ ;loc_51D1C:
 		bset	#6,status(a0)
 		moveq	#0,d0
 		btst	#0,$20(a0)
-		bne.s	loc_51D30
+		bne.s	+ ;loc_51D30
 		addi.w	#2*6,d0
 
-loc_51D30:
++ ;loc_51D30:
 		bsr.w	sub_51D88
 		subq.b	#1,$20(a0)
 		bne.s	locret_51D50
@@ -1520,16 +1520,16 @@ loc_51D52:
 		jsr	BossDefeated_StopTimer(pc)
 		lea	(Child6_CreateBossExplosion).l,a2
 		jsr	(CreateChild1_Normal).l
-		bne.s	loc_51D78
+		bne.s	+ ;loc_51D78
 		move.b	#4,subtype(a1)
 
-loc_51D78:
++ ;loc_51D78:
 		tst.b	$30(a0)
 		; Bug: this branch is inverted, freeing the player if they're _not_ being held
-		bne.s	loc_51D82
+		bne.s	+ ;loc_51D82
 		jsr	Restore_PlayerControl(pc)
 
-loc_51D82:
++ ;loc_51D82:
 		jmp	(SaveGame).l
 ; End of function sub_51CDE
 
@@ -1675,9 +1675,9 @@ sub_51EB0:
 		lea	(Normal_palette).w,a2
 		moveq	#bytesToLcnt($20),d0
 
-loc_51EBE:
+- ;loc_51EBE:
 		move.l	(a1)+,(a2)+
-		dbf	d0,loc_51EBE
+		dbf	d0,- ;loc_51EBE
 		rts
 ; End of function sub_51EB0
 

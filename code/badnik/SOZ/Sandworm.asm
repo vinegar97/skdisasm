@@ -38,20 +38,20 @@ loc_8EAD2:
 		move.b	#4,routine(a0)
 		move.b	#$8B,collision_flags(a0)
 		btst	#7,$38(a0)
-		beq.s	loc_8EAEC
+		beq.s	+ ;loc_8EAEC
 		move.b	#$B,collision_flags(a0)
 
-loc_8EAEC:
++ ;loc_8EAEC:
 		move.w	y_pos(a0),$3A(a0)
 		move.w	#-$400,y_vel(a0)
 		moveq	#-$60,d0
 		move.w	#-$200,d1
 		btst	#0,render_flags(a0)
-		beq.s	loc_8EB0A
+		beq.s	+ ;loc_8EB0A
 		neg.w	d0
 		neg.w	d1
 
-loc_8EB0A:
++ ;loc_8EB0A:
 		add.w	d0,x_pos(a0)
 		move.w	d1,x_vel(a0)
 		btst	#7,$38(a0)
@@ -132,10 +132,10 @@ loc_8EBE2:
 		move.w	d0,d1
 		movea.w	parent3(a0),a1
 		btst	#0,render_flags(a1)
-		bne.s	loc_8EC12
+		bne.s	+ ;loc_8EC12
 		neg.w	d0
 
-loc_8EC12:
++ ;loc_8EC12:
 		add.w	d0,x_pos(a0)
 		subq.w	#1,d1
 		move.w	d1,$2E(a0)
@@ -220,10 +220,10 @@ loc_8ECEC:
 loc_8ED02:
 		moveq	#8,d0
 		btst	#0,$2F(a0)
-		bne.s	loc_8ED0E
+		bne.s	+ ;loc_8ED0E
 		neg.w	d0
 
-loc_8ED0E:
++ ;loc_8ED0E:
 		add.w	d0,y_pos(a0)
 		jsr	(Animate_Raw).l
 		jmp	(Obj_Wait).l

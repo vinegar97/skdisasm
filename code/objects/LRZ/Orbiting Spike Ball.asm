@@ -6,7 +6,7 @@ Obj_LRZOrbitingSpikeBallHorizontal:
 		move.w	x_pos(a0),$44(a0)
 		move.w	y_pos(a0),$46(a0)
 		bclr	#0,subtype(a0)
-		beq.s	loc_43B84
+		beq.s	+ ;loc_43B84
 		move.b	#$20,width_pixels(a0)
 		move.b	#$20,height_pixels(a0)
 		move.b	#1,mapping_frame(a0)
@@ -14,7 +14,7 @@ Obj_LRZOrbitingSpikeBallHorizontal:
 		bra.w	loc_43BDE
 ; ---------------------------------------------------------------------------
 
-loc_43B84:
++ ;loc_43B84:
 		move.b	#$10,width_pixels(a0)
 		move.b	#$10,height_pixels(a0)
 		move.l	#loc_43B96,(a0)
@@ -25,16 +25,16 @@ loc_43B96:
 		move.b	(Level_frame_counter+1).w,d0
 		add.b	d0,d0
 		btst	#0,status(a0)
-		beq.s	loc_43BB2
+		beq.s	+ ;loc_43BB2
 		neg.b	d0
 
-loc_43BB2:
++ ;loc_43BB2:
 		add.b	subtype(a0),d0
-		bpl.s	loc_43BC4
+		bpl.s	+ ;loc_43BC4
 		ori.w	#high_priority,art_tile(a0)
 		move.b	#$9A,collision_flags(a0)
 
-loc_43BC4:
++ ;loc_43BC4:
 		jsr	(GetSineCosine).l
 		asr.w	#3,d1
 		add.w	$44(a0),d1
@@ -49,16 +49,16 @@ loc_43BDE:
 		move.b	(Level_frame_counter+1).w,d0
 		add.b	d0,d0
 		btst	#0,status(a0)
-		beq.s	loc_43BFA
+		beq.s	+ ;loc_43BFA
 		neg.b	d0
 
-loc_43BFA:
++ ;loc_43BFA:
 		add.b	subtype(a0),d0
-		bpl.s	loc_43C0C
+		bpl.s	+ ;loc_43C0C
 		ori.w	#high_priority,art_tile(a0)
 		move.b	#$8F,collision_flags(a0)
 
-loc_43C0C:
++ ;loc_43C0C:
 		jsr	(GetSineCosine).l
 		move.w	d1,d0
 		asr.w	#1,d1
@@ -78,7 +78,7 @@ Obj_LRZOrbitingSpikeBallVertical:
 		move.w	x_pos(a0),$44(a0)
 		move.w	y_pos(a0),$46(a0)
 		bclr	#0,subtype(a0)
-		beq.s	loc_43C76
+		beq.s	+ ;loc_43C76
 		move.b	#$20,width_pixels(a0)
 		move.b	#$20,height_pixels(a0)
 		move.b	#1,mapping_frame(a0)
@@ -86,7 +86,7 @@ Obj_LRZOrbitingSpikeBallVertical:
 		bra.w	loc_43CD6
 ; ---------------------------------------------------------------------------
 
-loc_43C76:
++ ;loc_43C76:
 		move.b	#$10,width_pixels(a0)
 		move.b	#$10,height_pixels(a0)
 		move.l	#loc_43C88,(a0)
@@ -97,16 +97,16 @@ loc_43C88:
 		move.b	(Level_frame_counter+1).w,d0
 		add.b	d0,d0
 		btst	#0,status(a0)
-		beq.s	loc_43CA4
+		beq.s	+ ;loc_43CA4
 		neg.b	d0
 
-loc_43CA4:
++ ;loc_43CA4:
 		add.b	subtype(a0),d0
-		bpl.s	loc_43CB6
+		bpl.s	+ ;loc_43CB6
 		ori.w	#high_priority,art_tile(a0)
 		move.b	#$9A,collision_flags(a0)
 
-loc_43CB6:
++ ;loc_43CB6:
 		jsr	(GetSineCosine).l
 		move.w	d1,d0
 		asr.w	#2,d1
@@ -124,16 +124,16 @@ loc_43CD6:
 		move.b	(Level_frame_counter+1).w,d0
 		add.b	d0,d0
 		btst	#0,status(a0)
-		beq.s	loc_43CF2
+		beq.s	+ ;loc_43CF2
 		neg.b	d0
 
-loc_43CF2:
++ ;loc_43CF2:
 		add.b	subtype(a0),d0
-		bpl.s	loc_43D04
+		bpl.s	+ ;loc_43D04
 		ori.w	#high_priority,art_tile(a0)
 		move.b	#$8F,collision_flags(a0)
 
-loc_43D04:
++ ;loc_43D04:
 		jsr	(GetSineCosine).l
 		asr.w	#2,d1
 		move.w	d1,d0

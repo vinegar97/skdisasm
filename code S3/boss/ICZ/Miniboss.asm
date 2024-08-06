@@ -1,6 +1,6 @@
 Obj_ICZMiniboss:
 		cmpi.w	#$501,(Apparent_zone_and_act).w
-		beq.s	loc_4E3E6
+		beq.s	+ ;loc_4E3E6
 		lea	word_4E3EC(pc),a1
 		jsr	(Check_CameraInRange).l
 		move.l	#loc_4E3F4,(a0)
@@ -21,7 +21,7 @@ Obj_ICZMiniboss:
 		jmp	PalLoad_Line1(pc)
 ; ---------------------------------------------------------------------------
 
-loc_4E3E6:
++ ;loc_4E3E6:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 word_4E3EC:
@@ -151,12 +151,12 @@ loc_4E50A:
 loc_4E530:
 		jsr	Run_PalRotationScript(pc)
 		subq.w	#1,$2E(a0)
-		bmi.s	loc_4E546
+		bmi.s	+ ;loc_4E546
 		addi.w	#-$10,y_vel(a0)
 		jmp	(MoveSprite2).l
 ; ---------------------------------------------------------------------------
 
-loc_4E546:
++ ;loc_4E546:
 		move.b	#$C,routine(a0)
 		move.w	#$3F,$2E(a0)
 		move.l	#loc_4E564,$34(a0)
@@ -178,11 +178,11 @@ loc_4E564:
 
 loc_4E582:
 		btst	#1,$38(a0)
-		beq.s	loc_4E58E
+		beq.s	+ ;loc_4E58E
 		jmp	Run_PalRotationScript(pc)
 ; ---------------------------------------------------------------------------
 
-loc_4E58E:
++ ;loc_4E58E:
 		move.b	#$10,routine(a0)
 		bclr	#2,$38(a0)
 		move.l	#loc_4E5B0,(Palette_rotation_custom).w
@@ -226,15 +226,15 @@ loc_4E606:
 		jsr	(Obj_EndSignControl).l
 		movea.w	(_unkFAAE).w,a1
 		cmpi.l	#loc_58DF8,(a1)
-		bne.s	loc_4E61E
+		bne.s	+ ;loc_4E61E
 		bset	#5,$38(a1)
 
-loc_4E61E:
++ ;loc_4E61E:
 		jsr	(AllocateObject).l
-		bne.s	loc_4E62C
+		bne.s	+ ;loc_4E62C
 		move.l	#loc_4E634,(a1)
 
-loc_4E62C:
++ ;loc_4E62C:
 		lea	ChildObjDat_4EB98(pc),a2
 		jmp	CreateChild1_Normal(pc)
 ; ---------------------------------------------------------------------------
@@ -279,11 +279,11 @@ loc_4E678:
 loc_4E684:
 		movea.w	parent3(a0),a1
 		btst	#3,$38(a1)
-		bne.s	loc_4E692
+		bne.s	+ ;loc_4E692
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4E692:
++ ;loc_4E692:
 		move.b	#4,routine(a0)
 		move.l	#loc_4E6B8,$34(a0)
 		bra.w	loc_4E8C0
@@ -338,11 +338,11 @@ loc_4E6EE:
 loc_4E6FA:
 		movea.w	parent3(a0),a1
 		btst	#2,$38(a1)
-		bne.s	loc_4E708
+		bne.s	+ ;loc_4E708
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4E708:
++ ;loc_4E708:
 		move.b	#4,routine(a0)
 		move.w	#-$40,y_vel(a0)
 		move.w	#$3F,$2E(a0)
@@ -353,10 +353,10 @@ loc_4E708:
 loc_4E724:
 		moveq	#1,d0
 		btst	#0,(V_int_run_count+3).w
-		beq.s	loc_4E730
+		beq.s	+ ;loc_4E730
 		neg.w	d0
 
-loc_4E730:
++ ;loc_4E730:
 		add.w	d0,x_pos(a0)
 		jsr	(MoveSprite2).l
 		jmp	Obj_Wait(pc)
@@ -387,11 +387,11 @@ loc_4E768:
 loc_4E77E:
 		movea.w	parent3(a0),a1
 		btst	#1,$38(a1)
-		bne.s	loc_4E78E
+		bne.s	+ ;loc_4E78E
 		bra.w	loc_4E98E
 ; ---------------------------------------------------------------------------
 
-loc_4E78E:
++ ;loc_4E78E:
 		move.b	#$A,routine(a0)
 		rts
 ; ---------------------------------------------------------------------------
@@ -400,16 +400,16 @@ loc_4E796:
 		movea.w	parent3(a0),a1
 		moveq	#0,d0
 		tst.b	$43(a1)
-		bne.s	loc_4E7A4
+		bne.s	+ ;loc_4E7A4
 		moveq	#-$80,d0
 
-loc_4E7A4:
++ ;loc_4E7A4:
 		cmp.b	$3D(a0),d0
-		beq.s	loc_4E7AE
+		beq.s	+ ;loc_4E7AE
 		bra.w	loc_4E98E
 ; ---------------------------------------------------------------------------
 
-loc_4E7AE:
++ ;loc_4E7AE:
 		move.b	#$C,routine(a0)
 		rts
 ; ---------------------------------------------------------------------------
@@ -422,19 +422,19 @@ loc_4E7B6:
 		bsr.w	sub_4E9A6
 		movea.w	parent3(a0),a1
 		btst	#1,$38(a1)
-		beq.s	loc_4E7F0
+		beq.s	++ ;loc_4E7F0
 		tst.b	subtype(a0)
 		bne.w	locret_4E400
 		moveq	#0,d0
 		tst.b	$43(a1)
-		bne.s	loc_4E7E8
+		bne.s	+ ;loc_4E7E8
 		moveq	#-$80,d0
 
-loc_4E7E8:
++ ;loc_4E7E8:
 		cmp.b	$3C(a0),d0
 		bne.w	locret_4E400
 
-loc_4E7F0:
++ ;loc_4E7F0:
 		move.b	#$E,routine(a0)
 		bclr	#1,$38(a1)
 		bra.w	loc_4EA58
@@ -443,7 +443,7 @@ loc_4E7F0:
 loc_4E800:
 		move.b	$3C(a0),d0
 		cmp.b	$42(a0),d0
-		beq.s	loc_4E81E
+		beq.s	+ ;loc_4E81E
 		addq.b	#4,$3C(a0)
 		lea	(ICZMiniboss_OrbAngleLookup).l,a2
 		jsr	MoveSprite_AtAngleLookup(pc)
@@ -451,7 +451,7 @@ loc_4E800:
 		bra.w	sub_4E9A6
 ; ---------------------------------------------------------------------------
 
-loc_4E81E:
++ ;loc_4E81E:
 		move.b	#$10,routine(a0)
 		move.w	#$3F,$2E(a0)
 		move.l	#loc_4E834,$34(a0)
@@ -610,60 +610,60 @@ loc_4E98E:
 sub_4E9A6:
 		jsr	(GetSineCosine).l
 		tst.w	d1
-		bpl.s	loc_4E9B2
+		bpl.s	+ ;loc_4E9B2
 		neg.w	d1
 
-loc_4E9B2:
++ ;loc_4E9B2:
 		move.w	y_pos(a0),d2
 		move.w	y_pos(a1),d4
 		sub.w	d4,d2
 		scs	d3
-		bcc.s	loc_4E9C2
+		bcc.s	+ ;loc_4E9C2
 		neg.w	d2
 
-loc_4E9C2:
++ ;loc_4E9C2:
 		mulu.w	d1,d2
 		lsr.l	#8,d2
 		cmpi.b	#$40,$3D(a0)
-		blo.s	loc_4E9D8
+		blo.s	+ ;loc_4E9D8
 		cmpi.b	#-$40,$3D(a0)
-		bhs.s	loc_4E9D8
+		bhs.s	+ ;loc_4E9D8
 		not.b	d3
 
-loc_4E9D8:
++ ;loc_4E9D8:
 		tst.b	d3
-		beq.s	loc_4E9DE
+		beq.s	+ ;loc_4E9DE
 		neg.w	d2
 
-loc_4E9DE:
++ ;loc_4E9DE:
 		add.w	d2,d4
 		move.w	d4,y_pos(a0)
 		move.b	$3D(a0),d0
 		spl	d3
 		cmpi.b	#$40,$3C(a0)
-		blo.s	loc_4E9FC
+		blo.s	+ ;loc_4E9FC
 		cmpi.b	#-$40,$3C(a0)
-		bhs.s	loc_4E9FC
+		bhs.s	+ ;loc_4E9FC
 		not.b	d3
 
-loc_4E9FC:
++ ;loc_4E9FC:
 		move.b	#6,mapping_frame(a0)
 		cmpi.b	#$20,d0
-		blo.s	loc_4EA2A
+		blo.s	++ ;loc_4EA2A
 		cmpi.b	#$60,d0
-		blo.s	loc_4EA1A
+		blo.s	+ ;loc_4EA1A
 		cmpi.b	#-$60,d0
-		blo.s	loc_4EA2A
+		blo.s	++ ;loc_4EA2A
 		cmpi.b	#-$20,d0
-		bhs.s	loc_4EA2A
+		bhs.s	++ ;loc_4EA2A
 
-loc_4EA1A:
++ ;loc_4EA1A:
 		move.b	#5,mapping_frame(a0)
 		tst.b	d3
-		bne.s	loc_4EA2A
+		bne.s	+ ;loc_4EA2A
 		move.b	#8,mapping_frame(a0)
 
-loc_4EA2A:
++ ;loc_4EA2A:
 		move.w	#$180,priority(a0)
 		tst.b	d3
 		bne.s	locret_4EA3A
@@ -698,10 +698,10 @@ loc_4EA58:
 		move.w	d0,d1
 		lsr.w	#1,d1
 		tst.b	$43(a1)
-		bne.s	loc_4EA6E
+		bne.s	+ ;loc_4EA6E
 		addq.w	#8,d1
 
-loc_4EA6E:
++ ;loc_4EA6E:
 		move.b	byte_4EA88(pc,d1.w),$42(a0)
 		add.w	d0,d0
 		move.l	word_4EA98(pc,d0.w),x_vel(a0)	; and y_vel
@@ -740,19 +740,19 @@ sub_4EAC2:
 		tst.b	collision_property(a0)
 		beq.s	loc_4EB0E
 		tst.b	$20(a0)
-		bne.s	loc_4EAE2
+		bne.s	+ ;loc_4EAE2
 		move.b	#$20,$20(a0)
 		moveq	#signextendB(sfx_BossHit),d0
 		jsr	(Play_SFX).l
 
-loc_4EAE2:
++ ;loc_4EAE2:
 		bset	#6,status(a0)
 		moveq	#0,d0
 		btst	#0,$20(a0)
-		bne.s	loc_4EAF6
+		bne.s	+ ;loc_4EAF6
 		addi.w	#2*2,d0
 
-loc_4EAF6:
++ ;loc_4EAF6:
 		bsr.w	sub_4EB2A
 		subq.b	#1,$20(a0)
 		bne.s	locret_4EB0C

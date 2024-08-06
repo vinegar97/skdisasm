@@ -80,7 +80,7 @@ GetArcTan:
 		move.w	d1,d3
 		move.w	d2,d4
 		or.w	d3,d4
-		beq.s	GetArcTan_Zero	; special case when both x and y are zero
+		beq.s	.Zero	; special case when both x and y are zero
 		move.w	d2,d4
 		tst.w	d3
 		bpl.s	+
@@ -97,14 +97,14 @@ GetArcTan:
 		lsl.l	#8,d4
 		divu.w	d3,d4
 		moveq	#0,d0
-		move.b	ArcTanTable(pc,d4.w),d0
+		move.b	.Table(pc,d4.w),d0
 		bra.s	++
 
 +
 		lsl.l	#8,d3
 		divu.w	d4,d3
 		moveq	#$40,d0
-		sub.b	ArcTanTable(pc,d3.w),d0	; arctan(y/x) = 90 - arctan(x/y)
+		sub.b	.Table(pc,d3.w),d0	; arctan(y/x) = 90 - arctan(x/y)
 
 +
 		tst.w	d1
@@ -123,13 +123,14 @@ GetArcTan:
 		rts
 ; ---------------------------------------------------------------------------
 
-GetArcTan_Zero:
+.Zero:
 		move.w	#$40,d0	; angle = 90 degrees
 		movem.l	(sp)+,d3-d4
 		rts
 ; End of function GetArcTan
 
 ; ---------------------------------------------------------------------------
-ArcTanTable:
+; ArcTanTable:
+.Table:
 		binclude "Levels/Misc/arctan.bin"
 		even

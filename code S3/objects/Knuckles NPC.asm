@@ -51,11 +51,11 @@ loc_4474C:
 loc_44782:
 		movea.w	parent3(a0),a1
 		btst	#7,status(a1)
-		bne.s	loc_44790
+		bne.s	+ ;loc_44790
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_44790:
++ ;loc_44790:
 		move.b	#4,routine(a0)
 		bset	#7,status(a0)
 		move.w	#-$600,y_vel(a0)
@@ -72,13 +72,13 @@ loc_447B2:
 		bmi.s	locret_447D0
 		jsr	(ObjCheckFloorDist).l
 		tst.w	d1
-		bmi.s	loc_447D2
+		bmi.s	+ ;loc_447D2
 
 locret_447D0:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_447D2:
++ ;loc_447D2:
 		move.b	#6,routine(a0)
 		add.w	d1,y_pos(a0)
 		move.b	#$16,mapping_frame(a0)
@@ -141,21 +141,21 @@ locret_4489C:
 
 loc_4489E:
 		tst.b	render_flags(a0)
-		bpl.s	loc_448B0
+		bpl.s	+ ;loc_448B0
 		jsr	(Animate_Raw).l
 		jmp	(MoveSprite2).l
 ; ---------------------------------------------------------------------------
 
-loc_448B0:
++ ;loc_448B0:
 		clr.b	(Palette_cycle_counters+$00).w
 		clr.b	(Ctrl_1_locked).w
 		jsr	(AfterBoss_Cleanup).l
 		jsr	(Remove_From_TrackingSlot).l
 		jsr	(AllocateObject).l
-		bne.s	loc_448D2
+		bne.s	+ ;loc_448D2
 		move.l	#Obj_TitleCard,(a1)
 
-loc_448D2:
++ ;loc_448D2:
 		move.b	#$91,(Level_started_flag).w
 		move.b	#$80,(Update_HUD_timer).w
 		clr.l	(Timer).w
@@ -171,11 +171,11 @@ loc_448EE:
 loc_448FE:
 		movea.w	parent3(a0),a1
 		btst	#7,status(a1)
-		bne.s	loc_44910
+		bne.s	+ ;loc_44910
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_44910:
++ ;loc_44910:
 		lea	(word_29AF0).l,a4
 		addq.b	#1,mapping_frame(a0)
 		move.l	#loc_29838,(a0)
@@ -234,13 +234,13 @@ loc_449B0:
 		move.w	x_pos(a0),d0
 		subq.w	#2,d0
 		cmpi.w	#$4B3C,d0
-		blo.s	loc_449CA
+		blo.s	+ ;loc_449CA
 		move.w	d0,x_pos(a0)
 		lea	byte_4576B(pc),a1
 		jmp	(Animate_RawNoSST).l
 ; ---------------------------------------------------------------------------
 
-loc_449CA:
++ ;loc_449CA:
 		move.b	#6,routine(a0)
 		bclr	#0,render_flags(a0)
 		move.w	#$5F,$2E(a0)
@@ -286,7 +286,7 @@ loc_44A38:
 		tst.w	d1
 		bpl.s	locret_44A64
 		bset	#2,$38(a0)
-		bne.s	loc_44A66
+		bne.s	+ ;loc_44A66
 		neg.w	x_vel(a0)
 		neg.w	y_vel(a0)
 
@@ -294,7 +294,7 @@ locret_44A64:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_44A66:
++ ;loc_44A66:
 		addq.b	#2,routine(a0)
 		add.w	d1,y_pos(a0)
 		bra.w	loc_449E4
@@ -355,19 +355,19 @@ loc_44AE2:
 loc_44B00:
 		lea	(Player_1).w,a1
 		cmpi.w	#$3990,x_pos(a1)
-		blo.s	loc_44B1A
+		blo.s	+ ;loc_44B1A
 		tst.b	object_control(a1)
-		bne.s	loc_44B1A
+		bne.s	+ ;loc_44B1A
 		btst	#Status_OnObj,status(a1)
-		bne.s	loc_44B28
+		bne.s	++ ;loc_44B28
 
-loc_44B1A:
++ ;loc_44B1A:
 		move.w	(Camera_Y_pos).w,(Camera_min_Y_pos).w
 		move.w	(Camera_X_pos).w,(Camera_min_X_pos).w
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_44B28:
++ ;loc_44B28:
 		move.b	#4,routine(a0)
 		bsr.w	sub_456C6
 		move.w	#(3*60)-1,$2E(a0)
@@ -415,10 +415,10 @@ loc_44BAE:
 		lea	ChildObjDat_44BEC(pc),a2
 		jsr	(CreateChild1_Normal).l
 		jsr	(AllocateObject).l
-		bne.s	loc_44BE0
+		bne.s	+ ;loc_44BE0
 		move.l	#Obj_Song_Fade_ToLevelMusic,(a1)
 
-loc_44BE0:
++ ;loc_44BE0:
 		jsr	(Remove_From_TrackingSlot).l
 		jmp	(Go_Delete_Sprite).l
 ; ---------------------------------------------------------------------------
@@ -510,7 +510,7 @@ loc_44CEC:
 		moveq	#0,d0
 		move.b	$39(a0),d0
 		cmpi.b	#8,d0
-		bhs.s	loc_44D28
+		bhs.s	+ ;loc_44D28
 		move.l	word_44D4A(pc,d0.w),x_vel(a0)	; and y_vel
 		addq.b	#4,d0
 		move.b	d0,$39(a0)
@@ -520,7 +520,7 @@ locret_44D26:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_44D28:
++ ;loc_44D28:
 		move.b	#8,routine(a0)
 		bclr	#0,render_flags(a0)
 		add.w	d1,y_pos(a0)
@@ -554,10 +554,10 @@ loc_44D6E:
 		jsr	(CreateChild1_Normal).l
 		move.w	(Camera_stored_max_Y_pos).w,(Camera_target_max_Y_pos).w
 		jsr	(AllocateObject).l
-		bne.s	loc_44DB8
+		bne.s	+ ;loc_44DB8
 		move.l	#Obj_Song_Fade_ToLevelMusic,(a1)
 
-loc_44DB8:
++ ;loc_44DB8:
 		jsr	(Remove_From_TrackingSlot).l
 		jmp	(Go_Delete_Sprite).l
 ; ---------------------------------------------------------------------------
@@ -574,7 +574,7 @@ ChildObjDat_44DC4:
 loc_44DD8:
 		movea.w	parent3(a0),a1
 		btst	#7,status(a1)
-		bne.s	loc_44DFE
+		bne.s	+ ;loc_44DFE
 		move.b	#8,width_pixels(a0)
 		moveq	#$13,d1
 		move.w	#$100,d2
@@ -583,7 +583,7 @@ loc_44DD8:
 		jmp	(SolidObjectFull2).l
 ; ---------------------------------------------------------------------------
 
-loc_44DFE:
++ ;loc_44DFE:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -593,16 +593,16 @@ loc_44E04:
 		moveq	#0,d0
 		move.b	$39(a0),d0
 		cmpi.b	#6,d0
-		bhs.s	loc_44E40
+		bhs.s	++ ;loc_44E40
 		addq.b	#1,$39(a0)
 		add.w	d0,d0
 		move.w	word_44E54(pc,d0.w),$2E(a0)
 		moveq	#0,d1
 		btst	#1,d0
-		beq.s	loc_44E2C
+		beq.s	+ ;loc_44E2C
 		moveq	#$40,d1
 
-loc_44E2C:
++ ;loc_44E2C:
 		lea	Pal_CNZFlash(pc),a1
 		adda.w	d1,a1
 
@@ -613,9 +613,9 @@ sub_44E32:
 		lea	(Normal_palette_line_3).w,a2
 		moveq	#bytesToLcnt($40),d0
 
-loc_44E38:
+- ;loc_44E38:
 		move.l	(a1)+,(a2)+
-		dbf	d0,loc_44E38
+		dbf	d0,- ;loc_44E38
 
 locret_44E3E:
 		rts
@@ -623,13 +623,13 @@ locret_44E3E:
 
 ; ---------------------------------------------------------------------------
 
-loc_44E40:
++ ;loc_44E40:
 		tst.b	subtype(a0)
-		beq.s	loc_44E4E
+		beq.s	+ ;loc_44E4E
 		lea	(Pal_CNZ+$20).l,a1
 		bsr.s	sub_44E32
 
-loc_44E4E:
++ ;loc_44E4E:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 word_44E54:
@@ -682,13 +682,13 @@ loc_44EC8:
 		cmpi.w	#$4728,x_pos(a1)
 		blo.s	locret_44EDC
 		btst	#Status_InAir,status(a1)
-		bne.s	loc_44EDE
+		bne.s	+ ;loc_44EDE
 
 locret_44EDC:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_44EDE:
++ ;loc_44EDE:
 		move.b	#4,routine(a0)
 		rts
 ; ---------------------------------------------------------------------------
@@ -696,11 +696,11 @@ loc_44EDE:
 loc_44EE6:
 		move.w	#(button_right_mask<<8)+button_right_mask,(Ctrl_1_logical).w
 		cmpi.w	#$4760,(Player_1+x_pos).w
-		bhs.s	loc_44EF6
+		bhs.s	+ ;loc_44EF6
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_44EF6:
++ ;loc_44EF6:
 		move.b	#6,routine(a0)
 		clr.w	(Ctrl_1_logical).w
 		lea	(Player_1).w,a1
@@ -754,11 +754,11 @@ loc_44F94:
 		move.w	(Camera_Y_pos).w,d0
 		addi.w	#$160,d0
 		cmp.w	y_pos(a0),d0
-		blo.s	loc_44FAA
+		blo.s	+ ;loc_44FAA
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_44FAA:
++ ;loc_44FAA:
 		clr.b	(Ctrl_1_locked).w
 		jsr	(Remove_From_TrackingSlot).l
 		jmp	(Go_Delete_Sprite).l
@@ -787,7 +787,7 @@ CutsceneKnux_LBZ1:
 loc_44FE8:
 		move.w	(Player_1+x_pos).w,d0
 		cmp.w	x_pos(a0),d0
-		bhs.s	loc_4501C
+		bhs.s	+ ;loc_4501C
 		lea	ObjSlot_CutsceneKnux(pc),a1
 		jsr	(SetUp_ObjAttributesSlotted).l
 		move.b	#$16,mapping_frame(a0)
@@ -798,17 +798,17 @@ loc_44FE8:
 		jmp	(CreateChild1_Normal).l
 ; ---------------------------------------------------------------------------
 
-loc_4501C:
++ ;loc_4501C:
 		jmp	(Go_Delete_SpriteSlotted2).l
 ; ---------------------------------------------------------------------------
 
 loc_45022:
 		btst	#3,$38(a0)
-		bne.s	loc_4502C
+		bne.s	+ ;loc_4502C
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4502C:
++ ;loc_4502C:
 		move.b	#4,routine(a0)
 		bsr.w	sub_456C6
 		move.w	#60-1,$2E(a0)
@@ -865,12 +865,12 @@ loc_450D0:
 
 loc_450E8:
 		tst.b	render_flags(a0)
-		bpl.w	loc_450FA
+		bpl.w	+ ;loc_450FA
 		addq.w	#2,x_pos(a0)
 		jmp	(Animate_Raw).l
 ; ---------------------------------------------------------------------------
 
-loc_450FA:
++ ;loc_450FA:
 		clr.b	(_unkFAA9).w
 		clr.b	(Player_1+object_control).w
 		clr.b	(Player_2+object_control).w
@@ -887,18 +887,18 @@ loc_450FA:
 loc_45136:
 		movea.w	parent3(a0),a1
 		btst	#7,status(a1)
-		bne.s	loc_4516E
+		bne.s	++ ;loc_4516E
 		lea	word_45196(pc),a1
 		jsr	(Check_PlayerInRange).l
 		tst.l	d0
 		beq.s	locret_4516C
 		tst.w	d0
-		beq.s	loc_45162
+		beq.s	+ ;loc_45162
 		movea.w	parent3(a0),a2
 		bset	#3,$38(a2)
 		bsr.w	sub_45174
 
-loc_45162:
++ ;loc_45162:
 		swap	d0
 		tst.w	d0
 		beq.s	locret_4516C
@@ -908,7 +908,7 @@ locret_4516C:
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4516E:
++ ;loc_4516E:
 		jmp	(Delete_Current_Sprite).l
 
 ; =============== S U B R O U T I N E =======================================
@@ -1001,11 +1001,11 @@ loc_45242:
 
 loc_45270:
 		btst	#1,$38(a0)
-		bne.s	loc_4527A
+		bne.s	+ ;loc_4527A
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4527A:
++ ;loc_4527A:
 		move.b	#4,routine(a0)
 		move.l	#loc_45294,$34(a0)
 		rts
@@ -1024,25 +1024,25 @@ loc_45294:
 
 loc_452A4:
 		tst.b	(Screen_shake_flag).w
-		beq.s	loc_452C0
+		beq.s	+ ;loc_452C0
 		move.b	#8,routine(a0)
 		move.l	#byte_45766,$30(a0)
 		clr.b	anim_frame_timer(a0)
 		clr.b	anim_frame(a0)
 
-loc_452C0:
++ ;loc_452C0:
 		jmp	(Animate_Raw).l
 ; ---------------------------------------------------------------------------
 
 loc_452C6:
 		btst	#3,$38(a0)
-		bne.s	loc_452DC
+		bne.s	+ ;loc_452DC
 		move.w	(Events_bg+$14).w,d0
 		add.w	d0,y_pos(a0)
 		jmp	(Animate_Raw).l
 ; ---------------------------------------------------------------------------
 
-loc_452DC:
++ ;loc_452DC:
 		move.b	#$A,routine(a0)
 		bset	#0,render_flags(a0)
 		move.b	#9,mapping_frame(a0)
@@ -1092,12 +1092,12 @@ word_4535C:
 
 loc_4536C:
 		tst.b	(Screen_shake_flag).w
-		beq.s	loc_45384
+		beq.s	+ ;loc_45384
 		move.l	#loc_4538A,(a0)
 		move.w	$3E(a0),x_vel(a0)
 		move.b	#6,$39(a0)
 
-loc_45384:
++ ;loc_45384:
 		jmp	(Sprite_CheckDeleteXY).l
 ; ---------------------------------------------------------------------------
 
@@ -1108,37 +1108,37 @@ loc_4538A:
 		move.w	$40(a0),d1
 		cmp.w	$3A(a0),d0
 		scs	d2
-		bcs.s	loc_453A4
+		bcs.s	+ ;loc_453A4
 		neg.w	d1
 
-loc_453A4:
++ ;loc_453A4:
 		add.w	d1,x_vel(a0)
 		cmp.b	$3C(a0),d2
-		beq.s	loc_453E4
+		beq.s	++ ;loc_453E4
 		move.b	d2,$3C(a0)
 		cmpi.b	#3,$39(a0)
-		bne.s	loc_453CE
+		bne.s	+ ;loc_453CE
 		moveq	#0,d0
 		move.b	subtype(a0),d0
 		add.w	d0,d0
 		move.l	word_45400(pc,d0.w),$3E(a0)
 		move.w	$3E(a0),x_vel(a0)
 
-loc_453CE:
++ ;loc_453CE:
 		subq.b	#1,$39(a0)
-		bne.s	loc_453E4
+		bne.s	+ ;loc_453E4
 		move.l	#loc_45410,(a0)
 		movea.w	parent3(a0),a1
 		bset	#3,$38(a1)
 
-loc_453E4:
++ ;loc_453E4:
 		jsr	(MoveSprite2).l
 		tst.b	subtype(a0)
-		bne.s	loc_453FA
+		bne.s	+ ;loc_453FA
 		movea.w	parent3(a0),a1
 		move.w	x_pos(a0),x_pos(a1)
 
-loc_453FA:
++ ;loc_453FA:
 		jmp	(Sprite_CheckDeleteXY).l
 ; ---------------------------------------------------------------------------
 word_45400:
@@ -1159,15 +1159,15 @@ Obj_LBZKnuxPillar:
 		lea	ObjDat_LBZKnuxPillar(pc),a1
 		jsr	(SetUp_ObjAttributes).l
 		bclr	#1,render_flags(a0)
-		beq.s	loc_4543C
+		beq.s	+ ;loc_4543C
 		bset	#7,art_tile(a0)
 
-loc_4543C:
++ ;loc_4543C:
 		bclr	#0,render_flags(a0)
-		beq.s	loc_4544A
+		beq.s	+ ;loc_4544A
 		move.w	#0,priority(a0)
 
-loc_4544A:
++ ;loc_4544A:
 		move.l	#loc_45450,(a0)
 
 loc_45450:
@@ -1194,25 +1194,25 @@ PLC_CutsceneButton_End
 
 loc_454C2:
 		move.w	(_unkFAA4).w,d0
-		beq.s	loc_45518
+		beq.s	+ ;loc_45518
 		movea.w	d0,a1
 		lea	word_4551E(pc),a2
 		move.w	x_pos(a0),d0
 		move.w	x_pos(a1),d1
 		add.w	(a2)+,d0
 		cmp.w	d0,d1
-		bcs.s	loc_45518
+		bcs.s	+ ;loc_45518
 		add.w	(a2)+,d0
 		cmp.w	d0,d1
-		bcc.s	loc_45518
+		bcc.s	+ ;loc_45518
 		move.w	y_pos(a0),d0
 		move.w	y_pos(a1),d1
 		add.w	(a2)+,d0
 		cmp.w	d0,d1
-		bcs.s	loc_45518
+		bcs.s	+ ;loc_45518
 		add.w	(a2)+,d0
 		cmp.w	d0,d1
-		bcc.s	loc_45518
+		bcc.s	+ ;loc_45518
 		move.l	#loc_4552E,(a0)
 		move.b	#1,mapping_frame(a0)
 		st	(_unkFAA9).w
@@ -1222,7 +1222,7 @@ loc_454C2:
 		move.w	off_45526(pc,d0.w),d0
 		jsr	off_45526(pc,d0.w)
 
-loc_45518:
++ ;loc_45518:
 		jmp	(Sprite_OnScreen_Test).l
 ; ---------------------------------------------------------------------------
 word_4551E:
@@ -1282,13 +1282,13 @@ loc_4558A:
 		adda.w	d0,a1
 		move.b	#$88,(a1)
 		jsr	(AllocateObject).l
-		bne.s	loc_455D2
+		bne.s	+ ;loc_455D2
 		move.l	#Obj_CNZVacuumTube,(a1)
 		move.w	#$4740,x_pos(a1)
 		move.w	#$828,y_pos(a1)
 		move.b	#$4C,subtype(a1)
 
-loc_455D2:
++ ;loc_455D2:
 		jsr	(AllocateObject).l
 		bne.s	locret_455F2
 		move.l	#Obj_CNZVacuumTube,(a1)
@@ -1314,17 +1314,17 @@ Obj_CNZWaterLevelCorkFloor:
 loc_45624:
 		movea.w	$44(a0),a1
 		cmpi.l	#loc_29838,(a1)
-		beq.s	loc_45636
+		beq.s	+ ;loc_45636
 		jmp	(Delete_Sprite_If_Not_In_Range).l
 ; ---------------------------------------------------------------------------
 
-loc_45636:
++ ;loc_45636:
 		tst.b	(_unkFAA2).w
-		bne.s	loc_45646
+		bne.s	+ ;loc_45646
 		st	(_unkFAA2).w
 		move.w	#$958,(Target_water_level).w
 
-loc_45646:
++ ;loc_45646:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -1346,20 +1346,20 @@ loc_4566A:
 		move.b	#0,mapping_frame(a0)
 		move.b	status(a0),d0
 		andi.b	#standing_mask,d0
-		beq.s	loc_456C0
+		beq.s	+ ;loc_456C0
 		move.b	#1,mapping_frame(a0)
 		tst.b	(_unkFAA3).w
-		beq.s	loc_456C0
+		beq.s	+ ;loc_456C0
 		clr.b	(_unkFAA3).w
 		move.w	#$A58,(Target_water_level).w
 		moveq	#signextendB(sfx_Geyser),d0
 		jsr	(Play_SFX).l
 		jsr	(AllocateObject).l
-		bne.s	loc_456C0
+		bne.s	+ ;loc_456C0
 		move.l	#loc_44E04,(a1)
 		st	subtype(a1)
 
-loc_456C0:
++ ;loc_456C0:
 		jmp	(Sprite_OnScreen_Test).l
 
 ; =============== S U B R O U T I N E =======================================
@@ -1539,11 +1539,11 @@ loc_458F6:
 
 loc_45912:
 		subi.w	#$18,y_vel(a0)
-		beq.s	loc_45920
+		beq.s	+ ;loc_45920
 		jmp	(MoveSprite2).l
 ; ---------------------------------------------------------------------------
 
-loc_45920:
++ ;loc_45920:
 		move.b	#6,routine(a0)
 		clr.w	x_vel(a0)
 		move.w	#$5F,$2E(a0)
@@ -1570,11 +1570,11 @@ loc_45970:
 		subi.w	#$40,x_vel(a0)
 		jsr	(MoveSprite).l
 		cmpi.w	#$130,y_pos(a0)
-		bhs.s	loc_4598A
+		bhs.s	+ ;loc_4598A
 		jmp	(loc_45DFC).l
 ; ---------------------------------------------------------------------------
 
-loc_4598A:
++ ;loc_4598A:
 		move.b	#$A,routine(a0)
 		move.w	#$130,y_pos(a0)
 		clr.w	y_vel(a0)
@@ -1585,11 +1585,11 @@ loc_4599C:
 		subi.w	#$40,x_vel(a0)
 		jsr	(MoveSprite2).l
 		cmpi.w	#$40,x_pos(a0)
-		blo.s	loc_459B2
+		blo.s	+ ;loc_459B2
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_459B2:
++ ;loc_459B2:
 		move.b	#$C,routine(a0)
 		move.w	#$40,x_pos(a0)
 		move.w	#5,$2E(a0)
@@ -1620,11 +1620,11 @@ loc_45A00:
 		addq.w	#4,d0
 		move.w	d0,x_pos(a0)
 		cmpi.w	#$200,d0
-		bhs.s	loc_45A1C
+		bhs.s	+ ;loc_45A1C
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_45A1C:
++ ;loc_45A1C:
 		move.b	#$10,routine(a0)
 		move.w	#$1F,$3A(a0)
 		rts
@@ -1648,11 +1648,11 @@ loc_45A50:
 		subi.w	#4,d0
 		move.w	d0,x_pos(a0)
 		cmpi.w	#$120,d0
-		bls.s	loc_45A6E
+		bls.s	+ ;loc_45A6E
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_45A6E:
++ ;loc_45A6E:
 		move.b	#$14,routine(a0)
 		bset	#2,$38(a0)
 		move.w	#$1F,$3A(a0)
@@ -1672,11 +1672,11 @@ loc_45A88:
 loc_45AA2:
 		bsr.w	sub_45D94
 		cmpi.w	#$918,(Player_1+x_pos).w
-		bhs.s	loc_45AB4
+		bhs.s	+ ;loc_45AB4
 		jmp	(Obj_Wait).l
 ; ---------------------------------------------------------------------------
 
-loc_45AB4:
++ ;loc_45AB4:
 		move.b	#$18,routine(a0)
 		lea	ChildObjDat_45E54(pc),a2
 		jmp	(CreateChild6_Simple).l
@@ -1685,11 +1685,11 @@ loc_45AB4:
 loc_45AC4:
 		bsr.w	sub_45D94
 		cmpi.w	#$1240,(Player_1+x_pos).w
-		bhs.s	loc_45AD2
+		bhs.s	+ ;loc_45AD2
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_45AD2:
++ ;loc_45AD2:
 		move.b	#$1A,routine(a0)
 		subi.w	#$20,y_pos(a0)
 		rts
@@ -1698,11 +1698,11 @@ loc_45AD2:
 loc_45AE0:
 		bsr.w	sub_45D94
 		cmpi.w	#$13D0,(Player_1+x_pos).w
-		bhs.s	loc_45AEE
+		bhs.s	+ ;loc_45AEE
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_45AEE:
++ ;loc_45AEE:
 		st	(Palette_cycle_counters+$00).w
 		lea	(Player_1).w,a1
 		move.b	#4,routine(a1)
@@ -1721,9 +1721,9 @@ loc_45AEE:
 		lea	(Normal_palette_line_4).w,a2
 		moveq	#bytesToLcnt($20),d0
 
-loc_45B40:
+- ;loc_45B40:
 		move.l	(a1)+,(a2)+
-		dbf	d0,loc_45B40
+		dbf	d0,- ;loc_45B40
 		lea	ChildObjDat_45E5A(pc),a2
 		jsr	(CreateChild6_Simple).l
 		jmp	(Go_Delete_Sprite).l
@@ -1752,15 +1752,15 @@ loc_45BAA:
 		jsr	(MoveSprite2).l
 		movea.w	parent3(a0),a1
 		btst	#2,$38(a1)
-		beq.s	loc_45BC8
+		beq.s	+ ;loc_45BC8
 		move.l	#loc_45BDC,(a0)
 
-loc_45BC8:
++ ;loc_45BC8:
 		btst	#3,$38(a1)
-		bne.s	loc_45BD6
+		bne.s	+ ;loc_45BD6
 		jsr	(Refresh_ChildPosition).l
 
-loc_45BD6:
++ ;loc_45BD6:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -1769,11 +1769,11 @@ loc_45BDC:
 		jsr	(MoveSprite2).l
 		subq.w	#4,x_pos(a0)
 		cmpi.w	#$20,x_pos(a0)
-		blo.s	loc_45BFA
+		blo.s	+ ;loc_45BFA
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_45BFA:
++ ;loc_45BFA:
 		jmp	(Go_Delete_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -1820,7 +1820,7 @@ loc_45C7C:
 
 loc_45CB6:
 		cmpi.w	#$60,x_pos(a0)
-		blo.s	loc_45CD6
+		blo.s	+ ;loc_45CD6
 		movea.w	parent3(a0),a1
 		move.w	$40(a1),d0
 		sub.w	d0,x_pos(a0)
@@ -1828,7 +1828,7 @@ loc_45CB6:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_45CD6:
++ ;loc_45CD6:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -1849,14 +1849,14 @@ loc_45CDC:
 loc_45D14:
 		jsr	(MoveSprite).l
 		tst.l	d0
-		bmi.s	loc_45D32
+		bmi.s	+ ;loc_45D32
 		jsr	(ObjCheckFloorDist).l
 		tst.w	d1
-		bpl.s	loc_45D32
+		bpl.s	+ ;loc_45D32
 		add.w	d1,y_pos(a0)
 		move.l	#loc_45D38,(a0)
 
-loc_45D32:
++ ;loc_45D32:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -1866,22 +1866,22 @@ loc_45D38:
 		move.w	x_pos(a1),d1
 		subq.w	#8,d0
 		cmp.w	d0,d1
-		blo.s	loc_45D52
+		blo.s	+ ;loc_45D52
 		addi.w	#2*8,d0
 		cmp.w	d0,d1
-		blo.s	loc_45D58
+		blo.s	++ ;loc_45D58
 
-loc_45D52:
++ ;loc_45D52:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-loc_45D58:
++ ;loc_45D58:
 		move.w	x_vel(a1),d0
 		btst	#1,subtype(a0)
-		beq.s	loc_45D66
+		beq.s	+ ;loc_45D66
 		neg.w	d0
 
-loc_45D66:
++ ;loc_45D66:
 		tst.w	d0
 		bmi.w	locret_458EE
 		jmp	(Delete_Current_Sprite).l
@@ -1902,10 +1902,10 @@ sub_45D94:
 		move.b	#1,(Super_Sonic_Knux_flag).w
 		move.b	#$21,mapping_frame(a0)
 		btst	#1,(V_int_run_count+3).w
-		beq.s	loc_45DAE
+		beq.s	+ ;loc_45DAE
 		move.b	#$22,mapping_frame(a0)
 
-loc_45DAE:
++ ;loc_45DAE:
 		subq.b	#1,(Palette_timer).w
 		bpl.s	locret_45DE2
 		move.b	#6,(Palette_timer).w
@@ -1913,10 +1913,10 @@ loc_45DAE:
 		move.w	(Palette_frame).w,d0
 		addq.w	#6,(Palette_frame).w
 		cmpi.w	#$36,(Palette_frame).w
-		blo.s	loc_45DD6
+		blo.s	+ ;loc_45DD6
 		move.w	#$24,(Palette_frame).w
 
-loc_45DD6:
++ ;loc_45DD6:
 		lea	(Normal_palette+$4).w,a2
 		move.l	(a1,d0.w),(a2)+
 		move.w	4(a1,d0.w),(a2)
@@ -1932,13 +1932,13 @@ locret_45DE2:
 sub_45DE4:
 		move.w	$40(a0),d1
 		move.w	(Events_fg_1).w,d0
-		bpl.s	loc_45DF6
+		bpl.s	+ ;loc_45DF6
 		add.w	d1,d0
 		move.w	d0,(Events_fg_1).w
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_45DF6:
++ ;loc_45DF6:
 		add.w	d1,(Player_1+x_pos).w
 		rts
 ; End of function sub_45DE4
@@ -1954,10 +1954,10 @@ loc_45DFC:
 		move.b	anim_frame(a0),d0
 		addq.w	#1,d0
 		cmp.b	1(a1),d0
-		blo.s	loc_45E1A
+		blo.s	+ ;loc_45E1A
 		moveq	#0,d0
 
-loc_45E1A:
++ ;loc_45E1A:
 		move.b	d0,anim_frame(a0)
 		moveq	#0,d1
 		move.b	2(a1,d0.w),d1

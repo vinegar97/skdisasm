@@ -26,7 +26,7 @@ Slots_RenderLayout:
 		addi.w	#-$B4,d3
 		move.w	#$10-1,d7
 
-loc_4B3A6:
+- ;loc_4B3A6:
 		movem.w	d0-d2,-(sp)
 		movem.w	d0-d1,-(sp)
 		neg.w	d0
@@ -41,7 +41,7 @@ loc_4B3A6:
 		move.l	d6,d2
 		move.w	#$10-1,d6
 
-loc_4B3C8:
+- ;loc_4B3C8:
 		move.l	d2,d0
 		asr.l	#8,d0
 		move.w	d0,(a1)+
@@ -50,10 +50,10 @@ loc_4B3C8:
 		move.w	d0,(a1)+
 		add.l	d5,d2
 		add.l	d4,d1
-		dbf	d6,loc_4B3C8
+		dbf	d6,- ;loc_4B3C8
 		movem.w	(sp)+,d0-d2
 		addi.w	#$18,d3
-		dbf	d7,loc_4B3A6
+		dbf	d7,-- ;loc_4B3A6
 		lea	(RAM_start+$3000).l,a0
 		moveq	#0,d0
 		move.w	(Camera_Y_pos).w,d0
@@ -73,27 +73,27 @@ loc_4B3C8:
 		adda.w	d0,a2
 		move.w	#$10-1,d7
 
-loc_4B424:
+- ;loc_4B424:
 		move.w	#$10-1,d6
 
-loc_4B428:
+- ;loc_4B428:
 		moveq	#0,d0
 		move.b	(a0)+,d0
-		beq.s	loc_4B47C
+		beq.s	+ ;loc_4B47C
 		cmpi.b	#$13,d0
-		bhi.s	loc_4B47C
+		bhi.s	+ ;loc_4B47C
 		move.w	(a4),d3
 		addi.w	#$120,d3
 		cmpi.w	#$70,d3
-		blo.s	loc_4B47C
+		blo.s	+ ;loc_4B47C
 		cmpi.w	#$1D0,d3
-		bhs.s	loc_4B47C
+		bhs.s	+ ;loc_4B47C
 		move.w	2(a4),d2
 		addi.w	#$F0,d2
 		cmpi.w	#$70,d2
-		blo.s	loc_4B47C
+		blo.s	+ ;loc_4B47C
 		cmpi.w	#$170,d2
-		bhs.s	loc_4B47C
+		bhs.s	+ ;loc_4B47C
 		lea	(Chunk_table+$7000).l,a5
 		lsl.w	#3,d0
 		lea	(a5,d0.w),a5
@@ -105,14 +105,14 @@ loc_4B428:
 		moveq	#0,d1
 		move.b	(a1)+,d1
 		subq.b	#1,d1
-		bmi.s	loc_4B47C
-		bsr.s	sub_4B490
+		bmi.s	+ ;loc_4B47C
+		bsr.s	++ ;sub_4B490
 
-loc_4B47C:
++ ;loc_4B47C:
 		addq.w	#4,a4
-		dbf	d6,loc_4B428
+		dbf	d6,- ;loc_4B428
 		lea	$70(a0),a0
-		dbf	d7,loc_4B424
+		dbf	d7,-- ;loc_4B424
 		move.b	d5,(Sprites_drawn).w
 		rts
 ; End of function Slots_RenderLayout
@@ -121,7 +121,7 @@ loc_4B47C:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_4B490:
+/ ;sub_4B490:
 		cmpi.b	#$50,d5
 		beq.s	locret_4B4C2
 		move.b	(a1)+,d0
@@ -140,12 +140,12 @@ sub_4B490:
 		ext.w	d0
 		add.w	d3,d0
 		andi.w	#$1FF,d0
-		bne.s	loc_4B4BC
+		bne.s	+ ;loc_4B4BC
 		addq.w	#1,d0
 
-loc_4B4BC:
++ ;loc_4B4BC:
 		move.w	d0,(a2)+
-		dbf	d1,sub_4B490
+		dbf	d1,- ;sub_4B490
 
 locret_4B4C2:
 		rts
@@ -163,54 +163,54 @@ sub_4B4C4:
 		andi.w	#$F,d0
 		moveq	#3-1,d1
 
-loc_4B4D8:
+- ;loc_4B4D8:
 		move.w	d0,(a1)
 		addq.w	#8,a1
-		dbf	d1,loc_4B4D8
+		dbf	d1,- ;loc_4B4D8
 		lea	(Chunk_table+$706C).l,a1
 		moveq	#3-1,d1
 
-loc_4B4E8:
+- ;loc_4B4E8:
 		move.w	d0,(a1)
 		addq.w	#8,a1
-		dbf	d1,loc_4B4E8
+		dbf	d1,- ;loc_4B4E8
 		lea	(Chunk_table+$7005).l,a1
 		subq.b	#1,(Slot_machine_goal_frame_timer).w
-		bpl.s	loc_4B526
+		bpl.s	++ ;loc_4B526
 		move.b	#1,(Slot_machine_goal_frame_timer).w
 		addq.b	#1,$20(a1)
 		cmpi.b	#3,$20(a1)
-		blo.s	loc_4B514
+		blo.s	+ ;loc_4B514
 		move.b	#0,$20(a1)
 
-loc_4B514:
++ ;loc_4B514:
 		addq.b	#1,(Slot_machine_goal_frame).w
 		cmpi.b	#6,(Slot_machine_goal_frame).w
-		blo.s	loc_4B526
+		blo.s	+ ;loc_4B526
 		move.b	#0,(Slot_machine_goal_frame).w
 
-loc_4B526:
++ ;loc_4B526:
 		move.b	(Slot_machine_goal_frame).w,$48(a1)
 		move.b	(Rings_frame).w,$40(a1)
 		subq.b	#1,(Slot_machine_peppermint_frame_timer).w
-		bpl.s	loc_4B548
+		bpl.s	+ ;loc_4B548
 		move.b	#3,(Slot_machine_peppermint_frame_timer).w
 		addq.b	#1,(Slot_machine_peppermint_frame).w
 		andi.b	#3,(Slot_machine_peppermint_frame).w
 
-loc_4B548:
++ ;loc_4B548:
 		move.b	(Slot_machine_peppermint_frame).w,$38(a1)
 		rts
 ; End of function sub_4B4C4
 
 ; ---------------------------------------------------------------------------
 		subq.b	#1,(Ring_spill_anim_counter).w
-		bpl.s	loc_4B566
+		bpl.s	+ ;loc_4B566
 		move.b	#4,(Ring_spill_anim_counter).w
 		addq.b	#1,(Ring_spill_anim_frame).w
 		andi.b	#3,(Ring_spill_anim_frame).w
 
-loc_4B566:
++ ;loc_4B566:
 		move.b	(Ring_spill_anim_frame).w,d0
 		move.b	d0,$168(a1)
 		move.b	d0,$170(a1)
@@ -225,11 +225,11 @@ sub_4B57C:
 		lea	(Chunk_table+$7400).l,a2
 		move.w	#$20-1,d0
 
-loc_4B586:
+- ;loc_4B586:
 		tst.b	(a2)
 		beq.s	locret_4B590
 		addq.w	#8,a2
-		dbf	d0,loc_4B586
+		dbf	d0,- ;loc_4B586
 
 locret_4B590:
 		rts
@@ -243,17 +243,17 @@ sub_4B592:
 		lea	(Chunk_table+$7400).l,a0
 		move.w	#$20-1,d7
 
-loc_4B59C:
+- ;loc_4B59C:
 		moveq	#0,d0
 		move.b	(a0),d0
-		beq.s	loc_4B5AA
+		beq.s	+ ;loc_4B5AA
 		lsl.w	#2,d0
 		movea.l	off_4B5B2-4(pc,d0.w),a1
 		jsr	(a1)
 
-loc_4B5AA:
++ ;loc_4B5AA:
 		addq.w	#8,a0
-		dbf	d7,loc_4B59C
+		dbf	d7,- ;loc_4B59C
 		rts
 ; End of function sub_4B592
 
@@ -296,14 +296,14 @@ loc_4B5F2:
 		addq.b	#1,3(a0)
 		movea.l	4(a0),a1
 		move.b	byte_4B622(pc,d0.w),d0
-		bne.s	loc_4B61E
+		bne.s	+ ;loc_4B61E
 		clr.l	(a0)
 		clr.l	4(a0)
 		move.b	#5,(a1)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4B61E:
++ ;loc_4B61E:
 		move.b	d0,(a1)
 
 locret_4B620:
@@ -323,14 +323,14 @@ loc_4B626:
 		addq.b	#1,3(a0)
 		movea.l	4(a0),a1
 		move.b	byte_4B656(pc,d0.w),d0
-		bne.s	loc_4B652
+		bne.s	+ ;loc_4B652
 		clr.l	(a0)
 		clr.l	4(a0)
 		move.b	#6,(a1)
 		rts
 ; ---------------------------------------------------------------------------
 
-loc_4B652:
++ ;loc_4B652:
 		move.b	d0,(a1)
 
 locret_4B654:
@@ -403,39 +403,39 @@ sub_4B6AA:
 		lea	(RAM_start+$3000).l,a1
 		move.w	#bytesToLcnt($4000),d0
 
-loc_4B6B4:
+- ;loc_4B6B4:
 		clr.l	(a1)+
-		dbf	d0,loc_4B6B4
+		dbf	d0,- ;loc_4B6B4
 		lea	(RAM_start+$4020).l,a1
 		lea	(SlotBonusLayout).l,a0
 		move.w	(a0)+,(Player_1+x_pos).w
 		move.w	(a0)+,(Player_1+y_pos).w
 		moveq	#$20-1,d1
 
-loc_4B6D0:
+- ;loc_4B6D0:
 		moveq	#$20-1,d2
 
-loc_4B6D2:
+- ;loc_4B6D2:
 		move.b	(a0)+,(a1)+
-		dbf	d2,loc_4B6D2
+		dbf	d2,- ;loc_4B6D2
 		lea	$60(a1),a1
-		dbf	d1,loc_4B6D0
+		dbf	d1,-- ;loc_4B6D0
 		lea	(Chunk_table+$7008).l,a1
 		lea	(SlotBonusMaps).l,a0
 		moveq	#$13-1,d1
 
-loc_4B6EE:
+- ;loc_4B6EE:
 		move.l	(a0)+,(a1)+
 		move.w	#0,(a1)+
 		move.b	-4(a0),-1(a1)
 		move.w	(a0)+,(a1)+
-		dbf	d1,loc_4B6EE
+		dbf	d1,- ;loc_4B6EE
 		lea	(Chunk_table+$7400).l,a1
 		move.w	#$40-1,d1
 
-loc_4B70A:
+- ;loc_4B70A:
 		clr.l	(a1)+
-		dbf	d1,loc_4B70A
+		dbf	d1,- ;loc_4B70A
 		jsr	(AllocateObject).l
 		bne.w	locret_4B720
 		move.l	#loc_4BF62,(a1)
