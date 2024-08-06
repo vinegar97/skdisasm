@@ -4,9 +4,9 @@ Obj_ICZPathFollowPlatform:
 Obj_ICZPathFollowPlatform_2:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	ICZPathFollowPlatform_Index(pc,d0.w),d1
+		move.w	.Index(pc,d0.w),d1
 		move.w	x_pos(a0),-(sp)
-		jsr	ICZPathFollowPlatform_Index(pc,d1.w)
+		jsr	.Index(pc,d1.w)
 		moveq	#$2B,d1
 		moveq	#$14,d2
 		moveq	#$14,d3
@@ -19,17 +19,17 @@ Obj_ICZPathFollowPlatform_2:
  loc_89F64:
 		jmp	(Sprite_OnScreen_Test).l
 ; ---------------------------------------------------------------------------
-ICZPathFollowPlatform_Index:
-		dc.w loc_89F7E-ICZPathFollowPlatform_Index
-		dc.w loc_89FB6-ICZPathFollowPlatform_Index
-		dc.w loc_89FD6-ICZPathFollowPlatform_Index
-		dc.w loc_89FF2-ICZPathFollowPlatform_Index
-		dc.w loc_8A036-ICZPathFollowPlatform_Index
-		dc.w loc_8A11C-ICZPathFollowPlatform_Index
-		dc.w locret_8A176-ICZPathFollowPlatform_Index
-		dc.w loc_8A178-ICZPathFollowPlatform_Index
-		dc.w loc_8A192-ICZPathFollowPlatform_Index
-		dc.w loc_8A1AE-ICZPathFollowPlatform_Index
+.Index:
+		dc.w loc_89F7E-.Index
+		dc.w loc_89FB6-.Index
+		dc.w loc_89FD6-.Index
+		dc.w loc_89FF2-.Index
+		dc.w loc_8A036-.Index
+		dc.w loc_8A11C-.Index
+		dc.w locret_8A176-.Index
+		dc.w loc_8A178-.Index
+		dc.w loc_8A192-.Index
+		dc.w loc_8A1AE-.Index
 ; ---------------------------------------------------------------------------
 
 loc_89F7E:

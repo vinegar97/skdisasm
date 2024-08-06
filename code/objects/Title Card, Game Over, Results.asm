@@ -76,17 +76,17 @@ loc_2D68A:
 Obj_TitleCard:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	TitleCard_Index(pc,d0.w),d1
-		jmp	TitleCard_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jmp	.Index(pc,d1.w)
 ; ---------------------------------------------------------------------------
-TitleCard_Index:
-		dc.w Obj_TitleCardInit-TitleCard_Index
-		dc.w Obj_TitleCardCreate-TitleCard_Index
-		dc.w Obj_TitleCardWait-TitleCard_Index
-		dc.w Obj_TitleCardWait2-TitleCard_Index
+.Index:
+		dc.w .Init-.Index
+		dc.w .Create-.Index
+		dc.w .Wait-.Index
+		dc.w .Wait2-.Index
 ; ---------------------------------------------------------------------------
 
-Obj_TitleCardInit:
+.Init:
 		cmpi.w	#$D01,(Current_zone_and_act).w
 		beq.s	loc_2D6C2			; if we're in the ending, don't show title card
 		cmpi.b	#$E,(Current_zone).w
@@ -147,7 +147,7 @@ loc_2D746:
 		rts
 ; ---------------------------------------------------------------------------
 
-Obj_TitleCardCreate:
+Obj_TitleCard.Create:
 		tst.b	(Kos_modules_left).w
 		bne.w	locret_2D802		; Wait for KosM queue to clear
 		jsr	(AllocateObjectAfterCurrent).l
@@ -198,7 +198,7 @@ locret_2D802:
 		rts
 ; ---------------------------------------------------------------------------
 
-Obj_TitleCardWait:
+Obj_TitleCard.Wait:
 		tst.w	$34(a0)
 		beq.s	loc_2D810
 		clr.w	$34(a0)
@@ -227,7 +227,7 @@ loc_2D84C:
 		rts
 ; ---------------------------------------------------------------------------
 
-Obj_TitleCardWait2:
+Obj_TitleCard.Wait2:
 		tst.w	$2E(a0)
 		beq.s	loc_2D862
 		subq.w	#1,$2E(a0)
@@ -485,14 +485,14 @@ ObjArray_TtlCardBonus:
 Obj_LevelResults:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	LevelResults_Index(pc,d0.w),d1
-		jmp	LevelResults_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jmp	.Index(pc,d1.w)
 ; ---------------------------------------------------------------------------
-LevelResults_Index:
-		dc.w Obj_LevelResultsInit-LevelResults_Index
-		dc.w Obj_LevelResultsCreate-LevelResults_Index
-		dc.w Obj_LevelResultsWait-LevelResults_Index
-		dc.w Obj_LevelResultsWait2-LevelResults_Index
+.Index:
+		dc.w Obj_LevelResultsInit-.Index
+		dc.w Obj_LevelResultsCreate-.Index
+		dc.w Obj_LevelResultsWait-.Index
+		dc.w Obj_LevelResultsWait2-.Index
 ; ---------------------------------------------------------------------------
 
 Obj_LevelResultsInit:
@@ -1282,20 +1282,20 @@ word_2E398:
 Obj_SpecialStage_Results:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	SpecialStage_Results_Index(pc,d0.w),d1
-		jmp	SpecialStage_Results_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jmp	.Index(pc,d1.w)
 ; ---------------------------------------------------------------------------
-SpecialStage_Results_Index:
-		dc.w loc_2E3DA-SpecialStage_Results_Index
-		dc.w loc_2E410-SpecialStage_Results_Index
-		dc.w loc_2E4D6-SpecialStage_Results_Index
-		dc.w loc_2E512-SpecialStage_Results_Index
-		dc.w loc_2E5C0-SpecialStage_Results_Index
-		dc.w loc_2E5E0-SpecialStage_Results_Index
-		dc.w loc_2E5F4-SpecialStage_Results_Index
-		dc.w loc_2E616-SpecialStage_Results_Index
-		dc.w loc_2E746-SpecialStage_Results_Index
-		dc.w loc_2E7DA-SpecialStage_Results_Index
+.Index:
+		dc.w loc_2E3DA-.Index
+		dc.w loc_2E410-.Index
+		dc.w loc_2E4D6-.Index
+		dc.w loc_2E512-.Index
+		dc.w loc_2E5C0-.Index
+		dc.w loc_2E5E0-.Index
+		dc.w loc_2E5F4-.Index
+		dc.w loc_2E616-.Index
+		dc.w loc_2E746-.Index
+		dc.w loc_2E7DA-.Index
 ; ---------------------------------------------------------------------------
 
 loc_2E3DA:

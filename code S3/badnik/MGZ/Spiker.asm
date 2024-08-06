@@ -4,17 +4,17 @@ Obj_Spiker:
 		bsr.w	sub_56B8C
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	Spiker_Index(pc,d0.w),d1
-		jsr	Spiker_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		jmp	Sprite_CheckDeleteTouch(pc)
 ; ---------------------------------------------------------------------------
-Spiker_Index:
-		dc.w loc_5697E-Spiker_Index
-		dc.w loc_5698E-Spiker_Index
-		dc.w loc_569A8-Spiker_Index
-		dc.w loc_569C2-Spiker_Index
-		dc.w loc_569E2-Spiker_Index
-		dc.w loc_569F6-Spiker_Index
+.Index:
+		dc.w loc_5697E-.Index
+		dc.w loc_5698E-.Index
+		dc.w loc_569A8-.Index
+		dc.w loc_569C2-.Index
+		dc.w loc_569E2-.Index
+		dc.w loc_569F6-.Index
 ; ---------------------------------------------------------------------------
 
 loc_5697E:

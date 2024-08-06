@@ -3,20 +3,20 @@ Obj_LBZ1Robotnik:
 		jsr	Check_CameraInRange(pc)
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	LBZ1Robotnik_Index(pc,d0.w),d1
-		jsr	LBZ1Robotnik_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		jsr	(sub_5A7B4).l
 		jmp	Draw_And_Touch_Sprite(pc)
 ; ---------------------------------------------------------------------------
-LBZ1Robotnik_Index:
-		dc.w loc_5A2F8-LBZ1Robotnik_Index
-		dc.w loc_5A348-LBZ1Robotnik_Index
-		dc.w loc_5A380-LBZ1Robotnik_Index
-		dc.w loc_5A3AC-LBZ1Robotnik_Index
-		dc.w loc_5A3D6-LBZ1Robotnik_Index
-		dc.w loc_5A406-LBZ1Robotnik_Index
-		dc.w loc_5A436-LBZ1Robotnik_Index
-		dc.w loc_5A47E-LBZ1Robotnik_Index
+.Index:
+		dc.w loc_5A2F8-.Index
+		dc.w loc_5A348-.Index
+		dc.w loc_5A380-.Index
+		dc.w loc_5A3AC-.Index
+		dc.w loc_5A3D6-.Index
+		dc.w loc_5A406-.Index
+		dc.w loc_5A436-.Index
+		dc.w loc_5A47E-.Index
 word_5A2F0:
 		dc.w   $500,  $5E0, $3820, $3AC0
 ; ---------------------------------------------------------------------------

@@ -1,9 +1,9 @@
 Obj_EggCapsule:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	EggCapsule_Index(pc,d0.w),d1
+		move.w	.Index(pc,d0.w),d1
 		move.w	x_pos(a0),-(sp)
-		jsr	EggCapsule_Index(pc,d1.w)
+		jsr	.Index(pc,d1.w)
 		moveq	#$2B,d1
 		moveq	#$18,d2
 		moveq	#$18,d3
@@ -11,15 +11,15 @@ Obj_EggCapsule:
 		jsr	(SolidObjectFull).l
 		jmp	loc_539C4(pc)
 ; ---------------------------------------------------------------------------
-EggCapsule_Index:
-		dc.w loc_54514-EggCapsule_Index
-		dc.w loc_5456A-EggCapsule_Index
-		dc.w loc_545B4-EggCapsule_Index
-		dc.w loc_545BC-EggCapsule_Index
-		dc.w loc_545C0-EggCapsule_Index
-		dc.w loc_54640-EggCapsule_Index
-		dc.w loc_54652-EggCapsule_Index
-		dc.w loc_54660-EggCapsule_Index
+.Index:
+		dc.w loc_54514-.Index
+		dc.w loc_5456A-.Index
+		dc.w loc_545B4-.Index
+		dc.w loc_545BC-.Index
+		dc.w loc_545C0-.Index
+		dc.w loc_54640-.Index
+		dc.w loc_54652-.Index
+		dc.w loc_54660-.Index
 ; ---------------------------------------------------------------------------
 
 loc_54514:

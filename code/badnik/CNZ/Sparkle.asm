@@ -2,16 +2,16 @@ Obj_Sparkle:
 		jsr	(Obj_WaitOffscreen).l
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	Sparkle_Index(pc,d0.w),d1
-		jsr	Sparkle_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		jmp	Sprite_CheckDeleteTouch(pc)
 ; ---------------------------------------------------------------------------
-Sparkle_Index:
-		dc.w loc_891BA-Sparkle_Index
-		dc.w loc_891C2-Sparkle_Index
-		dc.w loc_891EE-Sparkle_Index
-		dc.w loc_8920E-Sparkle_Index
-		dc.w loc_8920E-Sparkle_Index
+.Index:
+		dc.w loc_891BA-.Index
+		dc.w loc_891C2-.Index
+		dc.w loc_891EE-.Index
+		dc.w loc_8920E-.Index
+		dc.w loc_8920E-.Index
 ; ---------------------------------------------------------------------------
 
 loc_891BA:

@@ -2,16 +2,16 @@ Obj_Madmole:
 		jsr	(Obj_WaitOffscreen).l
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	Madmole_Index(pc,d0.w),d1
-		jsr	Madmole_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		bsr.w	sub_8D876
 		jmp	(Sprite_CheckDelete).l
 ; ---------------------------------------------------------------------------
-Madmole_Index:
-		dc.w loc_8D5A6-Madmole_Index
-		dc.w loc_8D5B0-Madmole_Index
-		dc.w loc_8D5D4-Madmole_Index
-		dc.w loc_8D5F4-Madmole_Index
+.Index:
+		dc.w loc_8D5A6-.Index
+		dc.w loc_8D5B0-.Index
+		dc.w loc_8D5D4-.Index
+		dc.w loc_8D5F4-.Index
 ; ---------------------------------------------------------------------------
 
 loc_8D5A6:

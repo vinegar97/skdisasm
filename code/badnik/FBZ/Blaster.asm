@@ -4,19 +4,19 @@ Obj_Blaster:
 Obj_Blaster_2:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	Blaster_Index(pc,d0.w),d1
-		jsr	Blaster_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		jmp	Sprite_CheckDeleteTouch(pc)
 ; ---------------------------------------------------------------------------
-Blaster_Index:
-		dc.w loc_894B6-Blaster_Index
-		dc.w loc_894F2-Blaster_Index
-		dc.w loc_89552-Blaster_Index
-		dc.w loc_8957A-Blaster_Index
-		dc.w loc_895A4-Blaster_Index
-		dc.w loc_895C6-Blaster_Index
-		dc.w loc_895EC-Blaster_Index
-		dc.w loc_895FA-Blaster_Index
+.Index:
+		dc.w loc_894B6-.Index
+		dc.w loc_894F2-.Index
+		dc.w loc_89552-.Index
+		dc.w loc_8957A-.Index
+		dc.w loc_895A4-.Index
+		dc.w loc_895C6-.Index
+		dc.w loc_895EC-.Index
+		dc.w loc_895FA-.Index
 ; ---------------------------------------------------------------------------
 
 loc_894B6:

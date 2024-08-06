@@ -4,16 +4,16 @@ Obj_TechnoSqueek:
 Obj_TechnoSqueek_2:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	TechnoSqueek_Index(pc,d0.w),d1
-		jsr	TechnoSqueek_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		jmp	Sprite_CheckDeleteTouch(pc)
 ; ---------------------------------------------------------------------------
-TechnoSqueek_Index:
-		dc.w loc_89842-TechnoSqueek_Index
-		dc.w loc_898DC-TechnoSqueek_Index
-		dc.w loc_8992E-TechnoSqueek_Index
-		dc.w loc_8995C-TechnoSqueek_Index
-		dc.w loc_899A0-TechnoSqueek_Index
+.Index:
+		dc.w loc_89842-.Index
+		dc.w loc_898DC-.Index
+		dc.w loc_8992E-.Index
+		dc.w loc_8995C-.Index
+		dc.w loc_899A0-.Index
 ; ---------------------------------------------------------------------------
 
 loc_89842:

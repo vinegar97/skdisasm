@@ -1,36 +1,36 @@
 Obj_Animal:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	Animal_Index(pc,d0.w),d1
-		jmp	Animal_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jmp	.Index(pc,d1.w)
 ; ---------------------------------------------------------------------------
-Animal_Index:
-		dc.w loc_2BEC2-Animal_Index
-		dc.w loc_2BFEA-Animal_Index
-		dc.w loc_2C046-Animal_Index
-		dc.w loc_2C086-Animal_Index
-		dc.w loc_2C046-Animal_Index
-		dc.w loc_2C046-Animal_Index
-		dc.w loc_2C046-Animal_Index
-		dc.w loc_2C086-Animal_Index
-		dc.w loc_2C046-Animal_Index
-		dc.w loc_2C086-Animal_Index
-		dc.w loc_2C046-Animal_Index
-		dc.w loc_2C046-Animal_Index
-		dc.w loc_2C046-Animal_Index
-		dc.w loc_2C046-Animal_Index
-		dc.w loc_2C10C-Animal_Index
-		dc.w loc_2C12E-Animal_Index
-		dc.w loc_2C12E-Animal_Index
-		dc.w loc_2C14E-Animal_Index
-		dc.w loc_2C18A-Animal_Index
-		dc.w loc_2C1E6-Animal_Index
-		dc.w loc_2C206-Animal_Index
-		dc.w loc_2C1E6-Animal_Index
-		dc.w loc_2C206-Animal_Index
-		dc.w loc_2C1E6-Animal_Index
-		dc.w loc_2C246-Animal_Index
-		dc.w loc_2C1A6-Animal_Index
+.Index:
+		dc.w loc_2BEC2-.Index
+		dc.w loc_2BFEA-.Index
+		dc.w loc_2C046-.Index
+		dc.w loc_2C086-.Index
+		dc.w loc_2C046-.Index
+		dc.w loc_2C046-.Index
+		dc.w loc_2C046-.Index
+		dc.w loc_2C086-.Index
+		dc.w loc_2C046-.Index
+		dc.w loc_2C086-.Index
+		dc.w loc_2C046-.Index
+		dc.w loc_2C046-.Index
+		dc.w loc_2C046-.Index
+		dc.w loc_2C046-.Index
+		dc.w loc_2C10C-.Index
+		dc.w loc_2C12E-.Index
+		dc.w loc_2C12E-.Index
+		dc.w loc_2C14E-.Index
+		dc.w loc_2C18A-.Index
+		dc.w loc_2C1E6-.Index
+		dc.w loc_2C206-.Index
+		dc.w loc_2C1E6-.Index
+		dc.w loc_2C206-.Index
+		dc.w loc_2C1E6-.Index
+		dc.w loc_2C246-.Index
+		dc.w loc_2C1A6-.Index
 byte_2BDDA:
 		dc.b  5, 1
 		dc.b  0, 3

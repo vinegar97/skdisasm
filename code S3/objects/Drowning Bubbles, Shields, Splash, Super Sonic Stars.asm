@@ -4,22 +4,22 @@
 Obj_AirCountdown:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	AirCountdown_Index(pc,d0.w),d1
-		jmp	AirCountdown_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jmp	.Index(pc,d1.w)
 ; ---------------------------------------------------------------------------
-AirCountdown_Index:
-		dc.w AirCountdown_Init-AirCountdown_Index
-		dc.w AirCountdown_Animate-AirCountdown_Index
-		dc.w AirCountdown_ChkWater-AirCountdown_Index
-		dc.w AirCountdown_Display-AirCountdown_Index
-		dc.w AirCountdown_Delete-AirCountdown_Index
-		dc.w AirCountdown_Countdown-AirCountdown_Index
-		dc.w AirCountdown_AirLeft-AirCountdown_Index
-		dc.w AirCountdown_DisplayNumber-AirCountdown_Index
-		dc.w AirCountdown_Delete-AirCountdown_Index
+.Index:
+		dc.w .Init-.Index
+		dc.w AirCountdown_Animate-.Index
+		dc.w AirCountdown_ChkWater-.Index
+		dc.w AirCountdown_Display-.Index
+		dc.w AirCountdown_Delete-.Index
+		dc.w AirCountdown_Countdown-.Index
+		dc.w AirCountdown_AirLeft-.Index
+		dc.w AirCountdown_DisplayNumber-.Index
+		dc.w AirCountdown_Delete-.Index
 ; ---------------------------------------------------------------------------
 
-AirCountdown_Init:
+.Init:
 		addq.b	#2,routine(a0)
 		move.l	#Map_Bubbler,mappings(a0)
 		tst.b	parent+1(a0)
@@ -427,15 +427,15 @@ Ani_AirCountdown:
 Obj_S2Shield:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	Obj_S2Shield_Index(pc,d0.w),d1
-		jmp	Obj_S2Shield_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jmp	.Index(pc,d1.w)
 ; ---------------------------------------------------------------------------
-Obj_S2Shield_Index:
-		dc.w Obj_S2Shield_Init-Obj_S2Shield_Index
-		dc.w Obj_S2Shield_Main-Obj_S2Shield_Index
+.Index:
+		dc.w .Init-.Index
+		dc.w .Main-.Index
 ; ---------------------------------------------------------------------------
 
-Obj_S2Shield_Init:
+.Init:
 		addq.b	#2,routine(a0)
 		move.l	#Map_S2Shield,mappings(a0)
 		move.b	#4,render_flags(a0)
@@ -443,31 +443,31 @@ Obj_S2Shield_Init:
 		move.b	#$18,width_pixels(a0)
 		move.w	#make_art_tile(ArtTile_Shield,0,0),art_tile(a0)
 
-Obj_S2Shield_Main:
+.Main:
 		movea.w	parent(a0),a2
 		btst	#Status_Invincible,status_secondary(a2)
-		bne.s	locret_17566
+		bne.s	.locret_17566
 		btst	#Status_Shield,status_secondary(a2)
-		beq.s	Obj_S2Shield_Destroy
+		beq.s	.Destroy
 		move.w	x_pos(a2),x_pos(a0)
 		move.w	y_pos(a2),y_pos(a0)
 		move.b	status(a2),status(a0)
 		andi.w	#drawing_mask,art_tile(a0)
 		tst.w	art_tile(a2)
-		bpl.s	Obj_S2Shield_Display
+		bpl.s	.Display
 		ori.w	#high_priority,art_tile(a0)
 
-Obj_S2Shield_Display:
+.Display:
 		lea	(Ani_S2Shield).l,a1
 		jsr	(Animate_Sprite).l
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-locret_17566:
+.locret_17566:
 		rts
 ; ---------------------------------------------------------------------------
 
-Obj_S2Shield_Destroy:
+.Destroy:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 off_1756E:
@@ -681,14 +681,14 @@ Map_Invincibility:
 Obj_DashDust:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	DashDust_Index(pc,d0.w),d1
-		jmp	DashDust_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jmp	.Index(pc,d1.w)
 ; ---------------------------------------------------------------------------
-DashDust_Index:
-		dc.w loc_178D4-DashDust_Index
-		dc.w loc_1792A-DashDust_Index
-		dc.w loc_17A1C-DashDust_Index
-		dc.w loc_17A20-DashDust_Index
+.Index:
+		dc.w loc_178D4-.Index
+		dc.w loc_1792A-.Index
+		dc.w loc_17A1C-.Index
+		dc.w loc_17A20-.Index
 ; ---------------------------------------------------------------------------
 
 loc_178D4:
@@ -889,14 +889,14 @@ DPLC_DashSplashDrown:
 Obj_DashDust2P:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	DashDust2P_Index(pc,d0.w),d1
-		jmp	DashDust2P_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jmp	.Index(pc,d1.w)
 ; ---------------------------------------------------------------------------
-DashDust2P_Index:
-		dc.w loc_17CE8-DashDust2P_Index
-		dc.w loc_17D1E-DashDust2P_Index
-		dc.w loc_17DAC-DashDust2P_Index
-		dc.w loc_17DB0-DashDust2P_Index
+.Index:
+		dc.w loc_17CE8-.Index
+		dc.w loc_17D1E-.Index
+		dc.w loc_17DAC-.Index
+		dc.w loc_17DB0-.Index
 ; ---------------------------------------------------------------------------
 
 loc_17CE8:
@@ -1173,12 +1173,12 @@ Obj_InstaShield:
 	.nothighpriority:
 		move.w	#1,anim(a0)			; Clear anim and set prev_anim to 1
 		move.b	#-1,shield_prev_frame(a0)	; Reset shield_prev_frame (used by PLCLoad_Shields)
-		move.l	#Obj_InstaShield_Main,(a0)
+		move.l	#.Main,(a0)
 
-Obj_InstaShield_Main:
+.Main:
 		movea.w	parent(a0),a2
 		btst	#Status_Invincible,status_secondary(a2)	; Is the player invincible?
-		bne.s	locret_18158			; If so, return
+		bne.s	.locret_18158			; If so, return
 		move.w	x_pos(a2),x_pos(a0)		; Inherit player's x_pos
 		move.w	y_pos(a2),y_pos(a0)		; Inherit player's y_pos
 		move.b	status(a2),status(a0)		; Inherit status
@@ -1208,7 +1208,7 @@ Obj_InstaShield_Main:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-locret_18158:
+.locret_18158:
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -1224,24 +1224,25 @@ Obj_FireShield:
 		move.w	#make_art_tile(ArtTile_Shield,0,0),art_tile(a0)
 		move.w	#tiles_to_bytes(ArtTile_Shield),vram_art(a0)	; Used by PLCLoad_Shields
 		btst	#7,(Player_1+art_tile).w
-		beq.s	loc_181A4
+		beq.s	.nothighpriority
 		bset	#7,art_tile(a0)
 
-loc_181A4:
+;loc_181A4:
+	.nothighpriority:
 		move.w	#1,anim(a0)				; Clear anim and set prev_anim to 1
 		move.b	#-1,shield_prev_frame(a0)		; Reset shield_prev_frame (used by PLCLoad_Shields)
-		move.l	#Obj_FireShield_Main,(a0)
+		move.l	#.Main,(a0)
 
-Obj_FireShield_Main:
+.Main:
 		movea.w	parent(a0),a2
 		btst	#Status_Invincible,status_secondary(a2)	; Is player invincible?
-		bne.s	locret_18236				; If so, do not display and do not update variables
+		bne.s	.locret_18236				; If so, do not display and do not update variables
 		cmpi.b	#$1C,anim(a2)				; Is player in their 'blank' animation?
-		beq.s	locret_18236				; If so, do not display and do not update variables
+		beq.s	.locret_18236				; If so, do not display and do not update variables
 		btst	#Status_Shield,status_secondary(a2)	; Should the player still have a shield?
-		beq.w	Obj_FireShield_Destroy			; If not, change to Insta-Shield
+		beq.w	.Destroy			; If not, change to Insta-Shield
 		btst	#Status_Underwater,status(a2)		; Is player underwater?
-		bne.s	Obj_FireShield_DestroyUnderwater	; If so, branch
+		bne.s	.DestroyUnderwater	; If so, branch
 		move.w	x_pos(a2),x_pos(a0)
 		move.w	y_pos(a2),y_pos(a0)
 		tst.b	anim(a0)				; Is shield in its 'dashing' state?
@@ -1266,19 +1267,19 @@ Obj_FireShield_Main:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-locret_18236:
+.locret_18236:
 		rts
 ; ---------------------------------------------------------------------------
 
-Obj_FireShield_DestroyUnderwater:
+.DestroyUnderwater:
 		andi.b	#$8E,status_secondary(a2)	; Sets Status_Shield, Status_FireShield, Status_LtngShield, and Status_BublShield to 0
 		jsr	(AllocateObject).l		; Set up for a new object
-		bne.w	Obj_FireShield_Destroy		; If that can't happen, branch
+		bne.w	.Destroy		; If that can't happen, branch
 		move.l	#Obj_FireShield_Dissipate,(a1)	; Create dissipate object
 		move.w	x_pos(a0),x_pos(a1)		; Put it at shields' x_pos
 		move.w	y_pos(a0),y_pos(a1)		; Put it at shields' y_pos
 
-Obj_FireShield_Destroy:
+.Destroy:
 		andi.b	#$8E,status_secondary(a2)	; Sets Status_Shield, Status_FireShield, Status_LtngShield, and Status_BublShield to 0
 		move.l	#Obj_InstaShield,(a0)		; Replace the Fire Shield with the Insta-Shield
 		rts
@@ -1289,7 +1290,7 @@ Obj_LightningShield:
 		; Load Spark art
 		move.l	#ArtUnc_LightningShield_Sparks,d1			; Load art source
 		move.w	#tiles_to_bytes(ArtTile_Shield_Sparks),d2		; Load art destination
-		move.w	#(ArtUnc_LightningShield_Sparks_end-ArtUnc_LightningShield_Sparks)/2,d3	; Size of art (in words)
+		move.w	#(ArtUnc_LightningShield_Sparks.end-ArtUnc_LightningShield_Sparks)/2,d3	; Size of art (in words)
 		jsr	(Add_To_DMA_Queue).l
 
 		move.l	#Map_LightningShield,mappings(a0)
@@ -1308,18 +1309,18 @@ Obj_LightningShield:
 	.nothighpriority:
 		move.w	#1,anim(a0)				; Clear anim and set prev_anim to 1
 		move.b	#-1,shield_prev_frame(a0)		; Reset shield_prev_frame (used by PLCLoad_Shields)
-		move.l	#Obj_LightningShield_Main,(a0)
+		move.l	#.Main,(a0)
 
-Obj_LightningShield_Main:
+.Main:
 		movea.w	parent(a0),a2
 		btst	#Status_Invincible,status_secondary(a2)	; Is player invincible?
-		bne.s	locret_1835E				; If so, do not display and do not update variables
+		bne.s	.locret_1835E				; If so, do not display and do not update variables
 		cmpi.b	#$1C,anim(a2)				; Is player in their 'blank' animation?
-		beq.s	locret_1835E				; If so, do not display and do not update variables
+		beq.s	.locret_1835E				; If so, do not display and do not update variables
 		btst	#Status_Shield,status_secondary(a2)	; Should the player still have a shield?
-		beq.w	Obj_LightningShield_Destroy		; If not, change to Insta-Shield
+		beq.w	.Destroy		; If not, change to Insta-Shield
 		btst	#Status_Underwater,status(a2)		; Is player underwater?
-		bne.s	Obj_LightningShield_DestroyUnderwater	; If so, branch
+		bne.s	.DestroyUnderwater	; If so, branch
 		move.w	x_pos(a2),x_pos(a0)
 		move.w	y_pos(a2),y_pos(a0)
 		move.b	status(a2),status(a0)			; Inherit status
@@ -1331,11 +1332,11 @@ Obj_LightningShield_Main:
 
 	.nothighpriority:
 		tst.b	anim(a0)				; Is shield in its 'double jump' state?
-		beq.s	Obj_LightningShield_Display		; Is not, branch and display
-		bsr.s	Obj_LightningShield_CreateSpark		; Create sparks
+		beq.s	.Display		; Is not, branch and display
+		bsr.s	.CreateSpark		; Create sparks
 		clr.b	anim(a0)				; Once done, return to non-'double jump' state
 
-Obj_LightningShield_Display:
+.Display:
 		lea	(Ani_LightningShield).l,a1
 		jsr	(Animate_Sprite).l
 		move.w	#$80,priority(a0)			; Layer shield over player sprite
@@ -1348,13 +1349,13 @@ Obj_LightningShield_Display:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-locret_1835E:
+.locret_1835E:
 		rts
 ; ---------------------------------------------------------------------------
 
-Obj_LightningShield_DestroyUnderwater:
+.DestroyUnderwater:
 		tst.w	(Palette_fade_timer).w
-		bne.s	Obj_LightningShield_Destroy
+		bne.s	.Destroy
 		andi.b	#$8E,status_secondary(a2)	; Sets Status_Shield, Status_FireShield, Status_LtngShield, and Status_BublShield to 0
 
 		; Flashes the underwater palette white
@@ -1362,10 +1363,11 @@ Obj_LightningShield_DestroyUnderwater:
 		lea	(Target_water_palette).w,a2
 		move.w	#bytesToLcnt($80),d0			; Size of Water_palette/4-1
 
-loc_18378:
+;loc_18378:
+;.FlashWater:
 		move.l	(a1),(a2)+			; Backup palette entries
 		move.l	#$0EEE0EEE,(a1)+		; Overwrite palette entries with white
-		dbf	d0,loc_18378			; Loop until entire thing is overwritten
+		dbf	d0,.FlashWater			; Loop until entire thing is overwritten
 
 		move.w	#0,(Water_palette_line_3).w			; Set the first colour in the third palette line to black
 		move.b	#3,anim_frame_timer(a0)
@@ -1373,7 +1375,7 @@ loc_18378:
 		rts
 ; ---------------------------------------------------------------------------
 
-Obj_LightningShield_Destroy:
+.Destroy:
 		andi.b	#$8E,status_secondary(a2)	; Sets Status_Shield, Status_FireShield, Status_LtngShield, and Status_BublShield to 0
 		move.l	#Obj_InstaShield,(a0)		; Replace the Lightning Shield with the Insta-Shield
 		rts
@@ -1381,7 +1383,7 @@ Obj_LightningShield_Destroy:
 ; =============== S U B R O U T I N E =======================================
 
 
-Obj_LightningShield_CreateSpark:
+.CreateSpark:
 		lea	(SparkVelocities).l,a2
 		moveq	#4-1,d1
 
@@ -1420,11 +1422,11 @@ Obj_LightningShield_Spark:
 		lea	(Ani_LightningShield).l,a1
 		jsr	(Animate_Sprite).l
 		tst.b	routine(a0)			; Changed by Animate_Sprite
-		bne.s	Obj_LightningShield_Spark_Delete
+		bne.s	.Delete
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-Obj_LightningShield_Spark_Delete:
+.Delete:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -1464,16 +1466,16 @@ Obj_BubbleShield:
 		move.b	#-1,shield_prev_frame(a0)		; Reset shield_prev_frame (used by PLCLoad_Shields)
 		movea.w	parent(a0),a1
 		bsr.w	Player_ResetAirTimer
-		move.l	#Obj_BubbleShield_Main,(a0)
+		move.l	#.Main,(a0)
 
-Obj_BubbleShield_Main:
+.Main:
 		movea.w	parent(a0),a2
 		btst	#Status_Invincible,status_secondary(a2)	; Is player invincible?
-		bne.s	locret_18518				; If so, do not display and do not update variables
+		bne.s	.locret_18518				; If so, do not display and do not update variables
 		cmpi.b	#$1C,anim(a2)				; Is player in their 'blank' animation?
-		beq.s	locret_18518				; If so, do not display and do not update variables
+		beq.s	.locret_18518				; If so, do not display and do not update variables
 		btst	#Status_Shield,status_secondary(a2)	; Should the player still have a shield?
-		beq.s	Obj_BubbleShield_Destroy		; If not, change to Insta-Shield
+		beq.s	.Destroy		; If not, change to Insta-Shield
 		move.w	x_pos(a2),x_pos(a0)
 		move.w	y_pos(a2),y_pos(a0)
 		move.b	status(a2),status(a0)			; Inherit status
@@ -1490,11 +1492,11 @@ Obj_BubbleShield_Main:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-locret_18518:
+.locret_18518:
 		rts
 ; ---------------------------------------------------------------------------
 
-Obj_BubbleShield_Destroy:
+.Destroy:
 		andi.b	#$8E,status_secondary(a2)	; Sets Status_Shield, Status_FireShield, Status_LtngShield, and Status_BublShield to 0
 		move.l	#Obj_InstaShield,(a0)		; Replace the Bubble Shield with the Insta-Shield
 		rts
@@ -1506,17 +1508,17 @@ PLCLoad_Shields:
 		moveq	#0,d0
 		move.b	mapping_frame(a0),d0
 		cmp.b	shield_prev_frame(a0),d0
-		beq.s	locret_18576
+		beq.s	.locret_18576
 		move.b	d0,shield_prev_frame(a0)
 		movea.l	shield_plc(a0),a2
 		add.w	d0,d0
 		adda.w	(a2,d0.w),a2
 		move.w	(a2)+,d5
 		subq.w	#1,d5
-		bmi.s	locret_18576
+		bmi.s	.locret_18576
 		move.w	vram_art(a0),d4
 
-PLCLoad_Shields_ReadEntry:
+.ReadEntry:
 		moveq	#0,d1
 		move.w	(a2)+,d1
 		move.w	d1,d3
@@ -1530,9 +1532,9 @@ PLCLoad_Shields_ReadEntry:
 		add.w	d3,d4
 		add.w	d3,d4
 		jsr	(Add_To_DMA_Queue).l
-		dbf	d5,PLCLoad_Shields_ReadEntry
+		dbf	d5,.ReadEntry
 
-locret_18576:
+.locret_18576:
 		rts
 ; End of function PLCLoad_Shields
 

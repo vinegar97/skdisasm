@@ -18,16 +18,16 @@ Obj_DEZTransRingSpawner_Main:
 		move.b	#$10,height_pixels(a1)
 		move.w	#$80,priority(a1)
 		cmpi.b	#-1,angle(a0)
-		bne.s	DEZTransRing_NormalAnim
+		bne.s	.NormalAnim
 		move.b	flip_angle(a0),d1
 		move.w	#0,priority(a1)
 		move.b	d1,d0
 		add.b	d0,d0
-		bpl.s	DEZTransRing_SineAnim
+		bpl.s	.SineAnim
 		bset	#0,status(a1)
 		move.w	#$80,priority(a1)
 
-DEZTransRing_SineAnim:
+.SineAnim:
 		addq.b	#8,d1
 		lsr.b	#4,d1
 		andi.b	#7,d1
@@ -36,7 +36,7 @@ DEZTransRing_SineAnim:
 		bra.s	loc_4888E
 ; ---------------------------------------------------------------------------
 
-DEZTransRing_NormalAnim:
+.NormalAnim:
 		move.w	x_vel(a0),d1
 		move.w	y_vel(a0),d2
 		jsr	(GetArcTan).l

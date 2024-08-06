@@ -2,14 +2,14 @@ Obj_Bloominator:
 		jsr	(Obj_WaitOffscreen).l
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	Bloominator_Index(pc,d0.w),d1
-		jsr	Bloominator_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		jmp	(Sprite_CheckDeleteTouch).l
 ; ---------------------------------------------------------------------------
-Bloominator_Index:
-		dc.w loc_54B86-Bloominator_Index
-		dc.w loc_54B9E-Bloominator_Index
-		dc.w loc_54BC2-Bloominator_Index
+.Index:
+		dc.w loc_54B86-.Index
+		dc.w loc_54B9E-.Index
+		dc.w loc_54BC2-.Index
 ; ---------------------------------------------------------------------------
 
 loc_54B86:

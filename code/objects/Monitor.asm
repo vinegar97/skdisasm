@@ -1,18 +1,18 @@
 Obj_Monitor:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	Monitor_Index(pc,d0.w),d1
-		jmp	Monitor_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jmp	.Index(pc,d1.w)
 ; ---------------------------------------------------------------------------
-Monitor_Index:
-		dc.w Obj_MonitorInit-Monitor_Index
-		dc.w Obj_MonitorMain-Monitor_Index
-		dc.w Obj_MonitorBreak-Monitor_Index
-		dc.w Obj_MonitorAnimate-Monitor_Index
-		dc.w loc_1D61A-Monitor_Index
+.Index:
+		dc.w .Init-.Index
+		dc.w .Main-.Index
+		dc.w Obj_MonitorBreak-.Index
+		dc.w .Animate-.Index
+		dc.w loc_1D61A-.Index
 ; ---------------------------------------------------------------------------
 
-Obj_MonitorInit:
+.Init:
 		addq.b	#2,routine(a0)	; => Obj_MonitorMain
 		move.b	#$F,y_radius(a0)
 		move.b	#$F,x_radius(a0)
@@ -36,7 +36,7 @@ Obj_MonitorInit:
 		move.b	#$46,collision_flags(a0)
 		move.b	subtype(a0),anim(a0)	; Subtype determines what powerup is inside
 
-Obj_MonitorMain:
+.Main:
 		bsr.s	Obj_MonitorFall
 		move.w	#$19,d1			; Monitor's width
 		move.w	#$10,d2
@@ -59,7 +59,7 @@ loc_1D61A:
 		bra.w	Sprite_OnScreen_Test
 ; ---------------------------------------------------------------------------
 
-Obj_MonitorAnimate:
+.Animate:
 		cmpi.b	#$B,mapping_frame(a0)	; Is monitor broken?
 		bne.s	.notbroken		; If not, branch
 		move.l	#loc_1D61A,(a0)
@@ -76,7 +76,7 @@ Obj_MonitorFall:
 		move.b	routine_secondary(a0),d0
 		beq.s	locret_1D694
 		btst	#1,render_flags(a0)	; Is monitor upside down?
-		bne.s	Obj_MonitorFallUpsideDown	; If so, branch
+		bne.s	.UpsideDown	; If so, branch
 		bsr.w	MoveSprite
 		tst.w	y_vel(a0)		; Is monitor moving up?
 		bmi.s	locret_1D694		; If so, return
@@ -92,7 +92,7 @@ Obj_MonitorFall:
 		rts
 ; ---------------------------------------------------------------------------
 
-Obj_MonitorFallUpsideDown:
+.UpsideDown:
 		bsr.w	MoveSprite2
 		subi.w	#$38,y_vel(a0)
 		tst.w	y_vel(a0)		; Is monitor moving down?
@@ -225,20 +225,20 @@ Obj_MonitorSpawnIcon:
 
 	.notremembered:
 		move.b	#$A,anim(a0)			; Display 'broken' animation
-		move.l	#Obj_MonitorAnimate,(a0)
+		move.l	#Obj_Monitor.Animate,(a0)
 		bra.w	Draw_Sprite
 ; ---------------------------------------------------------------------------
 
 Obj_MonitorContents:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	MonitorContents_Index(pc,d0.w),d1
-		jmp	MonitorContents_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jmp	.Index(pc,d1.w)
 ; ---------------------------------------------------------------------------
-MonitorContents_Index:
-		dc.w loc_1D7CE-MonitorContents_Index
-		dc.w loc_1D81A-MonitorContents_Index
-		dc.w loc_1DB2E-MonitorContents_Index
+.Index:
+		dc.w loc_1D7CE-.Index
+		dc.w loc_1D81A-.Index
+		dc.w loc_1DB2E-.Index
 ; ---------------------------------------------------------------------------
 
 loc_1D7CE:

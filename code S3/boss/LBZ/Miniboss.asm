@@ -1,18 +1,18 @@
 Obj_LBZMiniboss:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	LBZMiniboss_Index(pc,d0.w),d1
-		jsr	LBZMiniboss_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		bsr.w	sub_4F84C
 		jmp	Draw_And_Touch_Sprite(pc)
 ; ---------------------------------------------------------------------------
-LBZMiniboss_Index:
-		dc.w loc_4F496-LBZMiniboss_Index
-		dc.w loc_4F4D8-LBZMiniboss_Index
-		dc.w loc_4F4F8-LBZMiniboss_Index
-		dc.w loc_4F53E-LBZMiniboss_Index
-		dc.w loc_4F55A-LBZMiniboss_Index
-		dc.w loc_4F5B4-LBZMiniboss_Index
+.Index:
+		dc.w loc_4F496-.Index
+		dc.w loc_4F4D8-.Index
+		dc.w loc_4F4F8-.Index
+		dc.w loc_4F53E-.Index
+		dc.w loc_4F55A-.Index
+		dc.w loc_4F5B4-.Index
 ; ---------------------------------------------------------------------------
 
 loc_4F496:

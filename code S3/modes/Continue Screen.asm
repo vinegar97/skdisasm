@@ -152,17 +152,18 @@ loc_3F280:
 loc_3F286:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	off_3F2A0(pc,d0.w),d1
-		jsr	off_3F2A0(pc,d1.w)
+		move.w	Obj_Continue_SonicWTails.Index(pc,d0.w),d1
+		jsr	Obj_Continue_SonicWTails.Index(pc,d1.w)
 		jsr	(Sonic_Load_PLC).l
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
-off_3F2A0:
-		dc.w loc_3F2AA-off_3F2A0
-		dc.w loc_3F2CE-off_3F2A0
-		dc.w loc_3F32A-off_3F2A0
-		dc.w loc_3F340-off_3F2A0
-		dc.w locret_3F35C-off_3F2A0
+; off_3F2A0:
+Obj_Continue_SonicWTails.Index:
+		dc.w loc_3F2AA-Obj_Continue_SonicWTails.Index
+		dc.w loc_3F2CE-Obj_Continue_SonicWTails.Index
+		dc.w loc_3F32A-Obj_Continue_SonicWTails.Index
+		dc.w loc_3F340-Obj_Continue_SonicWTails.Index
+		dc.w locret_3F35C-Obj_Continue_SonicWTails.Index
 ; ---------------------------------------------------------------------------
 
 loc_3F2AA:

@@ -28,22 +28,22 @@ SSEntryRing_Init:
 SSEntryRing_Main:
 		jsr	(Animate_Raw).l
 		tst.w	(Debug_placement_mode).w
-		bne.s	locret_4429A		; If in debug mode, don't allow collision
+		bne.s	.locret_4429A		; If in debug mode, don't allow collision
 		cmpi.b	#8,mapping_frame(a0)
-		blo.s	locret_4429A		; If ring hasn't finished forming, don't allow collision
+		blo.s	.locret_4429A		; If ring hasn't finished forming, don't allow collision
 		lea	SSEntry_Range(pc),a1
 		jsr	(Check_PlayerInRange).l
 		tst.w	d0
 		bne.s	loc_4429C
 
-locret_4429A:
+.locret_4429A:
 		rts
 ; ---------------------------------------------------------------------------
 
 loc_4429C:
 		lea	(Player_1).w,a1			; If collision was made
 		cmpi.b	#6,routine(a1)
-		bhs.s	locret_4429A		; If player has died for whatever reason, don't do anything
+		bhs.s	.locret_4429A		; If player has died for whatever reason, don't do anything
 		cmpi.w	#7,(Chaos_emerald_count).w	; If the emeralds are collected, go claim 50 rings
 		beq.s	loc_442FE
 		move.b	#4,routine(a0)
@@ -56,7 +56,7 @@ loc_4429C:
 		jsr	(CreateChild6_Simple).l
 		move.w	(Player_1+x_pos).w,d0
 		cmp.w	x_pos(a0),d0
-		bcs.s	locret_4429A
+		bcs.s	.locret_4429A
 		bset	#0,render_flags(a1)
 		moveq	#signextendB(sfx_BigRing),d0
 		jsr	(Play_SFX).l		; Play the ring swish sound
@@ -85,48 +85,48 @@ SSEntryRing_Animate:
 Obj_SSEntryFlash:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	SSEntryFlash_Index(pc,d0.w),d1
-		jsr	SSEntryFlash_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		lea	DPLCPtr_SSEntryFlash(pc),a2
 		jsr	(Perform_DPLC).l
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
-SSEntryFlash_Index:
-		dc.w SSEntryFlash_Init-SSEntryFlash_Index
-		dc.w SSEntryFlash_Main-SSEntryFlash_Index
+.Index:
+		dc.w .Init-.Index
+		dc.w .Main-.Index
 ; ---------------------------------------------------------------------------
 
-SSEntryFlash_Init:
+.Init:
 		move.l	#AniRaw_SSEntryFlash,$30(a0)
-		move.l	#SSEntryFlash_Finished,$34(a0)
+		move.l	#.Finished,$34(a0)
 		movea.w	parent3(a0),a1
 		move.b	subtype(a1),subtype(a0)
 		lea	ObjSlot_SSEntryFlash(pc),a1
 		jmp	(SetUp_ObjAttributesSlotted).l
 ; ---------------------------------------------------------------------------
 
-SSEntryFlash_Main:
+.Main:
 		move.b	mapping_frame(a0),d6
 		jsr	(Animate_RawAdjustFlipX).l
 		cmp.b	mapping_frame(a0),d6
-		beq.s	locret_44390
+		beq.s	.locret_44390
 		cmpi.b	#3,anim_frame(a0)
-		bne.s	locret_44390
+		bne.s	.locret_44390
 		movea.w	parent3(a0),a1			; Set parent to be deleted in the middle of the animation
 		bset	#0,$38(a1)
 
-locret_44390:
+.locret_44390:
 		rts
 ; ---------------------------------------------------------------------------
 
-SSEntryFlash_Finished:
+.Finished:
 		move.l	#Obj_Wait,(a0)		; This is performed when animation is finished
 		move.w	#$20,$2E(a0)
-		move.l	#SSEntryFlash_GoSS,$34(a0)
+		move.l	#.GoSS,$34(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-SSEntryFlash_GoSS:
+.GoSS:
 		cmpi.w	#7,(Chaos_emerald_count).w
 		beq.s	loc_443E4
 		moveq	#signextendB(sfx_EnterSS),d0

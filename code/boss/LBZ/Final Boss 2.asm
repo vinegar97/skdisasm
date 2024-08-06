@@ -1,34 +1,34 @@
 Obj_LBZFinalBoss2:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	LBZFinalBoss2_Index(pc,d0.w),d1
-		jsr	LBZFinalBoss2_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		jsr	(sub_74FD2).l
 		jmp	(Draw_And_Touch_Sprite).l
 ; ---------------------------------------------------------------------------
-LBZFinalBoss2_Index:
-		dc.w loc_742A8-LBZFinalBoss2_Index
-		dc.w loc_7430E-LBZFinalBoss2_Index
-		dc.w loc_7430E-LBZFinalBoss2_Index
-		dc.w loc_7432A-LBZFinalBoss2_Index
-		dc.w loc_7430E-LBZFinalBoss2_Index
-		dc.w loc_743CE-LBZFinalBoss2_Index
-		dc.w loc_74412-LBZFinalBoss2_Index
-		dc.w loc_74442-LBZFinalBoss2_Index
-		dc.w loc_74456-LBZFinalBoss2_Index
-		dc.w loc_7447A-LBZFinalBoss2_Index
-		dc.w loc_744A4-LBZFinalBoss2_Index
-		dc.w loc_744E4-LBZFinalBoss2_Index
-		dc.w loc_744FC-LBZFinalBoss2_Index
-		dc.w loc_74528-LBZFinalBoss2_Index
-		dc.w loc_74542-LBZFinalBoss2_Index
-		dc.w loc_7455C-LBZFinalBoss2_Index
-		dc.w loc_74576-LBZFinalBoss2_Index
-		dc.w loc_745A2-LBZFinalBoss2_Index
-		dc.w loc_745E2-LBZFinalBoss2_Index
-		dc.w loc_74618-LBZFinalBoss2_Index
-		dc.w loc_7463A-LBZFinalBoss2_Index
-		dc.w loc_746C8-LBZFinalBoss2_Index
+.Index:
+		dc.w loc_742A8-.Index
+		dc.w loc_7430E-.Index
+		dc.w loc_7430E-.Index
+		dc.w loc_7432A-.Index
+		dc.w loc_7430E-.Index
+		dc.w loc_743CE-.Index
+		dc.w loc_74412-.Index
+		dc.w loc_74442-.Index
+		dc.w loc_74456-.Index
+		dc.w loc_7447A-.Index
+		dc.w loc_744A4-.Index
+		dc.w loc_744E4-.Index
+		dc.w loc_744FC-.Index
+		dc.w loc_74528-.Index
+		dc.w loc_74542-.Index
+		dc.w loc_7455C-.Index
+		dc.w loc_74576-.Index
+		dc.w loc_745A2-.Index
+		dc.w loc_745E2-.Index
+		dc.w loc_74618-.Index
+		dc.w loc_7463A-.Index
+		dc.w loc_746C8-.Index
 ; ---------------------------------------------------------------------------
 
 loc_742A8:

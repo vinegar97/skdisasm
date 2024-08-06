@@ -2,11 +2,11 @@ Obj_CutsceneKnuckles:
 		move.w	a0,(_unkFAA4).w
 		moveq	#0,d0
 		move.b	subtype(a0),d0
-		movea.l	CutsceneKnuckles_Index(pc,d0.w),a1
+		movea.l	.Index(pc,d0.w),a1
 		move.l	a1,(a0)
 		jmp	(a1)
 ; ---------------------------------------------------------------------------
-CutsceneKnuckles_Index:
+.Index:
 		dc.l CutsceneKnux_AIZ1
 		dc.l CutsceneKnux_AIZ2
 		dc.l CutsceneKnux_HCZ2
@@ -25,20 +25,20 @@ CutsceneKnuckles_Index:
 CutsceneKnux_AIZ1:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	CutsceneKnux_AIZ1_Index(pc,d0.w),d1
-		jsr	CutsceneKnux_AIZ1_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		lea	DPLCPtr_CutsceneKnux(pc),a2
 		jsr	(Perform_DPLC).l
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
-CutsceneKnux_AIZ1_Index:
-		dc.w loc_61DBE-CutsceneKnux_AIZ1_Index
-		dc.w loc_61DF4-CutsceneKnux_AIZ1_Index
-		dc.w loc_61E24-CutsceneKnux_AIZ1_Index
-		dc.w loc_61E64-CutsceneKnux_AIZ1_Index
-		dc.w loc_61E96-CutsceneKnux_AIZ1_Index
-		dc.w loc_61EE0-CutsceneKnux_AIZ1_Index
-		dc.w loc_61F10-CutsceneKnux_AIZ1_Index
+.Index:
+		dc.w loc_61DBE-.Index
+		dc.w loc_61DF4-.Index
+		dc.w loc_61E24-.Index
+		dc.w loc_61E64-.Index
+		dc.w loc_61E96-.Index
+		dc.w loc_61EE0-.Index
+		dc.w loc_61F10-.Index
 ; ---------------------------------------------------------------------------
 
 loc_61DBE:
@@ -191,19 +191,19 @@ loc_61F82:
 CutsceneKnux_AIZ2:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	CutsceneKnux_AIZ2_Index(pc,d0.w),d1
-		jsr	CutsceneKnux_AIZ2_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		lea	DPLCPtr_CutsceneKnux(pc),a2
 		jsr	(Perform_DPLC).l
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
-CutsceneKnux_AIZ2_Index:
-		dc.w loc_61FC2-CutsceneKnux_AIZ2_Index
-		dc.w loc_62014-CutsceneKnux_AIZ2_Index
-		dc.w loc_62022-CutsceneKnux_AIZ2_Index
-		dc.w loc_6206E-CutsceneKnux_AIZ2_Index
-		dc.w loc_620AA-CutsceneKnux_AIZ2_Index
-		dc.w loc_620E4-CutsceneKnux_AIZ2_Index
+.Index:
+		dc.w loc_61FC2-.Index
+		dc.w loc_62014-.Index
+		dc.w loc_62022-.Index
+		dc.w loc_6206E-.Index
+		dc.w loc_620AA-.Index
+		dc.w loc_620E4-.Index
 ; ---------------------------------------------------------------------------
 
 loc_61FC2:
@@ -329,20 +329,20 @@ CutsceneKnux_HCZ2:
 		jsr	(Check_CameraInRange).l
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	CutsceneKnux_HCZ2_Index(pc,d0.w),d1
-		jsr	CutsceneKnux_HCZ2_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		lea	DPLCPtr_CutsceneKnux(pc),a2
 		jsr	(Perform_DPLC).l
 		jmp	(Sprite_CheckDeleteTouchSlotted).l
 ; ---------------------------------------------------------------------------
-CutsceneKnux_HCZ2_Index:
-		dc.w loc_6215E-CutsceneKnux_HCZ2_Index
-		dc.w loc_62194-CutsceneKnux_HCZ2_Index
-		dc.w loc_62014-CutsceneKnux_HCZ2_Index
-		dc.w loc_62200-CutsceneKnux_HCZ2_Index
-		dc.w loc_62014-CutsceneKnux_HCZ2_Index
-		dc.w loc_620AA-CutsceneKnux_HCZ2_Index
-		dc.w loc_62242-CutsceneKnux_HCZ2_Index
+.Index:
+		dc.w loc_6215E-.Index
+		dc.w loc_62194-.Index
+		dc.w loc_62014-.Index
+		dc.w loc_62200-.Index
+		dc.w loc_62014-.Index
+		dc.w loc_620AA-.Index
+		dc.w loc_62242-.Index
 word_62150:
 		dc.w   $540,  $600, $3900, $3940
 ; ---------------------------------------------------------------------------
@@ -456,19 +456,19 @@ CutsceneKnux_CNZ2A:
 		jsr	(Check_CameraInRange).l
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	CutsceneKnux_CNZ2A_Index(pc,d0.w),d1
-		jsr	CutsceneKnux_CNZ2A_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		lea	DPLCPtr_CutsceneKnux(pc),a2
 		jsr	(Perform_DPLC).l
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
-CutsceneKnux_CNZ2A_Index:
-		dc.w loc_622E4-CutsceneKnux_CNZ2A_Index
-		dc.w loc_62332-CutsceneKnux_CNZ2A_Index
-		dc.w loc_62354-CutsceneKnux_CNZ2A_Index
-		dc.w loc_6237C-CutsceneKnux_CNZ2A_Index
-		dc.w loc_62354-CutsceneKnux_CNZ2A_Index
-		dc.w loc_623FE-CutsceneKnux_CNZ2A_Index
+.Index:
+		dc.w loc_622E4-.Index
+		dc.w loc_62332-.Index
+		dc.w loc_62354-.Index
+		dc.w loc_6237C-.Index
+		dc.w loc_62354-.Index
+		dc.w loc_623FE-.Index
 word_622DC:	; used in S3, unused in S&K
 		dc.w   $176,  $300, $1B00, $1D00
 ; ---------------------------------------------------------------------------
@@ -663,21 +663,21 @@ CutsceneKnux_CNZ2B:
 		jsr	(Check_CameraInRange).l
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	CutsceneKnux_CNZ2B_Index(pc,d0.w),d1
-		jsr	CutsceneKnux_CNZ2B_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		lea	DPLCPtr_CutsceneKnux(pc),a2
 		jsr	(Perform_DPLC).l
 		jmp	(Sprite_CheckDeleteTouchSlotted).l
 ; ---------------------------------------------------------------------------
-CutsceneKnux_CNZ2B_Index:
-		dc.w loc_62528-CutsceneKnux_CNZ2B_Index
-		dc.w loc_6254E-CutsceneKnux_CNZ2B_Index
-		dc.w loc_6256C-CutsceneKnux_CNZ2B_Index
-		dc.w loc_62014-CutsceneKnux_CNZ2B_Index
-		dc.w loc_620AA-CutsceneKnux_CNZ2B_Index
-		dc.w loc_625BE-CutsceneKnux_CNZ2B_Index
-		dc.w loc_625E2-CutsceneKnux_CNZ2B_Index
-		dc.w loc_6261A-CutsceneKnux_CNZ2B_Index
+.Index:
+		dc.w loc_62528-.Index
+		dc.w loc_6254E-.Index
+		dc.w loc_6256C-.Index
+		dc.w loc_62014-.Index
+		dc.w loc_620AA-.Index
+		dc.w loc_625BE-.Index
+		dc.w loc_625E2-.Index
+		dc.w loc_6261A-.Index
 word_62520:
 		dc.w   $720,  $A00, $45C0, $46E0
 ; ---------------------------------------------------------------------------
@@ -785,21 +785,21 @@ CutsceneKnux_LBZ1:
 		beq.w	CutsceneKnux_Delete
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	CutsceneKnux_LBZ1_Index(pc,d0.w),d1
-		jsr	CutsceneKnux_LBZ1_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		lea	DPLCPtr_CutsceneKnux(pc),a2
 		jsr	(Perform_DPLC).l
 		jmp	(Sprite_CheckDeleteTouchSlotted).l
 ; ---------------------------------------------------------------------------
-CutsceneKnux_LBZ1_Index:
-		dc.w loc_62678-CutsceneKnux_LBZ1_Index
-		dc.w loc_626B2-CutsceneKnux_LBZ1_Index
-		dc.w loc_62014-CutsceneKnux_LBZ1_Index
-		dc.w loc_626EE-CutsceneKnux_LBZ1_Index
-		dc.w loc_62014-CutsceneKnux_LBZ1_Index
-		dc.w loc_62354-CutsceneKnux_LBZ1_Index
-		dc.w loc_62354-CutsceneKnux_LBZ1_Index
-		dc.w loc_62778-CutsceneKnux_LBZ1_Index
+.Index:
+		dc.w loc_62678-.Index
+		dc.w loc_626B2-.Index
+		dc.w loc_62014-.Index
+		dc.w loc_626EE-.Index
+		dc.w loc_62014-.Index
+		dc.w loc_62354-.Index
+		dc.w loc_62354-.Index
+		dc.w loc_62778-.Index
 ; ---------------------------------------------------------------------------
 
 loc_62678:
@@ -989,20 +989,20 @@ CutsceneKnux_LBZ2:
 		beq.w	CutsceneKnux_Delete
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	CutsceneKnux_LBZ2_Index(pc,d0.w),d1
-		jsr	CutsceneKnux_LBZ2_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		lea	DPLCPtr_CutsceneKnux(pc),a2
 		jsr	(Perform_DPLC).l
 		jmp	(Sprite_CheckDeleteTouchSlotted).l
 ; ---------------------------------------------------------------------------
-CutsceneKnux_LBZ2_Index:
-		dc.w loc_628E0-CutsceneKnux_LBZ2_Index
-		dc.w loc_6290E-CutsceneKnux_LBZ2_Index
-		dc.w loc_62928-CutsceneKnux_LBZ2_Index
-		dc.w loc_62942-CutsceneKnux_LBZ2_Index
-		dc.w loc_62964-CutsceneKnux_LBZ2_Index
-		dc.w loc_629A8-CutsceneKnux_LBZ2_Index
-		dc.w loc_629C0-CutsceneKnux_LBZ2_Index
+.Index:
+		dc.w loc_628E0-.Index
+		dc.w loc_6290E-.Index
+		dc.w loc_62928-.Index
+		dc.w loc_62942-.Index
+		dc.w loc_62964-.Index
+		dc.w loc_629A8-.Index
+		dc.w loc_629C0-.Index
 ; ---------------------------------------------------------------------------
 
 loc_628E0:
@@ -1200,21 +1200,21 @@ Map_LBZKnuxPillar:
 CutsceneKnux_MHZ1:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	CutsceneKnux_MHZ1_Index(pc,d0.w),d1
-		jsr	CutsceneKnux_MHZ1_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		lea	DPLCPtr_CutsceneKnux(pc),a2
 		jsr	(Perform_DPLC).l
 		jmp	(Sprite_CheckDeleteTouchSlotted).l
 ; ---------------------------------------------------------------------------
-CutsceneKnux_MHZ1_Index:
-		dc.w loc_62B68-CutsceneKnux_MHZ1_Index
-		dc.w loc_62BB2-CutsceneKnux_MHZ1_Index
-		dc.w loc_62BC0-CutsceneKnux_MHZ1_Index
-		dc.w loc_62BE4-CutsceneKnux_MHZ1_Index
-		dc.w loc_62BF4-CutsceneKnux_MHZ1_Index
-		dc.w loc_62C42-CutsceneKnux_MHZ1_Index
-		dc.w loc_62C42-CutsceneKnux_MHZ1_Index
-		dc.w loc_62C90-CutsceneKnux_MHZ1_Index
+.Index:
+		dc.w loc_62B68-.Index
+		dc.w loc_62BB2-.Index
+		dc.w loc_62BC0-.Index
+		dc.w loc_62BE4-.Index
+		dc.w loc_62BF4-.Index
+		dc.w loc_62C42-.Index
+		dc.w loc_62C42-.Index
+		dc.w loc_62C90-.Index
 ; ---------------------------------------------------------------------------
 
 loc_62B68:
@@ -1328,17 +1328,17 @@ Obj_MHZ1CutsceneKnuckles:
 		lea	(Player_1).w,a1
 		moveq	#0,d0
 		move.b	(_unkFAB8).w,d0
-		move.w	MHZ1CutsceneKnuckles_Index(pc,d0.w),d0
-		jmp	MHZ1CutsceneKnuckles_Index(pc,d0.w)
+		move.w	.Index(pc,d0.w),d0
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
-MHZ1CutsceneKnuckles_Index:
-		dc.w loc_62CDE-MHZ1CutsceneKnuckles_Index
-		dc.w loc_62CF8-MHZ1CutsceneKnuckles_Index
-		dc.w loc_62D2C-MHZ1CutsceneKnuckles_Index
-		dc.w loc_62D42-MHZ1CutsceneKnuckles_Index
-		dc.w loc_62D5A-MHZ1CutsceneKnuckles_Index
-		dc.w locret_62D6E-MHZ1CutsceneKnuckles_Index
-		dc.w loc_62D70-MHZ1CutsceneKnuckles_Index
+.Index:
+		dc.w loc_62CDE-.Index
+		dc.w loc_62CF8-.Index
+		dc.w loc_62D2C-.Index
+		dc.w loc_62D42-.Index
+		dc.w loc_62D5A-.Index
+		dc.w locret_62D6E-.Index
+		dc.w loc_62D70-.Index
 ; ---------------------------------------------------------------------------
 
 loc_62CDE:
@@ -1690,8 +1690,8 @@ CutsceneKnux_MHZ2:
 		jsr	(Check_CameraInRange).l
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	CutsceneKnux_MHZ2_Index(pc,d0.w),d1
-		jsr	CutsceneKnux_MHZ2_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		lea	DPLCPtr_MHZKnuxPress(pc),a2
 		jsr	(Perform_DPLC).l
 		jmp	(Sprite_CheckDeleteTouchSlotted).l
@@ -1702,12 +1702,12 @@ loc_6311A:
 		jsr	(CreateChild1_Normal).l
 		jmp	(Go_Delete_Sprite).l
 ; ---------------------------------------------------------------------------
-CutsceneKnux_MHZ2_Index:
-		dc.w loc_63134-CutsceneKnux_MHZ2_Index
-		dc.w loc_63170-CutsceneKnux_MHZ2_Index
-		dc.w loc_631A4-CutsceneKnux_MHZ2_Index
-		dc.w loc_63220-CutsceneKnux_MHZ2_Index
-		dc.w loc_632AE-CutsceneKnux_MHZ2_Index
+CutsceneKnux_MHZ2.Index:
+		dc.w loc_63134-CutsceneKnux_MHZ2.Index
+		dc.w loc_63170-CutsceneKnux_MHZ2.Index
+		dc.w loc_631A4-CutsceneKnux_MHZ2.Index
+		dc.w loc_63220-CutsceneKnux_MHZ2.Index
+		dc.w loc_632AE-CutsceneKnux_MHZ2.Index
 ; ---------------------------------------------------------------------------
 
 loc_63134:
@@ -2471,17 +2471,17 @@ CutsceneKnux_LRZ2:
 		beq.w	CutsceneKnux_Delete
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	CutsceneKnux_LRZ2_Index(pc,d0.w),d1
-		jsr	CutsceneKnux_LRZ2_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		bsr.w	Knuckles_Load_PLC_661E0
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
-CutsceneKnux_LRZ2_Index:
-		dc.w loc_63A96-CutsceneKnux_LRZ2_Index
-		dc.w loc_63ACA-CutsceneKnux_LRZ2_Index
-		dc.w loc_63AE8-CutsceneKnux_LRZ2_Index
-		dc.w loc_63B10-CutsceneKnux_LRZ2_Index
-		dc.w locret_63B20-CutsceneKnux_LRZ2_Index
+.Index:
+		dc.w loc_63A96-.Index
+		dc.w loc_63ACA-.Index
+		dc.w loc_63AE8-.Index
+		dc.w loc_63B10-.Index
+		dc.w locret_63B20-.Index
 ; ---------------------------------------------------------------------------
 
 loc_63A96:
@@ -4939,8 +4939,8 @@ HPZPaletteControl_PalIndex:
 CutsceneKnux_SSZ:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	CutsceneKnux_SSZ_Index(pc,d0.w),d1
-		jsr	CutsceneKnux_SSZ_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		btst	#6,$38(a0)
 		bne.s	loc_65702
 		move.l	#Map_Knuckles,mappings(a0)
@@ -4954,18 +4954,18 @@ loc_65702:
 		jsr	(Perform_DPLC).l
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
-CutsceneKnux_SSZ_Index:
-		dc.w loc_65730-CutsceneKnux_SSZ_Index
-		dc.w loc_6575E-CutsceneKnux_SSZ_Index
-		dc.w loc_65794-CutsceneKnux_SSZ_Index
-		dc.w loc_657CE-CutsceneKnux_SSZ_Index
-		dc.w loc_657FE-CutsceneKnux_SSZ_Index
-		dc.w loc_65826-CutsceneKnux_SSZ_Index
-		dc.w loc_6584C-CutsceneKnux_SSZ_Index
-		dc.w loc_65876-CutsceneKnux_SSZ_Index
-		dc.w loc_658BA-CutsceneKnux_SSZ_Index
-		dc.w loc_658F2-CutsceneKnux_SSZ_Index
-		dc.w loc_6594A-CutsceneKnux_SSZ_Index
+.Index:
+		dc.w loc_65730-.Index
+		dc.w loc_6575E-.Index
+		dc.w loc_65794-.Index
+		dc.w loc_657CE-.Index
+		dc.w loc_657FE-.Index
+		dc.w loc_65826-.Index
+		dc.w loc_6584C-.Index
+		dc.w loc_65876-.Index
+		dc.w loc_658BA-.Index
+		dc.w loc_658F2-.Index
+		dc.w loc_6594A-.Index
 ; ---------------------------------------------------------------------------
 
 loc_65730:
@@ -6872,27 +6872,27 @@ Map_KnuxIntroBomb:
 Obj_AIZPlaneIntro:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	AIZPlaneIntro_Index(pc,d0.w),d1
-		jsr	AIZPlaneIntro_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		jsr	(Sonic_Load_PLC).l
 		bsr.w	sub_67A08
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
-AIZPlaneIntro_Index:
-		dc.w loc_674AC-AIZPlaneIntro_Index
-		dc.w loc_67514-AIZPlaneIntro_Index
-		dc.w loc_67536-AIZPlaneIntro_Index
-		dc.w loc_67560-AIZPlaneIntro_Index
-		dc.w loc_67594-AIZPlaneIntro_Index
-		dc.w loc_675C0-AIZPlaneIntro_Index
-		dc.w loc_67614-AIZPlaneIntro_Index
-		dc.w loc_67624-AIZPlaneIntro_Index
-		dc.w loc_6764E-AIZPlaneIntro_Index
-		dc.w loc_67674-AIZPlaneIntro_Index
-		dc.w loc_676AC-AIZPlaneIntro_Index
-		dc.w loc_676C6-AIZPlaneIntro_Index
-		dc.w loc_676E8-AIZPlaneIntro_Index
-		dc.w loc_67704-AIZPlaneIntro_Index
+.Index:
+		dc.w loc_674AC-.Index
+		dc.w loc_67514-.Index
+		dc.w loc_67536-.Index
+		dc.w loc_67560-.Index
+		dc.w loc_67594-.Index
+		dc.w loc_675C0-.Index
+		dc.w loc_67614-.Index
+		dc.w loc_67624-.Index
+		dc.w loc_6764E-.Index
+		dc.w loc_67674-.Index
+		dc.w loc_676AC-.Index
+		dc.w loc_676C6-.Index
+		dc.w loc_676E8-.Index
+		dc.w loc_67704-.Index
 ; ---------------------------------------------------------------------------
 
 loc_674AC:

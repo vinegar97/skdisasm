@@ -2,13 +2,13 @@ Obj_Ribot:
 		jsr	(Obj_WaitOffscreen).l
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	Ribot_Index(pc,d0.w),d1
-		jsr	Ribot_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		jmp	Sprite_CheckDeleteTouch(pc)
 ; ---------------------------------------------------------------------------
-Ribot_Index:
-		dc.w loc_8C2FE-Ribot_Index
-		dc.w loc_8C34E-Ribot_Index
+.Index:
+		dc.w loc_8C2FE-.Index
+		dc.w loc_8C34E-.Index
 ; ---------------------------------------------------------------------------
 
 loc_8C2FE:

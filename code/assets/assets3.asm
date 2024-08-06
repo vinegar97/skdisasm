@@ -567,7 +567,7 @@ ArtUnc_LightningShield:
 		even
 ArtUnc_LightningShield_Sparks:
 		binclude "General/Sprites/Shields/Sparks.bin"
-ArtUnc_LightningShield_Sparks_end:
+.end:
 		even
 ArtUnc_BubbleShield:
 		binclude "General/Sprites/Shields/Bubble Shield.bin"

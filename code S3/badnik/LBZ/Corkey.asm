@@ -2,14 +2,14 @@ Obj_Corkey:
 		jsr	(Obj_WaitOffscreen).l
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	Corkey_Index(pc,d0.w),d1
-		jsr	Corkey_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		jmp	Sprite_CheckDeleteTouch(pc)
 ; ---------------------------------------------------------------------------
-Corkey_Index:
-		dc.w loc_59EC2-Corkey_Index
-		dc.w loc_59F18-Corkey_Index
-		dc.w loc_59F48-Corkey_Index
+.Index:
+		dc.w loc_59EC2-.Index
+		dc.w loc_59F18-.Index
+		dc.w loc_59F48-.Index
 ; ---------------------------------------------------------------------------
 
 loc_59EC2:

@@ -1,16 +1,16 @@
 Obj_AIZMinibossCutscene:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	AIZMinibossCutscene_Index(pc,d0.w),d1
-		jsr	AIZMinibossCutscene_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		bra.w	loc_68F62
 ; ---------------------------------------------------------------------------
-AIZMinibossCutscene_Index:
-		dc.w loc_68508-AIZMinibossCutscene_Index
-		dc.w loc_6852C-AIZMinibossCutscene_Index
-		dc.w loc_68574-AIZMinibossCutscene_Index
-		dc.w loc_685B8-AIZMinibossCutscene_Index
-		dc.w loc_685FC-AIZMinibossCutscene_Index
+.Index:
+		dc.w loc_68508-.Index
+		dc.w loc_6852C-.Index
+		dc.w loc_68574-.Index
+		dc.w loc_685B8-.Index
+		dc.w loc_685FC-.Index
 ; ---------------------------------------------------------------------------
 
 loc_68508:
@@ -371,13 +371,13 @@ Obj_AIZMiniboss_Flame:
 		jsr	(Refresh_ChildPositionAdjusted).l
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	AIZMiniboss_Flame_Index(pc,d0.w),d1
-		jmp	AIZMiniboss_Flame_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jmp	.Index(pc,d1.w)
 ; ---------------------------------------------------------------------------
-AIZMiniboss_Flame_Index:
-		dc.w sub_6890E-AIZMiniboss_Flame_Index
-		dc.w loc_68574-AIZMiniboss_Flame_Index
-		dc.w loc_68956-AIZMiniboss_Flame_Index
+.Index:
+		dc.w sub_6890E-.Index
+		dc.w loc_68574-.Index
+		dc.w loc_68956-.Index
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -487,19 +487,19 @@ word_68A18:
 Obj_AIZMiniboss:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	AIZMiniboss_Index(pc,d0.w),d1
-		jsr	AIZMiniboss_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		bra.w	loc_68F62
 ; ---------------------------------------------------------------------------
-AIZMiniboss_Index:
-		dc.w loc_68A46-AIZMiniboss_Index
-		dc.w loc_68A6E-AIZMiniboss_Index
-		dc.w loc_68574-AIZMiniboss_Index
-		dc.w loc_68ABA-AIZMiniboss_Index
-		dc.w loc_685FC-AIZMiniboss_Index
-		dc.w loc_68B1C-AIZMiniboss_Index
-		dc.w loc_68B68-AIZMiniboss_Index
-		dc.w loc_68BBC-AIZMiniboss_Index
+.Index:
+		dc.w loc_68A46-.Index
+		dc.w loc_68A6E-.Index
+		dc.w loc_68574-.Index
+		dc.w loc_68ABA-.Index
+		dc.w loc_685FC-.Index
+		dc.w loc_68B1C-.Index
+		dc.w loc_68B68-.Index
+		dc.w loc_68BBC-.Index
 ; ---------------------------------------------------------------------------
 
 loc_68A46:

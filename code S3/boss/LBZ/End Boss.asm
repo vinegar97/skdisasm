@@ -3,19 +3,19 @@ Obj_LBZEndBoss:
 		jsr	(Check_CameraInRange).l
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	LBZEndBoss_Index(pc,d0.w),d1
-		jsr	LBZEndBoss_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		bsr.w	sub_50A7A
 		jmp	Draw_And_Touch_Sprite(pc)
 ; ---------------------------------------------------------------------------
-LBZEndBoss_Index:
-		dc.w loc_50444-LBZEndBoss_Index
-		dc.w loc_504AE-LBZEndBoss_Index
-		dc.w loc_504CA-LBZEndBoss_Index
-		dc.w loc_504DC-LBZEndBoss_Index
-		dc.w loc_5051C-LBZEndBoss_Index
-		dc.w loc_50548-LBZEndBoss_Index
-		dc.w loc_50574-LBZEndBoss_Index
+.Index:
+		dc.w loc_50444-.Index
+		dc.w loc_504AE-.Index
+		dc.w loc_504CA-.Index
+		dc.w loc_504DC-.Index
+		dc.w loc_5051C-.Index
+		dc.w loc_50548-.Index
+		dc.w loc_50574-.Index
 word_5043C:
 		dc.w   $480,  $660, $3900, $3A20
 ; ---------------------------------------------------------------------------

@@ -2,17 +2,17 @@ Obj_Mushmeanie:
 		jsr	(Obj_WaitOffscreen).l
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	Mushmeanie_Index(pc,d0.w),d1
-		jsr	Mushmeanie_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		bsr.w	sub_8DC6E
 		jmp	(Sprite_CheckDeleteTouch).l
 ; ---------------------------------------------------------------------------
-Mushmeanie_Index:
-		dc.w loc_8DB1E-Mushmeanie_Index
-		dc.w loc_8DB3E-Mushmeanie_Index
-		dc.w loc_8DB64-Mushmeanie_Index
-		dc.w loc_8DB94-Mushmeanie_Index
-		dc.w loc_8DBEC-Mushmeanie_Index
+.Index:
+		dc.w loc_8DB1E-.Index
+		dc.w loc_8DB3E-.Index
+		dc.w loc_8DB64-.Index
+		dc.w loc_8DB94-.Index
+		dc.w loc_8DBEC-.Index
 ; ---------------------------------------------------------------------------
 
 loc_8DB1E:

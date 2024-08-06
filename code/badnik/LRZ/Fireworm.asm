@@ -2,14 +2,14 @@ Obj_Fireworm:
 		jsr	(Obj_WaitOffscreen).l
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	Fireworm_Index(pc,d0.w),d1
-		jsr	Fireworm_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		jmp	(Sprite_CheckDelete).l
 ; ---------------------------------------------------------------------------
-Fireworm_Index:
-		dc.w loc_8F770-Fireworm_Index
-		dc.w loc_8F77A-Fireworm_Index
-		dc.w locret_8F7A2-Fireworm_Index
+.Index:
+		dc.w loc_8F770-.Index
+		dc.w loc_8F77A-.Index
+		dc.w locret_8F7A2-.Index
 ; ---------------------------------------------------------------------------
 
 loc_8F770:

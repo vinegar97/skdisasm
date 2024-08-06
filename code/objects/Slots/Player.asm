@@ -9,8 +9,8 @@ Obj_Sonic_RotatingSlotBonus:
 loc_4B96E:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	Obj_Sonic_RotatingSlotBonus_Index(pc,d0.w),d1
-		jsr	Obj_Sonic_RotatingSlotBonus_Index(pc,d1.w)
+		move.w	Obj_Sonic_RotatingSlotBonus.Index(pc,d0.w),d1
+		jsr	Obj_Sonic_RotatingSlotBonus.Index(pc,d1.w)
 
 loc_4B97C:
 		move.b	#2,anim(a0)
@@ -42,10 +42,10 @@ loc_4B9B6:
 ; End of function sub_4B99E
 
 ; ---------------------------------------------------------------------------
-Obj_Sonic_RotatingSlotBonus_Index:
-		dc.w loc_4B9CE-Obj_Sonic_RotatingSlotBonus_Index
-		dc.w loc_4BA4E-Obj_Sonic_RotatingSlotBonus_Index
-		dc.w loc_4BC1E-Obj_Sonic_RotatingSlotBonus_Index
+Obj_Sonic_RotatingSlotBonus.Index:
+		dc.w loc_4B9CE-Obj_Sonic_RotatingSlotBonus.Index
+		dc.w loc_4BA4E-Obj_Sonic_RotatingSlotBonus.Index
+		dc.w loc_4BC1E-Obj_Sonic_RotatingSlotBonus.Index
 off_4B9C2:
 		dc.l Map_Sonic
 		dc.l Map_Tails

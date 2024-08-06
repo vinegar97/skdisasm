@@ -560,11 +560,11 @@ loc_43E60:
 		move.w	$3C(a0),d1
 		move.w	y_pos(a0),d2
 		cmp.w	d1,d2
-		bhs.s	locret_43E72
+		bhs.s	.locret_43E72
 		addq.w	#4,d2
 		move.w	d2,y_pos(a0)
 
-locret_43E72:
+.locret_43E72:
 		rts
 ; End of function sub_43E38
 

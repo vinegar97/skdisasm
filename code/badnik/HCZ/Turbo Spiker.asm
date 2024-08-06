@@ -2,19 +2,19 @@ Obj_TurboSpiker:
 		jsr	(Obj_WaitOffscreen).l
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	TurboSpiker_Index(pc,d0.w),d1
-		jsr	TurboSpiker_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		jmp	Sprite_CheckDeleteTouch(pc)
 ; ---------------------------------------------------------------------------
-TurboSpiker_Index:
-		dc.w loc_87BEC-TurboSpiker_Index
-		dc.w loc_87C48-TurboSpiker_Index
-		dc.w loc_87CAE-TurboSpiker_Index
-		dc.w loc_87CCE-TurboSpiker_Index
-		dc.w loc_87CEC-TurboSpiker_Index
-		dc.w loc_87CFA-TurboSpiker_Index
-		dc.w loc_87D20-TurboSpiker_Index
-		dc.w loc_87D3C-TurboSpiker_Index
+.Index:
+		dc.w loc_87BEC-.Index
+		dc.w loc_87C48-.Index
+		dc.w loc_87CAE-.Index
+		dc.w loc_87CCE-.Index
+		dc.w loc_87CEC-.Index
+		dc.w loc_87CFA-.Index
+		dc.w loc_87D20-.Index
+		dc.w loc_87D3C-.Index
 ; ---------------------------------------------------------------------------
 
 loc_87BEC:

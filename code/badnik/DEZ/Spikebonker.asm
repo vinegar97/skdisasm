@@ -2,14 +2,14 @@ Obj_Spikebonker:
 		jsr	(Obj_WaitOffscreen).l
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	Spikebonker_Index(pc,d0.w),d1
-		jsr	Spikebonker_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		jmp	(Sprite_CheckDeleteTouch).l
 ; ---------------------------------------------------------------------------
-Spikebonker_Index:
-		dc.w loc_91A0C-Spikebonker_Index
-		dc.w loc_91A6A-Spikebonker_Index
-		dc.w loc_91AC2-Spikebonker_Index
+.Index:
+		dc.w loc_91A0C-.Index
+		dc.w loc_91A6A-.Index
+		dc.w loc_91AC2-.Index
 ; ---------------------------------------------------------------------------
 
 loc_91A0C:

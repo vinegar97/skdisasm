@@ -1,8 +1,8 @@
 Obj_SSZEndBoss:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	SSZEndBoss_Index(pc,d0.w),d1
-		jsr	SSZEndBoss_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		lea	sub_7D35A(pc),a4
 		bsr.w	sub_7D312
 		bsr.w	sub_7D2D8
@@ -10,28 +10,28 @@ Obj_SSZEndBoss:
 		jsr	(Perform_DPLC).l
 		jmp	(Draw_And_Touch_Sprite).l
 ; ---------------------------------------------------------------------------
-SSZEndBoss_Index:
-		dc.w loc_7B2DC-SSZEndBoss_Index
-		dc.w loc_7B3AC-SSZEndBoss_Index
-		dc.w loc_7B3E6-SSZEndBoss_Index
-		dc.w loc_7B416-SSZEndBoss_Index
-		dc.w loc_7B44A-SSZEndBoss_Index
-		dc.w loc_7B478-SSZEndBoss_Index
-		dc.w loc_7B4DA-SSZEndBoss_Index
-		dc.w loc_7B53E-SSZEndBoss_Index
-		dc.w loc_7B5AC-SSZEndBoss_Index
-		dc.w loc_7B53E-SSZEndBoss_Index
-		dc.w loc_7B53E-SSZEndBoss_Index
-		dc.w loc_7B63A-SSZEndBoss_Index
-		dc.w loc_7B67C-SSZEndBoss_Index
-		dc.w loc_7B6A0-SSZEndBoss_Index
-		dc.w loc_7B6DA-SSZEndBoss_Index
-		dc.w loc_7B6EE-SSZEndBoss_Index
-		dc.w loc_7B748-SSZEndBoss_Index
-		dc.w loc_7B77E-SSZEndBoss_Index
-		dc.w loc_7B7BA-SSZEndBoss_Index
-		dc.w loc_7B748-SSZEndBoss_Index
-		dc.w loc_7B804-SSZEndBoss_Index
+.Index:
+		dc.w loc_7B2DC-.Index
+		dc.w loc_7B3AC-.Index
+		dc.w loc_7B3E6-.Index
+		dc.w loc_7B416-.Index
+		dc.w loc_7B44A-.Index
+		dc.w loc_7B478-.Index
+		dc.w loc_7B4DA-.Index
+		dc.w loc_7B53E-.Index
+		dc.w loc_7B5AC-.Index
+		dc.w loc_7B53E-.Index
+		dc.w loc_7B53E-.Index
+		dc.w loc_7B63A-.Index
+		dc.w loc_7B67C-.Index
+		dc.w loc_7B6A0-.Index
+		dc.w loc_7B6DA-.Index
+		dc.w loc_7B6EE-.Index
+		dc.w loc_7B748-.Index
+		dc.w loc_7B77E-.Index
+		dc.w loc_7B7BA-.Index
+		dc.w loc_7B748-.Index
+		dc.w loc_7B804-.Index
 ; ---------------------------------------------------------------------------
 
 loc_7B2DC:
@@ -890,8 +890,8 @@ locret_7BD4A:
 Obj_SSZ2_Boss:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	SSZ2_Boss_Index(pc,d0.w),d1
-		jsr	SSZ2_Boss_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		lea	loc_7D39E(pc),a4
 		bsr.w	sub_7D312
 		bsr.w	sub_7D2D8
@@ -899,43 +899,43 @@ Obj_SSZ2_Boss:
 		jsr	(Perform_DPLC).l
 		jmp	(Draw_And_Touch_Sprite).l
 ; ---------------------------------------------------------------------------
-SSZ2_Boss_Index:
-		dc.w loc_7BDBE-SSZ2_Boss_Index
-		dc.w loc_7BDBE-SSZ2_Boss_Index
-		dc.w loc_7BE0E-SSZ2_Boss_Index
-		dc.w loc_7BE42-SSZ2_Boss_Index
-		dc.w loc_7BE9C-SSZ2_Boss_Index
-		dc.w loc_7BF28-SSZ2_Boss_Index
-		dc.w loc_7BF5A-SSZ2_Boss_Index
-		dc.w loc_7BFA0-SSZ2_Boss_Index
-		dc.w loc_7C062-SSZ2_Boss_Index
-		dc.w loc_7C11C-SSZ2_Boss_Index
-		dc.w loc_7C144-SSZ2_Boss_Index
-		dc.w loc_7C11C-SSZ2_Boss_Index
-		dc.w loc_7C18C-SSZ2_Boss_Index
-		dc.w loc_7C1D8-SSZ2_Boss_Index
-		dc.w loc_7C1F2-SSZ2_Boss_Index
-		dc.w loc_7C144-SSZ2_Boss_Index
-		dc.w loc_7C250-SSZ2_Boss_Index
-		dc.w loc_7C2A4-SSZ2_Boss_Index
-		dc.w loc_7C2DC-SSZ2_Boss_Index
-		dc.w loc_7C302-SSZ2_Boss_Index
-		dc.w loc_7C328-SSZ2_Boss_Index
-		dc.w loc_7C37A-SSZ2_Boss_Index
-		dc.w loc_7C37A-SSZ2_Boss_Index
-		dc.w loc_7C3F8-SSZ2_Boss_Index
-		dc.w loc_7C430-SSZ2_Boss_Index
-		dc.w loc_7C458-SSZ2_Boss_Index
-		dc.w loc_7C49E-SSZ2_Boss_Index
-		dc.w loc_7C4E0-SSZ2_Boss_Index
-		dc.w loc_7C51C-SSZ2_Boss_Index
-		dc.w loc_7C55E-SSZ2_Boss_Index
-		dc.w loc_7C59A-SSZ2_Boss_Index
-		dc.w loc_7C630-SSZ2_Boss_Index
-		dc.w loc_7C64E-SSZ2_Boss_Index
-		dc.w loc_7C65C-SSZ2_Boss_Index
-		dc.w loc_7C684-SSZ2_Boss_Index
-		dc.w loc_7C6F0-SSZ2_Boss_Index
+.Index:
+		dc.w loc_7BDBE-.Index
+		dc.w loc_7BDBE-.Index
+		dc.w loc_7BE0E-.Index
+		dc.w loc_7BE42-.Index
+		dc.w loc_7BE9C-.Index
+		dc.w loc_7BF28-.Index
+		dc.w loc_7BF5A-.Index
+		dc.w loc_7BFA0-.Index
+		dc.w loc_7C062-.Index
+		dc.w loc_7C11C-.Index
+		dc.w loc_7C144-.Index
+		dc.w loc_7C11C-.Index
+		dc.w loc_7C18C-.Index
+		dc.w loc_7C1D8-.Index
+		dc.w loc_7C1F2-.Index
+		dc.w loc_7C144-.Index
+		dc.w loc_7C250-.Index
+		dc.w loc_7C2A4-.Index
+		dc.w loc_7C2DC-.Index
+		dc.w loc_7C302-.Index
+		dc.w loc_7C328-.Index
+		dc.w loc_7C37A-.Index
+		dc.w loc_7C37A-.Index
+		dc.w loc_7C3F8-.Index
+		dc.w loc_7C430-.Index
+		dc.w loc_7C458-.Index
+		dc.w loc_7C49E-.Index
+		dc.w loc_7C4E0-.Index
+		dc.w loc_7C51C-.Index
+		dc.w loc_7C55E-.Index
+		dc.w loc_7C59A-.Index
+		dc.w loc_7C630-.Index
+		dc.w loc_7C64E-.Index
+		dc.w loc_7C65C-.Index
+		dc.w loc_7C684-.Index
+		dc.w loc_7C6F0-.Index
 ; ---------------------------------------------------------------------------
 
 loc_7BDBE:
@@ -2457,15 +2457,15 @@ loc_7CF7C:
 Obj_Difficulty_MechaSonic:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	Difficulty_MechaSonic_Index(pc,d0.w),d1
-		jsr	Difficulty_MechaSonic_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		lea	DPLCPtr_MechaSonic(pc),a2
 		jsr	(Perform_DPLC).l
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
-Difficulty_MechaSonic_Index:
-		dc.w Difficulty_MechaSonic_Init-Difficulty_MechaSonic_Index
-		dc.w Difficulty_MechaSonic_Return-Difficulty_MechaSonic_Index
+.Index:
+		dc.w Difficulty_MechaSonic_Init-.Index
+		dc.w Difficulty_MechaSonic_Return-.Index
 ; ---------------------------------------------------------------------------
 
 Difficulty_MechaSonic_Init:

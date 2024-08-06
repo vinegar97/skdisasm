@@ -1,15 +1,15 @@
 Obj_Ring:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	Ring_Index(pc,d0.w),d1
-		jmp	Ring_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jmp	.Index(pc,d1.w)
 ; ---------------------------------------------------------------------------
-Ring_Index:
-		dc.w Obj_RingInit-Ring_Index
-		dc.w Obj_RingAnimate-Ring_Index
-		dc.w Obj_RingCollect-Ring_Index
-		dc.w Obj_RingSparkle-Ring_Index
-		dc.w Obj_RingDelete-Ring_Index
+.Index:
+		dc.w Obj_RingInit-.Index
+		dc.w Obj_RingAnimate-.Index
+		dc.w Obj_RingCollect-.Index
+		dc.w Obj_RingSparkle-.Index
+		dc.w Obj_RingDelete-.Index
 ; ---------------------------------------------------------------------------
 
 Obj_RingInit:
@@ -119,29 +119,29 @@ loc_1A644:
 Obj_Bouncing_Ring:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	Bouncing_Ring_Index(pc,d0.w),d1
-		jmp	Bouncing_Ring_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jmp	.Index(pc,d1.w)
 ; ---------------------------------------------------------------------------
-Bouncing_Ring_Index:
-		dc.w loc_1A67A-Bouncing_Ring_Index
-		dc.w loc_1A75C-Bouncing_Ring_Index
-		dc.w loc_1A7C2-Bouncing_Ring_Index
-		dc.w loc_1A7D6-Bouncing_Ring_Index
-		dc.w loc_1A7E4-Bouncing_Ring_Index
+.Index:
+		dc.w loc_1A67A-.Index
+		dc.w loc_1A75C-.Index
+		dc.w loc_1A7C2-.Index
+		dc.w loc_1A7D6-.Index
+		dc.w loc_1A7E4-.Index
 ; ---------------------------------------------------------------------------
 
 Obj_Bouncing_Ring_Reverse_Gravity:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	Bouncing_Ring_Reverse_Gravity_Index(pc,d0.w),d1
-		jmp	Bouncing_Ring_Reverse_Gravity_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jmp	.Index(pc,d1.w)
 ; ---------------------------------------------------------------------------
-Bouncing_Ring_Reverse_Gravity_Index:
-		dc.w loc_1A67A-Bouncing_Ring_Reverse_Gravity_Index
-		dc.w loc_1A7E8-Bouncing_Ring_Reverse_Gravity_Index
-		dc.w loc_1A7C2-Bouncing_Ring_Reverse_Gravity_Index
-		dc.w loc_1A7D6-Bouncing_Ring_Reverse_Gravity_Index
-		dc.w loc_1A7E4-Bouncing_Ring_Reverse_Gravity_Index
+.Index:
+		dc.w loc_1A67A-.Index
+		dc.w loc_1A7E8-.Index
+		dc.w loc_1A7C2-.Index
+		dc.w loc_1A7D6-.Index
+		dc.w loc_1A7E4-.Index
 ; ---------------------------------------------------------------------------
 
 loc_1A67A:
@@ -353,7 +353,7 @@ loc_1A8E4:
 		bclr	#7,(a2)
 
 loc_1A8F0:
-		; Bug: probably meant to be $30(a0), as Test_Ring_Collisions_AttractRing
+		; Bug: probably meant to be $30(a0), as Test_Ring_Collisions.AttractRing
 		; stores the ring's address in the ring status table there
 		move.w	$30,d0
 		beq.s	loc_1A8FC
@@ -444,13 +444,13 @@ Map_Ring:
 Obj_SlotRing:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	SlotRing_Index(pc,d0.w),d1
-		jmp	SlotRing_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jmp	.Index(pc,d1.w)
 ; ---------------------------------------------------------------------------
-SlotRing_Index:
-		dc.w loc_1AA02-SlotRing_Index
-		dc.w loc_1AA56-SlotRing_Index
-		dc.w loc_1AA62-SlotRing_Index
+.Index:
+		dc.w loc_1AA02-.Index
+		dc.w loc_1AA56-.Index
+		dc.w loc_1AA62-.Index
 ; ---------------------------------------------------------------------------
 
 loc_1AA02:

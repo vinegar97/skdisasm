@@ -2,13 +2,13 @@ Obj_Orbinaut:
 		jsr	(Obj_WaitOffscreen).l
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	Orbinaut_Index(pc,d0.w),d1
-		jsr	Orbinaut_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		jmp	Sprite_CheckDeleteTouch(pc)
 ; ---------------------------------------------------------------------------
-Orbinaut_Index:
-		dc.w loc_59DCE-Orbinaut_Index
-		dc.w loc_59DE0-Orbinaut_Index
+.Index:
+		dc.w loc_59DCE-.Index
+		dc.w loc_59DE0-.Index
 ; ---------------------------------------------------------------------------
 
 loc_59DCE:

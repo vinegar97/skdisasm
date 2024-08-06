@@ -2,14 +2,14 @@ Obj_MonkeyDude:
 		jsr	Obj_WaitOffscreen(pc)
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	MonkeyDude_Index(pc,d0.w),d1
-		jsr	MonkeyDude_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		jmp	Sprite_CheckDeleteTouch(pc)
 ; ---------------------------------------------------------------------------
-MonkeyDude_Index:
-		dc.w loc_54F6E-MonkeyDude_Index
-		dc.w loc_54FB8-MonkeyDude_Index
-		dc.w loc_54FD6-MonkeyDude_Index
+.Index:
+		dc.w loc_54F6E-.Index
+		dc.w loc_54FB8-.Index
+		dc.w loc_54FD6-.Index
 ; ---------------------------------------------------------------------------
 
 loc_54F6E:

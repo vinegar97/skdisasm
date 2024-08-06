@@ -1185,7 +1185,7 @@ Knuckles_ClimbLedge_Frames:
 	dc.b  $BE,    8,  -10,    6
 	dc.b  $BF,   -8,  -12,    6
 	dc.b  $D2,    8,   -5,    6
-Knuckles_ClimbLedge_Frames_End:
+.End:
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -1215,7 +1215,7 @@ Knuckles_Climb_Ledge:
 		bsr.w	Knuckles_DoLedgeClimbingAnimation
 
 		; Have we reached the end of the ledge-climbing animation?
-		cmpi.b	#Knuckles_ClimbLedge_Frames_End-Knuckles_ClimbLedge_Frames,double_jump_property(a0)
+		cmpi.b	#Knuckles_ClimbLedge_Frames.End-Knuckles_ClimbLedge_Frames,double_jump_property(a0)
 		bne.s	locret_16FA6
 
 		; Yes.

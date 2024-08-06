@@ -13,17 +13,17 @@ Obj_Spring:
 		move.b	subtype(a0),d0
 		lsr.w	#3,d0
 		andi.w	#$E,d0
-		move.w	Spring_Index(pc,d0.w),d0
-		jmp	Spring_Index(pc,d0.w)
+		move.w	.Index(pc,d0.w),d0
+		jmp	.Index(pc,d0.w)
 ; End of function Obj_Spring
 
 ; ---------------------------------------------------------------------------
-Spring_Index:
-		dc.w Spring_Up-Spring_Index
-		dc.w Spring_Horizontal-Spring_Index
-		dc.w Spring_Down-Spring_Index
-		dc.w Spring_UpDiag-Spring_Index
-		dc.w Spring_DownDiag-Spring_Index
+.Index:
+		dc.w Spring_Up-.Index
+		dc.w Spring_Horizontal-.Index
+		dc.w Spring_Down-.Index
+		dc.w Spring_UpDiag-.Index
+		dc.w Spring_DownDiag-.Index
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -916,15 +916,15 @@ Obj_RetractingSpring:
 		move.b	subtype(a0),d0
 		lsr.w	#3,d0
 		andi.w	#$E,d0
-		move.w	RetractingSpring_Index(pc,d0.w),d1
-		jmp	RetractingSpring_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jmp	.Index(pc,d1.w)
 ; ---------------------------------------------------------------------------
-RetractingSpring_Index:
-		dc.w loc_23A04-RetractingSpring_Index
-		dc.w loc_23A20-RetractingSpring_Index
-		dc.w loc_23A3C-RetractingSpring_Index
-		dc.w loc_23A58-RetractingSpring_Index
-		dc.w loc_23A88-RetractingSpring_Index
+.Index:
+		dc.w loc_23A04-.Index
+		dc.w loc_23A20-.Index
+		dc.w loc_23A3C-.Index
+		dc.w loc_23A58-.Index
+		dc.w loc_23A88-.Index
 ; ---------------------------------------------------------------------------
 
 loc_23A04:

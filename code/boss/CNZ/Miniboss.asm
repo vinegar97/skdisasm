@@ -41,23 +41,23 @@ locret_6DA22:
 Obj_CNZMinibossStart:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	CNZMiniboss_Index(pc,d0.w),d1
-		jsr	CNZMiniboss_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		bsr.w	CNZMiniboss_MoveDown
 		jsr	(Run_PalRotationScript).l
 		bsr.w	CNZMiniboss_CheckPlayerHit
 		bsr.w	CNZMiniboss_CheckTopHit
 		jmp	(Draw_And_Touch_Sprite).l
 ; ---------------------------------------------------------------------------
-CNZMiniboss_Index:
-		dc.w Obj_CNZMinibossInit-CNZMiniboss_Index
-		dc.w Obj_CNZMinibossLower-CNZMiniboss_Index
-		dc.w Obj_CNZMinibossMove-CNZMiniboss_Index
-		dc.w Obj_CNZMinibossMove-CNZMiniboss_Index
-		dc.w Obj_CNZMinibossOpening-CNZMiniboss_Index
-		dc.w Obj_CNZMinibossWaitHit-CNZMiniboss_Index
-		dc.w Obj_CNZMinibossClosing-CNZMiniboss_Index
-		dc.w Obj_CNZMinibossLower2-CNZMiniboss_Index
+.Index:
+		dc.w Obj_CNZMinibossInit-.Index
+		dc.w Obj_CNZMinibossLower-.Index
+		dc.w Obj_CNZMinibossMove-.Index
+		dc.w Obj_CNZMinibossMove-.Index
+		dc.w Obj_CNZMinibossOpening-.Index
+		dc.w Obj_CNZMinibossWaitHit-.Index
+		dc.w Obj_CNZMinibossClosing-.Index
+		dc.w Obj_CNZMinibossLower2-.Index
 ; ---------------------------------------------------------------------------
 
 Obj_CNZMinibossInit:
@@ -181,15 +181,15 @@ Obj_CNZMinibossEndGo:
 Obj_CNZMinibossTop:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	CNZMinibossTop_Index(pc,d0.w),d1
-		jsr	CNZMinibossTop_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		jmp	(Draw_And_Touch_Sprite).l
 ; ---------------------------------------------------------------------------
-CNZMinibossTop_Index:
-		dc.w Obj_CNZMinibossTopInit-CNZMinibossTop_Index
-		dc.w Obj_CNZMinibossTopWait-CNZMinibossTop_Index
-		dc.w Obj_CNZMinibossTopWait2-CNZMinibossTop_Index
-		dc.w Obj_CNZMinibossTopMain-CNZMinibossTop_Index
+.Index:
+		dc.w Obj_CNZMinibossTopInit-.Index
+		dc.w Obj_CNZMinibossTopWait-.Index
+		dc.w Obj_CNZMinibossTopWait2-.Index
+		dc.w Obj_CNZMinibossTopMain-.Index
 ; ---------------------------------------------------------------------------
 
 Obj_CNZMinibossTopInit:

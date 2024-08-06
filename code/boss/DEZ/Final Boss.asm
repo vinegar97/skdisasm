@@ -1,26 +1,26 @@
 Obj_DEZ3_Boss:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	DEZ3_Boss_Index(pc,d0.w),d1
-		jsr	DEZ3_Boss_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		move.w	x_pos(a0),(Events_bg+$02).w
 		move.w	y_pos(a0),(Events_bg+$04).w
 		rts
 ; ---------------------------------------------------------------------------
-DEZ3_Boss_Index:
-		dc.w loc_7FD9E-DEZ3_Boss_Index
-		dc.w loc_7FE2C-DEZ3_Boss_Index
-		dc.w loc_7FE74-DEZ3_Boss_Index
-		dc.w loc_7FE96-DEZ3_Boss_Index
-		dc.w loc_7FEE2-DEZ3_Boss_Index
-		dc.w loc_7FEF6-DEZ3_Boss_Index
-		dc.w sub_7FF3E-DEZ3_Boss_Index
-		dc.w loc_7FFD2-DEZ3_Boss_Index
-		dc.w loc_8001C-DEZ3_Boss_Index
-		dc.w loc_80058-DEZ3_Boss_Index
-		dc.w loc_80082-DEZ3_Boss_Index
-		dc.w loc_800DE-DEZ3_Boss_Index
-		dc.w loc_800EE-DEZ3_Boss_Index
+.Index:
+		dc.w loc_7FD9E-.Index
+		dc.w loc_7FE2C-.Index
+		dc.w loc_7FE74-.Index
+		dc.w loc_7FE96-.Index
+		dc.w loc_7FEE2-.Index
+		dc.w loc_7FEF6-.Index
+		dc.w sub_7FF3E-.Index
+		dc.w loc_7FFD2-.Index
+		dc.w loc_8001C-.Index
+		dc.w loc_80058-.Index
+		dc.w loc_80082-.Index
+		dc.w loc_800DE-.Index
+		dc.w loc_800EE-.Index
 ; ---------------------------------------------------------------------------
 
 loc_7FD9E:
@@ -1088,13 +1088,13 @@ loc_8093A:
 Obj_DEZ3_Boss_Fireball:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	DEZ3_Boss_Fireball_Index(pc,d0.w),d1
-		jsr	DEZ3_Boss_Fireball_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		bra.w	sub_81024
 ; ---------------------------------------------------------------------------
-DEZ3_Boss_Fireball_Index:
-		dc.w loc_80956-DEZ3_Boss_Fireball_Index
-		dc.w loc_80980-DEZ3_Boss_Fireball_Index
+.Index:
+		dc.w loc_80956-.Index
+		dc.w loc_80980-.Index
 ; ---------------------------------------------------------------------------
 
 loc_80956:

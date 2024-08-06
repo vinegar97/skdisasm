@@ -2,14 +2,14 @@ Obj_Batbot:
 		jsr	(Obj_WaitOffscreen).l
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	Batbot_Index(pc,d0.w),d1
-		jsr	Batbot_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		jmp	Sprite_CheckDeleteTouch(pc)
 ; ---------------------------------------------------------------------------
-Batbot_Index:
-		dc.w loc_57148-Batbot_Index
-		dc.w loc_57158-Batbot_Index
-		dc.w loc_57180-Batbot_Index
+.Index:
+		dc.w loc_57148-.Index
+		dc.w loc_57158-.Index
+		dc.w loc_57180-.Index
 ; ---------------------------------------------------------------------------
 
 loc_57148:

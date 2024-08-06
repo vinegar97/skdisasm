@@ -4,22 +4,22 @@
 Obj_AirCountdown:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	AirCountdown_Index(pc,d0.w),d1
-		jmp	AirCountdown_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jmp	.Index(pc,d1.w)
 ; ---------------------------------------------------------------------------
-AirCountdown_Index:
-		dc.w AirCountdown_Init-AirCountdown_Index
-		dc.w AirCountdown_Animate-AirCountdown_Index
-		dc.w AirCountdown_ChkWater-AirCountdown_Index
-		dc.w AirCountdown_Display-AirCountdown_Index
-		dc.w AirCountdown_Delete-AirCountdown_Index
-		dc.w AirCountdown_Countdown-AirCountdown_Index
-		dc.w AirCountdown_AirLeft-AirCountdown_Index
-		dc.w AirCountdown_DisplayNumber-AirCountdown_Index
-		dc.w AirCountdown_Delete-AirCountdown_Index
+.Index:
+		dc.w .Init-.Index
+		dc.w AirCountdown_Animate-.Index
+		dc.w AirCountdown_ChkWater-.Index
+		dc.w AirCountdown_Display-.Index
+		dc.w AirCountdown_Delete-.Index
+		dc.w AirCountdown_Countdown-.Index
+		dc.w AirCountdown_AirLeft-.Index
+		dc.w AirCountdown_DisplayNumber-.Index
+		dc.w AirCountdown_Delete-.Index
 ; ---------------------------------------------------------------------------
 
-AirCountdown_Init:
+.Init:
 		addq.b	#2,routine(a0)
 		move.l	#Map_Bubbler,mappings(a0)
 		tst.b	parent+1(a0)
@@ -429,15 +429,15 @@ Ani_AirCountdown:
 Obj_S2Shield:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	Obj_S2Shield_Index(pc,d0.w),d1
-		jmp	Obj_S2Shield_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jmp	.Index(pc,d1.w)
 ; ---------------------------------------------------------------------------
-Obj_S2Shield_Index:
-		dc.w Obj_S2Shield_Init-Obj_S2Shield_Index
-		dc.w Obj_S2Shield_Main-Obj_S2Shield_Index
+.Index:
+		dc.w .Init-.Index
+		dc.w .Main-.Index
 ; ---------------------------------------------------------------------------
 
-Obj_S2Shield_Init:
+.Init:
 		addq.b	#2,routine(a0)
 		move.l	#Map_S2Shield,mappings(a0)
 		move.b	#4,render_flags(a0)
@@ -445,31 +445,31 @@ Obj_S2Shield_Init:
 		move.b	#$18,width_pixels(a0)
 		move.w	#make_art_tile(ArtTile_Shield,0,0),art_tile(a0)
 
-Obj_S2Shield_Main:
+.Main:
 		movea.w	parent(a0),a2
 		btst	#Status_Invincible,status_secondary(a2)
-		bne.s	locret_187D6
+		bne.s	.locret_187D6
 		btst	#Status_Shield,status_secondary(a2)
-		beq.s	Obj_S2Shield_Destroy
+		beq.s	.Destroy
 		move.w	x_pos(a2),x_pos(a0)
 		move.w	y_pos(a2),y_pos(a0)
 		move.b	status(a2),status(a0)
 		andi.w	#drawing_mask,art_tile(a0)
 		tst.w	art_tile(a2)
-		bpl.s	Obj_S2Shield_Display
+		bpl.s	.Display
 		ori.w	#high_priority,art_tile(a0)
 
-Obj_S2Shield_Display:
+.Display:
 		lea	(Ani_S2Shield).l,a1
 		jsr	(Animate_Sprite).l
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-locret_187D6:
+.locret_187D6:
 		rts
 ; ---------------------------------------------------------------------------
 
-Obj_S2Shield_Destroy:
+.Destroy:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 off_187DE:
@@ -687,14 +687,14 @@ Map_Invincibility:
 Obj_DashDust:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	DashDust_Index(pc,d0.w),d1
-		jmp	DashDust_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jmp	.Index(pc,d1.w)
 ; ---------------------------------------------------------------------------
-DashDust_Index:
-		dc.w loc_18B54-DashDust_Index
-		dc.w loc_18BAA-DashDust_Index
-		dc.w loc_18CB2-DashDust_Index
-		dc.w loc_18CB6-DashDust_Index
+.Index:
+		dc.w loc_18B54-.Index
+		dc.w loc_18BAA-.Index
+		dc.w loc_18CB2-.Index
+		dc.w loc_18CB6-.Index
 ; ---------------------------------------------------------------------------
 
 loc_18B54:
@@ -919,14 +919,14 @@ DPLC_DashSplashDrown:
 Obj_DashDust2P:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	DashDust2P_Index(pc,d0.w),d1
-		jmp	DashDust2P_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jmp	.Index(pc,d1.w)
 ; ---------------------------------------------------------------------------
-DashDust2P_Index:
-		dc.w loc_18F9C-DashDust2P_Index
-		dc.w loc_18FD2-DashDust2P_Index
-		dc.w loc_19060-DashDust2P_Index
-		dc.w loc_19064-DashDust2P_Index
+.Index:
+		dc.w loc_18F9C-.Index
+		dc.w loc_18FD2-.Index
+		dc.w loc_19060-.Index
+		dc.w loc_19064-.Index
 ; ---------------------------------------------------------------------------
 
 loc_18F9C:
@@ -1195,7 +1195,7 @@ Obj_HyperSonic_Stars:
 		moveq	#4-1,d1
 
 	.createObject:
-		move.l	#Obj_HyperSonic_Stars_Init,(a1)
+		move.l	#.Init,(a1)
 		move.b	d0,angle(a1)
 		addi.b	#$40,d0
 		addq.b	#1,d2
@@ -1203,7 +1203,7 @@ Obj_HyperSonic_Stars:
 		lea	next_object(a1),a1
 		dbf	d1,.createObject
 
-Obj_HyperSonic_Stars_Init:
+.Init:
 		; Wait for art to finish loading before we display
 		tst.b	(Kos_modules_left).w
 		beq.s	.artDoneLoading
@@ -1224,14 +1224,14 @@ Obj_HyperSonic_Stars_Init:
 		move.b	#6,mapping_frame(a0)
 		cmpa.w	#Invincibility_stars,a0
 		beq.s	.isParent
-		move.l	#Obj_HyperSonic_Stars_Main.child,(a0)
-		bra.s	Obj_HyperSonic_Stars_Main.child
+		move.l	#.child,(a0)
+		bra.s	.child
 ; ---------------------------------------------------------------------------
 
 	.isParent:
-		move.l	#Obj_HyperSonic_Stars_Main,(a0)
+		move.l	#.Main,(a0)
 
-Obj_HyperSonic_Stars_Main:
+.Main:
 		tst.b	anim(a0)
 		beq.s	.child
 		clr.b	anim(a0)
@@ -1314,12 +1314,12 @@ Obj_InstaShield:
 	.nothighpriority:
 		move.w	#1,anim(a0)			; Clear anim and set prev_anim to 1
 		move.b	#-1,shield_prev_frame(a0)	; Reset shield_prev_frame (used by PLCLoad_Shields)
-		move.l	#Obj_InstaShield_Main,(a0)
+		move.l	#.Main,(a0)
 
-Obj_InstaShield_Main:
+.Main:
 		movea.w	parent(a0),a2
 		btst	#Status_Invincible,status_secondary(a2)	; Is the player invincible?
-		bne.s	locret_195A4			; If so, return
+		bne.s	.locret_195A4			; If so, return
 		move.w	x_pos(a2),x_pos(a0)		; Inherit player's x_pos
 		move.w	y_pos(a2),y_pos(a0)		; Inherit player's y_pos
 		move.b	status(a2),status(a0)		; Inherit status
@@ -1356,7 +1356,7 @@ Obj_InstaShield_Main:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-locret_195A4:
+.locret_195A4:
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -1372,24 +1372,25 @@ Obj_FireShield:
 		move.w	#make_art_tile(ArtTile_Shield,0,0),art_tile(a0)
 		move.w	#tiles_to_bytes(ArtTile_Shield),vram_art(a0)	; Used by PLCLoad_Shields
 		btst	#7,(Player_1+art_tile).w
-		beq.s	loc_195F0
+		beq.s	.nothighpriority
 		bset	#7,art_tile(a0)
 
-loc_195F0:
+;loc_195F0:
+	.nothighpriority:
 		move.w	#1,anim(a0)				; Clear anim and set prev_anim to 1
 		move.b	#-1,shield_prev_frame(a0)		; Reset shield_prev_frame (used by PLCLoad_Shields)
-		move.l	#Obj_FireShield_Main,(a0)
+		move.l	#.Main,(a0)
 
-Obj_FireShield_Main:
+.Main:
 		movea.w	parent(a0),a2
 		btst	#Status_Invincible,status_secondary(a2)	; Is player invincible?
-		bne.w	locret_19690				; If so, do not display and do not update variables
+		bne.w	.locret_19690				; If so, do not display and do not update variables
 		cmpi.b	#$1C,anim(a2)				; Is player in their 'blank' animation?
-		beq.s	locret_19690				; If so, do not display and do not update variables
+		beq.s	.locret_19690				; If so, do not display and do not update variables
 		btst	#Status_Shield,status_secondary(a2)	; Should the player still have a shield?
-		beq.w	Obj_FireShield_Destroy			; If not, change to Insta-Shield
+		beq.w	.Destroy			; If not, change to Insta-Shield
 		btst	#Status_Underwater,status(a2)		; Is player underwater?
-		bne.s	Obj_FireShield_DestroyUnderwater	; If so, branch
+		bne.s	.DestroyUnderwater	; If so, branch
 		move.w	x_pos(a2),x_pos(a0)
 		move.w	y_pos(a2),y_pos(a0)
 		tst.b	anim(a0)				; Is shield in its 'dashing' state?
@@ -1419,19 +1420,19 @@ Obj_FireShield_Main:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-locret_19690:
+.locret_19690:
 		rts
 ; ---------------------------------------------------------------------------
 
-Obj_FireShield_DestroyUnderwater:
+.DestroyUnderwater:
 		andi.b	#$8E,status_secondary(a2)	; Sets Status_Shield, Status_FireShield, Status_LtngShield, and Status_BublShield to 0
 		jsr	(AllocateObject).l		; Set up for a new object
-		bne.w	Obj_FireShield_Destroy		; If that can't happen, branch
+		bne.w	.Destroy		; If that can't happen, branch
 		move.l	#Obj_FireShield_Dissipate,(a1)	; Create dissipate object
 		move.w	x_pos(a0),x_pos(a1)		; Put it at shields' x_pos
 		move.w	y_pos(a0),y_pos(a1)		; Put it at shields' y_pos
 
-Obj_FireShield_Destroy:
+.Destroy:
 		andi.b	#$8E,status_secondary(a2)	; Sets Status_Shield, Status_FireShield, Status_LtngShield, and Status_BublShield to 0
 		move.l	#Obj_InstaShield,(a0)		; Replace the Fire Shield with the Insta-Shield
 		rts
@@ -1442,7 +1443,7 @@ Obj_LightningShield:
 		; Load Spark art
 		move.l	#ArtUnc_LightningShield_Sparks,d1			; Load art source
 		move.w	#tiles_to_bytes(ArtTile_Shield_Sparks),d2		; Load art destination
-		move.w	#(ArtUnc_LightningShield_Sparks_end-ArtUnc_LightningShield_Sparks)/2,d3	; Size of art (in words)
+		move.w	#(ArtUnc_LightningShield_Sparks.end-ArtUnc_LightningShield_Sparks)/2,d3	; Size of art (in words)
 		jsr	(Add_To_DMA_Queue).l
 
 		move.l	#Map_LightningShield,mappings(a0)
@@ -1461,18 +1462,18 @@ Obj_LightningShield:
 	.nothighpriority:
 		move.w	#1,anim(a0)				; Clear anim and set prev_anim to 1
 		move.b	#-1,shield_prev_frame(a0)		; Reset shield_prev_frame (used by PLCLoad_Shields)
-		move.l	#Obj_LightningShield_Main,(a0)
+		move.l	#.Main,(a0)
 
-Obj_LightningShield_Main:
+.Main:
 		movea.w	parent(a0),a2
 		btst	#Status_Invincible,status_secondary(a2)	; Is player invincible?
-		bne.w	locret_197C4				; If so, do not display and do not update variables
+		bne.w	.locret_197C4				; If so, do not display and do not update variables
 		cmpi.b	#$1C,anim(a2)				; Is player in their 'blank' animation?
-		beq.s	locret_197C4				; If so, do not display and do not update variables
+		beq.s	.locret_197C4				; If so, do not display and do not update variables
 		btst	#Status_Shield,status_secondary(a2)	; Should the player still have a shield?
-		beq.s	Obj_LightningShield_Destroy		; If not, change to Insta-Shield
+		beq.s	.Destroy		; If not, change to Insta-Shield
 		btst	#Status_Underwater,status(a2)		; Is player underwater?
-		bne.s	Obj_LightningShield_DestroyUnderwater	; If so, branch
+		bne.s	.DestroyUnderwater	; If so, branch
 		move.w	x_pos(a2),x_pos(a0)
 		move.w	y_pos(a2),y_pos(a0)
 		move.b	status(a2),status(a0)			; Inherit status
@@ -1489,11 +1490,11 @@ Obj_LightningShield_Main:
 
 	.nothighpriority:
 		tst.b	anim(a0)				; Is shield in its 'double jump' state?
-		beq.s	Obj_LightningShield_Display		; Is not, branch and display
-		bsr.s	Obj_LightningShield_CreateSpark		; Create sparks
+		beq.s	.Display		; Is not, branch and display
+		bsr.s	.CreateSpark		; Create sparks
 		clr.b	anim(a0)				; Once done, return to non-'double jump' state
 
-Obj_LightningShield_Display:
+.Display:
 		lea	(Ani_LightningShield).l,a1
 		jsr	(Animate_Sprite).l
 		move.w	#$80,priority(a0)			; Layer shield over player sprite
@@ -1506,21 +1507,21 @@ Obj_LightningShield_Display:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-locret_197C4:
+.locret_197C4:
 		rts
 ; ---------------------------------------------------------------------------
 
-Obj_LightningShield_DestroyUnderwater:
+.DestroyUnderwater:
 		tst.w	(Palette_fade_timer).w
-		beq.s	Obj_LightningShield_FlashWater
+		beq.s	.FlashWater
 
-Obj_LightningShield_Destroy:
+.Destroy:
 		andi.b	#$8E,status_secondary(a2)	; Sets Status_Shield, Status_FireShield, Status_LtngShield, and Status_BublShield to 0
 		move.l	#Obj_InstaShield,(a0)		; Replace the Lightning Shield with the Insta-Shield
 		rts
 ; ---------------------------------------------------------------------------
 
-Obj_LightningShield_FlashWater:
+.FlashWater:
 		move.l	#Obj_LightningShield_DestroyUnderwater2,(a0)
 		andi.b	#$8E,status_secondary(a2)	; Sets Status_Shield, Status_FireShield, Status_LtngShield, and Status_BublShield to 0
 
@@ -1541,7 +1542,7 @@ loc_197F2:
 ; =============== S U B R O U T I N E =======================================
 
 
-Obj_LightningShield_CreateSpark:
+.CreateSpark:
 		moveq	#1,d2
 
 Obj_LightningShield_CreateSpark_Part2:
@@ -1583,11 +1584,11 @@ Obj_LightningShield_Spark:
 		lea	(Ani_LightningShield).l,a1
 		jsr	(Animate_Sprite).l
 		tst.b	routine(a0)			; Changed by Animate_Sprite
-		bne.s	Obj_LightningShield_Spark_Delete
+		bne.s	.Delete
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-Obj_LightningShield_Spark_Delete:
+.Delete:
 		jmp	(Delete_Current_Sprite).l
 ; ---------------------------------------------------------------------------
 
@@ -1627,16 +1628,16 @@ Obj_BubbleShield:
 		move.b	#-1,shield_prev_frame(a0)		; Reset shield_prev_frame (used by PLCLoad_Shields)
 		movea.w	parent(a0),a1
 		bsr.w	Player_ResetAirTimer
-		move.l	#Obj_BubbleShield_Main,(a0)
+		move.l	#.Main,(a0)
 
-Obj_BubbleShield_Main:
+.Main:
 		movea.w	parent(a0),a2
 		btst	#Status_Invincible,status_secondary(a2)	; Is player invincible?
-		bne.s	locret_1998A				; If so, do not display and do not update variables
+		bne.s	.locret_1998A				; If so, do not display and do not update variables
 		cmpi.b	#$1C,anim(a2)				; Is player in their 'blank' animation?
-		beq.s	locret_1998A				; If so, do not display and do not update variables
+		beq.s	.locret_1998A				; If so, do not display and do not update variables
 		btst	#Status_Shield,status_secondary(a2)	; Should the player still have a shield?
-		beq.s	Obj_BubbleShield_Destroy		; If not, change to Insta-Shield
+		beq.s	.Destroy		; If not, change to Insta-Shield
 		move.w	x_pos(a2),x_pos(a0)
 		move.w	y_pos(a2),y_pos(a0)
 		move.b	status(a2),status(a0)			; Inherit status
@@ -1658,11 +1659,11 @@ Obj_BubbleShield_Main:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-locret_1998A:
+.locret_1998A:
 		rts
 ; ---------------------------------------------------------------------------
 
-Obj_BubbleShield_Destroy:
+.Destroy:
 		andi.b	#$8E,status_secondary(a2)	; Sets Status_Shield, Status_FireShield, Status_LtngShield, and Status_BublShield to 0
 		move.l	#Obj_InstaShield,(a0)		; Replace the Bubble Shield with the Insta-Shield
 		rts
@@ -1674,17 +1675,17 @@ PLCLoad_Shields:
 		moveq	#0,d0
 		move.b	mapping_frame(a0),d0
 		cmp.b	shield_prev_frame(a0),d0
-		beq.s	locret_199E8
+		beq.s	.locret_199E8
 		move.b	d0,shield_prev_frame(a0)
 		movea.l	shield_plc(a0),a2
 		add.w	d0,d0
 		adda.w	(a2,d0.w),a2
 		move.w	(a2)+,d5
 		subq.w	#1,d5
-		bmi.s	locret_199E8
+		bmi.s	.locret_199E8
 		move.w	vram_art(a0),d4
 
-PLCLoad_Shields_ReadEntry:
+.ReadEntry:
 		moveq	#0,d1
 		move.w	(a2)+,d1
 		move.w	d1,d3
@@ -1698,9 +1699,9 @@ PLCLoad_Shields_ReadEntry:
 		add.w	d3,d4
 		add.w	d3,d4
 		jsr	(Add_To_DMA_Queue).l
-		dbf	d5,PLCLoad_Shields_ReadEntry
+		dbf	d5,.ReadEntry
 
-locret_199E8:
+.locret_199E8:
 		rts
 ; End of function PLCLoad_Shields
 
@@ -1744,13 +1745,13 @@ Obj_SuperTailsBirds:
 		moveq	#4-1,d1
 
 	.loop:
-		move.l	#Obj_SuperTailsBirds_Init,(a1)
+		move.l	#.Init,(a1)
 		move.b	d0,superTailsBirds_angle(a1)
 		addi.b	#$40,d0	; 90 degrees
 		lea	next_object(a1),a1
 		dbf	d1,.loop
 
-Obj_SuperTailsBirds_Init:
+.Init:
 		; Wait for the object's art to finish loading
 		tst.b	(Kos_modules_left).w
 		beq.s	.art_done_loading
@@ -1788,10 +1789,10 @@ Obj_SuperTailsBirds_Main:
 	.no_target:
 		move.b	d0,superTailsBirds_target_found(a0)
 		move.b	#60*2,superTailsBirds_search_delay(a0)	; Only search for enemies every two seconds (probably to reduce lag)
-		move.l	#Obj_SuperTailsBirds_FlyAway,(a0)
+		move.l	#.FlyAway,(a0)
 
 	.tails_still_super:
-		bsr.s	Obj_SuperTailsBirds_GetDestination
+		bsr.s	.GetDestination
 
 	.move:
 		bsr.w	Obj_SuperTailsBirds_Move
@@ -1826,7 +1827,7 @@ Obj_SuperTailsBirds_Main:
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
 
-Obj_SuperTailsBirds_FlyAway:
+.FlyAway:
 		; Set bird's destination to top-left of the screen
 		move.w	(Player_1+x_pos).w,d2
 		move.w	(Player_1+y_pos).w,d3
@@ -1840,7 +1841,7 @@ Obj_SuperTailsBirds_FlyAway:
 ; =============== S U B R O U T I N E =======================================
 
 
-Obj_SuperTailsBirds_GetDestination:
+.GetDestination:
 		tst.b	superTailsBirds_target_found(a0)
 		bne.s	.fly_towards_enemy
 		tst.b	superTailsBirds_search_delay(a0)
@@ -2105,9 +2106,9 @@ Obj_HyperSonicKnux_Trail:
 		move.b	#$18,width_pixels(a0)
 		move.b	#$18,height_pixels(a0)
 		move.b	#4,render_flags(a0)
-		move.l	#Obj_HyperSonicKnux_Trail_Main,(a0)
+		move.l	#.Main,(a0)
 
-Obj_HyperSonicKnux_Trail_Main:
+.Main:
 		tst.b	(Super_Sonic_Knux_flag).w	; Are we in non-super/hyper state?
 		beq.w	Delete_Current_Sprite		; If so, branch and delete
 		moveq	#$C,d1				; This will be subtracted from Pos_table_index, giving the object an older entry

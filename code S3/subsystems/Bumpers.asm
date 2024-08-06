@@ -4,14 +4,14 @@
 S2_SpecialCNZBumpers:
 		moveq	#0,d0
 		move.b	(CNZ_bumper_routine).w,d0
-		move.w	SpecialCNZBumpers_Index(pc,d0.w),d0
-		jmp	SpecialCNZBumpers_Index(pc,d0.w)
+		move.w	.Index(pc,d0.w),d0
+		jmp	.Index(pc,d0.w)
 ; End of function S2_SpecialCNZBumpers
 
 ; ---------------------------------------------------------------------------
-SpecialCNZBumpers_Index:
-		dc.w SpecialCNZBumpers_Init-SpecialCNZBumpers_Index
-		dc.w SpecialCNZBumpers_Main-SpecialCNZBumpers_Index
+.Index:
+		dc.w SpecialCNZBumpers_Init-.Index
+		dc.w SpecialCNZBumpers_Main-.Index
 ; ---------------------------------------------------------------------------
 
 SpecialCNZBumpers_Init:

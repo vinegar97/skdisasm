@@ -1801,10 +1801,10 @@ loc_D774:
 Obj_SaveScreen_Delete_Save:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		jmp	SaveScreen_Delete_Save_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-SaveScreen_Delete_Save_Index:
+.Index:
 		bra.w	loc_D7A4
 ; ---------------------------------------------------------------------------
 		bra.w	loc_D7C0

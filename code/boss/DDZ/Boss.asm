@@ -256,21 +256,21 @@ Obj_DDZEndBoss:
 		sub.w	d0,x_pos(a0)
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	DDZEndBoss_Index(pc,d0.w),d1
-		jsr	DDZEndBoss_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		move.w	x_pos(a0),(Events_bg+$02).w
 		move.w	y_pos(a0),(Events_bg+$04).w
 		rts
 ; ---------------------------------------------------------------------------
-DDZEndBoss_Index:
-		dc.w loc_8180E-DDZEndBoss_Index
-		dc.w loc_81856-DDZEndBoss_Index
-		dc.w loc_818B4-DDZEndBoss_Index
-		dc.w loc_81914-DDZEndBoss_Index
-		dc.w loc_81958-DDZEndBoss_Index
-		dc.w loc_81A00-DDZEndBoss_Index
-		dc.w loc_81A74-DDZEndBoss_Index
-		dc.w loc_81B26-DDZEndBoss_Index
+.Index:
+		dc.w loc_8180E-.Index
+		dc.w loc_81856-.Index
+		dc.w loc_818B4-.Index
+		dc.w loc_81914-.Index
+		dc.w loc_81958-.Index
+		dc.w loc_81A00-.Index
+		dc.w loc_81A74-.Index
+		dc.w loc_81B26-.Index
 ; ---------------------------------------------------------------------------
 
 loc_8180E:

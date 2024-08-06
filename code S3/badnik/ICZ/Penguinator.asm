@@ -2,21 +2,21 @@ Obj_Penguinator:
 		jsr	(Obj_WaitOffscreen).l
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	Penguinator_Index(pc,d0.w),d1
-		jsr	Penguinator_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		lea	DPLCPtr_Penguinator(pc),a2
 		jsr	Perform_DPLC(pc)
 		jmp	Sprite_CheckDeleteTouchSlotted(pc)
 ; ---------------------------------------------------------------------------
-Penguinator_Index:
-		dc.w loc_592A6-Penguinator_Index
-		dc.w loc_59302-Penguinator_Index
-		dc.w loc_5939C-Penguinator_Index
-		dc.w loc_593B6-Penguinator_Index
-		dc.w loc_59404-Penguinator_Index
-		dc.w loc_59452-Penguinator_Index
-		dc.w loc_5948C-Penguinator_Index
-		dc.w loc_594D4-Penguinator_Index
+.Index:
+		dc.w loc_592A6-.Index
+		dc.w loc_59302-.Index
+		dc.w loc_5939C-.Index
+		dc.w loc_593B6-.Index
+		dc.w loc_59404-.Index
+		dc.w loc_59452-.Index
+		dc.w loc_5948C-.Index
+		dc.w loc_594D4-.Index
 ; ---------------------------------------------------------------------------
 
 loc_592A6:

@@ -79,7 +79,7 @@ SkipSecurity:
 		moveq	#0,d0
 		movea.l	d0,a6
 		move.l	a6,usp	; set usp to $0
-		moveq	#VDPInitValues_End-VDPInitValues-1,d1
+		moveq	#VDPInitValues.End-VDPInitValues-1,d1
 
 Init_VDPRegs:
 		move.b	(a5)+,d5
@@ -120,7 +120,7 @@ Init_ClearCRAM:
 Init_ClearVSRAM:
 		move.l	d0,(a3)			; Clear VSRAM
 		dbf	d4,Init_ClearVSRAM
-		moveq	#PSGInitValues_End-PSGInitValues-1,d5
+		moveq	#PSGInitValues.End-PSGInitValues-1,d5
 
 Init_InputPSG:
 		move.b	(a5)+,PSG_input-VDP_data_port(a3)	; reset the PSG
@@ -165,7 +165,7 @@ VDPInitValues:
 		dc.b 0			; Command $9500 - DMA Source Address $0
 		dc.b 0			; Command $9600 - See above
 		dc.b $80		; Command $9700 - See above + VRAM fill mode
-VDPInitValues_End:
+.End:
 		dc.l	vdpComm($0000,VRAM,DMA)	; value for VRAM write mode
 
 ; Z80 instructions (not the sound driver; that gets loaded later)
@@ -211,7 +211,7 @@ Z80StartupCodeEnd:
 		dc.l vdpComm($0000,VSRAM,WRITE)	; value for VSRAM write mode
 PSGInitValues:
 		dc.b $9F,$BF,$DF,$FF		; values for PSG channel volumes
-PSGInitValues_End:
+.End:
 ; ---------------------------------------------------------------------------
 
 Test_LockOn:
@@ -369,11 +369,12 @@ SonicAndKnucklesStartup:
 GameLoop:
 		move.b	(Game_mode).w,d0
 		andi.w	#$7C,d0
-		movea.l	GameModes(pc,d0.w),a0
+		movea.l	.Modes(pc,d0.w),a0
 		jsr	(a0)
 		bra.s	GameLoop
 ; ---------------------------------------------------------------------------
-GameModes:
+;GameModes:
+.Modes:
 		dc.l Sega_Screen		;   0
 		dc.l Title_Screen		;   4
 		dc.l Level			;   8
@@ -409,11 +410,11 @@ ChecksumError2:
 		bsr.w	Init_VDP
 		move.l	(sp)+,d1
 
-ChecksumError2_Loop:
+.Loop:
 		move.l	#vdpComm($0000,CRAM,WRITE),(VDP_control_port).l
 		move.w	d7,(VDP_data_port).l
 		addq.w	#1,d7
-		bra.s	ChecksumError2_Loop
+		bra.s	.Loop
 ; ---------------------------------------------------------------------------
 ; unused/dead code
 

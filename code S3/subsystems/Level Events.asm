@@ -1633,10 +1633,10 @@ SpecialEvents:
 		cmpi.b	#6,(Player_1+routine).w
 		bhs.s	locret_3A07E
 		move.w	(Special_events_routine).w,d0
-		movea.l	SpecialEvents_Index(pc,d0.w),a0
+		movea.l	.Index(pc,d0.w),a0
 		jmp	(a0)
 ; ---------------------------------------------------------------------------
-SpecialEvents_Index:
+.Index:
 		dc.l locret_3A07E
 		dc.l AIZ2_DoShipLoop
 ; ---------------------------------------------------------------------------
@@ -2608,10 +2608,10 @@ loc_3ACE6:
 
 AIZ1_BackgroundEvent:
 		move.w	(Events_routine_bg).w,d0
-		jmp	AIZ1_BackgroundEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-AIZ1_BackgroundEvent_Index:
+.Index:
 		bra.w	AIZ1BGE_Intro
 ; ---------------------------------------------------------------------------
 		bra.w	AIZ1BGE_NormalRefresh
@@ -3009,7 +3009,7 @@ loc_3B0EE:
 
 AIZ1_FireRise:
 		cmpi.b	#6,(Player_1+routine).w
-		bcc.s	locret_3B178
+		bcc.s	.locret_3B178
 		moveq	#0,d0
 		move.w	(Events_bg+$02).w,d0
 		addi.w	#$280,d0
@@ -3022,7 +3022,7 @@ loc_3B16E:
 		lsl.l	#4,d0
 		add.l	d0,(Camera_Y_pos_BG_copy).w
 
-locret_3B178:
+.locret_3B178:
 		rts
 ; End of function AIZ1_FireRise
 
@@ -3032,7 +3032,7 @@ locret_3B178:
 
 AIZTrans_WavyFlame:
 		cmpi.b	#6,(Player_1+routine).w
-		bcc.s	locret_3B1C4
+		bcc.s	.locret_3B1C4
 		addq.w	#6,(_unkEE8E).w
 		move.w	(_unkEE8E).w,d0
 		andi.w	#$60,d0
@@ -3056,7 +3056,7 @@ loc_3B1B0:
 		move.l	d0,(a1)+
 		dbf	d3,loc_3B1B0
 
-locret_3B1C4:
+.locret_3B1C4:
 		rts
 ; End of function AIZTrans_WavyFlame
 
@@ -3102,10 +3102,10 @@ AIZ2_ScreenEvent:
 		move.w	(Screen_shake_offset).w,d0
 		add.w	d0,(Camera_Y_pos_copy).w
 		move.w	(Events_routine_fg).w,d0
-		jmp	AIZ2_ScreenEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-AIZ2_ScreenEvent_Index:
+.Index:
 		bra.w	AIZ2SE_Normal
 ; ---------------------------------------------------------------------------
 		bra.w	AIZ2SE_ShipRefresh
@@ -3240,10 +3240,10 @@ AIZ2_BackgroundEvent:
 		move.w	#$200,d3
 		jsr	Adjust_BGDuringLoop(pc)
 		move.w	(Events_routine_bg).w,d0
-		jmp	AIZ2_BackgroundEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-AIZ2_BackgroundEvent_Index:
+.Index:
 		bra.w	AIZ2BGE_FireRedraw
 ; ---------------------------------------------------------------------------
 		bra.w	AIZ2BGE_WaitFire
@@ -3457,7 +3457,7 @@ loc_3B648:
 
 loc_3B666:
 		move.b	(a5)+,d3
-		bmi.s	locret_3B67E
+		bmi.s	.locret_3B67E
 		ext.w	d3
 		swap	d0
 
@@ -3470,7 +3470,7 @@ loc_3B66E:
 		bra.s	loc_3B666
 ; ---------------------------------------------------------------------------
 
-locret_3B67E:
+.locret_3B67E:
 		rts
 ; End of function AIZ2_Deform
 
@@ -3557,7 +3557,7 @@ loc_3B744:
 		adda.w	d2,a6
 		jsr	ApplyFGandBGDeformation(pc)
 		tst.w	(Events_bg+$04).w
-		beq.s	locret_3B772
+		beq.s	.locret_3B772
 		lea	(H_scroll_buffer).w,a1		; This is for what I assume to be the flying battleship sequence.
 		move.w	(_unkEE98).w,d0			; Nullifies the top 8 tiles worth of FG waviness for this effect
 		neg.w	d0						; And replaces it with position data from the second BG camera.
@@ -3574,7 +3574,7 @@ loc_3B75E:
 		addq.w	#4,a1
 		dbf	d1,loc_3B75E
 
-locret_3B772:
+.locret_3B772:
 		rts
 ; End of function AIZ2_ApplyDeform
 
@@ -3726,7 +3726,7 @@ loc_3B8F6:
 ; ---------------------------------------------------------------------------
 
 Obj_AIZShipBomb:
-		move.l	#Obj_AIZShipBombMain,(a0)
+		move.l	#.Main,(a0)
 		move.b	#4,render_flags(a0)
 		move.b	#$18,width_pixels(a0)
 		move.w	#$80,priority(a0)
@@ -3736,13 +3736,13 @@ Obj_AIZShipBomb:
 		move.w	#$A60,$30(a0)
 		move.w	#6,$32(a0)
 
-Obj_AIZShipBombMain:
+.Main:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		jmp	AIZShipBomb_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-AIZShipBomb_Index:
+.Index:
 		bra.w	AIZShipBomb_ReadyDrop
 ; ---------------------------------------------------------------------------
 		bra.w	AIZShipBomb_Delay
@@ -4152,10 +4152,10 @@ loc_3C2BE:
 
 HCZ1_BackgroundEvent:
 		move.w	(Events_routine_bg).w,d0
-		jmp	HCZ1_BackgroundEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-HCZ1_BackgroundEvent_Index:
+.Index:
 		bra.w	HCZ1BGE_Normal
 ; ---------------------------------------------------------------------------
 		bra.w	HCZ1BGE_DoTransition
@@ -4471,10 +4471,10 @@ loc_3C5E8:
 
 HCZ2_BackgroundEvent:
 		move.w	(Events_routine_bg).w,d0
-		jmp	HCZ2_BackgroundEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-HCZ2_BackgroundEvent_Index:
+.Index:
 		bra.w	HCZ2BGE_WallMoveInit
 ; ---------------------------------------------------------------------------
 		bra.w	HCZ2BGE_WallMove
@@ -4702,10 +4702,10 @@ MGZ1_BackgroundInit:
 
 MGZ1_BackgroundEvent:
 		move.w	(Events_routine_bg).w,d0
-		jmp	MGZ1_BackgroundEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-MGZ1_BackgroundEvent_Index:
+.Index:
 		bra.w	MGZ1BGE_Normal
 ; ---------------------------------------------------------------------------
 		bra.w	MGZ1BGE_Transition
@@ -4861,10 +4861,10 @@ MGZ2_ScreenEvent:
 		add.w	d0,(Camera_Y_pos_copy).w
 		jsr	Do_ShakeSound(pc)
 		move.w	(Events_routine_fg).w,d0
-		jmp	MGZ2_ScreenEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-MGZ2_ScreenEvent_Index:
+.Index:
 		bra.w	MGZ2SE_Normal
 ; ---------------------------------------------------------------------------
 		bra.w	MGZ2SE_Collapse
@@ -5049,12 +5049,12 @@ MGZ2_QuakeEvent:
 		move.w	(Player_1+x_pos).w,d0
 		move.w	(Player_1+y_pos).w,d1
 		move.w	(Events_bg+$10).w,d2
-		jmp	MGZ2_QuakeEvent_Index(pc,d2.w)
+		jmp	.Index(pc,d2.w)
 ; End of function MGZ2_QuakeEvent
 
 ; ---------------------------------------------------------------------------
 
-MGZ2_QuakeEvent_Index:
+.Index:
 		bra.w	MGZ2_QuakeEventCheck
 ; ---------------------------------------------------------------------------
 		bra.w	MGZ2_QuakeEvent1
@@ -5228,12 +5228,12 @@ loc_3CDBA:
 
 MGZ2_ChunkEvent:
 		move.w	(Events_bg+$04).w,d0
-		jmp	MGZ2_ChunkEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; End of function MGZ2_ChunkEvent
 
 ; ---------------------------------------------------------------------------
 
-MGZ2_ChunkEvent_Index:
+.Index:
 		bra.w	MGZ2_ChunkEventCheck
 ; ---------------------------------------------------------------------------
 		bra.w	MGZ2_ChunkEvent1
@@ -5529,10 +5529,10 @@ loc_3D10C:
 
 MGZ2_BackgroundEvent:
 		move.w	(Events_routine_bg).w,d0
-		jmp	MGZ2_BackgroundEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-MGZ2_BackgroundEvent_Index:
+.Index:
 		bra.w	MGZ2BGE_GoRefresh
 ; ---------------------------------------------------------------------------
 		bra.w	MGZ2BGE_Normal
@@ -5597,12 +5597,12 @@ loc_3D1B8:
 
 MGZ2_BGDeform:
 		move.w	(Events_bg+$00).w,d0
-		jmp	MGZ2_BGDeform_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; End of function MGZ2_BGDeform
 
 ; ---------------------------------------------------------------------------
 
-MGZ2_BGDeform_Index:
+.Index:
 		bra.w	loc_3D21E	; 0 - Normal
 ; ---------------------------------------------------------------------------
 		bra.w	loc_3D1F4	; 4 - Knuckles BG move event
@@ -5735,12 +5735,12 @@ loc_3D2D8:
 		move.w	(Player_1+x_pos).w,d0
 		move.w	(Player_1+y_pos).w,d1
 		move.w	(Events_bg+$00).w,d2
-		jmp	MGZ2_BGEventTrigger_Index(pc,d2.w)
+		jmp	MGZ2_BGEventTrigger.Index(pc,d2.w)
 ; End of function MGZ2_BGEventTrigger
 
 ; ---------------------------------------------------------------------------
 
-MGZ2_BGEventTrigger_Index:
+MGZ2_BGEventTrigger.Index:
 		bra.w	loc_3D376	; 0 - Normal
 ; ---------------------------------------------------------------------------
 		bra.w	loc_3D348	; 4 - Knuckles BG Move Event
@@ -6050,10 +6050,10 @@ CNZ1_BackgroundInit:
 
 CNZ1_BackgroundEvent:
 		move.w	(Events_routine_bg).w,d0
-		jmp	CNZ1_BackgroundEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-CNZ1_BackgroundEvent_Index:
+.Index:
 		bra.w	CNZ1BGE_Normal
 ; ---------------------------------------------------------------------------
 		bra.w	CNZ1BGE_BossStart
@@ -6336,10 +6336,10 @@ CNZ1_BossLevelScroll2:
 Obj_CNZMinibossScrollControl:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		jmp	CNZMinibossScrollControl_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-CNZMinibossScrollControl_Index:
+.Index:
 		bra.w	Obj_CNZMinibossScrollInit
 ; ---------------------------------------------------------------------------
 		bra.w	Obj_CNZMinibossScrollMain
@@ -6487,10 +6487,10 @@ CNZ2_BackgroundInit:
 
 CNZ2_BackgroundEvent:
 		move.w	(Events_routine_bg).w,d0
-		jmp	CNZ2_BackgroundEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-CNZ2_BackgroundEvent_Index:
+.Index:
 		bra.w	loc_3DA88
 ; ---------------------------------------------------------------------------
 		bra.w	loc_3DAB6
@@ -6550,10 +6550,10 @@ ICZ1_ScreenInit:
 
 ICZ1_ScreenEvent:
 		move.w	(Events_routine_bg).w,d0
-		jmp	ICZ1_ScreenEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-ICZ1_ScreenEvent_Index:
+.Index:
 		bra.w	ICZ1SE_Init
 ; ---------------------------------------------------------------------------
 		bra.w	ICZ1SE_WaitQuake
@@ -6623,10 +6623,10 @@ loc_3DB9C:
 
 ICZ1_BackgroundEvent:
 		move.w	(Events_routine_bg).w,d0
-		jmp	ICZ1_BackgroundEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-ICZ1_BackgroundEvent_Index:
+.Index:
 		bra.w	ICZ1BGE_Intro
 ; ---------------------------------------------------------------------------
 		bra.w	ICZ1BGE_SnowFall
@@ -6990,10 +6990,10 @@ loc_3DF76:
 
 ICZ2_BackgroundEvent:
 		move.w	(Events_routine_bg).w,d0
-		jmp	ICZ2_BackgroundEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-ICZ2_BackgroundEvent_Index:
+.Index:
 		bra.w	ICZ2BGE_FromICZ1
 ; ---------------------------------------------------------------------------
 		bra.w	ICZ2BGE_Normal
@@ -7725,10 +7725,10 @@ LBZ1_BackgroundInit:
 
 LBZ1_BackgroundEvent:
 		move.w	(Events_routine_bg).w,d0
-		jmp	LBZ1_BackgroundEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-LBZ1_BackgroundEvent_Index:
+.Index:
 		bra.w	LBZ1BGE_Normal
 ; ---------------------------------------------------------------------------
 		bra.w	LBZ1BGE_DoTransition
@@ -7884,10 +7884,10 @@ LBZ2_ScreenEvent:
 		move.w	(Screen_shake_offset).w,d0
 		add.w	d0,(Camera_Y_pos_copy).w
 		move.w	(Events_routine_fg).w,d0
-		jmp	LBZ2_ScreenEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-LBZ2_ScreenEvent_Index:
+.Index:
 		bra.w	LBZ2SE_FromTransition
 ; ---------------------------------------------------------------------------
 		bra.w	LBZ2SE_Normal
@@ -7961,10 +7961,10 @@ loc_3E876:
 
 LBZ2_BackgroundEvent:
 		move.w	(Events_routine_bg).w,d0
-		jmp	LBZ2_BackgroundEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-LBZ2_BackgroundEvent_Index:
+.Index:
 		bra.w	LBZ2BGE_FromTransition
 ; ---------------------------------------------------------------------------
 		bra.w	LBZ2BGE_Refresh

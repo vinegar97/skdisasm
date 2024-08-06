@@ -67,24 +67,24 @@ locret_47DC8:
 Obj_HCZ_MinibossLoop:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	HCZ_MinibossLoop_Index(pc,d0.w),d1
-		jsr	HCZ_MinibossLoop_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		bsr.w	sub_48A8C
 		jmp	(Draw_And_Touch_Sprite).l
 ; ---------------------------------------------------------------------------
-HCZ_MinibossLoop_Index:
-		dc.w loc_47DFA-HCZ_MinibossLoop_Index
-		dc.w loc_47E34-HCZ_MinibossLoop_Index
-		dc.w loc_47E5A-HCZ_MinibossLoop_Index
-		dc.w loc_47E34-HCZ_MinibossLoop_Index
-		dc.w loc_47E5A-HCZ_MinibossLoop_Index
-		dc.w loc_47EC6-HCZ_MinibossLoop_Index
-		dc.w loc_47F12-HCZ_MinibossLoop_Index
-		dc.w loc_47F48-HCZ_MinibossLoop_Index
-		dc.w loc_47F60-HCZ_MinibossLoop_Index
-		dc.w loc_47FAA-HCZ_MinibossLoop_Index
-		dc.w loc_47E5A-HCZ_MinibossLoop_Index
-		dc.w loc_48066-HCZ_MinibossLoop_Index
+.Index:
+		dc.w loc_47DFA-.Index
+		dc.w loc_47E34-.Index
+		dc.w loc_47E5A-.Index
+		dc.w loc_47E34-.Index
+		dc.w loc_47E5A-.Index
+		dc.w loc_47EC6-.Index
+		dc.w loc_47F12-.Index
+		dc.w loc_47F48-.Index
+		dc.w loc_47F60-.Index
+		dc.w loc_47FAA-.Index
+		dc.w loc_47E5A-.Index
+		dc.w loc_48066-.Index
 ; ---------------------------------------------------------------------------
 
 loc_47DFA:
@@ -338,19 +338,19 @@ loc_480F0:
 Obj_HCZMiniboss_Rockets:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	HCZMiniboss_Rockets_Index(pc,d0.w),d1
-		jsr	HCZMiniboss_Rockets_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		moveq	#$20,d0
 		jmp	(Child_DrawTouch_Sprite_FlickerMove).l
 ; ---------------------------------------------------------------------------
-HCZMiniboss_Rockets_Index:
-		dc.w loc_4812E-HCZMiniboss_Rockets_Index
-		dc.w loc_48148-HCZMiniboss_Rockets_Index
-		dc.w loc_4819C-HCZMiniboss_Rockets_Index
-		dc.w loc_481BC-HCZMiniboss_Rockets_Index
-		dc.w loc_481CA-HCZMiniboss_Rockets_Index
-		dc.w loc_48254-HCZMiniboss_Rockets_Index
-		dc.w loc_4826E-HCZMiniboss_Rockets_Index
+.Index:
+		dc.w loc_4812E-.Index
+		dc.w loc_48148-.Index
+		dc.w loc_4819C-.Index
+		dc.w loc_481BC-.Index
+		dc.w loc_481CA-.Index
+		dc.w loc_48254-.Index
+		dc.w loc_4826E-.Index
 ; ---------------------------------------------------------------------------
 
 loc_4812E:

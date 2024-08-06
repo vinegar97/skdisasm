@@ -97,15 +97,15 @@ LevelResizeArray:
 AIZ1_Resize:
 		moveq	#0,d0
 		move.b	(Dynamic_resize_routine).w,d0
-		move.w	AIZ1_Resize_Index(pc,d0.w),d0
-		jmp	AIZ1_Resize_Index(pc,d0.w)
+		move.w	.Index(pc,d0.w),d0
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
-AIZ1_Resize_Index:
-		dc.w loc_1C46E-AIZ1_Resize_Index
-		dc.w loc_1C4D0-AIZ1_Resize_Index
-		dc.w loc_1C550-AIZ1_Resize_Index
-		dc.w loc_1C5C6-AIZ1_Resize_Index
-		dc.w loc_1C602-AIZ1_Resize_Index
+.Index:
+		dc.w loc_1C46E-.Index
+		dc.w loc_1C4D0-.Index
+		dc.w loc_1C550-.Index
+		dc.w loc_1C5C6-.Index
+		dc.w loc_1C602-.Index
 ; ---------------------------------------------------------------------------
 
 loc_1C46E:
@@ -250,25 +250,25 @@ word_1C60A:
 AIZ2_Resize:
 		moveq	#0,d0
 		move.b	(Dynamic_resize_routine).w,d0
-		move.w	AIZ2_Resize_Index(pc,d0.w),d0
-		jmp	AIZ2_Resize_Index(pc,d0.w)
+		move.w	.Index(pc,d0.w),d0
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
-AIZ2_Resize_Index:
-		dc.w loc_1C64E-AIZ2_Resize_Index		; 0
-		dc.w AIZ2_SonicResize1-AIZ2_Resize_Index	; 2
-		dc.w AIZ2_SonicResize2-AIZ2_Resize_Index	; 4
-		dc.w AIZ2_SonicResize3-AIZ2_Resize_Index	; 6
-		dc.w AIZ2_SonicResize4-AIZ2_Resize_Index	; 8
-		dc.w AIZ2_SonicResize5-AIZ2_Resize_Index	; A
-		dc.w AIZ2_SonicResize6-AIZ2_Resize_Index	; C
-		dc.w AIZ2_SonicResize7-AIZ2_Resize_Index	; E
-		dc.w AIZ2_SonicResizeEnd-AIZ2_Resize_Index	; 10
-		dc.w AIZ2_KnuxResize1-AIZ2_Resize_Index		; 12
-		dc.w AIZ2_KnuxResize2-AIZ2_Resize_Index		; 14
-		dc.w AIZ2_KnuxResize3-AIZ2_Resize_Index		; 16
-		dc.w AIZ2_KnuxResize4-AIZ2_Resize_Index		; 18
-		dc.w AIZ2_KnuxResize5-AIZ2_Resize_Index		; 1A
-		dc.w AIZ2_KnuxResizeEnd-AIZ2_Resize_Index	; 1C
+.Index:
+		dc.w loc_1C64E-.Index		; 0
+		dc.w AIZ2_SonicResize1-.Index	; 2
+		dc.w AIZ2_SonicResize2-.Index	; 4
+		dc.w AIZ2_SonicResize3-.Index	; 6
+		dc.w AIZ2_SonicResize4-.Index	; 8
+		dc.w AIZ2_SonicResize5-.Index	; A
+		dc.w AIZ2_SonicResize6-.Index	; C
+		dc.w AIZ2_SonicResize7-.Index	; E
+		dc.w AIZ2_SonicResizeEnd-.Index	; 10
+		dc.w AIZ2_KnuxResize1-.Index	; 12
+		dc.w AIZ2_KnuxResize2-.Index	; 14
+		dc.w AIZ2_KnuxResize3-.Index	; 16
+		dc.w AIZ2_KnuxResize4-.Index	; 18
+		dc.w AIZ2_KnuxResize5-.Index	; 1A
+		dc.w AIZ2_KnuxResizeEnd-.Index	; 1C
 ; ---------------------------------------------------------------------------
 
 loc_1C64E:
@@ -482,13 +482,13 @@ AIZ2_KnuxResizeEnd:
 HCZ1_Resize:
 		moveq	#0,d0
 		move.b	(Dynamic_resize_routine).w,d0
-		move.w	HCZ1_Resize_Index(pc,d0.w),d0
-		jmp	HCZ1_Resize_Index(pc,d0.w)
+		move.w	.Index(pc,d0.w),d0
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
-HCZ1_Resize_Index:
-		dc.w loc_1C892-HCZ1_Resize_Index
-		dc.w loc_1C8B8-HCZ1_Resize_Index
-		dc.w locret_1C8F4-HCZ1_Resize_Index
+.Index:
+		dc.w loc_1C892-.Index
+		dc.w loc_1C8B8-.Index
+		dc.w locret_1C8F4-.Index
 ; ---------------------------------------------------------------------------
 
 loc_1C892:
@@ -540,12 +540,12 @@ locret_1C8F4:
 HCZ2_Resize:
 		moveq	#0,d0
 		move.b	(Dynamic_resize_routine).w,d0
-		move.w	HCZ2_Resize_Index(pc,d0.w),d0
-		jmp	HCZ2_Resize_Index(pc,d0.w)
+		move.w	.Index(pc,d0.w),d0
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
-HCZ2_Resize_Index:
-		dc.w loc_1C908-HCZ2_Resize_Index
-		dc.w locret_1C91A-HCZ2_Resize_Index
+.Index:
+		dc.w loc_1C908-.Index
+		dc.w locret_1C91A-.Index
 ; ---------------------------------------------------------------------------
 
 loc_1C908:
@@ -569,13 +569,13 @@ MGZ1_Resize:
 MGZ2_Resize:
 		moveq	#0,d0
 		move.b	(Dynamic_resize_routine).w,d0
-		move.w	MGZ2_Resize_Index(pc,d0.w),d0
-		jmp	MGZ2_Resize_Index(pc,d0.w)
+		move.w	.Index(pc,d0.w),d0
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
-MGZ2_Resize_Index:
-		dc.w loc_1C930-MGZ2_Resize_Index
-		dc.w loc_1C96E-MGZ2_Resize_Index
-		dc.w locret_1C9C8-MGZ2_Resize_Index
+.Index:
+		dc.w loc_1C930-.Index
+		dc.w loc_1C96E-.Index
+		dc.w locret_1C9C8-.Index
 ; ---------------------------------------------------------------------------
 
 loc_1C930:
@@ -646,13 +646,13 @@ FBZ2_Resize:
 ICZ1_Resize:
 		moveq	#0,d0
 		move.b	(Dynamic_resize_routine).w,d0
-		move.w	ICZ1_Resize_Index(pc,d0.w),d0
-		jmp	ICZ1_Resize_Index(pc,d0.w)
+		move.w	.Index(pc,d0.w),d0
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
-ICZ1_Resize_Index:
-		dc.w loc_1C9E0-ICZ1_Resize_Index
-		dc.w loc_1C9FA-ICZ1_Resize_Index
-		dc.w locret_1CA0C-ICZ1_Resize_Index
+.Index:
+		dc.w loc_1C9E0-.Index
+		dc.w loc_1C9FA-.Index
+		dc.w locret_1CA0C-.Index
 ; ---------------------------------------------------------------------------
 
 loc_1C9E0:
@@ -684,12 +684,12 @@ locret_1CA0C:
 ICZ2_Resize:
 		moveq	#0,d0
 		move.b	(Dynamic_resize_routine).w,d0
-		move.w	ICZ2_Resize_Index(pc,d0.w),d0
-		jmp	ICZ2_Resize_Index(pc,d0.w)
+		move.w	.Index(pc,d0.w),d0
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
-ICZ2_Resize_Index:
-		dc.w loc_1CA20-ICZ2_Resize_Index
-		dc.w locret_1CA3C-ICZ2_Resize_Index
+.Index:
+		dc.w loc_1CA20-.Index
+		dc.w locret_1CA3C-.Index
 ; ---------------------------------------------------------------------------
 
 loc_1CA20:
@@ -715,12 +715,12 @@ LBZ1_Resize:
 LBZ2_Resize:
 		moveq	#0,d0
 		move.b	(Dynamic_resize_routine).w,d0
-		move.w	LBZ2_Resize_Index(pc,d0.w),d0
-		jmp	LBZ2_Resize_Index(pc,d0.w)
+		move.w	.Index(pc,d0.w),d0
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
-LBZ2_Resize_Index:
-		dc.w loc_1CA52-LBZ2_Resize_Index
-		dc.w locret_1CAAA-LBZ2_Resize_Index
+.Index:
+		dc.w loc_1CA52-.Index
+		dc.w locret_1CAAA-.Index
 ; ---------------------------------------------------------------------------
 
 loc_1CA52:

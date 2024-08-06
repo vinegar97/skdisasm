@@ -2,16 +2,16 @@ Obj_Mantis:
 		jsr	(Obj_WaitOffscreen).l
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	Mantis_Index(pc,d0.w),d1
-		jsr	Mantis_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		jmp	Sprite_CheckDeleteTouch(pc)
 ; ---------------------------------------------------------------------------
-Mantis_Index:
-		dc.w loc_88E82-Mantis_Index
-		dc.w loc_88E98-Mantis_Index
-		dc.w loc_88EC4-Mantis_Index
-		dc.w loc_88EFE-Mantis_Index
-		dc.w loc_88F22-Mantis_Index
+.Index:
+		dc.w loc_88E82-.Index
+		dc.w loc_88E98-.Index
+		dc.w loc_88EC4-.Index
+		dc.w loc_88EFE-.Index
+		dc.w loc_88F22-.Index
 ; ---------------------------------------------------------------------------
 
 loc_88E82:

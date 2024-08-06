@@ -4232,7 +4232,7 @@ zPlaySEGAPCM:
 		ld	a, zmake68kBank(SEGA_PCM)		; a = sound bank index
 		bankswitch3							; Bank switch to sound bank
 		ld	hl, zmake68kPtr(SEGA_PCM)		; hl = pointer to SEGA PCM
-		ld	de, SEGA_PCM_End-SEGA_PCM		; de = length of SEGA PCM
+		ld	de, SEGA_PCM.End-SEGA_PCM		; de = length of SEGA PCM
 		ld	a, 2Ah							; DAC channel register
 		ld	(zYM2612_A0), a					; Send to YM2612
 		nop									; Delay

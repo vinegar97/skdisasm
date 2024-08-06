@@ -796,30 +796,30 @@ Tails_CPU_Control:
 loc_139DC:
 		lea	(Player_1).w,a1
 		move.w	(Tails_CPU_routine).w,d0
-		move.w	Tails_CPU_Control_Index(pc,d0.w),d0
-		jmp	Tails_CPU_Control_Index(pc,d0.w)
+		move.w	Tails_CPU_Control.Index(pc,d0.w),d0
+		jmp	Tails_CPU_Control.Index(pc,d0.w)
 ; End of function Tails_CPU_Control
 
 ; ---------------------------------------------------------------------------
-Tails_CPU_Control_Index:
-		dc.w loc_13A10-Tails_CPU_Control_Index
-		dc.w Tails_Catch_Up_Flying-Tails_CPU_Control_Index
-		dc.w Tails_FlySwim_Unknown-Tails_CPU_Control_Index
-		dc.w loc_13D4A-Tails_CPU_Control_Index
-		dc.w loc_13F40-Tails_CPU_Control_Index
-		dc.w locret_13FC0-Tails_CPU_Control_Index
-		dc.w loc_13FC2-Tails_CPU_Control_Index
-		dc.w loc_13FFA-Tails_CPU_Control_Index
-		dc.w loc_1408A-Tails_CPU_Control_Index
-		dc.w loc_140C6-Tails_CPU_Control_Index
-		dc.w loc_140CE-Tails_CPU_Control_Index
-		dc.w loc_14106-Tails_CPU_Control_Index
-		dc.w loc_1414C-Tails_CPU_Control_Index
-		dc.w loc_141F2-Tails_CPU_Control_Index
-		dc.w loc_1421C-Tails_CPU_Control_Index
-		dc.w loc_14254-Tails_CPU_Control_Index
-		dc.w loc_1425C-Tails_CPU_Control_Index
-		dc.w loc_14286-Tails_CPU_Control_Index
+Tails_CPU_Control.Index:
+		dc.w loc_13A10-Tails_CPU_Control.Index
+		dc.w Tails_Catch_Up_Flying-Tails_CPU_Control.Index
+		dc.w Tails_FlySwim_Unknown-Tails_CPU_Control.Index
+		dc.w loc_13D4A-Tails_CPU_Control.Index
+		dc.w loc_13F40-Tails_CPU_Control.Index
+		dc.w locret_13FC0-Tails_CPU_Control.Index
+		dc.w loc_13FC2-Tails_CPU_Control.Index
+		dc.w loc_13FFA-Tails_CPU_Control.Index
+		dc.w loc_1408A-Tails_CPU_Control.Index
+		dc.w loc_140C6-Tails_CPU_Control.Index
+		dc.w loc_140CE-Tails_CPU_Control.Index
+		dc.w loc_14106-Tails_CPU_Control.Index
+		dc.w loc_1414C-Tails_CPU_Control.Index
+		dc.w loc_141F2-Tails_CPU_Control.Index
+		dc.w loc_1421C-Tails_CPU_Control.Index
+		dc.w loc_14254-Tails_CPU_Control.Index
+		dc.w loc_1425C-Tails_CPU_Control.Index
+		dc.w loc_14286-Tails_CPU_Control.Index
 ; ---------------------------------------------------------------------------
 
 loc_13A10:

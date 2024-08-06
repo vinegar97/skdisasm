@@ -2,15 +2,15 @@ Obj_Blastoid:
 		jsr	(Obj_WaitOffscreen).l
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	Blastoid_Index(pc,d0.w),d1
-		jsr	Blastoid_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		bsr.w	sub_879A8
 		jmp	Sprite_CheckDeleteTouch(pc)
 ; ---------------------------------------------------------------------------
-Blastoid_Index:
-		dc.w loc_8794A-Blastoid_Index
-		dc.w loc_87952-Blastoid_Index
-		dc.w loc_87976-Blastoid_Index
+.Index:
+		dc.w loc_8794A-.Index
+		dc.w loc_87952-.Index
+		dc.w loc_87976-.Index
 ; ---------------------------------------------------------------------------
 
 loc_8794A:

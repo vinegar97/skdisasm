@@ -2,17 +2,17 @@ Obj_Cluckoid:
 		jsr	(Obj_WaitOffscreen).l
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	Cluckoid_Index(pc,d0.w),d1
-		jsr	Cluckoid_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		lea	DPLCPtr_Cluckoid(pc),a2
 		jsr	(Perform_DPLC).l
 		jmp	(Sprite_CheckDeleteTouchSlotted).l
 ; ---------------------------------------------------------------------------
-Cluckoid_Index:
-		dc.w loc_8E1AA-Cluckoid_Index
-		dc.w loc_8E1BE-Cluckoid_Index
-		dc.w loc_8E1E2-Cluckoid_Index
-		dc.w loc_8E21A-Cluckoid_Index
+.Index:
+		dc.w loc_8E1AA-.Index
+		dc.w loc_8E1BE-.Index
+		dc.w loc_8E1E2-.Index
+		dc.w loc_8E21A-.Index
 ; ---------------------------------------------------------------------------
 
 loc_8E1AA:

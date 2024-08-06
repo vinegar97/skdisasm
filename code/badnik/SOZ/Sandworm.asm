@@ -2,15 +2,15 @@ Obj_Sandworm:
 		jsr	(Obj_WaitOffscreen).l
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	Sandworm_Index(pc,d0.w),d1
-		jsr	Sandworm_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		jmp	(Sprite_CheckDeleteTouch).l
 ; ---------------------------------------------------------------------------
-Sandworm_Index:
-		dc.w loc_8EA88-Sandworm_Index
-		dc.w loc_8EACC-Sandworm_Index
-		dc.w loc_8EB2E-Sandworm_Index
-		dc.w loc_8EACC-Sandworm_Index
+.Index:
+		dc.w loc_8EA88-.Index
+		dc.w loc_8EACC-.Index
+		dc.w loc_8EB2E-.Index
+		dc.w loc_8EACC-.Index
 ; ---------------------------------------------------------------------------
 
 loc_8EA88:

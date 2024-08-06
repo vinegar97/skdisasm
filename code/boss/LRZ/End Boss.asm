@@ -419,10 +419,10 @@ Obj_LRZ3Platform:
 		moveq	#0,d0
 		move.b	subtype(a0),d0
 		lsl.w	#2,d0
-		jmp	LRZ3Platform_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-LRZ3Platform_Index:
+.Index:
 		bra.w	loc_79C72
 ; ---------------------------------------------------------------------------
 		bra.w	loc_79CCE

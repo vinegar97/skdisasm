@@ -2,14 +2,14 @@ Obj_Skorp:
 		jsr	(Obj_WaitOffscreen).l
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	Skorp_Index(pc,d0.w),d1
-		jsr	Skorp_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		jmp	(Sprite_CheckDeleteTouch).l
 ; ---------------------------------------------------------------------------
-Skorp_Index:
-		dc.w loc_8E670-Skorp_Index
-		dc.w loc_8E6B8-Skorp_Index
-		dc.w loc_8E732-Skorp_Index
+.Index:
+		dc.w loc_8E670-.Index
+		dc.w loc_8E6B8-.Index
+		dc.w loc_8E732-.Index
 ; ---------------------------------------------------------------------------
 
 loc_8E670:

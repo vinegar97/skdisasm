@@ -26,9 +26,9 @@ Obj_MHZMushroomCap:
 		bset	#7,status(a0)		; ???
 		move.w	x_pos(a0),$38(a0)	; Store initial x_pos
 		move.w	y_pos(a0),$3A(a0)	; Store initial y_pos
-		move.l	#Obj_MHZMushroomCap_Main,(a0)
+		move.l	#.Main,(a0)
 
-Obj_MHZMushroomCap_Main:
+.Main:
 		; main routine
 		lea	(Ani_MHZMushroomCap).l,a1
 		jsr	(Animate_Sprite).l

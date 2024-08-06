@@ -570,11 +570,11 @@ loc_61294:
 		move.w	$3C(a0),d1
 		move.w	y_pos(a0),d2
 		cmp.w	d1,d2
-		bhs.s	locret_612A6
+		bhs.s	.locret_612A6
 		addq.w	#4,d2
 		move.w	d2,y_pos(a0)
 
-locret_612A6:
+.locret_612A6:
 		rts
 ; End of function sub_6126C
 

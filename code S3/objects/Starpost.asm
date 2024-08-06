@@ -1,15 +1,15 @@
 Obj_StarPost:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	StarPost_Index(pc,d0.w),d1
-		jmp	StarPost_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jmp	.Index(pc,d1.w)
 ; ---------------------------------------------------------------------------
-StarPost_Index:
-		dc.w loc_2C436-StarPost_Index
-		dc.w loc_2C488-StarPost_Index
-		dc.w loc_2C56E-StarPost_Index
-		dc.w loc_2C580-StarPost_Index
-		dc.w loc_2C8AE-StarPost_Index
+.Index:
+		dc.w loc_2C436-.Index
+		dc.w loc_2C488-.Index
+		dc.w loc_2C56E-.Index
+		dc.w loc_2C580-.Index
+		dc.w loc_2C8AE-.Index
 ; ---------------------------------------------------------------------------
 
 loc_2C436:

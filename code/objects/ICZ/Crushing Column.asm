@@ -1,9 +1,9 @@
 Obj_ICZCrushingColumn:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	ICZCrushingColumn_Index(pc,d0.w),d1
+		move.w	.Index(pc,d0.w),d1
 		move.w	x_pos(a0),-(sp)
-		jsr	ICZCrushingColumn_Index(pc,d1.w)
+		jsr	.Index(pc,d1.w)
 		moveq	#$2B,d1
 		moveq	#$70,d2
 		moveq	#$70,d3
@@ -11,20 +11,20 @@ Obj_ICZCrushingColumn:
 		jsr	(SolidObjectFull).l
 		jmp	Sprite_CheckDelete(pc)
 ; ---------------------------------------------------------------------------
-ICZCrushingColumn_Index:
-		dc.w loc_8A488-ICZCrushingColumn_Index
-		dc.w loc_8A4C4-ICZCrushingColumn_Index
-		dc.w loc_8A4D6-ICZCrushingColumn_Index
-		dc.w loc_8A4DE-ICZCrushingColumn_Index
-		dc.w loc_8A504-ICZCrushingColumn_Index
-		dc.w loc_8A50C-ICZCrushingColumn_Index
-		dc.w loc_8A51C-ICZCrushingColumn_Index
-		dc.w loc_8A562-ICZCrushingColumn_Index
-		dc.w loc_8A586-ICZCrushingColumn_Index
-		dc.w loc_8A596-ICZCrushingColumn_Index
-		dc.w loc_8A5AC-ICZCrushingColumn_Index
-		dc.w loc_8A5C8-ICZCrushingColumn_Index
-		dc.w loc_8A5E4-ICZCrushingColumn_Index
+.Index:
+		dc.w loc_8A488-.Index
+		dc.w loc_8A4C4-.Index
+		dc.w loc_8A4D6-.Index
+		dc.w loc_8A4DE-.Index
+		dc.w loc_8A504-.Index
+		dc.w loc_8A50C-.Index
+		dc.w loc_8A51C-.Index
+		dc.w loc_8A562-.Index
+		dc.w loc_8A586-.Index
+		dc.w loc_8A596-.Index
+		dc.w loc_8A5AC-.Index
+		dc.w loc_8A5C8-.Index
+		dc.w loc_8A5E4-.Index
 ; ---------------------------------------------------------------------------
 
 loc_8A488:

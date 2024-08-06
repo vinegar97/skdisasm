@@ -4,15 +4,15 @@
 Load_Rings:
 		moveq	#0,d0
 		move.b	(Rings_manager_routine).w,d0
-		move.w	Load_Rings_Index(pc,d0.w),d0
-		jmp	Load_Rings_Index(pc,d0.w)
+		move.w	.Index(pc,d0.w),d0
+		jmp	.Index(pc,d0.w)
 ; End of function Load_Rings
 
 ; ---------------------------------------------------------------------------
-Load_Rings_Index:
-		dc.w loc_E8BE-Load_Rings_Index
-		dc.w loc_E942-Load_Rings_Index
-		dc.w loc_E9CA-Load_Rings_Index
+.Index:
+		dc.w loc_E8BE-.Index
+		dc.w loc_E942-.Index
+		dc.w loc_E9CA-.Index
 ; ---------------------------------------------------------------------------
 
 loc_E8BE:
@@ -236,7 +236,7 @@ Test_Ring_Collisions:
 		beq.w	locret_EAE4
 		movea.w	(Ring_start_addr_RAM).w,a4
 		btst	#Status_LtngShield,status_secondary(a0)	; does Sonic have a Lightning Shield?
-		beq.s	Test_Ring_Collisions_NoAttraction
+		beq.s	.NoAttraction
 		move.w	x_pos(a0),d2
 		move.w	y_pos(a0),d3
 		subi.w	#$40,d2
@@ -245,10 +245,10 @@ Test_Ring_Collisions:
 		move.w	#$C,d6
 		move.w	#$80,d4
 		move.w	#$80,d5
-		bra.s	Test_Ring_Collisions_NextRing
+		bra.s	.NextRing
 ; ---------------------------------------------------------------------------
 
-Test_Ring_Collisions_NoAttraction:
+.NoAttraction:
 		move.w	x_pos(a0),d2
 		move.w	y_pos(a0),d3
 		subi.w	#8,d2
@@ -261,7 +261,7 @@ Test_Ring_Collisions_NoAttraction:
 		move.w	#$10,d4
 		add.w	d5,d5
 
-Test_Ring_Collisions_NextRing:
+.NextRing:
 		tst.w	(a4)
 		bne.w	loc_EADA
 		move.w	(a1),d0
@@ -293,7 +293,7 @@ loc_EAB8:
 
 loc_EABE:
 		btst	#Status_LtngShield,status_secondary(a0)	; does Sonic have a Lightning Shield?
-		bne.s	Test_Ring_Collisions_AttractRing
+		bne.s	Test_Ring_Collisions.AttractRing
 
 loc_EAC6:
 		move.w	#$604,(a4)
@@ -310,7 +310,7 @@ loc_EADA:
 		addq.w	#4,a1
 		addq.w	#2,a4
 		cmpa.l	a1,a2
-		bne.w	Test_Ring_Collisions_NextRing
+		bne.w	Test_Ring_Collisions.NextRing
 
 locret_EAE4:
 		rts
@@ -327,7 +327,7 @@ sub_EAE6:
 
 ; ---------------------------------------------------------------------------
 
-Test_Ring_Collisions_AttractRing:
+Test_Ring_Collisions.AttractRing:
 		movea.l	a1,a3
 		jsr	(AllocateObject).l
 		bne.w	loc_EB16
@@ -460,49 +460,49 @@ locret_EBEC:
 ;  Sign-extended sprite size value
 
 CMap_Ring:
-;frame1:
+;.frame1:
 		dc.w -8
 		dc.w $0005
 		dc.w $0000+make_art_tile(ArtTile_Ring,1,0)
 		dc.w -8
 
-;frame2:
+;.frame2:
 		dc.w -8
 		dc.w $0005
 		dc.w $0004+make_art_tile(ArtTile_Ring,1,0)
 		dc.w -8
 
-;frame3:
+;.frame3:
 		dc.w -8
 		dc.w $0001
 		dc.w $0008+make_art_tile(ArtTile_Ring,1,0)
 		dc.w -4
 
-;frame4:
+;.frame4:
 		dc.w -8
 		dc.w $0005
 		dc.w $0804+make_art_tile(ArtTile_Ring,1,0)
 		dc.w -8
 
-;frame5:
+;.frame5:
 		dc.w -8
 		dc.w $0005
 		dc.w $000A+make_art_tile(ArtTile_Ring,1,0)
 		dc.w -8
 
-;frame6:
+;.frame6:
 		dc.w -8
 		dc.w $0005
 		dc.w $180A+make_art_tile(ArtTile_Ring,1,0)
 		dc.w -8
 
-;frame7:
+;.frame7:
 		dc.w -8
 		dc.w $0005
 		dc.w $080A+make_art_tile(ArtTile_Ring,1,0)
 		dc.w -8
 
-;frame8:
+;.frame8:
 		dc.w -8
 		dc.w $0005
 		dc.w $100A+make_art_tile(ArtTile_Ring,1,0)

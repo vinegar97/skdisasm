@@ -2,17 +2,17 @@ Obj_MegaChopper:
 		jsr	(Obj_WaitOffscreen).l
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	MegaChopper_Index(pc,d0.w),d1
-		jsr	MegaChopper_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		btst	#7,status(a0)
 		bne.w	EnemyDefeat_Score
 		jmp	Sprite_CheckDeleteTouch(pc)
 ; ---------------------------------------------------------------------------
-MegaChopper_Index:
-		dc.w loc_55D66-MegaChopper_Index
-		dc.w loc_55D8A-MegaChopper_Index
-		dc.w loc_55E02-MegaChopper_Index
-		dc.w loc_55E40-MegaChopper_Index
+.Index:
+		dc.w loc_55D66-.Index
+		dc.w loc_55D8A-.Index
+		dc.w loc_55E02-.Index
+		dc.w loc_55E40-.Index
 ; ---------------------------------------------------------------------------
 
 loc_55D66:

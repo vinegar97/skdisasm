@@ -6,7 +6,7 @@ VInt:
 		nop
 		movem.l	d0-a6,-(sp)
 		tst.b	(V_int_routine).w
-		beq.w	VInt_0_Main
+		beq.w	VInt_0.Main
 
 -
 		move.w	(VDP_control_port).l,d0
@@ -55,24 +55,24 @@ VInt_Table:
 VInt_0:
 		addq.w	#4,sp
 
-VInt_0_Main:
+.Main:
 		addq.w	#1,(Lag_frame_count).w
 
 		; branch if a level or demo is running
 		cmpi.b	#$88,(Game_mode).w
-		beq.s	VInt_0_Level
+		beq.s	.Level
 		cmpi.b	#$8C,(Game_mode).w
-		beq.s	VInt_0_Level
+		beq.s	.Level
 		cmpi.b	#8,(Game_mode).w
-		beq.s	VInt_0_Level
+		beq.s	.Level
 		cmpi.b	#$C,(Game_mode).w
-		beq.s	VInt_0_Level
+		beq.s	.Level
 		bra.s	VInt_Done	; otherwise, return from V-int
 ; ---------------------------------------------------------------------------
 
-VInt_0_Level:
+.Level:
 		tst.b	(Water_flag).w
-		beq.w	VInt_0_NoWater
+		beq.w	.NoWater
 		move.w	(VDP_control_port).l,d0
 		btst	#6,(Graphics_flags).w
 		beq.s	+	; branch if it isn't a PAL system
@@ -83,21 +83,21 @@ VInt_0_Level:
 		move.w	#1,(H_int_flag).w
 		stopZ80
 		tst.b	(Water_full_screen_flag).w
-		bne.s	VInt_0_FullyUnderwater
+		bne.s	.FullyUnderwater
 		dma68kToVDP Normal_palette,$0000,$80,CRAM
-		bra.s	VInt_0_Water_Cont
+		bra.s	.Water_Cont
 ; ---------------------------------------------------------------------------
 
-VInt_0_FullyUnderwater:
+.FullyUnderwater:
 		dma68kToVDP Water_palette,$0000,$80,CRAM
 
-VInt_0_Water_Cont:
+.Water_Cont:
 		move.w	(H_int_counter_command).w,(a5)
 		startZ80
 		bra.w	VInt_Done
 ; ---------------------------------------------------------------------------
 
-VInt_0_NoWater:
+.NoWater:
 		move.w	(VDP_control_port).l,d0
 		btst	#6,(Graphics_flags).w
 		beq.s	+	; branch if it isn't a PAL system
@@ -113,7 +113,7 @@ VInt_0_NoWater:
 		; even during a lag frame so that the top half of the screen
 		; shows the correct sprites.
 		tst.w	(Competition_mode).w
-		beq.s	VInt_0_Done
+		beq.s	.Done
 
 		; Update V-Scroll.
 		move.l	#vdpComm($0000,VSRAM,WRITE),(VDP_control_port).l
@@ -127,12 +127,12 @@ VInt_0_NoWater:
 		tst.w	(Current_sprite_table_page).w
 		beq.s	+
 		dma68kToVDP Sprite_table,$F800,$280,VRAM
-		bra.s	VInt_0_Done
+		bra.s	.Done
 
 +
 		dma68kToVDP Sprite_table_alternate,$F800,$280,VRAM
 
-VInt_0_Done:
+.Done:
 		startZ80
 		bra.w	VInt_Done
 ; ---------------------------------------------------------------------------
@@ -191,7 +191,7 @@ VInt_8:
 		stopZ80
 		bsr.w	Poll_Controllers
 		tst.b	(Hyper_Sonic_flash_timer).w
-		beq.s	VInt_8_NoFlash
+		beq.s	.NoFlash
 
 		; flash screen white when Hyper Sonic's double jump move is used
 		subq.b	#1,(Hyper_Sonic_flash_timer).w
@@ -209,10 +209,10 @@ VInt_8:
 -
 		move.w	d0,(a6)
 		dbf	d1,-	; fill remaining colours with white
-		bra.s	VInt_8_Cont
+		bra.s	.Cont
 ; ---------------------------------------------------------------------------
 
-VInt_8_NoFlash:
+.NoFlash:
 		tst.b	(Water_full_screen_flag).w
 		bne.s	+
 		dma68kToVDP Normal_palette,$0000,$80,CRAM
@@ -224,7 +224,7 @@ VInt_8_NoFlash:
 +
 		move.w	(H_int_counter_command).w,(a5)
 
-VInt_8_Cont:
+.Cont:
 		dma68kToVDP H_scroll_buffer,$F000,$380,VRAM
 
 		tst.w	(Competition_mode).w
@@ -443,7 +443,7 @@ JmpTo_HInt:
 
 HInt:
 		tst.w	(H_int_flag).w
-		beq.w	HInt_Done
+		beq.w	.Done
 		move.w	#0,(H_int_flag).w
 		move.l	a5,-(sp)
 		move.l	d0,-(sp)
@@ -488,7 +488,7 @@ HInt:
 		move.l	(sp)+,d0
 		movea.l	(sp)+,a5
 
-HInt_Done:
+.Done:
 		rte
 
 ; ---------------------------------------------------------------------------
@@ -497,7 +497,7 @@ HInt_Done:
 
 HInt3:
 		tst.w	(H_int_flag).w
-		beq.s	HInt3_Done
+		beq.s	.Done
 		move.w	#0,(H_int_flag).w
 		movem.l	d0-d1/a0-a2,-(sp)
 
@@ -533,13 +533,13 @@ $$skipTransfer:
 		startZ80
 		movem.l	(sp)+,d0-d1/a0-a2
 		tst.b	(Do_Updates_in_H_int).w
-		bne.s	HInt3_Do_Updates
+		bne.s	.Do_Updates
 
-HInt3_Done:
+.Done:
 		rte
 ; ---------------------------------------------------------------------------
 
-HInt3_Do_Updates:
+.Do_Updates:
 		clr.b	(Do_Updates_in_H_int).w
 		movem.l	d0-a6,-(sp)
 		jsr	(Do_Updates).l
@@ -553,7 +553,7 @@ HInt3_Do_Updates:
 
 HInt5:
 		tst.w	(H_int_flag).w		; Seems to be a compliment to HInt 3, but doesn't seem to be used
-		beq.s	HInt5_Done
+		beq.s	.Done
 		move.w	#0,(H_int_flag).w
 		movem.l	d0-d1/a0-a2,-(sp)
 
@@ -590,13 +590,13 @@ $$skipTransfer:
 		startZ80
 		movem.l	(sp)+,d0-d1/a0-a2
 		tst.b	(Do_Updates_in_H_int).w
-		bne.s	HInt5_Do_Updates
+		bne.s	.Do_Updates
 
-HInt5_Done:
+.Done:
 		rte
 ; ---------------------------------------------------------------------------
 
-HInt5_Do_Updates:
+.Do_Updates:
 		clr.b	(Do_Updates_in_H_int).w
 		movem.l	d0-a6,-(sp)
 		jsr	(Do_Updates).l
@@ -609,7 +609,7 @@ HInt5_Do_Updates:
 
 HInt4:
 		tst.w	(H_int_flag).w
-		beq.s	Hint4_Done
+		beq.s	.Done
 		move.w	#0,(H_int_flag).w
 		movem.l	d0-d1/a0-a2,-(sp)
 
@@ -645,13 +645,13 @@ $$skipTransfer:
 		startZ80
 		movem.l	(sp)+,d0-d1/a0-a2
 		tst.b	(Do_Updates_in_H_int).w
-		bne.s	HInt4_Do_Updates
+		bne.s	.Do_Updates
 
-Hint4_Done:
+.Done:
 		rte
 ; ---------------------------------------------------------------------------
 
-HInt4_Do_Updates:
+.Do_Updates:
 		clr.b	(Do_Updates_in_H_int).w
 		movem.l	d0-a6,-(sp)
 		jsr	(Do_Updates).l
@@ -664,7 +664,7 @@ HInt4_Do_Updates:
 
 HInt_6:
 		tst.w	(H_int_flag).w
-		beq.s	HInt6_Done
+		beq.s	.Done
 		move.w	#0,(H_int_flag).w
 		movem.l	d0-d1/a0-a2,-(sp)
 
@@ -700,13 +700,13 @@ $$skipTransfer:
 		startZ80
 		movem.l	(sp)+,d0-d1/a0-a2
 		tst.b	(Do_Updates_in_H_int).w
-		bne.s	HInt6_Do_Updates
+		bne.s	.Do_Updates
 
-HInt6_Done:
+.Done:
 		rte
 ; ---------------------------------------------------------------------------
 
-HInt6_Do_Updates:
+.Do_Updates:
 		clr.b	(Do_Updates_in_H_int).w
 		movem.l	d0-a6,-(sp)
 		jsr	(Do_Updates).l
@@ -720,7 +720,7 @@ HInt6_Do_Updates:
 HInt2:
 		move	#$2700,sr
 		tst.w	(H_int_flag).w
-		beq.s	HInt2_Done
+		beq.s	.Done
 		move.w	#0,(H_int_flag).w
 		movem.l	a0-a1,-(sp)
 
@@ -733,13 +733,13 @@ HInt2:
 	endm
 		movem.l	(sp)+,a0-a1
 		tst.b	(Do_Updates_in_H_int).w
-		bne.s	HInt2_Do_Updates
+		bne.s	.Do_Updates
 
-HInt2_Done:
+.Done:
 		rte
 ; ---------------------------------------------------------------------------
 
-HInt2_Do_Updates:
+.Do_Updates:
 		clr.b	(Do_Updates_in_H_int).w
 		movem.l	d0-a6,-(sp)
 		bsr.w	Do_Updates

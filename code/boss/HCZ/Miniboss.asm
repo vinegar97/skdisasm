@@ -68,24 +68,24 @@ locret_69F78:
 Obj_HCZ_MinibossLoop:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	HCZ_MinibossLoop_Index(pc,d0.w),d1
-		jsr	HCZ_MinibossLoop_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		bsr.w	sub_6AC48
 		jmp	(Draw_And_Touch_Sprite).l
 ; ---------------------------------------------------------------------------
-HCZ_MinibossLoop_Index:
-		dc.w loc_69FAA-HCZ_MinibossLoop_Index
-		dc.w loc_69FE4-HCZ_MinibossLoop_Index
-		dc.w loc_6A00A-HCZ_MinibossLoop_Index
-		dc.w loc_69FE4-HCZ_MinibossLoop_Index
-		dc.w loc_6A00A-HCZ_MinibossLoop_Index
-		dc.w loc_6A076-HCZ_MinibossLoop_Index
-		dc.w loc_6A0C2-HCZ_MinibossLoop_Index
-		dc.w loc_6A0F8-HCZ_MinibossLoop_Index
-		dc.w loc_6A110-HCZ_MinibossLoop_Index
-		dc.w loc_6A15A-HCZ_MinibossLoop_Index
-		dc.w loc_6A00A-HCZ_MinibossLoop_Index
-		dc.w loc_6A216-HCZ_MinibossLoop_Index
+.Index:
+		dc.w loc_69FAA-.Index
+		dc.w loc_69FE4-.Index
+		dc.w loc_6A00A-.Index
+		dc.w loc_69FE4-.Index
+		dc.w loc_6A00A-.Index
+		dc.w loc_6A076-.Index
+		dc.w loc_6A0C2-.Index
+		dc.w loc_6A0F8-.Index
+		dc.w loc_6A110-.Index
+		dc.w loc_6A15A-.Index
+		dc.w loc_6A00A-.Index
+		dc.w loc_6A216-.Index
 ; ---------------------------------------------------------------------------
 
 loc_69FAA:
@@ -339,19 +339,19 @@ loc_6A2A0:
 Obj_HCZMiniboss_Rockets:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	HCZMiniboss_Rockets_Index(pc,d0.w),d1
-		jsr	HCZMiniboss_Rockets_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		moveq	#$20,d0
 		jmp	(Child_DrawTouch_Sprite_FlickerMove).l
 ; ---------------------------------------------------------------------------
-HCZMiniboss_Rockets_Index:
-		dc.w loc_6A2DE-HCZMiniboss_Rockets_Index
-		dc.w loc_6A2F8-HCZMiniboss_Rockets_Index
-		dc.w loc_6A34C-HCZMiniboss_Rockets_Index
-		dc.w loc_6A36C-HCZMiniboss_Rockets_Index
-		dc.w loc_6A37A-HCZMiniboss_Rockets_Index
-		dc.w loc_6A404-HCZMiniboss_Rockets_Index
-		dc.w loc_6A41E-HCZMiniboss_Rockets_Index
+.Index:
+		dc.w loc_6A2DE-.Index
+		dc.w loc_6A2F8-.Index
+		dc.w loc_6A34C-.Index
+		dc.w loc_6A36C-.Index
+		dc.w loc_6A37A-.Index
+		dc.w loc_6A404-.Index
+		dc.w loc_6A41E-.Index
 ; ---------------------------------------------------------------------------
 
 loc_6A2DE:

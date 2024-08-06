@@ -7,12 +7,12 @@ Draw_LRZ_Special_Rock_Sprites:
 
 		moveq	#0,d0
 		move.b	(LRZ_rocks_routine).w,d0
-		move.w	Draw_LRZ_Special_Rock_Sprites_Index(pc,d0.w),d0
-		jmp	Draw_LRZ_Special_Rock_Sprites_Index(pc,d0.w)
+		move.w	.Index(pc,d0.w),d0
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
-Draw_LRZ_Special_Rock_Sprites_Index:
-		dc.w loc_1AE9C-Draw_LRZ_Special_Rock_Sprites_Index
-		dc.w loc_1AECC-Draw_LRZ_Special_Rock_Sprites_Index
+.Index:
+		dc.w loc_1AE9C-.Index
+		dc.w loc_1AECC-.Index
 ; ---------------------------------------------------------------------------
 
 loc_1AE9C:

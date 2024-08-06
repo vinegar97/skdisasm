@@ -4,14 +4,14 @@ Obj_Buggernaut:
 Obj_Buggernaut_2:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	Buggernaut_Index(pc,d0.w),d1
-		jsr	Buggernaut_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		jmp	Sprite_CheckDeleteTouch(pc)
 ; ---------------------------------------------------------------------------
-Buggernaut_Index:
-		dc.w loc_55828-Buggernaut_Index
-		dc.w loc_5585A-Buggernaut_Index
-		dc.w loc_55878-Buggernaut_Index
+.Index:
+		dc.w loc_55828-.Index
+		dc.w loc_5585A-.Index
+		dc.w loc_55878-.Index
 ; ---------------------------------------------------------------------------
 
 loc_55828:
@@ -60,14 +60,14 @@ loc_55878:
 Obj_Buggernaught_Baby:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	Buggernaught_Baby_Index(pc,d0.w),d1
-		jsr	Buggernaught_Baby_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		jmp	Sprite_CheckDeleteTouchXY(pc)
 ; ---------------------------------------------------------------------------
-Buggernaught_Baby_Index:
-		dc.w loc_558BA-Buggernaught_Baby_Index
-		dc.w loc_558CC-Buggernaught_Baby_Index
-		dc.w loc_55932-Buggernaught_Baby_Index
+.Index:
+		dc.w loc_558BA-.Index
+		dc.w loc_558CC-.Index
+		dc.w loc_55932-.Index
 ; ---------------------------------------------------------------------------
 
 loc_558BA:

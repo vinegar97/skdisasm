@@ -682,7 +682,7 @@ loc_23B0EE:
 
 AIZ1_FireRise:
 		cmpi.b	#6,(Player_1+routine).w
-		bcc.s	locret_23B178
+		bcc.s	.locret_23B178
 		moveq	#0,d0
 		move.w	(Events_bg+$02).w,d0
 		addi.w	#$280,d0
@@ -695,13 +695,13 @@ loc_23B16E:
 		lsl.l	#4,d0
 		add.l	d0,(Camera_Y_pos_BG_copy).w
 
-locret_23B178:
+.locret_23B178:
 		rts
 ; ---------------------------------------------------------------------------
 
 AIZTrans_WavyFlame:
 		cmpi.b	#6,(Player_1+routine).w
-		bcc.s	locret_23B1C4
+		bcc.s	.locret_23B1C4
 		addq.w	#6,(_unkEE8E).w
 		move.w	(_unkEE8E).w,d0
 		andi.w	#$60,d0
@@ -725,7 +725,7 @@ loc_23B1B0:
 		move.l	d0,(a1)+
 		dbf	d3,loc_23B1B0
 
-locret_23B1C4:
+.locret_23B1C4:
 		rts
 ; ---------------------------------------------------------------------------
 AIZ1_IntroDrawArray:
@@ -769,7 +769,7 @@ loc_23B648:
 
 loc_23B666:
 		move.b	(a5)+,d3
-		bmi.s	locret_23B67E
+		bmi.s	.locret_23B67E
 		ext.w	d3
 		swap	d0
 
@@ -782,7 +782,7 @@ loc_23B66E:
 		bra.s	loc_23B666
 ; ---------------------------------------------------------------------------
 
-locret_23B67E:
+.locret_23B67E:
 		rts
 ; ---------------------------------------------------------------------------
 
@@ -865,7 +865,7 @@ loc_23B744:
 		adda.w	d2,a6
 		jsr	(ApplyFGandBGDeformation).l
 		tst.w	(Events_bg+$04).w
-		beq.s	locret_23B772
+		beq.s	.locret_23B772
 		lea	(H_scroll_buffer).w,a1		; This is for what I assume to be the flying battleship sequence.
 		move.w	(_unkEE98).w,d0			; Nullifies the top 8 tiles worth of FG waviness for this effect
 		neg.w	d0						; And replaces it with position data from the second BG camera.
@@ -882,7 +882,7 @@ loc_23B75E:
 		addq.w	#4,a1
 		dbf	d1,loc_23B75E
 
-locret_23B772:
+.locret_23B772:
 		rts
 ; ---------------------------------------------------------------------------
 AIZ2_BGDeformArray:
@@ -1089,10 +1089,10 @@ MGZ2_FGVScrollArray:
 
 MGZ2_BGDeform:
 		move.w	(Events_bg+$00).w,d0
-		jmp	MGZ2_BGDeform_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-MGZ2_BGDeform_Index:
+.Index:
 		bra.w	loc_23D21E	; 0 - Normal
 ; ---------------------------------------------------------------------------
 		bra.w	loc_23D1F4	; 4 - Knuckles BG move event

@@ -266,17 +266,17 @@ locret_5C65E:
 Obj_Continue_SonicAlone:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	Continue_SonicAlone_Index(pc,d0.w),d1
-		jsr	Continue_SonicAlone_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		jsr	(Sonic_Load_PLC).l
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
-Continue_SonicAlone_Index:
-		dc.w loc_5C684-Continue_SonicAlone_Index
-		dc.w loc_5C6B6-Continue_SonicAlone_Index
-		dc.w loc_5C6E0-Continue_SonicAlone_Index
-		dc.w loc_5C6F4-Continue_SonicAlone_Index
-		dc.w locret_5C716-Continue_SonicAlone_Index
+.Index:
+		dc.w loc_5C684-.Index
+		dc.w loc_5C6B6-.Index
+		dc.w loc_5C6E0-.Index
+		dc.w loc_5C6F4-.Index
+		dc.w locret_5C716-.Index
 ; ---------------------------------------------------------------------------
 
 loc_5C684:

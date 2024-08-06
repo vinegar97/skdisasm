@@ -4,14 +4,14 @@
 DebugMode:
 		moveq	#0,d0
 		move.b	(Debug_placement_routine).w,d0
-		move.w	DebugMode_Index(pc,d0.w),d1
-		jmp	DebugMode_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jmp	.Index(pc,d1.w)
 ; End of function DebugMode
 
 ; ---------------------------------------------------------------------------
-DebugMode_Index:
-		dc.w loc_5B532-DebugMode_Index
-		dc.w loc_5B5BA-DebugMode_Index
+.Index:
+		dc.w loc_5B532-.Index
+		dc.w loc_5B5BA-.Index
 ; ---------------------------------------------------------------------------
 
 loc_5B532:

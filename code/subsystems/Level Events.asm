@@ -1904,10 +1904,10 @@ SpecialEvents:
 		cmpi.b	#6,(Player_1+routine).w
 		bhs.s	locret_4F366
 		move.w	(Special_events_routine).w,d0
-		movea.l	SpecialEvents_Index(pc,d0.w),a0
+		movea.l	.Index(pc,d0.w),a0
 		jmp	(a0)
 ; ---------------------------------------------------------------------------
-SpecialEvents_Index:
+.Index:
 		dc.l locret_4F366
 		dc.l AIZ2_DoShipLoop
 		dc.l loc_54CB0
@@ -2371,10 +2371,10 @@ loc_4FB1C:
 
 AIZ1_BackgroundEvent:
 		move.w	(Events_routine_bg).w,d0
-		jmp	AIZ1_BackgroundEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-AIZ1_BackgroundEvent_Index:
+.Index:
 		bra.w	AIZ1BGE_Intro
 ; ---------------------------------------------------------------------------
 		bra.w	AIZ1BGE_NormalRefresh
@@ -2694,10 +2694,10 @@ AIZ2_ScreenEvent:
 		move.w	(Screen_shake_offset).w,d0
 		add.w	d0,(Camera_Y_pos_copy).w
 		move.w	(Events_routine_fg).w,d0
-		jmp	AIZ2_ScreenEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-AIZ2_ScreenEvent_Index:
+.Index:
 		bra.w	AIZ2SE_Normal
 ; ---------------------------------------------------------------------------
 		bra.w	AIZ2SE_ShipRefresh
@@ -2832,10 +2832,10 @@ AIZ2_BackgroundEvent:
 		move.w	#$200,d3
 		jsr	Adjust_BGDuringLoop(pc)
 		move.w	(Events_routine_bg).w,d0
-		jmp	AIZ2_BackgroundEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-AIZ2_BackgroundEvent_Index:
+.Index:
 		bra.w	AIZ2BGE_FireRedraw
 ; ---------------------------------------------------------------------------
 		bra.w	AIZ2BGE_WaitFire
@@ -3181,7 +3181,7 @@ loc_50466:
 ; ---------------------------------------------------------------------------
 
 Obj_AIZShipBomb:
-		move.l	#Obj_AIZShipBombMain,(a0)
+		move.l	#.Main,(a0)
 		move.b	#4,render_flags(a0)
 		move.b	#$18,width_pixels(a0)
 		move.w	#$80,priority(a0)
@@ -3191,13 +3191,13 @@ Obj_AIZShipBomb:
 		move.w	#$A60,$30(a0)
 		move.w	#6,$32(a0)
 
-Obj_AIZShipBombMain:
+.Main:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		jmp	AIZShipBomb_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-AIZShipBomb_Index:
+.Index:
 		bra.w	AIZShipBomb_ReadyDrop
 ; ---------------------------------------------------------------------------
 		bra.w	AIZShipBomb_Delay
@@ -3522,10 +3522,10 @@ loc_50BB0:
 
 HCZ1_BackgroundEvent:
 		move.w	(Events_routine_bg).w,d0
-		jmp	HCZ1_BackgroundEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-HCZ1_BackgroundEvent_Index:
+.Index:
 		bra.w	HCZ1BGE_Normal
 ; ---------------------------------------------------------------------------
 		bra.w	HCZ1BGE_DoTransition
@@ -3843,10 +3843,10 @@ loc_50ED0:
 
 HCZ2_BackgroundEvent:
 		move.w	(Events_routine_bg).w,d0
-		jmp	HCZ2_BackgroundEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-HCZ2_BackgroundEvent_Index:
+.Index:
 		bra.w	HCZ2BGE_WallMoveInit
 ; ---------------------------------------------------------------------------
 		bra.w	HCZ2BGE_WallMove
@@ -4089,10 +4089,10 @@ MGZ1_BackgroundInit:
 
 MGZ1_BackgroundEvent:
 		move.w	(Events_routine_bg).w,d0
-		jmp	MGZ1_BackgroundEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-MGZ1_BackgroundEvent_Index:
+.Index:
 		bra.w	MGZ1BGE_Normal
 ; ---------------------------------------------------------------------------
 		bra.w	MGZ1BGE_Transition
@@ -4611,12 +4611,12 @@ loc_516A2:
 
 MGZ2_ChunkEvent:
 		move.w	(Events_bg+$04).w,d0
-		jmp	MGZ2_ChunkEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; End of function MGZ2_ChunkEvent
 
 ; ---------------------------------------------------------------------------
 
-MGZ2_ChunkEvent_Index:
+.Index:
 		bra.w	MGZ2_ChunkEventCheck
 ; ---------------------------------------------------------------------------
 		bra.w	MGZ2_ChunkEvent1
@@ -4849,10 +4849,10 @@ loc_518CA:
 
 MGZ2_BackgroundEvent:
 		move.w	(Events_routine_bg).w,d0
-		jmp	MGZ2_BackgroundEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-MGZ2_BackgroundEvent_Index:
+.Index:
 		bra.w	MGZ2BGE_GoRefresh
 ; ---------------------------------------------------------------------------
 		bra.w	MGZ2BGE_Normal
@@ -4945,12 +4945,12 @@ loc_519CC:
 		move.w	(Player_1+x_pos).w,d0
 		move.w	(Player_1+y_pos).w,d1
 		move.w	(Events_bg+$00).w,d2
-		jmp	MGZ2_BGEventTrigger_Index(pc,d2.w)
+		jmp	MGZ2_BGEventTrigger.Index(pc,d2.w)
 ; End of function MGZ2_BGEventTrigger
 
 ; ---------------------------------------------------------------------------
 
-MGZ2_BGEventTrigger_Index:
+MGZ2_BGEventTrigger.Index:
 		bra.w	loc_51A6A	; 0 - Normal
 ; ---------------------------------------------------------------------------
 		bra.w	loc_51A3C	; 4 - Knuckles BG Move Event
@@ -5251,10 +5251,10 @@ CNZ1_BackgroundInit:
 
 CNZ1_BackgroundEvent:
 		move.w	(Events_routine_bg).w,d0
-		jmp	CNZ1_BackgroundEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-CNZ1_BackgroundEvent_Index:
+.Index:
 		bra.w	CNZ1BGE_Normal
 ; ---------------------------------------------------------------------------
 		bra.w	CNZ1BGE_BossStart
@@ -5555,10 +5555,10 @@ CNZ1_BossLevelScroll2:
 Obj_CNZMinibossScrollControl:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		jmp	CNZMinibossScrollControl_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-CNZMinibossScrollControl_Index:
+.Index:
 		bra.w	Obj_CNZMinibossScrollInit
 ; ---------------------------------------------------------------------------
 		bra.w	Obj_CNZMinibossScrollMain
@@ -5723,10 +5723,10 @@ loc_52138:
 
 loc_52146:
 		move.w	(Events_routine_fg).w,d0
-		jmp	CNZ2_ScreenEvent_Index(pc,d0.w)
+		jmp	CNZ2_ScreenEvent.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-CNZ2_ScreenEvent_Index:
+CNZ2_ScreenEvent.Index:
 		bra.w	loc_5215A
 ; ---------------------------------------------------------------------------
 		bra.w	loc_521D2
@@ -5796,10 +5796,10 @@ CNZ2_BackgroundInit:
 
 CNZ2_BackgroundEvent:
 		move.w	(Events_routine_bg).w,d0
-		jmp	CNZ2_BackgroundEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-CNZ2_BackgroundEvent_Index:
+.Index:
 		bra.w	loc_52238
 ; ---------------------------------------------------------------------------
 		bra.w	loc_52266
@@ -6000,10 +6000,10 @@ loc_5242E:
 		move.w	(Player_1+x_pos).w,d0
 		move.w	(Player_1+y_pos).w,d1
 		move.w	(Events_bg+$00).w,d2
-		jmp	FBZ1_ScreenEvent_Index(pc,d2.w)
+		jmp	FBZ1_ScreenEvent.Index(pc,d2.w)
 ; ---------------------------------------------------------------------------
 
-FBZ1_ScreenEvent_Index:
+FBZ1_ScreenEvent.Index:
 		bra.w	FBZ1SE_Normal
 ; ---------------------------------------------------------------------------
 		bra.w	FBZ1SE_LayoutMod1
@@ -6520,10 +6520,10 @@ loc_528A4:
 
 FBZ1_BackgroundEvent:
 		move.w	(Events_routine_bg).w,d0
-		jmp	FBZ1_BackgroundEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-FBZ1_BackgroundEvent_Index:
+.Index:
 		bra.w	FBZ1BGE_Normal
 ; ---------------------------------------------------------------------------
 		bra.w	FBZ1BGE_ChangeTopDown
@@ -6744,12 +6744,12 @@ FBZ1_CheckBGChange:
 		move.w	(Player_1+x_pos).w,d0
 		move.w	(Player_1+y_pos).w,d1
 		move.w	(Events_bg+$00).w,d2	; The BG change events are synced with the layout mod events in screen events. Each numbered routine
-		jmp	FBZ1_CheckBGChange_Index(pc,d2.w)		; here corresponds with the same layoutmod number in FBZ1_ScreenEvents
+		jmp	.Index(pc,d2.w)		; here corresponds with the same layoutmod number in FBZ1_ScreenEvents
 ; End of function FBZ1_CheckBGChange
 
 ; ---------------------------------------------------------------------------
 
-FBZ1_CheckBGChange_Index:
+.Index:
 		bra.w	FBZ_Deform		; If no event, then just do business as usual
 ; ---------------------------------------------------------------------------
 		bra.w	FBZ1_BGChange1
@@ -7146,10 +7146,10 @@ FBZ2_ScreenEvent:
 		move.w	(Screen_shake_offset).w,d0
 		add.w	d0,(Camera_Y_pos_copy).w
 		move.w	(Events_routine_fg).w,d0
-		jmp	FBZ2_ScreenEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-FBZ2_ScreenEvent_Index:
+.Index:
 		bra.w	FBZ2SE_Normal
 ; ---------------------------------------------------------------------------
 		bra.w	FBZ2SE_BossEvent
@@ -7359,10 +7359,10 @@ loc_53002:
 
 FBZ2_BackgroundEvent:
 		move.w	(Events_routine_bg).w,d0
-		jmp	FBZ2_BackgroundEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-FBZ2_BackgroundEvent_Index:
+.Index:
 		bra.w	FBZ2BGE_Init
 ; ---------------------------------------------------------------------------
 		bra.w	FBZ2BGE_Normal
@@ -7584,12 +7584,12 @@ FBZ2_CheckBGChange:
 		move.w	(Player_1+x_pos).w,d0
 		move.w	(Player_1+y_pos).w,d1
 		move.w	(Events_bg+$00).w,d2		; You know how this goes by now
-		jmp	FBZ2_CheckBGChange_Index(pc,d2.w)
+		jmp	.Index(pc,d2.w)
 ; End of function FBZ1_CheckBGChange
 
 ; ---------------------------------------------------------------------------
 
-FBZ2_CheckBGChange_Index:
+.Index:
 		bra.w	FBZ_Deform
 ; ---------------------------------------------------------------------------
 		tst.w	(Events_bg+$04).w
@@ -7891,10 +7891,10 @@ loc_53648:
 
 ICZ1_ScreenEvent:
 		move.w	(Events_routine_bg).w,d0
-		jmp	ICZ1_ScreenEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-ICZ1_ScreenEvent_Index:
+.Index:
 		bra.w	ICZ1SE_Init
 ; ---------------------------------------------------------------------------
 		bra.w	ICZ1SE_WaitQuake
@@ -7970,10 +7970,10 @@ loc_53704:
 
 ICZ1_BackgroundEvent:
 		move.w	(Events_routine_bg).w,d0
-		jmp	ICZ1_BackgroundEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-ICZ1_BackgroundEvent_Index:
+.Index:
 		bra.w	ICZ1BGE_Intro
 ; ---------------------------------------------------------------------------
 		bra.w	ICZ1BGE_SnowFall
@@ -8523,10 +8523,10 @@ loc_53D2C:
 
 ICZ2_BackgroundEvent:
 		move.w	(Events_routine_bg).w,d0
-		jmp	ICZ2_BackgroundEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-ICZ2_BackgroundEvent_Index:
+.Index:
 		bra.w	ICZ2BGE_FromICZ1
 ; ---------------------------------------------------------------------------
 		bra.w	ICZ2BGE_Normal
@@ -9010,10 +9010,10 @@ loc_541C6:
 
 LBZ1_BackgroundEvent:
 		move.w	(Events_routine_bg).w,d0
-		jmp	LBZ1_BackgroundEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-LBZ1_BackgroundEvent_Index:
+.Index:
 		bra.w	LBZ1BGE_Normal
 ; ---------------------------------------------------------------------------
 		bra.w	LBZ1BGE_DoTransition
@@ -9124,10 +9124,10 @@ LBZ2_ScreenEvent:
 		move.w	(Screen_shake_offset).w,d0
 		add.w	d0,(Camera_Y_pos_copy).w
 		move.w	(Events_routine_fg).w,d0
-		jmp	LBZ2_ScreenEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-LBZ2_ScreenEvent_Index:
+.Index:
 		bra.w	LBZ2SE_FromTransition
 ; ---------------------------------------------------------------------------
 		bra.w	LBZ2SE_Normal
@@ -9225,10 +9225,10 @@ loc_54436:
 
 LBZ2_BackgroundEvent:
 		move.w	(Events_routine_bg).w,d0
-		jmp	LBZ2_BackgroundEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-LBZ2_BackgroundEvent_Index:
+.Index:
 		bra.w	LBZ2BGE_FromTransition
 ; ---------------------------------------------------------------------------
 		bra.w	LBZ2BGE_Refresh
@@ -10259,10 +10259,10 @@ MHZ2_ScreenEvent:
 		move.w	(Screen_shake_offset).w,d0
 		add.w	d0,(Camera_X_pos_copy).w
 		move.w	(Events_routine_fg).w,d0
-		jmp	MHZ2_ScreenEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-MHZ2_ScreenEvent_Index:
+.Index:
 		bra.w	loc_54DB0
 ; ---------------------------------------------------------------------------
 		bra.w	loc_54DBE
@@ -10671,10 +10671,10 @@ MHZ2_BackgroundEvent:
 		move.w	#$200,d3
 		jsr	Adjust_BGDuringLoop(pc)
 		move.w	(Events_routine_bg).w,d0
-		jmp	MHZ2_BackgroundEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-MHZ2_BackgroundEvent_Index:
+.Index:
 		bra.w	loc_551EE
 ; ---------------------------------------------------------------------------
 		bra.w	loc_55236
@@ -11402,10 +11402,10 @@ SOZ1_BackgroundInit:
 
 SOZ1_BackgroundEvent:
 		move.w	(Events_routine_bg).w,d0
-		jmp	SOZ1_BackgroundEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-SOZ1_BackgroundEvent_Index:
+.Index:
 		bra.w	loc_55A9A
 ; ---------------------------------------------------------------------------
 		bra.w	loc_55B04
@@ -12052,10 +12052,10 @@ SOZ2_ScreenEvent:
 		move.w	(Screen_shake_offset).w,d0
 		add.w	d0,(Camera_Y_pos_copy).w
 		move.w	(Events_routine_fg).w,d0
-		jmp	SOZ2_ScreenEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-SOZ2_ScreenEvent_Index:
+.Index:
 		bra.w	loc_561D8
 ; ---------------------------------------------------------------------------
 		bra.w	loc_56206
@@ -12140,10 +12140,10 @@ loc_56278:
 
 SOZ2_BackgroundEvent:
 		move.w	(Events_routine_bg).w,d0
-		jmp	SOZ2_BackgroundEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-SOZ2_BackgroundEvent_Index:
+.Index:
 		bra.w	loc_562D0	; $00
 ; ---------------------------------------------------------------------------
 		bra.w	loc_56300	; $04
@@ -13074,10 +13074,10 @@ loc_56B88:
 
 LRZ1_BackgroundEvent:
 		move.w	(Events_routine_bg).w,d0
-		jmp	LRZ1_BackgroundEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-LRZ1_BackgroundEvent_Index:
+.Index:
 		bra.w	loc_56BD2
 ; ---------------------------------------------------------------------------
 		bra.w	loc_56C6E
@@ -13495,10 +13495,10 @@ loc_56FD2:
 
 LRZ2_BackgroundEvent:
 		move.w	(Events_routine_bg).w,d0
-		jmp	LRZ2_BackgroundEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-LRZ2_BackgroundEvent_Index:
+.Index:
 		bra.w	loc_5700C
 ; ---------------------------------------------------------------------------
 		bra.w	loc_57040
@@ -13721,10 +13721,10 @@ SSZ1_ScreenEvent:
 		move.w	(Screen_shake_offset).w,d0
 		add.w	d0,(Camera_Y_pos_copy).w
 		move.w	(Events_routine_fg).w,d0
-		jmp	SSZ1_ScreenEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-SSZ1_ScreenEvent_Index:
+.Index:
 		bra.w	loc_572BA
 ; ---------------------------------------------------------------------------
 		bra.w	loc_57344
@@ -14247,10 +14247,10 @@ loc_5786A:
 
 SSZ1_BackgroundEvent:
 		move.w	(Events_routine_bg).w,d0
-		jmp	SSZ1_BackgroundEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-SSZ1_BackgroundEvent_Index:
+.Index:
 		bra.w	loc_578AA
 ; ---------------------------------------------------------------------------
 		bra.w	loc_57942
@@ -15566,10 +15566,10 @@ SSZ2_ScreenEvent:
 		move.w	(Screen_shake_offset).w,d0
 		add.w	d0,(Camera_Y_pos_copy).w
 		move.w	(Events_routine_fg).w,d0
-		jmp	SSZ2_ScreenEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-SSZ2_ScreenEvent_Index:
+.Index:
 		bra.w	loc_58ACC
 ; ---------------------------------------------------------------------------
 		bra.w	loc_58AE0
@@ -15803,10 +15803,10 @@ SSZ2_BackgroundInit:
 
 SSZ2_BackgroundEvent:
 		move.w	(Events_routine_bg).w,d0
-		jmp	SSZ2_BackgroundEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-SSZ2_BackgroundEvent_Index:
+.Index:
 		bra.w	loc_58D1E
 ; ---------------------------------------------------------------------------
 		lea	(Level_layout_main).w,a3
@@ -16464,10 +16464,10 @@ DEZ1_BackgroundInit:
 
 DEZ1_BackgroundEvent:
 		move.w	(Events_routine_bg).w,d0
-		jmp	DEZ1_BackgroundEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-DEZ1_BackgroundEvent_Index:
+.Index:
 		bra.w	loc_593A8
 ; ---------------------------------------------------------------------------
 		bra.w	loc_593EC
@@ -16545,10 +16545,10 @@ DEZ2_ScreenInit:
 
 DEZ2_ScreenEvent:
 		move.w	(Events_routine_fg).w,d0
-		jmp	DEZ2_ScreenEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-DEZ2_ScreenEvent_Index:
+.Index:
 		bra.w	loc_594B4
 ; ---------------------------------------------------------------------------
 		bra.w	loc_594DA
@@ -16594,10 +16594,10 @@ DEZ2_BackgroundInit:
 
 DEZ2_BackgroundEvent:
 		move.w	(Events_routine_bg).w,d0
-		jmp	DEZ2_BackgroundEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-DEZ2_BackgroundEvent_Index:
+.Index:
 		bra.w	loc_59532
 ; ---------------------------------------------------------------------------
 		bra.w	loc_59556
@@ -16644,10 +16644,10 @@ loc_5957A:
 DDZ_ScreenEvent:
 		jsr	sub_59648(pc)
 		move.w	(Events_routine_fg).w,d4
-		jmp	DDZ_ScreenEvent_Index(pc,d4.w)
+		jmp	.Index(pc,d4.w)
 ; ---------------------------------------------------------------------------
 
-DDZ_ScreenEvent_Index:
+.Index:
 		bra.w	loc_595B0
 ; ---------------------------------------------------------------------------
 		bra.w	loc_595C0
@@ -16876,10 +16876,10 @@ Slots_ScreenInit:
 
 Slots_ScreenEvent:
 		move.w	(Events_routine_fg).w,d0
-		jmp	Slots_ScreenEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-Slots_ScreenEvent_Index:
+.Index:
 		bra.w	loc_597AA
 ; ---------------------------------------------------------------------------
 		bra.w	loc_597E4
@@ -17164,10 +17164,10 @@ loc_59AF8:
 
 LRZ3_ScreenEvent:
 		move.w	(Events_routine_fg).w,d0
-		jmp	LRZ3_ScreenEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-LRZ3_ScreenEvent_Index:
+.Index:
 		bra.w	loc_59B1C
 ; ---------------------------------------------------------------------------
 		bra.w	loc_59B46
@@ -17288,10 +17288,10 @@ loc_59C26:
 
 LRZ3_BackgroundEvent:
 		move.w	(Events_routine_bg).w,d0
-		jmp	LRZ3_BackgroundEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-LRZ3_BackgroundEvent_Index:
+.Index:
 		bra.w	loc_59C60
 ; ---------------------------------------------------------------------------
 		bra.w	loc_59C8C
@@ -17887,10 +17887,10 @@ loc_5A1DA:
 
 HPZ_BackgroundEvent:
 		move.w	(Events_routine_bg).w,d0
-		jmp	HPZ_BackgroundEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-HPZ_BackgroundEvent_Index:
+.Index:
 		bra.w	loc_5A224
 ; ---------------------------------------------------------------------------
 		bra.w	loc_5A288
@@ -18122,10 +18122,10 @@ DEZ3_ScreenEvent:
 		lea	(Level_layout_main+$02).w,a3
 		move.w	#VRAM_Plane_B_Name_Table,d7
 		move.w	(Events_routine_fg).w,d0
-		jmp	DEZ3_ScreenEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-DEZ3_ScreenEvent_Index:
+.Index:
 		bra.w	loc_5A49A
 ; ---------------------------------------------------------------------------
 		bra.w	loc_5A4C4
@@ -18206,10 +18206,10 @@ DEZ3_BackgroundEvent:
 		move.w	#VRAM_Plane_A_Name_Table,d7
 		jsr	sub_5A76C(pc)
 		move.w	(Events_routine_bg).w,d0
-		jmp	DEZ3_BackgroundEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-DEZ3_BackgroundEvent_Index:
+.Index:
 		bra.w	loc_5A57C
 ; ---------------------------------------------------------------------------
 		bra.w	loc_5A5B0
@@ -18695,10 +18695,10 @@ loc_5AAB0:
 
 Ending_ScreenEvent:
 		move.w	(Events_routine_fg).w,d0
-		jmp	Ending_ScreenEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-Ending_ScreenEvent_Index:
+.Index:
 		bra.w	loc_5AB36
 ; ---------------------------------------------------------------------------
 		bra.w	loc_5AB58
@@ -19028,10 +19028,10 @@ Ending_BackgroundInit:
 
 Ending_BackgroundEvent:
 		move.w	(Events_routine_bg).w,d0
-		jmp	Ending_BackgroundEvent_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
 
-Ending_BackgroundEvent_Index:
+.Index:
 		bra.w	loc_5AF4E
 ; ---------------------------------------------------------------------------
 		bra.w	loc_5AF84

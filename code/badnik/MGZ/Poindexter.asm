@@ -2,13 +2,13 @@ Obj_Poindexter:
 		jsr	(Obj_WaitOffscreen).l
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	Poindexter_Index(pc,d0.w),d1
-		jsr	Poindexter_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		jmp	Sprite_CheckDeleteTouch(pc)
 ; ---------------------------------------------------------------------------
-Poindexter_Index:
-		dc.w loc_88298-Poindexter_Index
-		dc.w loc_882E6-Poindexter_Index
+.Index:
+		dc.w loc_88298-.Index
+		dc.w loc_882E6-.Index
 ; ---------------------------------------------------------------------------
 
 loc_88298:

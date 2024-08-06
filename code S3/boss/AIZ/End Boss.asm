@@ -34,21 +34,21 @@ Obj_AIZEndBossMusic:
 Obj_AIZEndBossMain:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	AIZ_EndBossIndex(pc,d0.w),d1
-		jsr	AIZ_EndBossIndex(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		btst	#6,$38(a0)
 		bne.w	locret_47246			; Only draw and touch when boss has revealed itself
 		jmp	(Draw_And_Touch_Sprite).l
 ; ---------------------------------------------------------------------------
-AIZ_EndBossIndex:
-		dc.w Obj_AIZEndBossInit-AIZ_EndBossIndex
-		dc.w loc_471C2-AIZ_EndBossIndex
-		dc.w loc_4720C-AIZ_EndBossIndex
-		dc.w loc_47248-AIZ_EndBossIndex
-		dc.w loc_472C2-AIZ_EndBossIndex
-		dc.w loc_471C2-AIZ_EndBossIndex
-		dc.w loc_47328-AIZ_EndBossIndex
-		dc.w loc_47348-AIZ_EndBossIndex
+.Index:
+		dc.w Obj_AIZEndBossInit-.Index
+		dc.w loc_471C2-.Index
+		dc.w loc_4720C-.Index
+		dc.w loc_47248-.Index
+		dc.w loc_472C2-.Index
+		dc.w loc_471C2-.Index
+		dc.w loc_47328-.Index
+		dc.w loc_47348-.Index
 ; ---------------------------------------------------------------------------
 
 Obj_AIZEndBossInit:

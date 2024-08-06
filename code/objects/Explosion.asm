@@ -1,14 +1,14 @@
 Obj_Explosion:    ; this object is reused from prev title
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	Explosion_Index(pc,d0.w),d1
-		jmp	Explosion_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jmp	.Index(pc,d1.w)
 ; ---------------------------------------------------------------------------
-Explosion_Index:
-		dc.w loc_1E5F6-Explosion_Index
-		dc.w loc_1E61A-Explosion_Index
-		dc.w loc_1E66E-Explosion_Index
-		dc.w loc_1E626-Explosion_Index
+.Index:
+		dc.w loc_1E5F6-.Index
+		dc.w loc_1E61A-.Index
+		dc.w loc_1E66E-.Index
+		dc.w loc_1E626-.Index
 ; ---------------------------------------------------------------------------
 
 loc_1E5F6:

@@ -19,16 +19,16 @@ Func_Listing:
 Obj_SonicOnSegaScr:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	SonicOnSegaScr_Index(pc,d0.w),d1
-		jmp	SonicOnSegaScr_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jmp	.Index(pc,d1.w)
 ; ---------------------------------------------------------------------------
-SonicOnSegaScr_Index:
-		dc.w SonicOnSegaScr_Init-SonicOnSegaScr_Index
-		dc.w SonicOnSegaScr_RunLeft-SonicOnSegaScr_Index
-		dc.w SonicOnSegaScr_MidWipe-SonicOnSegaScr_Index
-		dc.w SonicOnSegaScr_RunRight-SonicOnSegaScr_Index
-		dc.w SonicOnSegaScr_EndWipe-SonicOnSegaScr_Index
-		dc.w locret_43340-SonicOnSegaScr_Index
+.Index:
+		dc.w SonicOnSegaScr_Init-.Index
+		dc.w SonicOnSegaScr_RunLeft-.Index
+		dc.w SonicOnSegaScr_MidWipe-.Index
+		dc.w SonicOnSegaScr_RunRight-.Index
+		dc.w SonicOnSegaScr_EndWipe-.Index
+		dc.w locret_43340-.Index
 ; ---------------------------------------------------------------------------
 
 SonicOnSegaScr_Init:
@@ -202,12 +202,12 @@ locret_43340:
 ObjB1:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	ObjB1_Index(pc,d0.w),d1
-		jmp	ObjB1_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jmp	.Index(pc,d1.w)
 ; ---------------------------------------------------------------------------
-ObjB1_Index:
-		dc.w ObjB1_Init-ObjB1_Index
-		dc.w ObjB1_Main-ObjB1_Index
+.Index:
+		dc.w ObjB1_Init-.Index
+		dc.w ObjB1_Main-.Index
 ; ---------------------------------------------------------------------------
 
 ObjB1_Init:
@@ -344,14 +344,14 @@ SegaScr_VInt:
 		move.w	(_unkF662).w,d0
 		beq.w	locret_432D8
 		clr.w	(_unkF662).w
-		move.w	SegaScr_VInt_Index-2(pc,d0.w),d0
-		jmp	SegaScr_VInt_Index(pc,d0.w)
+		move.w	.Index-2(pc,d0.w),d0
+		jmp	.Index(pc,d0.w)
 ; End of function SegaScr_VInt
 
 ; ---------------------------------------------------------------------------
-SegaScr_VInt_Index:
-		dc.w loc_435C4-SegaScr_VInt_Index
-		dc.w loc_435F6-SegaScr_VInt_Index
+.Index:
+		dc.w loc_435C4-.Index
+		dc.w loc_435F6-.Index
 ; ---------------------------------------------------------------------------
 
 loc_435C4:

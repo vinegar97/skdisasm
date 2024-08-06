@@ -1,18 +1,18 @@
 Obj_Monitor:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	Monitor_Index(pc,d0.w),d1
-		jmp	Monitor_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jmp	.Index(pc,d1.w)
 ; ---------------------------------------------------------------------------
-Monitor_Index:
-		dc.w Obj_MonitorInit-Monitor_Index
-		dc.w Obj_MonitorMain-Monitor_Index
-		dc.w Obj_MonitorBreak-Monitor_Index
-		dc.w Obj_MonitorAnimate-Monitor_Index
-		dc.w loc_1B504-Monitor_Index
+.Index:
+		dc.w .Init-.Index
+		dc.w .Main-.Index
+		dc.w Obj_MonitorBreak-.Index
+		dc.w .Animate-.Index
+		dc.w loc_1B504-.Index
 ; ---------------------------------------------------------------------------
 
-Obj_MonitorInit:
+.Init:
 		addq.b	#2,routine(a0)	; => Obj_MonitorMain
 		move.b	#$F,y_radius(a0)
 		move.b	#$F,x_radius(a0)
@@ -36,10 +36,10 @@ Obj_MonitorInit:
 		move.b	#$46,collision_flags(a0)
 		move.b	subtype(a0),anim(a0)	; Subtype determines what powerup is inside
 		tst.w	(Competition_mode).w
-		beq.s	Obj_MonitorMain
+		beq.s	.Main
 		move.b	#9,anim(a0)
 
-Obj_MonitorMain:
+.Main:
 		move.b	$3C(a0),d0
 		beq.s	loc_1B4C8
 		bsr.w	MoveSprite
@@ -68,7 +68,7 @@ loc_1B4C8:
 		bsr.w	SolidObject_Monitor_Tails
 		jsr	(Add_SpriteToCollisionResponseList).l
 
-Obj_MonitorAnimate:
+.Animate:
 		lea	(Ani_Monitor).l,a1
 		bsr.w	Animate_Sprite
 
@@ -181,13 +181,13 @@ Obj_MonitorSpawnIcon:
 Obj_MonitorContents:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	MonitorContents_Index(pc,d0.w),d1
-		jmp	MonitorContents_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jmp	.Index(pc,d1.w)
 ; ---------------------------------------------------------------------------
-MonitorContents_Index:
-		dc.w loc_1B616-MonitorContents_Index
-		dc.w loc_1B656-MonitorContents_Index
-		dc.w loc_1B8E4-MonitorContents_Index
+.Index:
+		dc.w loc_1B616-.Index
+		dc.w loc_1B656-.Index
+		dc.w loc_1B8E4-.Index
 ; ---------------------------------------------------------------------------
 
 loc_1B616:

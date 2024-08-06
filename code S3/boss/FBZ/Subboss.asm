@@ -1,18 +1,18 @@
 Obj_FBZ2Subboss:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	FBZ2Subboss_Index(pc,d0.w),d1
-		jsr	FBZ2Subboss_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		bsr.w	sub_4DA98
 		jmp	Draw_And_Touch_Sprite(pc)
 ; ---------------------------------------------------------------------------
-FBZ2Subboss_Index:
-		dc.w loc_4D57A-FBZ2Subboss_Index
-		dc.w loc_4D5D6-FBZ2Subboss_Index
-		dc.w loc_4D602-FBZ2Subboss_Index
-		dc.w loc_4D644-FBZ2Subboss_Index
-		dc.w loc_4D664-FBZ2Subboss_Index
-		dc.w loc_4D6C8-FBZ2Subboss_Index
+.Index:
+		dc.w loc_4D57A-.Index
+		dc.w loc_4D5D6-.Index
+		dc.w loc_4D602-.Index
+		dc.w loc_4D644-.Index
+		dc.w loc_4D664-.Index
+		dc.w loc_4D6C8-.Index
 ; ---------------------------------------------------------------------------
 
 loc_4D57A:

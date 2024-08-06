@@ -2,14 +2,14 @@ Obj_RobotnikHead:
 		jsr	(Refresh_ChildPositionAdjusted).l
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	RobotnikHead_Index(pc,d0.w),d1
-		jsr	RobotnikHead_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		jmp	(Child_Draw_Sprite2).l
 ; ---------------------------------------------------------------------------
-RobotnikHead_Index:
-		dc.w Obj_RobotnikHeadInit-RobotnikHead_Index
-		dc.w Obj_RobotnikHeadMain-RobotnikHead_Index
-		dc.w Obj_RobotnikHeadEnd-RobotnikHead_Index
+.Index:
+		dc.w Obj_RobotnikHeadInit-.Index
+		dc.w Obj_RobotnikHeadMain-.Index
+		dc.w Obj_RobotnikHeadEnd-.Index
 ; ---------------------------------------------------------------------------
 
 Obj_RobotnikHeadInit:
@@ -52,31 +52,31 @@ Obj_RobotnikHead2:
 		jsr	(Child_SyncDraw).l
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	RobotnikHead2_Index(pc,d0.w),d1
-		jsr	RobotnikHead2_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		btst	#6,$38(a0)
 		bne.w	locret_45EE0
 		jmp	(Child_Draw_Sprite2).l
 ; ---------------------------------------------------------------------------
-RobotnikHead2_Index:
-		dc.w Obj_RobotnikHeadInit-RobotnikHead2_Index
-		dc.w Obj_RobotnikHeadMain-RobotnikHead2_Index
-		dc.w Obj_RobotnikHeadEnd-RobotnikHead2_Index
+.Index:
+		dc.w Obj_RobotnikHeadInit-.Index
+		dc.w Obj_RobotnikHeadMain-.Index
+		dc.w Obj_RobotnikHeadEnd-.Index
 ; ---------------------------------------------------------------------------
 
 Obj_FBZRobotnikHead:
 		jsr	(Refresh_ChildPositionAdjusted).l
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	FBZRobotnikHead_Index(pc,d0.w),d1
-		jsr	FBZRobotnikHead_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		jsr	(Child_GetPriority).l
 		jmp	(Child_Draw_Sprite2).l
 ; ---------------------------------------------------------------------------
-FBZRobotnikHead_Index:
-		dc.w Obj_FBZRobotnikHeadInit-FBZRobotnikHead_Index
-		dc.w Obj_FBZRobotnikHeadMain-FBZRobotnikHead_Index
-		dc.w Obj_RobotnikHeadEnd-FBZRobotnikHead_Index
+.Index:
+		dc.w Obj_FBZRobotnikHeadInit-.Index
+		dc.w Obj_FBZRobotnikHeadMain-.Index
+		dc.w Obj_RobotnikHeadEnd-.Index
 ; ---------------------------------------------------------------------------
 
 Obj_FBZRobotnikHeadInit:
@@ -123,14 +123,14 @@ Obj_RobotnikHead3:
 		jsr	(Refresh_ChildPositionAdjusted).l
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	RobotnikHead3_Index(pc,d0.w),d1
-		jsr	RobotnikHead3_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		jmp	(Child_Draw_Sprite2).l
 ; ---------------------------------------------------------------------------
-RobotnikHead3_Index:
-		dc.w Obj_RobotnikHead3Init-RobotnikHead3_Index
-		dc.w Obj_RobotnikHead3Main-RobotnikHead3_Index
-		dc.w Obj_RobotnikHeadEnd-RobotnikHead3_Index
+.Index:
+		dc.w Obj_RobotnikHead3Init-.Index
+		dc.w Obj_RobotnikHead3Main-.Index
+		dc.w Obj_RobotnikHeadEnd-.Index
 ; ---------------------------------------------------------------------------
 
 Obj_RobotnikHead3Init:
@@ -190,17 +190,17 @@ RobotnikHead4_Index:
 Obj_RobotnikShip:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	RobotnikShip_Index(pc,d0.w),d1
-		jsr	RobotnikShip_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		btst	#6,$38(a0)
 		bne.w	locret_45EE0
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
-RobotnikShip_Index:
-		dc.w loc_460A6-RobotnikShip_Index
-		dc.w loc_460C2-RobotnikShip_Index
-		dc.w loc_460F8-RobotnikShip_Index
-		dc.w loc_4612A-RobotnikShip_Index
+.Index:
+		dc.w loc_460A6-.Index
+		dc.w loc_460C2-.Index
+		dc.w loc_460F8-.Index
+		dc.w loc_4612A-.Index
 ; ---------------------------------------------------------------------------
 
 loc_460A6:
@@ -263,16 +263,16 @@ loc_46138:
 Obj_RobotnikShip2:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	RobotnikShip2_Index(pc,d0.w),d1
-		jsr	RobotnikShip2_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
-RobotnikShip2_Index:
-		dc.w Obj_RobotnikShipInit-RobotnikShip2_Index
-		dc.w Obj_RobotnikShipMain-RobotnikShip2_Index
-		dc.w Obj_RobotnikShip2Wait-RobotnikShip2_Index
-		dc.w Obj_RobotnikShipReady-RobotnikShip2_Index
-		dc.w Obj_RobotnikShipEscape-RobotnikShip2_Index
+.Index:
+		dc.w Obj_RobotnikShipInit-.Index
+		dc.w Obj_RobotnikShipMain-.Index
+		dc.w Obj_RobotnikShip2Wait-.Index
+		dc.w Obj_RobotnikShipReady-.Index
+		dc.w Obj_RobotnikShipEscape-.Index
 ; ---------------------------------------------------------------------------
 
 Obj_RobotnikShip2Wait:
@@ -291,19 +291,19 @@ loc_46174:
 Obj_RobotnikShip3:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	RobotnikShip3_Index(pc,d0.w),d1
-		jsr	RobotnikShip3_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		movea.w	parent3(a0),a1
 		btst	#5,$38(a1)
 		bne.s	loc_461AC
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
-RobotnikShip3_Index:
-		dc.w Obj_RobotnikShipInit-RobotnikShip3_Index
-		dc.w Obj_RobotnikShipMain-RobotnikShip3_Index
-		dc.w Obj_RobotnikShipWait-RobotnikShip3_Index
-		dc.w Obj_RobotnikShipReady-RobotnikShip3_Index
-		dc.w Obj_RobotnikShipEscape-RobotnikShip3_Index
+.Index:
+		dc.w Obj_RobotnikShipInit-.Index
+		dc.w Obj_RobotnikShipMain-.Index
+		dc.w Obj_RobotnikShipWait-.Index
+		dc.w Obj_RobotnikShipReady-.Index
+		dc.w Obj_RobotnikShipEscape-.Index
 ; ---------------------------------------------------------------------------
 
 loc_461AC:
@@ -388,32 +388,32 @@ loc_4626C:
 Obj_RobotnikShip4:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	RobotnikShip4_Index(pc,d0.w),d1
-		jsr	RobotnikShip4_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
-RobotnikShip4_Index:
-		dc.w Obj_RobotnikShipInit-RobotnikShip4_Index
-		dc.w Obj_RobotnikShipMain-RobotnikShip4_Index
-		dc.w Obj_RobotnikShipWait-RobotnikShip4_Index
-		dc.w Obj_RobotnikShipReady-RobotnikShip4_Index
-		dc.w Obj_RobotnikShipEscape-RobotnikShip4_Index
+.Index:
+		dc.w Obj_RobotnikShipInit-.Index
+		dc.w Obj_RobotnikShipMain-.Index
+		dc.w Obj_RobotnikShipWait-.Index
+		dc.w Obj_RobotnikShipReady-.Index
+		dc.w Obj_RobotnikShipEscape-.Index
 ; ---------------------------------------------------------------------------
 
 Obj_FBZRobotnikShip:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	FBZRobotnikShip_Index(pc,d0.w),d1
-		jsr	FBZRobotnikShip_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
-FBZRobotnikShip_Index:
-		dc.w Obj_FBZRobotnikShipInit-FBZRobotnikShip_Index
-		dc.w Obj_FBZRobotnikShipMain-FBZRobotnikShip_Index
-		dc.w Obj_FBZRobotnikShipWait-FBZRobotnikShip_Index
-		dc.w Obj_FBZRobotnikShipFall-FBZRobotnikShip_Index
-		dc.w Obj_FBZRobotnikShipRise-FBZRobotnikShip_Index
-		dc.w Obj_RobotnikShipEscape-FBZRobotnikShip_Index
+.Index:
+		dc.w Obj_FBZRobotnikShipInit-.Index
+		dc.w Obj_FBZRobotnikShipMain-.Index
+		dc.w Obj_FBZRobotnikShipWait-.Index
+		dc.w Obj_FBZRobotnikShipFall-.Index
+		dc.w Obj_FBZRobotnikShipRise-.Index
+		dc.w Obj_RobotnikShipEscape-.Index
 ; ---------------------------------------------------------------------------
 
 Obj_FBZRobotnikShipInit:

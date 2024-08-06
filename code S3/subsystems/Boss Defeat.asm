@@ -8,26 +8,26 @@ AfterBoss_Cleanup:
 		add.b	d0,d0
 		add.b	(a1)+,d0
 		add.b	d0,d0
-		move.w	AfterBoss_Index(pc,d0.w),d0
-		jmp	AfterBoss_Index(pc,d0.w)
+		move.w	.Index(pc,d0.w),d0
+		jmp	.Index(pc,d0.w)
 ; End of function AfterBoss_Cleanup
 
 ; ---------------------------------------------------------------------------
-AfterBoss_Index:
-		dc.w AfterBoss_AIZ1-AfterBoss_Index
-		dc.w AfterBoss_AIZ2-AfterBoss_Index
-		dc.w AfterBoss_HCZ-AfterBoss_Index
-		dc.w AfterBoss_HCZ-AfterBoss_Index
-		dc.w AfterBoss_MGZ-AfterBoss_Index
-		dc.w AfterBoss_MGZ-AfterBoss_Index
-		dc.w AfterBoss_CNZ-AfterBoss_Index
-		dc.w AfterBoss_CNZ-AfterBoss_Index
-		dc.w AfterBoss_FBZ-AfterBoss_Index
-		dc.w AfterBoss_FBZ-AfterBoss_Index
-		dc.w AfterBoss_ICZ1-AfterBoss_Index
-		dc.w AfterBoss_ICZ2-AfterBoss_Index
-		dc.w AfterBoss_LBZ-AfterBoss_Index
-		dc.w AfterBoss_LBZ-AfterBoss_Index
+.Index:
+		dc.w AfterBoss_AIZ1-.Index
+		dc.w AfterBoss_AIZ2-.Index
+		dc.w AfterBoss_HCZ-.Index
+		dc.w AfterBoss_HCZ-.Index
+		dc.w AfterBoss_MGZ-.Index
+		dc.w AfterBoss_MGZ-.Index
+		dc.w AfterBoss_CNZ-.Index
+		dc.w AfterBoss_CNZ-.Index
+		dc.w AfterBoss_FBZ-.Index
+		dc.w AfterBoss_FBZ-.Index
+		dc.w AfterBoss_ICZ1-.Index
+		dc.w AfterBoss_ICZ2-.Index
+		dc.w AfterBoss_LBZ-.Index
+		dc.w AfterBoss_LBZ-.Index
 ; ---------------------------------------------------------------------------
 
 AfterBoss_AIZ1:
@@ -118,13 +118,13 @@ PLC_EggCapsule_End
 Obj_CreateBossExplosion:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	CreateBossExplosion_Index(pc,d0.w),d1
-		jmp	CreateBossExplosion_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jmp	.Index(pc,d1.w)
 ; ---------------------------------------------------------------------------
-CreateBossExplosion_Index:
-		dc.w Obj_BossExpControl-CreateBossExplosion_Index
-		dc.w loc_5281C-CreateBossExplosion_Index
-		dc.w Obj_WaitForParent-CreateBossExplosion_Index
+.Index:
+		dc.w Obj_BossExpControl-.Index
+		dc.w loc_5281C-.Index
+		dc.w Obj_WaitForParent-.Index
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -242,12 +242,12 @@ CreateBossExp0C:dc.b  $40, $80, $20,   2
 Obj_BossExplosionSpecial:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	BossExplosionSpecial_Index(pc,d0.w),d1
-		jmp	BossExplosionSpecial_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jmp	.Index(pc,d1.w)
 ; ---------------------------------------------------------------------------
-BossExplosionSpecial_Index:
-		dc.w loc_52916-BossExplosionSpecial_Index
-		dc.w loc_5281C-BossExplosionSpecial_Index
+.Index:
+		dc.w loc_52916-.Index
+		dc.w loc_5281C-.Index
 ; ---------------------------------------------------------------------------
 
 loc_52916:

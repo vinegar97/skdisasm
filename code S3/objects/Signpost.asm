@@ -64,18 +64,18 @@ ObjDat_HiddenMonitor:
 Obj_EndSign:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	EndSign_Index(pc,d0.w),d1
-		jsr	EndSign_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		lea	PLCPtr_EndSigns(pc),a2
 		jsr	Perform_DPLC(pc)
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
-EndSign_Index:
-		dc.w Obj_EndSignInit-EndSign_Index
-		dc.w Obj_EndSignFall-EndSign_Index
-		dc.w Obj_EndSignLanded-EndSign_Index
-		dc.w Obj_EndSignResults-EndSign_Index
-		dc.w Obj_EndSignAfter-EndSign_Index
+.Index:
+		dc.w Obj_EndSignInit-.Index
+		dc.w Obj_EndSignFall-.Index
+		dc.w Obj_EndSignLanded-.Index
+		dc.w Obj_EndSignResults-.Index
+		dc.w Obj_EndSignAfter-.Index
 ; ---------------------------------------------------------------------------
 
 Obj_EndSignInit:

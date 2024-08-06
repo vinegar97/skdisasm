@@ -112,16 +112,16 @@ Clear_DisplayData:
 		dmaFillVRAM 0,$0000,$40
 
 		tst.w	(Competition_mode).w
-		beq.s	Clear_DisplayData_No2P
+		beq.s	.No2P
 		dmaFillVRAM 0,$8000,$4000
-		bra.s	Clear_DisplayData_Cont
+		bra.s	.Cont
 ; ---------------------------------------------------------------------------
 
-Clear_DisplayData_No2P:
+.No2P:
 		dmaFillVRAM 0,$C000,$1000	; clear plane A PNT
 		dmaFillVRAM 0,$E000,$1000	; clear plane B PNT
 
-Clear_DisplayData_Cont:
+.Cont:
 		clr.l	(V_scroll_value).w
 		clr.l	(_unkF61A).w
 		; Bug: this should be $280
@@ -153,7 +153,7 @@ SndDrvInit:
 		; Load default variables
 		lea	(Z80_DefaultVariables).l,a0
 		lea	(Z80_RAM+zDataStart).l,a1
-		move.w	#Z80_DefaultVariables_end-Z80_DefaultVariables-1,d0
+		move.w	#Z80_DefaultVariables.end-Z80_DefaultVariables-1,d0
 
 -
 		move.b	(a0)+,(a1)+
@@ -195,7 +195,7 @@ Z80_DefaultVariables:
 		dc.b 0	; zFadeOutTimeout
 		dc.b 0	; zFadeDelay
 		dc.b 0	; zFadeDelayTimeout
-Z80_DefaultVariables_end:
+.end:
 
 ; ---------------------------------------------------------------------------
 ; Always replaces an index previous passed to this function

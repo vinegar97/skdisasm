@@ -4,12 +4,12 @@
 Load_Sprites:
 		moveq	#0,d0
 		move.b	(Object_load_routine).w,d0
-		jmp	Load_Sprites_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; End of function Load_Sprites
 
 ; ---------------------------------------------------------------------------
 
-Load_Sprites_Index:
+.Index:
 		bra.w	loc_19D0A
 ; ---------------------------------------------------------------------------
 		bra.w	loc_19DD0

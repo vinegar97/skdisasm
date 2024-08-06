@@ -3,18 +3,18 @@ Obj_FBZMiniboss:
 		jsr	(Check_CameraInRange).l
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	FBZMiniboss_Index(pc,d0.w),d1
-		jsr	FBZMiniboss_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		bsr.w	sub_6F786
 		bsr.w	sub_6F994
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
-FBZMiniboss_Index:
-		dc.w loc_6EEA8-FBZMiniboss_Index
-		dc.w loc_6EF0E-FBZMiniboss_Index
-		dc.w loc_6EF32-FBZMiniboss_Index
-		dc.w loc_6EF5A-FBZMiniboss_Index
-		dc.w loc_6EF76-FBZMiniboss_Index
+.Index:
+		dc.w loc_6EEA8-.Index
+		dc.w loc_6EF0E-.Index
+		dc.w loc_6EF32-.Index
+		dc.w loc_6EF5A-.Index
+		dc.w loc_6EF76-.Index
 word_6EE98:
 		dc.w   $240,  $600, $2D20, $2F20
 		dc.w   $540,  $540, $2E20, $2E20

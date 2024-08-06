@@ -31,25 +31,25 @@ locret_6BF96:
 Obj_MGZ2DrillingRobotnikStart:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	MGZ2DrillingRobotnik_Index(pc,d0.w),d1
-		jsr	MGZ2DrillingRobotnik_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		bsr.w	MGZ2_SpecialCheckHit
 		jmp	(Draw_And_Touch_Sprite).l
 ; ---------------------------------------------------------------------------
-MGZ2DrillingRobotnik_Index:
-		dc.w loc_6BFCA-MGZ2DrillingRobotnik_Index
-		dc.w loc_6C014-MGZ2DrillingRobotnik_Index
-		dc.w loc_6C024-MGZ2DrillingRobotnik_Index
-		dc.w loc_6C07E-MGZ2DrillingRobotnik_Index
-		dc.w loc_6C0B2-MGZ2DrillingRobotnik_Index
-		dc.w loc_6C0E4-MGZ2DrillingRobotnik_Index
-		dc.w loc_6C122-MGZ2DrillingRobotnik_Index
-		dc.w loc_6C136-MGZ2DrillingRobotnik_Index
-		dc.w loc_6C0E4-MGZ2DrillingRobotnik_Index
-		dc.w loc_6C16A-MGZ2DrillingRobotnik_Index
-		dc.w loc_6C0E4-MGZ2DrillingRobotnik_Index
-		dc.w loc_6C1D4-MGZ2DrillingRobotnik_Index
-		dc.w loc_6C2B2-MGZ2DrillingRobotnik_Index
+.Index:
+		dc.w loc_6BFCA-.Index
+		dc.w loc_6C014-.Index
+		dc.w loc_6C024-.Index
+		dc.w loc_6C07E-.Index
+		dc.w loc_6C0B2-.Index
+		dc.w loc_6C0E4-.Index
+		dc.w loc_6C122-.Index
+		dc.w loc_6C136-.Index
+		dc.w loc_6C0E4-.Index
+		dc.w loc_6C16A-.Index
+		dc.w loc_6C0E4-.Index
+		dc.w loc_6C1D4-.Index
+		dc.w loc_6C2B2-.Index
 ; ---------------------------------------------------------------------------
 
 loc_6BFCA:
@@ -332,29 +332,29 @@ locret_6C318:
 Obj_MGZEndBoss:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	MGZEndBoss_Index(pc,d0.w),d1
-		jsr	MGZEndBoss_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		bsr.w	MGZ2_SpecialCheckHit
 		jmp	(Draw_And_Touch_Sprite).l
 ; ---------------------------------------------------------------------------
-MGZEndBoss_Index:
-		dc.w loc_6C354-MGZEndBoss_Index
-		dc.w loc_6C3E6-MGZEndBoss_Index
-		dc.w loc_6C416-MGZEndBoss_Index
-		dc.w loc_6C43A-MGZEndBoss_Index
-		dc.w loc_6C45A-MGZEndBoss_Index
-		dc.w loc_6C3E6-MGZEndBoss_Index
-		dc.w loc_6C4B2-MGZEndBoss_Index
-		dc.w loc_6C4F2-MGZEndBoss_Index
-		dc.w loc_6C514-MGZEndBoss_Index
-		dc.w loc_6C3E6-MGZEndBoss_Index
-		dc.w loc_6C546-MGZEndBoss_Index
-		dc.w loc_6C3E6-MGZEndBoss_Index
-		dc.w loc_6C514-MGZEndBoss_Index
-		dc.w loc_6C5C4-MGZEndBoss_Index
-		dc.w loc_6C5FE-MGZEndBoss_Index
-		dc.w loc_6C4F2-MGZEndBoss_Index
-		dc.w loc_6C514-MGZEndBoss_Index
+.Index:
+		dc.w loc_6C354-.Index
+		dc.w loc_6C3E6-.Index
+		dc.w loc_6C416-.Index
+		dc.w loc_6C43A-.Index
+		dc.w loc_6C45A-.Index
+		dc.w loc_6C3E6-.Index
+		dc.w loc_6C4B2-.Index
+		dc.w loc_6C4F2-.Index
+		dc.w loc_6C514-.Index
+		dc.w loc_6C3E6-.Index
+		dc.w loc_6C546-.Index
+		dc.w loc_6C3E6-.Index
+		dc.w loc_6C514-.Index
+		dc.w loc_6C5C4-.Index
+		dc.w loc_6C5FE-.Index
+		dc.w loc_6C4F2-.Index
+		dc.w loc_6C514-.Index
 ; ---------------------------------------------------------------------------
 
 loc_6C354:

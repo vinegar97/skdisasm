@@ -923,57 +923,57 @@ DynamicWaterHeight:
 		ror.b	#1,d0
 		lsr.w	#6,d0
 		andi.w	#$FFFE,d0
-		move.w	DynamicWaterHeight_Index(pc,d0.w),d0
-		jsr	DynamicWaterHeight_Index(pc,d0.w)
+		move.w	.Index(pc,d0.w),d0
+		jsr	.Index(pc,d0.w)
 		moveq	#0,d1
 		move.b	(Water_speed).w,d1
 		move.w	(Target_water_level).w,d0
 		sub.w	(Mean_water_level).w,d0
-		beq.s	locret_5244
+		beq.s	.locret_5244
 		bcc.s	loc_5240
 		neg.w	d1
 
 loc_5240:
 		add.w	d1,(Mean_water_level).w
 
-locret_5244:
+.locret_5244:
 		rts
 ; End of function DynamicWaterHeight
 
 ; ---------------------------------------------------------------------------
-DynamicWaterHeight_Index:
-		dc.w DynamicWaterHeight_AIZ1-DynamicWaterHeight_Index
-		dc.w DynamicWaterHeight_AIZ2-DynamicWaterHeight_Index
-		dc.w DynamicWaterHeight_HCZ1-DynamicWaterHeight_Index
-		dc.w DynamicWaterHeight_HCZ2-DynamicWaterHeight_Index
-		dc.w DynamicWaterHeight_Null-DynamicWaterHeight_Index
-		dc.w DynamicWaterHeight_Null-DynamicWaterHeight_Index
-		dc.w DynamicWaterHeight_Null-DynamicWaterHeight_Index
-		dc.w DynamicWaterHeight_Null-DynamicWaterHeight_Index
-		dc.w DynamicWaterHeight_Null-DynamicWaterHeight_Index
-		dc.w DynamicWaterHeight_Null-DynamicWaterHeight_Index
-		dc.w DynamicWaterHeight_Null-DynamicWaterHeight_Index
-		dc.w DynamicWaterHeight_Null-DynamicWaterHeight_Index
-		dc.w DynamicWaterHeight_LBZ1-DynamicWaterHeight_Index
-		dc.w DynamicWaterHeight_Null2-DynamicWaterHeight_Index
-		dc.w DynamicWaterHeight_Null2-DynamicWaterHeight_Index
-		dc.w DynamicWaterHeight_Null2-DynamicWaterHeight_Index
-		dc.w DynamicWaterHeight_Null2-DynamicWaterHeight_Index
-		dc.w DynamicWaterHeight_Null2-DynamicWaterHeight_Index
-		dc.w DynamicWaterHeight_Null2-DynamicWaterHeight_Index
-		dc.w DynamicWaterHeight_Null2-DynamicWaterHeight_Index
-		dc.w DynamicWaterHeight_Null2-DynamicWaterHeight_Index
-		dc.w DynamicWaterHeight_Null2-DynamicWaterHeight_Index
-		dc.w DynamicWaterHeight_Null2-DynamicWaterHeight_Index
-		dc.w DynamicWaterHeight_Null2-DynamicWaterHeight_Index
-		dc.w DynamicWaterHeight_Null2-DynamicWaterHeight_Index
-		dc.w DynamicWaterHeight_Null2-DynamicWaterHeight_Index
-		dc.w DynamicWaterHeight_Null2-DynamicWaterHeight_Index
-		dc.w DynamicWaterHeight_Ending-DynamicWaterHeight_Index
-		dc.w DynamicWaterHeight_Null2-DynamicWaterHeight_Index
-		dc.w DynamicWaterHeight_Null2-DynamicWaterHeight_Index
-		dc.w DynamicWaterHeight_Null2-DynamicWaterHeight_Index
-		dc.w DynamicWaterHeight_Null2-DynamicWaterHeight_Index
+.Index:
+		dc.w DynamicWaterHeight_AIZ1-.Index
+		dc.w DynamicWaterHeight_AIZ2-.Index
+		dc.w DynamicWaterHeight_HCZ1-.Index
+		dc.w DynamicWaterHeight_HCZ2-.Index
+		dc.w DynamicWaterHeight_Null-.Index
+		dc.w DynamicWaterHeight_Null-.Index
+		dc.w DynamicWaterHeight_Null-.Index
+		dc.w DynamicWaterHeight_Null-.Index
+		dc.w DynamicWaterHeight_Null-.Index
+		dc.w DynamicWaterHeight_Null-.Index
+		dc.w DynamicWaterHeight_Null-.Index
+		dc.w DynamicWaterHeight_Null-.Index
+		dc.w DynamicWaterHeight_LBZ1-.Index
+		dc.w DynamicWaterHeight_Null2-.Index
+		dc.w DynamicWaterHeight_Null2-.Index
+		dc.w DynamicWaterHeight_Null2-.Index
+		dc.w DynamicWaterHeight_Null2-.Index
+		dc.w DynamicWaterHeight_Null2-.Index
+		dc.w DynamicWaterHeight_Null2-.Index
+		dc.w DynamicWaterHeight_Null2-.Index
+		dc.w DynamicWaterHeight_Null2-.Index
+		dc.w DynamicWaterHeight_Null2-.Index
+		dc.w DynamicWaterHeight_Null2-.Index
+		dc.w DynamicWaterHeight_Null2-.Index
+		dc.w DynamicWaterHeight_Null2-.Index
+		dc.w DynamicWaterHeight_Null2-.Index
+		dc.w DynamicWaterHeight_Null2-.Index
+		dc.w DynamicWaterHeight_Ending-.Index
+		dc.w DynamicWaterHeight_Null2-.Index
+		dc.w DynamicWaterHeight_Null2-.Index
+		dc.w DynamicWaterHeight_Null2-.Index
+		dc.w DynamicWaterHeight_Null2-.Index
 ; ---------------------------------------------------------------------------
 
 DynamicWaterHeight_AIZ1:

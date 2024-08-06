@@ -2,19 +2,19 @@ Obj_Blaster:
 		jsr	(Obj_WaitOffscreen).l
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	Blaster_Index(pc,d0.w),d1
-		jsr	Blaster_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		jmp	Sprite_CheckDeleteTouch(pc)
 ; ---------------------------------------------------------------------------
-Blaster_Index:
-		dc.w loc_5726A-Blaster_Index
-		dc.w loc_572B2-Blaster_Index
-		dc.w loc_5731C-Blaster_Index
-		dc.w loc_5731C-Blaster_Index
-		dc.w loc_57362-Blaster_Index
-		dc.w loc_57384-Blaster_Index
-		dc.w loc_573AC-Blaster_Index
-		dc.w loc_573BC-Blaster_Index
+.Index:
+		dc.w loc_5726A-.Index
+		dc.w loc_572B2-.Index
+		dc.w loc_5731C-.Index
+		dc.w loc_5731C-.Index
+		dc.w loc_57362-.Index
+		dc.w loc_57384-.Index
+		dc.w loc_573AC-.Index
+		dc.w loc_573BC-.Index
 ; ---------------------------------------------------------------------------
 
 loc_5726A:

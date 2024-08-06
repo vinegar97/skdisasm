@@ -4,7 +4,7 @@
 SndBank:			startBank
 
 SEGA_PCM:	binclude "Sound/Sega PCM.bin"
-SEGA_PCM_End
+.End
 		align 2
 Sound_33:	include "Sound/SFX/33.asm"
 Sound_34:	include "Sound/SFX/34.asm"

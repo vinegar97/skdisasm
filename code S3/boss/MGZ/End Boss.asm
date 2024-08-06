@@ -30,25 +30,25 @@ locret_49DD8:
 Obj_MGZ2DrillingRobotnikStart:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	MGZ2DrillingRobotnik_Index(pc,d0.w),d1
-		jsr	MGZ2DrillingRobotnik_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		bsr.w	MGZ2_SpecialCheckHit
 		jmp	(Draw_And_Touch_Sprite).l
 ; ---------------------------------------------------------------------------
-MGZ2DrillingRobotnik_Index:
-		dc.w loc_49E0C-MGZ2DrillingRobotnik_Index
-		dc.w loc_49E56-MGZ2DrillingRobotnik_Index
-		dc.w loc_49E6E-MGZ2DrillingRobotnik_Index
-		dc.w loc_49EC8-MGZ2DrillingRobotnik_Index
-		dc.w loc_49EFC-MGZ2DrillingRobotnik_Index
-		dc.w loc_49F2E-MGZ2DrillingRobotnik_Index
-		dc.w loc_49F6C-MGZ2DrillingRobotnik_Index
-		dc.w loc_49F80-MGZ2DrillingRobotnik_Index
-		dc.w loc_49F2E-MGZ2DrillingRobotnik_Index
-		dc.w loc_49FB4-MGZ2DrillingRobotnik_Index
-		dc.w loc_49F2E-MGZ2DrillingRobotnik_Index
-		dc.w loc_4A01E-MGZ2DrillingRobotnik_Index
-		dc.w loc_4A0EC-MGZ2DrillingRobotnik_Index
+.Index:
+		dc.w loc_49E0C-.Index
+		dc.w loc_49E56-.Index
+		dc.w loc_49E6E-.Index
+		dc.w loc_49EC8-.Index
+		dc.w loc_49EFC-.Index
+		dc.w loc_49F2E-.Index
+		dc.w loc_49F6C-.Index
+		dc.w loc_49F80-.Index
+		dc.w loc_49F2E-.Index
+		dc.w loc_49FB4-.Index
+		dc.w loc_49F2E-.Index
+		dc.w loc_4A01E-.Index
+		dc.w loc_4A0EC-.Index
 ; ---------------------------------------------------------------------------
 
 loc_49E0C:
@@ -291,29 +291,29 @@ loc_4A0EC:
 Obj_MGZEndBoss:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	MGZEndBoss_Index(pc,d0.w),d1
-		jsr	MGZEndBoss_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		bsr.w	MGZ2_SpecialCheckHit
 		jmp	(Draw_And_Touch_Sprite).l
 ; ---------------------------------------------------------------------------
-MGZEndBoss_Index:
-		dc.w loc_4A132-MGZEndBoss_Index
-		dc.w loc_4A1C2-MGZEndBoss_Index
-		dc.w loc_4A1EC-MGZEndBoss_Index
-		dc.w loc_4A210-MGZEndBoss_Index
-		dc.w loc_4A230-MGZEndBoss_Index
-		dc.w loc_4A1C2-MGZEndBoss_Index
-		dc.w loc_4A288-MGZEndBoss_Index
-		dc.w loc_4A2C8-MGZEndBoss_Index
-		dc.w loc_4A2EA-MGZEndBoss_Index
-		dc.w loc_4A1C2-MGZEndBoss_Index
-		dc.w loc_4A31C-MGZEndBoss_Index
-		dc.w loc_4A1C2-MGZEndBoss_Index
-		dc.w loc_4A2EA-MGZEndBoss_Index
-		dc.w loc_4A39A-MGZEndBoss_Index
-		dc.w loc_4A3D4-MGZEndBoss_Index
-		dc.w loc_4A2C8-MGZEndBoss_Index
-		dc.w loc_4A2EA-MGZEndBoss_Index
+.Index:
+		dc.w loc_4A132-.Index
+		dc.w loc_4A1C2-.Index
+		dc.w loc_4A1EC-.Index
+		dc.w loc_4A210-.Index
+		dc.w loc_4A230-.Index
+		dc.w loc_4A1C2-.Index
+		dc.w loc_4A288-.Index
+		dc.w loc_4A2C8-.Index
+		dc.w loc_4A2EA-.Index
+		dc.w loc_4A1C2-.Index
+		dc.w loc_4A31C-.Index
+		dc.w loc_4A1C2-.Index
+		dc.w loc_4A2EA-.Index
+		dc.w loc_4A39A-.Index
+		dc.w loc_4A3D4-.Index
+		dc.w loc_4A2C8-.Index
+		dc.w loc_4A2EA-.Index
 ; ---------------------------------------------------------------------------
 
 loc_4A132:
@@ -561,21 +561,21 @@ loc_4A442:
 Obj_MGZEndBossKnux:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	MGZEndBossKnux_Index(pc,d0.w),d1
-		jsr	MGZEndBossKnux_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		bsr.w	MGZ2_SpecialCheckHit
 		jmp	(Draw_And_Touch_Sprite).l
 ; ---------------------------------------------------------------------------
-MGZEndBossKnux_Index:
-		dc.w loc_4A132-MGZEndBossKnux_Index
-		dc.w loc_4A488-MGZEndBossKnux_Index
-		dc.w loc_4A4C2-MGZEndBossKnux_Index
-		dc.w loc_4A4DE-MGZEndBossKnux_Index
-		dc.w loc_4A542-MGZEndBossKnux_Index
-		dc.w loc_4A520-MGZEndBossKnux_Index
-		dc.w loc_4A542-MGZEndBossKnux_Index
-		dc.w loc_4A520-MGZEndBossKnux_Index
-		dc.w loc_4A542-MGZEndBossKnux_Index
+.Index:
+		dc.w loc_4A132-.Index
+		dc.w loc_4A488-.Index
+		dc.w loc_4A4C2-.Index
+		dc.w loc_4A4DE-.Index
+		dc.w loc_4A542-.Index
+		dc.w loc_4A520-.Index
+		dc.w loc_4A542-.Index
+		dc.w loc_4A520-.Index
+		dc.w loc_4A542-.Index
 ; ---------------------------------------------------------------------------
 
 loc_4A488:

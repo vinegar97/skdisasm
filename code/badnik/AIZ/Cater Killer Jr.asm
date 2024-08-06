@@ -2,16 +2,16 @@ Obj_CaterKillerJr:
 		jsr	(Obj_WaitOffscreen).l
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	CaterKillerJr_Index(pc,d0.w),d1
-		jsr	CaterKillerJr_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		jmp	Sprite_CheckDeleteTouch(pc)
 ; ---------------------------------------------------------------------------
-CaterKillerJr_Index:
-		dc.w loc_876EC-CaterKillerJr_Index
-		dc.w loc_87728-CaterKillerJr_Index
-		dc.w loc_87728-CaterKillerJr_Index
-		dc.w loc_87758-CaterKillerJr_Index
-		dc.w loc_8777A-CaterKillerJr_Index
+.Index:
+		dc.w loc_876EC-.Index
+		dc.w loc_87728-.Index
+		dc.w loc_87728-.Index
+		dc.w loc_87758-.Index
+		dc.w loc_8777A-.Index
 ; ---------------------------------------------------------------------------
 
 loc_876EC:

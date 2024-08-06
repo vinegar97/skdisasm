@@ -1,20 +1,20 @@
 Obj_SOZEndBoss:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	SOZEndBoss_Index(pc,d0.w),d1
-		jsr	SOZEndBoss_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		move.w	x_pos(a0),(Events_bg+$0C).w
 		move.w	y_pos(a0),(Events_bg+$0E).w
 		jmp	(Draw_And_Touch_Sprite).l
 ; ---------------------------------------------------------------------------
-SOZEndBoss_Index:
-		dc.w loc_7767C-SOZEndBoss_Index
-		dc.w loc_776EA-SOZEndBoss_Index
-		dc.w loc_77710-SOZEndBoss_Index
-		dc.w loc_77772-SOZEndBoss_Index
-		dc.w loc_77790-SOZEndBoss_Index
-		dc.w loc_777CC-SOZEndBoss_Index
-		dc.w loc_777F0-SOZEndBoss_Index
+.Index:
+		dc.w loc_7767C-.Index
+		dc.w loc_776EA-.Index
+		dc.w loc_77710-.Index
+		dc.w loc_77772-.Index
+		dc.w loc_77790-.Index
+		dc.w loc_777CC-.Index
+		dc.w loc_777F0-.Index
 ; ---------------------------------------------------------------------------
 
 loc_7767C:

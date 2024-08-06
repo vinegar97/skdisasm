@@ -2,19 +2,19 @@ Obj_Flybot767:
 		jsr	(Obj_WaitOffscreen).l
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	Flybot767_Index(pc,d0.w),d1
-		jsr	Flybot767_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		lea	DPLCPtr_Flybot767(pc),a2
 		jsr	Perform_DPLC(pc)
 		jmp	(Sprite_CheckDeleteTouchSlotted).l
 ; ---------------------------------------------------------------------------
-Flybot767_Index:
-		dc.w loc_8C994-Flybot767_Index
-		dc.w loc_8C9B2-Flybot767_Index
-		dc.w loc_8CA16-Flybot767_Index
-		dc.w loc_8CA60-Flybot767_Index
-		dc.w loc_8CA96-Flybot767_Index
-		dc.w loc_8CADA-Flybot767_Index
+.Index:
+		dc.w loc_8C994-.Index
+		dc.w loc_8C9B2-.Index
+		dc.w loc_8CA16-.Index
+		dc.w loc_8CA60-.Index
+		dc.w loc_8CA96-.Index
+		dc.w loc_8CADA-.Index
 ; ---------------------------------------------------------------------------
 
 loc_8C994:

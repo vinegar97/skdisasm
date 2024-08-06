@@ -2,14 +2,14 @@ Obj_Rockn:
 		jsr	(Obj_WaitOffscreen).l
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	Rockn_Index(pc,d0.w),d1
-		jsr	Rockn_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		jmp	(Sprite_CheckDeleteTouch).l
 ; ---------------------------------------------------------------------------
-Rockn_Index:
-		dc.w loc_8EDC0-Rockn_Index
-		dc.w loc_8EE1C-Rockn_Index
-		dc.w loc_8EE3A-Rockn_Index
+.Index:
+		dc.w loc_8EDC0-.Index
+		dc.w loc_8EE1C-.Index
+		dc.w loc_8EE3A-.Index
 ; ---------------------------------------------------------------------------
 
 loc_8EDC0:

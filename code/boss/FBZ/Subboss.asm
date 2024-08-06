@@ -9,17 +9,17 @@ Obj_FBZ2Subboss:
 		jsr	(Check_CameraInRange).l
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	FBZ2Subboss_Index(pc,d0.w),d1
-		jsr	FBZ2Subboss_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		bsr.w	sub_70330
 		jmp	(Draw_And_Touch_Sprite).l
 ; ---------------------------------------------------------------------------
-FBZ2Subboss_Index:
-		dc.w loc_6FD38-FBZ2Subboss_Index
-		dc.w loc_6FDC0-FBZ2Subboss_Index
-		dc.w loc_6FE00-FBZ2Subboss_Index
-		dc.w loc_6FE22-FBZ2Subboss_Index
-		dc.w loc_6FEB2-FBZ2Subboss_Index
+.Index:
+		dc.w loc_6FD38-.Index
+		dc.w loc_6FDC0-.Index
+		dc.w loc_6FE00-.Index
+		dc.w loc_6FE22-.Index
+		dc.w loc_6FEB2-.Index
 ; ---------------------------------------------------------------------------
 
 loc_6FD38:

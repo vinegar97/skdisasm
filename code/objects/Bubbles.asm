@@ -1,16 +1,16 @@
 Obj_Bubbler:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	Bubbler_Index(pc,d0.w),d1
-		jmp	Bubbler_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jmp	.Index(pc,d1.w)
 ; ---------------------------------------------------------------------------
-Bubbler_Index:
-		dc.w loc_2F952-Bubbler_Index
-		dc.w loc_2F9B0-Bubbler_Index
-		dc.w loc_2F9CA-Bubbler_Index
-		dc.w loc_2FA2C-Bubbler_Index
-		dc.w loc_2FA4A-Bubbler_Index
-		dc.w loc_2FA50-Bubbler_Index
+.Index:
+		dc.w loc_2F952-.Index
+		dc.w loc_2F9B0-.Index
+		dc.w loc_2F9CA-.Index
+		dc.w loc_2FA2C-.Index
+		dc.w loc_2FA4A-.Index
+		dc.w loc_2FA50-.Index
 ; ---------------------------------------------------------------------------
 
 loc_2F952:

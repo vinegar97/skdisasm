@@ -1,17 +1,17 @@
 Obj_FBZEndBoss:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	FBZEndBoss_Index(pc,d0.w),d1
-		jsr	FBZEndBoss_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		bsr.w	sub_4E200
 		jmp	Draw_And_Touch_Sprite(pc)
 ; ---------------------------------------------------------------------------
-FBZEndBoss_Index:
-		dc.w loc_4DBC0-FBZEndBoss_Index
-		dc.w loc_4DC26-FBZEndBoss_Index
-		dc.w loc_4DC40-FBZEndBoss_Index
-		dc.w loc_4DC6A-FBZEndBoss_Index
-		dc.w loc_4DCDA-FBZEndBoss_Index
+.Index:
+		dc.w loc_4DBC0-.Index
+		dc.w loc_4DC26-.Index
+		dc.w loc_4DC40-.Index
+		dc.w loc_4DC6A-.Index
+		dc.w loc_4DCDA-.Index
 ; ---------------------------------------------------------------------------
 
 loc_4DBC0:

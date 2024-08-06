@@ -2,18 +2,18 @@ Obj_SnaleBlaster:
 		jsr	(Obj_WaitOffscreen).l
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	SnaleBlaster_Index(pc,d0.w),d1
-		jsr	SnaleBlaster_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		jmp	Sprite_CheckDeleteTouch(pc)
 ; ---------------------------------------------------------------------------
-SnaleBlaster_Index:
-		dc.w loc_8BFD4-SnaleBlaster_Index
-		dc.w loc_8BFF2-SnaleBlaster_Index
-		dc.w loc_8C026-SnaleBlaster_Index
-		dc.w loc_8C052-SnaleBlaster_Index
-		dc.w loc_8C0AA-SnaleBlaster_Index
-		dc.w loc_8C0D4-SnaleBlaster_Index
-		dc.w loc_8C0F4-SnaleBlaster_Index
+.Index:
+		dc.w loc_8BFD4-.Index
+		dc.w loc_8BFF2-.Index
+		dc.w loc_8C026-.Index
+		dc.w loc_8C052-.Index
+		dc.w loc_8C0AA-.Index
+		dc.w loc_8C0D4-.Index
+		dc.w loc_8C0F4-.Index
 ; ---------------------------------------------------------------------------
 
 loc_8BFD4:

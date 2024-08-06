@@ -1,18 +1,18 @@
 Obj_LBZFinalBoss1:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	LBZFinalBoss1_Index(pc,d0.w),d1
-		jsr	LBZFinalBoss1_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		bsr.w	sub_734FA
 		jmp	(Draw_And_Touch_Sprite).l
 ; ---------------------------------------------------------------------------
-LBZFinalBoss1_Index:
-		dc.w loc_729DE-LBZFinalBoss1_Index
-		dc.w loc_72A54-LBZFinalBoss1_Index
-		dc.w loc_72A70-LBZFinalBoss1_Index
-		dc.w locret_72AEC-LBZFinalBoss1_Index
-		dc.w loc_72AEE-LBZFinalBoss1_Index
-		dc.w loc_72B04-LBZFinalBoss1_Index
+.Index:
+		dc.w loc_729DE-.Index
+		dc.w loc_72A54-.Index
+		dc.w loc_72A70-.Index
+		dc.w locret_72AEC-.Index
+		dc.w loc_72AEE-.Index
+		dc.w loc_72B04-.Index
 ; ---------------------------------------------------------------------------
 
 loc_729DE:

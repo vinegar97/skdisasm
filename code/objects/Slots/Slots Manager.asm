@@ -5,12 +5,12 @@ Slots_CycleOptions:
 		lea	(SStage_scalar_result_0+2).w,a4
 		moveq	#0,d0
 		move.b	(a4),d0
-		jmp	Slots_CycleOptions_Index(pc,d0.w)
+		jmp	.Index(pc,d0.w)
 ; End of function Slots_CycleOptions
 
 ; ---------------------------------------------------------------------------
 
-Slots_CycleOptions_Index:
+.Index:
 		bra.w	loc_4C416
 ; ---------------------------------------------------------------------------
 		bra.w	loc_4C462

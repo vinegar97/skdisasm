@@ -2,17 +2,17 @@ Obj_Chainspike:
 		jsr	(Obj_WaitOffscreen).l
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	Chainspike_Index(pc,d0.w),d1
-		jsr	Chainspike_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		jmp	(Sprite_CheckDeleteTouch).l
 ; ---------------------------------------------------------------------------
-Chainspike_Index:
-		dc.w loc_91C62-Chainspike_Index
-		dc.w loc_91C9A-Chainspike_Index
-		dc.w loc_91CC2-Chainspike_Index
-		dc.w loc_91D0C-Chainspike_Index
-		dc.w loc_91D20-Chainspike_Index
-		dc.w loc_91D36-Chainspike_Index
+.Index:
+		dc.w loc_91C62-.Index
+		dc.w loc_91C9A-.Index
+		dc.w loc_91CC2-.Index
+		dc.w loc_91D0C-.Index
+		dc.w loc_91D20-.Index
+		dc.w loc_91D36-.Index
 ; ---------------------------------------------------------------------------
 
 loc_91C62:

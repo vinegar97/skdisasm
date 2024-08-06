@@ -2,15 +2,15 @@ Obj_Butterdroid:
 		jsr	(Obj_WaitOffscreen).l
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	Butterdroid_Index(pc,d0.w),d1
-		jsr	Butterdroid_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		lea	DPLCPtr_Butterdroid(pc),a2
 		jsr	(Perform_DPLC).l
 		jmp	(Sprite_CheckDeleteTouchSlotted).l
 ; ---------------------------------------------------------------------------
-Butterdroid_Index:
-		dc.w loc_8E0C6-Butterdroid_Index
-		dc.w loc_8E0DA-Butterdroid_Index
+.Index:
+		dc.w loc_8E0C6-.Index
+		dc.w loc_8E0DA-.Index
 ; ---------------------------------------------------------------------------
 
 loc_8E0C6:

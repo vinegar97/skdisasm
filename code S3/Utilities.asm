@@ -121,16 +121,16 @@ Clear_DisplayData:
 		dmaFillVRAM 0,$0000,$40
 
 		tst.w	(Competition_mode).w
-		beq.s	Clear_DisplayData_No2P
+		beq.s	.No2P
 		dmaFillVRAM 0,$8000,$4000
-		bra.s	Clear_DisplayData_Cont
+		bra.s	.Cont
 ; ---------------------------------------------------------------------------
 
-Clear_DisplayData_No2P:
+.No2P:
 		dmaFillVRAM 0,$C000,$1000	; clear plane A PNT
 		dmaFillVRAM 0,$E000,$1000	; clear plane B PNT
 
-Clear_DisplayData_Cont:
+.Cont:
 		clr.l	(V_scroll_value).w
 		clr.l	(_unkF61A).w
 		; Bug: this should be $280
@@ -162,7 +162,7 @@ loc_1584:
 		; Load default variables
 		lea	(Z80_DefaultVariables).l,a0
 		lea	(Z80_RAM+$1C00).l,a1
-		move.w	#Z80_DefaultVariables_end-Z80_DefaultVariables-1,d0
+		move.w	#Z80_DefaultVariables.end-Z80_DefaultVariables-1,d0
 
 loc_159A:
 		move.b	(a0)+,(a1)+
@@ -204,7 +204,7 @@ Z80_DefaultVariables:
 		dc.b 0	; zFadeOutTimeout
 		dc.b 0	; zFadeDelay
 		dc.b 0	; zFadeDelayTimeout
-Z80_DefaultVariables_end:
+.end:
 
 ; ---------------------------------------------------------------------------
 ; Always replaces an index previous passed to this function
@@ -833,9 +833,9 @@ $$loop:
 
 Process_Nem_Queue_Init:
 		tst.l	(Nem_decomp_queue).w
-		beq.s	locret_1A60	; return if the queue is empty
+		beq.s	.locret_1A60	; return if the queue is empty
 		tst.w	(Nem_patterns_left).w
-		bne.s	locret_1A60	; return if processing of a previous piece is still going on
+		bne.s	.locret_1A60	; return if processing of a previous piece is still going on
 		movea.l	(Nem_decomp_queue).w,a0
 		lea	(Nem_PCD_WriteRowToVDP).l,a3
 		nop
@@ -861,7 +861,7 @@ loc_1A2E:
 		move.l	d6,(Nem_shift_value).w
 		move.w	d2,(Nem_patterns_left).w
 
-locret_1A60:
+.locret_1A60:
 		rts
 ; End of function Process_Nem_Queue_Init
 
@@ -1244,12 +1244,12 @@ Eni_Decomp_Masks:
 Eni_Decomp_FetchByte:
 		sub.w	d0,d6	; subtract length of current entry from shift value so that next entry is read next time around
 		cmpi.w	#9,d6	; does a new byte need to be read?
-		bhs.s	locret_1CBA	; if not, branch
+		bhs.s	.locret_1CBA	; if not, branch
 		addq.w	#8,d6
 		asl.w	#8,d5
 		move.b	(a0)+,d5
 
-locret_1CBA:
+.locret_1CBA:
 		rts
 ; End of function Eni_Decomp_FetchByte
 
@@ -1471,7 +1471,7 @@ loc_1DF4:
 		andi.l	#$FFFFFF,d1
 		jsr	(Add_To_DMA_Queue).l
 		tst.b	(Kos_modules_left).w
-		bne.s	locret_1E60	; return if this wasn't the last module
+		bne.s	.locret_1E60	; return if this wasn't the last module
 		lea	(Kos_module_queue).w,a0
 		lea	(Kos_module_queue+6).w,a1
 		move.l	(a1)+,(a0)+	; otherwise, shift all entries up
@@ -1483,12 +1483,12 @@ loc_1DF4:
 		move.l	#0,(a0)+	; and mark the last slot as free
 		move.w	#0,(a0)+
 		move.l	(Kos_module_queue).w,d0
-		beq.s	locret_1E60	; return if the queue is now empty
+		beq.s	.locret_1E60	; return if the queue is now empty
 		movea.l	d0,a1
 		move.w	(Kos_module_destination).w,d2
 		jmp	(Process_Kos_Module_Queue_Init).l
 
-locret_1E60:
+.locret_1E60:
 		rts
 ; End of function Process_Kos_Module_Queue
 

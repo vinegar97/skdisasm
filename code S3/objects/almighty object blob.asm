@@ -1371,19 +1371,19 @@ MoveSprite_AngleYLookup:
 		move.w	y_pos(a1),d3
 		move.w	d0,d4
 		not.w	d4
-		move.w	AngleY_LookupIndex(pc,d1.w),d1
-		jsr	AngleY_LookupIndex(pc,d1.w)
+		move.w	.Index(pc,d1.w),d1
+		jsr	.Index(pc,d1.w)
 		add.w	d1,d3
 		move.w	d3,y_pos(a0)
 		rts
 ; End of function MoveSprite_AngleYLookup
 
 ; ---------------------------------------------------------------------------
-AngleY_LookupIndex:
-		dc.w loc_534B4-AngleY_LookupIndex
-		dc.w loc_534BC-AngleY_LookupIndex
-		dc.w loc_534C6-AngleY_LookupIndex
-		dc.w loc_534D0-AngleY_LookupIndex
+.Index:
+		dc.w loc_534B4-.Index
+		dc.w loc_534BC-.Index
+		dc.w loc_534C6-.Index
+		dc.w loc_534D0-.Index
 ; ---------------------------------------------------------------------------
 
 loc_534B4:
@@ -1420,16 +1420,16 @@ MoveSprite_AngleXLookupOffset:
 		move.b	d0,d1
 		rol.b	#3,d1
 		andi.w	#6,d1
-		move.w	AngleX_LookupIndex(pc,d1.w),d2
-		jmp	AngleX_LookupIndex(pc,d2.w)
+		move.w	.Index(pc,d1.w),d2
+		jmp	.Index(pc,d2.w)
 ; End of function MoveSprite_AngleXLookupOffset
 
 ; ---------------------------------------------------------------------------
-AngleX_LookupIndex:
-		dc.w loc_534F6-AngleX_LookupIndex
-		dc.w loc_534FE-AngleX_LookupIndex
-		dc.w loc_5350A-AngleX_LookupIndex
-		dc.w loc_5351A-AngleX_LookupIndex
+.Index:
+		dc.w loc_534F6-.Index
+		dc.w loc_534FE-.Index
+		dc.w loc_5350A-.Index
+		dc.w loc_5351A-.Index
 ; ---------------------------------------------------------------------------
 
 loc_534F6:
@@ -3254,14 +3254,14 @@ Player_Load_PLC:
 		moveq	#0,d0
 		move.b	character_id(a0),d0
 		lsl.w	#2,d0
-		movea.l	Player_Load_PLC_Index(pc,d0.w),a1
+		movea.l	.Index(pc,d0.w),a1
 		jsr	(a1)
 		movea.l	(sp)+,a0
 		rts
 ; End of function Player_Load_PLC
 
 ; ---------------------------------------------------------------------------
-Player_Load_PLC_Index:
+.Index:
 		dc.l Sonic_Load_PLC
 		dc.l Tails_Load_PLC
 
@@ -3274,20 +3274,20 @@ PLCLoad_AnimalsAndExplosion:
 		moveq	#0,d0
 		move.b	(Current_zone).w,d0
 		add.w	d0,d0
-		move.w	PLCLoad_Animals_Index(pc,d0.w),d0
-		lea	PLCLoad_Animals_Index(pc,d0.w),a1
+		move.w	.Index(pc,d0.w),d0
+		lea	.Index(pc,d0.w),a1
 		jmp	(Load_PLC_Raw).l
 ; End of function PLCLoad_AnimalsAndExplosion
 
 ; ---------------------------------------------------------------------------
-PLCLoad_Animals_Index:
-		dc.w PLC_Animals_AIZ-PLCLoad_Animals_Index
-		dc.w PLC_Animals_HCZ-PLCLoad_Animals_Index
-		dc.w PLC_Animals_MGZ-PLCLoad_Animals_Index
-		dc.w PLC_Animals_CNZ-PLCLoad_Animals_Index
-		dc.w PLC_Animals_FBZ-PLCLoad_Animals_Index
-		dc.w PLC_Animals_ICZ-PLCLoad_Animals_Index
-		dc.w PLC_Animals_LBZ-PLCLoad_Animals_Index
+.Index:
+		dc.w PLC_Animals_AIZ-.Index
+		dc.w PLC_Animals_HCZ-.Index
+		dc.w PLC_Animals_MGZ-.Index
+		dc.w PLC_Animals_CNZ-.Index
+		dc.w PLC_Animals_FBZ-.Index
+		dc.w PLC_Animals_ICZ-.Index
+		dc.w PLC_Animals_LBZ-.Index
 PLC_Animals_AIZ: plrlistheader
 		plreq $580, ArtNem_BlueFlicky
 		plreq $592, ArtNem_Chicken

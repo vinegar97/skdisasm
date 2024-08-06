@@ -47,22 +47,22 @@ loc_616C6:
 SSEntryRing_Main:
 		jsr	(Animate_Raw).l
 		tst.w	(Debug_placement_mode).w
-		bne.s	locret_61708		; If in debug mode, don't allow collision
+		bne.s	.locret_61708		; If in debug mode, don't allow collision
 		cmpi.b	#8,mapping_frame(a0)
-		blo.s	locret_61708		; If ring hasn't finished forming, don't allow collision
+		blo.s	.locret_61708		; If ring hasn't finished forming, don't allow collision
 		lea	SSEntry_Range(pc),a1
 		jsr	(Check_PlayerInRange).l
 		tst.w	d0
 		bne.s	loc_6170A
 
-locret_61708:
+.locret_61708:
 		rts
 ; ---------------------------------------------------------------------------
 
 loc_6170A:
 		lea	(Player_1).w,a1			; If collision was made
 		cmpi.b	#6,routine(a1)
-		bhs.s	locret_61708		; If player has died for whatever reason, don't do anything
+		bhs.s	.locret_61708		; If player has died for whatever reason, don't do anything
 		moveq	#signextendB(sfx_BigRing),d0
 		jsr	(Play_SFX).l		; Play the ring swish sound
 		cmpi.b	#7,(Chaos_emerald_count).w
@@ -90,11 +90,11 @@ loc_6173A:
 
 loc_61778:
 		jsr	(AllocateObject).l
-		bne.s	locret_6178A
+		bne.s	.locret_6178A
 		move.l	#Obj_SSEntryFlash,(a1)
 		move.w	a0,parent3(a1)			; Set ring as parent
 
-locret_6178A:
+.locret_6178A:
 		rts
 ; ---------------------------------------------------------------------------
 SSEntry_Range:
@@ -120,57 +120,57 @@ SSEntryRing_Animate:
 Obj_SSEntryFlash:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	SSEntryFlash_Index(pc,d0.w),d1
-		jsr	SSEntryFlash_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		lea	DPLCPtr_SSEntryFlash(pc),a2
 		jsr	(Perform_DPLC).l
 		jmp	(Draw_Sprite).l
 ; ---------------------------------------------------------------------------
-SSEntryFlash_Index:
-		dc.w SSEntryFlash_Init-SSEntryFlash_Index
-		dc.w SSEntryFlash_Main-SSEntryFlash_Index
+.Index:
+		dc.w .Init-.Index
+		dc.w .Main-.Index
 ; ---------------------------------------------------------------------------
 
-SSEntryFlash_Init:
+.Init:
 		lea	ObjSlot_SSEntryFlash(pc),a1
 		jsr	(SetUp_ObjAttributesSlotted).l
 		move.l	#AniRaw_SSEntryFlash,$30(a0)
-		move.l	#SSEntryFlash_Finished,$34(a0)
+		move.l	#.Finished,$34(a0)
 		movea.w	parent3(a0),a1
 		move.w	x_pos(a1),x_pos(a0)
 		move.w	y_pos(a1),y_pos(a0)
 		move.b	subtype(a1),subtype(a0)		; Copy positional data from parent ring
 		move.w	(Player_1+x_pos).w,d0
 		cmp.w	x_pos(a0),d0
-		blo.s	locret_61820
+		blo.s	.locret_61820
 		bset	#0,render_flags(a1)		; Set direction based on where player approached
 
-locret_61820:
+.locret_61820:
 		rts
 ; ---------------------------------------------------------------------------
 
-SSEntryFlash_Main:
+.Main:
 		move.b	mapping_frame(a0),d6
 		jsr	(Animate_RawAdjustFlipX).l
 		cmp.b	mapping_frame(a0),d6
-		beq.s	locret_61844
+		beq.s	.locret_61844
 		cmpi.b	#3,anim_frame(a0)
-		bne.s	locret_61844
+		bne.s	.locret_61844
 		movea.w	parent3(a0),a1			; Set parent to be deleted in the middle of the animation
 		bset	#5,$38(a1)
 
-locret_61844:
+.locret_61844:
 		rts
 ; ---------------------------------------------------------------------------
 
-SSEntryFlash_Finished:
+.Finished:
 		move.l	#Obj_Wait,(a0)		; This is performed when animation is finished
 		move.w	#$20,$2E(a0)
-		move.l	#SSEntryFlash_GoSS,$34(a0)
+		move.l	#.GoSS,$34(a0)
 		rts
 ; ---------------------------------------------------------------------------
 
-SSEntryFlash_GoSS:
+.GoSS:
 		moveq	#signextendB(sfx_EnterSS),d0
 		jsr	(Play_SFX).l		; Play the special stage entry sound (you know the one)
 		jsr	(Clear_SpriteRingMem).l

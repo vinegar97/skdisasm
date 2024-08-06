@@ -2,17 +2,17 @@ Obj_Clamer:
 		jsr	(Obj_WaitOffscreen).l
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	Clamer_Index(pc,d0.w),d1
-		jsr	Clamer_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		lea	PLCPtr_Clamer(pc),a2
 		jsr	Perform_DPLC(pc)
 		jmp	Sprite_CheckDeleteTouchSlotted(pc)
 ; ---------------------------------------------------------------------------
-Clamer_Index:
-		dc.w loc_88FDC-Clamer_Index
-		dc.w loc_88FEC-Clamer_Index
-		dc.w loc_8904E-Clamer_Index
-		dc.w loc_89064-Clamer_Index
+.Index:
+		dc.w loc_88FDC-.Index
+		dc.w loc_88FEC-.Index
+		dc.w loc_8904E-.Index
+		dc.w loc_89064-.Index
 ; ---------------------------------------------------------------------------
 
 loc_88FDC:

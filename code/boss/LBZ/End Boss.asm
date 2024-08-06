@@ -10,19 +10,19 @@ Obj_LBZEndBoss:
 		jsr	(Check_CameraInRange).l
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	LBZEndBoss_Index(pc,d0.w),d1
-		jsr	LBZEndBoss_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		bsr.w	sub_73FE2
 		jmp	(Draw_And_Touch_Sprite).l
 ; ---------------------------------------------------------------------------
-LBZEndBoss_Index:
-		dc.w loc_73906-LBZEndBoss_Index
-		dc.w loc_7395A-LBZEndBoss_Index
-		dc.w loc_7397A-LBZEndBoss_Index
-		dc.w loc_7399E-LBZEndBoss_Index
-		dc.w loc_739E6-LBZEndBoss_Index
-		dc.w loc_73A1A-LBZEndBoss_Index
-		dc.w loc_73A48-LBZEndBoss_Index
+.Index:
+		dc.w loc_73906-.Index
+		dc.w loc_7395A-.Index
+		dc.w loc_7397A-.Index
+		dc.w loc_7399E-.Index
+		dc.w loc_739E6-.Index
+		dc.w loc_73A1A-.Index
+		dc.w loc_73A48-.Index
 ; ---------------------------------------------------------------------------
 
 loc_73906:

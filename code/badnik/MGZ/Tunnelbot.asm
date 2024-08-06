@@ -2,17 +2,17 @@ Obj_Tunnelbot:
 		jsr	(Obj_WaitOffscreen).l
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	Tunnelbot_Index(pc,d0.w),d1
-		jsr	Tunnelbot_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		bsr.w	sub_88A62
 		jmp	Sprite_CheckDeleteTouch(pc)
 ; ---------------------------------------------------------------------------
-Tunnelbot_Index:
-		dc.w loc_88480-Tunnelbot_Index
-		dc.w loc_884A2-Tunnelbot_Index
-		dc.w loc_884D2-Tunnelbot_Index
-		dc.w loc_884FA-Tunnelbot_Index
-		dc.w loc_8852E-Tunnelbot_Index
+.Index:
+		dc.w loc_88480-.Index
+		dc.w loc_884A2-.Index
+		dc.w loc_884D2-.Index
+		dc.w loc_884FA-.Index
+		dc.w loc_8852E-.Index
 ; ---------------------------------------------------------------------------
 
 loc_88480:
@@ -104,22 +104,22 @@ Obj_MGZMiniboss:
 		jsr	(Check_CameraInRange).l
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	MGZMiniboss_Index(pc,d0.w),d1
-		jsr	MGZMiniboss_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		bsr.w	sub_88A62
 		jmp	Draw_And_Touch_Sprite(pc)
 ; ---------------------------------------------------------------------------
-MGZMiniboss_Index:
-		dc.w loc_885A4-MGZMiniboss_Index
-		dc.w loc_88604-MGZMiniboss_Index
-		dc.w loc_884D2-MGZMiniboss_Index
-		dc.w loc_884FA-MGZMiniboss_Index
-		dc.w loc_8852E-MGZMiniboss_Index
-		dc.w loc_8867A-MGZMiniboss_Index
-		dc.w loc_886EA-MGZMiniboss_Index
-		dc.w loc_88748-MGZMiniboss_Index
-		dc.w loc_8876A-MGZMiniboss_Index
-		dc.w loc_88790-MGZMiniboss_Index
+.Index:
+		dc.w loc_885A4-.Index
+		dc.w loc_88604-.Index
+		dc.w loc_884D2-.Index
+		dc.w loc_884FA-.Index
+		dc.w loc_8852E-.Index
+		dc.w loc_8867A-.Index
+		dc.w loc_886EA-.Index
+		dc.w loc_88748-.Index
+		dc.w loc_8876A-.Index
+		dc.w loc_88790-.Index
 word_8859C:
 		dc.w   $D20,  $EC0, $2B80, $3080
 ; ---------------------------------------------------------------------------

@@ -1,15 +1,15 @@
 Obj_Ring:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	Ring_Index(pc,d0.w),d1
-		jmp	Ring_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jmp	.Index(pc,d1.w)
 ; ---------------------------------------------------------------------------
-Ring_Index:
-		dc.w Obj_RingInit-Ring_Index
-		dc.w Obj_RingAnimate-Ring_Index
-		dc.w Obj_RingCollect-Ring_Index
-		dc.w Obj_RingSparkle-Ring_Index
-		dc.w Obj_RingDelete-Ring_Index
+.Index:
+		dc.w Obj_RingInit-.Index
+		dc.w Obj_RingAnimate-.Index
+		dc.w Obj_RingCollect-.Index
+		dc.w Obj_RingSparkle-.Index
+		dc.w Obj_RingDelete-.Index
 ; ---------------------------------------------------------------------------
 
 Obj_RingInit:
@@ -119,15 +119,15 @@ loc_18E20:
 Obj_Bouncing_Ring:
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	Bouncing_Ring_Index(pc,d0.w),d1
-		jmp	Bouncing_Ring_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jmp	.Index(pc,d1.w)
 ; ---------------------------------------------------------------------------
-Bouncing_Ring_Index:
-		dc.w loc_18E3E-Bouncing_Ring_Index
-		dc.w loc_18F0A-Bouncing_Ring_Index
-		dc.w loc_18F6E-Bouncing_Ring_Index
-		dc.w loc_18F82-Bouncing_Ring_Index
-		dc.w loc_18F90-Bouncing_Ring_Index
+.Index:
+		dc.w loc_18E3E-.Index
+		dc.w loc_18F0A-.Index
+		dc.w loc_18F6E-.Index
+		dc.w loc_18F82-.Index
+		dc.w loc_18F90-.Index
 ; ---------------------------------------------------------------------------
 
 loc_18E3E:
@@ -294,7 +294,7 @@ loc_19028:
 		bclr	#7,(a2)
 
 loc_19034:
-		; Bug: probably meant to be $30(a0), as Test_Ring_Collisions_AttractRing
+		; Bug: probably meant to be $30(a0), as Test_Ring_Collisions.AttractRing
 		; stores the ring's address in the ring status table there
 		move.w	$30,d0
 		beq.s	loc_19040

@@ -97,15 +97,15 @@ LevelResizeArray:
 AIZ1_Resize:
 		moveq	#0,d0
 		move.b	(Dynamic_resize_routine).w,d0
-		move.w	AIZ1_Resize_Index(pc,d0.w),d0
-		jmp	AIZ1_Resize_Index(pc,d0.w)
+		move.w	.Index(pc,d0.w),d0
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
-AIZ1_Resize_Index:
-		dc.w loc_1A920-AIZ1_Resize_Index
-		dc.w loc_1A96C-AIZ1_Resize_Index
-		dc.w loc_1A9EC-AIZ1_Resize_Index
-		dc.w loc_1AA40-AIZ1_Resize_Index
-		dc.w loc_1AA7C-AIZ1_Resize_Index
+.Index:
+		dc.w loc_1A920-.Index
+		dc.w loc_1A96C-.Index
+		dc.w loc_1A9EC-.Index
+		dc.w loc_1AA40-.Index
+		dc.w loc_1AA7C-.Index
 ; ---------------------------------------------------------------------------
 
 loc_1A920:
@@ -228,19 +228,19 @@ word_1AA84:
 AIZ2_Resize:
 		moveq	#0,d0
 		move.b	(Dynamic_resize_routine).w,d0
-		move.w	AIZ2_Resize_Index(pc,d0.w),d0
-		jmp	AIZ2_Resize_Index(pc,d0.w)
+		move.w	.Index(pc,d0.w),d0
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
-AIZ2_Resize_Index:
-		dc.w AIZ2_Resize1-AIZ2_Resize_Index
-		dc.w AIZ2_Resize2-AIZ2_Resize_Index
-		dc.w AIZ2_Resize3-AIZ2_Resize_Index
-		dc.w AIZ2_Resize4-AIZ2_Resize_Index
-		dc.w AIZ2_Resize5-AIZ2_Resize_Index
-		dc.w AIZ2_Resize6-AIZ2_Resize_Index
-		dc.w AIZ2_Resize7-AIZ2_Resize_Index
-		dc.w AIZ2_Resize8-AIZ2_Resize_Index
-		dc.w AIZ2_ResizeEnd-AIZ2_Resize_Index
+.Index:
+		dc.w AIZ2_Resize1-.Index
+		dc.w AIZ2_Resize2-.Index
+		dc.w AIZ2_Resize3-.Index
+		dc.w AIZ2_Resize4-.Index
+		dc.w AIZ2_Resize5-.Index
+		dc.w AIZ2_Resize6-.Index
+		dc.w AIZ2_Resize7-.Index
+		dc.w AIZ2_Resize8-.Index
+		dc.w AIZ2_ResizeEnd-.Index
 ; ---------------------------------------------------------------------------
 
 AIZ2_Resize1:
@@ -396,13 +396,13 @@ AIZ2_ResizeEnd:
 HCZ1_Resize:
 		moveq	#0,d0
 		move.b	(Dynamic_resize_routine).w,d0
-		move.w	HCZ1_Resize_Index(pc,d0.w),d0
-		jmp	HCZ1_Resize_Index(pc,d0.w)
+		move.w	.Index(pc,d0.w),d0
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
-HCZ1_Resize_Index:
-		dc.w loc_1AC4E-HCZ1_Resize_Index
-		dc.w loc_1AC74-HCZ1_Resize_Index
-		dc.w locret_1ACB0-HCZ1_Resize_Index
+.Index:
+		dc.w loc_1AC4E-.Index
+		dc.w loc_1AC74-.Index
+		dc.w locret_1ACB0-.Index
 ; ---------------------------------------------------------------------------
 
 loc_1AC4E:
@@ -454,12 +454,12 @@ locret_1ACB0:
 HCZ2_Resize:
 		moveq	#0,d0
 		move.b	(Dynamic_resize_routine).w,d0
-		move.w	HCZ2_Resize_Index(pc,d0.w),d0
-		jmp	HCZ2_Resize_Index(pc,d0.w)
+		move.w	.Index(pc,d0.w),d0
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
-HCZ2_Resize_Index:
-		dc.w loc_1ACC4-HCZ2_Resize_Index
-		dc.w locret_1ACD6-HCZ2_Resize_Index
+.Index:
+		dc.w loc_1ACC4-.Index
+		dc.w locret_1ACD6-.Index
 ; ---------------------------------------------------------------------------
 
 loc_1ACC4:
@@ -483,13 +483,13 @@ MGZ1_Resize:
 MGZ2_Resize:
 		moveq	#0,d0
 		move.b	(Dynamic_resize_routine).w,d0
-		move.w	MGZ2_Resize_Index(pc,d0.w),d0
-		jmp	MGZ2_Resize_Index(pc,d0.w)
+		move.w	.Index(pc,d0.w),d0
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
-MGZ2_Resize_Index:
-		dc.w loc_1ACEC-MGZ2_Resize_Index
-		dc.w loc_1AD2A-MGZ2_Resize_Index
-		dc.w locret_1AD84-MGZ2_Resize_Index
+.Index:
+		dc.w loc_1ACEC-.Index
+		dc.w loc_1AD2A-.Index
+		dc.w locret_1AD84-.Index
 ; ---------------------------------------------------------------------------
 
 loc_1ACEC:
@@ -560,13 +560,13 @@ FBZ2_Resize:
 ICZ1_Resize:
 		moveq	#0,d0
 		move.b	(Dynamic_resize_routine).w,d0
-		move.w	ICZ1_Resize_Index(pc,d0.w),d0
-		jmp	ICZ1_Resize_Index(pc,d0.w)
+		move.w	.Index(pc,d0.w),d0
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
-ICZ1_Resize_Index:
-		dc.w loc_1AD9C-ICZ1_Resize_Index
-		dc.w loc_1ADB6-ICZ1_Resize_Index
-		dc.w locret_1ADC8-ICZ1_Resize_Index
+.Index:
+		dc.w loc_1AD9C-.Index
+		dc.w loc_1ADB6-.Index
+		dc.w locret_1ADC8-.Index
 ; ---------------------------------------------------------------------------
 
 loc_1AD9C:
@@ -598,12 +598,12 @@ locret_1ADC8:
 ICZ2_Resize:
 		moveq	#0,d0
 		move.b	(Dynamic_resize_routine).w,d0
-		move.w	ICZ2_Resize_Index(pc,d0.w),d0
-		jmp	ICZ2_Resize_Index(pc,d0.w)
+		move.w	.Index(pc,d0.w),d0
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
-ICZ2_Resize_Index:
-		dc.w loc_1ADDC-ICZ2_Resize_Index
-		dc.w locret_1ADF8-ICZ2_Resize_Index
+.Index:
+		dc.w loc_1ADDC-.Index
+		dc.w locret_1ADF8-.Index
 ; ---------------------------------------------------------------------------
 
 loc_1ADDC:
@@ -629,12 +629,12 @@ LBZ1_Resize:
 LBZ2_Resize:
 		moveq	#0,d0
 		move.b	(Dynamic_resize_routine).w,d0
-		move.w	LBZ2_Resize_Index(pc,d0.w),d0
-		jmp	LBZ2_Resize_Index(pc,d0.w)
+		move.w	.Index(pc,d0.w),d0
+		jmp	.Index(pc,d0.w)
 ; ---------------------------------------------------------------------------
-LBZ2_Resize_Index:
-		dc.w loc_1AE0E-LBZ2_Resize_Index
-		dc.w locret_1AE66-LBZ2_Resize_Index
+.Index:
+		dc.w loc_1AE0E-.Index
+		dc.w locret_1AE66-.Index
 ; ---------------------------------------------------------------------------
 
 loc_1AE0E:

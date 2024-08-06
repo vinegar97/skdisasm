@@ -771,30 +771,30 @@ Tails_CPU_Control:
 loc_146EE:
 		lea	(Player_1).w,a1
 		move.w	(Tails_CPU_routine).w,d0
-		move.w	Tails_CPU_Control_Index(pc,d0.w),d0
-		jmp	Tails_CPU_Control_Index(pc,d0.w)
+		move.w	Tails_CPU_Control.Index(pc,d0.w),d0
+		jmp	Tails_CPU_Control.Index(pc,d0.w)
 ; End of function Tails_CPU_Control
 
 ; ---------------------------------------------------------------------------
-Tails_CPU_Control_Index:
-		dc.w loc_14722-Tails_CPU_Control_Index
-		dc.w Tails_Catch_Up_Flying-Tails_CPU_Control_Index
-		dc.w Tails_FlySwim_Unknown-Tails_CPU_Control_Index
-		dc.w loc_149E8-Tails_CPU_Control_Index
-		dc.w loc_14BC6-Tails_CPU_Control_Index
-		dc.w locret_14C46-Tails_CPU_Control_Index
-		dc.w loc_14C48-Tails_CPU_Control_Index
-		dc.w loc_14C80-Tails_CPU_Control_Index
-		dc.w loc_14D10-Tails_CPU_Control_Index
-		dc.w loc_14D4C-Tails_CPU_Control_Index
-		dc.w loc_14D54-Tails_CPU_Control_Index
-		dc.w loc_14D8C-Tails_CPU_Control_Index
-		dc.w loc_14DD2-Tails_CPU_Control_Index
-		dc.w loc_14E78-Tails_CPU_Control_Index
-		dc.w loc_14EA2-Tails_CPU_Control_Index
-		dc.w loc_14EDA-Tails_CPU_Control_Index
-		dc.w loc_14EE2-Tails_CPU_Control_Index
-		dc.w loc_14F0C-Tails_CPU_Control_Index
+Tails_CPU_Control.Index:
+		dc.w loc_14722-Tails_CPU_Control.Index
+		dc.w Tails_Catch_Up_Flying-Tails_CPU_Control.Index
+		dc.w Tails_FlySwim_Unknown-Tails_CPU_Control.Index
+		dc.w loc_149E8-Tails_CPU_Control.Index
+		dc.w loc_14BC6-Tails_CPU_Control.Index
+		dc.w locret_14C46-Tails_CPU_Control.Index
+		dc.w loc_14C48-Tails_CPU_Control.Index
+		dc.w loc_14C80-Tails_CPU_Control.Index
+		dc.w loc_14D10-Tails_CPU_Control.Index
+		dc.w loc_14D4C-Tails_CPU_Control.Index
+		dc.w loc_14D54-Tails_CPU_Control.Index
+		dc.w loc_14D8C-Tails_CPU_Control.Index
+		dc.w loc_14DD2-Tails_CPU_Control.Index
+		dc.w loc_14E78-Tails_CPU_Control.Index
+		dc.w loc_14EA2-Tails_CPU_Control.Index
+		dc.w loc_14EDA-Tails_CPU_Control.Index
+		dc.w loc_14EE2-Tails_CPU_Control.Index
+		dc.w loc_14F0C-Tails_CPU_Control.Index
 ; ---------------------------------------------------------------------------
 
 loc_14722:

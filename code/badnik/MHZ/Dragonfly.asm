@@ -2,14 +2,14 @@ Obj_Dragonfly:
 		jsr	(Obj_WaitOffscreen).l
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	Dragonfly_Index(pc,d0.w),d1
-		jsr	Dragonfly_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		jmp	(Sprite_CheckDeleteTouch).l
 ; ---------------------------------------------------------------------------
-Dragonfly_Index:
-		dc.w loc_8DD52-Dragonfly_Index
-		dc.w loc_8DDAA-Dragonfly_Index
-		dc.w loc_8DDE6-Dragonfly_Index
+.Index:
+		dc.w loc_8DD52-.Index
+		dc.w loc_8DDAA-.Index
+		dc.w loc_8DDE6-.Index
 ; ---------------------------------------------------------------------------
 
 loc_8DD52:

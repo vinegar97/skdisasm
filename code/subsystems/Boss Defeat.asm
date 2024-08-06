@@ -8,60 +8,60 @@ AfterBoss_Cleanup:
 		add.b	d0,d0
 		add.b	(a1)+,d0
 		add.b	d0,d0
-		move.w	AfterBoss_Index(pc,d0.w),d0
-		jmp	AfterBoss_Index(pc,d0.w)
+		move.w	.Index(pc,d0.w),d0
+		jmp	.Index(pc,d0.w)
 ; End of function AfterBoss_Cleanup
 
 ; ---------------------------------------------------------------------------
-AfterBoss_Index:
-		dc.w AfterBoss_AIZ1-AfterBoss_Index
-		dc.w AfterBoss_AIZ2-AfterBoss_Index
-		dc.w AfterBoss_HCZ-AfterBoss_Index
-		dc.w AfterBoss_HCZ-AfterBoss_Index
-		dc.w AfterBoss_MGZ-AfterBoss_Index
-		dc.w AfterBoss_MGZ-AfterBoss_Index
-		dc.w AfterBoss_CNZ-AfterBoss_Index
-		dc.w AfterBoss_CNZ-AfterBoss_Index
-		dc.w AfterBoss_FBZ-AfterBoss_Index
-		dc.w AfterBoss_FBZ-AfterBoss_Index
-		dc.w AfterBoss_ICZ1-AfterBoss_Index
-		dc.w AfterBoss_ICZ2-AfterBoss_Index
-		dc.w AfterBoss_LBZ-AfterBoss_Index
-		dc.w AfterBoss_LBZ-AfterBoss_Index
-		dc.w AfterBoss_MHZ-AfterBoss_Index
-		dc.w AfterBoss_MHZ-AfterBoss_Index
-		dc.w AfterBoss_None-AfterBoss_Index
-		dc.w AfterBoss_None-AfterBoss_Index
-		dc.w AfterBoss_None-AfterBoss_Index
-		dc.w AfterBoss_None-AfterBoss_Index
-		dc.w AfterBoss_None-AfterBoss_Index
-		dc.w AfterBoss_None-AfterBoss_Index
-		dc.w AfterBoss_None-AfterBoss_Index
-		dc.w AfterBoss_None-AfterBoss_Index
-		dc.w AfterBoss_None-AfterBoss_Index
-		dc.w AfterBoss_None-AfterBoss_Index
-		dc.w AfterBoss_None-AfterBoss_Index
-		dc.w AfterBoss_None-AfterBoss_Index
-		dc.w AfterBoss_None-AfterBoss_Index
-		dc.w AfterBoss_None-AfterBoss_Index
-		dc.w AfterBoss_None-AfterBoss_Index
-		dc.w AfterBoss_None-AfterBoss_Index
-		dc.w AfterBoss_None-AfterBoss_Index
-		dc.w AfterBoss_None-AfterBoss_Index
-		dc.w AfterBoss_None-AfterBoss_Index
-		dc.w AfterBoss_None-AfterBoss_Index
-		dc.w AfterBoss_None-AfterBoss_Index
-		dc.w AfterBoss_None-AfterBoss_Index
-		dc.w AfterBoss_None-AfterBoss_Index
-		dc.w AfterBoss_None-AfterBoss_Index
-		dc.w AfterBoss_None-AfterBoss_Index
-		dc.w AfterBoss_None-AfterBoss_Index
-		dc.w AfterBoss_None-AfterBoss_Index
-		dc.w AfterBoss_None-AfterBoss_Index
-		dc.w AfterBoss_None-AfterBoss_Index
-		dc.w AfterBoss_None-AfterBoss_Index
-		dc.w AfterBoss_None-AfterBoss_Index
-		dc.w AfterBoss_None-AfterBoss_Index
+.Index:
+		dc.w AfterBoss_AIZ1-.Index
+		dc.w AfterBoss_AIZ2-.Index
+		dc.w AfterBoss_HCZ-.Index
+		dc.w AfterBoss_HCZ-.Index
+		dc.w AfterBoss_MGZ-.Index
+		dc.w AfterBoss_MGZ-.Index
+		dc.w AfterBoss_CNZ-.Index
+		dc.w AfterBoss_CNZ-.Index
+		dc.w AfterBoss_FBZ-.Index
+		dc.w AfterBoss_FBZ-.Index
+		dc.w AfterBoss_ICZ1-.Index
+		dc.w AfterBoss_ICZ2-.Index
+		dc.w AfterBoss_LBZ-.Index
+		dc.w AfterBoss_LBZ-.Index
+		dc.w AfterBoss_MHZ-.Index
+		dc.w AfterBoss_MHZ-.Index
+		dc.w AfterBoss_None-.Index
+		dc.w AfterBoss_None-.Index
+		dc.w AfterBoss_None-.Index
+		dc.w AfterBoss_None-.Index
+		dc.w AfterBoss_None-.Index
+		dc.w AfterBoss_None-.Index
+		dc.w AfterBoss_None-.Index
+		dc.w AfterBoss_None-.Index
+		dc.w AfterBoss_None-.Index
+		dc.w AfterBoss_None-.Index
+		dc.w AfterBoss_None-.Index
+		dc.w AfterBoss_None-.Index
+		dc.w AfterBoss_None-.Index
+		dc.w AfterBoss_None-.Index
+		dc.w AfterBoss_None-.Index
+		dc.w AfterBoss_None-.Index
+		dc.w AfterBoss_None-.Index
+		dc.w AfterBoss_None-.Index
+		dc.w AfterBoss_None-.Index
+		dc.w AfterBoss_None-.Index
+		dc.w AfterBoss_None-.Index
+		dc.w AfterBoss_None-.Index
+		dc.w AfterBoss_None-.Index
+		dc.w AfterBoss_None-.Index
+		dc.w AfterBoss_None-.Index
+		dc.w AfterBoss_None-.Index
+		dc.w AfterBoss_None-.Index
+		dc.w AfterBoss_None-.Index
+		dc.w AfterBoss_None-.Index
+		dc.w AfterBoss_None-.Index
+		dc.w AfterBoss_None-.Index
+		dc.w AfterBoss_None-.Index
 ; ---------------------------------------------------------------------------
 
 AfterBoss_AIZ1:

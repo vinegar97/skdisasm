@@ -2,17 +2,17 @@ Obj_Rhinobot:
 		jsr	(Obj_WaitOffscreen).l
 		moveq	#0,d0
 		move.b	routine(a0),d0
-		move.w	Rhinobot_Index(pc,d0.w),d1
-		jsr	Rhinobot_Index(pc,d1.w)
+		move.w	.Index(pc,d0.w),d1
+		jsr	.Index(pc,d1.w)
 		lea	DPLCPtr_AIZRhinobot(pc),a2
 		jsr	Perform_DPLC(pc)
 		jmp	Sprite_CheckDeleteTouchSlotted(pc)
 ; ---------------------------------------------------------------------------
-Rhinobot_Index:
-		dc.w loc_54C7A-Rhinobot_Index
-		dc.w loc_54CC0-Rhinobot_Index
-		dc.w loc_54CE6-Rhinobot_Index
-		dc.w loc_54CEA-Rhinobot_Index
+.Index:
+		dc.w loc_54C7A-.Index
+		dc.w loc_54CC0-.Index
+		dc.w loc_54CE6-.Index
+		dc.w loc_54CEA-.Index
 ; ---------------------------------------------------------------------------
 
 loc_54C7A:
