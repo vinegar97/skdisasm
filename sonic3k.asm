@@ -23,6 +23,7 @@
 		include "sonic3k.constants.asm"		; include some constants
 ; ---------------------------------------------------------------------------
 ; Include SMPS2ASM, for expressing SMPS bytecode in a portable and human-readable form.
+FixMusicAndSFXDataBugs = 0
 SonicDriverVer = 4 ; Tell SMPS2ASM that we are targeting Sonic & Knuckles' sound driver
 		include "Sound/_smps2asm_inc.asm"
 ; ---------------------------------------------------------------------------
