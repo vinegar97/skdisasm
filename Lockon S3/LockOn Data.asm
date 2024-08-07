@@ -423,7 +423,11 @@ Map_Knuckles2P:
 PLC_Knuckles2P:
 		include "General/Sprites/Knuckles/DPLC - Knuckles 2P.asm"
 
-	align $20
+	if ~~strip_padding
+		align $20
+	else
+		even
+	endif
 
 ArtUnc_AniAIZ1_0:
 		binclude "Levels/AIZ/Animated Tiles/Act1 0.bin"

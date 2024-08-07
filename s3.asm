@@ -21,9 +21,16 @@
 FixMusicAndSFXDataBugs = 0
 SonicDriverVer = 3 ; Tell SMPS2ASM that we are targeting Sonic 3's sound driver
 		include "Sound/_smps2asm_inc.asm"
+; ---------------------------------------------------------------------------
+; Assembly options:
+
+strip_padding = 0
+; If 1, strips all unnecessary padding
 
 Size_of_Snd_driver_guess = $1300
 Size_of_Snd_driver2_guess = $843
+; Approximate size of compressed sound driver. Change when appropriate
+
 Size_of_Snd_Bank1 = $E60
 ; This particular bank has its contents aligned to the end
 ; ---------------------------------------------------------------------------
@@ -221,7 +228,11 @@ StartOfROM:
 Sprite_Listing:
 		include "Levels/Misc/Object pointers - S3 Set.asm"
 
+	if ~~strip_padding
 		align $2000
+	else
+		even
+	endif
 
 Character_Speeds:
 		dc.w  $600,  $10,  $20,    0
@@ -230,27 +241,48 @@ Character_Speeds:
 
 		include "code S3/assets/Layouts.asm"
 
+	if ~~strip_padding
 		align $1000
+	else
+		even
+	endif
+
 		; According to Sonic Jam, this is the 'TBL' segment.
 		include "code S3/assets/assets.asm"
 
+	if ~~strip_padding
 		align0 $20
+	else
+		even
+	endif
 
 		include "code S3/assets/assets2.asm"
 
 		include "code S3/assets/Sound.asm"
 
+	if ~~strip_padding
 		align $1000
+	else
+		even
+	endif
 
 		include "Sound/Z80 Sound Driver.asm"
 
 		include "code S3/assets/Sound2.asm"
 
+	if ~~strip_padding
 		align $8000
+	else
+		even
+	endif
 
 		include "code S3/assets/assets3.asm"
 
+	if ~~strip_padding
 		align $100
+	else
+		even
+	endif
 
 		include "code S3/assets/assets4.asm"
 
