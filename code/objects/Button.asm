@@ -5,7 +5,7 @@ Obj_Button:
 		move.w	#make_art_tile($456,0,0),art_tile(a0)
 		cmpi.b	#1,(Current_zone).w
 		bne.s	+ ;loc_2C544
-		move.l	#Map_Button2,mappings(a0)
+		move.l	#Map_HCZButton,mappings(a0)
 		move.w	#make_art_tile($426,1,0),art_tile(a0)
 
 + ;loc_2C544:

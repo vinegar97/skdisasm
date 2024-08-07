@@ -179,6 +179,7 @@ Map_AIZSpikedLog:
 Map_AIZForegroundPlant:
 		include "Levels/AIZ/Misc Object Data/Map - Foreground Plant.asm"
 Map_Button2:
+Map_HCZButton:
 		include "General/Sprites/Buttons/Map - Button 2.asm"
 Map_CNZButton:
 		include "Levels/CNZ/Misc Object Data/Map - Button.asm"
