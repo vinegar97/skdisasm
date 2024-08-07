@@ -73,7 +73,7 @@ loc_86D5E:
 	include "code/badnik/LRZ/Toxomister.asm"
 	include "code/badnik/LRZ/Rock Crusher.asm"
 
-	include "code/badnik/HPZ/Objects.asm"
+	include "code/objects/HPZ/Objects.asm"
 
 	include "code/badnik/SSZ/Egg Robo.asm"
 
