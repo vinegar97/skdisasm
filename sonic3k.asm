@@ -278,13 +278,21 @@ ArtNem_KnuxEndPose:
 
 		include "code/assets/Sound.asm"
 
+	if ~~strip_padding
 		align $10
+	else
+		even
+	endif
 
 		include "Sound/Z80 Sound Driver.asm"
 
 		include "code/assets/Sound2.asm"
 
+	if ~~strip_padding
 		align $8000
+	else
+		even
+	endif
 
 		include "code/assets/assets3.asm"
 
